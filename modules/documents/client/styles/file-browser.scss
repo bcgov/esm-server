@@ -30,6 +30,7 @@ $file-browser-border: 1px solid #CCC;
 $file-browser-table-header-bg: #F7F8FA;
 $file-browser-table-header-hover-bg: #EEE;
 $file-browser-row-border: 1px solid #EEE;
+$file-browser-row-hover-bg: #f7f8fa;
 
 /* ICON SIZE HELPERS */
 .icon-lg {
@@ -70,16 +71,33 @@ $file-browser-row-border: 1px solid #EEE;
         li {
             display: inline-block;
 
+
             + li {
                 &:before {
                     display: inline-block;
-                    margin-top: -2px;
-                    margin-left: 2px;
+                    margin-top: 1px;
+                    margin-left: 4px;
                     font-size: 2.3rem;
                     font-weight: bold;
                     vertical-align: middle;
                     content: '›';
+                    color: #999;
                 }
+            }
+
+            .btn {
+                font-size: 1.6rem;
+                color: #999;
+
+                &:hover {
+                    border: 1px solid #999;
+                }
+            }
+        }
+
+        li:last-child {
+            .btn {
+                color: #494949;
             }
         }
 
@@ -88,12 +106,6 @@ $file-browser-row-border: 1px solid #EEE;
             padding: 0.6rem;
             color: #999;
             background: transparent;
-
-            &:last-child {
-                color: #494949;
-                font-weight: bold;
-
-            }
         }
     }
 
@@ -112,7 +124,8 @@ $file-browser-row-border: 1px solid #EEE;
     }
 
     .sortable-header {
-        padding: 1rem;
+        padding: 1rem 1.5rem;
+        font-weight: bold;
         background: $file-browser-table-header-bg;
 
         &:hover {
@@ -122,6 +135,12 @@ $file-browser-row-border: 1px solid #EEE;
 
     li {
         border-bottom: $file-browser-row-border;
+
+        &.selected {
+            color: #FFF;
+            background: #1a5a96;
+            border-bottom-color: #1a5a96;
+        }
     }
 
     .cell-contents {

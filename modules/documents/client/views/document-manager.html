@@ -27,11 +27,11 @@
 
 	<div class="file-browser-body">
 		<div class="sortable-header">
-			Sortable Header
+			Name
 		</div>
 		<ul>
 			<li class="folder clickable" ng-repeat="node in documentMgr.currentNode.children"
-				ng-click="documentMgr.selectNode(node.model.id)">
+				ng-dblclick="documentMgr.selectNode(node.model.id)">
 				<span class="cell-contents">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-folder-close"></span>
