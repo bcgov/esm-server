@@ -77,15 +77,13 @@ function directiveModalPdfViewer($modal) {
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
 				var modalDocView = $modal.open({
-					animation: true,
 					resolve: {
 						pdfobject: function() { return scope.pdfobject; }
 					},
 					templateUrl: 'modules/documents/client/views/partials/pdf-viewer.html',
 					controller: 'controllerModalPdfViewer',
 					controllerAs: 'pdfViewer',
-					size: 'lg',
-					windowClass: 'app-modal-window'
+					windowClass: 'document-viewer-modal'
 				});
 				modalDocView.result.then(function () {}, function () {});
 			});

@@ -1,21 +1,30 @@
-<div class="text-center">
-	<h1>{{documentName}}</h1>
+<div class="document-viewer-header">
+	<h1 title="{{documentName}}">{{documentName}}</h1>
+	<div class="actions">
+		<button class="btn close" ng-click="closeWindow()" title="Close Window"><span aria-hidden="true">&times;</span></button>
+	</div>
 </div>
-<div>
-	<div class="text-center">
-		<a class="btn btn-default btn-sm glyphicon glyphicon-remove" ng-click="closeWindow()"></a>
-		<a class="btn btn-default btn-sm glyphicon glyphicon-step-backward" ng-click="gotoPage(1)"></a>
-		<a class="btn btn-default btn-sm glyphicon glyphicon-chevron-left" ng-click="prevPage()"></a>
-		<a class="btn btn-default btn-sm glyphicon glyphicon-chevron-right" ng-click="nextPage()"></a>
-		<a class="btn btn-default btn-sm glyphicon glyphicon-step-forward" ng-click="gotoPage(totalPages)"></a>
+
+<div class="document-viewer-body">
+	<div class="showbox">
+		<div class="loader" ng-class="{'show-loader': loading}">
+			<svg class="circular" viewBox="25 25 50 50">
+			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+			</svg>
+		</div>
+		<!-- 
 		<label ng-show="loading">{{loading}}</label>
-		<label ng-show="totalPages">Page: {{currentPage}}/{{totalPages}}</label>
+		-->
 	</div>
-	<div>
-		<pdfviewer
-			src="{{pdfURL}}"
-			on-page-load='pageLoaded(page,total)'
-			id="viewer"
-			load-progress='loadProgress(loaded, total, state)'></pdfviewer>
-	</div>
+	
+	<pdfviewer class="document" src="{{pdfURL}}" id="viewer" on-page-load='pageLoaded(page,total)' load-progress='loadProgress(loaded, total, state)'></pdfviewer>
+	
+</div>
+
+<div class="document-viewer-footer" ng-class="{'show-footer': !loading}">
+	<button class="btn btn-sm glyphicon glyphicon-step-backward" ng-click="gotoPage(1)" ng-disabled="currentPage == 1" title="Jump to First"></button>
+	<button class="btn btn-sm glyphicon glyphicon-chevron-left" ng-click="prevPage()" ng-disabled="currentPage == 1" title="Previous Page"></button>
+	<label ng-show="totalPages">{{currentPage}} of {{totalPages}}</label>
+	<button class="btn btn-sm glyphicon glyphicon-chevron-right" ng-click="nextPage()" ng-disabled="currentPage == totalPages" title="Next Page"></button>
+	<button class="btn btn-sm glyphicon glyphicon-step-forward" ng-click="gotoPage(totalPages)" ng-disabled="currentPage == totalPages" title="Jump to Last"></button>
 </div>
