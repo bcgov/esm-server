@@ -22,6 +22,7 @@ angular.module('documents')
 				self.sortedMode = 'Ascending'; // 'Descending' / 'Ascending'
 
 				self.rootNode = tree.parse($scope.project.directoryStructure);
+				self.selectedNode = undefined;
 				self.currentNode = undefined;
 				self.currentPath = undefined;
 				self.unsortedFiles = undefined;
@@ -41,6 +42,13 @@ angular.module('documents')
 						_.pullAt(self.selectedDirs, idx);
 					} else {
 						self.selectedDirs.push(dir);
+					}
+					if (_.size(self.selectedDirs) === 0) {
+						self.selectedNode = self.currentNode; // set to the current directory (last double clicked)
+					} else if (_.size(self.selectedDirs) === 1) {
+						self.selectedNode = self.selectedDirs[0]; // set to last selected one in the list...
+					} else {
+						self.selectedNode = undefined; // multi selected, can't determine
 					}
 				};
 
@@ -77,24 +85,17 @@ angular.module('documents')
 					self.sort(self.sortedMode);
 				};
 
-				self.singleClick = function(nodeId) {
-					var clickedNode = self.rootNode.first(function (n) {
+				self.selectNode = function (nodeId) {
+					var theNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
 					});
-					//$log.debug('singleClick = ', clickedNode.model.name);
-				};
-
-				self.doubleClick = function (nodeId) {
-					var selectedNode = self.rootNode.first(function (n) {
-						return n.model.id === nodeId;
-					});
-					if (!selectedNode) {
-						selectedNode = self.rootNode;
+					if (!theNode) {
+						theNode = self.rootNode;
 					}
-					//$log.debug('doubleClick = ', selectedNode.model.name);
+					//$log.debug('doubleClick = ', theNode.model.name);
 
-					self.currentNode = selectedNode;
-					self.currentPath = selectedNode.getPath() || [];
+					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
+					self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
 					self.currentFiles = [];
@@ -115,12 +116,13 @@ angular.module('documents')
 						self.unsortedDirs.push(n);
 					});
 					self.sort(self.sortedMode);
+					// since we loaded this, make it the selected node
+					self.selectedNode = self.currentNode;
 				};
 
-				self.selectNode = function(nodeId) {
-					return self.doubleClick(nodeId);
+				self.addDisabled = function() {
+					return self.selectedNode === undefined;
 				};
-
 
 				$scope.$watch(function (scope) {
 						return scope.project.directoryStructure;
@@ -316,6 +318,7 @@ angular.module('documents')
 			restrict: 'A',
 			scope: {
 				project: '=',
+				root: '=',
 				node: '='
 			},
 			link: function (scope, element, attrs) {
@@ -329,7 +332,7 @@ angular.module('documents')
 							var self = this;
 
 							$scope.project = scope.project;
-							$scope.node = scope.node;
+							$scope.node = scope.node || scope.root;
 
 							self.entryText = '';
 							self.title = "Rename Folder '" + $scope.node.model.name + "'";

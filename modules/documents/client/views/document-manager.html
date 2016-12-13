@@ -11,18 +11,12 @@
 		</ul>
 		
 		<div class="file-batch-actions">
-			<button class="btn btn-sm btn-default"
+			<button class="btn btn-default"
+					ng-disabled="!documentMgr.selectedNode"
 					x-document-mgr-add-folder x-project="project"
-					x-node="documentMgr.currentNode"
+					x-root="documentMgr.rootNode"
+					x-node="documentMgr.selectedNode"
 				    title="Add Folder"><span class="glyphicon glyphicon-plus"></span>&nbsp; Add Folder</span></button>
-			<!--
-			<button class="btn btn-default" 
-					x-document-mgr-rename-folder
-					x-project="project"
-					x-node="documentMgr.currentNode"
-					ng-disabled="documentMgr.currentNode == 'ROOT'"
-					title="Rename Folder">Rename</button>
-			-->
 		</div>
 
 	</div>
@@ -45,7 +39,7 @@
 			<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
 			<ul>
 				<li class="fb-folder clickable" ng-repeat="doc in documentMgr.currentDirs">
-					<span class="cell-contents" ng-dblclick="documentMgr.doubleClick(doc.model.id)">
+					<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" ng-click="documentMgr.toggleDir(doc)" ng-dblclick="documentMgr.selectNode(doc.model.id)">
 						<span class="avatar">
 							<span class="glyphicon glyphicon-folder-close"></span>
 						</span>
@@ -57,13 +51,13 @@
 			</ul>
 			<ul>
 				<li class="fb-file" ng-repeat="doc in documentMgr.currentFiles">
-					<span class="cell-contents">
+					<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}" ng-click="documentMgr.toggleFile(doc)" >
 						<span class="avatar">
 							<span class="glyphicon glyphicon-file"></span>
 						</span>
 						<span class="col name-col">{{ doc.internalOriginalName | removeExtension }}</span>
 						<span class="col date-added-col">{{ doc.dateAdded | date : format : timezone }}{{ doc.updatedBy.username }}</span>
-						<span class="col file-size-col">{{ doc.internalSize }}</span>
+						<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
 					</span>
 				</li>
 			</ul>

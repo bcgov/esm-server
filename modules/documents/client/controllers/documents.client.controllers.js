@@ -12,7 +12,9 @@ angular.module('documents')
 	.controller('controllerModalDocumentUploadReview', controllerModalDocumentUploadReview)
 	.controller('controllerSignatureUpload', controllerSignatureUpload)
 	.filter('removeExtension', filterRemoveExtension)
-	.filter('displayFriendlyCode', filterDisplayFriendlyLocationCode);
+	.filter('displayFriendlyCode', filterDisplayFriendlyLocationCode)
+	.filter('bytes', filterBytes)
+;
 
 // -----------------------------------------------------------------------------------
 //
@@ -950,3 +952,29 @@ function filterDisplayFriendlyLocationCode() {
 	};
 }
 
+filterBytes.$inject = [];
+/* @ngInject */
+function filterBytes() {
+	return function(bytes, precision) {
+		var units = [
+			'bytes',
+			'KB',
+			'MB',
+			'GB',
+			'TB',
+			'PB'
+		];
+		if ( isNaN( parseFloat( bytes )) || ! isFinite( bytes ) ) {
+			return '?';
+		}
+
+		var unit = 0;
+
+		while ( bytes >= 1024 ) {
+			bytes /= 1024;
+			unit ++;
+		}
+
+		return bytes.toFixed( + precision ) + ' ' + units[ unit ];
+	};
+}
