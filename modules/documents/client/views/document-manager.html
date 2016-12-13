@@ -11,66 +11,57 @@
 		</ul>
 		
 		<div class="file-batch-actions">
-			<input type="text" ng-model="documentMgr.entryText" >
-			<button class="btn btn-default btn-sm" href 
-				ng-click="documentMgr.addDirectory()" 
-				title="Add Directory">Add</button>
-
-			<!--	
-			<a class="btn btn-default btn-sm" href 
-				ng-click="documentMgr.renameDirectory()" 
-				title="Rename Directory">Rename</a>
-			<a class="btn btn-default btn-sm" href 
-				ng-click="documentMgr.removeDirectory()" 
-				title="Remove Directory">Remove</a>
-			<a class="btn btn-default btn-sm" href 
-				ng-click="documentMgr.moveDirectory()" 
-				title="Move Directory">Move</a>
-			-->
-
+			<button class="btn btn-default"
+					ng-disabled="!documentMgr.selectedNode"
+					x-document-mgr-add-folder x-project="project"
+					x-root="documentMgr.rootNode"
+					x-node="documentMgr.selectedNode"
+				    title="Add Folder"><span class="glyphicon glyphicon-plus"></span>&nbsp; Add Folder</span></button>
 		</div>
 
 	</div>
 
-	<script>
-		function toggleSelected() {
-			$( this ).toggleClass( "selected" );
-			alert: 'blahhhh';
-		};
-	</script>
-
 	<div class="file-browser-body">
 		<div class="column-header">
-			<div class="col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
+			<div class="col name-col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
 				<span>Name</span>
 				<span class="sort-icon"></span>
 			</div>
 			<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
 				<span>Date Added</span>
 			</div>
+			<div class="col file-size-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+				<span>File Size</span>
+			</div>
 		</div>
 		<!-- Folders / Directories -->
-		<ul>
-			<li class="folder clickable" ng-repeat="doc in documentMgr.currentDirs">
-				<span class="cell-contents" ng-dblclick="documentMgr.selectNode(doc.model.id)">
-					<span class="avatar">
-						<span class="glyphicon glyphicon-folder-close"></span>
+		<div class="scroll-container">
+			<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
+			<ul>
+				<li class="fb-folder clickable" ng-repeat="doc in documentMgr.currentDirs">
+					<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" ng-click="documentMgr.toggleDir(doc)" ng-dblclick="documentMgr.selectNode(doc.model.id)">
+						<span class="avatar">
+							<span class="glyphicon glyphicon-folder-close"></span>
+						</span>
+						<span class="col name-col">{{ doc.model.name }}</span>
+						<span class="col date-added-col">---</span>
+						<span class="col file-size-col">---</span>
 					</span>
-					<span>{{ doc.model.name }}</span>
-				</span>
-			</li>
-		</ul>
-		<ul>
-			<li class="file" ng-repeat="doc in documentMgr.currentFiles">
-				<span class="cell-contents">
-					<span class="avatar">
-						<span class="glyphicon glyphicon-file"></span>
+				</li>
+			</ul>
+			<ul>
+				<li class="fb-file" ng-repeat="doc in documentMgr.currentFiles">
+					<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}" ng-click="documentMgr.toggleFile(doc)" >
+						<span class="avatar">
+							<span class="glyphicon glyphicon-file"></span>
+						</span>
+						<span class="col name-col">{{ doc.internalOriginalName | removeExtension }}</span>
+						<span class="col date-added-col">{{ doc.dateAdded | date : format : timezone }}{{ doc.updatedBy.username }}</span>
+						<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
 					</span>
-					<span>{{ doc.internalOriginalName | removeExtension }}</span>
-					<span class="date-added-col">{{ doc.dateAdded | date : format : timezone }}</span>
-				</span>
-			</li>
-		</ul>
+				</li>
+			</ul>
+		</div>
 	</div>
 
 </div>
