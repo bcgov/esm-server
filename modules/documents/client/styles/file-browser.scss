@@ -171,6 +171,8 @@ $file-browser-file-color: #96c0e6;
     .scroll-container {
         @include flex(1 1 auto);
         position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     li {
@@ -237,19 +239,26 @@ span.avatar {
     @include flex(0 0 3rem);
 }
 
-div.name-col,
-span.name-col {
+.col.name-col {
     @include flex(1 1 auto);
 }
 
-div.date-added-col,
-span.date-added-col {
+.col.date-added-col {
     @include flex(0 0 15rem);
 }
 
-div.file-size-col,
-span.file-size-col {
+.col.file-size-col{
     @include flex(0 0 10rem)
+}
+
+@media (min-width: 1200px) {
+    .col.date-added-col {
+        @include flex(0 0 20rem)
+    }
+
+    .col.file-size-col{
+        @include flex(0 0 20rem)
+    }
 }
 
 /* Need to set on the 'view-body-container' when the file browser is placed within this element. */
