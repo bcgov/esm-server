@@ -9,9 +9,11 @@
 		
 		<div class="file-batch-actions">
 			<input type="text" ng-model="documentMgr.entryText" >
-			<a class="btn btn-default btn-sm" href 
+			<button class="btn btn-default btn-sm" 
 				ng-click="documentMgr.addDirectory()" 
-				title="Add Directory">Add</a>
+				title="Add Directory"><span class="glyphicon glyphicon-plus"></span></button>
+
+			<!--
 			<a class="btn btn-default btn-sm" href 
 				ng-click="documentMgr.renameDirectory()" 
 				title="Rename Directory">Rename</a>
@@ -21,45 +23,35 @@
 			<a class="btn btn-default btn-sm" href 
 				ng-click="documentMgr.moveDirectory()" 
 				title="Move Directory">Move</a>
+			-->
 		</div>
 
 	</div>
 
 	<div class="file-browser-body">
-		<div class="sortable-header">
-			Name
+		<div class="sortable-header sort-asc">
+			<span>Sortable Header</span>
+			<span class="sort-icon ascending"></span>
+			<!--
+			<span class="sort-icon descending"></span>
+			-->
 		</div>
 		<ul>
-			<li class="folder clickable" ng-repeat="node in documentMgr.currentNode.children"
-				ng-dblclick="documentMgr.selectNode(node.model.id)">
-				<span class="cell-contents">
+			<li class="folder clickable" ng-repeat="doc in documentMgr.directoryContents | orderBy: 'name'">
+				<span class="cell-contents" ng-if="doc.type === 'folder'" ng-click="documentMgr.selectNode(doc.contents.model.id)">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-folder-close"></span>
 					</span>
-					<span class="name">{{ node.model.name }}</span>
+					<span class="name">{{ doc.name }}</span>
+				</span>
+				<span class="cell-contents" ng-if="doc.type === 'file'">
+					<span class="avatar">
+						<span class="glyphicon glyphicon-file"></span>
+					</span>
+					<span class="name">{{ doc.name | removeExtension }}</span>
 				</span>
 			</li>
 		</ul>
 	</div>
-
-<!--
-	<div class="panel panel-default">
-		<div class="col-sm-6 col-md-4 file-browser-list">
-			<ul>
-				<li class="row-folder clickable" ng-repeat="node in documentMgr.currentNode.children"
-					ng-click="documentMgr.selectNode(node.model.id)">
-					<span class="glyphicon glyphicon-folder"></span>
-					{{ node.model.name }}
-				</li>
-			</ul>
-			<ul>
-				<li class="row-folder clickable" ng-repeat="doc in documentMgr.currentDocuments">
-					<span class="glyphicon glyphicon-file"></span>
-					{{ doc.internalOriginalName | removeExtension }}
-				</li>
-			</ul>
-		</div>
-	</div>
--->
 
 </div>

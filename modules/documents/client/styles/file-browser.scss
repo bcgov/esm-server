@@ -2,23 +2,18 @@
 /* FLEX MIXINS */
 @mixin flexbox() {
   display: -webkit-box;
-  display: -moz-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
 }
 
 @mixin flex($values) {
-  -webkit-box-flex: $values;
-  -moz-box-flex: $values;
   -webkit-flex: $values;
   -ms-flex: $values;
-  flex:  $values;
+  flex: $values;
 }
 
 @mixin flexdirection($values) {
-  -webkit-flex-direction: $values;
-  -moz-box-flex-direction: $values;
   -webkit-flex-direction: $values;
   -ms-flex-direction: $values;
   flex-direction: $values;
@@ -173,6 +168,26 @@ $file-browser-row-hover-bg: #f7f8fa;
             @extend .icon-sm;
             margin-top: 0.6rem;
         }
+    }
+}
+
+.sort-icon {
+    display: inline-block;
+    margin-top: -2px;
+    margin-left: 0.25rem;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    vertical-align: middle;
+
+    &.ascending {
+        border-width: 5px 5px 0 5px;
+        border-color: #494949 transparent transparent transparent; 
+    }
+
+    &.descending {
+        border-width: 0 5px 5px 5px;
+        border-color: transparent transparent #494949 transparent;
     }
 }
 

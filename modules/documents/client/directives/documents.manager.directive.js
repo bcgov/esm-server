@@ -22,10 +22,10 @@ angular.module('documents')
 				self.rootNode = tree.parse($scope.project.directoryStructure);
 				self.currentNode = undefined;
 				self.currentPath = undefined;
-				self.currentDocuments = undefined;
+				self.directoryContents = [];  // this will be all docs and sub-dirs in the current directory.
 
 				self.selectNode = function (nodeId) {
-
+					self.directoryContents = [];
 					var selectedNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
 					});
@@ -35,11 +35,19 @@ angular.module('documents')
 
 					self.currentNode = selectedNode;
 					self.currentPath = selectedNode.getPath() || [];
-					self.currentDocuments = [];
 					_.each($scope.documents, function(d) {
-						if (d.directoryID === nodeId) {
-							self.currentDocuments.push(d);
+						if (_.isEmpty(d.directoryID)){
+							// orphans go to root...
+							d.directoryID = self.rootNode.model.id;
 						}
+						if (d.directoryID === nodeId) {
+							// place the file in the directory contents.
+							self.directoryContents.push({type: 'file', name: d.internalOriginalName, contents: d});
+						}
+					});
+					_.each(self.currentNode.children, function(n) {
+						// place the subdirectories in the directory contents.
+						self.directoryContents.push({type: 'folder', name: n.model.name, contents: n});
 					});
 				};
 
@@ -56,13 +64,6 @@ angular.module('documents')
 							function (result) {
 								self.rootNode = tree.parse(result.data);
 								self.selectNode(node.model.id);
-								// try to find the new one (may have been renamed by server though...);
-								var newNode = self.currentNode.first(function (n) {
-									return n.model.name === self.entryText;
-								});
-								if (newNode) {
-									self.selectNode(newNode.model.id);
-								}
 								self.entryText = '';
 							},
 							function (error) {

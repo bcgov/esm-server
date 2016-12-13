@@ -272,7 +272,23 @@ module.exports = DBModel.extend ({
 			// If we found it, rename it as long as it's not the root.
 			if (theNode && !theNode.isRoot()) {
 				// console.log("found node:", theNode.model.id);
-				theNode.model.name = _.trim(newName);
+				// do not rename if there is a name conflict with siblings....
+				var nname = _.trim(newName);
+				var nameOk = true;
+				var siblings = root.all(function (n) {
+					if (n.parent && n.parent.model.id  === theNode.parent.model.id) {
+						// console.log(n.model.name + ' is a sibling to ' + theNode.model.name + ' (' + nname + ')');
+						if (_.toLower(n.model.name) === _.toLower(nname)) {
+							// console.log('name conflict... do not rename.');
+							nameOk = false;
+						}
+						return true;
+					}
+					return false;
+				});
+				if (nameOk) {
+					theNode.model.name = _.trim(nname);
+				}
 			}
 			project.directoryStructure = {};
 			project.directoryStructure = root.model;
