@@ -101,6 +101,11 @@ $file-browser-row-hover-bg: #f7f8fa;
             padding: 0.6rem;
             color: #999;
             background: transparent;
+
+            .glyphicon {
+                top: 0;
+                font-size: 1.4rem;
+            }
         }
     }
 
@@ -119,12 +124,15 @@ $file-browser-row-hover-bg: #f7f8fa;
     }
 
     .sortable-header {
-        padding: 1rem 1.5rem;
         font-weight: bold;
         background: $file-browser-table-header-bg;
 
-        &:hover {
-            background: $file-browser-table-header-hover-bg;
+        .sort-col {
+            padding: 1rem 1.5rem;
+
+            &:hover {
+                background: $file-browser-table-header-hover-bg;
+            }
         }
     }
 
@@ -178,16 +186,17 @@ $file-browser-row-hover-bg: #f7f8fa;
     width: 0;
     height: 0;
     border-style: solid;
+    border-width: 5px 5px 0 5px;
+    border-color: #494949 transparent transparent transparent; 
     vertical-align: middle;
+}
 
-    &.ascending {
-        border-width: 5px 5px 0 5px;
-        border-color: #494949 transparent transparent transparent; 
-    }
-
+.sort-col  {
     &.descending {
-        border-width: 0 5px 5px 5px;
-        border-color: transparent transparent #494949 transparent;
+        .sort-icon {
+            border-width: 0 5px 5px 5px;
+            border-color: transparent transparent #494949 transparent;
+        }
     }
 }
 

@@ -3,7 +3,10 @@
 	<div class="file-browser-header">
 		<ul class="file-browser-breadcrumbs">
 			<li ng-repeat="node in documentMgr.currentPath">
-				<button class="btn" ng-click="documentMgr.selectNode(node.model.id)">{{ node.model.name }}</button>
+				<button class="btn" ng-click="documentMgr.selectNode(node.model.id)">
+					<span class="glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></span>
+					<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+				</button>
 			</li>
 		</ul>
 		
@@ -27,7 +30,10 @@
 
 	<div class="file-browser-body">
 		<div class="sortable-header">
-			<button class="btn" ng-click="documentMgr.changeSort()">Sorted {{documentMgr.sortedMode}}</button>
+			<div class="sort-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
+				<span>Name</span>
+				<span class="sort-icon"></span>
+			</div>
 		</div>
 		<!-- Folders / Directories -->
 		<ul>
