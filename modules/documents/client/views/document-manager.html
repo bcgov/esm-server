@@ -27,21 +27,26 @@
 
 	<div class="file-browser-body">
 		<div class="sortable-header">
-			Sortable Header
+			<button class="btn" ng-click="documentMgr.changeSort()">Sorted {{documentMgr.sortedMode}}</button>
 		</div>
+		<!-- Folders / Directories -->
 		<ul>
-			<li class="folder clickable" ng-repeat="doc in documentMgr.directoryContents">
-				<span class="cell-contents" ng-if="doc.type === 'folder'" ng-click="documentMgr.selectNode(doc.contents.model.id)">
+			<li class="folder clickable" ng-repeat="doc in documentMgr.currentDirs">
+				<span class="cell-contents" ng-click="documentMgr.selectNode(doc.model.id)">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-folder-close"></span>
 					</span>
-					<span class="name">{{ doc.name }}</span>
+					<span class="name">{{ doc.model.name }}</span>
 				</span>
-				<span class="cell-contents" ng-if="doc.type === 'file'">
+			</li>
+		</ul>
+		<ul>
+			<li class="folder clickable" ng-repeat="doc in documentMgr.currentFiles">
+				<span class="cell-contents">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-file"></span>
 					</span>
-					<span class="name">{{ doc.name | removeExtension }}</span>
+					<span class="name">{{ doc.internalOriginalName | removeExtension }}</span>
 				</span>
 			</li>
 		</ul>

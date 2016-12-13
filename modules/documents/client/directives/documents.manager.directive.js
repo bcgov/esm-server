@@ -19,13 +19,38 @@ angular.module('documents')
 						name: 'ROOT'
 					};
 
+				self.sortedMode = 'Ascending'; // 'Descending' / 'Ascending'
+
 				self.rootNode = tree.parse($scope.project.directoryStructure);
 				self.currentNode = undefined;
 				self.currentPath = undefined;
-				self.directoryContents = [];  // this will be all docs and sub-dirs in the current directory.
+				self.unsortedFiles = undefined;
+				self.unsortedDirs = undefined;
+				self.currentFiles = undefined;
+				self.currentDirs = undefined;
+
+				self.sort = function(sortMode) {
+					// ascending...
+					self.currentFiles = _.sortBy(self.unsortedFiles, ['name']);
+					self.currentDirs = _.sortBy(self.unsortedDirs, ['name']);
+					if (sortMode === 'Descending') {
+						self.currentFiles = _(self.currentFiles).reverse().value();
+						self.currentDirs = _(self.currentDirs).reverse().value();
+					}
+				};
+
+				self.changeSort = function() {
+					// how are we sorted?
+					// reverse it...
+					if (self.sortedMode === 'Ascending') {
+						self.sortedMode = 'Descending';
+					} else {
+						self.sortedMode = 'Ascending';
+					}
+					self.sort(self.sortedMode);
+				};
 
 				self.selectNode = function (nodeId) {
-					self.directoryContents = [];
 					var selectedNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
 					});
@@ -35,22 +60,25 @@ angular.module('documents')
 
 					self.currentNode = selectedNode;
 					self.currentPath = selectedNode.getPath() || [];
+					self.unsortedFiles = [];
+					self.unsortedDirs = [];
+					self.currentFiles = [];
+					self.currentDirs = [];
+
 					_.each($scope.documents, function(d) {
 						if (_.isEmpty(d.directoryID)){
 							// orphans go to root...
 							d.directoryID = self.rootNode.model.id;
 						}
 						if (d.directoryID === nodeId) {
-							// place the file in the directory contents.
-							self.directoryContents.push({type: 'file', name: d.internalOriginalName, contents: d});
+							self.unsortedFiles.push(d);
 						}
 					});
 					_.each(self.currentNode.children, function(n) {
-						// place the subdirectories in the directory contents.
-						self.directoryContents.push({type: 'folder', name: n.model.name, contents: n});
+						self.unsortedDirs.push(n);
 					});
+					self.sort(self.sortedMode);
 				};
-
 
 				self.entryText = '';
 				self.addDirectory = function () {
