@@ -200,7 +200,7 @@ module.exports = function (app) {
 	app.route ('/api/project/:project/directory/move/:folderid/:newparentid')
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
-			return model.renameDirectory (req.Project, req.params.folderid, req.params.newparentid);
+			return model.moveDirectory (req.Project, req.params.folderid, req.params.newparentid);
 		}));
 };
 
