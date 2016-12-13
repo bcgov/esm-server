@@ -177,46 +177,51 @@ module.exports = DBModel.extend ({
 	// Used for managing folder structures in the application.
 	addDirectory: function (projectId, folderName, parentId) {
 		var self = this;
-		return self.findById(projectId)
-		.then(function (project) {
-			// console.log("current structure:", project.directoryStructure);
-			var tree = new TreeModel();
-			if (!project.directoryStructure) {
-				// console.log("setting default");
-				// TODO: bring this in from DB instead of hardcoding
-				project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1};
-			}
-			var root = tree.parse(project.directoryStructure);
-			// Walk until the right folder is found
-			var theNode = root.first(function (node) {
-				return node.model.id === parseInt(parentId);
-			});
-			// If we found it, add it
-			if (theNode) {
-				root.model.lastId += 1;
-				// see if name is unique across siblings...
-				var name = _.trim(folderName);
-				var num = 0;
-				var nameFound = true;
-				do {
-					nameFound = _.find(theNode.children, function(n) { return _.toLower(n.model.name) === _.toLower(name); }) !== undefined;
-					if (nameFound) {
-						if (num === 0) {
-							name = name.concat(' ', ++num);
-						} else {
-							// keep adding numbers to original 'new' directory name...
-							name = _.trim(folderName).concat(' ', ++num);
-						}
+		return new Promise(function (resolve, reject) {
+			return self.findById(projectId)
+			.then(function (project) {
+				// console.log("current structure:", project.directoryStructure);
+				var tree = new TreeModel();
+				if (!project.directoryStructure) {
+					// console.log("setting default");
+					// TODO: bring this in from DB instead of hardcoding
+					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1};
+				}
+				var root = tree.parse(project.directoryStructure);
+				// Walk until the right folder is found
+				var theNode = root.first(function (node) {
+					return node.model.id === parseInt(parentId);
+				});
+				// If we found it, add it
+				if (theNode) {
+					// Check if this already exists.
+					var bFound = theNode.first(function (node) {
+						// NB: Exclude myself
+					    return (node.model.name === folderName) && (node.model.id !== theNode.model.id);
+					});
+
+					// If found, return error in creating.
+					if (bFound) {
+						return null;
 					}
-				} while(nameFound);
-				theNode.addChild(tree.parse({id: root.model.lastId, name: name}));
-			}
-			project.directoryStructure = {};
-			project.directoryStructure = root.model;
-			return project.save();
-		})
-		.then(function (p) {
-			return p.directoryStructure;
+
+					root.model.lastId += 1;
+					theNode.addChild(tree.parse({id: root.model.lastId, name: folderName}));
+				} else {
+					// If we didn't find the node, this is an error.
+					return null;
+				}
+				project.directoryStructure = {};
+				project.directoryStructure = root.model;
+				return project.save();
+			})
+			.then(function (p) {
+				if (p) {
+					resolve(p.directoryStructure);
+				} else {
+					reject(new Error("ERR: Couldn't create directory."));
+				}
+			});
 		});
 	},
 	// Used for managing folder structures in the application.
@@ -301,6 +306,12 @@ module.exports = DBModel.extend ({
 	moveDirectory: function (projectId, folderId, newParentId) {
 		// TODO: Implement
 		console.log("****Implement me****");
+	},
+	getDirectoryStructure: function (projectId) {
+		return this.findById(projectId)
+		.then(function (project) {
+			return project.directoryStructure;
+		});
 	},
 	// -------------------------------------------------------------------------
 	//

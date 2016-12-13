@@ -202,5 +202,10 @@ module.exports = function (app) {
 		.put (routes.setAndRun (Project, function (model, req) {
 			return model.moveDirectory (req.Project, req.params.folderid, req.params.newparentid);
 		}));
+	app.route ('/api/project/:project/directory/list')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (Project, function (model, req) {
+			return model.getDirectoryStructure (req.Project);
+		}));
 };
 
