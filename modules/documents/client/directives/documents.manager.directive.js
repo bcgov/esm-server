@@ -29,7 +29,7 @@ angular.module('documents')
 				self.currentFiles = undefined;
 				self.currentDirs = undefined;
 
-				self.sort = function(sortMode) {
+				self.sort = function (sortMode) {
 					// ascending...
 					self.currentFiles = _.sortBy(self.unsortedFiles, ['name']);
 					self.currentDirs = _.sortBy(self.unsortedDirs, ['name']);
@@ -39,7 +39,7 @@ angular.module('documents')
 					}
 				};
 
-				self.changeSort = function() {
+				self.changeSort = function () {
 					// how are we sorted?
 					// reverse it...
 					if (self.sortedMode === 'Ascending') {
@@ -50,13 +50,21 @@ angular.module('documents')
 					self.sort(self.sortedMode);
 				};
 
-				self.selectNode = function (nodeId) {
+				self.singleClick = function(nodeId) {
+					var clickedNode = self.rootNode.first(function (n) {
+						return n.model.id === nodeId;
+					});
+					$log.debug('singleClick = ', clickedNode.model.name);
+				};
+
+				self.doubleClick = function (nodeId) {
 					var selectedNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
 					});
 					if (!selectedNode) {
 						selectedNode = self.rootNode;
 					}
+					$log.debug('doubleClick = ', selectedNode.model.name);
 
 					self.currentNode = selectedNode;
 					self.currentPath = selectedNode.getPath() || [];
@@ -65,8 +73,8 @@ angular.module('documents')
 					self.currentFiles = [];
 					self.currentDirs = [];
 
-					_.each($scope.documents, function(d) {
-						if (_.isEmpty(d.directoryID)){
+					_.each($scope.documents, function (d) {
+						if (_.isEmpty(d.directoryID)) {
 							// orphans go to root...
 							d.directoryID = self.rootNode.model.id;
 						}
@@ -74,11 +82,27 @@ angular.module('documents')
 							self.unsortedFiles.push(d);
 						}
 					});
-					_.each(self.currentNode.children, function(n) {
+					_.each(self.currentNode.children, function (n) {
 						self.unsortedDirs.push(n);
 					});
 					self.sort(self.sortedMode);
 				};
+
+				self.selectNode = function(nodeId) {
+					return self.doubleClick(nodeId);
+				};
+
+
+				$scope.$watch(function (scope) {
+						return scope.project.directoryStructure;
+					},
+					function (data) {
+						var node = self.currentNode || self.rootNode;
+						self.rootNode = tree.parse(data);
+						self.selectNode(node.model.id);
+					}
+				);
+
 
 				self.entryText = '';
 				self.addDirectory = function () {
@@ -186,13 +210,13 @@ angular.module('documents')
 						);
 				};
 
-				var refreshDocuments = function() {
+				var refreshDocuments = function () {
 					Document.getProjectDocuments($scope.project._id, 'false')
 						.then(
-							function(data) {
+							function (data) {
 								$scope.documents = data;
 							},
-							function(error) {
+							function (error) {
 								$log.debug('refreshDocuments error: ', JSON.stringify(error));
 							}
 						);
@@ -204,5 +228,112 @@ angular.module('documents')
 			controllerAs: 'documentMgr'
 		};
 	}])
+	.directive('documentMgrAddFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+		return {
+			restrict: 'A',
+			scope: {
+				project: '=',
+				node: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('click', function () {
+					$modal.open({
+						animation: true,
+						templateUrl: 'modules/documents/client/views/document-manager-add.html',
+						resolve: {},
+						controllerAs: 'addFolder',
+						controller: function ($scope, $modalInstance) {
+							var self = this;
 
+							$scope.project = scope.project;
+							$scope.node = scope.node;
+
+							self.entryText = '';
+							self.title = "Add Folder to '" + $scope.node.model.name + "'";
+							if ($scope.node.model.name === 'ROOT') {
+								self.title = "Add Folder to Project '" + $scope.project.name + "'";
+							}
+
+							self.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+
+							self.ok = function () {
+								DocumentMgrService.addDirectory($scope.project, $scope.node, self.entryText)
+									.then(
+										function (result) {
+											$modalInstance.close(result.data);
+										},
+										function (error) {
+											$log.error('addDirectory error: ', JSON.stringify(error));
+										}
+									);
+							};
+
+						}
+					}).result.then(function (data) {
+						scope.project.directoryStructure = data;
+						$rootScope.$broadcast('DOCUMENT_MGR_FOLDER_ADDED', {directoryStructure: data});
+					})
+						.catch(function (err) {
+							//$log.error(err);
+						});
+				});
+			}
+		};
+	}])
+	.directive('documentMgrRenameFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+		return {
+			restrict: 'A',
+			scope: {
+				project: '=',
+				node: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('click', function () {
+					$modal.open({
+						animation: true,
+						templateUrl: 'modules/documents/client/views/document-manager-add.html',
+						resolve: {},
+						controllerAs: 'addFolder',
+						controller: function ($scope, $modalInstance) {
+							var self = this;
+
+							$scope.project = scope.project;
+							$scope.node = scope.node;
+
+							self.entryText = '';
+							self.title = "Rename Folder '" + $scope.node.model.name + "'";
+							if ($scope.node.model.name === 'ROOT') {
+								$modalInstance.dismiss('cancel');
+							}
+
+							self.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+
+							self.ok = function () {
+								DocumentMgrService.renameDirectory($scope.project, $scope.node, self.entryText)
+									.then(
+										function (result) {
+											$modalInstance.close(result.data);
+										},
+										function (error) {
+											$log.error('addDirectory error: ', JSON.stringify(error));
+										}
+									);
+							};
+
+						}
+					}).result.then(function (data) {
+						scope.project.directoryStructure = data;
+						$rootScope.$broadcast('DOCUMENT_MGR_FOLDER_RENAMED', {directoryStructure: data});
+					})
+						.catch(function (err) {
+							//$log.error(err);
+						});
+				});
+			}
+		};
+	}])
 ;

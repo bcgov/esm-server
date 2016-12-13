@@ -11,23 +11,14 @@
 		</ul>
 		
 		<div class="file-batch-actions">
-			<input type="text" ng-model="documentMgr.entryText" >
-			<button class="btn btn-default btn-sm" href 
-				ng-click="documentMgr.addDirectory()" 
-				title="Add Directory">Add</button>
-
-			<!--	
-			<a class="btn btn-default btn-sm" href 
-				ng-click="documentMgr.renameDirectory()" 
-				title="Rename Directory">Rename</a>
-			<a class="btn btn-default btn-sm" href 
-				ng-click="documentMgr.removeDirectory()" 
-				title="Remove Directory">Remove</a>
-			<a class="btn btn-default btn-sm" href 
-				ng-click="documentMgr.moveDirectory()" 
-				title="Move Directory">Move</a>
-			-->
-
+			<button class="btn btn-default btn-sm"
+					href
+					x-document-mgr-add-folder x-project="project" x-node="documentMgr.currentNode"
+				    title="Add Folder">Add</button>
+			<button class="btn btn-default btn-sm"
+					href
+					x-document-mgr-rename-folder x-project="project" x-node="documentMgr.currentNode"
+					title="Rename Folder">Rename</button>
 		</div>
 
 	</div>
@@ -52,7 +43,7 @@
 		<!-- Folders / Directories -->
 		<ul>
 			<li class="folder clickable" ng-repeat="doc in documentMgr.currentDirs">
-				<span class="cell-contents" ng-dblclick="documentMgr.selectNode(doc.model.id)">
+				<span class="cell-contents" ng-click="documentMgr.singleClick(doc.model.id)" ng-dblclick="documentMgr.doubleClick(doc.model.id)">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-folder-close"></span>
 					</span>
