@@ -20,8 +20,6 @@
 }
 
 @mixin userselect($values) {
-    -webkit-user-select: $values;
-    -ms-user-select: $values;
     user-select: $values;
 }
 
@@ -133,7 +131,7 @@ $file-browser-file-color: #96c0e6;
         @include flexdirection(row);
         @include flex(0 0 auto);
         padding-right: 1rem;
-        padding-left: 1rem;
+        padding-left: 0;
         font-size: 1.2rem;
         font-weight: bold;
         background: $file-browser-table-header-bg;
@@ -145,6 +143,10 @@ $file-browser-file-color: #96c0e6;
                 &:hover {
                     background: $file-browser-table-header-hover-bg;
                 }
+            }
+
+            &:first-child {
+                padding-left: 1.5rem;
             }
 
             .sort-icon {
@@ -175,14 +177,11 @@ $file-browser-file-color: #96c0e6;
         overflow-x: hidden;
     }
 
-    li {
-        border-bottom: $file-browser-row-border;
-    }
-
     .cell-contents {
         @include flexbox();
         @include userselect(none);
         padding: 0.75rem 1rem;
+        border-bottom: $file-browser-row-border;
 
         span.avatar {
             margin-top: 0;
