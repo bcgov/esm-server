@@ -12,9 +12,11 @@
 		
 		<div class="file-batch-actions">
 			<input type="text" ng-model="documentMgr.entryText" >
-			<a class="btn btn-default btn-sm" href 
+			<button class="btn btn-default btn-sm" href 
 				ng-click="documentMgr.addDirectory()" 
-				title="Add Directory">Add</a>
+				title="Add Directory">Add</button>
+
+			<!--	
 			<a class="btn btn-default btn-sm" href 
 				ng-click="documentMgr.renameDirectory()" 
 				title="Rename Directory">Rename</a>
@@ -24,35 +26,48 @@
 			<a class="btn btn-default btn-sm" href 
 				ng-click="documentMgr.moveDirectory()" 
 				title="Move Directory">Move</a>
+			-->
+
 		</div>
 
 	</div>
 
+	<script>
+		function toggleSelected() {
+			$( this ).toggleClass( "selected" );
+			alert: 'blahhhh';
+		};
+	</script>
+
 	<div class="file-browser-body">
-		<div class="sortable-header">
-			<div class="sort-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
+		<div class="column-header">
+			<div class="col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
 				<span>Name</span>
 				<span class="sort-icon"></span>
+			</div>
+			<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+				<span>Date Added</span>
 			</div>
 		</div>
 		<!-- Folders / Directories -->
 		<ul>
 			<li class="folder clickable" ng-repeat="doc in documentMgr.currentDirs">
-				<span class="cell-contents" ng-click="documentMgr.selectNode(doc.model.id)">
+				<span class="cell-contents" ng-dblclick="documentMgr.selectNode(doc.model.id)">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-folder-close"></span>
 					</span>
-					<span class="name">{{ doc.model.name }}</span>
+					<span>{{ doc.model.name }}</span>
 				</span>
 			</li>
 		</ul>
 		<ul>
-			<li class="folder clickable" ng-repeat="doc in documentMgr.currentFiles">
+			<li class="file" ng-repeat="doc in documentMgr.currentFiles">
 				<span class="cell-contents">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-file"></span>
 					</span>
-					<span class="name">{{ doc.internalOriginalName | removeExtension }}</span>
+					<span>{{ doc.internalOriginalName | removeExtension }}</span>
+					<span class="date-added-col">{{ doc.dateAdded | date : format : timezone }}</span>
 				</span>
 			</li>
 		</ul>

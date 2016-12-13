@@ -19,26 +19,29 @@
   flex-direction: $values;
 }
 
+
+/* UTILITY SELECTORS */
+.text-align-right {
+    text-align: right;
+}
+
+
 /* COLORS */
 $file-browser-bg: #FFF;
 $file-browser-border: 1px solid #CCC;
+
+$file-browser-breadcrumb-color: #999;
+$file-browser-breadcrumb-active-color: #494949;
+
 $file-browser-table-header-bg: #F7F8FA;
 $file-browser-table-header-hover-bg: #EEE;
+
 $file-browser-row-border: 1px solid #EEE;
 $file-browser-row-hover-bg: #f7f8fa;
 
-/* ICON SIZE HELPERS */
-.icon-lg {
-    font-size: 3.2rem;
-}
+$file-browser-folder-color: #5091cd;
+$file-browser-file-color: #96c0e6;
 
-.icon-md {
-    font-size: 2.4rem;
-}
-
-.icon-sm {
-    font-size: 1.6rem;
-}
 
 
 /* FILE BROWSER */
@@ -73,34 +76,31 @@ $file-browser-row-hover-bg: #f7f8fa;
                     margin-top: 1px;
                     margin-left: 4px;
                     font-size: 2.3rem;
-                    font-weight: bold;
                     vertical-align: middle;
                     content: '›';
-                    color: #999;
-                }
-            }
-
-            .btn {
-                font-size: 1.6rem;
-                color: #999;
-
-                &:hover {
-                    border: 1px solid #999;
+                    color: $file-browser-breadcrumb-color;
                 }
             }
         }
 
         li:last-child {
             .btn {
-                color: #494949;
+                font-weight: bold;
+                color: $file-browser-breadcrumb-active-color;
             }
         }
 
         .btn {
             height: 3.4rem;
             padding: 0.6rem;
-            color: #999;
+            font-size: 1.6rem;
+            font-weight: normal;
+            color: $file-browser-breadcrumb-color;
             background: transparent;
+
+            &:hover {
+                border: 1px solid $file-browser-breadcrumb-color;
+            }
 
             .glyphicon {
                 top: 0;
@@ -118,20 +118,40 @@ $file-browser-row-hover-bg: #f7f8fa;
     @include flex(1 1 auto);
     background: $file-browser-bg;
 
-    table {
-        width: 100%;
-        table-layout: fixed;
-    }
-
-    .sortable-header {
+    .column-header {
+        @include flexbox();
+        @include flexdirection(row);
+        font-size: 1.2rem;
         font-weight: bold;
         background: $file-browser-table-header-bg;
 
-        .sort-col {
+        .col {
+            @include flex(1 1 auto);
             padding: 1rem 1.5rem;
 
-            &:hover {
-                background: $file-browser-table-header-hover-bg;
+            .sortable {
+                &:hover {
+                    background: $file-browser-table-header-hover-bg;
+                }
+            }
+
+            .sort-icon {
+                display: inline-block;
+                margin-top: -2px;
+                margin-left: 0.25rem;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 5px 5px 0 5px;
+                border-color: #494949 transparent transparent transparent; 
+                vertical-align: middle;
+            }
+
+            &.descending {
+                .sort-icon {
+                    border-width: 0 5px 5px 5px;
+                    border-color: transparent transparent #494949 transparent;
+                }
             }
         }
     }
@@ -141,63 +161,56 @@ $file-browser-row-hover-bg: #f7f8fa;
 
         &.selected {
             color: #FFF;
-            background: #1a5a96;
-            border-bottom-color: #1a5a96;
+            background: #96c0e6;
+            border-bottom-color: #96c0e6;
+
+            .glyphicon {
+                color: #FFF;
+            }
         }
     }
 
     .cell-contents {
         @include flexbox();
-        padding: 1rem 1.5rem;
+        padding: 0.75rem 1.5rem;
 
-        .avatar {
-            @include flex(0 0 3rem);
-            margin-right: 0.75rem;
-            text-align: center;
-        }
-
-        .name {
+        span {
             @include flex(1 1 auto);
-            margin-top: 0.5rem;
+            margin-top: 0.6rem;
             overflow: hidden;
             text-overflow: ellipsis;
             line-height: 2.4rem;
+        }
+
+        span.avatar {
+            @include flex(0 0 3rem);
+            margin-top: 0;
+            margin-right: 0.75rem;
+            text-align: center;
         }
     }
 
     .folder {
         .glyphicon {
-            @extend .icon-md;
+            margin-top: 0.2rem;
+            font-size: 2.1rem;
+            color: $file-browser-folder-color;
         }
     }
 
     .file {
         .glyphicon {
-            @extend .icon-sm;
-            margin-top: 0.6rem;
+            margin-top: 0.4rem;
+            font-size: 1.8rem;
+            color: $file-browser-file-color;
         }
     }
 }
 
-.sort-icon {
-    display: inline-block;
-    margin-top: -2px;
-    margin-left: 0.25rem;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 5px 5px 0 5px;
-    border-color: #494949 transparent transparent transparent; 
-    vertical-align: middle;
-}
 
-.sort-col  {
-    &.descending {
-        .sort-icon {
-            border-width: 0 5px 5px 5px;
-            border-color: transparent transparent #494949 transparent;
-        }
-    }
+/* COLUMNS */
+.date-added-col {
+    @extend .text-align-right;
 }
 
 
