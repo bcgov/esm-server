@@ -27,14 +27,14 @@
 
 	<div class="file-browser-body">
 		<div class="column-header">
-			<div class="col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
+			<div class="col name-col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
 				<span>Name</span>
 				<span class="sort-icon"></span>
 			</div>
 			<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
 				<span>Date Added</span>
 			</div>
-			<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+			<div class="col file-size-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
 				<span>File Size</span>
 			</div>
 		</div>
@@ -47,9 +47,9 @@
 						<span class="avatar">
 							<span class="glyphicon glyphicon-folder-close"></span>
 						</span>
-						<span>{{ doc.model.name }}</span>
-						<span class="date-added-col">—</span>
-						<span class="date-added-col">—</span>
+						<span class="col name-col">{{ doc.model.name }}</span>
+						<span class="col date-added-col">---</span>
+						<span class="col file-size-col">---</span>
 					</span>
 				</li>
 			</ul>
@@ -59,9 +59,9 @@
 						<span class="avatar">
 							<span class="glyphicon glyphicon-file"></span>
 						</span>
-						<span>{{ doc.internalOriginalName | removeExtension }}</span>
-						<span class="date-added-col">{{ doc.dateAdded | date : format : timezone }}{{ doc.updatedBy.username }}</span>
-						<span class="date-added-col">{{ doc.internalSize }}</span>
+						<span class="col name-col">{{ doc.internalOriginalName | removeExtension }}</span>
+						<span class="col date-added-col">{{ doc.dateAdded | date : format : timezone }}{{ doc.updatedBy.username }}</span>
+						<span class="col file-size-col">{{ doc.internalSize }}</span>
 					</span>
 				</li>
 			</ul>

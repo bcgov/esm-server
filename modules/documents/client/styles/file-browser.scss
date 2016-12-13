@@ -132,13 +132,14 @@ $file-browser-file-color: #96c0e6;
         @include flexbox();
         @include flexdirection(row);
         @include flex(0 0 auto);
+        padding-right: 1rem;
+        padding-left: 1rem;
         font-size: 1.2rem;
         font-weight: bold;
         background: $file-browser-table-header-bg;
 
         .col {
-            @include flex(1 1 auto);
-            padding: 1rem 1.5rem;
+            padding: 1rem 0.5rem;
 
             &.sortable {
                 &:hover {
@@ -179,21 +180,22 @@ $file-browser-file-color: #96c0e6;
     .cell-contents {
         @include flexbox();
         @include userselect(none);
-        padding: 0.75rem 1.5rem;
-
-        span {
-            @include flex(1 1 auto);
-            margin-top: 0.6rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            line-height: 2.4rem;
-        }
+        padding: 0.75rem 1rem;
 
         span.avatar {
-            @include flex(0 0 3rem);
             margin-top: 0;
             margin-right: 0.75rem;
             text-align: center;
+        }
+
+        span.col {
+            margin-top: 0.6rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 2.4rem;
         }
 
         &.selected {
@@ -231,11 +233,24 @@ $file-browser-file-color: #96c0e6;
 
 
 /* COLUMNS */
-.date-added-col {
-    @extend .text-align-right;
-    max-width: 25%;
+span.avatar {
+    @include flex(0 0 3rem);
 }
 
+div.name-col,
+span.name-col {
+    @include flex(1 1 auto);
+}
+
+div.date-added-col,
+span.date-added-col {
+    @include flex(0 0 15rem);
+}
+
+div.file-size-col,
+span.file-size-col {
+    @include flex(0 0 10rem)
+}
 
 /* Need to set on the 'view-body-container' when the file browser is placed within this element. */
 .file-browser-container {
