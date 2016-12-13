@@ -23,13 +23,6 @@
 
 	</div>
 
-	<script>
-		function toggleSelected() {
-			$( this ).toggleClass( "selected" );
-			alert: 'blahhhh';
-		};
-	</script>
-
 	<div class="file-browser-body">
 		<div class="column-header">
 			<div class="col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
@@ -43,7 +36,7 @@
 		<!-- Folders / Directories -->
 		<ul>
 			<li class="folder clickable" ng-repeat="doc in documentMgr.currentDirs">
-				<span class="cell-contents" ng-click="documentMgr.singleClick(doc.model.id)" ng-dblclick="documentMgr.doubleClick(doc.model.id)">
+				<span class="cell-contents" ng-click="documentMgr.toggleDir(doc)" ng-class="{'selected':(documentMgr.selectedDirIndex(doc) > -1)}" ng-dblclick="documentMgr.doubleClick(doc.model.id)">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-folder-close"></span>
 					</span>
@@ -53,7 +46,7 @@
 		</ul>
 		<ul>
 			<li class="file" ng-repeat="doc in documentMgr.currentFiles">
-				<span class="cell-contents">
+				<span class="cell-contents" ng-click="documentMgr.toggleFile(doc)" ng-class="{'selected':(documentMgr.selectedFileIndex(doc) > -1)}">
 					<span class="avatar">
 						<span class="glyphicon glyphicon-file"></span>
 					</span>
