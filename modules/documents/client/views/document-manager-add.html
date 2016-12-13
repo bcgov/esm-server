@@ -1,0 +1,27 @@
+
+<div class="modal-header">
+
+    <!-- Cancel and close modal -->
+    <button class="btn btn-default close" type="button" ng-click="addFolder.cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+    
+    <h3 class="modal-title">Add Folder</h3>
+</div>
+
+<div class="modal-body">
+    <div class="form-group">
+        <label class="control-label">Folder Name</label>
+        <input class="form-control" type="text" />
+    </div>
+</div>
+
+<div class="modal-footer">
+
+    <!-- Cancel and close Modal -->
+    <button class="btn btn-default" type="button" ng-click="addFolder.cancel()">Cancel</button>
+
+    <!-- Disabled until something is entered into the input field -->
+    <button class="btn btn-primary" ng-if="addFolder.valid" ng-click=" " disabled>OK</button>
+
+</div>
