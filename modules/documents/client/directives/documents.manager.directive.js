@@ -29,6 +29,33 @@ angular.module('documents')
 				self.currentFiles = undefined;
 				self.currentDirs = undefined;
 
+				self.selectedDirs = [];
+				self.selectedFiles = [];
+
+				self.selectedDirIndex = function(dir) {
+					return _.findIndex(self.selectedDirs, function(n) { return n.model.id === dir.model.id; });
+				};
+				self.toggleDir = function(dir) {
+					var idx = self.selectedDirIndex(dir);
+					if (idx > -1) {
+						_.pullAt(self.selectedDirs, idx);
+					} else {
+						self.selectedDirs.push(dir);
+					}
+				};
+
+				self.selectedFileIndex = function(file) {
+					return _.findIndex(self.selectedFiles, function(n) { return n._id.toString() === file._id.toString(); });
+				};
+				self.toggleFile = function(file) {
+					var idx = self.selectedFileIndex(file);
+					if (idx > -1) {
+						_.pullAt(self.selectedFiles, idx);
+					} else {
+						self.selectedFiles.push(file);
+					}
+				};
+
 				self.sort = function (sortMode) {
 					// ascending...
 					self.currentFiles = _.sortBy(self.unsortedFiles, ['name']);
@@ -54,7 +81,7 @@ angular.module('documents')
 					var clickedNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
 					});
-					$log.debug('singleClick = ', clickedNode.model.name);
+					//$log.debug('singleClick = ', clickedNode.model.name);
 				};
 
 				self.doubleClick = function (nodeId) {
@@ -64,7 +91,7 @@ angular.module('documents')
 					if (!selectedNode) {
 						selectedNode = self.rootNode;
 					}
-					$log.debug('doubleClick = ', selectedNode.model.name);
+					//$log.debug('doubleClick = ', selectedNode.model.name);
 
 					self.currentNode = selectedNode;
 					self.currentPath = selectedNode.getPath() || [];
@@ -72,6 +99,8 @@ angular.module('documents')
 					self.unsortedDirs = [];
 					self.currentFiles = [];
 					self.currentDirs = [];
+					self.selectedDirs = [];
+					self.selectedFiles = [];
 
 					_.each($scope.documents, function (d) {
 						if (_.isEmpty(d.directoryID)) {
