@@ -2545,6 +2545,11 @@ $file-browser-height: 30rem;
 $file-actions-height: 5rem;
 $file-browser-item-active: #2b5580;
 
+.panel .file-browser {
+	-webkit-flex-direction: row;
+	flex-direction: row;
+}
+
 .file-browser {
 	.col-sm-6,
  	.col-md-4 {
