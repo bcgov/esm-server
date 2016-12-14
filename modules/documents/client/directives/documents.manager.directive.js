@@ -67,21 +67,11 @@ angular.module('documents')
 				self.sort = function (sortMode) {
 					// ascending...
 					//
-					self.currentFiles = self.unsortedFiles.sort(function(a, b){
-						var nameA=a.internalOriginalName.toLowerCase(), nameB=b.internalOriginalName.toLowerCase();
-						if (nameA < nameB) //sort string ascending
-							return -1;
-						if (nameA > nameB)
-							return 1;
-						return 0;
+					self.currentFiles = _.sortBy(self.unsortedFiles,function(f) {
+						return f.internalOriginalName.toLowerCase();
 					});
-					self.currentDirs = self.unsortedDirs.sort(function(a, b){
-						var nameA=a.model.name.toLowerCase(), nameB=b.model.name.toLowerCase();
-						if (nameA < nameB) //sort string ascending
-							return -1;
-						if (nameA > nameB)
-							return 1;
-						return 0;
+					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
+						return d.model.name.toLowerCase();
 					});
 					if (sortMode === 'Descending') {
 						self.currentFiles = _(self.currentFiles).reverse().value();
