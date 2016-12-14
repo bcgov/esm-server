@@ -104,10 +104,6 @@ angular.module('documents')
 					self.selectedFiles = [];
 
 					_.each($scope.documents, function (d) {
-						if (_.isEmpty(d.directoryID)) {
-							// orphans go to root...
-							d.directoryID = self.rootNode.model.id;
-						}
 						if (d.directoryID === nodeId) {
 							self.unsortedFiles.push(d);
 						}
