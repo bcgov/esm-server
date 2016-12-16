@@ -43,13 +43,6 @@ angular.module('documents')
 					} else {
 						self.selectedDirs.push(dir);
 					}
-					if (_.size(self.selectedDirs) === 0) {
-						self.selectedNode = self.currentNode; // set to the current directory (last double clicked)
-					} else if (_.size(self.selectedDirs) === 1) {
-						self.selectedNode = self.selectedDirs[0]; // set to last selected one in the list...
-					} else {
-						self.selectedNode = undefined; // multi selected, can't determine
-					}
 				};
 
 				self.selectedFileIndex = function(file) {
