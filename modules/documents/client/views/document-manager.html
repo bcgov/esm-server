@@ -1,66 +1,161 @@
 <div class="file-browser">
 
-	<div class="file-browser-header">
-		<ul class="file-browser-breadcrumbs">
+	<div class="fb-header">
+		<ul class="fb-breadcrumbs">
 			<li ng-repeat="node in documentMgr.currentPath">
-				<button class="btn" ng-click="documentMgr.selectNode(node.model.id)">
+				<button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
 					<span class="glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></span>
 					<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
 				</button>
 			</li>
 		</ul>
-		
 		<div class="file-batch-actions">
-			<button class="btn btn-sm btn-default"
+			<button class="btn icon-btn" title="Add New Folder"
 					ng-disabled="!documentMgr.selectedNode"
 					x-document-mgr-add-folder x-project="project"
 					x-root="documentMgr.rootNode"
-					x-node="documentMgr.selectedNode"
-				    title="Add Folder"><span class="glyphicon glyphicon-plus"></span>&nbsp; Add Folder</span></button>
+					x-node="documentMgr.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
+			<button class="btn icon-btn" title="Show Details"><span class="glyphicon glyphicon-open"></span></button>
+			<button class="toggle-details-btn btn icon-btn" title="Show Details"
+					ng-click="toggleDetails()"><span class="glyphicon glyphicon-info-sign"></span></button>
 		</div>
-
 	</div>
 
-	<div class="file-browser-body">
-		<div class="column-header">
-			<div class="col name-col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
-				<span>Name</span>
-				<span class="sort-icon"></span>
+	<div class="fb-body">
+
+		<div class="fb-list">
+
+			<!-- Load the File/Folder Directory -->
+			<!--
+			<div class="spinner-container">
+				<div class="spinner">
+					<svg class="circular" viewBox="25 25 50 50">
+					<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+					</svg>
+				</div>
 			</div>
-			<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
-				<span>Date Added</span>
+			-->
+			
+			<div class="column-header">
+				<div class="col name-col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
+					<span>Name</span>
+					<span class="sort-icon"></span>
+				</div>
+				<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+					<span>Date Added</span>
+				</div>
+				<div class="col file-size-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+					<span>File Size</span>
+				</div>
 			</div>
-			<div class="col file-size-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
-				<span>File Size</span>
+			<div class="scroll-container">
+				<div class="scroll-container-inner">
+
+					<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
+
+					<ul>
+						<li class="clickable" ng-repeat="doc in documentMgr.currentDirs">
+							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" ng-click="documentMgr.toggleDir(doc)" ng-dblclick="documentMgr.selectNode(doc.model.id)">
+								<span class="col name-col">
+									<span class="avatar">
+										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
+									</span>
+									{{ doc.model.name }}
+								</span>
+								<span class="col date-added-col">---</span>
+								<span class="col file-size-col">---</span>
+								
+								<div class="row-actions">
+									<button class="btn icon-btn" ng-click="toggleDetails()">
+										<span class="glyphicon glyphicon-option-vertical"></span>
+									</button>
+								</div>
+
+							</span>
+						</li>
+					</ul>
+					<ul>
+						<li class="fb-file" ng-repeat="doc in documentMgr.currentFiles">
+							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}" ng-click="documentMgr.toggleFile(doc)" >
+								<span class="avatar">
+									<span class="fb-file glyphicon glyphicon-file"></span>
+								</span>
+								<span class="col name-col">{{ doc.internalOriginalName | removeExtension }}</span>
+								<span class="col date-added-col">{{ doc.dateAdded | date : format : timezone }}{{ doc.updatedBy.username }}</span>
+								<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
+							</span>
+						</li>
+					</ul>
+				</div>
 			</div>
+
 		</div>
-		<!-- Folders / Directories -->
-		<div class="scroll-container">
-			<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
-			<ul>
-				<li class="fb-folder clickable" ng-repeat="doc in documentMgr.currentDirs">
-					<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" ng-click="documentMgr.toggleDir(doc)" ng-dblclick="documentMgr.selectNode(doc.model.id)">
-						<span class="avatar">
-							<span class="glyphicon glyphicon-folder-close"></span>
-						</span>
-						<span class="col name-col">{{ doc.model.name }}</span>
-						<span class="col date-added-col">---</span>
-						<span class="col file-size-col">---</span>
-					</span>
-				</li>
-			</ul>
-			<ul>
-				<li class="fb-file" ng-repeat="doc in documentMgr.currentFiles">
-					<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}" ng-click="documentMgr.toggleFile(doc)" >
-						<span class="avatar">
-							<span class="glyphicon glyphicon-file"></span>
-						</span>
-						<span class="col name-col">{{ doc.internalOriginalName | removeExtension }}</span>
-						<span class="col date-added-col">{{ doc.dateAdded | date : format : timezone }}{{ doc.updatedBy.username }}</span>
-						<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
-					</span>
-				</li>
-			</ul>
+		<div class="fb-details-panel">
+			<div class="fb-details-content">
+				<div class="title-panel">
+					<button class="btn btn-default close" type="button" ng-click="toggleDetails()">
+            			<span aria-hidden="true">&times;</span>
+        			</button>
+					<h2>File Name</h2>
+				</div>
+				<div class="scroll-container">
+					
+					<!-- Load the File/Folder Details -->
+					<!--
+					<div class="spinner-container">
+						<div class="spinner">
+							<svg class="circular" viewBox="25 25 50 50">
+							<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+							</svg>
+						</div>
+					</div>
+					-->
+
+					<section>
+						<h3>Details</h3>
+						<ul class="nv-pair">
+							<li>
+								<span class="name">Status</span>
+								<span class="value">
+									<span class="label label-success">Published</span>
+								</span>
+							</li>
+							<li>
+								<span class="name">Last Modified</span>
+								<span class="value">YYYY/MM/DD</span>
+							</li>
+							<li>
+								<span class="name">Modified by</span>
+								<span class="value">---</span>
+							</li>
+							<li>
+								<span class="name">File Size</span>
+								<span class="value">---</span>
+							</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Description</h3>
+						<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>	
+					</section>
+					<section>
+						<h3>Keywords</h3>
+						<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>	
+					</section>
+					<section>
+						<h3>Related Content</h3>
+						<ul class="nv-pair">
+							<li><a href="#">Related Content 1</a></li>
+							<li><a href="#">Related Content 2</a></li>
+							<li><a href="#">Related Content 3</a></li>
+							<li><a href="#">Related Content 4</a></li>
+							<li><a href="#">Related Content 5</a></li>
+							<li><a href="#">Related Content 6</a></li>
+						</ul>
+					</section>
+
+				</div>
+			</div>
 		</div>
 	</div>
 

@@ -19,6 +19,10 @@ angular.module('documents')
 						name: 'ROOT'
 					};
 
+				$scope.toggleDetails = function () {
+					$('.fb-body').toggleClass('panel-open')
+				};
+
 				self.sortedMode = 'Ascending'; // 'Descending' / 'Ascending'
 
 				self.rootNode = tree.parse($scope.project.directoryStructure);
