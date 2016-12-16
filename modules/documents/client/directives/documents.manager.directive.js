@@ -20,7 +20,8 @@ angular.module('documents')
 					};
 
 				$scope.toggleDetails = function () {
-					$('.fb-body').toggleClass('panel-open')
+					var target = angular.element(document.querySelector('.fb-body'));
+					target.toggleClass('panel-open');
 				};
 
 				self.sortedMode = 'Ascending'; // 'Descending' / 'Ascending'
@@ -46,13 +47,6 @@ angular.module('documents')
 						_.pullAt(self.selectedDirs, idx);
 					} else {
 						self.selectedDirs.push(dir);
-					}
-					if (_.size(self.selectedDirs) === 0) {
-						self.selectedNode = self.currentNode; // set to the current directory (last double clicked)
-					} else if (_.size(self.selectedDirs) === 1) {
-						self.selectedNode = self.selectedDirs[0]; // set to last selected one in the list...
-					} else {
-						self.selectedNode = undefined; // multi selected, can't determine
 					}
 				};
 
