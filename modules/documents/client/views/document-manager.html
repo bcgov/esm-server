@@ -9,13 +9,25 @@
 				</button>
 			</li>
 		</ul>
+		
 		<div class="file-batch-actions">
-			<button class="btn icon-btn" title="Add New Folder"
+			<button class="btn btn-sm btn-default"
+					ng-if="project.userCan.createDocument"
 					ng-disabled="!documentMgr.selectedNode"
-					x-document-mgr-add-folder x-project="project"
+					x-document-mgr-add-folder
+					x-project="project"
 					x-root="documentMgr.rootNode"
-					x-node="documentMgr.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
-			<button class="btn icon-btn" title="Show Details"><span class="glyphicon glyphicon-open"></span></button>
+					x-node="documentMgr.selectedNode"
+				    title="Add Folder"><span class="glyphicon glyphicon-plus"></span><span>Add Folder</span></button>
+			<button class="btn btn-sm btn-default"
+					ng-if="project.userCan.createDocument"
+					ng-disabled="!documentMgr.selectedNode"
+			   		x-document-mgr-upload-modal
+			   		x-project="project"
+					x-root="documentMgr.rootNode"
+					x-node="documentMgr.selectedNode"
+					x-type="'project'"
+			   		title="Upload Documents"><span class="glyphicon glyphicon-open"></span></button>
 			<button class="toggle-details-btn btn icon-btn" title="Show Details"
 					ng-click="toggleDetails()"><span class="glyphicon glyphicon-info-sign"></span></button>
 		</div>
@@ -35,7 +47,7 @@
 				</div>
 			</div>
 			-->
-			
+
 			<div class="column-header">
 				<div class="col name-col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
 					<span>Name</span>
@@ -64,7 +76,7 @@
 								</span>
 								<span class="col date-added-col">---</span>
 								<span class="col file-size-col">---</span>
-								
+
 								<div class="row-actions">
 									<button class="btn icon-btn" ng-click="toggleDetails()">
 										<span class="glyphicon glyphicon-option-vertical"></span>
@@ -99,7 +111,7 @@
 					<h2>File Name</h2>
 				</div>
 				<div class="scroll-container">
-					
+
 					<!-- Load the File/Folder Details -->
 					<!--
 					<div class="spinner-container">
@@ -136,11 +148,11 @@
 					</section>
 					<section>
 						<h3>Description</h3>
-						<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>	
+						<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>
 					</section>
 					<section>
 						<h3>Keywords</h3>
-						<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>	
+						<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>
 					</section>
 					<section>
 						<h3>Related Content</h3>
