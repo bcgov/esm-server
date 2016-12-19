@@ -294,7 +294,7 @@ angular.module('documents')
 							$scope.node = scope.node || scope.root;
 
 							self.rootNode = scope.root;
-							self.selectedNode = $scope.node;
+							self.selectedNode = scope.node;
 							self.type = scope.type;
 
 							self.uploading = false;
@@ -380,6 +380,17 @@ angular.module('documents')
 				self.fileList = [];
 				self.targetUrl = getTargetUrl($scope.type);
 				self.cancelled = false;
+
+				/*
+				self.progress = {
+					working: false,
+					completed: false,
+					files: [],
+					uploaded: [],
+					failed: [],
+					cancelled: []
+				}
+				*/
 
 				$scope.$watch('files', function (newValue) {
 					if (newValue) {
