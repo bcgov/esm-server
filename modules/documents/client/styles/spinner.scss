@@ -1,23 +1,11 @@
 
 $spinner-width: 40px;
-$spinner-color: blue;
-
-.spinner-container {
-	position: absolute;
-  	top: 0;
-  	bottom: 0;
-  	left: 0;
-  	right: 0;
-  	padding: 5%;
-	background: #FFF;
-}
+$spinner-color: #1a5a96;
+$spinner-bg: #FFF;
+$spinner-invert-color: #FFF;
+$spinner-invert-bg: rgba(0,0,0,0.8);
 
 .spinner {
-  	position: absolute;
-  	top: 50%;
-	left: 50%;
-	margin-top: calc(-#{$spinner-width} / 1.5);
-  	margin-left: calc(-#{$spinner-width} / 2);
   	width: $spinner-width;
 	opacity: 1;
   	
@@ -28,19 +16,6 @@ $spinner-color: blue;
   	}
 }
 
-.circular {
-  	animation: rotate 2s linear infinite;
-  	height: 100%;
-  	transform-origin: center center;
-  	width: 100%;
- 	position: absolute;
-  	top: 0;
-  	bottom: 0;
-  	left: 0;
-  	right: 0;
-  	margin: auto;
-}
-
 .spin-path {
   	stroke-dasharray: 1, 200;
   	stroke-dashoffset: 0;
@@ -48,6 +23,7 @@ $spinner-color: blue;
   	stroke-linecap: round;
 }
 
+/* ANIMATIONS */
 @keyframes rotate {
   	100% {
     	transform: rotate(360deg);
@@ -70,18 +46,75 @@ $spinner-color: blue;
 }
 
 @keyframes spin {
-  	100%,
-  	0% {
-    	stroke: $spinner-color;
-  	}
-  	40% {
-    	stroke: $spinner-color;
-  	}
-  	66% {
-    	stroke: $spinner-color;
-  	}
-  	80%,
-  	90% {
-    	stroke: $spinner-color;
-  	}
+	100%,
+	0% {
+		stroke: $spinner-color;
+	}
+	40% {
+		stroke: $spinner-color;
+	}
+	66% {
+		stroke: $spinner-color;
+	}
+	80%,
+	90% {
+		stroke: $spinner-color;
+	}
+}
+
+@keyframes spin-inverted {
+	100%,
+	0% {
+		stroke: $spinner-invert-color;
+	}
+	40% {
+		stroke: $spinner-invert-color;
+	}
+	66% {
+		stroke: $spinner-invert-color;
+	}
+	80%,
+	90% {
+		stroke: $spinner-invert-color;
+	}
+}
+
+.circular {
+  	animation: rotate 2s linear infinite;
+  	height: 100%;
+  	transform-origin: center center;
+  	width: 100%;
+ 	position: absolute;
+  	top: 0;
+  	bottom: 0;
+  	left: 0;
+  	right: 0;
+  	margin: auto;
+}
+
+.spinner-container {
+	position: absolute;
+  	top: 0;
+  	bottom: 0;
+  	left: 0;
+  	right: 0;
+  	padding: 5%;
+	background: $spinner-bg;
+	z-index: 2;
+
+	&.inverted {
+		background: $spinner-invert-bg;
+
+		.spin-path {
+			animation: dash 1.5s ease-in-out infinite, spin-inverted 6s ease-in-out infinite;
+		}
+	}
+
+	.spinner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: calc(-#{$spinner-width} / 1.5);
+		margin-left: calc(-#{$spinner-width} / 2);
+	}
 }

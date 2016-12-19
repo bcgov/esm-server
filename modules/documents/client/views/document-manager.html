@@ -4,50 +4,37 @@
 		<ul class="fb-breadcrumbs">
 			<li ng-repeat="node in documentMgr.currentPath">
 				<button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
-					<span class="glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></span>
+					<span class="glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
 					<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
 				</button>
 			</li>
 		</ul>
-		
 		<div class="file-batch-actions">
-			<button class="btn btn-sm btn-default"
-					ng-if="project.userCan.createDocument"
+			<button class="btn icon-btn" title="Add New Folder"
 					ng-disabled="!documentMgr.selectedNode"
-					x-document-mgr-add-folder
-					x-project="project"
+					x-document-mgr-add-folder x-project="project"
 					x-root="documentMgr.rootNode"
-					x-node="documentMgr.selectedNode"
-				    title="Add Folder"><span class="glyphicon glyphicon-plus"></span><span>Add Folder</span></button>
-			<button class="btn btn-sm btn-default"
-					ng-if="project.userCan.createDocument"
-					ng-disabled="!documentMgr.selectedNode"
-			   		x-document-mgr-upload-modal
-			   		x-project="project"
-					x-root="documentMgr.rootNode"
-					x-node="documentMgr.selectedNode"
-					x-type="'project'"
-			   		title="Upload Documents"><span class="glyphicon glyphicon-open"></span></button>
+					x-node="documentMgr.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
+			<button class="btn icon-btn" title="Show Details"><span class="glyphicon glyphicon-open"></span></button>
 			<button class="toggle-details-btn btn icon-btn" title="Show Details"
-					ng-click="toggleDetails()"><span class="glyphicon glyphicon-info-sign"></span></button>
+					ng-click="fbToggleDetails()"><span class="glyphicon glyphicon-info-sign"></span></button>
 		</div>
 	</div>
 
-	<div class="fb-body">
+	<div id="fbBody" class="fb-body">
 
 		<div class="fb-list">
 
 			<!-- Load the File/Folder Directory -->
-			<!--
-			<div class="spinner-container">
+			<!-- TODO: Remove 'hidden' selector when complete -->
+			<div class="spinner-container hidden">
 				<div class="spinner">
 					<svg class="circular" viewBox="25 25 50 50">
 					<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
 					</svg>
 				</div>
 			</div>
-			-->
-
+			
 			<div class="column-header">
 				<div class="col name-col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
 					<span>Name</span>
@@ -67,7 +54,9 @@
 
 					<ul>
 						<li class="clickable" ng-repeat="doc in documentMgr.currentDirs">
-							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" ng-click="documentMgr.toggleDir(doc)" ng-dblclick="documentMgr.selectNode(doc.model.id)">
+							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" 
+								ng-click="documentMgr.toggleDir(doc)"
+								ng-dblclick="documentMgr.selectNode(doc.model.id)">
 								<span class="col name-col">
 									<span class="avatar">
 										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
@@ -76,10 +65,10 @@
 								</span>
 								<span class="col date-added-col">---</span>
 								<span class="col file-size-col">---</span>
-
+								
 								<div class="row-actions">
-									<button class="btn icon-btn" ng-click="toggleDetails()">
-										<span class="glyphicon glyphicon-option-vertical"></span>
+									<button class="btn icon-btn" ng-click="fbShowDetails()">
+										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 									</button>
 								</div>
 
@@ -104,24 +93,28 @@
 		</div>
 		<div class="fb-details-panel">
 			<div class="fb-details-content">
+
+				<!-- Load the File/Folder Details -->
+				<!-- TODO: Remove 'hidden' selector when complete -->
+				<div class="spinner-container hidden">
+					<div class="spinner">
+						<svg class="circular" viewBox="25 25 50 50">
+						<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+						</svg>
+					</div>
+				</div>
+
 				<div class="title-panel">
-					<button class="btn btn-default close" type="button" ng-click="toggleDetails()">
+					<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
             			<span aria-hidden="true">&times;</span>
         			</button>
 					<h2>File Name</h2>
-				</div>
-				<div class="scroll-container">
-
-					<!-- Load the File/Folder Details -->
 					<!--
-					<div class="spinner-container">
-						<div class="spinner">
-							<svg class="circular" viewBox="25 25 50 50">
-							<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-							</svg>
-						</div>
-					</div>
+					<h2>Fetching Details...</h2>
 					-->
+				</div>
+
+				<div class="scroll-container">
 
 					<section>
 						<h3>Details</h3>
@@ -148,11 +141,11 @@
 					</section>
 					<section>
 						<h3>Description</h3>
-						<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>
+						<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>	
 					</section>
 					<section>
 						<h3>Keywords</h3>
-						<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>
+						<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>	
 					</section>
 					<section>
 						<h3>Related Content</h3>
