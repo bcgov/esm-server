@@ -274,6 +274,21 @@ angular.module('documents')
 						);
 				};
 
+				$scope.$on('documentMgrRefreshNode', function(event, args) {
+					if (args.nodeId === self.currentNode.model.id) {
+						Document.getProjectDocuments($scope.project._id, 'false')
+							.then(
+								function (data) {
+									$scope.documents = data;
+									self.selectNode(self.currentNode.model.id);
+								},
+								function (error) {
+									$log.debug('documentMgrRefreshNode.refreshDocuments error: ', JSON.stringify(error));
+								}
+							);
+					}
+				});
+
 				// set it up at the root...
 				self.selectNode(self.rootNode.model.id);
 			},
@@ -387,6 +402,242 @@ angular.module('documents')
 						});
 				});
 			}
+		};
+	}])
+	.directive('documentMgrUploadModal',['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', function ($rootScope, $modal, $log, _, DocumentMgrService){
+		return {
+			restrict: 'A',
+			scope: {
+				project: '=',
+				root: '=',
+				node: '=',
+				type: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('click', function () {
+					$modal.open({
+						animation: true,
+						size: 'lg',
+						templateUrl: 'modules/documents/client/views/document-manager-upload-modal.html',
+						resolve: {},
+						controllerAs: 'uploadModal',
+						controller: function ($rootScope, $scope, $modalInstance) {
+							var self = this;
+
+							$scope.project = scope.project;
+							$scope.node = scope.node || scope.root;
+
+							self.rootNode = scope.root;
+							self.selectedNode = $scope.node;
+							self.type = scope.type;
+
+							self.uploading = false;
+							self.enableUpload = false;
+
+							// Document upload complete so close and continue.
+							$scope.$on('documentMgrUploadComplete', function(event, args) {
+								if (args.completed > 0) {
+									// if there were any completed, we should refresh the node to show them.
+									$rootScope.$broadcast('documentMgrRefreshNode', {nodeId: self.selectedNode.model.id});
+								}
+								if (args.failed === 0) {
+									// only close if there are no errors?
+									$modalInstance.close();
+								}
+								self.uploading = false;
+							});
+
+							$scope.$on('documentMgrEnableUpload', function (event, args) {
+								self.enableUpload = args.enableUpload;
+							});
+
+							self.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+
+							self.startUploads = function () {
+								$scope.$broadcast('documentMgrUploadStart', false);
+								self.uploading = true;
+							};
+
+							self.cancelUploads = function () {
+								$scope.$broadcast('documentMgrUploadCancel', false);
+								// when all outstanding uploads are cancelled, it should sent a documentMgrUploadComplete message handled above.
+							};
+
+						}
+					}).result.then(function (data) {
+							//$log.debug(data);
+						})
+						.catch(function (err) {
+							//$log.error(err);
+						});
+				});
+			}
+		};
+
+	}])
+	.directive('documentMgrUpload', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'DocumentMgrService', 'Document', function ($rootScope, $timeout, $log, Upload, _) {
+		return {
+			restrict: 'E',
+			scope: {
+				project: '=',
+				root: '=',
+				node: '=',
+				type: '=',
+				parentId: '='
+			},
+			templateUrl: 'modules/documents/client/views/document-manager-upload.html',
+			controller: function ($rootScope, $scope, $timeout, $log, Upload, _) {
+				var self = this;
+
+				var getTargetUrl = function(type) {
+					var t = type || 'project';
+					// determine URL for upload, default to project if none set.
+					if (t === 'comment' && $scope.parentId) {
+						return '/api/commentdocument/publiccomment/' + $scope.parentId + '/upload';
+					}
+					if (t === 'project' && $scope.project) {
+						return '/api/document/' + $scope.project._id + '/upload';
+					}
+				};
+
+
+				$scope.project = $scope.project;
+				$scope.node = $scope.node || $scope.root;
+
+				self.rootNode = $scope.root;
+				self.selectedNode = $scope.node;
+
+				self.inProgress = false;
+				self.inProgressFiles = [];
+				self.fileList = [];
+				self.targetUrl = getTargetUrl($scope.type);
+				self.cancelled = false;
+
+				$scope.$watch('files', function (newValue) {
+					if (newValue) {
+						self.inProgress = false;
+						_.each(newValue, function(file, idx) {
+							self.fileList.push(file);
+						});
+					}
+					self.checkEnableUpload();
+				});
+
+				$scope.$on('documentMgrUploadStart', function(event, uploadingReviewDocs) {
+					if (!self.inProgress) {
+						self.upload(uploadingReviewDocs);
+					}
+				});
+
+				$scope.$on('documentMgrUploadCancel', function(event) {
+					if (self.inProgress) {
+						self.cancelAll();
+					}
+				});
+
+				self.removeFile = function(f) {
+					_.remove(self.fileList, f);
+					self.checkEnableUpload();
+				};
+
+				self.cancelFile = function(file) {
+					if (Upload.isUploadInProgress() && file && file.status === 'In Progress') {
+						//$log.debug('Uploading in progress, upload cancel requested for file: ', file.$$hashKey.toString());
+						file.upload.abort();
+					}
+				};
+
+				self.cancelAll = function() {
+					if (Upload.isUploadInProgress()) {
+						//$log.debug('Uploading in progress, but cancel all requested...');
+						_.each(self.inProgressFiles, function(file) {
+							self.cancelFile(file);
+						});
+					} else {
+						self.checkEnableUpload();
+					}
+				};
+
+				self.checkEnableUpload = function () {
+					if (self.fileList.length > 0) {
+						$rootScope.$broadcast('documentMgrEnableUpload',  { enableUpload: true });
+					} else {
+						$rootScope.$broadcast('documentMgrEnableUpload',  { enableUpload: false });
+					}
+				};
+
+				self.checkInProgressStatus = function() {
+					// if non in progress, close?
+					var inProgress = _.filter(self.inProgressFiles, function(f) { return 'In Progress' === f.status; });
+					var completed = _.filter(self.inProgressFiles, function(f) { return 'Completed' === f.status; });
+					var failed = _.filter(self.inProgressFiles, function(f) { return f.status && f.status.startsWith('Failed: '); });
+					var cancelled = _.filter(self.inProgressFiles, function(f) { return 'Cancelled' === f.status; });
+					if (_.size(inProgress) === 0){
+						self.inProgress = false;
+						$scope.$emit('documentMgrUploadComplete', {completed: _.size(completed), failed: _.size(failed), cancelled: _.size(cancelled) });
+					}
+				};
+
+				self.upload = function(uploadingReviewDocs) {
+					self.inProgress = true;
+					self.inProgressFiles = [];
+					if (self.fileList && self.fileList.length && self.targetUrl) {
+						angular.forEach( self.fileList, function(file) {
+							// Quick hack to pass objects
+							// console.log("docUpload",docUpload);
+							if (undefined === self.typeName) self.typeName = "Not Specified";
+							if (undefined === self.subTypeName) self.subTypeName = "Not Specified";
+							if (undefined === self.folderName) self.folderName = "Not Specified";
+
+							file.status = undefined;
+							file.upload = Upload.upload({
+								url: self.targetUrl,
+								file: file,
+								headers: {
+									'documenttype': self.typeName,
+									'documentsubtype': self.subTypeName,
+									'documentfoldername': self.folderName,
+									'documentisinreview': uploadingReviewDocs,
+									'directoryid' : self.selectedNode.model.id
+								}
+							});
+							$log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
+							self.inProgressFiles.push(file);
+
+							file.upload.then(function (response) {
+								$timeout(function () {
+									file.result = response.data;
+									file.progress = 100;
+									file.status = 'Completed';
+									self.checkInProgressStatus();
+								});
+							}, function (response) {
+								if (response.status > 0) {
+									$log.error(response.status + ': ' + response.data);
+									self.errorMsg = response.status + ': ' + response.data;
+									file.status = 'Failed: ' + response.data;
+								} else {
+									// abort was called...
+									$log.debug('cancelled ' + file.$$hashKey.toString());
+									file.status = 'Cancelled';
+								}
+								self.checkInProgressStatus();
+							}, function (evt) {
+								// if we get a cancel request, then call
+								file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+								file.status = 'In Progress';
+							});
+						});
+
+					} else {
+						self.checkInProgressStatus();
+					}
+				};
+
+			},
+			controllerAs: 'documentMgrUpload'
 		};
 	}])
 ;

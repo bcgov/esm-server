@@ -1,0 +1,26 @@
+<div class="modal-header">
+	<button ng-if="!uploadModal.uploading" type="button" class="btn btn-default close" ng-click="uploadModal.cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">Upload Documents</h3>
+</div>
+<div class="modal-body">
+	<x-document-mgr-upload
+		x-project="project"
+		x-root="uploadModal.rootNode"
+		x-node="uploadModal.selectedNode"
+	    x-type="uploadModal.type"></x-document-mgr-upload>
+</div>
+<div class="modal-footer">
+	<button ng-if="uploadModal.uploading" class="btn btn-default" ng-click="uploadModal.cancelUploads()" type="button">Cancel Uploads</button>
+	<button ng-if="!uploadModal.uploading" class="btn btn-default" type="button" ng-click="uploadModal.cancel()">Cancel</button>
+	<button
+		ng-if="uploadModal.enableUpload"
+		class="btn btn-primary"
+		type="button"
+		ng-click="uploadModel.uploading || uploadModal.startUploads()">OK</button>
+	<button
+		ng-if="!uploadModal.enableUpload"
+		class="btn btn-primary disabled"
+		type="button">OK</button>
+</div>
