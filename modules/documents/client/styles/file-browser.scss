@@ -1,5 +1,28 @@
 
-/* FLEX MIXINS */
+@import "modules/documents/client/styles/spinner.scss";
+
+/* COLORS */
+$file-browser-bg: #FFF;
+$file-browser-border: 1px solid #EEE;
+
+$file-browser-breadcrumb-color: #999;
+$file-browser-breadcrumb-active-color: #494949;
+
+$file-browser-table-header-bg: #F7F8FA;
+$file-browser-table-header-hover-bg: #EEE;
+
+$file-browser-row-border: 1px solid #EEE;
+$file-browser-row-hover-bg: #f7f8fa;
+
+$fb-folder-color: #999;
+$fb-file-color: #CCC;
+
+$list-selected-color: #FFF;
+$list-selected-bg: #5091cd;
+$list-selected-hover-bg: #4187c9;
+$list-selected-border: 1px solid #4187c9;
+
+/* MIXINS */
 @mixin flexbox() {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -23,29 +46,57 @@
     user-select: $values;
 }
 
-
 /* UTILITY SELECTORS */
 .text-align-right {
     text-align: right;
 }
 
+/* CUSTOM BUTTON STYLING */
+.icon-btn {
+    min-width: 3.4rem;
+    height: 3.4rem;
+    padding: 0;
+    text-align: center;
+    background: transparent;
+    border: 1px solid transparent;
 
-/* COLORS */
-$file-browser-bg: #FFF;
-$file-browser-border: 1px solid #CCC;
+    .glyphicon {
+        top: 0;
+        vertical-align: middle;
+        font-size: 1.8rem;
+        color: inherit;
+    }
 
-$file-browser-breadcrumb-color: #999;
-$file-browser-breadcrumb-active-color: #494949;
+    &:hover {
+        background: #EEE;
+        border-color: #CCC;
+    }
 
-$file-browser-table-header-bg: #F7F8FA;
-$file-browser-table-header-hover-bg: #EEE;
+    &:disabled {
+        opacity: 0.2;
+    }
+}
 
-$file-browser-row-border: 1px solid #EEE;
-$file-browser-row-hover-bg: #f7f8fa;
 
-$file-browser-folder-color: #5091cd;
-$file-browser-file-color: #96c0e6;
+/* NAME-VALUE PAIR */
+.nv-pair {
+    li {
+        @include flexbox();
+        @include flexdirection(row);
 
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    span.name {
+        width: 15rem;
+    }
+
+    span.value {
+        @include flex(1 1 auto);
+    }
+}
 
 
 /* FILE BROWSER */
@@ -53,6 +104,7 @@ $file-browser-file-color: #96c0e6;
     @include flexbox();
     @include flex(1 1 auto);
     @include flexdirection(column);
+    overflow: hidden;
 
     ul {
         margin: 0;
@@ -61,18 +113,18 @@ $file-browser-file-color: #96c0e6;
     }
 }
 
-.file-browser-header {
+.fb-header {
     @include flexbox();
     @include flex(0 0 auto);
     padding: 0.7rem 1rem;
     background: $file-browser-bg;
+    border-bottom: $file-browser-border;
 
-    .file-browser-breadcrumbs {
+    .fb-breadcrumbs {
         @include flex(1 1 auto);
 
         li {
             display: inline-block;
-
 
             + li {
                 &:before {
@@ -94,59 +146,111 @@ $file-browser-file-color: #96c0e6;
         }
 
         .btn {
-            height: 3.2rem;
+            height: 3.4rem;
             padding: 0.6rem;
             font-weight: normal;
-            color: $file-browser-breadcrumb-color;
-            background: transparent;
-
-            &:hover {
-                border: 1px solid $file-browser-breadcrumb-color;
-            }
-
-            .glyphicon {
-                top: 0;
-                font-size: 1.4rem;
-            }
         }
     }
 
     .file-batch-actions {
         @include flex(0 0 auto);
+    }
 
-        .btn {
-            height: 3.2rem;
+    .toggle-details-btn {
+        display: none;
+    }
+}
+
+@media (min-width: 1024px) {
+    .fb-header {
+        .toggle-details-btn {
+            display: inline-block;
         }
     }
 }
 
-.file-browser-body {
+.fb-body {
+    @include flex(1 1 auto);
+    @include flexbox();
+    @include flexdirection(row);
+    background: $file-browser-bg;
+
+    .fb-details-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: $file-browser-bg;
+        transform: translateX(100%);
+        transition: transform ease-out 0.2s;
+
+        .fb-details-content {
+            width: 100%;
+        }
+    }
+
+    &.panel-open {
+         .fb-list,
+         .fb-details-panel {
+            transform: translateX(0);
+         }
+    }
+}
+
+@media (min-width: 1024px) {
+    .fb-body {
+        .fb-details-panel {
+            position: relative;
+            transform: translateX(0);
+            transition: flex-basis ease-out 0.2s;
+
+            .fb-details-content {
+                width: 35rem;
+            }
+        }
+
+        &.panel-open {
+            .fb-list {
+                @include flex(1 1 auto);
+                transform: translateX(0);
+            }
+
+            .fb-details-panel {
+                @include flex(0 0 35rem);
+                transform: translateX(0);
+            }
+        }
+    }
+}
+
+
+.fb-list {
     @include flexbox();
     @include flexdirection(column);
     @include flex(1 1 auto);
-    background: $file-browser-bg;
+    position: relative;
+    overflow: hidden;
 
     .column-header {
         @include flexbox();
         @include flexdirection(row);
         @include flex(0 0 auto);
-        padding-right: 1rem;
-        padding-left: 0;
         font-size: 1.2rem;
         font-weight: bold;
         background: $file-browser-table-header-bg;
+        z-index: 2;
 
         .col {
             padding: 1rem 0.5rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
 
             &.sortable {
                 &:hover {
                     background: $file-browser-table-header-hover-bg;
                 }
-            }
-
-            &:first-child {
-                padding-left: 1.5rem;
             }
 
             .sort-icon {
@@ -171,26 +275,42 @@ $file-browser-file-color: #96c0e6;
     }
 
     .scroll-container {
-        @include flex(1 1 auto);
+        @include flex(1 1 1px);
         position: relative;
-        overflow-y: auto;
+        overflow-y: scroll;
         overflow-x: hidden;
+
+        .scroll-container-inner {
+            margin-right: -17px;
+        }
+    }
+
+    @media only screen
+        and (min-device-width: 768px) 
+        and (max-device-width: 1024px) {
+        
+        .scroll-container {
+            .scroll-container-inner {
+                margin-right: 0;
+            }
+        }
     }
 
     .cell-contents {
         @include flexbox();
         @include userselect(none);
-        padding: 0.75rem 1rem;
+        position: relative;
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
         border-bottom: $file-browser-row-border;
 
-        span.avatar {
-            margin-top: 0;
+        .avatar {
+            top: 0.5rem;
             margin-right: 0.75rem;
             text-align: center;
         }
 
-        span.col {
-            margin-top: 0.6rem;
+        .col {
             padding-left: 0.5rem;
             padding-right: 0.5rem;
             white-space: nowrap;
@@ -199,36 +319,95 @@ $file-browser-file-color: #96c0e6;
             line-height: 2.4rem;
         }
 
-        &.selected {
-            color: #FFF;
-            background: #5091cd;
-            border-bottom-color: #4187c9;
+        .row-actions {
+            display: none;
+            position: absolute;
+            top: 0.6rem;
+            right: 2.5rem;
 
-            .glyphicon {
-                color: #FFF;
+            .btn {
+                padding: 0;
+                width: 3.4rem;
+                height: 3.4rem;
+                text-align: center;
+                color: inherit;
             }
         }
 
+        &:hover {
+            .row-actions {
+                display: block;
+            }
+        }
+
+        &.selected {
+            color: $list-selected-color;
+            background: $list-selected-bg;
+            border-bottom: $list-selected-border;
+
+            .btn:focus,
+            .btn:hover {
+                background: transparent;
+                border-color: $list-selected-color;
+            }
+
+            .avatar {
+                .glyphicon {
+                    color: inherit;
+                }
+            }
+        }
+    }
+
+    .col {
+        &:first-child {
+            padding-left: 1.5rem;
+        }
+
+        &:last-child {
+            padding-right: 1.5rem;
+        }
     }
 
     .fb-folder {
-        .glyphicon {
-            margin-top: 0.2rem;
-            font-size: 2.1rem;
-            color: $file-browser-folder-color;
-        }
+        top: 0.4rem;
+        font-size: 2.1rem;
+        color: $fb-folder-color;
     }
 
     .fb-file {
-        .glyphicon {
-            margin-top: 0.4rem;
-            font-size: 1.8rem;
-            color: $file-browser-file-color;
-        }
+        margin-top: 0.4rem;
+        font-size: 1.8rem;
+        color: $fb-file-color;
     }
 
     .empty-directory-msg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
         padding: 1.5rem;
+        background: #EEE;
+    }
+}
+
+@media only screen
+    and (max-device-width: 768px) {
+    .fb-list {
+        .col + .col {
+            display: none;
+        }
+    }
+}
+
+@media only screen 
+    and (min-device-width: 768px)
+    and (max-device-width: 1024px) {
+    .fb-list {
+        .cell-contents {
+            .row-actions {
+                right: 1rem;
+            }
+        }
     }
 }
 
@@ -243,22 +422,101 @@ span.avatar {
 }
 
 .col.date-added-col {
-    @include flex(0 0 15rem);
+    @include flex(0 0 25%);
 }
 
 .col.file-size-col{
-    @include flex(0 0 10rem)
+    @include flex(0 0 25%)
 }
 
 @media (min-width: 1200px) {
     .col.date-added-col {
-        @include flex(0 0 20rem)
+        @include flex(0 0 30%)
     }
 
     .col.file-size-col{
-        @include flex(0 0 20rem)
+        @include flex(0 0 30%)
     }
 }
+
+$fb-details-panel-width: 35rem;
+
+.fb-details-panel {
+    @include flex(0 0 0);
+    position: relative;
+    overflow: hidden;
+    border-left: $file-browser-border;
+
+    .fb-details-content {
+        @include flexbox();
+        @include flexdirection(column);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: $fb-details-panel-width;
+
+        .title-panel {
+            @include flex(0 0 auto);
+            position: relative;
+            margin: 0 2rem;
+            padding-top: 2rem;
+            padding-bottom: 1.5rem;
+
+            h2 {
+                margin: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                font-size: 2.2rem;
+                font-weight: normal;
+            }
+
+            .close {
+                position: absolute;
+                top: 1.25rem;
+                right: 0;
+                width: 3.4rem;
+                height: 3.4rem;
+                padding: 0;
+                font-size: 2.4rem;
+                border: 1px solid transparent;
+
+                &:hover {
+                    border: 1px solid #CCC;
+                }
+            }
+        }
+
+        section {
+            margin-bottom: 3rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            h3 {
+                margin-top: 0;
+                margin-bottom: 1rem;
+                padding-bottom: 0.75rem;
+                font-size: 1.4rem;
+                font-weight: bold;
+                border-bottom: 2px solid #EEE;
+            }
+        }
+
+        .scroll-container {
+            @include flex(1 1 auto);
+            padding: 0.5rem 2rem 2rem 2rem;
+            overflow-y: auto;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+        }
+    }
+}
+
 
 /* Need to set on the 'view-body-container' when the file browser is placed within this element. */
 .file-browser-container {

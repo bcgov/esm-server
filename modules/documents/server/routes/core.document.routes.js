@@ -158,7 +158,8 @@ module.exports = function (app) {
 							internalMime            : file.mimetype,
 							internalExt             : file.extension,
 							internalSize            : file.size,
-							internalEncoding        : file.encoding
+							internalEncoding        : file.encoding,
+							directoryID             : req.headers.directoryid || 0
 						});
 					})
 					.then (resolve, reject);
@@ -211,7 +212,8 @@ module.exports = function (app) {
 							internalMime            : file.mimetype,
 							internalExt             : file.extension,
 							internalSize            : file.size,
-							internalEncoding        : file.encoding
+							internalEncoding        : file.encoding,
+							directoryID             : req.headers.directoryid || 0
 						}, req.headers.inheritmodelpermissionid, readPermissions);
 					})
 					.then (resolve, reject);
