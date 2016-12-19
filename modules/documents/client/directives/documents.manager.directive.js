@@ -13,15 +13,27 @@ angular.module('documents')
 				var tree = new TreeModel();
 				var self = this;
 
+				// DETAILS PANEL
+				var fbDetailsPanel = angular.element(document.querySelector('#fbBody'));
+
 				$scope.project.directoryStructure = $scope.project.directoryStructure || {
 						id: 1,
 						lastId: 1,
 						name: 'ROOT'
 					};
 
-				$scope.toggleDetails = function () {
-					var target = angular.element(document.querySelector('.fb-body'));
-					target.toggleClass('panel-open');
+				// NEED TO BE REVIEWED BY JAS
+				// Initial pass at getting the detail toggle functionality hooked up
+				$scope.fbToggleDetails = function () {
+					fbDetailsPanel.toggleClass('panel-open');
+				};
+
+				$scope.fbShowDetails = function () {
+					fbDetailsPanel.addClass('panel-open');
+				};
+
+				$scope.fbHideDetails = function () {
+					fbDetailsPanel.removeClass('panel-open');
 				};
 
 				self.sortedMode = 'Ascending'; // 'Descending' / 'Ascending'

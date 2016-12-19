@@ -123,6 +123,12 @@ $list-selected-border: 1px solid #4187c9;
     .fb-breadcrumbs {
         @include flex(1 1 auto);
 
+        .btn {
+            height: 3.4rem;
+            padding: 0.6rem;
+            font-weight: normal;
+        }
+
         li {
             display: inline-block;
 
@@ -142,13 +148,13 @@ $list-selected-border: 1px solid #4187c9;
             .btn {
                 font-weight: bold;
                 color: $file-browser-breadcrumb-active-color;
-            }
-        }
 
-        .btn {
-            height: 3.4rem;
-            padding: 0.6rem;
-            font-weight: normal;
+                &:hover,
+                &:focus {
+                    background: transparent;
+                    border-color: transparent;
+                }
+            }
         }
     }
 
@@ -161,6 +167,52 @@ $list-selected-border: 1px solid #4187c9;
     }
 }
 
+@media only screen 
+    and (max-width: 1024px) {
+
+    .fb-header {
+        .fb-breadcrumbs {
+            li {
+                display: none;
+
+                + li {
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            li:last-child,
+            li:nth-last-child(2) {
+                display: inline-block;
+            }
+
+            li:nth-last-child(2) {
+                position: relative;
+                margin-right: 0.25rem;
+
+                :before {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 3.2rem;
+                    height: 3.4rem;
+                    display: inline-block;
+                    line-height: 3.4rem;
+                    font-size: 4.8rem;
+                    content: '‹'; 
+                }
+
+                .btn {
+                    span {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media (min-width: 1024px) {
     .fb-header {
         .toggle-details-btn {
@@ -168,6 +220,7 @@ $list-selected-border: 1px solid #4187c9;
         }
     }
 }
+
 
 .fb-body {
     @include flex(1 1 auto);
@@ -239,7 +292,7 @@ $list-selected-border: 1px solid #4187c9;
         font-size: 1.2rem;
         font-weight: bold;
         background: $file-browser-table-header-bg;
-        z-index: 2;
+        z-index: 3;
 
         .col {
             padding: 1rem 0.5rem;
@@ -405,6 +458,7 @@ $list-selected-border: 1px solid #4187c9;
     .fb-list {
         .cell-contents {
             .row-actions {
+                display: block;
                 right: 1rem;
             }
         }
@@ -462,6 +516,7 @@ $fb-details-panel-width: 35rem;
             margin: 0 2rem;
             padding-top: 2rem;
             padding-bottom: 1.5rem;
+            z-index: 3;
 
             h2 {
                 margin: 0;
@@ -474,7 +529,7 @@ $fb-details-panel-width: 35rem;
 
             .close {
                 position: absolute;
-                top: 1.25rem;
+                top: 1.15rem;
                 right: 0;
                 width: 3.4rem;
                 height: 3.4rem;
@@ -501,12 +556,13 @@ $fb-details-panel-width: 35rem;
                 padding-bottom: 0.75rem;
                 font-size: 1.4rem;
                 font-weight: bold;
-                border-bottom: 2px solid #EEE;
+                border-bottom: 1px solid #EEE;
             }
         }
 
         .scroll-container {
             @include flex(1 1 auto);
+            position: relative;
             padding: 0.5rem 2rem 2rem 2rem;
             overflow-y: auto;
         }
