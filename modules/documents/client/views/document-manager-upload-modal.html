@@ -1,6 +1,6 @@
 
 <div class="modal-header">
-	<button ng-if="!uploadModal.uploading" type="button" class="btn btn-default close" ng-click="uploadModal.cancel()">
+	<button ng-disabled="uploadModal.uploading" type="button" class="btn btn-default close" ng-click="uploadModal.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
 	<h3 class="modal-title">Upload Documents</h3>
@@ -15,15 +15,12 @@
 </div>
 
 <div class="modal-footer">
-	<button ng-if="uploadModal.uploading" class="btn btn-default" ng-click="uploadModal.cancelUploads()" type="button">Cancel Uploads</button>
+	<button ng-if="uploadModal.uploading" class="btn btn-default" ng-click="uploadModal.cancelUploads()" type="button">Cancel</button>
 	<button ng-if="!uploadModal.uploading" class="btn btn-default" type="button" ng-click="uploadModal.cancel()">Cancel</button>
 	<button
-		ng-if="uploadModal.enableUpload"
+		ng-if="!uploadModal.uploading"
+		ng-disabled="!uploadModal.enableUpload"
 		class="btn btn-primary"
 		type="button"
-		ng-click="uploadModel.uploading || uploadModal.startUploads()">OK</button>
-	<button
-		ng-if="!uploadModal.enableUpload"
-		class="btn btn-primary disabled"
-		type="button">OK</button>
+		ng-click="uploadModel.uploading || uploadModal.startUploads()">Start Upload</button>
 </div>

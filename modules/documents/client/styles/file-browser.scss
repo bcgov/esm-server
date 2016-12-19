@@ -358,8 +358,8 @@ $list-selected-border: 1px solid #4187c9;
         @include flexbox();
         @include userselect(none);
         position: relative;
-        padding-top: 0.75rem;
-        padding-bottom: 0.75rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
         border-bottom: $file-browser-row-border;
 
         .avatar {
@@ -383,6 +383,7 @@ $list-selected-border: 1px solid #4187c9;
             right: 2.5rem;
 
             .btn {
+                margin-left: 0.5rem;
                 padding: 0;
                 width: 3.4rem;
                 height: 3.4rem;
@@ -596,25 +597,12 @@ $fb-details-panel-width: 35rem;
 $fb-upload-target-bg: transparent;
 $fb-upload-target-border: 3px dashed #CCC;
 
-.fb-upload-container {
-    .fb-upload-target {
-        margin-bottom: 2rem;
-    }
-
-    .fb-list {
-        .cell-contents {
-            .row-actions {
-                right: 1rem;
-            }
-        }
-    }
-}
-
 .fb-upload-target {
-    padding: 2rem;
+    padding: 4rem;
     background: $fb-upload-target-bg;
     border: $fb-upload-target-border;
     text-align: center;
+    transition: all ease-out 0.2s;
 
     .fb-upload-target-msg {
         font-size: 1.6rem;
@@ -633,4 +621,36 @@ $fb-upload-target-border: 3px dashed #CCC;
         margin-right: 0.5rem;
         vertical-align: middle;
     }
+
+    &:hover {
+        background: #FFF;
+    }
+}
+
+.fb-upload-container {
+    .fb-upload-target {
+        margin-bottom: 2rem;
+    }
+
+    .fb-list {
+        .cell-contents {
+            .row-actions {
+                right: 1rem;
+            }
+        }
+    }
+}
+
+/* PROGRESS BAR */
+.progress {
+    display: inline-block;
+    width: 20rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+.progress {
+    height: 1rem;
+    border-radius: 0;
 }

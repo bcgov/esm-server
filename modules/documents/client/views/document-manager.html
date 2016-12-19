@@ -62,7 +62,7 @@
 					<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
 
 					<ul>
-						<li class="clickable" ng-repeat="doc in documentMgr.currentDirs">
+						<li ng-repeat="doc in documentMgr.currentDirs">
 							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" 
 								ng-click="documentMgr.toggleDir(doc)"
 								ng-dblclick="documentMgr.selectNode(doc.model.id)">
@@ -74,25 +74,30 @@
 								</span>
 								<span class="col date-added-col">---</span>
 								<span class="col file-size-col">---</span>
-								
 								<div class="row-actions">
 									<button class="btn icon-btn" ng-click="fbShowDetails()">
 										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 									</button>
 								</div>
-
 							</span>
 						</li>
 					</ul>
 					<ul>
-						<li class="fb-file" ng-repeat="doc in documentMgr.currentFiles">
+						<li ng-repeat="doc in documentMgr.currentFiles">
 							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}" ng-click="documentMgr.toggleFile(doc)" >
-								<span class="avatar">
-									<span class="fb-file glyphicon glyphicon-file"></span>
+								<span class="col name-col">
+									<span class="avatar">
+										<span class="fb-file glyphicon glyphicon-file"></span>
+									</span>
+									{{ doc.internalOriginalName | removeExtension }}
 								</span>
-								<span class="col name-col">{{ doc.internalOriginalName | removeExtension }}</span>
 								<span class="col date-added-col">{{ doc.dateAdded | date : format : timezone }}{{ doc.updatedBy.username }}</span>
 								<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
+								<div class="row-actions">
+									<button class="btn icon-btn" ng-click="fbShowDetails()">
+										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+									</button>
+								</div>
 							</span>
 						</li>
 					</ul>

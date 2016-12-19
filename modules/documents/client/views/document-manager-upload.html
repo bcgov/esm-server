@@ -8,19 +8,31 @@
 		ngf-multiple="true"
 		ngf-allow-dir="true">
 		<span class="glyphicon glyphicon-open icon-default"></span>
-		<span class="fb-upload-target-msg"><em>Drag &amp; Drop</em> or <em>browse files</em> to upload.<span>
+		<span class="fb-upload-target-msg"><em>Drag &amp; Drop</em> or <em>browse files</em> to upload.</span>
+		<div class="fb-target-upload-border"></div>
 	</div>
 
 	<!-- FILE BROWSER -->
 	<div class="file-browser">
 		<div class="fb-body">
+			
+			<!-- FILE BROWSER LIST -->
 			<div class="fb-list">
+
 				<div class="column-header">
 					<div class="col name-col">
 						<span>Name</span>
 					</div>
 				</div>
+				
 				<ul>
+					<li ng-if="documentMgrUpload.fileList == 0">
+						<span class="cell-contents">							
+							<span class="col name-col">
+								No files added.
+							</span>
+						</span>
+					</li>
 					<li ng-repeat="f in documentMgrUpload.fileList">
 						<span class="cell-contents">							
 							<span class="col name-col">
@@ -30,22 +42,9 @@
 								{{f.name}}
 							</span>
 							<div class="row-actions">
-								<button class="btn icon-btn"
-									ng-click="documentMgrUpload.removeFile(f)">
-									<span class="glyphicon glyphicon-trash"></span>
-								</button>
-							</div>
-						</span>
-					</li>
-					<li>
-						<span class="cell-contents">							
-							<span class="col name-col">
-								<span class="avatar">
-									<span class="fb-file glyphicon glyphicon-file"></span>
-								</span>
-								File Name
-							</span>
-							<div class="row-actions">
+								<div class="progress" ng-show="f.progress > 0">
+									<div class="progress-bar" style="width:{{f.progress}}%" title="{{f.progress}}%" role="progressbar"></div>
+								</div>
 								<button class="btn icon-btn"
 									ng-click="documentMgrUpload.removeFile(f)">
 									<span class="glyphicon glyphicon-trash"></span>
@@ -54,9 +53,11 @@
 						</span>
 					</li>
 				</ul>
-			</div>
+
+			</div><!-- / FILE BROWSER LIST -->
+
 		</div>
-	</div>
+	</div><!-- / FILE BROWSER BODY -->
 
 </div>
 
@@ -86,7 +87,6 @@
 			</td>
 			<td ng-if="!f.$error && f.progress">
 				<p class="form-control-static"><a href ng-click="documentMgrUpload.cancelFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
-				<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
 			</td>
 		</tr>
 		</tbody>
