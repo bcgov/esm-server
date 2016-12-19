@@ -14,7 +14,7 @@ module.exports = function (app) {
 	//
 	// get put new delete
 	//
-	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete'], {all:'guest',get:'guest'});
+	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete', 'query'], {all:'guest',get:'guest'});
 	// Import via CSV
 	app.route ('/api/documents/import')
 		.all (policy ('guest'))

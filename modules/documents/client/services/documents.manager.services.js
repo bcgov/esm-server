@@ -29,10 +29,16 @@ function documentMgrService($http) {
 		return $http({method:'PUT', url: '/api/project/' + project._id + '/directory/move/' + sourceDir.model.id + '/' + destDir.model.id, data: {}});
 	};
 
+
+	var getDirectoryDocuments = function (project, directoryID) {
+		return $http({method: 'GET', url: '/api/query/document?project=' + project._id.toString() + '&directoryID=' + directoryID.toString()});
+	};
+
 	return {
 		addDirectory: addDirectory,
 		renameDirectory: renameDirectory,
 		removeDirectory: removeDirectory,
-		moveDirectory: moveDirectory
+		moveDirectory: moveDirectory,
+		getDirectoryDocuments: getDirectoryDocuments
 	};
 }

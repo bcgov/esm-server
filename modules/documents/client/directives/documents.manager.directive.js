@@ -5,8 +5,7 @@ angular.module('documents')
 		return {
 			restrict: 'E',
 			scope: {
-				project: '=',
-				documents: '='
+				project: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
 			controller: function ($scope, $log, _, DocumentMgrService, TreeModel, ProjectModel, Document) {
@@ -108,7 +107,6 @@ angular.module('documents')
 						theNode = self.rootNode;
 					}
 					//$log.debug('doubleClick = ', theNode.model.name);
-
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
 					self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
@@ -117,24 +115,38 @@ angular.module('documents')
 					self.currentDirs = [];
 					self.selectedDirs = [];
 					self.selectedFiles = [];
+					$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
+					DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
+						.then(
+							function (result) {
+								$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
+								self.unsortedFiles = result.data || [];
 
-					_.each($scope.documents, function (d) {
-						if (d.directoryID === nodeId) {
-							self.unsortedFiles.push(d);
-						}
-					});
-					_.each(self.currentNode.children, function (n) {
-						self.unsortedDirs.push(n);
-					});
-					self.sort(self.sortedMode);
-					// since we loaded this, make it the selected node
-					self.selectedNode = self.currentNode;
+								_.each(self.currentNode.children, function (n) {
+									self.unsortedDirs.push(n);
+								});
+
+								self.sort(self.sortedMode);
+								// since we loaded this, make it the selected node
+								self.selectedNode = self.currentNode;
+							},
+							function (error) {
+								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
+							}
+						);
 				};
 
 				self.addDisabled = function() {
 					return self.selectedNode === undefined;
 				};
 
+				$scope.$on('documentMgrRefreshNode', function(event, args) {
+					if (args.nodeId) {
+						self.selectNode(self.currentNode.model.id);
+					}
+				});
+
+				// set it up at the root...
 				$scope.$watch(function (scope) {
 						return scope.project.directoryStructure;
 					},
@@ -145,142 +157,6 @@ angular.module('documents')
 					}
 				);
 
-
-				self.entryText = '';
-				self.addDirectory = function () {
-					if (_.isEmpty(self.entryText)) {
-						alert('Name is required to create a new Directory');
-						return;
-					}
-					var node = self.currentNode || self.rootNode;
-					DocumentMgrService.addDirectory($scope.project, node, self.entryText)
-						.then(
-							function (result) {
-								self.rootNode = tree.parse(result.data);
-								self.selectNode(node.model.id);
-								self.entryText = '';
-							},
-							function (error) {
-								$log.debug('addDirectory error: ', JSON.stringify(error));
-							}
-						);
-				};
-				self.renameDirectory = function () {
-					if (!self.currentNode) {
-						// need a node...  message...
-						alert('No directory selected, cannot rename');
-						return;
-					}
-					if (_.isEmpty(self.entryText)) {
-						alert('New name is required to rename a Directory');
-						return;
-					}
-					if (self.currentNode.model.id === 1) {
-						// can't delete root
-						alert('Cannot rename ROOT');
-						return;
-					}
-					DocumentMgrService.renameDirectory($scope.project, self.currentNode, self.entryText)
-						.then(
-							function (result) {
-								self.rootNode = tree.parse(result.data);
-								self.selectNode(self.currentNode.model.id);
-								self.entryText = '';
-							},
-							function (error) {
-								$log.debug('renameDirectory error: ', JSON.stringify(error));
-							}
-						);
-				};
-				self.removeDirectory = function () {
-					if (!self.currentNode) {
-						// need a node...  message...
-						alert('No directory selected');
-						return;
-					}
-					if (self.currentNode.model.id === 1) {
-						// can't delete root
-						alert('Cannot remove ROOT');
-						return;
-					}
-					// cannot drop root
-					// check for documents, prompt if not empty
-					// get parent node...
-					var parentNode = self.currentNode.parent || self.rootNode;
-					DocumentMgrService.removeDirectory($scope.project, self.currentNode)
-						.then(
-							function (result) {
-								self.rootNode = tree.parse(result.data);
-								self.selectNode(parentNode.model.id);
-								self.entryText = '';
-							},
-							function (error) {
-								$log.debug('removeDirectory error: ', JSON.stringify(error));
-							}
-						);
-				};
-				self.moveDirectory = function () {
-					// this will be done via drag drop, not textual lookup...
-					var destNode = self.rootNode.first(function (n) {
-						return n.model.name === self.entryText;
-					});
-					if (!destNode) {
-						// need a node...  message...
-						alert('Destination directory "' + self.entryText + '" not found.');
-						return;
-					}
-					if (!self.currentNode) {
-						// need a node...  message...
-						alert('No directory selected to move.');
-						return;
-					}
-					if (self.currentNode.model.id === 1) {
-						// can't delete root
-						alert('Cannot rename ROOT');
-						return;
-					}
-					DocumentMgrService.moveDirectory($scope.project, self.currentNode, destNode)
-						.then(
-							function (result) {
-								self.rootNode = tree.parse(result.data);
-								self.selectNode(destNode.model.id);
-								self.entryText = '';
-							},
-							function (error) {
-								$log.debug('moveDirectory error: ', JSON.stringify(error));
-							}
-						);
-				};
-
-				var refreshDocuments = function () {
-					Document.getProjectDocuments($scope.project._id, 'false')
-						.then(
-							function (data) {
-								$scope.documents = data;
-							},
-							function (error) {
-								$log.debug('refreshDocuments error: ', JSON.stringify(error));
-							}
-						);
-				};
-
-				$scope.$on('documentMgrRefreshNode', function(event, args) {
-					if (args.nodeId === self.currentNode.model.id) {
-						Document.getProjectDocuments($scope.project._id, 'false')
-							.then(
-								function (data) {
-									$scope.documents = data;
-									self.selectNode(self.currentNode.model.id);
-								},
-								function (error) {
-									$log.debug('documentMgrRefreshNode.refreshDocuments error: ', JSON.stringify(error));
-								}
-							);
-					}
-				});
-
-				// set it up at the root...
-				self.selectNode(self.rootNode.model.id);
 			},
 			controllerAs: 'documentMgr'
 		};
