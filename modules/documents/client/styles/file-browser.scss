@@ -600,6 +600,14 @@ $fb-upload-target-border: 3px dashed #CCC;
     .fb-upload-target {
         margin-bottom: 2rem;
     }
+
+    .fb-list {
+        .cell-contents {
+            .row-actions {
+                right: 1rem;
+            }
+        }
+    }
 }
 
 .fb-upload-target {
