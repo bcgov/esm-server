@@ -51,6 +51,11 @@ $list-selected-border: 1px solid #4187c9;
     text-align: right;
 }
 
+.icon-default {
+    font-size: 2.4rem;
+}
+
+
 /* CUSTOM BUTTON STYLING */
 .icon-btn {
     min-width: 3.4rem;
@@ -373,7 +378,6 @@ $list-selected-border: 1px solid #4187c9;
         }
 
         .row-actions {
-            display: none;
             position: absolute;
             top: 0.6rem;
             right: 2.5rem;
@@ -429,7 +433,7 @@ $list-selected-border: 1px solid #4187c9;
     }
 
     .fb-file {
-        margin-top: 0.4rem;
+        top: 0.4rem;
         font-size: 1.8rem;
         color: $fb-file-color;
     }
@@ -584,5 +588,41 @@ $fb-details-panel-width: 35rem;
         right: 1.5rem;
         bottom: 1.5rem;
         left: 1.5rem;
+    }
+}
+
+
+/* File Upload */
+$fb-upload-target-bg: transparent;
+$fb-upload-target-border: 3px dashed #CCC;
+
+.fb-upload-container {
+    .fb-upload-target {
+        margin-bottom: 2rem;
+    }
+}
+
+.fb-upload-target {
+    padding: 2rem;
+    background: $fb-upload-target-bg;
+    border: $fb-upload-target-border;
+    text-align: center;
+
+    .fb-upload-target-msg {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #999;
+    }
+
+    em {
+        font-style: normal;
+        font-weight: bold;
+        color: #494949;
+    }
+
+    .glyphicon {
+        top: -0.3rem;
+        margin-right: 0.5rem;
+        vertical-align: middle;
     }
 }

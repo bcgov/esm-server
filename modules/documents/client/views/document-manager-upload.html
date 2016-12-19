@@ -1,17 +1,50 @@
-<label class="control-label">Upload Documents</label>
-<div class="well well-sm clearfix">
-	<div class="row">
-		<div class="col-md-12">
-			<div ngf-drop ngf-select
-				 ng-model="files"
-				 class="drop-box"
-				 ngf-drag-over-class="dragover"
-				 ngf-multiple="true"
-				 ngf-allow-dir="true">Drop files here or click to select
+
+<div class="fb-upload-container">
+	
+	<!-- UPLOAD TARGET -->
+	<div class="fb-upload-target" ngf-drop ngf-select
+		ng-model="files"
+		ngf-drag-over-class="upload-target-hover"
+		ngf-multiple="true"
+		ngf-allow-dir="true">
+		<span class="glyphicon glyphicon-open icon-default"></span>
+		<span class="fb-upload-target-msg"><em>Drag &amp; Drop</em> or <em>browse files</em> to upload.<span>
+	</div>
+
+	<!-- FILE BROWSER -->
+	<div class="file-browser">
+		<div class="fb-body">
+			<div class="fb-list">
+				<div class="column-header">
+					<div class="col name-col">
+						<span>Name</span>
+					</div>
+				</div>
+				<ul>
+					<li ng-repeat="f in documentMgrUpload.fileList">
+						<span class="cell-contents">							
+							<span class="col name-col">
+								<span class="avatar">
+									<span class="fb-file glyphicon glyphicon-file"></span>
+								</span>
+								{{f.name}}
+							</span>
+							<div class="row-actions">
+								<button class="btn icon-btn"
+									ng-click="documentMgrUpload.removeFile(f)">
+									<span class="glyphicon glyphicon-trash"></span>
+								</button>
+							</div>
+						</span>
+					</li>
+				</ul>
 			</div>
 		</div>
 	</div>
 
+</div>
+
+	<!--
 	<table class="table table-condensed">
 		<thead>
 		<tr class="small">
@@ -25,18 +58,10 @@
 				<p class="form-control-static">File Drag/Drop is not supported for this browser</p>
 			</td>
 		</tr>
-		<tr ng-if="!files">
-			<td class="text-center" class="text-center">
-				<p class="form-control-static">Drag a file to the dashed region above to upload.</p>
-			</td>
-		</tr>
 		<tr ng-repeat="f in documentMgrUpload.fileList" ng-class="{'danger': f.$error}">
-
-
 			<td ng-if="f.$error">
 				<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
 			</td>
-
 			<td ng-if="!f.$error">
 				<p class="form-control-static">{{f.name}}</p>
 			</td>
@@ -44,12 +69,13 @@
 				<p class="form-control-static"><a href ng-click="documentMgrUpload.removeFile(f)"><span class="glyphicon glyphicon-trash"></span></a></p>
 			</td>
 			<td ng-if="!f.$error && f.progress">
-				<!-- <p class="form-control-static"><a href ng-click="documentMgrUpload.cancelFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p> -->
+				<p class="form-control-static"><a href ng-click="documentMgrUpload.cancelFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
 				<div class="progress" ng-show="f.progress >= 0" style="margin-top: 7px;"><div class="progress-bar progress-bar-success" role="progressbar" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">{{ f.progress }}</div></div>
 			</td>
 		</tr>
 		</tbody>
 	</table>
+	-->
 
 	<!--
 	<div class="row" ng-if="!documentMgrUpload.inProgress && !documentMgrUpload.hideUploadButton">
@@ -67,5 +93,4 @@
 		</div>
 	</div>
 	-->
-</div>
 
