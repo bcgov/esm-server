@@ -176,7 +176,9 @@ module.exports = DBModel.extend ({
 	},
 	// Used for managing folder structures in the application.
 	addDirectory: function (projectId, folderName, parentId) {
+		console.log("adding dir:", folderName);
 		var self = this;
+		var newNodeId;
 		return new Promise(function (resolve, reject) {
 			return self.findById(projectId)
 			.then(function (project) {
@@ -206,7 +208,8 @@ module.exports = DBModel.extend ({
 					}
 
 					root.model.lastId += 1;
-					theNode.addChild(tree.parse({id: root.model.lastId, name: folderName}));
+					var node = theNode.addChild(tree.parse({id: root.model.lastId, name: folderName}));
+					newNodeId = node.model.id;
 				} else {
 					// If we didn't find the node, this is an error.
 					return null;
@@ -217,6 +220,7 @@ module.exports = DBModel.extend ({
 			})
 			.then(function (p) {
 				if (p) {
+					p.directoryStructure.createdNodeId = newNodeId;
 					resolve(p.directoryStructure);
 				} else {
 					reject(new Error("ERR: Couldn't create directory."));

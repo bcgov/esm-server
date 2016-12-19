@@ -5,16 +5,18 @@ documentMgrService.$inject = ['$http'];
 /* @ngInject */
 function documentMgrService($http) {
 
-	// PUT /api/project/:project/directory/add/:foldername/:parentid'
+	// PUT /api/project/:project/directory/add/:parentid'
+	// Body: foldername: foldername
 
 	var addDirectory = function(project, parentDir, newdirname) {
-		return $http({method:'PUT', url: '/api/project/' + project._id + '/directory/add/' + newdirname + '/' + parentDir.model.id, data: {}});
+		return $http({method:'PUT', url: '/api/project/' + project._id + '/directory/add/' + parentDir.model.id, data: {foldername: newdirname}});
 	};
 
-	// PUT /api/project/:project/directory/rename/:folderid/:newname')
+	// PUT /api/project/:project/directory/rename/:folderid')
+	// Body: foldername: newname
 
 	var renameDirectory = function(project, dir, newname) {
-		return $http({method:'PUT', url: '/api/project/' + project._id + '/directory/rename/' + dir.model.id + '/' + newname, data: {}});
+		return $http({method:'PUT', url: '/api/project/' + project._id + '/directory/rename/' + dir.model.id, data: {foldername: newname}});
 	};
 
 	// PUT /api/project/:project/directory/remove/:folderid
