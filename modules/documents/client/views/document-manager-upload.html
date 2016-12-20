@@ -33,14 +33,14 @@
 				</div>
 				
 				<ul>
-					<li ng-if="documentMgrUpload.fileList == 0">
+					<li ng-if="uploadService.fileList == 0">
 						<span class="cell-contents">							
 							<span class="col name-col">
 								No files added.
 							</span>
 						</span>
 					</li>
-					<li ng-repeat="f in documentMgrUpload.fileList">
+					<li ng-repeat="f in uploadService.fileList">
 						<span class="cell-contents">							
 							<span class="col name-col">
 								<span class="avatar">
@@ -60,7 +60,7 @@
 									</div>
 								</div>
 								<button class="btn icon-btn"
-									ng-click="documentMgrUpload.removeFile(f)">
+									ng-click="uploadService.removeFile(f)">
 									<span class="glyphicon glyphicon-trash"></span>
 								</button>
 							</span>
@@ -74,53 +74,3 @@
 	</div><!-- / FILE BROWSER BODY -->
 
 </div>
-
-	<!--
-	<table class="table table-condensed">
-		<thead>
-		<tr class="small">
-			<th width="90%">File</th>
-			<th width="10%"></th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr ngf-no-file-drop>
-			<td class="text-center">
-				<p class="form-control-static">File Drag/Drop is not supported for this browser</p>
-			</td>
-		</tr>
-		<tr ng-repeat="f in documentMgrUpload.fileList" ng-class="{'danger': f.$error}">
-			<td ng-if="f.$error">
-				<p class="form-control-static text-danger">FILE ERROR: {{f.name}} {{f.$error}} {{f.$errorParam}}</p>
-			</td>
-			<td ng-if="!f.$error">
-				<p class="form-control-static">{{f.name}}</p>
-			</td>
-			<td ng-if="!f.$error && !f.progress" class="text-right">
-				<p class="form-control-static"><a href ng-click="documentMgrUpload.removeFile(f)"><span class="glyphicon glyphicon-trash"></span></a></p>
-			</td>
-			<td ng-if="!f.$error && f.progress">
-				<p class="form-control-static"><a href ng-click="documentMgrUpload.cancelFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
-			</td>
-		</tr>
-		</tbody>
-	</table>
-	-->
-
-	<!--
-	<div class="row" ng-if="!documentMgrUpload.inProgress && !documentMgrUpload.hideUploadButton">
-		<div class="col-sm-12 text-right">
-			<button ng-click="documentMgrUpload.upload()" ng-if="documentMgrUpload.fileList.length > 0" class="btn btn-success">
-				Upload Queued Documents
-			</button>
-		</div>
-	</div>
-	<div class="row" ng-if="documentMgrUpload.inProgress && !documentMgrUpload.hideUploadButton">
-		<div class="col-sm-12 text-right">
-			<button ng-click="documentMgrUpload.cancelAll()" ng-if="documentMgrUpload.fileList.length > 0" class="btn btn-success">
-				Cancel Uploads
-			</button>
-		</div>
-	</div>
-	-->
-
