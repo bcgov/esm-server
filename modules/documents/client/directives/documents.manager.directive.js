@@ -311,6 +311,7 @@ angular.module('documents')
 							var self = this;
 
 							$scope.uploadService = DocumentsUploadService;
+							$scope.uploadService.reset(); // just in case... want the upload service to be cleared
 
 							$scope.project = scope.project;
 							$scope.node = scope.node || scope.root;
@@ -322,7 +323,7 @@ angular.module('documents')
 
 							self.title = "Upload Documents to '" + self.selectedNode.model.name + "'";
 							if (self.selectedNode.model.name === 'ROOT') {
-								self.title = "Add Folder to Project '" + $scope.project.name + "'";
+								self.title = "Upload Documents to Project '" + $scope.project.name + "'";
 							}
 
 							var getTargetUrl = function(type) {
@@ -337,12 +338,23 @@ angular.module('documents')
 							};
 
 							self.cancel = function () {
+								$scope.uploadService.reset();
 								$modalInstance.dismiss('cancel');
 							};
 
 							self.startUploads = function () {
 								DocumentsUploadService.startUploads(getTargetUrl(self.type), self.selectedNode.model.id, false);
 							};
+
+							$scope.$watch(function ($scope) {
+									return $scope.uploadService.actions.completed;
+								},
+								function (completed) {
+									if (completed) {
+										$rootScope.$broadcast('documentMgrRefreshNode', {nodeId: self.selectedNode.model.id});
+									}
+								}
+							);
 
 						}
 					}).result.then(function (data) {
