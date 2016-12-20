@@ -49,28 +49,47 @@ angular.module('documents')
 				self.selectedDirs = [];
 				self.selectedFiles = [];
 
+				self.selectedItem = undefined;
+
+				self.setSelectedItem = function() {
+					if (_.size(self.selectedDirs) === 1 && _.size(self.selectedFiles) === 0) {
+						self.selectedItem = {type: 'Folder', item: self.selectedDirs[0]};
+					} else if (_.size(self.selectedFiles) === 1 && _.size(self.selectedDirs) === 0) {
+						self.selectedItem = {type: 'File', item: self.selectedFiles[0]};
+					} else {
+						self.selectedItem = undefined;
+					}
+				};
+
 				self.selectedDirIndex = function(dir) {
 					return _.findIndex(self.selectedDirs, function(n) { return n.model.id === dir.model.id; });
 				};
 				self.toggleDir = function(dir) {
+					self.selectedFiles = [];// make single select for now...
 					var idx = self.selectedDirIndex(dir);
 					if (idx > -1) {
 						_.pullAt(self.selectedDirs, idx);
+
 					} else {
+						self.selectedDirs = [];// make single select for now...
 						self.selectedDirs.push(dir);
 					}
+					self.setSelectedItem();
 				};
 
 				self.selectedFileIndex = function(file) {
 					return _.findIndex(self.selectedFiles, function(n) { return n._id.toString() === file._id.toString(); });
 				};
 				self.toggleFile = function(file) {
+					self.selectedDirs = [];// make single select for now...
 					var idx = self.selectedFileIndex(file);
 					if (idx > -1) {
 						_.pullAt(self.selectedFiles, idx);
 					} else {
+						self.selectedFiles = [];// make single select for now...
 						self.selectedFiles.push(file);
 					}
+					self.setSelectedItem();
 				};
 
 				self.sort = function (sortMode) {
@@ -80,7 +99,9 @@ angular.module('documents')
 						return f.internalOriginalName.toLowerCase();
 					});
 					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
-						return d.model.name.toLowerCase();
+						var name;
+						d.model.name === null ? name = d.model.name : name = d.model.name.toLowerCase();
+						return name;
 					});
 					if (sortMode === 'Descending') {
 						self.currentFiles = _(self.currentFiles).reverse().value();
@@ -292,6 +313,7 @@ angular.module('documents')
 							var self = this;
 
 							$scope.uploadService = DocumentsUploadService;
+							$scope.uploadService.reset(); // just in case... want the upload service to be cleared
 
 							$scope.project = scope.project;
 							$scope.node = scope.node || scope.root;
@@ -303,7 +325,7 @@ angular.module('documents')
 
 							self.title = "Upload Documents to '" + self.selectedNode.model.name + "'";
 							if (self.selectedNode.model.name === 'ROOT') {
-								self.title = "Add Folder to Project '" + $scope.project.name + "'";
+								self.title = "Upload Documents to Project '" + $scope.project.name + "'";
 							}
 
 							var getTargetUrl = function(type) {
@@ -318,12 +340,23 @@ angular.module('documents')
 							};
 
 							self.cancel = function () {
+								$scope.uploadService.reset();
 								$modalInstance.dismiss('cancel');
 							};
 
 							self.startUploads = function () {
 								DocumentsUploadService.startUploads(getTargetUrl(self.type), self.selectedNode.model.id, false);
 							};
+
+							$scope.$watch(function ($scope) {
+									return $scope.uploadService.actions.completed;
+								},
+								function (completed) {
+									if (completed) {
+										$rootScope.$broadcast('documentMgrRefreshNode', {nodeId: self.selectedNode.model.id});
+									}
+								}
+							);
 
 						}
 					}).result.then(function (data) {

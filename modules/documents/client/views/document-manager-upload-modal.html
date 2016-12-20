@@ -3,7 +3,7 @@
 	<button ng-disabled="uploadService.actions.busy" type="button" class="btn btn-default close" ng-click="uploadModal.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<h3 class="modal-title">Upload Files</h3>
+	<h3 class="modal-title">{{uploadModal.title}}</h3>
 </div>
 
 <div class="modal-body">
@@ -17,6 +17,8 @@
 <!--
 <div>
 	Busy?: {{uploadService.actions.busy}}<br>
+	Started?: {{uploadService.actions.started}}<br>
+	Completed?: {{uploadService.actions.completed}}<br>
 	Allow Upload: {{uploadService.actions.allowStart}}<br>
 	Allow Stop: {{uploadService.actions.allowStop}}<br>
 	Allow Reset: {{uploadService.actions.allowReset}}<br>
