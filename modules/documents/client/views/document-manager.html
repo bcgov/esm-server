@@ -25,8 +25,8 @@
 				x-type="'project'"
 				title="Upload Files"><span class="glyphicon glyphicon-open"></span></button>
 
-			<button class="toggle-details-btn btn icon-btn" title="Show Details"
-				ng-click="fbToggleDetails()"><span class="glyphicon glyphicon-info-sign"></span></button>
+			<button class="toggle-details-btn btn icon-btn" title="Show Details" ng-disabled="!documentMgr.selectedItem"
+					ng-click="fbToggleDetails()"><span class="glyphicon glyphicon-info-sign"></span></button>
 		</div>
 	</div>
 
@@ -49,12 +49,16 @@
 					<span>Name</span>
 					<span class="sort-icon"></span>
 				</div>
-				<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
-					<span>Date Added</span>
-				</div>
 				<div class="col file-size-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
 					<span>File Size</span>
 				</div>
+				<!--div class="col " ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+					<span>File Format</span>
+				</div-->
+				<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+					<span>Date Added</span>
+				</div>
+
 			</div>
 			<div class="scroll-container">
 				<div class="scroll-container-inner">
@@ -72,8 +76,9 @@
 									</span>
 									{{ doc.model.name }}
 								</span>
-								<span class="col date-added-col">---</span>
 								<span class="col file-size-col">---</span>
+								<!--span class="col ">---</span-->
+								<span class="col date-added-col">---</span>
 								<div class="row-actions">
 									<button class="btn icon-btn" ng-click="fbShowDetails()">
 										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
@@ -91,8 +96,9 @@
 									</span>
 									{{ doc.internalOriginalName | removeExtension }}
 								</span>
-								<span class="col date-added-col">{{ doc.dateAdded | date : format : timezone }}{{ doc.updatedBy.username }}</span>
 								<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
+								<!--span class="col ">{{ doc.internalExt}}</span-->
+								<span class="col date-added-col">{{ doc.dateUpdated | date : format : timezone }}</span>
 								<div class="row-actions">
 									<button class="btn icon-btn" ng-click="fbShowDetails()">
 										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
@@ -117,62 +123,122 @@
 						</svg>
 					</div>
 				</div>
+				<div ng-if="documentMgr.selectedItem && documentMgr.selectedItem.type === 'File'">
+					<div class="title-panel">
+						<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h2>{{documentMgr.selectedItem.item.internalOriginalName | removeExtension }}</h2>
+						<!--
+						<h2>Fetching Details...</h2>
+						-->
+					</div>
 
-				<div class="title-panel">
-					<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
-            			<span aria-hidden="true">&times;</span>
-        			</button>
-					<h2>File Name</h2>
-					<!--
-					<h2>Fetching Details...</h2>
-					-->
+					<div class="scroll-container">
+
+						<section>
+							<h3>Details</h3>
+							<ul class="nv-pair">
+								<li>
+									<span class="name">Status</span>
+									<span class="value">
+										<span class="label label-success" ng-if="documentMgr.selectedItem.item.isPublished">Published</span>
+										<span class="label label-info" ng-if="!documentMgr.selectedItem.item.isPublished">Not Published</span>
+									</span>
+								</li>
+								<li>
+									<span class="name">Last Modified</span>
+									<span class="value">{{ documentMgr.selectedItem.item.dateUpdated | date : format : timezone }}</span>
+								</li>
+								<li>
+									<span class="name">Modified by</span>
+									<span class="value">{{ documentMgr.selectedItem.item.updatedBy.displayName }}</span>
+								</li>
+								<li>
+									<span class="name">File Size</span>
+									<span class="value">{{ documentMgr.selectedItem.item.internalSize | bytes:2 }}</span>
+								</li>
+							</ul>
+						</section>
+						<section>
+							<h3>Description</h3>
+							<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>
+						</section>
+						<section>
+							<h3>Keywords</h3>
+							<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>
+						</section>
+						<section>
+							<h3>Related Content</h3>
+							<ul class="nv-pair">
+								<li><a href="#">Related Content 1</a></li>
+								<li><a href="#">Related Content 2</a></li>
+								<li><a href="#">Related Content 3</a></li>
+								<li><a href="#">Related Content 4</a></li>
+								<li><a href="#">Related Content 5</a></li>
+								<li><a href="#">Related Content 6</a></li>
+							</ul>
+						</section>
+
+					</div>
 				</div>
+				<div ng-if="documentMgr.selectedItem && documentMgr.selectedItem.type === 'Folder'">
+					<div class="title-panel">
+						<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h2>{{documentMgr.selectedItem.item.model.name}}</h2>
+						<!--
+						<h2>Fetching Details...</h2>
+						-->
+					</div>
 
-				<div class="scroll-container">
+					<div class="scroll-container">
 
-					<section>
-						<h3>Details</h3>
-						<ul class="nv-pair">
-							<li>
-								<span class="name">Status</span>
-								<span class="value">
-									<span class="label label-success">Published</span>
-								</span>
-							</li>
-							<li>
-								<span class="name">Last Modified</span>
-								<span class="value">YYYY/MM/DD</span>
-							</li>
-							<li>
-								<span class="name">Modified by</span>
-								<span class="value">---</span>
-							</li>
-							<li>
-								<span class="name">File Size</span>
-								<span class="value">---</span>
-							</li>
-						</ul>
-					</section>
-					<section>
-						<h3>Description</h3>
-						<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>	
-					</section>
-					<section>
-						<h3>Keywords</h3>
-						<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>	
-					</section>
-					<section>
-						<h3>Related Content</h3>
-						<ul class="nv-pair">
-							<li><a href="#">Related Content 1</a></li>
-							<li><a href="#">Related Content 2</a></li>
-							<li><a href="#">Related Content 3</a></li>
-							<li><a href="#">Related Content 4</a></li>
-							<li><a href="#">Related Content 5</a></li>
-							<li><a href="#">Related Content 6</a></li>
-						</ul>
-					</section>
+						<section>
+							<h3>Details</h3>
+							<ul class="nv-pair" hidden>
+								<li>
+									<span class="name">Status</span>
+									<span class="value">
+										<span class="label label-success">Published</span>
+									</span>
+								</li>
+								<li>
+									<span class="name">Last Modified</span>
+									<span class="value">YYYY/MM/DD</span>
+								</li>
+								<li>
+									<span class="name">Modified by</span>
+									<span class="value">---</span>
+								</li>
+								<li>
+									<span class="name">File Size</span>
+									<span class="value">---</span>
+								</li>
+							</ul>
+						</section>
+						<section>
+							<h3>Description</h3>
+							<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>
+						</section>
+						<section>
+							<h3>Keywords</h3>
+							<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>
+						</section>
+						<section>
+							<h3>Related Content</h3>
+							<ul class="nv-pair">
+								<li><a href="#">Related Content 1</a></li>
+								<li><a href="#">Related Content 2</a></li>
+								<li><a href="#">Related Content 3</a></li>
+								<li><a href="#">Related Content 4</a></li>
+								<li><a href="#">Related Content 5</a></li>
+								<li><a href="#">Related Content 6</a></li>
+							</ul>
+						</section>
 
+					</div>
 				</div>
 			</div>
 		</div>

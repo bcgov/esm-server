@@ -49,28 +49,47 @@ angular.module('documents')
 				self.selectedDirs = [];
 				self.selectedFiles = [];
 
+				self.selectedItem = undefined;
+
+				self.setSelectedItem = function() {
+					if (_.size(self.selectedDirs) === 1 && _.size(self.selectedFiles) === 0) {
+						self.selectedItem = {type: 'Folder', item: self.selectedDirs[0]};
+					} else if (_.size(self.selectedFiles) === 1 && _.size(self.selectedDirs) === 0) {
+						self.selectedItem = {type: 'File', item: self.selectedFiles[0]};
+					} else {
+						self.selectedItem = undefined;
+					}
+				};
+
 				self.selectedDirIndex = function(dir) {
 					return _.findIndex(self.selectedDirs, function(n) { return n.model.id === dir.model.id; });
 				};
 				self.toggleDir = function(dir) {
+					self.selectedFiles = [];// make single select for now...
 					var idx = self.selectedDirIndex(dir);
 					if (idx > -1) {
 						_.pullAt(self.selectedDirs, idx);
+
 					} else {
+						self.selectedDirs = [];// make single select for now...
 						self.selectedDirs.push(dir);
 					}
+					self.setSelectedItem();
 				};
 
 				self.selectedFileIndex = function(file) {
 					return _.findIndex(self.selectedFiles, function(n) { return n._id.toString() === file._id.toString(); });
 				};
 				self.toggleFile = function(file) {
+					self.selectedDirs = [];// make single select for now...
 					var idx = self.selectedFileIndex(file);
 					if (idx > -1) {
 						_.pullAt(self.selectedFiles, idx);
 					} else {
+						self.selectedFiles = [];// make single select for now...
 						self.selectedFiles.push(file);
 					}
+					self.setSelectedItem();
 				};
 
 				self.sort = function (sortMode) {
