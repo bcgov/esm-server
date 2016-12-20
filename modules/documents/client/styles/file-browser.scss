@@ -16,6 +16,7 @@ $file-browser-row-hover-bg: #f7f8fa;
 
 $fb-folder-color: #999;
 $fb-file-color: #CCC;
+$fb-error-color: #494949;
 
 $list-selected-color: #FFF;
 $list-selected-bg: #5091cd;
@@ -438,6 +439,12 @@ $list-selected-border: 1px solid #4187c9;
         color: $fb-file-color;
     }
 
+    .fb-error {
+        top: 0.4rem;
+        font-size: 1.8rem;
+        color: $fb-error-color;
+    }
+
     .empty-directory-msg {
         position: absolute;
         width: 100%;
@@ -611,6 +618,7 @@ $fb-upload-target-border: 2px dashed #BBB;
     height: $fb-upload-target-height;
     background: $fb-upload-target-bg;
     text-align: center;
+    opacity: 0.5;
 }
 
 .fb-upload-target {
@@ -627,7 +635,6 @@ $fb-upload-target-border: 2px dashed #BBB;
        border: $fb-upload-target-border;
     }
 
-    &:hover,
     &.fb-upload-target-hover {
         padding: 1rem;
         background: $fb-upload-target-hover-bg;
@@ -685,6 +692,12 @@ $fb-upload-target-border: 2px dashed #BBB;
     }
 }
 
+.fb-upload-count {
+    display: block;
+    padding: 0.6rem;
+    font-weight: bold;
+}
+
 
 /* PROGRESS BAR */
 .progress {
@@ -703,7 +716,8 @@ $fb-upload-target-border: 2px dashed #BBB;
     overflow: visible;
 
     .progress-container {
-        padding-right: 5rem;
+        padding-right: 4rem;
+        font-size: 1.2rem;
     }
 
     .btn {

@@ -21,10 +21,7 @@
 
 		<!-- UPLOAD STATUS -->
 		<div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed">
-			<div class="fb-upload-target-content">
-				<span class="fb-upload-target-msg" ng-if="uploadService.actions.busy"><b>Upload in Progress...</b></span>
-				<span class="fb-upload-target-msg" ng-if="uploadService.actions.completed"><b>Upload Complete</b></span>
-			</div>
+
 		</div>
 	</div>
 
@@ -35,7 +32,7 @@
 			<!-- FILE BROWSER LIST -->
 			<div class="fb-list">
 
-				<div class="column-header">
+				<div class="column-header" ng-if="uploadService.fileList != 0">
 					<div class="col name-col">
 						<span>Name</span>
 					</div>
@@ -44,19 +41,14 @@
 					</div>
 				</div>
 				
-				<ul>
-					<li ng-if="uploadService.fileList == 0">
-						<span class="cell-contents">							
-							<span class="col name-col">
-								No files added.
-							</span>
-						</span>
-					</li>
+				<ul ng-if="uploadService.fileList != 0">
 					<li ng-repeat="f in uploadService.fileList">
 						<span class="cell-contents">							
 							<span class="col name-col">
 								<span class="avatar">
-									<span class="fb-file glyphicon glyphicon-file"></span>
+									<span class="fb-error glyphicon glyphicon-ok" ng-if="f.progress == 100"></span>
+									<span class="fb-error glyphicon glyphicon-alert" ng-if="f.$error"></span>
+									<span class="fb-file glyphicon glyphicon-file" ng-if="f.progress != 100 && !f.$error"></span>
 								</span>
 								{{f.name}}
 							</span>
@@ -64,8 +56,8 @@
 								<div class="progress-container">
 									<div class="progress-msg">
 										<span ng-if="f.progress && f.progress < 100">{{f.progress}}% of </span> 
-										<span>{{f.size}}</span>
-										<span ng-if="f.progress == 100"> - Upload Complete</span>
+										<span>{{f.size | bytes:2}}</span>
+										<span ng-if="f.progress == 100"> - Complete</span>
 									</div>
 									<div class="progress">
 										<div class="progress-bar" style="width:{{f.progress}}%" title="{{f.progress}}%" role="progressbar"></div>
