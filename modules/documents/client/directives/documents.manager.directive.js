@@ -99,7 +99,9 @@ angular.module('documents')
 						return f.internalOriginalName.toLowerCase();
 					});
 					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
-						return d.model.name.toLowerCase();
+						var name;
+						d.model.name === null ? name = d.model.name : name = d.model.name.toLowerCase();
+						return name;
 					});
 					if (sortMode === 'Descending') {
 						self.currentFiles = _(self.currentFiles).reverse().value();
