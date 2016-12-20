@@ -100,7 +100,11 @@ angular.module('documents')
 					});
 					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
 						var name;
-						d.model.name === null ? name = d.model.name : name = d.model.name.toLowerCase();
+						if (d.model.name) {
+							name = d.model.name.toLowerCase();
+						} else {
+							name = null;	
+						}
 						return name;
 					});
 					if (sortMode === 'Descending') {
