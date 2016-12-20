@@ -115,8 +115,8 @@ angular.module('documents')
 						return f.internalOriginalName.toLowerCase();
 					});
 					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
-						if (d.model.name === null) {
-							return d.model.name;
+						if (_.isEmpty(d.model.name)) {
+							return null;
 						}
 						return d.model.name.toLowerCase();
 					});
