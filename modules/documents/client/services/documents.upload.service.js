@@ -1,0 +1,209 @@
+'use strict';
+
+angular.module('documents')
+	.service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'DocumentMgrService', 'Document', function ($rootScope, $timeout, $log, Upload, _, DocumentMgrService, Document) {
+
+		var inProgressFiles = [];
+
+
+		var initialize = function(service) {
+			if (service.actions.busy) {
+				return;
+			}
+			inProgressFiles = [];
+			service.actions.busy = false;
+			service.counts.uploading = 0;
+			service.counts.uploaded = 0;
+			service.counts.failed = 0;
+			service.counts.cancelled = 0;
+			service.counts.total = _.size(service.fileList);
+			setAllowedActions(service);
+		};
+
+		var checkInProgressStatus = function(service) {
+			if (service.actions.busy) {
+				service.counts.uploading = _.filter(inProgressFiles, function(f) { return 'In Progress' === f.status; }).length;
+				service.counts.uploaded = _.filter(inProgressFiles, function(f) { return 'Completed' === f.status; }).length;
+				service.counts.failed = _.filter(inProgressFiles, function(f) { return f.status && f.status.startsWith('Failed: '); }).length;
+				service.counts.cancelled = _.filter(inProgressFiles, function(f) { return 'Cancelled' === f.status; }).length;
+				if (service.counts.uploading === 0){
+					service.actions.busy = false;
+					setAllowedActions(service);
+				}
+			} else {
+				setAllowedActions(service);
+			}
+		};
+
+		var setAllowedActions = function(service) {
+			service.actions.allowStart = (service.counts.total > 0 && !service.actions.busy) && (service.counts.uploading === 0, service.counts.failed === 0 && service.counts.cancelled === 0 && service.counts.uploaded === 0); // can't upload until last batch cleared...
+			service.actions.allowStop = (service.counts.total > 0 && service.actions.busy && Upload.isUploadInProgress());
+			service.actions.allowReset = (service.counts.total > 0 && !service.actions.busy && !Upload.isUploadInProgress()); // clear ok when not uploading and we have files to remove
+		};
+
+		var addSingleFile = function(service, f) {
+			if (service.actions.busy) {
+				return false;
+			}
+			var found = _.find(service.fileList, function(o) {
+				return o.name.toLowerCase() === f.name.toLowerCase() && o.lastModified === f.lastModified && o.size === f.size && o.type.toLowerCase() === f.type.toLowerCase();
+			});
+			if (!found) {
+				//$log.debug('File not found with name = ', f.name);
+				//$log.debug('  and lastModified = ', f.lastModified);
+				//$log.debug('  and lastModifiedDate = ', f.lastModifiedDate);
+				//$log.debug('  and size = ', f.size);
+				//$log.debug('  and type = ', f.type);
+				service.fileList.push(f);
+				return true;
+			} else {
+				$log.debug('File already exists in list with name = ', f.name);
+				$log.debug('  and lastModified = ', f.lastModified);
+				$log.debug('  and lastModifiedDate = ', f.lastModifiedDate);
+				$log.debug('  and size = ', f.size);
+				$log.debug('  and type = ', f.type);
+				return false;
+			}
+
+		};
+
+		this.fileList = [];
+		this.actions = {
+			busy: false,
+			allowStart: false,
+			allowStop: false,
+			allowReset: false
+		};
+		this.counts = {
+			uploading: 0,
+			uploaded: 0,
+			failed: 0,
+			cancelled: 0,
+			total: 0
+		};
+
+		this.addFile = function(f) {
+			if (this.actions.busy) {
+				return;
+			}
+			if (addSingleFile(this, f)) {
+				initialize(this);
+			}
+		};
+
+		this.addFiles = function(list) {
+			if (this.actions.busy) {
+				return;
+			}
+			var fileAdded = false;
+			_.each(list, function(f) {
+				if (addSingleFile(this, f)) {
+					fileAdded = true;
+				}
+			});
+			if (fileAdded) {
+				initialize(this);
+			}
+		};
+
+		this.removeFile = function(f) {
+			if (this.actions.busy) {
+				return;
+			}
+			var found = _.find(this.fileList, function(o) {
+				return o.name.toLowerCase() === f.name.toLowerCase() && o.lastModified === f.lastModified && o.size === f.size && o.type.toLowerCase() === f.type.toLowerCase();
+			});
+			if (found) {
+				_.remove(this.fileList, found);
+				initialize(this);
+			}
+		};
+
+		this.reset = function() {
+			if (this.actions.busy) {
+				return;
+			}
+			if ( _.size(this.fileList) > 0) {
+				this.fileList = [];
+				initialize(this);
+			}
+		};
+
+
+		this.startUploads = function(targetUrl, directoryID, reviewdocs) {
+			var self = this;
+			if (self.actions.busy) {
+				return;
+			}
+			initialize(self);
+			if (self.fileList && self.fileList.length && targetUrl) {
+				self.actions.busy = true;
+				setAllowedActions(self);
+				angular.forEach(self.fileList, function(file) {
+
+					file.status = undefined;
+					file.upload = Upload.upload({
+						url: targetUrl,
+						file: file,
+						headers: {
+							'documenttype': "Not Specified",
+							'documentsubtype': "Not Specified",
+							'documentfoldername':"Not Specified",
+							'documentisinreview': reviewdocs,
+							'directoryid' : directoryID
+						}
+					});
+
+					$log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
+					inProgressFiles.push(file);
+
+					file.upload.then(function (response) {
+						$timeout(function () {
+							file.result = response.data;
+							file.progress = 100;
+							file.status = 'Completed';
+							checkInProgressStatus(self);
+						});
+					}, function (response) {
+						if (response.status > 0) {
+							$log.error(response.status + ': ' + response.data);
+							//self.errorMsg = response.status + ': ' + response.data;
+							file.status = 'Failed: ' + response.data;
+						} else {
+							// abort was called...
+							$log.debug('cancelled ' + file.$$hashKey.toString());
+							file.status = 'Cancelled';
+						}
+						checkInProgressStatus(self);
+					}, function (evt) {
+						// if we get a cancel request, then call
+						file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+						file.status = 'In Progress';
+					});
+				});
+
+			} else {
+				checkInProgressStatus(self);
+			}
+		};
+
+		this.cancelUpload = function(file) {
+			if (Upload.isUploadInProgress() && file && file.status === 'In Progress') {
+				//$log.debug('Uploading in progress, upload cancel requested for file: ', file.$$hashKey.toString());
+				file.upload.abort();
+			}
+			setAllowedActions(this);
+		};
+
+		this.stopUploads = function() {
+			if (Upload.isUploadInProgress()) {
+				//$log.debug('Uploading in progress, but cancel all requested...');
+				_.each(inProgressFiles, function(file) {
+					this.cancelUpload(file);
+				});
+			} else {
+				setAllowedActions(this);
+			}
+		};
+
+}]);
