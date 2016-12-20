@@ -374,7 +374,6 @@ $list-selected-border: 1px solid #4187c9;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            line-height: 2.4rem;
         }
 
         .row-actions {
@@ -594,15 +593,29 @@ $fb-details-panel-width: 35rem;
 
 
 /* File Upload */
-$fb-upload-target-bg: transparent;
-$fb-upload-target-border: 3px dashed #CCC;
+$fb-upload-target-bg: #DDD;
+$fb-upload-target-border: 2px dashed #BBB;
 
 .fb-upload-target {
-    padding: 4rem;
+    position: relative;
+    height: 12rem;
+    padding: 0.5rem;
     background: $fb-upload-target-bg;
-    border: $fb-upload-target-border;
     text-align: center;
     transition: all ease-out 0.2s;
+
+    .fb-upload-target-border {
+       position: relative;
+       height: 100%;
+       border: $fb-upload-target-border;
+    }
+
+    .fb-upload-target-content {
+        position: absolute;
+        top: 4.85rem;
+        right: 0;
+        left: 0;
+    }
 
     .fb-upload-target-msg {
         font-size: 1.6rem;
@@ -622,8 +635,14 @@ $fb-upload-target-border: 3px dashed #CCC;
         vertical-align: middle;
     }
 
-    &:hover {
+    &:hover,
+    &.fb-upload-target-hover {
+        padding: 1rem;
         background: #FFF;
+
+        .fb-upload-target-border {
+            border-color: #CCC;
+        }
     }
 }
 
@@ -643,14 +662,27 @@ $fb-upload-target-border: 3px dashed #CCC;
 
 /* PROGRESS BAR */
 .progress {
-    display: inline-block;
-    width: 20rem;
+    width: 100%;
     margin-top: 0;
     margin-bottom: 0;
-    vertical-align: middle;
 }
 
 .progress {
     height: 1rem;
     border-radius: 0;
+}
+
+.file-size-progress-col {
+    width: 30%;
+    overflow: visible;
+
+    .progress-container {
+        padding-right: 5rem;
+    }
+
+    .btn {
+        position: absolute;
+        top: 0.75rem;
+        right: 1rem;
+    }
 }

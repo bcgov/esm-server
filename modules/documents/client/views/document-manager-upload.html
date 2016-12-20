@@ -4,12 +4,16 @@
 	<!-- UPLOAD TARGET -->
 	<div class="fb-upload-target" ngf-drop ngf-select
 		ng-model="files"
-		ngf-drag-over-class="upload-target-hover"
+		ngf-drag-over-class="fb-upload-target-hover"
 		ngf-multiple="true"
 		ngf-allow-dir="true">
-		<span class="glyphicon glyphicon-open icon-default"></span>
-		<span class="fb-upload-target-msg"><em>Drag &amp; Drop</em> or <em>browse files</em> to upload.</span>
-		<div class="fb-target-upload-border"></div>
+		
+		<div class="fb-upload-target-content">
+			<span class="glyphicon glyphicon-open icon-default"></span>
+			<span class="fb-upload-target-msg"><em>Drag &amp; Drop</em> or <em>browse files</em> to upload.</span>
+		</div>
+		
+		<div class="fb-upload-target-border"></div>
 	</div>
 
 	<!-- FILE BROWSER -->
@@ -22,6 +26,9 @@
 				<div class="column-header">
 					<div class="col name-col">
 						<span>Name</span>
+					</div>
+					<div class="col file-size-progress-col">
+						<span>File Size</span>
 					</div>
 				</div>
 				
@@ -41,15 +48,22 @@
 								</span>
 								{{f.name}}
 							</span>
-							<div class="row-actions">
-								<div class="progress" ng-show="f.progress > 0">
-									<div class="progress-bar" style="width:{{f.progress}}%" title="{{f.progress}}%" role="progressbar"></div>
+							<span class="col file-size-progress-col">
+								<div class="progress-container">
+									<div class="progress-msg">
+										<span ng-if="f.progress && f.progress < 100">{{f.progress}}% of </span> 
+										<span>{{f.size}}</span>
+										<span ng-if="f.progress == 100"> - Upload Complete</span>
+									</div>
+									<div class="progress">
+										<div class="progress-bar" style="width:{{f.progress}}%" title="{{f.progress}}%" role="progressbar"></div>
+									</div>
 								</div>
 								<button class="btn icon-btn"
 									ng-click="documentMgrUpload.removeFile(f)">
 									<span class="glyphicon glyphicon-trash"></span>
 								</button>
-							</div>
+							</span>
 						</span>
 					</li>
 				</ul>
