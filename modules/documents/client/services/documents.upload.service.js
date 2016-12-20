@@ -12,6 +12,8 @@ angular.module('documents')
 			}
 			inProgressFiles = [];
 			service.actions.busy = false;
+			service.actions.started = false;
+			service.actions.completed = false;
 			service.counts.uploading = 0;
 			service.counts.uploaded = 0;
 			service.counts.failed = 0;
@@ -28,6 +30,8 @@ angular.module('documents')
 				service.counts.cancelled = _.filter(inProgressFiles, function(f) { return 'Cancelled' === f.status; }).length;
 				if (service.counts.uploading === 0){
 					service.actions.busy = false;
+					service.actions.started = false;
+					service.actions.completed = true;
 					setAllowedActions(service);
 				}
 			} else {
@@ -36,9 +40,9 @@ angular.module('documents')
 		};
 
 		var setAllowedActions = function(service) {
-			service.actions.allowStart = (service.counts.total > 0 && !service.actions.busy) && (service.counts.uploading === 0, service.counts.failed === 0 && service.counts.cancelled === 0 && service.counts.uploaded === 0); // can't upload until last batch cleared...
-			service.actions.allowStop = (service.counts.total > 0 && service.actions.busy && Upload.isUploadInProgress());
-			service.actions.allowReset = (service.counts.total > 0 && !service.actions.busy && !Upload.isUploadInProgress()); // clear ok when not uploading and we have files to remove
+			service.actions.allowStart = (service.counts.total > 0 && !service.actions.busy && !service.actions.started) && (service.counts.uploading === 0, service.counts.failed === 0 && service.counts.cancelled === 0 && service.counts.uploaded === 0); // can't upload until last batch cleared...
+			service.actions.allowStop = (service.counts.total > 0 && service.actions.busy && service.actions.started);
+			service.actions.allowReset = (service.counts.total > 0 && !service.actions.busy && !service.actions.started); // clear ok when not uploading and we have files to remove
 		};
 
 		var addSingleFile = function(service, f) {
@@ -70,6 +74,8 @@ angular.module('documents')
 		this.fileList = [];
 		this.actions = {
 			busy: false,
+			started: false,
+			completed: false,
 			allowStart: false,
 			allowStop: false,
 			allowReset: false
@@ -138,6 +144,8 @@ angular.module('documents')
 			initialize(self);
 			if (self.fileList && self.fileList.length && targetUrl) {
 				self.actions.busy = true;
+				self.actions.started = true;
+				self.actions.completed = false;
 				setAllowedActions(self);
 				angular.forEach(self.fileList, function(file) {
 
