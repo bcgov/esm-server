@@ -112,134 +112,79 @@
 
 		</div>
 		<div class="fb-details-panel">
-			<div class="fb-details-content">
-
-				<!-- Load the File/Folder Details -->
-				<!-- TODO: Remove 'hidden' selector when complete -->
-				<div class="spinner-container hidden">
-					<div class="spinner">
-						<svg class="circular" viewBox="25 25 50 50">
-						<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-						</svg>
-					</div>
+			<!-- Load the File/Folder Details -->
+			<!-- TODO: Remove 'hidden' selector when complete -->
+			<div class="spinner-container hidden">
+				<div class="spinner">
+					<svg class="circular" viewBox="25 25 50 50">
+					<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+					</svg>
 				</div>
-				<div ng-if="documentMgr.selectedItem && documentMgr.selectedItem.type === 'File'">
-					<div class="title-panel">
-						<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h2>{{documentMgr.selectedItem.item.internalOriginalName | removeExtension }}</h2>
-						<!--
-						<h2>Fetching Details...</h2>
-						-->
-					</div>
+			</div>
 
-					<div class="scroll-container">
-
-						<section>
-							<h3>Details</h3>
-							<ul class="nv-pair">
-								<li>
-									<span class="name">Status</span>
-									<span class="value">
-										<span class="label label-success" ng-if="documentMgr.selectedItem.item.isPublished">Published</span>
-										<span class="label label-info" ng-if="!documentMgr.selectedItem.item.isPublished">Not Published</span>
-									</span>
-								</li>
-								<li>
-									<span class="name">Last Modified</span>
-									<span class="value">{{ documentMgr.selectedItem.item.dateUpdated | date : format : timezone }}</span>
-								</li>
-								<li>
-									<span class="name">Modified by</span>
-									<span class="value">{{ documentMgr.selectedItem.item.updatedBy.displayName }}</span>
-								</li>
-								<li>
-									<span class="name">File Size</span>
-									<span class="value">{{ documentMgr.selectedItem.item.internalSize | bytes:2 }}</span>
-								</li>
-							</ul>
-						</section>
-						<section>
-							<h3>Description</h3>
-							<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>
-						</section>
-						<section>
-							<h3>Keywords</h3>
-							<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>
-						</section>
-						<section>
-							<h3>Related Content</h3>
-							<ul class="nv-pair">
-								<li><a href="#">Related Content 1</a></li>
-								<li><a href="#">Related Content 2</a></li>
-								<li><a href="#">Related Content 3</a></li>
-								<li><a href="#">Related Content 4</a></li>
-								<li><a href="#">Related Content 5</a></li>
-								<li><a href="#">Related Content 6</a></li>
-							</ul>
-						</section>
-
-					</div>
+			<div class="fb-details-content" ng-if="!documentMgr.selectedItem.type">
+				<div class="title-panel">
+					<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h2>No Files Selected</h2>
 				</div>
-				<div ng-if="documentMgr.selectedItem && documentMgr.selectedItem.type === 'Folder'">
-					<div class="title-panel">
-						<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h2>{{documentMgr.selectedItem.item.model.name}}</h2>
-						<!--
-						<h2>Fetching Details...</h2>
-						-->
-					</div>
+			</div>
 
-					<div class="scroll-container">
-
-						<section>
-							<h3>Details</h3>
-							<ul class="nv-pair" hidden>
-								<li>
-									<span class="name">Status</span>
-									<span class="value">
-										<span class="label label-success">Published</span>
-									</span>
-								</li>
-								<li>
-									<span class="name">Last Modified</span>
-									<span class="value">YYYY/MM/DD</span>
-								</li>
-								<li>
-									<span class="name">Modified by</span>
-									<span class="value">---</span>
-								</li>
-								<li>
-									<span class="name">File Size</span>
-									<span class="value">---</span>
-								</li>
-							</ul>
-						</section>
-						<section>
-							<h3>Description</h3>
-							<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at porttitor sem. Aliquam erat volutpat.</span>
-						</section>
-						<section>
-							<h3>Keywords</h3>
-							<span>Keyword 1, Keyword 2, Keyword 3, Keyword 4, Keyword 5, Keyword 6</span>
-						</section>
-						<section>
-							<h3>Related Content</h3>
-							<ul class="nv-pair">
-								<li><a href="#">Related Content 1</a></li>
-								<li><a href="#">Related Content 2</a></li>
-								<li><a href="#">Related Content 3</a></li>
-								<li><a href="#">Related Content 4</a></li>
-								<li><a href="#">Related Content 5</a></li>
-								<li><a href="#">Related Content 6</a></li>
-							</ul>
-						</section>
-
-					</div>
+			<!-- File Details -->
+			<div class="fb-details-content" ng-if="documentMgr.selectedItem && documentMgr.selectedItem.type === 'File'">
+				
+				<div class="title-panel">
+					<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h2>{{documentMgr.selectedItem.item.internalOriginalName | removeExtension }}</h2>
+					<!--
+					<h2>Fetching Details...</h2>
+					-->
 				</div>
+
+				<div class="scroll-container">
+					<section>
+						<h3>Details</h3>
+						<ul class="nv-pair">
+							<li>
+								<span class="name">Status</span>
+								<span class="value">
+									<span class="label label-success" ng-if="documentMgr.selectedItem.item.isPublished">Published</span>
+									<span class="label label-info" ng-if="!documentMgr.selectedItem.item.isPublished">Not Published</span>
+								</span>
+							</li>
+							<li>
+								<span class="name">Last Modified</span>
+								<span class="value">{{ documentMgr.selectedItem.item.dateUpdated | date : format : timezone }}</span>
+							</li>
+							<li>
+								<span class="name">Modified by</span>
+								<span class="value">{{ documentMgr.selectedItem.item.updatedBy.displayName }}</span>
+							</li>
+							<li>
+								<span class="name">File Size</span>
+								<span class="value">{{ documentMgr.selectedItem.item.internalSize | bytes:2 }}</span>
+							</li>
+						</ul>
+					</section>
+
+				</div>
+			</div>
+
+			<!-- Folder Details -->
+			<div class="fb-details-content" ng-if="documentMgr.selectedItem && documentMgr.selectedItem.type === 'Folder'">
+				<div class="title-panel">
+					<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h2>{{documentMgr.selectedItem.item.model.name}}</h2>
+					<!--
+					<h2>Fetching Details...</h2>
+					-->
+				</div>
+				<div class="scroll-container"></div>
 			</div>
 		</div>
 	</div>

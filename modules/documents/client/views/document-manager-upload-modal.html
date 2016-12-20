@@ -22,7 +22,6 @@
 	Allow Upload: {{uploadService.actions.allowStart}}<br>
 	Allow Stop: {{uploadService.actions.allowStop}}<br>
 	Allow Reset: {{uploadService.actions.allowReset}}<br>
-
 	Total files in list: {{uploadService.counts.total}}<br>
 	Upload In Progress: {{uploadService.counts.uploading}}<br>
 	Upload Completed: {{uploadService.counts.uploaded}}<br>
@@ -42,7 +41,7 @@
 		ng-click="uploadModal.cancel()">Cancel</button>
 	
 	<!--
-		<button ng-if="uploadService.actions.allowStop" class="btn btn-default" ng-click="uploadService.stopUploads()" type="button">Stop Uploads</button>
+	<button ng-if="uploadService.actions.allowStop" class="btn btn-default" ng-click="uploadService.stopUploads()" type="button">Stop Uploads</button>
 	-->
 
 	<button class="btn btn-sm btn-primary"
