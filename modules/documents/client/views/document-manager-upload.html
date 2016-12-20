@@ -21,10 +21,7 @@
 
 		<!-- UPLOAD STATUS -->
 		<div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed">
-			<div class="fb-upload-target-content">
-				<span class="fb-upload-target-msg" ng-if="uploadService.actions.busy"><b>Upload in Progress...</b></span>
-				<span class="fb-upload-target-msg" ng-if="uploadService.actions.completed"><b>Upload Complete</b></span>
-			</div>
+
 		</div>
 	</div>
 
@@ -64,8 +61,8 @@
 								<div class="progress-container">
 									<div class="progress-msg">
 										<span ng-if="f.progress && f.progress < 100">{{f.progress}}% of </span> 
-										<span>{{f.size}}</span>
-										<span ng-if="f.progress == 100"> - Upload Complete</span>
+										<span>{{f.size | bytes:2}}</span>
+										<span ng-if="f.progress == 100"> - Complete</span>
 									</div>
 									<div class="progress">
 										<div class="progress-bar" style="width:{{f.progress}}%" title="{{f.progress}}%" role="progressbar"></div>
