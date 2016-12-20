@@ -103,7 +103,7 @@ angular.module('documents')
 						if (d.model.name) {
 							name = d.model.name.toLowerCase();
 						} else {
-							name = null;	
+							name = d.model.name;	
 						}
 						return name;
 					});
