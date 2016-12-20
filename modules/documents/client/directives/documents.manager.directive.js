@@ -21,20 +21,6 @@ angular.module('documents')
 						name: 'ROOT'
 					};
 
-				// NEED TO BE REVIEWED BY JAS
-				// Initial pass at getting the detail toggle functionality hooked up
-				$scope.fbToggleDetails = function () {
-					fbDetailsPanel.toggleClass('panel-open');
-				};
-
-				$scope.fbShowDetails = function () {
-					fbDetailsPanel.addClass('panel-open');
-				};
-
-				$scope.fbHideDetails = function () {
-					fbDetailsPanel.removeClass('panel-open');
-				};
-
 				self.sortedMode = 'Ascending'; // 'Descending' / 'Ascending'
 
 				self.rootNode = tree.parse($scope.project.directoryStructure);
@@ -49,15 +35,45 @@ angular.module('documents')
 				self.selectedDirs = [];
 				self.selectedFiles = [];
 
-				self.selectedItem = undefined;
-
-				self.setSelectedItem = function() {
-					if (_.size(self.selectedDirs) === 1 && _.size(self.selectedFiles) === 0) {
-						self.selectedItem = {type: 'Folder', item: self.selectedDirs[0]};
-					} else if (_.size(self.selectedFiles) === 1 && _.size(self.selectedDirs) === 0) {
-						self.selectedItem = {type: 'File', item: self.selectedFiles[0]};
-					} else {
-						self.selectedItem = undefined;
+				self.infoPanel = {
+					enabled: false,
+					open: false,
+					type: 'None',
+					data: undefined,
+					toggle: function() {
+						if (self.infoPanel.enabled) {
+							self.infoPanel.open = !self.infoPanel.open;
+						}
+					},
+					close: function() {
+						self.infoPanel.open = false;
+					},
+					reset: function() {
+						self.infoPanel.enabled = false;
+						self.infoPanel.open = false;
+						self.infoPanel.type = 'None';
+						self.infoPanel.data = undefined;
+					},
+					setData: function(dirs, files) {
+						if (_.size(dirs) === 1 && _.size(files) === 0) {
+							self.infoPanel.type = 'Directory';
+							self.infoPanel.data = dirs[0].model;
+							self.infoPanel.enabled = true;
+						} else if (_.size(files) === 1 && _.size(dirs) === 0) {
+							self.infoPanel.type = 'File';
+							self.infoPanel.data = files[0];
+							self.infoPanel.enabled = true;
+						} else {
+							self.infoPanel.reset();
+						}
+					},
+					disabled: function(type, item) {
+						if ('Directory' === type && self.selectedDirIndex(item) > -1) {
+							return false;
+						} else if ('File' === type && self.selectedFileIndex(item) > -1) {
+							return false;
+						}
+						return true;
 					}
 				};
 
@@ -74,7 +90,7 @@ angular.module('documents')
 						self.selectedDirs = [];// make single select for now...
 						self.selectedDirs.push(dir);
 					}
-					self.setSelectedItem();
+					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
 				};
 
 				self.selectedFileIndex = function(file) {
@@ -89,7 +105,7 @@ angular.module('documents')
 						self.selectedFiles = [];// make single select for now...
 						self.selectedFiles.push(file);
 					}
-					self.setSelectedItem();
+					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
 				};
 
 				self.sort = function (sortMode) {
@@ -99,9 +115,10 @@ angular.module('documents')
 						return f.internalOriginalName.toLowerCase();
 					});
 					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
-						var name;
-						d.model.name === null ? name = d.model.name : name = d.model.name.toLowerCase();
-						return name;
+						if (_.isEmpty(d.model.name)) {
+							return null;
+						}
+						return d.model.name.toLowerCase();
 					});
 					if (sortMode === 'Descending') {
 						self.currentFiles = _(self.currentFiles).reverse().value();

@@ -25,12 +25,12 @@
 				x-type="'project'"
 				title="Upload Files"><span class="glyphicon glyphicon-open"></span></button>
 
-			<button class="toggle-details-btn btn icon-btn" title="Show Details" ng-disabled="!documentMgr.selectedItem"
-					ng-click="fbToggleDetails()"><span class="glyphicon glyphicon-info-sign"></span></button>
+			<button class="toggle-details-btn btn icon-btn" title="Show Details" ng-disabled="!documentMgr.infoPanel.enabled"
+					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 		</div>
 	</div>
 
-	<div id="fbBody" class="fb-body">
+	<div id="fbBody" class="fb-body" ng-class="{'panel-open': documentMgr.infoPanel.enabled && documentMgr.infoPanel.open}">
 
 		<div class="fb-list">
 
@@ -68,7 +68,7 @@
 					<ul>
 						<li ng-repeat="doc in documentMgr.currentDirs">
 							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" 
-								ng-click="documentMgr.toggleDir(doc)"
+								ng-click="documentMgr.toggleDir(doc)" 
 								ng-dblclick="documentMgr.selectNode(doc.model.id)">
 								<span class="col name-col">
 									<span class="avatar">
@@ -77,19 +77,22 @@
 									{{ doc.model.name }}
 								</span>
 								<span class="col file-size-col">---</span>
-								<!--span class="col ">---</span-->
+								<!--span class="col " ng-click="documentMgr.toggleDir(doc)">---</span-->
 								<span class="col date-added-col">---</span>
-								<div class="row-actions">
-									<button class="btn icon-btn" ng-click="fbShowDetails()">
+								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('Directory', doc)">
+									<!--
+									<button class="btn icon-btn" ng-click="documentMgr.infoPanel.toggle()">
 										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 									</button>
+									-->
 								</div>
 							</span>
 						</li>
 					</ul>
 					<ul>
 						<li ng-repeat="doc in documentMgr.currentFiles">
-							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}" ng-click="documentMgr.toggleFile(doc)" >
+							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}"
+								ng-click="documentMgr.toggleFile(doc)">
 								<span class="col name-col">
 									<span class="avatar">
 										<span class="fb-file glyphicon glyphicon-file"></span>
@@ -97,12 +100,14 @@
 									{{ doc.internalOriginalName | removeExtension }}
 								</span>
 								<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
-								<!--span class="col ">{{ doc.internalExt}}</span-->
+								<!--span class="col " ng-click="documentMgr.toggleFile(doc)">{{ doc.internalExt}}</span-->
 								<span class="col date-added-col">{{ doc.dateUpdated | date : format : timezone }}</span>
-								<div class="row-actions">
-									<button class="btn icon-btn" ng-click="fbShowDetails()">
+								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('File', doc)">
+									<!--
+									<button class="btn icon-btn" ng-click="documentMgr.infoPanel.toggle()">
 										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 									</button>
+									-->
 								</div>
 							</span>
 						</li>
@@ -121,70 +126,68 @@
 					</svg>
 				</div>
 			</div>
-
-			<div class="fb-details-content" ng-if="!documentMgr.selectedItem.type">
+			<div class="fb-details-content" ng-if="documentMgr.infoPanel.data && documentMgr.infoPanel.type === 'File'">
 				<div class="title-panel">
-					<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
+					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2>No Files Selected</h2>
-				</div>
-			</div>
-
-			<!-- File Details -->
-			<div class="fb-details-content" ng-if="documentMgr.selectedItem && documentMgr.selectedItem.type === 'File'">
-				
-				<div class="title-panel">
-					<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h2>{{documentMgr.selectedItem.item.internalOriginalName | removeExtension }}</h2>
+					<h2>{{documentMgr.infoPanel.data.internalOriginalName | removeExtension }}</h2>
 					<!--
 					<h2>Fetching Details...</h2>
 					-->
 				</div>
 
 				<div class="scroll-container">
+
 					<section>
 						<h3>Details</h3>
 						<ul class="nv-pair">
 							<li>
 								<span class="name">Status</span>
 								<span class="value">
-									<span class="label label-success" ng-if="documentMgr.selectedItem.item.isPublished">Published</span>
-									<span class="label label-info" ng-if="!documentMgr.selectedItem.item.isPublished">Not Published</span>
+									<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
+									<span class="label label-info" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
 								</span>
 							</li>
 							<li>
 								<span class="name">Last Modified</span>
-								<span class="value">{{ documentMgr.selectedItem.item.dateUpdated | date : format : timezone }}</span>
+								<span class="value">{{ documentMgr.infoPanel.data.dateUpdated | date : format : timezone }}</span>
 							</li>
 							<li>
 								<span class="name">Modified by</span>
-								<span class="value">{{ documentMgr.selectedItem.item.updatedBy.displayName }}</span>
+								<span class="value">{{ documentMgr.infoPanel.data.updatedBy.displayName }}</span>
 							</li>
 							<li>
 								<span class="name">File Size</span>
-								<span class="value">{{ documentMgr.selectedItem.item.internalSize | bytes:2 }}</span>
+								<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>
 							</li>
 						</ul>
 					</section>
-
 				</div>
 			</div>
-
-			<!-- Folder Details -->
-			<div class="fb-details-content" ng-if="documentMgr.selectedItem && documentMgr.selectedItem.type === 'Folder'">
+			<div class="fb-details-content" ng-if="documentMgr.infoPanel.data && documentMgr.infoPanel.type === 'Directory'">
 				<div class="title-panel">
-					<button class="btn btn-default close" type="button" ng-click="fbHideDetails()">
+					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2>{{documentMgr.selectedItem.item.model.name}}</h2>
+					<h2>{{documentMgr.infoPanel.data.name}}</h2>
 					<!--
 					<h2>Fetching Details...</h2>
 					-->
 				</div>
-				<div class="scroll-container"></div>
+
+				<div class="scroll-container">
+					<!-- TBD -->
+				</div>
+			</div>
+			<div class="fb-details-content" ng-if="!documentMgr.infoPanel.data || documentMgr.infoPanel.type === 'None'">
+				<div class="title-panel">
+					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h2>Nothing selected - no info</h2>
+				</div>
+				</div>
 			</div>
 		</div>
 	</div>

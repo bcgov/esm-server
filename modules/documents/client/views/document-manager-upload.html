@@ -26,13 +26,13 @@
 	</div>
 
 	<!-- FILE BROWSER -->
-	<div class="file-browser">
+	<div class="file-browser" ng-if="uploadService.fileList != 0">
 		<div class="fb-body">
 			
 			<!-- FILE BROWSER LIST -->
 			<div class="fb-list">
 
-				<div class="column-header" ng-if="uploadService.fileList != 0">
+				<div class="column-header">
 					<div class="col name-col">
 						<span>Name</span>
 					</div>
