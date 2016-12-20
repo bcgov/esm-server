@@ -3,7 +3,7 @@
 	<button ng-disabled="uploadService.actions.busy" type="button" class="btn btn-default close" ng-click="uploadModal.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<h3 class="modal-title">{{uploadModal.title}}</h3>
+	<h3 class="modal-title">Upload Files</h3>
 </div>
 
 <div class="modal-body">
@@ -14,6 +14,7 @@
 		x-type="uploadModal.type"></x-document-mgr-upload>
 </div>
 
+<!--
 <div>
 	Busy?: {{uploadService.actions.busy}}<br>
 	Allow Upload: {{uploadService.actions.allowStart}}<br>
@@ -27,17 +28,25 @@
 	Upload cancelled: {{uploadService.counts.cancelled}}<br>
 
 </div>
+-->
+
 <div class="modal-footer">
-	<button ng-if="!uploadService.actions.busy" class="btn btn-default" type="button" ng-click="uploadModal.cancel()">Close</button>
-	<button ng-if="uploadService.actions.allowStop" class="btn btn-default" ng-click="uploadService.stopUploads()" type="button">Stop Uploads</button>
+	<button ng-if="!uploadService.actions.busy" class="btn btn-default" type="button" ng-click="uploadModal.cancel()">Cancel</button>
+	
+	<!--
+		<button ng-if="uploadService.actions.allowStop" class="btn btn-default" ng-click="uploadService.stopUploads()" type="button">Stop Uploads</button>
+	-->
+
 	<button
-		ng-if="uploadService.actions.allowReset"
+		ng-if="uploadService.actions.completed"
 		class="btn"
 		type="button"
-		ng-click="uploadService.reset()">Clear Files</button>
+		ng-click="uploadService.reset()">Upload More Files</button>
 	<button
 		ng-if="uploadService.actions.allowStart"
 		class="btn btn-primary"
 		type="button"
-		ng-click="uploadService.actions.busy || uploadModal.startUploads()">Start Uploads</button>
+		ng-click="uploadService.actions.busy || uploadModal.startUploads()">Start Upload</button>
+
+	<button class="btn btn-primary" ng-if="uploadService.actions.started" disabled>Uploading...</button
 </div>

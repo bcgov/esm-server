@@ -2,18 +2,30 @@
 <div class="fb-upload-container">
 	
 	<!-- UPLOAD TARGET -->
-	<div class="fb-upload-target" ngf-drop ngf-select
-		ng-model="files"
-		ngf-drag-over-class="fb-upload-target-hover"
-		ngf-multiple="true"
-		ngf-allow-dir="true">
-		
-		<div class="fb-upload-target-content">
-			<span class="glyphicon glyphicon-open icon-default"></span>
-			<span class="fb-upload-target-msg"><em>Drag &amp; Drop</em> or <em>browse files</em> to upload.</span>
+	<div class="fb-upload-target-container">
+
+		<!-- UPLOAD TARGET -->
+		<div class="fb-upload-target" 
+			ngf-drop 
+			ngf-select
+			ng-model="files"
+			ngf-drag-over-class="fb-upload-target-hover"
+			ngf-multiple="true"
+			ngf-allow-dir="true">
+			<div class="fb-upload-target-content">
+				<span class="glyphicon glyphicon-open icon-default"></span>
+				<span class="fb-upload-target-msg"><b>Drag &amp; Drop</b> or <b>browse files</b> to upload.</span>
+			</div>
+			<div class="fb-upload-target-border"></div>
 		</div>
-		
-		<div class="fb-upload-target-border"></div>
+
+		<!-- UPLOAD STATUS -->
+		<div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed">
+			<div class="fb-upload-target-content">
+				<span class="fb-upload-target-msg" ng-if="uploadService.actions.busy"><b>Upload in Progress...</b></span>
+				<span class="fb-upload-target-msg" ng-if="uploadService.actions.completed"><b>Upload Complete</b></span>
+			</div>
+		</div>
 	</div>
 
 	<!-- FILE BROWSER -->
@@ -60,7 +72,8 @@
 									</div>
 								</div>
 								<button class="btn icon-btn"
-									ng-click="uploadService.removeFile(f)">
+									ng-click="uploadService.removeFile(f)"
+									ng-disabled="uploadService.actions.busy || uploadService.actions.completed">
 									<span class="glyphicon glyphicon-trash"></span>
 								</button>
 							</span>

@@ -593,12 +593,29 @@ $fb-details-panel-width: 35rem;
 
 
 /* File Upload */
+$fb-upload-target-height: 10rem;
 $fb-upload-target-bg: #DDD;
+$fb-upload-target-hover-bg: #FFF;
 $fb-upload-target-border: 2px dashed #BBB;
+
+.fb-upload-target-container {
+    position: relative;
+}
+
+.fb-upload-target-status {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.5rem;
+    width: 100%;
+    height: $fb-upload-target-height;
+    background: $fb-upload-target-bg;
+    text-align: center;
+}
 
 .fb-upload-target {
     position: relative;
-    height: 12rem;
+    height: $fb-upload-target-height;
     padding: 0.5rem;
     background: $fb-upload-target-bg;
     text-align: center;
@@ -610,24 +627,32 @@ $fb-upload-target-border: 2px dashed #BBB;
        border: $fb-upload-target-border;
     }
 
-    .fb-upload-target-content {
+    &:hover,
+    &.fb-upload-target-hover {
+        padding: 1rem;
+        background: $fb-upload-target-hover-bg;
+
+        .fb-upload-target-border {
+            border-color: #CCC;
+        }
+    }
+
+    .fb-upload-target-alert {
         position: absolute;
-        top: 4.85rem;
+        top: 0;
         right: 0;
+        bottom: 0;
         left: 0;
+        background: $fb-upload-target-bg;
     }
+}
 
-    .fb-upload-target-msg {
-        font-size: 1.6rem;
-        font-weight: bold;
-        color: #999;
-    }
-
-    em {
-        font-style: normal;
-        font-weight: bold;
-        color: #494949;
-    }
+.fb-upload-target-content {
+    position: absolute;
+    top: 3.85rem;
+    right: 0;
+    left: 0;
+    text-align: center;
 
     .glyphicon {
         top: -0.3rem;
@@ -635,13 +660,13 @@ $fb-upload-target-border: 2px dashed #BBB;
         vertical-align: middle;
     }
 
-    &:hover,
-    &.fb-upload-target-hover {
-        padding: 1rem;
-        background: #FFF;
+    .fb-upload-target-msg {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #999;
 
-        .fb-upload-target-border {
-            border-color: #CCC;
+        b {
+            color: #494949;
         }
     }
 }
@@ -659,6 +684,7 @@ $fb-upload-target-border: 2px dashed #BBB;
         }
     }
 }
+
 
 /* PROGRESS BAR */
 .progress {
