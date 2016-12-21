@@ -49,8 +49,8 @@ angular.module('documents')
 						self.infoPanel.open = false;
 					},
 					reset: function() {
-						self.infoPanel.enabled = false;
-						self.infoPanel.open = false;
+						//self.infoPanel.enabled = false;
+						//self.infoPanel.open = false;
 						self.infoPanel.type = 'None';
 						self.infoPanel.data = undefined;
 					},
@@ -222,7 +222,7 @@ angular.module('documents')
 							self.entryText = '';
 							self.title = "Add Folder to '" + $scope.node.model.name + "'";
 							if ($scope.node.model.name === 'ROOT') {
-								self.title = "Add Folder to Project '" + $scope.project.name + "'";
+								self.title = "Add Folder to '" + $scope.project.name + "'";
 							}
 
 							self.cancel = function () {
@@ -340,9 +340,9 @@ angular.module('documents')
 							self.type = scope.type;
 							self.parentId = scope.parentId;
 
-							self.title = "Upload Documents to '" + self.selectedNode.model.name + "'";
+							self.title = "Upload Files to '" + self.selectedNode.model.name + "'";
 							if (self.selectedNode.model.name === 'ROOT') {
-								self.title = "Upload Documents to Project '" + $scope.project.name + "'";
+								self.title = "Upload Files to '" + $scope.project.name + "'";
 							}
 
 							var getTargetUrl = function(type) {
