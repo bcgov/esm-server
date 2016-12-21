@@ -58,7 +58,7 @@
 					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
 				</div>
 				<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
-					<span>Date Added</span>
+					<span>Date Uploaded</span>
 					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 				</div>
 
@@ -105,7 +105,7 @@
 								</span>
 								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
 								<span class="col type-col">{{ doc.internalExt}}</span>
-								<span class="col date-added-col">{{ doc.dateUpdated | date : format : timezone }}</span>
+								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
 								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('File', doc)">
 									<!--
 									<button class="btn icon-btn" ng-click="documentMgr.infoPanel.toggle()">
@@ -152,6 +152,10 @@
 									<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
 									<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
 								</span>
+							</li>
+							<li>
+								<span class="name">Date Uploaded</span>
+								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
 							</li>
 							<li>
 								<span class="name">Last Modified</span>
