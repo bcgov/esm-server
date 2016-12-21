@@ -56,7 +56,6 @@ $list-selected-border: 1px solid #4187c9;
     font-size: 2.4rem;
 }
 
-
 /* CUSTOM BUTTON STYLING */
 .icon-btn {
     min-width: 3.4rem;
@@ -83,7 +82,6 @@ $list-selected-border: 1px solid #4187c9;
     }
 }
 
-
 /* NAME-VALUE PAIR */
 .nv-pair {
     li {
@@ -103,7 +101,6 @@ $list-selected-border: 1px solid #4187c9;
         @include flex(1 1 auto);
     }
 }
-
 
 /* FILE BROWSER */
 .file-browser {
@@ -227,7 +224,6 @@ $list-selected-border: 1px solid #4187c9;
     }
 }
 
-
 .fb-body {
     @include flex(1 1 auto);
     @include flexbox();
@@ -282,7 +278,6 @@ $list-selected-border: 1px solid #4187c9;
         }
     }
 }
-
 
 .fb-list {
     @include flexbox();
@@ -475,7 +470,6 @@ $list-selected-border: 1px solid #4187c9;
         }
     }
 }
-
 
 /* COLUMNS */
 span.avatar {
@@ -679,8 +673,8 @@ $fb-upload-target-border: 2px dashed #BBB;
 }
 
 .fb-upload-container {
-    .fb-upload-target {
-        margin-bottom: 2rem;
+    .file-browser {
+        margin-top: 2rem;
     }
 
     .fb-list {
