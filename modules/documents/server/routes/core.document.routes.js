@@ -195,9 +195,14 @@ module.exports = function (app) {
 							projectFolderName       : req.headers.documentfoldername,
 							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
 							projectFolderDatePosted : Date.now(),//req.headers.projectfolderdateposted,
+							
+							// Migrated from old EPIC
+							oldData            		: req.headers.olddata,
+
 							// NB                   : In EPIC, projectFolders have authors, not the actual documents.
 							projectFolderAuthor     : req.headers.projectfolderauthor,
 							// These are the data as it was shown on the EPIC website.
+							documentEPICProjectId 	: req.headers.documentepicprojectid,
 							documentAuthor          : req.headers.documentauthor,
 							documentFileName        : req.headers.documentfilename,
 							documentFileURL         : req.headers.documentfileurl,
