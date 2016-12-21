@@ -24,10 +24,10 @@ angular.module('documents')
 
 		var checkInProgressStatus = function(service) {
 			if (service.actions.busy) {
-				service.counts.uploading = _.filter(inProgressFiles, function(f) { return 'In Progress' === f.status; }).length;
-				service.counts.uploaded = _.filter(inProgressFiles, function(f) { return 'Completed' === f.status; }).length;
-				service.counts.failed = _.filter(inProgressFiles, function(f) { return f.status && f.status.startsWith('Failed: '); }).length;
-				service.counts.cancelled = _.filter(inProgressFiles, function(f) { return 'Cancelled' === f.status; }).length;
+				service.counts.uploading = _.filter(inProgressFiles, function(f) { return f.uploading; }).length;
+				service.counts.uploaded = _.filter(inProgressFiles, function(f) { return f.uploaded; }).length;
+				service.counts.failed = _.filter(inProgressFiles, function(f) { return f.failed; }).length;
+				service.counts.cancelled = _.filter(inProgressFiles, function(f) { return f.cancelled; }).length;
 				if (service.counts.uploading === 0){
 					service.actions.busy = false;
 					service.actions.started = false;
@@ -149,6 +149,11 @@ angular.module('documents')
 				setAllowedActions(self);
 				angular.forEach(self.fileList, function(file) {
 
+					file.uploading = true;
+					file.uploaded = false;
+					file.cancelled = false;
+					file.failed = false;
+
 					file.status = undefined;
 					file.upload = Upload.upload({
 						url: targetUrl,
@@ -170,23 +175,30 @@ angular.module('documents')
 							file.result = response.data;
 							file.progress = 100;
 							file.status = 'Completed';
+							file.uploaded = true;
+							file.uploading = false;
 							checkInProgressStatus(self);
 						});
 					}, function (response) {
 						if (response.status > 0) {
-							$log.error(response.status + ': ' + response.data);
+							$log.error('Upload file error. Name=' + file.name + ', Response Status=' + response.status + ', Response Data.Message=' + response.data.message);
 							//self.errorMsg = response.status + ': ' + response.data;
-							file.status = 'Failed: ' + response.data;
+							file.status = 'Failed';
+							file.failed = true;
+							file.uploading = false;
 						} else {
 							// abort was called...
 							$log.debug('cancelled ' + file.$$hashKey.toString());
 							file.status = 'Cancelled';
+							file.cancelled = true;
+							file.uploading = false;
 						}
 						checkInProgressStatus(self);
 					}, function (evt) {
 						// if we get a cancel request, then call
 						file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
 						file.status = 'In Progress';
+						file.uploading = true;
 					});
 				});
 

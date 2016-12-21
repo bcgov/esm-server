@@ -176,7 +176,9 @@ module.exports = function (app) {
 		.post (routes.setAndRun (DocumentClass, function (model, req) {
 			return new Promise (function (resolve, reject) {
 				var file = req.files.file;
-				if (file) {
+				if (file && file.originalname === 'this-is-a-file-that-we-want-to-fail.xxx') {
+					reject('Fail uploading this file.');
+				} else if (file) {
 					var opts = { oldPath: file.path, projectCode: req.Project.code};
 					routes.moveFile (opts)
 					.then (function (newFilePath) {
