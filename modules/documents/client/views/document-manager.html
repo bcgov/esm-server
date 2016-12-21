@@ -97,7 +97,7 @@
 									<span class="avatar">
 										<span class="fb-file glyphicon glyphicon-file"></span>
 									</span>
-									{{ doc.internalOriginalName | removeExtension }}
+									{{ doc.documentFileName | removeExtension }}
 								</span>
 								<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
 								<!--span class="col " ng-click="documentMgr.toggleFile(doc)">{{ doc.internalExt}}</span-->
@@ -131,7 +131,7 @@
 					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2>{{documentMgr.infoPanel.data.internalOriginalName | removeExtension }}</h2>
+					<h2>{{documentMgr.infoPanel.data.documentFileName | removeExtension }}</h2>
 					<!--
 					<h2>Fetching Details...</h2>
 					-->
