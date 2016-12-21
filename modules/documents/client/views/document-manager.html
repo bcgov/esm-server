@@ -25,7 +25,7 @@
 				x-type="'project'"
 				title="Upload Files"><span class="glyphicon glyphicon-open"></span></button>
 
-			<button class="toggle-details-btn btn icon-btn" title="Show Details" ng-disabled="!documentMgr.infoPanel.enabled"
+			<button class="toggle-details-btn btn icon-btn" title="Show Details" 
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 		</div>
 	</div>
@@ -45,18 +45,21 @@
 			</div>
 			
 			<div class="column-header">
-				<div class="col name-col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
+				<div class="col name-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
 					<span>Name</span>
-					<span class="sort-icon"></span>
+					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 				</div>
-				<div class="col file-size-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
-					<span>File Size</span>
+				<div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+					<span>Size</span>
+					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
 				</div>
-				<!--div class="col " ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
-					<span>File Format</span>
-				</div-->
-				<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
-					<span>Date Added</span>
+				<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+					<span>Type</span>
+					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
+				</div>
+				<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
+					<span>Date Uploaded</span>
+					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 				</div>
 
 			</div>
@@ -76,8 +79,8 @@
 									</span>
 									{{ doc.model.name }}
 								</span>
-								<span class="col file-size-col">---</span>
-								<!--span class="col " ng-click="documentMgr.toggleDir(doc)">---</span-->
+								<span class="col size-col">---</span>
+								<span class="col type-col">---</span>
 								<span class="col date-added-col">---</span>
 								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('Directory', doc)">
 									<!--
@@ -95,13 +98,14 @@
 								ng-click="documentMgr.toggleFile(doc)">
 								<span class="col name-col">
 									<span class="avatar">
-										<span class="fb-file glyphicon glyphicon-file"></span>
+										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+										<span class="fb-file glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
 									</span>
 									{{ doc.documentFileName | removeExtension }}
 								</span>
-								<span class="col file-size-col">{{ doc.internalSize | bytes:2 }}</span>
-								<!--span class="col " ng-click="documentMgr.toggleFile(doc)">{{ doc.internalExt}}</span-->
-								<span class="col date-added-col">{{ doc.dateUpdated | date : format : timezone }}</span>
+								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
+								<span class="col type-col">{{ doc.internalExt}}</span>
+								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
 								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('File', doc)">
 									<!--
 									<button class="btn icon-btn" ng-click="documentMgr.infoPanel.toggle()">
@@ -146,8 +150,12 @@
 								<span class="name">Status</span>
 								<span class="value">
 									<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
-									<span class="label label-info" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
+									<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
 								</span>
+							</li>
+							<li>
+								<span class="name">Date Uploaded</span>
+								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
 							</li>
 							<li>
 								<span class="name">Last Modified</span>
@@ -185,8 +193,10 @@
 					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2>Nothing selected - no info</h2>
+					<h2>{{project.name}}</h2>
 				</div>
+				<div class="scroll-container">
+					Select a file or folder to view details.
 				</div>
 			</div>
 		</div>

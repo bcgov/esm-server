@@ -49,7 +49,7 @@
 									<span class="fb-error glyphicon glyphicon-ok" ng-if="f.uploaded"></span>
 									<span class="fb-error glyphicon glyphicon-alert" ng-if="f.failed"></span>
 									<span class="fb-error glyphicon glyphicon-warning-sign" ng-if="f.cancelled"></span>
-									<span class="fb-file glyphicon glyphicon-file" ng-if="f.uploading"></span>
+									<span class="fb-file glyphicon glyphicon-file" ng-if="!f.uploaded"></span>
 								</span>
 								{{f.name}}
 							</span>
