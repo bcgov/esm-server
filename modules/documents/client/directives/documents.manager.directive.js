@@ -135,8 +135,8 @@ angular.module('documents')
 						} else if (self.sorting.column === 'size') {
 							return _.isEmpty(f.internalExt) ? 0 : f.internalSize;
 						} else if (self.sorting.column === 'date') {
-							//date
-							return _.isEmpty(f.dateUpdated) ? 0 : f.dateUpdated;
+							//date uploaded
+							return _.isEmpty(f.dateUploaded) ? 0 : f.dateUploaded;
 						}
 						// by name if none specified... or we incorrectly identified...
 						return _.isEmpty(f.internalOriginalName) ? null : f.internalOriginalName.toLowerCase();
@@ -182,6 +182,7 @@ angular.module('documents')
 						.then(
 							function (result) {
 								$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
+
 								self.unsortedFiles = result.data || [];
 
 								_.each(self.currentNode.children, function (n) {

@@ -102,6 +102,7 @@ module.exports = genSchema ('Document', {
 	
 	dateAdded               : { type: Date, default: Date.now },
 	dateUpdated             : { type: Date, default: Date.now },
+	dateUploaded            : { type: Date, default: Date.now },
 	updatedBy               : { type:'ObjectId', ref:'User', default:null },
 	projectFolderType       : { type:String, default:'' }, // r=/p=/w=/t=/a=/k=
 	projectFolderSubType    : { type:String, default:'' }, // abo/amd/etc.
