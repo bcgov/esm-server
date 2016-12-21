@@ -38,7 +38,7 @@
 	</div>
 	<button class="btn btn-sm btn-default" type="button" 
 		ng-if="!uploadService.actions.busy"
-		ng-click="uploadModal.cancel()">Cancel</button>
+		ng-click="uploadModal.cancel()">{{uploadService.actions.completed ? 'Close' : 'Cancel'}}</button>
 	
 	<!--
 	<button ng-if="uploadService.actions.allowStop" class="btn btn-default" ng-click="uploadService.stopUploads()" type="button">Stop Uploads</button>
