@@ -45,18 +45,21 @@
 			</div>
 			
 			<div class="column-header">
-				<div class="col name-col sortable" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}" ng-click="documentMgr.changeSort()">
+				<div class="col name-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
 					<span>Name</span>
-					<span class="sort-icon"></span>
+					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 				</div>
-				<div class="col size-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+				<div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
 					<span>Size</span>
+					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
 				</div>
-				<div class="col type-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+				<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
 					<span>Type</span>
+					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
 				</div>
-				<div class="col date-added-col" ng-class="{'descending': documentMgr.sortedMode == 'Descending'}">
+				<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
 					<span>Date Added</span>
+					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 				</div>
 
 			</div>

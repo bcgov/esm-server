@@ -21,7 +21,11 @@ angular.module('documents')
 						name: 'ROOT'
 					};
 
-				self.sortedMode = 'Ascending'; // 'Descending' / 'Ascending'
+				// default sort is by name ascending...
+				self.sorting = {
+					column: 'name',
+					ascending: true
+				};
 
 				self.rootNode = tree.parse($scope.project.directoryStructure);
 				self.selectedNode = undefined;
@@ -108,33 +112,53 @@ angular.module('documents')
 					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
 				};
 
-				self.sort = function (sortMode) {
-					// ascending...
-					//
-					self.currentFiles = _.sortBy(self.unsortedFiles,function(f) {
-						return f.internalOriginalName.toLowerCase();
+				self.sortBy = function(column) {
+					//is this the current column?
+					if (self.sorting.column.toLowerCase() === column.toLowerCase()){
+						//so we reverse the order...
+						self.sorting.ascending = !self.sorting.ascending;
+					} else {
+						// changing column, set to ascending...
+						self.sorting.column = column.toLowerCase();
+						self.sorting.ascending = true;
+					}
+					self.applySort();
+				};
+
+				self.applySort = function() {
+					// sort ascending first...
+					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
+						if (self.sorting.column === 'name') {
+							return _.isEmpty(f.internalOriginalName) ? null : f.internalOriginalName.toLowerCase();
+						} else  if (self.sorting.column === 'type') {
+							return _.isEmpty(f.internalExt) ? null : f.internalExt.toLowerCase();
+						} else if (self.sorting.column === 'size') {
+							return _.isEmpty(f.internalExt) ? 0 : f.internalSize;
+						} else if (self.sorting.column === 'date') {
+							//date
+							return _.isEmpty(f.dateUpdated) ? 0 : f.dateUpdated;
+						}
+						// by name if none specified... or we incorrectly identified...
+						return _.isEmpty(f.internalOriginalName) ? null : f.internalOriginalName.toLowerCase();
 					});
+
+					// directories always/only sorted by name
 					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
 						if (_.isEmpty(d.model.name)) {
 							return null;
 						}
 						return d.model.name.toLowerCase();
 					});
-					if (sortMode === 'Descending') {
-						self.currentFiles = _(self.currentFiles).reverse().value();
-						self.currentDirs = _(self.currentDirs).reverse().value();
-					}
-				};
 
-				self.changeSort = function () {
-					// how are we sorted?
-					// reverse it...
-					if (self.sortedMode === 'Ascending') {
-						self.sortedMode = 'Descending';
-					} else {
-						self.sortedMode = 'Ascending';
+					if (!self.sorting.ascending) {
+						// and if we are not supposed to be ascending... then reverse it!
+						self.currentFiles = _(self.currentFiles).reverse().value();
+						if (self.sorting.column === 'name') {
+							// name is the only sort that applies to Directories.
+							// so if descending on name, then we need to reverse it.
+							self.currentDirs = _(self.currentDirs).reverse().value();
+						}
 					}
-					self.sort(self.sortedMode);
 				};
 
 				self.selectNode = function (nodeId) {
@@ -164,7 +188,7 @@ angular.module('documents')
 									self.unsortedDirs.push(n);
 								});
 
-								self.sort(self.sortedMode);
+								self.applySort();
 								// since we loaded this, make it the selected node
 								self.selectedNode = self.currentNode;
 							},
