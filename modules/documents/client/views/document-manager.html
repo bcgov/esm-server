@@ -98,7 +98,8 @@
 								ng-click="documentMgr.toggleFile(doc)">
 								<span class="col name-col">
 									<span class="avatar">
-										<span class="fb-file glyphicon glyphicon-file"></span>
+										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+										<span class="fb-file glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
 									</span>
 									{{ doc.internalOriginalName | removeExtension }}
 								</span>
