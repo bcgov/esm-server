@@ -12,9 +12,6 @@ angular.module('documents')
 				var tree = new TreeModel();
 				var self = this;
 
-				// DETAILS PANEL
-				var fbDetailsPanel = angular.element(document.querySelector('#fbBody'));
-
 				$scope.project.directoryStructure = $scope.project.directoryStructure || {
 						id: 1,
 						lastId: 1,
@@ -95,6 +92,7 @@ angular.module('documents')
 						self.selectedDirs.push(dir);
 					}
 					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
+					self.deleteSelected.setContext();
 				};
 
 				self.selectedFileIndex = function(file) {
@@ -110,6 +108,7 @@ angular.module('documents')
 						self.selectedFiles.push(file);
 					}
 					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
+					self.deleteSelected.setContext();
 				};
 
 				self.sortBy = function(column) {
@@ -177,11 +176,11 @@ angular.module('documents')
 					self.currentDirs = [];
 					self.selectedDirs = [];
 					self.selectedFiles = [];
-					$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
+					//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
 					DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
 						.then(
 							function (result) {
-								$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
+								//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
 
 								self.unsortedFiles = result.data || [];
 
@@ -203,10 +202,97 @@ angular.module('documents')
 					return self.selectedNode === undefined;
 				};
 
-				$scope.$on('documentMgrRefreshNode', function(event, args) {
-					if (args.nodeId) {
-						self.selectNode(self.currentNode.model.id);
+				self.deleteDocument = function(documentID) {
+					return Document.lookup(documentID)
+						.then( function (doc) {
+							return Document.getProjectDocumentVersions(doc._id);
+						})
+						.then( function (docs) {
+							// Are there any prior versions?  If so, make them the latest and then delete
+							// otherwise delete
+							if (docs.length > 0) {
+								return Document.makeLatestVersion(docs[docs.length-1]._id);
+							} else {
+								return null;
+							}
+						})
+						.then( function () {
+							// Delete it from the system.
+							return Document.deleteDocument(documentID);
+						});
+				};
+
+				self.deleteSelected = {
+					titleText: 'Delete selected.',
+					okText: 'Yes',
+					cancelText: 'No',
+					ok: function() {
+						var dirs = _.size(self.selectedDirs);
+						var files = _.size(self.selectedFiles);
+						if (dirs === 0 && files === 0) {
+							return Promise.resolve();
+						} else {
+
+							var dirPromises = _.map(self.selectedDirs, function(d) {
+								return DocumentMgrService.removeDirectory($scope.project, d);
+							});
+
+							var filePromises = _.map(self.selectedFiles, function(f) {
+								return self.deleteDocument(f._id);
+							});
+
+							var directoryStructure;
+							return Promise.all(dirPromises)
+								.then(function(result) {
+									//$log.debug('Dir results ', JSON.stringify(result));
+									if (!_.isEmpty(result)) {
+										var last = _.last(result);
+										directoryStructure = last.data;
+									}
+									return Promise.all(filePromises);
+								})
+								.then(function(result) {
+									//$log.debug('File results ', JSON.stringify(result));
+									if (directoryStructure) {
+										//$log.debug('Setting the new directory structure...');
+										$scope.project.directoryStructure = directoryStructure;
+									}
+									//$log.debug('Refreshing current directory...');
+									self.selectNode(self.currentNode.model.id);
+								});
+						}
+					},
+					cancel: undefined,
+					confirmText:  'Are you sure you want to delete the selected item(s)?',
+					confirmItems: [],
+					setContext: function() {
+						self.deleteSelected.titleText = 'Delete selected.';
+						self.deleteSelected.confirmText = 'Are you sure you want to delete the selected item(s)?';
+						var dirs = _.size(self.selectedDirs);
+						var files = _.size(self.selectedFiles);
+						if (dirs > 0 && files > 0) {
+							self.deleteSelected.titleText = 'Delete folder(s) and file(s)';
+							self.deleteSelected.confirmText = 'Are you sure you want to delete ' + dirs + ' folders and ' + files + ' files?';
+						} else if (dirs > 0) {
+							self.deleteSelected.titleText = 'Delete folder(s)';
+							self.deleteSelected.confirmText = 'Are you sure you want to delete the (' + dirs + ') selected folders?';
+						} else if (files > 0) {
+							self.deleteSelected.titleText = 'Delete file(s)';
+							self.deleteSelected.confirmText = 'Are you sure you want to delete the (' + files + ') selected files?';
+						}
+						self.deleteSelected.confirmItems = [];
+						_.each(self.selectedDirs, function(o) {
+							self.deleteSelected.confirmItems.push(o.model.name);
+						});
+						_.each(self.selectedFiles, function(o) {
+							self.deleteSelected.confirmItems.push(o.documentFileName);
+						});
+
 					}
+				};
+
+				$scope.$on('documentMgrRefreshNode', function(event, args) {
+					self.selectNode(self.currentNode.model.id);
 				});
 
 				// set it up at the root...
