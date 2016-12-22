@@ -42,14 +42,14 @@
 				</div>
 				
 				<ul ng-if="uploadService.fileList != 0">
-					<li ng-repeat="f in uploadService.fileList">
+					<li ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
 						<span class="cell-contents">							
 							<span class="col name-col">
 								<span class="avatar">
-									<span class="fb-error glyphicon glyphicon-ok" ng-if="f.uploaded"></span>
+									<span class="fb-success glyphicon glyphicon-ok" ng-if="f.uploaded"></span>
 									<span class="fb-error glyphicon glyphicon-alert" ng-if="f.failed"></span>
 									<span class="fb-error glyphicon glyphicon-warning-sign" ng-if="f.cancelled"></span>
-									<span class="fb-file glyphicon glyphicon-file" ng-if="!f.uploaded"></span>
+									<span class="fb-file glyphicon glyphicon-file" ng-if="!f.uploaded && !f.failed"></span>
 								</span>
 								{{f.name}}
 							</span>

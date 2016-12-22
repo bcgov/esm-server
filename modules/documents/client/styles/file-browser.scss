@@ -14,8 +14,9 @@ $file-browser-table-header-hover-bg: #EEE;
 $file-browser-row-border: 1px solid #EEE;
 $file-browser-row-hover-bg: #f7f8fa;
 
-$fb-folder-color: #999;
-$fb-file-color: #CCC;
+$fb-folder-color: #666;
+$fb-file-color: #999;
+$fb-img-color: #999;
 $fb-error-color: #494949;
 
 $list-selected-color: #FFF;
@@ -128,7 +129,7 @@ $list-selected-border: 1px solid #4187c9;
 
         .btn {
             height: 3.4rem;
-            padding: 0.6rem;
+            padding: 0.7rem;
             font-weight: normal;
         }
 
@@ -138,11 +139,11 @@ $list-selected-border: 1px solid #4187c9;
             + li {
                 &:before {
                     display: inline-block;
+                    margin-top: -3px;
                     margin-left: 4px;
-                    font-size: 2.3rem;
+                    font-size: 2.6rem;
                     vertical-align: middle;
                     content: '›';
-                    color: $file-browser-breadcrumb-color;
                 }
             }
         }
@@ -171,6 +172,8 @@ $list-selected-border: 1px solid #4187c9;
 
     .fb-header {
         .fb-breadcrumbs {
+            position: relative;
+
             li {
                 display: none;
 
@@ -187,8 +190,22 @@ $list-selected-border: 1px solid #4187c9;
             }
 
             li:nth-last-child(2) {
-                position: relative;
-                margin-right: 0;
+                + li {
+                    position: absolute;
+                    right: 0;
+                    left: 3.25rem;
+
+                    button {
+                        max-width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        text-align: left;
+                    }
+                }
+            }
+
+            li:nth-last-child(2) {
+                position: absolute;
 
                 :before {
                     position: absolute;
@@ -370,12 +387,27 @@ $list-selected-border: 1px solid #4187c9;
             right: 2.5rem;
 
             .btn {
-                margin-left: 0.5rem;
                 padding: 0;
                 width: 3.4rem;
                 height: 3.4rem;
                 text-align: center;
                 color: inherit;
+            }
+
+            .dropdown-menu {
+                top: -3px;
+                right: -3px;
+                min-width: 0;
+                padding: 0.2rem;
+                white-space: nowrap;
+
+                li {
+                    display: inline-block;
+                }
+
+                .glyphicon {
+                    color: #494949;
+                }
             }
         }
 
@@ -422,8 +454,12 @@ $list-selected-border: 1px solid #4187c9;
         color: $fb-file-color;
     }
 
+    .fb-img {
+        color: $fb-img-color;
+    }
+
     .fb-error {
-        color: $fb-error-color;
+        color: $brand-danger;
     }
 
     .empty-directory-msg {
@@ -479,6 +515,7 @@ $fb-details-panel-width: 35rem;
             position: relative;
             margin: 0 2rem;
             padding-top: 1.5rem;
+            padding-right: 3rem;
             padding-bottom: 1.5rem;
             z-index: 3;
 
@@ -715,5 +752,11 @@ $fb-upload-target-border: 2px dashed #BBB;
         position: absolute;
         top: 0.75rem;
         right: 1rem;
+    }
+}
+
+.has-error {
+    .progress-bar {
+        display: none;
     }
 }

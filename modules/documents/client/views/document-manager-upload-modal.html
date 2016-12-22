@@ -33,10 +33,10 @@
 
 <div class="modal-footer clearfix">
 	<div class="fb-upload-count pull-left">
-		<span ng-if="!uploadService.actions.busy && !uploadService.actions.completed">{{uploadService.counts.total}} files ready for upload</span>
+		<span ng-if="!uploadService.actions.busy && !uploadService.actions.completed">{{uploadService.counts.total}} files queued</span>
 		<span ng-if="uploadService.actions.busy || uploadService.actions.completed">{{uploadService.counts.uploaded}} of {{uploadService.counts.total}} files uploaded</span>
 	</div>
-	<button class="btn btn-sm btn-default" type="button" 
+	<button class="btn btn-default" type="button" 
 		ng-if="!uploadService.actions.busy"
 		ng-click="uploadModal.cancel()">{{uploadService.actions.completed ? 'Close' : 'Cancel'}}</button>
 	
@@ -44,12 +44,12 @@
 	<button ng-if="uploadService.actions.allowStop" class="btn btn-default" ng-click="uploadService.stopUploads()" type="button">Stop Uploads</button>
 	-->
 
-	<button class="btn btn-sm btn-primary"
+	<button class="btn btn-primary"
 		ng-if="uploadService.actions.completed"
 		ng-click="uploadService.reset()">Upload More Files</button>
-	<button class="btn btn-sm btn-primary"
+	<button class="btn btn-primary"
 		ng-if="uploadService.actions.allowStart"
 		ng-click="uploadService.actions.busy || uploadModal.startUploads()">Start Upload</button>
-	<button class="btn btn-sm btn-primary" ng-if="uploadService.actions.started" disabled>Uploading Files</button>
+	<button class="btn btn-primary" ng-if="uploadService.actions.started" disabled>Uploading Files</button>
 
 </div>

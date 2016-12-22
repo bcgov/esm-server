@@ -71,7 +71,7 @@
 					<ul>
 						<li ng-repeat="doc in documentMgr.currentDirs">
 							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" 
-								ng-click="documentMgr.toggleDir(doc)" 
+								ng-click="$event.originalEvent.dropdown || documentMgr.toggleDir(doc)" 
 								ng-dblclick="documentMgr.selectNode(doc.model.id)">
 								<span class="col name-col">
 									<span class="avatar">
@@ -83,11 +83,30 @@
 								<span class="col type-col">---</span>
 								<span class="col date-added-col">---</span>
 								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('Directory', doc)">
-									<!--
-									<button class="btn icon-btn" ng-click="documentMgr.infoPanel.toggle()">
-										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-									</button>
-									-->
+									
+									<div class="btn-group">
+										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>	
+										</button>
+										<ul class="dropdown-menu pull-right">
+											<li>
+												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle(); $event.stopPropagation();">
+													<span class="glyphicon glyphicon-info-sign"></span>
+												</button>
+											</li>
+											<li>
+												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();">
+													<span class="glyphicon glyphicon-trash"></span>
+												</button>
+											</li>
+											<li>
+												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();">
+													<span class="glyphicon glyphicon-pencil"></span>
+												</button>
+											</li>
+										</ul>
+									</div>
+									
 								</div>
 							</span>
 						</li>
@@ -95,11 +114,11 @@
 					<ul>
 						<li ng-repeat="doc in documentMgr.currentFiles">
 							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}"
-								ng-click="documentMgr.toggleFile(doc)">
+								ng-click="$event.originalEvent.dropdown || documentMgr.toggleFile(doc)">
 								<span class="col name-col">
 									<span class="avatar">
 										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
-										<span class="fb-file glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
 									</span>
 									{{ doc.documentFileName | removeExtension }}
 								</span>
@@ -107,11 +126,30 @@
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
 								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('File', doc)">
-									<!--
-									<button class="btn icon-btn" ng-click="documentMgr.infoPanel.toggle()">
-										<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-									</button>
-									-->
+									
+									<div class="btn-group">
+										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>	
+										</button>
+										<ul class="dropdown-menu pull-right">
+											<li>
+												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle(); $event.stopPropagation();">
+													<span class="glyphicon glyphicon-info-sign"></span>
+												</button>
+											</li>
+											<li>
+												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();">
+													<span class="glyphicon glyphicon-trash"></span>
+												</button>
+											</li>
+											<li>
+												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();">
+													<span class="glyphicon glyphicon-pencil"></span>
+												</button>
+											</li>
+										</ul>
+									</div>
+									
 								</div>
 							</span>
 						</li>
@@ -144,7 +182,6 @@
 				<div class="scroll-container">
 
 					<section>
-						<h3>Details</h3>
 						<ul class="nv-pair">
 							<li>
 								<span class="name">Status</span>
@@ -154,20 +191,24 @@
 								</span>
 							</li>
 							<li>
-								<span class="name">Date Uploaded</span>
+								<span class="name">Date uploaded</span>
 								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
 							</li>
 							<li>
-								<span class="name">Last Modified</span>
+								<span class="name">Modified</span>
 								<span class="value">{{ documentMgr.infoPanel.data.dateUpdated | date : format : timezone }}</span>
 							</li>
 							<li>
-								<span class="name">Modified by</span>
+								<span class="name">Last update by</span>
 								<span class="value">{{ documentMgr.infoPanel.data.updatedBy.displayName }}</span>
 							</li>
 							<li>
-								<span class="name">File Size</span>
+								<span class="name">Size</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>
+							</li>
+							<li>
+								<span class="name">Type</span>
+								<span class="value">{{ documentMgr.infoPanel.data.internalExt }}</span>
 							</li>
 						</ul>
 					</section>
