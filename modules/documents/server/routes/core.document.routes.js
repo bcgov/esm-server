@@ -187,6 +187,11 @@ module.exports = function (app) {
 							// Force read array to be this:
 							readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
 						}
+						var datePosted = Date.now();
+						// Allow override of date posting
+						if (req.headers.dateposted) {
+							datePosted = new Date(req.headers.dateposted);
+						}
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.
 							// See the document.model.js for descriptions of the parameters to supply.
@@ -196,7 +201,7 @@ module.exports = function (app) {
 							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
 							projectFolderName       : req.headers.documentfoldername,
 							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
-							projectFolderDatePosted : Date.now(),//req.headers.projectfolderdateposted,
+							datePosted 				: datePosted,//req.headers.projectfolderdateposted,
 							
 							// Migrated from old EPIC
 							oldData            		: req.headers.olddata,
