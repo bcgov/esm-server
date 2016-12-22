@@ -134,11 +134,6 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	});
 	Menus.addMenuItem('projectMenu', {
 		title: 'Documents',
-		state: 'p.documents',
-		permissions: ['context.listDocuments']
-	});
-	Menus.addMenuItem('projectMenu', {
-		title: 'Documents (New)',
 		state: 'p.docs',
 		permissions: ['context.listDocuments']
 	});
