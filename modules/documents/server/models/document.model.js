@@ -104,6 +104,7 @@ module.exports = genSchema ('Document', {
 	dateUpdated             : { type: Date, default: Date.now },
 	dateUploaded            : { type: Date, default: Date.now },
 	datePosted 				: { type: Date, default: Date.now },
+	dateReceived			: { type: Date, default: Date.now },
 
 	updatedBy               : { type:'ObjectId', ref:'User', default:null },
 	projectFolderURL        : { type:String, default:'' }, // The specific DirectoryID instance of a collection of documents

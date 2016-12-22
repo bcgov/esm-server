@@ -187,10 +187,14 @@ module.exports = function (app) {
 							// Force read array to be this:
 							readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
 						}
-						var datePosted = Date.now();
-						// Allow override of date posting
+						var datePosted, dateReceived = Date.now();
+						console.log("new Date(req.headers.datereceived)", new Date(req.headers.datereceived));
+						// Allow override of date posting/received
 						if (req.headers.dateposted) {
 							datePosted = new Date(req.headers.dateposted);
+						}
+						if (req.headers.datereceived) {
+							dateReceived = new Date(req.headers.datereceived);
 						}
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.
@@ -201,7 +205,8 @@ module.exports = function (app) {
 							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
 							projectFolderName       : req.headers.documentfoldername,
 							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
-							datePosted 				: datePosted,//req.headers.projectfolderdateposted,
+							datePosted 				: datePosted,
+							dateReceived 			: dateReceived,
 							
 							// Migrated from old EPIC
 							oldData            		: req.headers.olddata,
