@@ -126,6 +126,8 @@ $list-selected-border: 1px solid #4187c9;
 
     .fb-breadcrumbs {
         @include flex(1 1 auto);
+        overflow: hidden;
+        white-space: nowrap;
 
         .btn {
             height: 3.4rem;
@@ -260,7 +262,7 @@ $list-selected-border: 1px solid #4187c9;
     }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
     .fb-body {
         .fb-details-panel {
             position: relative;
@@ -382,6 +384,7 @@ $list-selected-border: 1px solid #4187c9;
         }
 
         .row-actions {
+            display: none;
             position: absolute;
             top: 0.6rem;
             right: 2.5rem;
@@ -432,6 +435,10 @@ $list-selected-border: 1px solid #4187c9;
                 .glyphicon {
                     color: inherit;
                 }
+            }
+
+            .row-actions {
+                display: block;
             }
         }
     }

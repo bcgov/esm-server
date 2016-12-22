@@ -81,7 +81,7 @@
 								<span class="col size-col">---</span>
 								<span class="col type-col">---</span>
 								<span class="col date-added-col">---</span>
-								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('Directory', doc)">
+								<div class="row-actions">
 									
 									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,6 +93,7 @@
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
+											<!--
 											<li>
 												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();">
 													<span class="glyphicon glyphicon-trash"></span>
@@ -103,6 +104,7 @@
 													<span class="glyphicon glyphicon-pencil"></span>
 												</button>
 											</li>
+											-->
 										</ul>
 									</div>
 									
@@ -124,7 +126,7 @@
 								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
-								<div class="row-actions" ng-hide="documentMgr.infoPanel.disabled('File', doc)">
+								<div class="row-actions">
 									
 									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -136,6 +138,7 @@
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
+											<!--
 											<li>
 												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();">
 													<span class="glyphicon glyphicon-trash"></span>
@@ -146,6 +149,7 @@
 													<span class="glyphicon glyphicon-pencil"></span>
 												</button>
 											</li>
+											-->
 										</ul>
 									</div>
 									
@@ -183,7 +187,7 @@
 					<section>
 						<ul class="nv-pair">
 							<li>
-								<span class="name">Status</span>
+								<span class="name">Publish Status</span>
 								<span class="value">
 									<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
 									<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
