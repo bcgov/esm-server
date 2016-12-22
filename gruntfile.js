@@ -15,7 +15,7 @@ module.exports = function (grunt) {
 	if (process.env.ENVIRONMENT === 'MEM') {
 			LOGO = 'modules/core/client/img/brand/mem-logo-inverted.png'; // EAO Logo
 	} else {
-			LOGO = 'modules/core/client/img/brand/bc_logo_transparent.png'; // BC Logo
+			LOGO = 'modules/core/client/img/brand/eao-banner-img-lg.png'; // BC Logo
 	}
 	var ENV = "";
 	if (process.env.ENVIRONMENT) {
