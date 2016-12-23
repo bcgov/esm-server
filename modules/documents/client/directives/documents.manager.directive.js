@@ -28,10 +28,14 @@ angular.module('documents')
 				self.selectedNode = undefined;
 				self.currentNode = undefined;
 				self.currentPath = undefined;
-				self.unsortedFiles = undefined;
-				self.unsortedDirs = undefined;
-				self.currentFiles = undefined;
-				self.currentDirs = undefined;
+
+				self.allChecked = false;
+
+				self.unsortedFiles = [];
+				self.unsortedDirs = [];
+
+				self.currentFiles = [];
+				self.currentDirs = [];
 
 				self.selectedDirs = [];
 				self.selectedFiles = [];
@@ -88,7 +92,7 @@ angular.module('documents')
 						_.pullAt(self.selectedDirs, idx);
 
 					} else {
-						self.selectedDirs = [];// make single select for now...
+						//self.selectedDirs = [];// make single select for now...
 						self.selectedDirs.push(dir);
 					}
 					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
@@ -104,7 +108,7 @@ angular.module('documents')
 					if (idx > -1) {
 						_.pullAt(self.selectedFiles, idx);
 					} else {
-						self.selectedFiles = [];// make single select for now...
+						//self.selectedFiles = [];// make single select for now...
 						self.selectedFiles.push(file);
 					}
 					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
@@ -160,6 +164,38 @@ angular.module('documents')
 					}
 				};
 
+				self.checkAll = function() {
+					_.each(self.currentDirs, function(o) { o.selected = self.allChecked; });
+					_.each(self.currentFiles, function(o) { o.selected = self.allChecked; });
+				};
+
+				self.checkFile = function(doc) {
+					// ADD/remove to the selected file list...
+
+				};
+				self.selectFile = function(doc) {
+					// selected a file, make it the only item selected...
+					var checked = doc.selected;
+					_.each(self.currentDirs, function(o) { o.selected = false; });
+					_.each(self.currentFiles, function(o) { o.selected = false; });
+					doc.selected = !checked;
+
+				};
+				self.checkDir = function(doc) {
+
+				};
+				self.selectDir = function(doc) {
+					// selected a dir, make it the only item selected...
+					var checked = doc.selected;
+					_.each(self.currentDirs, function(o) { o.selected = false; });
+					_.each(self.currentFiles, function(o) { o.selected = false; });
+					doc.selected = !checked;
+				};
+				self.openDir = function(doc) {
+					//double clicked a dir, open it up!
+					self.selectNode(doc.model.id);
+				};
+
 				self.selectNode = function (nodeId) {
 					var theNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
@@ -167,13 +203,17 @@ angular.module('documents')
 					if (!theNode) {
 						theNode = self.rootNode;
 					}
-					//$log.debug('doubleClick = ', theNode.model.name);
+					var checkedDirs = _.filter(self.currentDirs, function(o) { return o.selected; });
+					var checkedFiles = _.filter(self.currentFiles, function(o) { return o.selected; });
+
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
 					self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
+
 					self.currentFiles = [];
 					self.currentDirs = [];
+
 					self.selectedDirs = [];
 					self.selectedFiles = [];
 					//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
@@ -182,16 +222,19 @@ angular.module('documents')
 							function (result) {
 								//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
 
-								self.unsortedFiles = result.data || [];
+								self.unsortedFiles = _.map(result.data, function(f) {
+									return _.extend(f,{selected:  _.find(checkedFiles, function(d) { return d._id.toString() === f.id.toString(); }), type: 'File'});
+								});
 
-								_.each(self.currentNode.children, function (n) {
-									self.unsortedDirs.push(n);
+								self.unsortedDirs = _.map(self.currentNode.children, function (n) {
+									return _.extend(n,{selected: (_.find(checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
 								});
 
 								self.applySort();
 								// since we loaded this, make it the selected node
 								self.selectedNode = self.currentNode;
-								self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
+
+								//self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
 							},
 							function (error) {
 								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
