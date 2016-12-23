@@ -191,6 +191,7 @@ angular.module('documents')
 								self.applySort();
 								// since we loaded this, make it the selected node
 								self.selectedNode = self.currentNode;
+								self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
 							},
 							function (error) {
 								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
@@ -219,6 +220,20 @@ angular.module('documents')
 						.then( function () {
 							// Delete it from the system.
 							return Document.deleteDocument(documentID);
+						});
+				};
+
+				self.deleteFolder = function(doc) {
+					return DocumentMgrService.removeDirectory($scope.project, doc)
+						.then(function(result) {
+							$scope.project.directoryStructure = result.data;
+						});
+				};
+
+				self.deleteFile = function(doc) {
+					return self.deleteDocument(doc._id)
+						.then(function(result) {
+							self.selectNode(self.currentNode.model.id);
 						});
 				};
 

@@ -10,7 +10,8 @@ angular.module('core')
 				okText: '=',
 				cancelText: '=',
 				onOk: '=',
-				onCancel: '='
+				onCancel: '=',
+				okArgs: '='
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
@@ -44,7 +45,7 @@ angular.module('core')
 
 							self.ok = function () {
 								if (scope.onOk) {
-									scope.onOk()
+									scope.onOk(scope.okArgs)
 										.then(function (result) {
 											$modalInstance.close(result);
 										}, function (err) {

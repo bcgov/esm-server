@@ -18,14 +18,23 @@
 					x-node="documentMgr.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
 
 			<button class="btn icon-btn" title="Upload Files" ng-if="project.userCan.createDocument"
-				x-document-mgr-upload-modal
-				x-project="project"
-				x-root="documentMgr.rootNode"
-				x-node="documentMgr.selectedNode"
-				x-type="'project'"><span class="glyphicon glyphicon-open"></span></button>
+					ng-disabled="!documentMgr.selectedNode"
+					x-document-mgr-upload-modal
+					x-project="project"
+					x-root="documentMgr.rootNode"
+					x-node="documentMgr.selectedNode"
+					x-type="'project'"><span class="glyphicon glyphicon-open"></span></button>
 
 			<button class="toggle-details-btn btn icon-btn" title="Show Details" 
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
+
+
+			<button class="btn icon-btn" title="Rename Folder" ng-if="project.userCan.createDocument"
+					ng-disabled="documentMgr.selectedDirs.length === 0"
+					x-document-mgr-rename-folder
+					x-project="project"
+					x-root="documentMgr.rootNode"
+					x-node="documentMgr.selectedDirs[0]"><span class="glyphicon glyphicon-pencil"></span></button>
 
 			<button class="btn icon-btn" title="Delete" ng-if="project.userCan.createDocument"
 					ng-disabled="documentMgr.selectedDirs.length === 0 && documentMgr.selectedFiles.length === 0"
@@ -103,18 +112,28 @@
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
-											<!--
 											<li>
-												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();">
+												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Delete Folder'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to delete this folder?'"
+														x-confirm-items="[doc.model.name]"
+														x-on-ok="documentMgr.deleteFolder"
+												        x-ok-args="doc">
 													<span class="glyphicon glyphicon-trash"></span>
 												</button>
 											</li>
 											<li>
-												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();">
+												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();"
+														x-document-mgr-rename-folder
+														x-project="project"
+														x-root="documentMgr.rootNode"
+														x-node="doc">
 													<span class="glyphicon glyphicon-pencil"></span>
 												</button>
 											</li>
-											-->
 										</ul>
 									</div>
 									
@@ -148,12 +167,20 @@
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
-											<!--
 											<li>
-												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();">
+												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Delete File'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to delete this file?'"
+														x-confirm-items="[doc.documentFileName]"
+														x-on-ok="documentMgr.deleteFile"
+														x-ok-args="doc">
 													<span class="glyphicon glyphicon-trash"></span>
 												</button>
 											</li>
+											<!--
 											<li>
 												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();">
 													<span class="glyphicon glyphicon-pencil"></span>
