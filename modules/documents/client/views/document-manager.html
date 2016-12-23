@@ -67,7 +67,7 @@
 			</div>
 			
 			<div class="column-header">
-				<span class="col select-col">
+				<span class="col checkbox-col">
 					<input type="checkbox" ng-model="documentMgr.allChecked" ng-click="documentMgr.checkAll()"/>
 				</span>
 
@@ -98,7 +98,7 @@
 
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentDirs">
-							<span class="col select-col">
+							<span class="col checkbox-col">
 								<input type="checkbox" ng-model="doc.selected" ng-click="documentMgr.checkDir(doc)"/>
 							</span>
 							<span class="fb-col-group"  
@@ -156,7 +156,7 @@
 					</ul>
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentFiles">
-							<span class="col select-col">
+							<span class="col checkbox-col">
 								<input type="checkbox" ng-model="doc.selected" ng-click="documentMgr.checkFile(doc)"/>
 							</span>
 							<span class="fb-col-group"

@@ -42,8 +42,8 @@
 				</div>
 				
 				<ul ng-if="uploadService.fileList != 0">
-					<li ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
-						<span class="cell-contents">							
+					<li class="fb-list-item" ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
+						<span class="fb-col-group">							
 							<span class="col name-col">
 								<span class="avatar">
 									<span class="fb-success glyphicon glyphicon-ok" ng-if="f.uploaded"></span>
