@@ -1,7 +1,6 @@
-<form ng-submit="confirmDlg.ok()">
-	<div class="modal-header">
 
-		<!-- Cancel and close modal -->
+<form class="confirm-dialog" ng-submit="confirmDlg.ok()">
+	<div class="modal-header">
 		<button class="btn btn-default close" type="button" ng-click="confirmDlg.cancel()">
 			<span aria-hidden="true">&times;</span>
 		</button>
@@ -9,14 +8,12 @@
 	</div>
 
 	<div ng-show="confirmDlg.errorMsg">{{confirmDlg.errorMsg}}</div>
+	
 	<div class="modal-body">
-		<div class="form-group">
-			<label class="control-label">{{confirmDlg.confirmText}}</label>
-			<!-- show a list of items if they exist -->
-			<ul>
-				<li ng-repeat="t in confirmDlg.confirmItems">{{t}}</li>
-			</ul>
-		</div>
+		{{confirmDlg.confirmText}}		
+		<ul>
+			<li ng-repeat="t in confirmDlg.confirmItems">{{t}}</li>
+		</ul>
 	</div>
 
 	<div class="modal-footer">

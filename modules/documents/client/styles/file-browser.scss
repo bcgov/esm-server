@@ -295,6 +295,41 @@ $list-selected-border: 1px solid #4187c9;
     position: relative;
     overflow: hidden;
 
+    .fb-list-item {
+        @include flexbox();
+        @include flexdirection(row); 
+        border-bottom: $file-browser-row-border;
+
+        &.selected {
+            color: $list-selected-color;
+            background: $list-selected-bg;
+            border-bottom: $list-selected-border;
+
+            .btn:focus,
+            .btn:hover {
+                background: transparent;
+                border-color: $list-selected-color;
+            }
+
+            .avatar {
+                .glyphicon {
+                    color: inherit;
+                }
+            }
+
+            .row-actions {
+                display: block;
+            }
+        }
+    }
+
+    .fb-col-group {
+        @include flexbox();
+        @include flex(1 1 auto);
+        @include flexdirection(row);
+        position: relative;
+    }
+
     .column-header {
         @include flexbox();
         @include flexdirection(row);
@@ -309,6 +344,10 @@ $list-selected-border: 1px solid #4187c9;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
+
+            input {
+                margin: 0;
+            }
 
             &.sortable {
                 &:hover {
@@ -359,11 +398,16 @@ $list-selected-border: 1px solid #4187c9;
         }
     }
 
-    .cell-contents {
+    .select-col {
+        @include flex(0 0 4rem);
+        text-align: center;
+    }
+
+    .fb-list-item {
         @include flexbox();
+        @include flex(1 1 auto);
         @include userselect(none);
         position: relative;
-        border-bottom: $file-browser-row-border;
 
         .avatar {
             margin-right: 0.75rem;
@@ -413,36 +457,9 @@ $list-selected-border: 1px solid #4187c9;
                 }
             }
         }
-
-        &:hover {
-            .row-actions {
-                display: block;
-            }
-        }
-
-        &.selected {
-            color: $list-selected-color;
-            background: $list-selected-bg;
-            border-bottom: $list-selected-border;
-
-            .btn:focus,
-            .btn:hover {
-                background: transparent;
-                border-color: $list-selected-color;
-            }
-
-            .avatar {
-                .glyphicon {
-                    color: inherit;
-                }
-            }
-
-            .row-actions {
-                display: block;
-            }
-        }
     }
 
+    
     .col {
         &:first-child {
             padding-left: 1.5rem;
@@ -521,7 +538,7 @@ $fb-details-panel-width: 35rem;
             @include flex(0 0 auto);
             position: relative;
             margin: 0 2rem;
-            padding-top: 1.5rem;
+            padding-top: 2rem;
             padding-right: 3rem;
             padding-bottom: 1.5rem;
             z-index: 3;

@@ -10,14 +10,17 @@
 			</li>
 		</ul>
 		<div class="file-batch-actions">
-			<button class="btn icon-btn" title="Add New Folder" ng-if="project.userCan.createDocument"
+			
+			<button class="btn icon-btn" title="Add New Folder" 
+					ng-if="project.userCan.createDocument"
 					ng-disabled="!documentMgr.selectedNode"
 					x-document-mgr-add-folder
 					x-project="project"
 					x-root="documentMgr.rootNode"
 					x-node="documentMgr.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
 
-			<button class="btn icon-btn" title="Upload Files" ng-if="project.userCan.createDocument"
+			<button class="btn icon-btn" title="Upload Files" 
+					ng-if="project.userCan.createDocument"
 					ng-disabled="!documentMgr.selectedNode"
 					x-document-mgr-upload-modal
 					x-project="project"
@@ -28,15 +31,16 @@
 			<button class="toggle-details-btn btn icon-btn" title="Show Details" 
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 
-
-			<button class="btn icon-btn" title="Rename Folder" ng-if="project.userCan.createDocument"
+			<button class="btn icon-btn" title="Rename Folder" 
+					ng-if="project.userCan.createDocument"
 					ng-disabled="documentMgr.selectedDirs.length === 0"
 					x-document-mgr-rename-folder
 					x-project="project"
 					x-root="documentMgr.rootNode"
 					x-node="documentMgr.selectedDirs[0]"><span class="glyphicon glyphicon-pencil"></span></button>
 
-			<button class="btn icon-btn" title="Delete" ng-if="project.userCan.createDocument"
+			<button class="btn icon-btn" title="Delete" 
+					ng-if="project.userCan.createDocument"
 					ng-disabled="documentMgr.selectedDirs.length === 0 && documentMgr.selectedFiles.length === 0"
 					x-confirm-dialog
 					x-title-text="documentMgr.deleteSelected.titleText"
@@ -63,21 +67,27 @@
 			</div>
 			
 			<div class="column-header">
-				<div class="col name-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
-					<span>Name</span>
-					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
-				</div>
-				<div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
-					<span>Size</span>
-					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
-				</div>
-				<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
-					<span>Type</span>
-					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
-				</div>
-				<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
-					<span>Date Uploaded</span>
-					<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
+				<span class="col select-col">
+					<input type="checkbox"/>
+				</span>
+
+				<div class="fb-col-group">
+					<div class="col name-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
+						<span>Name</span>
+						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
+					</div>
+					<div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+						<span>Size</span>
+						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
+					</div>
+					<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+						<span>Type</span>
+						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
+					</div>
+					<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
+						<span>Date Uploaded</span>
+						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
+					</div>
 				</div>
 
 			</div>
@@ -87,8 +97,11 @@
 					<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
 
 					<ul>
-						<li ng-repeat="doc in documentMgr.currentDirs">
-							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" 
+						<li class="fb-list-item" ng-class="{'selected': documentMgr.selectedDirIndex(doc) > -1}" ng-repeat="doc in documentMgr.currentDirs">
+							<span class="col select-col">
+								<input type="checkbox"/>
+							</span>
+							<span class="fb-col-group"  
 								ng-click="$event.originalEvent.dropdown || documentMgr.toggleDir(doc)" 
 								ng-dblclick="documentMgr.selectNode(doc.model.id)">
 								<span class="col name-col">
@@ -118,7 +131,7 @@
 														x-title-text="'Delete Folder'"
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to delete this folder?'"
+														x-confirm-text="'Are you sure you want to delete this folder? This action cannot be undone.'"
 														x-confirm-items="[doc.model.name]"
 														x-on-ok="documentMgr.deleteFolder"
 												        x-ok-args="doc">
@@ -142,8 +155,11 @@
 						</li>
 					</ul>
 					<ul>
-						<li ng-repeat="doc in documentMgr.currentFiles">
-							<span class="cell-contents" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}"
+						<li class="fb-list-item" ng-class="{'selected': documentMgr.selectedFileIndex(doc) > -1}" ng-repeat="doc in documentMgr.currentFiles">
+							<span class="col select-col">
+								<input type="checkbox"/>
+							</span>
+							<span class="fb-col-group"
 								ng-click="$event.originalEvent.dropdown || documentMgr.toggleFile(doc)">
 								<span class="col name-col">
 									<span class="avatar">
@@ -163,17 +179,17 @@
 										</button>
 										<ul class="dropdown-menu pull-right">
 											<li>
-												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle(); $event.stopPropagation();">
+												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle()">
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
 											<li>
-												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
+												<button class="btn icon-btn" title="Delete File"
 														x-confirm-dialog
 														x-title-text="'Delete File'"
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to delete this file?'"
+														x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone'"
 														x-confirm-items="[doc.documentFileName]"
 														x-on-ok="documentMgr.deleteFile"
 														x-ok-args="doc">

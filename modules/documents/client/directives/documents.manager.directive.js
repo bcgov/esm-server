@@ -286,13 +286,13 @@ angular.module('documents')
 						var dirs = _.size(self.selectedDirs);
 						var files = _.size(self.selectedFiles);
 						if (dirs > 0 && files > 0) {
-							self.deleteSelected.titleText = 'Delete folder(s) and file(s)';
+							self.deleteSelected.titleText = 'Delete Folder(s) and File(s)';
 							self.deleteSelected.confirmText = 'Are you sure you want to delete ' + dirs + ' folders and ' + files + ' files?';
 						} else if (dirs > 0) {
-							self.deleteSelected.titleText = 'Delete folder(s)';
+							self.deleteSelected.titleText = 'Delete Folder(s)';
 							self.deleteSelected.confirmText = 'Are you sure you want to delete the (' + dirs + ') selected folders?';
 						} else if (files > 0) {
-							self.deleteSelected.titleText = 'Delete file(s)';
+							self.deleteSelected.titleText = 'Delete File(s)';
 							self.deleteSelected.confirmText = 'Are you sure you want to delete the (' + files + ') selected files?';
 						}
 						self.deleteSelected.confirmItems = [];
