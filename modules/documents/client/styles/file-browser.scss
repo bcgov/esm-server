@@ -879,6 +879,16 @@ $fb-upload-target-border: 2px dashed #BBB;
 /* TO BE MOVED TO GLOBAL CONTEXT MENU STYLING */
 
 .fb-header {
+    .btn-group {
+        &.open {
+            .dropdown-toggle {
+                -webkit-box-shadow: none;
+                box-shadow: none;
+                border: 1px solid #DDD;
+            }
+        }
+    }
+
     .dropdown-menu {
         margin-top: 0.5rem;
         padding-top: 0.5rem;

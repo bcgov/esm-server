@@ -322,18 +322,18 @@ angular.module('documents')
 					setContext: function() {
 						self.deleteSelected.confirmItems = [];
 						self.deleteSelected.titleText = 'Delete selected.';
-						self.deleteSelected.confirmText = 'Are you sure you want to delete the selected item(s)?';
+						self.deleteSelected.confirmText = 'Are you sure you want to delete the following the selected item(s)?';
 						var dirs = _.size(self.checkedDirs);
 						var files = _.size(self.checkedFiles);
 						if (dirs > 0 && files > 0) {
 							self.deleteSelected.titleText = 'Delete Folder(s) and File(s)';
-							self.deleteSelected.confirmText = 'Are you sure you want to delete ' + dirs + ' folders and ' + files + ' files?';
+							self.deleteSelected.confirmText = 'Are you sure you want to delete the following ('+ dirs +') folders and ('+ files +') files?';
 						} else if (dirs > 0) {
 							self.deleteSelected.titleText = 'Delete Folder(s)';
-							self.deleteSelected.confirmText = 'Are you sure you want to delete the (' + dirs + ') selected folders?';
+							self.deleteSelected.confirmText = 'Are you sure you want to delete the following ('+ dirs +') selected folders?';
 						} else if (files > 0) {
 							self.deleteSelected.titleText = 'Delete File(s)';
-							self.deleteSelected.confirmText = 'Are you sure you want to delete the (' + files + ') selected files?';
+							self.deleteSelected.confirmText = 'Are you sure you want to delete the following ('+ files +') selected files?';
 						}
 						self.deleteSelected.confirmItems = [];
 						_.each(self.checkedDirs, function(o) {

@@ -35,7 +35,7 @@
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 			
 			<div class="btn-group" ng-if="project.userCan.createDocument && documentMgr.checkedDirs.length == 1 || project.userCan.createDocument">
-				<button type="button" class="btn icon-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 				</button>
 				<ul class="dropdown-menu pull-right">
@@ -125,7 +125,7 @@
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 					</div>
 					<div class="col status-col">
-						<span>Published</span>
+						<span>Status</span>
 					</div>
 				</div>
 
@@ -218,7 +218,7 @@
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
 								<span class="col status-col">
-									{{ doc.isPublished || 'Published' }}
+									<span ng-if="doc.isPublished">Published</span>
 								</span>
 								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
 									
@@ -227,11 +227,6 @@
 											<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
-											<li>
-												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
-													<span class="glyphicon glyphicon-info-sign"></span>
-												</button>
-											</li>
 											<li ng-if="!doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
@@ -320,30 +315,30 @@
 					<section>
 						<ul class="nv-pair">
 							<li>
-								<span class="name">Publish Status</span>
+								<span class="name">Status:</span>
 								<span class="value">
 									<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
 									<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
 								</span>
 							</li>
 							<li>
-								<span class="name">Date uploaded</span>
+								<span class="name">Date uploaded:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
 							</li>
 							<li>
-								<span class="name">Modified</span>
+								<span class="name">Modified:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.dateUpdated | date : format : timezone }}</span>
 							</li>
 							<li>
-								<span class="name">Last update by</span>
+								<span class="name">Last update by:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.updatedBy.displayName }}</span>
 							</li>
 							<li>
-								<span class="name">Size</span>
+								<span class="name">Size:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>
 							</li>
 							<li>
-								<span class="name">Type</span>
+								<span class="name">Type:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalExt }}</span>
 							</li>
 						</ul>
