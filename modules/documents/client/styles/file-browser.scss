@@ -249,7 +249,6 @@ $list-selected-border: 1px solid #4187c9;
         bottom: 0;
         background: $file-browser-bg;
         transform: translateX(100%);
-        transition: transform ease-out 0.2s;
 
         .fb-details-content {
             width: 100%;
@@ -513,7 +512,7 @@ $list-selected-border: 1px solid #4187c9;
     and (min-device-width: 768px)
     and (max-device-width: 1024px) {
     .fb-list {
-        .cell-contents {
+        .fb-col-group {
             .row-actions {
                 display: block;
                 right: 1rem;
@@ -537,6 +536,10 @@ span.avatar {
 
 .col.type-col {
     @include flex(0 0 13%)
+}
+
+.col.status-col {
+    @include flex(0 0 18%)
 }
 
 .col.date-added-col {
@@ -860,5 +863,39 @@ $fb-upload-target-border: 2px dashed #BBB;
 .has-error {
     .progress-bar {
         display: none;
+    }
+}
+
+
+/* TO BE MOVED TO GLOBAL DIALOG STYLING */
+.confirm-dialog {
+    .confirm-list {
+        margin-top: 1rem;
+        margin-bottom: 0;
+        font-weight: bold;
+    }
+}
+
+/* TO BE MOVED TO GLOBAL CONTEXT MENU STYLING */
+
+.fb-header {
+    .dropdown-menu {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-radius: 0;
+        border: none;
+        box-shadow: 0 0 1rem #999;
+
+        a {
+            padding: 0.6rem 1.5rem;
+        }
+
+        .glyphicon {
+            margin-top: -0.5rem;
+            margin-right: 1rem;
+            font-size: 1.8rem;
+            vertical-align: middle;
+        }
     }
 }
