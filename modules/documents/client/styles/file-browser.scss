@@ -4,6 +4,7 @@
 /* COLORS */
 $file-browser-bg: #FFF;
 $file-browser-border: 1px solid #EEE;
+$fb-border: 1px solid #EEE;
 
 $file-browser-breadcrumb-color: #999;
 $file-browser-breadcrumb-active-color: #494949;
@@ -102,6 +103,50 @@ $list-selected-border: 1px solid #4187c9;
         @include flex(1 1 auto);
     }
 }
+
+
+/* CHECKBOX COL */
+.col.checkbox-col {
+    @include flex(0 0 4rem);
+    position: relative;
+    text-align: center;
+    border-right: $fb-border;
+
+    label {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: 0;
+
+        span {
+            margin-top: 1.4rem;
+            opacity: 0.2;
+            visibility: hidden;
+        }
+    }
+
+    input[type='checkbox'] {
+        opacity: 0;
+
+        &:focus {
+            + label {
+                background: #EEE;
+            }
+        }
+    }
+
+    input[type='checkbox']:checked {
+        + label {
+            span {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+}
+
 
 /* FILE BROWSER */
 .file-browser {
@@ -305,6 +350,10 @@ $list-selected-border: 1px solid #4187c9;
             background: $list-selected-bg;
             border-bottom: $list-selected-border;
 
+            .col.checkbox-col {
+                border-right: $list-selected-border;
+            }
+
             .btn:focus,
             .btn:hover {
                 background: transparent;
@@ -396,11 +445,6 @@ $list-selected-border: 1px solid #4187c9;
                 margin-right: 0;
             }
         }
-    }
-
-    .select-col {
-        @include flex(0 0 4rem);
-        text-align: center;
     }
 
     .fb-list-item {
