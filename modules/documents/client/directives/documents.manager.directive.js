@@ -30,6 +30,9 @@ angular.module('documents')
 				self.currentPath = undefined;
 
 				self.allChecked = false;
+				self.checkedDirs = [];
+				self.checkedFiles = [];
+				self.lastChecked = {fileId: undefined, directoryID: undefined};
 
 				self.unsortedFiles = [];
 				self.unsortedDirs = [];
@@ -37,18 +40,12 @@ angular.module('documents')
 				self.currentFiles = [];
 				self.currentDirs = [];
 
-				self.selectedDirs = [];
-				self.selectedFiles = [];
-
 				self.infoPanel = {
-					enabled: false,
 					open: false,
 					type: 'None',
 					data: undefined,
 					toggle: function() {
-						if (self.infoPanel.enabled) {
-							self.infoPanel.open = !self.infoPanel.open;
-						}
+						self.infoPanel.open = !self.infoPanel.open;
 					},
 					close: function() {
 						self.infoPanel.open = false;
@@ -59,60 +56,31 @@ angular.module('documents')
 						self.infoPanel.type = 'None';
 						self.infoPanel.data = undefined;
 					},
-					setData: function(dirs, files) {
-						if (_.size(dirs) === 1 && _.size(files) === 0) {
-							self.infoPanel.type = 'Directory';
-							self.infoPanel.data = dirs[0].model;
-							self.infoPanel.enabled = true;
-						} else if (_.size(files) === 1 && _.size(dirs) === 0) {
-							self.infoPanel.type = 'File';
-							self.infoPanel.data = files[0];
-							self.infoPanel.enabled = true;
+					setData: function() {
+						self.infoPanel.reset();
+						// check to see if there is a single lastChecked item set first...
+						if (self.lastChecked) {
+							if (self.lastChecked.fileId) {
+								self.infoPanel.type = 'File';
+								var file = _.find(self.currentFiles, function(o) { return o._id.toString() === self.lastChecked.fileId; });
+								self.infoPanel.data = file ? file : undefined;
+							} else if (self.lastChecked.directoryID) {
+								self.infoPanel.type = 'Directory';
+								var node =_.find(self.currentDirs, function(o) { return o.model.id === self.lastChecked.directoryID; });
+								self.infoPanel.data = node ? node.model : undefined;
+							}
 						} else {
-							self.infoPanel.reset();
+							if (_.size(self.checkedDirs) + _.size(self.checkedFiles) > 1) {
+								self.infoPanel.type = 'Multi';
+								self.infoPanel.data = {
+									checkedFiles: _.size(self.checkedFiles),
+									checkedDirs: _.size(self.checkedDirs),
+									totalFiles: _.size(self.currentFiles),
+									totalDirs: _.size(self.currentDirs)
+								}; // what to show here?
+							}
 						}
-					},
-					disabled: function(type, item) {
-						if ('Directory' === type && self.selectedDirIndex(item) > -1) {
-							return false;
-						} else if ('File' === type && self.selectedFileIndex(item) > -1) {
-							return false;
-						}
-						return true;
 					}
-				};
-
-				self.selectedDirIndex = function(dir) {
-					return _.findIndex(self.selectedDirs, function(n) { return n.model.id === dir.model.id; });
-				};
-				self.toggleDir = function(dir) {
-					self.selectedFiles = [];// make single select for now...
-					var idx = self.selectedDirIndex(dir);
-					if (idx > -1) {
-						_.pullAt(self.selectedDirs, idx);
-
-					} else {
-						//self.selectedDirs = [];// make single select for now...
-						self.selectedDirs.push(dir);
-					}
-					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
-					self.deleteSelected.setContext();
-				};
-
-				self.selectedFileIndex = function(file) {
-					return _.findIndex(self.selectedFiles, function(n) { return n._id.toString() === file._id.toString(); });
-				};
-				self.toggleFile = function(file) {
-					self.selectedDirs = [];// make single select for now...
-					var idx = self.selectedFileIndex(file);
-					if (idx > -1) {
-						_.pullAt(self.selectedFiles, idx);
-					} else {
-						//self.selectedFiles = [];// make single select for now...
-						self.selectedFiles.push(file);
-					}
-					self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
-					self.deleteSelected.setContext();
 				};
 
 				self.sortBy = function(column) {
@@ -167,11 +135,18 @@ angular.module('documents')
 				self.checkAll = function() {
 					_.each(self.currentDirs, function(o) { o.selected = self.allChecked; });
 					_.each(self.currentFiles, function(o) { o.selected = self.allChecked; });
+
+					var doc;
+					if (self.allChecked) {
+						doc = _.last(self.currentFiles) || _.last(self.currentDirs);
+					}
+
+					self.syncCheckedItems(doc);
 				};
 
 				self.checkFile = function(doc) {
 					// ADD/remove to the selected file list...
-
+					self.syncCheckedItems(doc);
 				};
 				self.selectFile = function(doc) {
 					// selected a file, make it the only item selected...
@@ -179,10 +154,11 @@ angular.module('documents')
 					_.each(self.currentDirs, function(o) { o.selected = false; });
 					_.each(self.currentFiles, function(o) { o.selected = false; });
 					doc.selected = !checked;
-
+					self.syncCheckedItems(doc);
 				};
-				self.checkDir = function(doc) {
 
+				self.checkDir = function(doc) {
+					self.syncCheckedItems(doc);
 				};
 				self.selectDir = function(doc) {
 					// selected a dir, make it the only item selected...
@@ -190,6 +166,7 @@ angular.module('documents')
 					_.each(self.currentDirs, function(o) { o.selected = false; });
 					_.each(self.currentFiles, function(o) { o.selected = false; });
 					doc.selected = !checked;
+					self.syncCheckedItems(doc);
 				};
 				self.openDir = function(doc) {
 					//double clicked a dir, open it up!
@@ -203,19 +180,14 @@ angular.module('documents')
 					if (!theNode) {
 						theNode = self.rootNode;
 					}
-					var checkedDirs = _.filter(self.currentDirs, function(o) { return o.selected; });
-					var checkedFiles = _.filter(self.currentFiles, function(o) { return o.selected; });
 
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
 					self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
-
 					self.currentFiles = [];
 					self.currentDirs = [];
 
-					self.selectedDirs = [];
-					self.selectedFiles = [];
 					//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
 					DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
 						.then(
@@ -223,18 +195,18 @@ angular.module('documents')
 								//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
 
 								self.unsortedFiles = _.map(result.data, function(f) {
-									return _.extend(f,{selected:  _.find(checkedFiles, function(d) { return d._id.toString() === f.id.toString(); }), type: 'File'});
+									return _.extend(f,{selected:  _.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }), type: 'File'});
 								});
 
 								self.unsortedDirs = _.map(self.currentNode.children, function (n) {
-									return _.extend(n,{selected: (_.find(checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
+									return _.extend(n,{selected: (_.find(self.checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
 								});
 
 								self.applySort();
 								// since we loaded this, make it the selected node
 								self.selectedNode = self.currentNode;
-
-								//self.infoPanel.setData(self.selectedDirs, self.selectedFiles);
+								// see what is currently checked
+								self.syncCheckedItems();
 							},
 							function (error) {
 								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
@@ -242,8 +214,20 @@ angular.module('documents')
 						);
 				};
 
-				self.addDisabled = function() {
-					return self.selectedNode === undefined;
+				self.syncCheckedItems = function(doc) {
+					self.checkedDirs = _.filter(self.currentDirs, function(o) { return o.selected; }) || [];
+					self.checkedFiles = _.filter(self.currentFiles, function(o) { return o.selected; }) || [];
+					// any kind of contexts that depend on what is selected needs to be done here too...
+					self.lastChecked = undefined;
+					if (doc && doc.selected && (_.size(self.checkedDirs) + _.size(self.checkedFiles) === 1)){
+						if (doc.model) {
+							self.lastChecked = { directoryID: doc.model.id, fileId: undefined };
+						} else {
+							self.lastChecked = { directoryID: undefined, fileId: doc._id.toString() };
+						}
+					}
+					self.infoPanel.setData();
+					self.deleteSelected.setContext();
 				};
 
 				self.deleteDocument = function(documentID) {
@@ -266,7 +250,7 @@ angular.module('documents')
 						});
 				};
 
-				self.deleteFolder = function(doc) {
+				self.deleteDir = function(doc) {
 					return DocumentMgrService.removeDirectory($scope.project, doc)
 						.then(function(result) {
 							$scope.project.directoryStructure = result.data;
@@ -285,17 +269,17 @@ angular.module('documents')
 					okText: 'Yes',
 					cancelText: 'No',
 					ok: function() {
-						var dirs = _.size(self.selectedDirs);
-						var files = _.size(self.selectedFiles);
+						var dirs = _.size(self.checkedDirs);
+						var files = _.size(self.checkedFiles);
 						if (dirs === 0 && files === 0) {
 							return Promise.resolve();
 						} else {
 
-							var dirPromises = _.map(self.selectedDirs, function(d) {
+							var dirPromises = _.map(self.checkedDirs, function(d) {
 								return DocumentMgrService.removeDirectory($scope.project, d);
 							});
 
-							var filePromises = _.map(self.selectedFiles, function(f) {
+							var filePromises = _.map(self.checkedFiles, function(f) {
 								return self.deleteDocument(f._id);
 							});
 
@@ -326,8 +310,8 @@ angular.module('documents')
 					setContext: function() {
 						self.deleteSelected.titleText = 'Delete selected.';
 						self.deleteSelected.confirmText = 'Are you sure you want to delete the selected item(s)?';
-						var dirs = _.size(self.selectedDirs);
-						var files = _.size(self.selectedFiles);
+						var dirs = _.size(self.checkedDirs);
+						var files = _.size(self.checkedFiles);
 						if (dirs > 0 && files > 0) {
 							self.deleteSelected.titleText = 'Delete Folder(s) and File(s)';
 							self.deleteSelected.confirmText = 'Are you sure you want to delete ' + dirs + ' folders and ' + files + ' files?';
@@ -339,10 +323,10 @@ angular.module('documents')
 							self.deleteSelected.confirmText = 'Are you sure you want to delete the (' + files + ') selected files?';
 						}
 						self.deleteSelected.confirmItems = [];
-						_.each(self.selectedDirs, function(o) {
+						_.each(self.checkedDirs, function(o) {
 							self.deleteSelected.confirmItems.push(o.model.name);
 						});
-						_.each(self.selectedFiles, function(o) {
+						_.each(self.checkedFiles, function(o) {
 							self.deleteSelected.confirmItems.push(o.documentFileName);
 						});
 
