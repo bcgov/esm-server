@@ -195,7 +195,7 @@ angular.module('documents')
 								//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
 
 								self.unsortedFiles = _.map(result.data, function(f) {
-									return _.extend(f,{selected:  _.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }), type: 'File'});
+									return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
 								});
 
 								self.unsortedDirs = _.map(self.currentNode.children, function (n) {
@@ -205,8 +205,10 @@ angular.module('documents')
 								self.applySort();
 								// since we loaded this, make it the selected node
 								self.selectedNode = self.currentNode;
+
 								// see what is currently checked
 								self.syncCheckedItems();
+
 							},
 							function (error) {
 								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
@@ -226,8 +228,18 @@ angular.module('documents')
 							self.lastChecked = { directoryID: undefined, fileId: doc._id.toString() };
 						}
 					}
+					if (!doc && (_.size(self.checkedDirs) + _.size(self.checkedFiles) === 1)){
+						// if no doc passed in, but there is a single selected item, make it lastSelected
+						// most probable case is a selectNode after a context menu operation...
+						if (_.size(self.checkedDirs) === 1) {
+							self.lastChecked = { directoryID: self.checkedDirs[0].model.id, fileId: undefined };
+						} else {
+							self.lastChecked = { directoryID: undefined, fileId: self.checkedFiles[0]._id.toString() };
+						}
+					}
 					self.infoPanel.setData();
 					self.deleteSelected.setContext();
+					self.publishSelected.setContext();
 				};
 
 				self.deleteDocument = function(documentID) {
@@ -308,6 +320,7 @@ angular.module('documents')
 					confirmText:  'Are you sure you want to delete the selected item(s)?',
 					confirmItems: [],
 					setContext: function() {
+						self.deleteSelected.confirmItems = [];
 						self.deleteSelected.titleText = 'Delete selected.';
 						self.deleteSelected.confirmText = 'Are you sure you want to delete the selected item(s)?';
 						var dirs = _.size(self.checkedDirs);
@@ -328,6 +341,75 @@ angular.module('documents')
 						});
 						_.each(self.checkedFiles, function(o) {
 							self.deleteSelected.confirmItems.push(o.documentFileName);
+						});
+
+					}
+				};
+
+
+				self.publishFile = function(file) {
+					if (file.isPublished) {
+						return;
+					}
+					return Document.publish(file)
+						.then (function (data) {
+							// ok good...
+							self.selectNode(self.currentNode.model.id);
+						}, function(err) {
+							// uh oh....
+							self.selectNode(self.currentNode.model.id);
+						});
+				};
+
+				self.unpublishFile = function(file) {
+					if (!file.isPublished) {
+						return;
+					}
+					return Document.unpublish (file)
+						.then (function (data) {
+							// ok good...
+							self.selectNode(self.currentNode.model.id);
+						}, function(err) {
+							// uh oh....
+							self.selectNode(self.currentNode.model.id);
+						});
+				};
+
+				self.publishSelected = {
+					titleText: 'Publish selected.',
+					okText: 'Yes',
+					cancelText: 'No',
+					publish: function() {
+						var filePromises = _.map(self.checkedFiles, function(f) {
+							return Document.publish(f);
+						});
+
+						return Promise.all(filePromises)
+							.then(function(result) {
+								//$log.debug('Publish File results ', JSON.stringify(result));
+								//$log.debug('Refreshing current directory...');
+								self.selectNode(self.currentNode.model.id);
+							});
+					},
+					unpublish: function() {
+						var filePromises = _.map(self.checkedFiles, function(f) {
+							return Document.unpublish(f);
+						});
+						return Promise.all(filePromises)
+							.then(function(result) {
+								//$log.debug('Unpublish File results ', JSON.stringify(result));
+								//$log.debug('Refreshing current directory...');
+								self.selectNode(self.currentNode.model.id);
+							});
+					},
+					cancel: undefined,
+					confirmText:  'Are you sure you want to publish the selected item(s)?',
+					confirmItems: [],
+					setContext: function() {
+						self.publishSelected.confirmItems = [];
+						// only documents/files....
+						_.each(self.checkedFiles, function(o) {
+							self.publishSelected.confirmItems.push(o.documentFileName);
 						});
 
 					}

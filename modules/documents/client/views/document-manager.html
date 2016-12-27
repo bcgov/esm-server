@@ -49,6 +49,28 @@
 					x-confirm-text="documentMgr.deleteSelected.confirmText"
 					x-confirm-items="documentMgr.deleteSelected.confirmItems"
 					x-on-ok="documentMgr.deleteSelected.ok"><span class="glyphicon glyphicon-trash"></span></button>
+
+			<button class="btn icon-btn" title="Publish"
+					ng-if="project.userCan.createDocument"
+					ng-disabled="documentMgr.checkedFiles.length === 0"
+					x-confirm-dialog
+					x-title-text="'Publish selected'"
+					x-ok-text="documentMgr.publishSelected.okText"
+					x-cancel-text="documentMgr.publishSelected.cancelText"
+					x-confirm-text="'Are you sure you want to publish the selected item(s)?'"
+					x-confirm-items="documentMgr.publishSelected.confirmItems"
+					x-on-ok="documentMgr.publishSelected.publish"><span class="glyphicon glyphicon-export"></span></button>
+
+			<button class="btn icon-btn" title="Unpublish"
+					ng-if="project.userCan.createDocument"
+					ng-disabled="documentMgr.checkedFiles.length === 0"
+					x-confirm-dialog
+					x-title-text="'Unpublish selected'"
+					x-ok-text="documentMgr.publishSelected.okText"
+					x-cancel-text="documentMgr.publishSelected.cancelText"
+					x-confirm-text="'Are you sure you want to unpublish the selected item(s)?'"
+					x-confirm-items="documentMgr.publishSelected.confirmItems"
+					x-on-ok="documentMgr.publishSelected.unpublish"><span class="glyphicon glyphicon-import"></span></button>
 		</div>
 	</div>
 
@@ -192,7 +214,32 @@
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
-											<li>
+											<li ng-if="!doc.isPublished">
+												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Publish File'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to publish this file?'"
+														x-confirm-items="[doc.documentFileName]"
+														x-on-ok="documentMgr.publishFile"
+														x-ok-args="doc">
+													<span class="glyphicon glyphicon-export"></span>
+												</button>
+											</li>
+											<li ng-if="doc.isPublished">
+												<button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Unpublish File'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to unpublish this file?'"
+														x-confirm-items="[doc.documentFileName]"
+														x-on-ok="documentMgr.unpublishFile"
+														x-ok-args="doc">
+													<span class="glyphicon glyphicon-import"></span>
+												</button>
+											</li>											<li>
 												<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Delete File'"
