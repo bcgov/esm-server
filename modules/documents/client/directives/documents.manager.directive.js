@@ -11,6 +11,7 @@ angular.module('documents')
 			controller: function ($scope, $log, _, DocumentMgrService, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
+				self.busy = true;
 
 				$scope.project.directoryStructure = $scope.project.directoryStructure || {
 						id: 1,
@@ -177,6 +178,7 @@ angular.module('documents')
 				};
 
 				self.selectNode = function (nodeId) {
+					self.busy = true;
 					var theNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
 					});
@@ -211,10 +213,11 @@ angular.module('documents')
 
 								// see what is currently checked
 								self.syncCheckedItems();
-
+								self.busy = false;
 							},
 							function (error) {
 								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
+								self.busy = false;
 							}
 						);
 				};
@@ -266,16 +269,25 @@ angular.module('documents')
 				};
 
 				self.deleteDir = function(doc) {
+					self.busy = true;
 					return DocumentMgrService.removeDirectory($scope.project, doc)
 						.then(function(result) {
 							$scope.project.directoryStructure = result.data;
+							self.busy = false;
+						}, function(error) {
+							$log.error('DocumentMgrService.removeDirectory error: ', JSON.stringify(error));
+							self.busy = false;
 						});
 				};
 
 				self.deleteFile = function(doc) {
+					self.busy = true;
 					return self.deleteDocument(doc._id)
 						.then(function(result) {
-							self.selectNode(self.currentNode.model.id);
+							self.selectNode(self.currentNode.model.id); // will mark as not busy...
+						}, function(error) {
+							$log.error('deleteFile error: ', JSON.stringify(error));
+							self.busy = false;
 						});
 				};
 
@@ -289,6 +301,7 @@ angular.module('documents')
 						if (dirs === 0 && files === 0) {
 							return Promise.resolve();
 						} else {
+							self.busy = true;
 
 							var dirPromises = _.map(self.checkedDirs, function(d) {
 								return DocumentMgrService.removeDirectory($scope.project, d);
@@ -317,6 +330,7 @@ angular.module('documents')
 									//$log.debug('Refreshing current directory...');
 									self.selectNode(self.currentNode.model.id);
 								}, function(err) {
+									self.busy = false;
 									var items = (err && err.message) ? [err.message] : [];
 									DialogService.show('error', 'Delete failure', "An error occurred.  The selected items could not be deleted.", items);
 								});
@@ -353,6 +367,7 @@ angular.module('documents')
 				};
 
 				self.publishFiles = function(files) {
+					self.busy = true;
 					var filePromises = _.map(files, function(f) {
 						return Document.publish(f);
 					});
@@ -365,12 +380,14 @@ angular.module('documents')
 							self.selectNode(self.currentNode.model.id);
 							DialogService.show('success', 'Publish success', _.size(published) + ' of ' + _.size(files) + ' files published.', published);
 						}, function(err) {
+							self.busy = false;
 							var items = (err && err.message) ? [err.message] : [];
 							DialogService.show('error', 'Publish failure', "Selected files could not be published.", items);
 						});
 				};
 
 				self.unpublishFiles = function(files) {
+					self.busy = true;
 					var filePromises = _.map(files, function(f) {
 						return Document.unpublish(f);
 					});
@@ -383,6 +400,7 @@ angular.module('documents')
 							self.selectNode(self.currentNode.model.id);
 							DialogService.show('success', 'Unpublish success', _.size(unpublished) + ' of ' + _.size(files) + ' files unpublished.', unpublished);
 						}, function(err) {
+							self.busy = false;
 							var items = (err && err.message) ? [err.message] : [];
 							DialogService.show('error', 'Unpublish failure', "Selected files could not be unpublished.", items);
 						});
