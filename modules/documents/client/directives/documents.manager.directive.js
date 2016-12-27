@@ -108,6 +108,9 @@ angular.module('documents')
 						} else if (self.sorting.column === 'date') {
 							//date uploaded
 							return _.isEmpty(f.dateUploaded) ? 0 : f.dateUploaded;
+						} else if (self.sorting.column === 'pub') {
+							//is published...
+							return !f.isPublished;
 						}
 						// by name if none specified... or we incorrectly identified...
 						return _.isEmpty(f.internalOriginalName) ? null : f.internalOriginalName.toLowerCase();

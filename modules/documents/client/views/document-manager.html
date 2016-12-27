@@ -124,8 +124,9 @@
 						<span>Date Uploaded</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 					</div>
-					<div class="col status-col">
+					<div class="col status-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')">
 						<span>Published</span>
+						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
 					</div>
 				</div>
 
@@ -218,7 +219,7 @@
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
 								<span class="col status-col">
-									{{ doc.isPublished || 'Published' }}
+									{{ doc.isPublished ? 'Published' : '' }}
 								</span>
 								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
 									
