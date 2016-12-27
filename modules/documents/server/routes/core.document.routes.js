@@ -240,5 +240,15 @@ module.exports = function (app) {
 				}
 			});
 		}));
+
+	app.route('/api/publish/document/:document').all(policy('user'))
+		.put(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.publish(req.Document);
+		}));
+	app.route('/api/unpublish/document/:document').all(policy('user'))
+		.put(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.unpublish(req.Document);
+		}));
+
 };
 

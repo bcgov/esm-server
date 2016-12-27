@@ -30,7 +30,7 @@
 					x-confirm-text="documentMgr.deleteSelected.confirmText"
 					x-confirm-items="documentMgr.deleteSelected.confirmItems"
 					x-on-ok="documentMgr.deleteSelected.ok"><span class="glyphicon glyphicon-trash"></span></button>
-
+			
 			<button class="toggle-details-btn btn icon-btn" title="Show Details" 
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 			
@@ -55,6 +55,30 @@
 							x-project="project"
 							x-root="documentMgr.rootNode"
 							x-node="documentMgr.checkedDirs[0]"><span class="glyphicon glyphicon-edit"></span> Rename</a>
+					</li>
+					<li>
+						<a title="Publish"
+							ng-if="project.userCan.createDocument"
+							ng-hide="documentMgr.checkedFiles.length === 0"
+							x-confirm-dialog
+							x-title-text="'Publish selected'"
+							x-ok-text="documentMgr.publishSelected.okText"
+							x-cancel-text="documentMgr.publishSelected.cancelText"
+							x-confirm-text="'Are you sure you want to publish the selected item(s)?'"
+							x-confirm-items="documentMgr.publishSelected.confirmItems"
+							x-on-ok="documentMgr.publishSelected.publish"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
+					</li>
+					<li>
+						<a title="Unpublish"
+							ng-if="project.userCan.createDocument"
+							ng-hide="documentMgr.checkedFiles.length === 0"
+							x-confirm-dialog
+							x-title-text="'Unpublish selected'"
+							x-ok-text="documentMgr.publishSelected.okText"
+							x-cancel-text="documentMgr.publishSelected.cancelText"
+							x-confirm-text="'Are you sure you want to unpublish the selected item(s)?'"
+							x-confirm-items="documentMgr.publishSelected.confirmItems"
+							x-on-ok="documentMgr.publishSelected.unpublish"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
 					</li>
 				</ul>
 			</div>
@@ -193,7 +217,9 @@
 								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
-								<span class="col status-col">{{ doc.isPublished }}</span>
+								<span class="col status-col">
+									{{ doc.isPublished || 'Published' }}
+								</span>
 								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
 									
 									<div class="btn-group">
@@ -201,6 +227,37 @@
 											<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
+											<li>
+												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+													<span class="glyphicon glyphicon-info-sign"></span>
+												</button>
+											</li>
+											<li ng-if="!doc.isPublished">
+												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Publish File'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to publish this file?'"
+														x-confirm-items="[doc.documentFileName]"
+														x-on-ok="documentMgr.publishFile"
+														x-ok-args="doc">
+													<span class="glyphicon glyphicon-ok-circle"></span>
+												</button>
+											</li>
+											<li ng-if="doc.isPublished">
+												<button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Unpublish File'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to unpublish this file?'"
+														x-confirm-items="[doc.documentFileName]"
+														x-on-ok="documentMgr.unpublishFile"
+														x-ok-args="doc">
+													<span class="glyphicon glyphicon-ban-circle"></span>
+												</button>
+											</li>	
 											<li>
 												<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
