@@ -22,7 +22,7 @@
 		<button class="btn btn-default" type="button" ng-click="confirmDlg.cancel()">{{confirmDlg.cancelText}}</button>
 
 		<!-- Disabled until something is entered into the input field -->
-		<button class="btn btn-primary" type="submit">{{confirmDlg.okText}}</button>
+		<button class="btn btn-primary" type="submit" ng-disabled="confirmDlg.errorMsg">{{confirmDlg.okText}}</button>
 
 	</div>
 </form>

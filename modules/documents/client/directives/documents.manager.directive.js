@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', function (_, DocumentMgrService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -316,6 +316,9 @@ angular.module('documents')
 									}
 									//$log.debug('Refreshing current directory...');
 									self.selectNode(self.currentNode.model.id);
+								}, function(err) {
+									var items = (err && err.message) ? [err.message] : [];
+									DialogService.show('error', 'Delete failure', "An error occurred.  The selected items could not be deleted.", items);
 								});
 						}
 					},
@@ -349,33 +352,48 @@ angular.module('documents')
 					}
 				};
 
-
-				self.publishFile = function(file) {
-					if (file.isPublished) {
-						return;
-					}
-					return Document.publish(file)
-						.then (function (data) {
-							// ok good...
+				self.publishFiles = function(files) {
+					var filePromises = _.map(files, function(f) {
+						return Document.publish(f);
+					});
+					return Promise.all(filePromises)
+						.then(function(result) {
+							//$log.debug('Publish File results ', JSON.stringify(result));
+							//$log.debug('Refreshing current directory...');
+							var published = _.map(result, function(o) { if (o.isPublished) return o.documentFileName; });
+							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.documentFileName; });
 							self.selectNode(self.currentNode.model.id);
+							DialogService.show('success', 'Publish success', _.size(published) + ' of ' + _.size(files) + ' files published.', published);
 						}, function(err) {
-							// uh oh....
-							self.selectNode(self.currentNode.model.id);
+							var items = (err && err.message) ? [err.message] : [];
+							DialogService.show('error', 'Publish failure', "Selected files could not be published.", items);
 						});
 				};
 
-				self.unpublishFile = function(file) {
-					if (!file.isPublished) {
-						return;
-					}
-					return Document.unpublish (file)
-						.then (function (data) {
-							// ok good...
+				self.unpublishFiles = function(files) {
+					var filePromises = _.map(files, function(f) {
+						return Document.unpublish(f);
+					});
+					return Promise.all(filePromises)
+						.then(function(result) {
+							//$log.debug('Unpublish File results ', JSON.stringify(result));
+							//$log.debug('Refreshing current directory...');
+							var published = _.map(result, function(o) { if (o.isPublished) return o.documentFileName; });
+							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.documentFileName; });
 							self.selectNode(self.currentNode.model.id);
+							DialogService.show('success', 'Unpublish success', _.size(unpublished) + ' of ' + _.size(files) + ' files unpublished.', unpublished);
 						}, function(err) {
-							// uh oh....
-							self.selectNode(self.currentNode.model.id);
+							var items = (err && err.message) ? [err.message] : [];
+							DialogService.show('error', 'Unpublish failure', "Selected files could not be unpublished.", items);
 						});
+				};
+
+				self.publishFile = function(file) {
+					return self.publishFiles([file]);
+				};
+
+				self.unpublishFile = function(file) {
+					return self.unpublishFiles([file]);
 				};
 
 				self.publishSelected = {
@@ -383,27 +401,10 @@ angular.module('documents')
 					okText: 'Yes',
 					cancelText: 'No',
 					publish: function() {
-						var filePromises = _.map(self.checkedFiles, function(f) {
-							return Document.publish(f);
-						});
-
-						return Promise.all(filePromises)
-							.then(function(result) {
-								//$log.debug('Publish File results ', JSON.stringify(result));
-								//$log.debug('Refreshing current directory...');
-								self.selectNode(self.currentNode.model.id);
-							});
+						return self.publishFiles(self.checkedFiles);
 					},
 					unpublish: function() {
-						var filePromises = _.map(self.checkedFiles, function(f) {
-							return Document.unpublish(f);
-						});
-						return Promise.all(filePromises)
-							.then(function(result) {
-								//$log.debug('Unpublish File results ', JSON.stringify(result));
-								//$log.debug('Refreshing current directory...');
-								self.selectNode(self.currentNode.model.id);
-							});
+						return self.unpublishFiles(self.checkedFiles);
 					},
 					cancel: undefined,
 					confirmText:  'Are you sure you want to publish the selected item(s)?',
