@@ -280,7 +280,7 @@ angular.module('documents')
 				};
 
 				self.deleteSelected = {
-					titleText: 'Delete selected.',
+					titleText: 'Delete File(s)',
 					okText: 'Yes',
 					cancelText: 'No',
 					ok: function() {
@@ -327,7 +327,7 @@ angular.module('documents')
 					confirmItems: [],
 					setContext: function() {
 						self.deleteSelected.confirmItems = [];
-						self.deleteSelected.titleText = 'Delete selected.';
+						self.deleteSelected.titleText = 'Delete selected';
 						self.deleteSelected.confirmText = 'Are you sure you want to delete the following the selected item(s)?';
 						var dirs = _.size(self.checkedDirs);
 						var files = _.size(self.checkedFiles);
@@ -363,10 +363,10 @@ angular.module('documents')
 							var published = _.map(result, function(o) { if (o.isPublished) return o.documentFileName; });
 							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.documentFileName; });
 							self.selectNode(self.currentNode.model.id);
-							DialogService.show('success', 'Publish success', _.size(published) + ' of ' + _.size(files) + ' files published.', published);
+							DialogService.show('success', 'Publish File(s)', _.size(published) + ' of ' + _.size(files) + ' files successfully published.', published);
 						}, function(err) {
 							var items = (err && err.message) ? [err.message] : [];
-							DialogService.show('error', 'Publish failure', "Selected files could not be published.", items);
+							DialogService.show('error', 'Publish File(s)', "Selected files could not be published.", items);
 						});
 				};
 
@@ -381,10 +381,10 @@ angular.module('documents')
 							var published = _.map(result, function(o) { if (o.isPublished) return o.documentFileName; });
 							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.documentFileName; });
 							self.selectNode(self.currentNode.model.id);
-							DialogService.show('success', 'Unpublish success', _.size(unpublished) + ' of ' + _.size(files) + ' files unpublished.', unpublished);
+							DialogService.show('success', 'Unpublish File(s)', _.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.', unpublished);
 						}, function(err) {
 							var items = (err && err.message) ? [err.message] : [];
-							DialogService.show('error', 'Unpublish failure', "Selected files could not be unpublished.", items);
+							DialogService.show('error', 'Unpublish File(s)', "Selected files could not be unpublished.", items);
 						});
 				};
 
@@ -397,7 +397,7 @@ angular.module('documents')
 				};
 
 				self.publishSelected = {
-					titleText: 'Publish selected.',
+					titleText: 'Publish File(s)',
 					okText: 'Yes',
 					cancelText: 'No',
 					publish: function() {

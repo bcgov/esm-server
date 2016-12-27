@@ -61,7 +61,7 @@
 							ng-if="project.userCan.createDocument"
 							ng-hide="documentMgr.checkedFiles.length === 0"
 							x-confirm-dialog
-							x-title-text="'Publish selected'"
+							x-title-text="'Publish File(s)'"
 							x-ok-text="documentMgr.publishSelected.okText"
 							x-cancel-text="documentMgr.publishSelected.cancelText"
 							x-confirm-text="'Are you sure you want to publish the selected file(s)?'"
@@ -73,7 +73,7 @@
 							ng-if="project.userCan.createDocument"
 							ng-hide="documentMgr.checkedFiles.length === 0"
 							x-confirm-dialog
-							x-title-text="'Unpublish selected'"
+							x-title-text="'Unpublish File(s)'"
 							x-ok-text="documentMgr.publishSelected.okText"
 							x-cancel-text="documentMgr.publishSelected.cancelText"
 							x-confirm-text="'Are you sure you want to unpublish the selected file(s)?'"
@@ -231,7 +231,7 @@
 											<li ng-if="!doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
-														x-title-text="'Publish File'"
+														x-title-text="'Publish File(s)'"
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to publish the selected file?'"
@@ -244,7 +244,7 @@
 											<li ng-if="doc.isPublished">
 												<button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
-														x-title-text="'Unpublish File'"
+														x-title-text="'Unpublish File(s)'"
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to unpublish the selected file?'"
@@ -257,7 +257,7 @@
 											<li>
 												<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
-														x-title-text="'Delete File'"
+														x-title-text="'Delete File(s)'"
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone'"
