@@ -883,6 +883,7 @@ $fb-upload-target-border: 2px dashed #BBB;
         &.open {
             .dropdown-toggle {
                 -webkit-box-shadow: none;
+                -moz-box-shadow: none;
                 box-shadow: none;
                 border: 1px solid #DDD;
             }
