@@ -64,7 +64,7 @@
 							x-title-text="'Publish selected'"
 							x-ok-text="documentMgr.publishSelected.okText"
 							x-cancel-text="documentMgr.publishSelected.cancelText"
-							x-confirm-text="'Are you sure you want to publish the selected item(s)?'"
+							x-confirm-text="'Are you sure you want to publish the selected file(s)?'"
 							x-confirm-items="documentMgr.publishSelected.confirmItems"
 							x-on-ok="documentMgr.publishSelected.publish"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
 					</li>
@@ -76,7 +76,7 @@
 							x-title-text="'Unpublish selected'"
 							x-ok-text="documentMgr.publishSelected.okText"
 							x-cancel-text="documentMgr.publishSelected.cancelText"
-							x-confirm-text="'Are you sure you want to unpublish the selected item(s)?'"
+							x-confirm-text="'Are you sure you want to unpublish the selected file(s)?'"
 							x-confirm-items="documentMgr.publishSelected.confirmItems"
 							x-on-ok="documentMgr.publishSelected.unpublish"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
 					</li>
@@ -124,8 +124,9 @@
 						<span>Date Uploaded</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 					</div>
-					<div class="col status-col">
+					<div class="col status-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')">
 						<span>Status</span>
+						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
 					</div>
 				</div>
 
@@ -233,7 +234,7 @@
 														x-title-text="'Publish File'"
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to publish this file?'"
+														x-confirm-text="'Are you sure you want to publish the selected file?'"
 														x-confirm-items="[doc.documentFileName]"
 														x-on-ok="documentMgr.publishFile"
 														x-ok-args="doc">
@@ -246,7 +247,7 @@
 														x-title-text="'Unpublish File'"
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to unpublish this file?'"
+														x-confirm-text="'Are you sure you want to unpublish the selected file?'"
 														x-confirm-items="[doc.documentFileName]"
 														x-on-ok="documentMgr.unpublishFile"
 														x-ok-args="doc">

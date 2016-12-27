@@ -69,5 +69,49 @@ angular.module('core')
 			}
 		};
 	}])
+	.service('DialogService', ['$rootScope', '$timeout', '$log', '$modal', '_', 'Authentication', function ($rootScope, $timeout, $log, $modal, _) {
 
+		var service = this;
+
+		service.show = function(type, title, message, items) {
+
+			var _type = type  || 'info'; // success, error, warning, info...
+			var _title = title || '';
+			var _message = message || '';
+			var _items = items || [];
+
+			$modal.open({
+				animation: true,
+				templateUrl: 'modules/core/client/views/dialogs/info.html',
+				resolve: {
+				},
+				controllerAs: 'infoDlg',
+				controller: function ($scope, $modalInstance) {
+					var infoDlg = this;
+
+					infoDlg.type = _type;
+					infoDlg.titleText = _title;
+					infoDlg.messageText = _message;
+					infoDlg.items = _items;
+
+					infoDlg.cancel = function () {
+						$modalInstance.dismiss('cancel');
+					};
+
+					infoDlg.ok = function () {
+						$modalInstance.close({});
+					};
+
+				}
+			}).result
+				.then(function (data) {
+					$log.debug(data);
+				})
+				.catch(function (err) {
+					$log.error(err);
+				});
+		};
+
+
+	}])
 ;
