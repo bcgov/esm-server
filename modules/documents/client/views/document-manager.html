@@ -91,7 +91,7 @@
 
 			<!-- Load the File/Folder Directory -->
 			<!-- TODO: Remove 'hidden' selector when complete -->
-			<div class="spinner-container hidden">
+			<div class="spinner-container" ng-show="documentMgr.busy">
 				<div class="spinner">
 					<svg class="circular" viewBox="25 25 50 50">
 					<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
@@ -293,7 +293,7 @@
 		<div class="fb-details-panel">
 			<!-- Load the File/Folder Details -->
 			<!-- TODO: Remove 'hidden' selector when complete -->
-			<div class="spinner-container hidden">
+			<div class="spinner-container" ng-show="documentMgr.busy">
 				<div class="spinner">
 					<svg class="circular" viewBox="25 25 50 50">
 					<circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
