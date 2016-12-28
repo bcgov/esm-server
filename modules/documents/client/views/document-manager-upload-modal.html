@@ -1,0 +1,55 @@
+
+<div class="modal-header">
+	<button ng-disabled="uploadService.actions.busy" type="button" class="btn btn-default close" ng-click="uploadModal.cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">{{uploadModal.title}}</h3>
+</div>
+
+<div class="modal-body">
+	<x-document-mgr-upload
+		x-project="project"
+		x-root="uploadModal.rootNode"
+		x-node="uploadModal.selectedNode"
+		x-type="uploadModal.type"></x-document-mgr-upload>
+</div>
+
+<!--
+<div>
+	Busy?: {{uploadService.actions.busy}}<br>
+	Started?: {{uploadService.actions.started}}<br>
+	Completed?: {{uploadService.actions.completed}}<br>
+	Allow Upload: {{uploadService.actions.allowStart}}<br>
+	Allow Stop: {{uploadService.actions.allowStop}}<br>
+	Allow Reset: {{uploadService.actions.allowReset}}<br>
+	Total files in list: {{uploadService.counts.total}}<br>
+	Upload In Progress: {{uploadService.counts.uploading}}<br>
+	Upload Completed: {{uploadService.counts.uploaded}}<br>
+	Upload Failed: {{uploadService.counts.failed}}<br>
+	Upload cancelled: {{uploadService.counts.cancelled}}<br>
+
+</div>
+-->
+
+<div class="modal-footer clearfix">
+	<div class="fb-upload-count pull-left">
+		<span ng-if="!uploadService.actions.busy && !uploadService.actions.completed">{{uploadService.counts.total}} files queued</span>
+		<span ng-if="uploadService.actions.busy || uploadService.actions.completed">{{uploadService.counts.uploaded}} of {{uploadService.counts.total}} files uploaded</span>
+	</div>
+	<button class="btn btn-default" type="button" 
+		ng-if="!uploadService.actions.busy"
+		ng-click="uploadModal.cancel()">{{uploadService.actions.completed ? 'Close' : 'Cancel'}}</button>
+	
+	<!--
+	<button ng-if="uploadService.actions.allowStop" class="btn btn-default" ng-click="uploadService.stopUploads()" type="button">Stop Uploads</button>
+	-->
+
+	<button class="btn btn-primary"
+		ng-if="uploadService.actions.completed"
+		ng-click="uploadService.reset()">Upload More Files</button>
+	<button class="btn btn-primary"
+		ng-if="uploadService.actions.allowStart"
+		ng-click="uploadService.actions.busy || uploadModal.startUploads()">Start Upload</button>
+	<button class="btn btn-primary" ng-if="uploadService.actions.started" disabled>Uploading Files</button>
+
+</div>

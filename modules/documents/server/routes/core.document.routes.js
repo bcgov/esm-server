@@ -14,7 +14,7 @@ module.exports = function (app) {
 	//
 	// get put new delete
 	//
-	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete'], {all:'guest',get:'guest'});
+	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete', 'query'], {all:'guest',get:'guest'});
 	// Import via CSV
 	app.route ('/api/documents/import')
 		.all (policy ('guest'))
@@ -158,7 +158,8 @@ module.exports = function (app) {
 							internalMime            : file.mimetype,
 							internalExt             : file.extension,
 							internalSize            : file.size,
-							internalEncoding        : file.encoding
+							internalEncoding        : file.encoding,
+							directoryID             : req.headers.directoryid || 0
 						});
 					})
 					.then (resolve, reject);
@@ -175,7 +176,9 @@ module.exports = function (app) {
 		.post (routes.setAndRun (DocumentClass, function (model, req) {
 			return new Promise (function (resolve, reject) {
 				var file = req.files.file;
-				if (file) {
+				if (file && file.originalname === 'this-is-a-file-that-we-want-to-fail.xxx') {
+					reject('Fail uploading this file.');
+				} else if (file) {
 					var opts = { oldPath: file.path, projectCode: req.Project.code};
 					routes.moveFile (opts)
 					.then (function (newFilePath) {
@@ -183,6 +186,15 @@ module.exports = function (app) {
 						if (req.headers.internaldocument) {
 							// Force read array to be this:
 							readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+						}
+						var datePosted, dateReceived = Date.now();
+						console.log("new Date(req.headers.datereceived)", new Date(req.headers.datereceived));
+						// Allow override of date posting/received
+						if (req.headers.dateposted) {
+							datePosted = new Date(req.headers.dateposted);
+						}
+						if (req.headers.datereceived) {
+							dateReceived = new Date(req.headers.datereceived);
 						}
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.
@@ -193,10 +205,16 @@ module.exports = function (app) {
 							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
 							projectFolderName       : req.headers.documentfoldername,
 							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
-							projectFolderDatePosted : Date.now(),//req.headers.projectfolderdateposted,
+							datePosted 				: datePosted,
+							dateReceived 			: dateReceived,
+							
+							// Migrated from old EPIC
+							oldData            		: req.headers.olddata,
+
 							// NB                   : In EPIC, projectFolders have authors, not the actual documents.
 							projectFolderAuthor     : req.headers.projectfolderauthor,
 							// These are the data as it was shown on the EPIC website.
+							documentEPICProjectId 	: req.headers.documentepicprojectid,
 							documentAuthor          : req.headers.documentauthor,
 							documentFileName        : req.headers.documentfilename,
 							documentFileURL         : req.headers.documentfileurl,
@@ -211,7 +229,8 @@ module.exports = function (app) {
 							internalMime            : file.mimetype,
 							internalExt             : file.extension,
 							internalSize            : file.size,
-							internalEncoding        : file.encoding
+							internalEncoding        : file.encoding,
+							directoryID             : req.headers.directoryid || 0
 						}, req.headers.inheritmodelpermissionid, readPermissions);
 					})
 					.then (resolve, reject);
@@ -221,5 +240,15 @@ module.exports = function (app) {
 				}
 			});
 		}));
+
+	app.route('/api/publish/document/:document').all(policy('user'))
+		.put(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.publish(req.Document);
+		}));
+	app.route('/api/unpublish/document/:document').all(policy('user'))
+		.put(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.unpublish(req.Document);
+		}));
+
 };
 

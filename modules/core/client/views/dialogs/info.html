@@ -1,0 +1,20 @@
+
+<form class="confirm-dialog" ng-submit="infoDlg.ok()">
+	<div class="modal-header">
+		<button class="btn btn-default close" type="button" ng-click="infoDlg.cancel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h3 class="modal-title">{{infoDlg.titleText}}</h3>
+	</div>
+
+	<div class="modal-body">
+		{{infoDlg.messageText}}
+		<ul class="confirm-list">
+			<li ng-repeat="t in infoDlg.items">{{t.value}}</li>
+		</ul>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-default" type="submit">OK</button>
+	</div>
+</form>

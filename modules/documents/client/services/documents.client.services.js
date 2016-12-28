@@ -202,6 +202,12 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 		},
 		makeLatestVersion: function (document) {
 			return this.put('/api/document/makeLatest/' + document);
+		},
+		publish: function (document) {
+			return this.put('/api/publish/document/' + document._id);
+		},
+		unpublish: function (document) {
+			return this.put('/api/unpublish/document/' + document._id);
 		}
 	});
 	return new Class();

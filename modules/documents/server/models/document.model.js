@@ -99,14 +99,15 @@ module.exports = genSchema ('Document', {
 	__access                : [],
 	project                 : { type:'ObjectId', ref:'Project', default:null },
 	directoryID             : { type:Number, default: 0 },
+	
 	dateAdded               : { type: Date, default: Date.now },
 	dateUpdated             : { type: Date, default: Date.now },
+	dateUploaded            : { type: Date, default: Date.now },
+	datePosted 				: { type: Date, default: Date.now },
+	dateReceived			: { type: Date, default: Date.now },
+
 	updatedBy               : { type:'ObjectId', ref:'User', default:null },
-	projectFolderType       : { type:String, default:'' }, // r=/p=/w=/t=/a=/k=
-	projectFolderSubType    : { type:String, default:'' }, // abo/amd/etc.
-	projectFolderName       : { type:String, default:'' }, // Title of the folder that's within the Folder Type+SubType
 	projectFolderURL        : { type:String, default:'' }, // The specific DirectoryID instance of a collection of documents
-	projectFolderDatePosted : { type: Date, default: Date.now }, // We'll want to convert any incoming date to this fmt.
 	projectFolderAuthor     : { type:String, default:'' },
 	documentEPICId          : { type:Number, default:0, index:true },
 	documentEPICProjectId   : { type:Number, default:0, index:true },
