@@ -27,7 +27,12 @@ angular.module('core')
 							self.okText = _.isEmpty(scope.okText) ? 'OK' : scope.okText;
 							self.cancelText = _.isEmpty(scope.cancelText) ? 'Cancel' : scope.cancelText;
 							self.confirmText = _.isEmpty(scope.confirmText) ? 'Are you sure you want to do this?' : scope.confirmText;
-							self.confirmItems = _.isEmpty(scope.confirmItems) ? [] : scope.confirmItems;
+							var items = _.isEmpty(scope.confirmItems) ? [] : scope.confirmItems;
+							// turn the strings into objects for ng-repeat
+							var id = 1;
+							self.confirmItems = _.map(items, function(item) {
+								return {id: id++, value: item};
+							});
 							self.errorMsg = undefined;
 
 							self.cancel = function () {
@@ -92,7 +97,12 @@ angular.module('core')
 					infoDlg.type = _type;
 					infoDlg.titleText = _title;
 					infoDlg.messageText = _message;
-					infoDlg.items = _items;
+
+					// turn the strings into objects for ng-repeat
+					var id = 1;
+					infoDlg.items = _.map(_items, function(item) {
+						return {id: id++, value: item};
+					});
 
 					infoDlg.cancel = function () {
 						$modalInstance.dismiss('cancel');
