@@ -10,6 +10,13 @@
 			</li>
 		</ul>
 		<div class="file-batch-actions">
+			<button class="btn icon-btn" title="Add New Folder"
+					ng-if="project.userCan.createDocument"
+					ng-disabled="!documentMgr.selectedNode"
+					x-document-mgr-add-folder
+					x-project="project"
+					x-root="documentMgr.rootNode"
+					x-node="documentMgr.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
 
 			<button class="btn icon-btn" title="Upload Files" 
 					ng-if="project.userCan.createDocument"
@@ -19,42 +26,34 @@
 					x-root="documentMgr.rootNode"
 					x-node="documentMgr.selectedNode"
 					x-type="'project'"><span class="glyphicon glyphicon-open"></span></button>
-
-			<button class="btn icon-btn" title="Delete" 
-					ng-if="project.userCan.createDocument"
-					ng-disabled="documentMgr.checkedDirs.length === 0 && documentMgr.checkedFiles.length === 0"
-					x-confirm-dialog
-					x-title-text="documentMgr.deleteSelected.titleText"
-					x-ok-text="documentMgr.deleteSelected.okText"
-					x-cancel-text="documentMgr.deleteSelected.cancelText"
-					x-confirm-text="documentMgr.deleteSelected.confirmText"
-					x-confirm-items="documentMgr.deleteSelected.confirmItems"
-					x-on-ok="documentMgr.deleteSelected.ok"><span class="glyphicon glyphicon-trash"></span></button>
 			
 			<button class="toggle-details-btn btn icon-btn" title="Show Details" 
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 			
-			<div class="btn-group" ng-if="project.userCan.createDocument && documentMgr.checkedDirs.length == 1 || project.userCan.createDocument">
-				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<div class="btn-group" ng-if="project.userCan.createDocument">
+				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="documentMgr.checkedDirs.length === 0 && documentMgr.checkedFiles.length === 0">
 					<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 				</button>
 				<ul class="dropdown-menu pull-right">
 					<li>
-						<a title="Add New Folder" 
-							ng-if="project.userCan.createDocument"
-							ng-disabled="!documentMgr.selectedNode"
-							x-document-mgr-add-folder
-							x-project="project"
-							x-root="documentMgr.rootNode"
-							x-node="documentMgr.selectedNode"><span class="glyphicon glyphicon-folder-close"></span> Add New Folder</a>
-					</li>
-					<li>
 						<a title="Rename Folder" 
-							ng-if="project.userCan.createDocument && documentMgr.checkedDirs.length == 1"
+							ng-if="project.userCan.createDocument"
+						    ng-show="documentMgr.checkedDirs.length === 1 && documentMgr.checkedFiles.length === 0"
 							x-document-mgr-rename-folder
 							x-project="project"
 							x-root="documentMgr.rootNode"
 							x-node="documentMgr.checkedDirs[0]"><span class="glyphicon glyphicon-edit"></span> Rename</a>
+					</li>
+					<li>
+						<a title="Delete"
+						   ng-hide="documentMgr.checkedDirs.length === 0 && documentMgr.checkedFiles.length === 0"
+						   x-confirm-dialog
+						   x-title-text="documentMgr.deleteSelected.titleText"
+						   x-ok-text="documentMgr.deleteSelected.okText"
+						   x-cancel-text="documentMgr.deleteSelected.cancelText"
+						   x-confirm-text="documentMgr.deleteSelected.confirmText"
+						   x-confirm-items="documentMgr.deleteSelected.confirmItems"
+						   x-on-ok="documentMgr.deleteSelected.ok"><span class="glyphicon glyphicon-trash"></span> Delete</a>
 					</li>
 					<li>
 						<a title="Publish"

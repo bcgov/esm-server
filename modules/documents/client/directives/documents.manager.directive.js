@@ -274,9 +274,12 @@ angular.module('documents')
 						.then(function(result) {
 							$scope.project.directoryStructure = result.data;
 							self.busy = false;
+							DialogService.show('success', 'Delete Folder', 'The selected folder was deleted.', [doc.model.name]);
 						}, function(error) {
 							$log.error('DocumentMgrService.removeDirectory error: ', JSON.stringify(error));
 							self.busy = false;
+							var items = (error && error.message) ? [error.message] : [];
+							DialogService.show('error', 'Delete Folder', "Selected folder could not be deleted.", items);
 						});
 				};
 
@@ -285,9 +288,12 @@ angular.module('documents')
 					return self.deleteDocument(doc._id)
 						.then(function(result) {
 							self.selectNode(self.currentNode.model.id); // will mark as not busy...
+							DialogService.show('success', 'Delete File', 'The selected file was deleted.', [doc.documentFileName]);
 						}, function(error) {
 							$log.error('deleteFile error: ', JSON.stringify(error));
 							self.busy = false;
+							var items = (error && error.message) ? [error.message] : [];
+							DialogService.show('error', 'Delete File', "Selected file could not be deleted.", items);
 						});
 				};
 
@@ -329,6 +335,7 @@ angular.module('documents')
 									}
 									//$log.debug('Refreshing current directory...');
 									self.selectNode(self.currentNode.model.id);
+									DialogService.show('success', self.deleteSelected.titleText, 'The selected items were deleted.', self.deleteSelected.confirmItems);
 								}, function(err) {
 									self.busy = false;
 									var items = (err && err.message) ? [err.message] : [];
