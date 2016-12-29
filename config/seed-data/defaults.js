@@ -64,7 +64,8 @@ module.exports = function () {
 				'write' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'delete' : ['project-system-admin', 'project-intake'],
 				'publish' : ['assessment-admin', 'assessment-lead', 'project-epd', 'project-system-admin'],
-				'unPublish' : ['assessment-admin', 'assessment-lead', 'project-epd', 'project-system-admin']
+				'unPublish' : ['assessment-admin', 'assessment-lead', 'project-epd', 'project-system-admin'],
+				'manageFolders' : ['project-system-admin']
 			}
 		}
 	}));
