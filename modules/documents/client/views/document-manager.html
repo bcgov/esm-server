@@ -27,7 +27,8 @@
 					x-node="documentMgr.selectedNode"
 					x-type="'project'"><span class="glyphicon glyphicon-open"></span></button>
 			
-			<button class="toggle-details-btn btn icon-btn" title="Show Details" 
+			<button class="toggle-details-btn btn icon-btn" title="Show Details"
+					ng-disabled="!documentMgr.lastChecked"
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 			
 			<div class="btn-group" ng-if="project.userCan.createDocument">
@@ -145,7 +146,7 @@
 							</span>
 							<span class="fb-col-group"  
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectDir(doc)"
-								ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)">
+								ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)" title="{{doc.model.name}}">
 								<span class="col name-col">
 									<span class="avatar">
 										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
@@ -156,14 +157,14 @@
 								<span class="col type-col">---</span>
 								<span class="col date-added-col">---</span>
 								<span class="col status-col">---</span>
-								<div class="row-actions">
+								<div class="row-actions" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
 									
-									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
+									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
-											<li>
+											<li ng-if="project.userCan.createDocument">
 												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();"
 														x-document-mgr-rename-folder
 														x-project="project"
@@ -172,7 +173,7 @@
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
 											</li>
-											<li>
+											<li ng-if="project.userCan.createDocument">
 												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Delete Folder'"
@@ -207,7 +208,7 @@
 							</span>
 							<span class="fb-col-group"
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectFile(doc)">
-								<span class="col name-col">
+								<span class="col name-col" title="{{ doc.documentFileName | removeExtension }}">
 									<span class="avatar">
 										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
 										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
@@ -227,7 +228,7 @@
 											<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
-											<li ng-if="!doc.isPublished">
+											<li ng-if="project.userCan.createDocument && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Publish File(s)'"
@@ -240,7 +241,7 @@
 													<span class="glyphicon glyphicon-ok-circle"></span>
 												</button>
 											</li>
-											<li ng-if="doc.isPublished">
+											<li ng-if="project.userCan.createDocument && doc.isPublished">
 												<button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Unpublish File(s)'"
@@ -253,7 +254,7 @@
 													<span class="glyphicon glyphicon-ban-circle"></span>
 												</button>
 											</li>	
-											<li>
+											<li ng-if="project.userCan.createDocument">
 												<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Delete File(s)'"
@@ -304,14 +305,13 @@
 					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2>{{documentMgr.infoPanel.data.documentFileName | removeExtension }}</h2>
+					<h2 title="{{documentMgr.infoPanel.data.documentFileName | removeExtension}}">{{documentMgr.infoPanel.data.documentFileName | removeExtension }}</h2>
 					<!--
 					<h2>Fetching Details...</h2>
 					-->
 				</div>
 
 				<div class="scroll-container">
-
 					<section>
 						<ul class="nv-pair">
 							<li>
@@ -322,24 +322,24 @@
 								</span>
 							</li>
 							<li>
-								<span class="name">Date uploaded:</span>
-								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
-							</li>
-							<li>
-								<span class="name">Modified:</span>
-								<span class="value">{{ documentMgr.infoPanel.data.dateUpdated | date : format : timezone }}</span>
-							</li>
-							<li>
-								<span class="name">Last update by:</span>
-								<span class="value">{{ documentMgr.infoPanel.data.updatedBy.displayName }}</span>
-							</li>
-							<li>
 								<span class="name">Size:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>
 							</li>
 							<li>
 								<span class="name">Type:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalExt }}</span>
+							</li>
+							<li>
+								<span class="name">Date uploaded:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
+							</li>
+							<li>
+								<span class="name">Last modified date:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.dateUpdated | date : format : timezone }}</span>
+							</li>
+							<li>
+								<span class="name">Last update by:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.updatedBy.displayName }}</span>
 							</li>
 						</ul>
 					</section>
@@ -350,14 +350,33 @@
 					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2>{{documentMgr.infoPanel.data.name}}</h2>
+					<h2 title="{{documentMgr.infoPanel.data.name}}">{{documentMgr.infoPanel.data.name}}</h2>
 					<!--
 					<h2>Fetching Details...</h2>
 					-->
 				</div>
 
 				<div class="scroll-container">
-					<!-- TBD -->
+					<section>
+						<ul class="nv-pair">
+							<li>
+								<span class="name">Status:</span>
+								<span class="value">---</span>
+							</li>
+							<li>
+								<span class="name">Size:</span>
+								<span class="value">---</span>
+							</li>
+							<li>
+								<span class="name">Type:</span>
+								<span class="value">---</span>
+							</li>
+							<li>
+								<span class="name">Date uploaded:</span>
+								<span class="value">---</span>
+							</li>
+						</ul>
+					</section>
 				</div>
 			</div>
 			<div class="fb-details-content" ng-if="documentMgr.infoPanel.data && documentMgr.infoPanel.type === 'Multi'">
@@ -365,7 +384,7 @@
 					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2>{{project.name}}</h2>
+					<h2 title="{{project.name}}">{{project.name}}</h2>
 				</div>
 				<div class="scroll-container">
 					There are {{documentMgr.infoPanel.data.checkedFiles}} files and {{documentMgr.infoPanel.data.checkedDirs}} folders selected.<br>Select one file or folder to view details.
@@ -376,7 +395,7 @@
 					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2>{{project.name}}</h2>
+					<h2 title="{{project.name}}">{{project.name}}</h2>
 				</div>
 				<div class="scroll-container">
 					Select one file or folder to view details.
