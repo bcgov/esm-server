@@ -96,7 +96,7 @@ genSchema ('SubTypesSchema', {
 
 module.exports = genSchema ('Document', {
 	__audit                 : true,  // who what when
-	__access                : [],
+	__access                : ['publish', 'unPublish'],
 	project                 : { type:'ObjectId', ref:'Project', default:null },
 	directoryID             : { type:Number, default: 0 },
 	

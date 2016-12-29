@@ -11,7 +11,7 @@
 		</ul>
 		<div class="file-batch-actions">
 			<button class="btn icon-btn" title="Add New Folder"
-					ng-if="project.userCan.createDocument"
+					ng-if="project.userCan.manageFolders"
 					ng-disabled="!documentMgr.selectedNode"
 					x-document-mgr-add-folder
 					x-project="project"
@@ -31,14 +31,14 @@
 					ng-disabled="!documentMgr.lastChecked"
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 			
-			<div class="btn-group" ng-if="project.userCan.createDocument">
-				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="documentMgr.checkedDirs.length === 0 && documentMgr.checkedFiles.length === 0">
+			<div class="btn-group">
+				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="!documentMgr.batchMenuEnabled">
 					<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 				</button>
 				<ul class="dropdown-menu pull-right">
 					<li>
 						<a title="Rename Folder" 
-							ng-if="project.userCan.createDocument"
+							ng-if="project.userCan.manageFolders"
 						    ng-show="documentMgr.checkedDirs.length === 1 && documentMgr.checkedFiles.length === 0"
 							x-document-mgr-rename-folder
 							x-project="project"
@@ -47,6 +47,7 @@
 					</li>
 					<li>
 						<a title="Delete"
+						   ng-if="project.userCan.manageFolders"
 						   ng-hide="documentMgr.checkedDirs.length === 0 && documentMgr.checkedFiles.length === 0"
 						   x-confirm-dialog
 						   x-title-text="documentMgr.deleteSelected.titleText"
@@ -58,8 +59,7 @@
 					</li>
 					<li>
 						<a title="Publish"
-							ng-if="project.userCan.createDocument"
-							ng-hide="documentMgr.checkedFiles.length === 0"
+							ng-hide="documentMgr.publishSelected.publishableFiles.length === 0"
 							x-confirm-dialog
 							x-title-text="'Publish File(s)'"
 							x-ok-text="documentMgr.publishSelected.okText"
@@ -70,9 +70,8 @@
 					</li>
 					<li>
 						<a title="Unpublish"
-							ng-if="project.userCan.createDocument"
-							ng-hide="documentMgr.checkedFiles.length === 0"
-							x-confirm-dialog
+						    ng-hide="documentMgr.publishSelected.unpublishableFiles.length === 0"
+						    x-confirm-dialog
 							x-title-text="'Unpublish File(s)'"
 							x-ok-text="documentMgr.publishSelected.okText"
 							x-cancel-text="documentMgr.publishSelected.cancelText"
@@ -164,7 +163,7 @@
 											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
-											<li ng-if="project.userCan.createDocument">
+											<li ng-if="project.userCan.manageFolders">
 												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();"
 														x-document-mgr-rename-folder
 														x-project="project"
@@ -173,7 +172,7 @@
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
 											</li>
-											<li ng-if="project.userCan.createDocument">
+											<li ng-if="project.userCan.manageFolders">
 												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Delete Folder'"
@@ -187,7 +186,7 @@
 												</button>
 											</li>
 											<li>
-												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+												<button class="btn icon-btn" title="Show Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
@@ -228,7 +227,7 @@
 											<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
-											<li ng-if="project.userCan.createDocument && !doc.isPublished">
+											<li ng-if="doc.userCan.publish && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Publish File(s)'"
@@ -241,7 +240,7 @@
 													<span class="glyphicon glyphicon-ok-circle"></span>
 												</button>
 											</li>
-											<li ng-if="project.userCan.createDocument && doc.isPublished">
+											<li ng-if="doc.userCan.unPublish && doc.isPublished">
 												<button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Unpublish File(s)'"
@@ -254,7 +253,7 @@
 													<span class="glyphicon glyphicon-ban-circle"></span>
 												</button>
 											</li>	
-											<li ng-if="project.userCan.createDocument">
+											<li ng-if="doc.userCan.delete">
 												<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Delete File(s)'"
@@ -268,7 +267,7 @@
 												</button>
 											</li>
 											<li>
-												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+												<button class="btn icon-btn" title="Show Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>

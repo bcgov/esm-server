@@ -41,6 +41,8 @@ angular.module('documents')
 				self.currentFiles = [];
 				self.currentDirs = [];
 
+				self.batchMenuEnabled = false;
+
 				self.infoPanel = {
 					open: false,
 					type: 'None',
@@ -246,6 +248,10 @@ angular.module('documents')
 					self.infoPanel.setData();
 					self.deleteSelected.setContext();
 					self.publishSelected.setContext();
+
+					// in the batch menu, we have some folder management and publish/unpublish of files.
+					// so user needs to be able to manage folders, or have some selected files they can pub/unpub
+					self.batchMenuEnabled = ($scope.project.userCan.manageFolders && _.size(self.checkedDirs) > 0) || _.size(self.publishSelected.publishableFiles) > 0 || _.size(self.publishSelected.unpublishableFiles) > 0;
 				};
 
 				self.deleteDocument = function(documentID) {
@@ -426,19 +432,34 @@ angular.module('documents')
 					okText: 'Yes',
 					cancelText: 'No',
 					publish: function() {
-						return self.publishFiles(self.checkedFiles);
+						return self.publishFiles(self.publishSelected.publishableFiles);
 					},
 					unpublish: function() {
-						return self.unpublishFiles(self.checkedFiles);
+						return self.unpublishFiles(self.publishSelected.unpublishableFiles);
 					},
 					cancel: undefined,
 					confirmText:  'Are you sure you want to publish the selected item(s)?',
 					confirmItems: [],
+					publishableFiles: [],
+					unpublishableFiles: [],
 					setContext: function() {
 						self.publishSelected.confirmItems = [];
+						self.publishSelected.publishableFiles = [];
+						self.publishSelected.unpublishableFiles = [];
 						// only documents/files....
 						_.each(self.checkedFiles, function(o) {
-							self.publishSelected.confirmItems.push(o.documentFileName);
+							var canDoSomething = false;
+							if (o.userCan.publish) {
+								canDoSomething = true;
+								self.publishSelected.publishableFiles.push(o);
+							}
+							if (o.userCan.unPublish) {
+								canDoSomething = true;
+								self.publishSelected.unpublishableFiles.push(o);
+							}
+							if (canDoSomething) {
+								self.publishSelected.confirmItems.push(o.documentFileName);
+							}
 						});
 
 					}
