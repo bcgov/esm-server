@@ -233,6 +233,13 @@ module.exports = function (app) {
 							directoryID             : req.headers.directoryid || 0
 						}, req.headers.inheritmodelpermissionid, readPermissions);
 					})
+					.then(function (d) {
+						if (req.headers.publishafterupload === 'true') {
+							return model.publish(d);
+						} else {
+							return d;
+						}
+					})
 					.then (resolve, reject);
 				}
 				else {
