@@ -4,7 +4,8 @@
 		<ul class="fb-breadcrumbs">
 			<li ng-repeat="node in documentMgr.currentPath">
 				<button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
-					<span class="glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+					<span class="root-icon glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+					<span class="back-icon glyphicon glyphicon-menu-left"></span>
 					<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
 				</button>
 			</li>
@@ -162,9 +163,9 @@
 								<span class="col type-col">---</span>
 								<span class="col date-added-col">---</span>
 								<span class="col status-col">---</span>
-								<div class="row-actions" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
+								<div class="row-actions">
 									
-									<div class="btn-group">
+									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 										</button>
@@ -198,6 +199,10 @@
 											</li>
 										</ul>
 									</div>
+
+									<button class="drill-in-btn btn icon-btn" ng-click="documentMgr.openDir(doc)">
+										<span class="glyphicon glyphicon-menu-right"></span>
+									</button>
 									
 								</div>
 							</span>
