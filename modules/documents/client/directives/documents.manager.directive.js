@@ -315,11 +315,11 @@ angular.module('documents')
 						} else {
 							self.busy = true;
 
-							var dirPromises = _.map(self.checkedDirs, function(d) {
+							var dirPromises = _.map(self.deleteSelected.deleteableFolders, function(d) {
 								return DocumentMgrService.removeDirectory($scope.project, d);
 							});
 
-							var filePromises = _.map(self.checkedFiles, function(f) {
+							var filePromises = _.map(self.deleteSelected.deleteableFiles, function(f) {
 								return self.deleteDocument(f._id);
 							});
 
@@ -352,6 +352,8 @@ angular.module('documents')
 					cancel: undefined,
 					confirmText:  'Are you sure you want to delete the selected item(s)?',
 					confirmItems: [],
+					deleteableFolders: [],
+					deleteableFiles: [],
 					setContext: function() {
 						self.deleteSelected.confirmItems = [];
 						self.deleteSelected.titleText = 'Delete selected';
@@ -368,12 +370,22 @@ angular.module('documents')
 							self.deleteSelected.titleText = 'Delete File(s)';
 							self.deleteSelected.confirmText = 'Are you sure you want to delete the following ('+ files +') selected files?';
 						}
+
 						self.deleteSelected.confirmItems = [];
+						self.deleteSelected.deleteableFolders = [];
+						self.deleteSelected.deleteableFiles = [];
+
 						_.each(self.checkedDirs, function(o) {
-							self.deleteSelected.confirmItems.push(o.model.name);
+							if ($scope.project.userCan.manageFolders) {
+								self.deleteSelected.confirmItems.push(o.model.name);
+								self.deleteSelected.deleteableFolders.push(o);
+							}
 						});
 						_.each(self.checkedFiles, function(o) {
-							self.deleteSelected.confirmItems.push(o.documentFileName);
+							if (o.userCan.delete) {
+								self.deleteSelected.confirmItems.push(o.documentFileName);
+								self.deleteSelected.deleteableFiles.push(o);
+							}
 						});
 
 					}

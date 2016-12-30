@@ -47,8 +47,7 @@
 					</li>
 					<li>
 						<a title="Delete"
-						   ng-if="project.userCan.manageFolders"
-						   ng-hide="documentMgr.checkedDirs.length === 0 && documentMgr.checkedFiles.length === 0"
+						   ng-hide="documentMgr.deleteSelected.confirmItems.length === 0"
 						   x-confirm-dialog
 						   x-title-text="documentMgr.deleteSelected.titleText"
 						   x-ok-text="documentMgr.deleteSelected.okText"
