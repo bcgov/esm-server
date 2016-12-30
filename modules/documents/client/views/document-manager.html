@@ -106,7 +106,7 @@
 			</div>
 			
 			<div class="column-header">
-				<span class="col checkbox-col">
+				<span class="col checkbox-col" ng-if="authentication.user">
 					<input id="select-all" type="checkbox" title="Select All / None" ng-model="documentMgr.allChecked" ng-click="documentMgr.checkAll()"/>
 					<label for="select-all">
 						<span class="glyphicon glyphicon-ok"></span>
@@ -144,7 +144,7 @@
 
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentDirs">
-							<span class="col checkbox-col">
+							<span class="col checkbox-col" ng-if="authentication.user">
 								<input id="{{doc.model.id}}" type="checkbox" ng-model="doc.selected" ng-click="documentMgr.checkDir(doc)"/>
 								<label for="{{doc.model.id}}">
 									<span class="glyphicon glyphicon-ok"></span>
@@ -210,7 +210,7 @@
 					</ul>
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentFiles">
-							<span class="col checkbox-col">
+							<span class="col checkbox-col" ng-if="authentication.user">
 								<input id="{{doc._id}}" type="checkbox" ng-model="doc.selected" ng-click="documentMgr.checkFile(doc)"/>
 								<label for="{{doc._id}}" title="Select row">
 									<span class="glyphicon glyphicon-ok"></span>
