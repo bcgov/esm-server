@@ -122,6 +122,20 @@ angular.module('core')
 				});
 		};
 
+		service.error = function(title, message, error) {
+			// short cut, look in error to see if we can determine a list of error messages, show an error msg dialog
+			var items = [];
+			if (error) {
+				// error.message?
+				if (error.message) {
+					items.push(error.message);
+				}
+				if (error.data && error.data.message) {
+					items.push(error.data.message);
+				}
+			}
+			return service.show('error', title, message, items);
+		};
 
 	}])
 ;
