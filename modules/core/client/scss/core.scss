@@ -3566,55 +3566,6 @@ section {
 }
 
 
-/* UPLOAD TARGET
------------------------------- */
-.upload-target {
-	position: relative;
-	padding: 2rem;
-	text-align: center;
-	font-weight: normal;
-	text-shadow: 1px 1px 0 #FFF;
-	border: 2px dashed #AAA;
-	border-radius: 4px;
-
-	.instructions {
-		font-size: 1.8rem;
-	}
-
-	.requirements {
-		font-size: 1.2rem;
-		font-style: italic;
-		color: #888;
-	}
-	
-	input {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		opacity: 0;
-		filter: alpha(opacity=0);
-	}
-
-	+ .list-group {
-		margin-top: 1rem;
-	}
-
-	&:hover,
-	&:focus {
-		background: $upload-target-focus-bg;
-		border-color: $upload-target-focus-border-color;
-	}
-
-	&.dragover {
-		background: $upload-target-focus-bg;
-		border-color: $upload-target-focus-border-color;
-	}
-}
-
-
 /* ARTIFACT VIEW
 ------------------------------ */
 .artifact-view {

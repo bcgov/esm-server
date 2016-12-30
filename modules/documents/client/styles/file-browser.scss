@@ -111,12 +111,6 @@ $list-selected-border: 1px solid #4187c9;
     @include flex(1 1 auto);
     @include flexdirection(column);
     overflow: hidden;
-
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-    }
 }
 
 .fb-header {
@@ -128,6 +122,8 @@ $list-selected-border: 1px solid #4187c9;
 
     .fb-breadcrumbs {
         @include flex(1 1 auto);
+        margin: 0;
+        padding: 0;
         overflow: hidden;
         white-space: nowrap;
 
@@ -295,6 +291,12 @@ $list-selected-border: 1px solid #4187c9;
     @include flex(1 1 auto);
     position: relative;
     overflow: hidden;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
 
     .fb-list-item {
         @include flexbox();
@@ -735,6 +737,10 @@ $fb-upload-target-border: 2px dashed #BBB;
 
 .fb-upload-target-container {
     position: relative;
+
+    + .file-browser {
+        margin-top: 2rem;
+    }
 }
 
 .fb-upload-target-status {
@@ -807,19 +813,15 @@ $fb-upload-target-border: 2px dashed #BBB;
 }
 
 .fb-upload-container {
-    .file-browser {
-        margin-top: 2rem;
-    }
-
     .fb-list {
-        .cell-contents {
+        .fb-col-group {
+            .col.name-col {
+                padding-top: 1.8rem;
+            }
+
             .row-actions {
                 right: 1rem;
             }
-        }
-
-        .name-col {
-            padding-top: 1.8rem;
         }
     }
 }
@@ -905,6 +907,23 @@ $fb-upload-target-border: 2px dashed #BBB;
             margin-right: 1rem;
             font-size: 1.8rem;
             vertical-align: middle;
+        }
+    }
+}
+
+/* TO DO - FIX DROP TARGET TO INCLUDE REQUIREMENTS MSG */
+
+.fb-upload-target {
+    &.pcp {
+        .fb-upload-target-content {
+            top: 2.8rem;
+        }
+
+        .fb-upload-req-msg {
+            display: block;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #666;
         }
     }
 }
