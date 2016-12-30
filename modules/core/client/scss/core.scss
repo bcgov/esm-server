@@ -1578,6 +1578,14 @@ tmpl-footer {
 	}
 }
 
+@media (max-device-width: 480px)
+	and (max-width: 480px)
+	and (orientation: portrait) {
+	.app-main {
+		bottom: 5.7rem;
+	}
+}
+
 ui-view {
 	position: absolute;
 	top: 0;
@@ -1831,6 +1839,8 @@ $header-height-sm: 5.2rem;
 	
 	.navbar-brand {
 		padding: 0;
+		width: 116px;
+		overflow: hidden;
 
 		a {		
 			text-decoration: none;	
@@ -1864,6 +1874,14 @@ $header-height-sm: 5.2rem;
 			+ span {
 				display: none;
 			}
+		}
+	}
+}
+
+@media (min-width: 480px) {
+	.app-header {
+		.navbar-brand {
+			width: auto;
 		}
 	}
 }
