@@ -284,8 +284,7 @@ angular.module('documents')
 						}, function(error) {
 							$log.error('DocumentMgrService.removeDirectory error: ', JSON.stringify(error));
 							self.busy = false;
-							var items = (error && error.message) ? [error.message] : [];
-							DialogService.show('error', 'Delete Folder', "Selected folder could not be deleted.", items);
+							DialogService.error('Delete Folder', "Selected folder could not be deleted.", error);
 						});
 				};
 
@@ -298,8 +297,7 @@ angular.module('documents')
 						}, function(error) {
 							$log.error('deleteFile error: ', JSON.stringify(error));
 							self.busy = false;
-							var items = (error && error.message) ? [error.message] : [];
-							DialogService.show('error', 'Delete File', "Selected file could not be deleted.", items);
+							DialogService.error('Delete File', "Selected file could not be deleted.", error);
 						});
 				};
 
@@ -344,8 +342,7 @@ angular.module('documents')
 									DialogService.show('success', self.deleteSelected.titleText, 'The selected items were deleted.', self.deleteSelected.confirmItems);
 								}, function(err) {
 									self.busy = false;
-									var items = (err && err.message) ? [err.message] : [];
-									DialogService.show('error', 'Delete failure', "An error occurred.  The selected items could not be deleted.", items);
+									DialogService.error('Delete failure', "An error occurred.  The selected items could not be deleted.", err);
 								});
 						}
 					},
@@ -406,8 +403,7 @@ angular.module('documents')
 							DialogService.show('success', 'Publish File(s)', _.size(published) + ' of ' + _.size(files) + ' files successfully published.', published);
 						}, function(err) {
 							self.busy = false;
-							var items = (err && err.message) ? [err.message] : [];
-							DialogService.show('error', 'Publish File(s)', "Selected files could not be published.", items);
+							DialogService.error('Publish File(s)', "Selected files could not be published.", err);
 						});
 				};
 
@@ -426,8 +422,7 @@ angular.module('documents')
 							DialogService.show('success', 'Unpublish File(s)', _.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.', unpublished);
 						}, function(err) {
 							self.busy = false;
-							var items = (err && err.message) ? [err.message] : [];
-							DialogService.show('error', 'Unpublish File(s)', "Selected files could not be unpublished.", items);
+							DialogService.error('Unpublish File(s)', "Selected files could not be unpublished.", err);
 						});
 				};
 
@@ -496,7 +491,7 @@ angular.module('documents')
 			controllerAs: 'documentMgr'
 		};
 	}])
-	.directive('documentMgrAddFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+	.directive('documentMgrAddFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'DialogService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, DialogService, TreeModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -532,8 +527,9 @@ angular.module('documents')
 										function (result) {
 											$modalInstance.close(result.data);
 										},
-										function (error) {
-											$log.error('addDirectory error: ', JSON.stringify(error));
+										function (err) {
+											//$log.error('addDirectory error: ', JSON.stringify(err));
+											DialogService.error('Add Folder Error', "Could not add folder", err);
 										}
 									);
 							};
@@ -550,7 +546,7 @@ angular.module('documents')
 			}
 		};
 	}])
-	.directive('documentMgrRenameFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+	.directive('documentMgrRenameFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'DialogService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, DialogService, TreeModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -587,8 +583,9 @@ angular.module('documents')
 										function (result) {
 											$modalInstance.close(result.data);
 										},
-										function (error) {
-											$log.error('addDirectory error: ', JSON.stringify(error));
+										function (err) {
+											//$log.error('renameDirectory error: ', JSON.stringify(err));
+											DialogService.error('Rename Folder Error', "Could not rename folder", err);
 										}
 									);
 							};
