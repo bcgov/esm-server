@@ -162,6 +162,26 @@ module.exports = DBModel.extend ({
 		return access.syncGlobalProjectUsers()
 			.then(function() { return Promise.resolve(project); }, function(err) { return Promise.reject(err); });
 	},
+	preprocessUpdate: function(project) {
+		var self = this;
+		//console.log('preprocessUpdate = ', JSON.stringify(project, null, 4));
+		if (!project.userCan.manageFolders) {
+			//console.log('preprocessUpdate. user does not have manageFolders, set directory structure to current stored value...');
+			return new Promise(function (resolve, reject) {
+				return self.findById(project._id)
+					.then(function (p) {
+						//console.log('p.directoryStructure = ', JSON.stringify(p.directoryStructure));
+						//console.log('this.directoryStructure = ', JSON.stringify(project.directoryStructure));
+						project.directoryStructure = p.directoryStructure;
+						//console.log('this.directoryStructure = ', JSON.stringify(project.directoryStructure));
+						resolve(project);
+					});
+			});
+		} else {
+			//console.log('preprocessUpdate. user has manageFolders, so let them adjust the directoryStructure.');
+			return project;
+		}
+	},
 	// -------------------------------------------------------------------------
 	//
 	// Utility method for API convenience.
