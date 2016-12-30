@@ -1,18 +1,19 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {
 				project: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
-			controller: function ($scope, $log, _, DocumentMgrService, TreeModel, ProjectModel, Document) {
+			controller: function ($scope, $log, _, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
 
+				$scope.authentication = Authentication;
 				$scope.project.directoryStructure = $scope.project.directoryStructure || {
 						id: 1,
 						lastId: 1,
