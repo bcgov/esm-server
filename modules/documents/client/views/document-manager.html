@@ -247,8 +247,9 @@
 														ng-show="doc.internalMime === 'application/pdf'"
 													 	x-modal-pdf-viewer
 													 	x-pdfobject="doc"
-													 	title="Open Document">
-													<span class="glyphicon glyphicon-new-window"></span></button>
+													 	title="View Document">
+													<span class="glyphicon glyphicon-eye-open"></span>
+												</button>
 											</li>
 											<li ng-if="doc.userCan.publish && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"

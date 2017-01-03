@@ -336,6 +336,14 @@ $list-selected-border: 1px solid #4187c9;
 
             .row-actions {
                 display: block;
+
+                a {
+                    display: inline-block;
+
+                    .glyphicon {
+                        top: 0.55rem;
+                    }
+                }
             }
         }
     }
