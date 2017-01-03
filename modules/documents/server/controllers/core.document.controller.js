@@ -358,7 +358,8 @@ module.exports = DBModel.extend ({
 																			  ARCS_ORCS_FILE_NUMBER: row.ARCS_ORCS_FILE_NUMBER,
 																			  WHEN_CREATED: row.WHEN_CREATED,
 																			  WHO_UPDATED: row.WHO_UPDATED,
-																			  WHEN_UPDATED: row.WHEN_UPDATED})
+																			  WHEN_UPDATED: row.WHEN_UPDATED}),
+									displayName : row.FILE_NAME
 								};
 								// console.log("pushing:", newObj);
 								promises.push(newObj);

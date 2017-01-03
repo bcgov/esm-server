@@ -178,6 +178,7 @@ angular.module('documents')
 							'documentfoldername':"Not Specified",
 							'documentisinreview': reviewdocs,
 							'documentauthor': Authentication.user.displayName,
+							'displayname': file.name,
 							'documentfilename': file.name,
 							'directoryid' : directoryID
 						}

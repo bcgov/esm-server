@@ -234,7 +234,8 @@ module.exports = function (app) {
 							internalExt             : file.extension,
 							internalSize            : file.size,
 							internalEncoding        : file.encoding,
-							directoryID             : req.headers.directoryid || 0
+							directoryID             : req.headers.directoryid || 0,
+							displayName             : req.headers.displayname || req.headers.documentfilename || file.originalname
 						}, req.headers.inheritmodelpermissionid, readPermissions);
 					})
 					.then(function (d) {
