@@ -175,13 +175,16 @@ module.exports = function (app) {
 	app.route ('/api/document/:project/upload').all (policy ('guest'))
 		.post (routes.setAndRun (DocumentClass, function (model, req) {
 			return new Promise (function (resolve, reject) {
+				console.log("incoming upload");
 				var file = req.files.file;
 				if (file && file.originalname === 'this-is-a-file-that-we-want-to-fail.xxx') {
 					reject('Fail uploading this file.');
 				} else if (file) {
 					var opts = { oldPath: file.path, projectCode: req.Project.code};
+					console.log("moving:", opts);
 					routes.moveFile (opts)
 					.then (function (newFilePath) {
+						console.log("moving complete");
 						var readPermissions = null;
 						if (req.headers.internaldocument) {
 							// Force read array to be this:
@@ -196,6 +199,7 @@ module.exports = function (app) {
 						if (req.headers.datereceived) {
 							dateReceived = new Date(req.headers.datereceived);
 						}
+						console.log("creating model");
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.
 							// See the document.model.js for descriptions of the parameters to supply.
