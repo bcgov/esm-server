@@ -99,7 +99,9 @@ module.exports = genSchema ('Document', {
 	__access                : ['publish', 'unPublish'],
 	project                 : { type:'ObjectId', ref:'Project', default:null },
 	directoryID             : { type:Number, default: 0 },
-	
+
+	description             : { type:String, default:'' },
+
 	dateAdded               : { type: Date, default: Date.now },
 	dateUpdated             : { type: Date, default: Date.now },
 	dateUploaded            : { type: Date, default: Date.now },

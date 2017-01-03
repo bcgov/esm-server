@@ -105,7 +105,9 @@ angular.module('documents')
 					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
 						if (self.sorting.column === 'name') {
 							return _.isEmpty(f.internalOriginalName) ? null : f.internalOriginalName.toLowerCase();
-						} else  if (self.sorting.column === 'type') {
+						} else if (self.sorting.column === 'author') {
+							return _.isEmpty(f.documentAuthor) ? null : f.documentAuthor.toLowerCase();
+						} else if (self.sorting.column === 'type') {
 							return _.isEmpty(f.internalExt) ? null : f.internalExt.toLowerCase();
 						} else if (self.sorting.column === 'size') {
 							return _.isEmpty(f.internalExt) ? 0 : f.internalSize;

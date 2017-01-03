@@ -28,7 +28,7 @@
 					x-node="documentMgr.selectedNode"
 					x-type="'project'"><span class="glyphicon glyphicon-open"></span></button>
 			
-			<button class="toggle-details-btn btn icon-btn" title="Show Details"
+			<button class="toggle-details-btn btn icon-btn" title="Properties"
 					ng-disabled="!documentMgr.lastChecked"
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 			
@@ -118,6 +118,11 @@
 						<span>Name</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 					</div>
+					<div class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('author')">
+						<span>Author</span>
+						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
+					</div>
+					<!--
 					<div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
 						<span>Size</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
@@ -126,11 +131,12 @@
 						<span>Type</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
 					</div>
+					-->
 					<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
-						<span>Date Uploaded</span>
+						<span>Uploaded</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 					</div>
-					<div class="col status-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')">
+					<div class="col status-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user">
 						<span>Status</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
 					</div>
@@ -159,10 +165,15 @@
 									</span>
 									{{ doc.model.name }}
 								</span>
+								<span class="col author-col">
+									---
+								</span>
+								<!--
 								<span class="col size-col">---</span>
 								<span class="col type-col">---</span>
+								-->
 								<span class="col date-added-col">---</span>
-								<span class="col status-col">---</span>
+								<span class="col status-col" ng-if="authentication.user">---</span>
 								<div class="row-actions">
 									
 									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
@@ -193,7 +204,7 @@
 												</button>
 											</li>
 											<li>
-												<button class="btn icon-btn" title="Show Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+												<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
@@ -225,11 +236,16 @@
 									</span>
 									{{ doc.documentFileName | removeExtension }}
 								</span>
+								<span class="col author-col" title="{{ doc.documentAuthor }}">
+									{{ doc.documentAuthor }}
+								</span>
+								<!--
 								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
 								<span class="col type-col">{{ doc.internalExt}}</span>
+								-->
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
-								<span class="col status-col">
-									<span ng-if="doc.isPublished">Published</span>
+								<span class="col status-col" ng-if="authentication.user">
+									<span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
 								</span>
 								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
 									
@@ -239,7 +255,7 @@
 										</button>
 										<ul class="dropdown-menu pull-right">
 											<li ng-if="doc.userCan.read">
-												<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download Document">
+												<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File">
 													<span class="glyphicon glyphicon-download-alt"></span></a>
 											</li>
 											<li ng-if="doc.userCan.read && doc.internalMime === 'application/pdf'">
@@ -247,7 +263,7 @@
 														ng-show="doc.internalMime === 'application/pdf'"
 													 	x-modal-pdf-viewer
 													 	x-pdfobject="doc"
-													 	title="View Document">
+													 	title="View File">
 													<span class="glyphicon glyphicon-eye-open"></span>
 												</button>
 											</li>
@@ -291,7 +307,7 @@
 												</button>
 											</li>
 											<li>
-												<button class="btn icon-btn" title="Show Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+												<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
@@ -345,6 +361,18 @@
 								</span>
 							</li>
 							<li>
+								<span class="name">Description:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.description }}</span>
+							</li>
+							<li>
+								<span class="name">Author:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.documentAuthor }}</span>
+							</li>
+							<li>
+								<span class="name">Date uploaded:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
+							</li>
+							<li>
 								<span class="name">Size:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>
 							</li>
@@ -352,10 +380,7 @@
 								<span class="name">Type:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalExt }}</span>
 							</li>
-							<li>
-								<span class="name">Date uploaded:</span>
-								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
-							</li>
+							<!--
 							<li>
 								<span class="name">Last modified date:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.dateUpdated | date : format : timezone }}</span>
@@ -364,6 +389,7 @@
 								<span class="name">Last update by:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.updatedBy.displayName }}</span>
 							</li>
+							-->
 						</ul>
 					</section>
 				</div>
@@ -387,11 +413,11 @@
 								<span class="value">---</span>
 							</li>
 							<li>
-								<span class="name">Size:</span>
+								<span class="name">Description:</span>
 								<span class="value">---</span>
 							</li>
 							<li>
-								<span class="name">Type:</span>
+								<span class="name">Author:</span>
 								<span class="value">---</span>
 							</li>
 							<li>
