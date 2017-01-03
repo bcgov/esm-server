@@ -48,7 +48,7 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 			},
 			{
 				"code":"p",
-				"name":"Pre-Application",
+				"name":"Scope",
 			},
 			{
 				"code":"w",

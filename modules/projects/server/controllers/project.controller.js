@@ -125,7 +125,7 @@ module.exports = DBModel.extend ({
 
 				if (!project.phases || project.phases.length === 0) {
 					// Add default phases to project.
-					return ['intake', 'pre-ea', 'pre-app', 'evaluation', 'application-review', 'decision', 'post-certification'].reduce(function (promise, phase, index) {
+					return ['intake', 'determination', 'scope', 'evaluation', 'review', 'decision', 'post-certification'].reduce(function (promise, phase, index) {
 						return promise.then(function () {
 							return self.addPhase(project, phase);
 						});
@@ -162,6 +162,26 @@ module.exports = DBModel.extend ({
 		return access.syncGlobalProjectUsers()
 			.then(function() { return Promise.resolve(project); }, function(err) { return Promise.reject(err); });
 	},
+	preprocessUpdate: function(project) {
+		var self = this;
+		//console.log('preprocessUpdate = ', JSON.stringify(project, null, 4));
+		if (!project.userCan.manageFolders) {
+			//console.log('preprocessUpdate. user does not have manageFolders, set directory structure to current stored value...');
+			return new Promise(function (resolve, reject) {
+				return self.findById(project._id)
+					.then(function (p) {
+						//console.log('p.directoryStructure = ', JSON.stringify(p.directoryStructure));
+						//console.log('this.directoryStructure = ', JSON.stringify(project.directoryStructure));
+						project.directoryStructure = p.directoryStructure;
+						//console.log('this.directoryStructure = ', JSON.stringify(project.directoryStructure));
+						resolve(project);
+					});
+			});
+		} else {
+			//console.log('preprocessUpdate. user has manageFolders, so let them adjust the directoryStructure.');
+			return project;
+		}
+	},
 	// -------------------------------------------------------------------------
 	//
 	// Utility method for API convenience.
@@ -181,6 +201,14 @@ module.exports = DBModel.extend ({
 		var newNodeId;
 		return new Promise(function (resolve, reject) {
 			return self.findById(projectId)
+			.then(function(project) {
+				// check for manageFolders permission
+				if (!project.userCan.manageFolders) {
+					reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+				} else {
+					return project;
+				}
+			})
 			.then(function (project) {
 				// console.log("current structure:", project.directoryStructure);
 				var tree = new TreeModel();
@@ -231,80 +259,100 @@ module.exports = DBModel.extend ({
 	// Used for managing folder structures in the application.
 	removeDirectory: function (projectId, folderId) {
 		var self = this;
-		return self.findById(projectId)
-		.then(function (project) {
-			// console.log("current structure:", project.directoryStructure);
-			var tree = new TreeModel();
-			if (!project.directoryStructure) {
-				return project;
-			}
-			var root = tree.parse(project.directoryStructure);
-			// Walk until the right folder is found
-			var theNode = root.first(function (node) {
-				return node.model.id === parseInt(folderId);
-			});
-			// If we found it, remove it as long as it's not the root.
-			if (theNode && !theNode.isRoot()) {
-				// console.log("found node:", theNode.model.id);
-				// console.log("parent Node:", theNode.parent.model.id);
+		return new Promise(function(resolve, reject) {
+			return self.findById(projectId)
+				.then(function(project) {
+					// check for manageFolders permission
+					if (!project.userCan.manageFolders) {
+						reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+					} else {
+						return project;
+					}
+				})
+				.then(function (project) {
+					// console.log("current structure:", project.directoryStructure);
+					var tree = new TreeModel();
+					if (!project.directoryStructure) {
+						return project;
+					}
+					var root = tree.parse(project.directoryStructure);
+					// Walk until the right folder is found
+					var theNode = root.first(function (node) {
+						return node.model.id === parseInt(folderId);
+					});
+					// If we found it, remove it as long as it's not the root.
+					if (theNode && !theNode.isRoot()) {
+						// console.log("found node:", theNode.model.id);
+						// console.log("parent Node:", theNode.parent.model.id);
 
-				var droppedNode = theNode.drop();
-				droppedNode.walk(function (node) {
-					// MBL TODO: Go through the rest of the tree and update the documents to
-					// be part of the parent folder.
-					// console.log("node:", node.model.id);
+						var droppedNode = theNode.drop();
+						droppedNode.walk(function (node) {
+							// MBL TODO: Go through the rest of the tree and update the documents to
+							// be part of the parent folder.
+							// console.log("node:", node.model.id);
+						});
+					}
+					project.directoryStructure = {};
+					project.directoryStructure = root.model;
+					return project.save();
+				})
+				.then(function (p) {
+					resolve(p.directoryStructure);
 				});
-			}
-			project.directoryStructure = {};
-			project.directoryStructure = root.model;
-			return project.save();
-		})
-		.then(function (p) {
-			return p.directoryStructure;
 		});
 	},
 	// Used for managing folder structures in the application.
 	renameDirectory: function (projectId, folderId, newName) {
 		var self = this;
-		return self.findById(projectId)
-		.then(function (project) {
-			// console.log("current structure:", project.directoryStructure);
-			var tree = new TreeModel();
-			if (!project.directoryStructure) {
-				return project;
-			}
-			var root = tree.parse(project.directoryStructure);
-			// Walk until the right folder is found
-			var theNode = root.first(function (node) {
-				return node.model.id === parseInt(folderId);
-			});
-			// If we found it, rename it as long as it's not the root.
-			if (theNode && !theNode.isRoot()) {
-				// console.log("found node:", theNode.model.id);
-				// do not rename if there is a name conflict with siblings....
-				var nname = _.trim(newName);
-				var nameOk = true;
-				var siblings = root.all(function (n) {
-					if (n.parent && n.parent.model.id  === theNode.parent.model.id) {
-						// console.log(n.model.name + ' is a sibling to ' + theNode.model.name + ' (' + nname + ')');
-						if (_.toLower(n.model.name) === _.toLower(nname)) {
-							// console.log('name conflict... do not rename.');
-							nameOk = false;
-						}
-						return true;
+		return new Promise(function(resolve, reject) {
+			return self.findById(projectId)
+				.then(function(project) {
+					// check for manageFolders permission
+					if (!project.userCan.manageFolders) {
+						reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+					} else {
+						return project;
 					}
-					return false;
+				})
+				.then(function (project) {
+					// console.log("current structure:", project.directoryStructure);
+					var tree = new TreeModel();
+					if (!project.directoryStructure) {
+						return project;
+					}
+					var root = tree.parse(project.directoryStructure);
+					// Walk until the right folder is found
+					var theNode = root.first(function (node) {
+						return node.model.id === parseInt(folderId);
+					});
+					// If we found it, rename it as long as it's not the root.
+					if (theNode && !theNode.isRoot()) {
+						// console.log("found node:", theNode.model.id);
+						// do not rename if there is a name conflict with siblings....
+						var nname = _.trim(newName);
+						var nameOk = true;
+						var siblings = root.all(function (n) {
+							if (n.parent && n.parent.model.id  === theNode.parent.model.id) {
+								// console.log(n.model.name + ' is a sibling to ' + theNode.model.name + ' (' + nname + ')');
+								if (_.toLower(n.model.name) === _.toLower(nname)) {
+									// console.log('name conflict... do not rename.');
+									nameOk = false;
+								}
+								return true;
+							}
+							return false;
+						});
+						if (nameOk) {
+							theNode.model.name = _.trim(nname);
+						}
+					}
+					project.directoryStructure = {};
+					project.directoryStructure = root.model;
+					return project.save();
+				})
+				.then(function (p) {
+					resolve(p.directoryStructure);
 				});
-				if (nameOk) {
-					theNode.model.name = _.trim(nname);
-				}
-			}
-			project.directoryStructure = {};
-			project.directoryStructure = root.model;
-			return project.save();
-		})
-		.then(function (p) {
-			return p.directoryStructure;
 		});
 	},
 	moveDirectory: function (projectId, folderId, newParentId) {

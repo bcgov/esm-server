@@ -273,9 +273,9 @@
         "write": "",
         "read": "user"
       },
-      "description": "Application Review",
-      "name": "Application Review",
-      "code": "application-review",
+      "description": "Review",
+      "name": "Review",
+      "code": "review",
       "visibleAtPhase": null,
       "stream": null,
       "project": null,
@@ -1598,7 +1598,7 @@
       "mandatoryDurationDays": null,
       "progress": 0,
       "description": "Pre-Application preparation",
-      "name": "Pre-EA",
+      "name": "Determination",
       "code": "preea",
       "stream": null,
       "project": null
@@ -1614,8 +1614,8 @@
       "status": "Not Started",
       "mandatoryDurationDays": null,
       "progress": 0,
-      "description": "Pre-Application",
-      "name": "Pre-Application",
+      "description": "Scope",
+      "name": "Scope",
       "code": "preap",
       "stream": null,
       "project": null

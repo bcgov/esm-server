@@ -22,15 +22,38 @@ module.exports = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		var params = req.url.split("/");
 		var projectType = params[params.length-1]; // Last param is project type
+
+		var convertPhaseCode = function(phase) {
+			var phaseCode = phase.toLowerCase().replace (/\W+/g,'-');
+			var result = phaseCode;
+			switch(phaseCode) {
+				case 'pre-ea':
+					result = 'determination';
+					break;
+				case 'pre-app':
+					result = 'scope';
+					break;
+				case 'application-review':
+					result = 'review';
+					break;
+				default:
+					result = phaseCode;
+					break;
+			}
+			return result;
+		};
 		// console.log("projectType:",params[params.length-1]);
 		var doPhaseWork = function(project, phase) {
-			var finalPhaseCode = phase.toLowerCase().replace (/\W+/g,'-');
+			var finalPhaseCode = convertPhaseCode(phase);
+			// make some adjustments to phase codes that have changed...
+			// pre-ea -> determination, pre-app -> scope, application-review -> review
+
 			var stopProcessing = false;
 			// This is a really horrible way to do this, but it's good enough for now.
 			return new Promise(function(rs, rj) {
 				if (finalPhaseCode === "intake") {
 					rs(project);
-				} else if (finalPhaseCode === "pre-ea") {
+				} else if (finalPhaseCode === "determination") {
 					return (new Project(opts)).startNextPhase(project)
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
@@ -40,7 +63,7 @@ module.exports = function(file, req, res, opts) {
 							.saveDocument(pr)
 							.then(rs);
 						});
-				} else if (finalPhaseCode === "pre-app") {
+				} else if (finalPhaseCode === "scope") {
 					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];
@@ -72,7 +95,7 @@ module.exports = function(file, req, res, opts) {
 							.saveDocument(project)
 							.then(rs);
 						});
-				} else if (finalPhaseCode === "application-review") {
+				} else if (finalPhaseCode === "review") {
 					return (new Project(opts)).startNextPhase(project) // intake
 					.then( function (pr) {
 						pr.currentPhase     = pr.phases[1];

@@ -4,14 +4,15 @@
 		<ul class="fb-breadcrumbs">
 			<li ng-repeat="node in documentMgr.currentPath">
 				<button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
-					<span class="glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+					<span class="root-icon glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+					<span class="back-icon glyphicon glyphicon-menu-left"></span>
 					<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
 				</button>
 			</li>
 		</ul>
 		<div class="file-batch-actions">
 			<button class="btn icon-btn" title="Add New Folder"
-					ng-if="project.userCan.createDocument"
+					ng-if="project.userCan.manageFolders"
 					ng-disabled="!documentMgr.selectedNode"
 					x-document-mgr-add-folder
 					x-project="project"
@@ -27,18 +28,18 @@
 					x-node="documentMgr.selectedNode"
 					x-type="'project'"><span class="glyphicon glyphicon-open"></span></button>
 			
-			<button class="toggle-details-btn btn icon-btn" title="Show Details"
+			<button class="toggle-details-btn btn icon-btn" title="Properties"
 					ng-disabled="!documentMgr.lastChecked"
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 			
-			<div class="btn-group" ng-if="project.userCan.createDocument">
-				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="documentMgr.checkedDirs.length === 0 && documentMgr.checkedFiles.length === 0">
+			<div class="btn-group">
+				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="!documentMgr.batchMenuEnabled">
 					<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 				</button>
 				<ul class="dropdown-menu pull-right">
 					<li>
 						<a title="Rename Folder" 
-							ng-if="project.userCan.createDocument"
+							ng-if="project.userCan.manageFolders"
 						    ng-show="documentMgr.checkedDirs.length === 1 && documentMgr.checkedFiles.length === 0"
 							x-document-mgr-rename-folder
 							x-project="project"
@@ -47,7 +48,7 @@
 					</li>
 					<li>
 						<a title="Delete"
-						   ng-hide="documentMgr.checkedDirs.length === 0 && documentMgr.checkedFiles.length === 0"
+						   ng-hide="documentMgr.deleteSelected.confirmItems.length === 0"
 						   x-confirm-dialog
 						   x-title-text="documentMgr.deleteSelected.titleText"
 						   x-ok-text="documentMgr.deleteSelected.okText"
@@ -58,8 +59,7 @@
 					</li>
 					<li>
 						<a title="Publish"
-							ng-if="project.userCan.createDocument"
-							ng-hide="documentMgr.checkedFiles.length === 0"
+							ng-hide="documentMgr.publishSelected.publishableFiles.length === 0"
 							x-confirm-dialog
 							x-title-text="'Publish File(s)'"
 							x-ok-text="documentMgr.publishSelected.okText"
@@ -70,15 +70,21 @@
 					</li>
 					<li>
 						<a title="Unpublish"
-							ng-if="project.userCan.createDocument"
-							ng-hide="documentMgr.checkedFiles.length === 0"
-							x-confirm-dialog
+						    ng-hide="documentMgr.publishSelected.unpublishableFiles.length === 0"
+						    x-confirm-dialog
 							x-title-text="'Unpublish File(s)'"
 							x-ok-text="documentMgr.publishSelected.okText"
 							x-cancel-text="documentMgr.publishSelected.cancelText"
 							x-confirm-text="'Are you sure you want to unpublish the selected file(s)?'"
 							x-confirm-items="documentMgr.publishSelected.confirmItems"
 							x-on-ok="documentMgr.publishSelected.unpublish"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
+					</li>
+					<li hidden>
+						<a title="Move Folders & Files"
+							x-document-mgr-move
+							x-title-text="'Unpublish File(s)'"
+							x-ok-text="documentMgr.publishSelected.okText"
+							x-cancel-text="documentMgr.publishSelected.cancelText"><span class="glyphicon glyphicon-transfer"></span> Move to...</a>
 					</li>
 				</ul>
 			</div>
@@ -100,7 +106,7 @@
 			</div>
 			
 			<div class="column-header">
-				<span class="col checkbox-col">
+				<span class="col checkbox-col" ng-if="authentication.user">
 					<input id="select-all" type="checkbox" title="Select All / None" ng-model="documentMgr.allChecked" ng-click="documentMgr.checkAll()"/>
 					<label for="select-all">
 						<span class="glyphicon glyphicon-ok"></span>
@@ -112,6 +118,11 @@
 						<span>Name</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 					</div>
+					<div class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('author')">
+						<span>Author</span>
+						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
+					</div>
+					<!--
 					<div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
 						<span>Size</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
@@ -120,11 +131,12 @@
 						<span>Type</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
 					</div>
+					-->
 					<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
-						<span>Date Uploaded</span>
+						<span>Uploaded</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 					</div>
-					<div class="col status-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')">
+					<div class="col status-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user">
 						<span>Status</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
 					</div>
@@ -138,7 +150,7 @@
 
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentDirs">
-							<span class="col checkbox-col">
+							<span class="col checkbox-col" ng-if="authentication.user">
 								<input id="{{doc.model.id}}" type="checkbox" ng-model="doc.selected" ng-click="documentMgr.checkDir(doc)"/>
 								<label for="{{doc.model.id}}">
 									<span class="glyphicon glyphicon-ok"></span>
@@ -153,18 +165,23 @@
 									</span>
 									{{ doc.model.name }}
 								</span>
+								<span class="col author-col">
+									---
+								</span>
+								<!--
 								<span class="col size-col">---</span>
 								<span class="col type-col">---</span>
+								-->
 								<span class="col date-added-col">---</span>
-								<span class="col status-col">---</span>
-								<div class="row-actions" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
+								<span class="col status-col" ng-if="authentication.user">---</span>
+								<div class="row-actions">
 									
-									<div class="btn-group">
+									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
-											<li ng-if="project.userCan.createDocument">
+											<li ng-if="project.userCan.manageFolders">
 												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();"
 														x-document-mgr-rename-folder
 														x-project="project"
@@ -173,7 +190,7 @@
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
 											</li>
-											<li ng-if="project.userCan.createDocument">
+											<li ng-if="project.userCan.manageFolders">
 												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Delete Folder'"
@@ -187,12 +204,16 @@
 												</button>
 											</li>
 											<li>
-												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+												<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
 										</ul>
 									</div>
+
+									<button class="drill-in-btn btn icon-btn" ng-click="documentMgr.openDir(doc)">
+										<span class="glyphicon glyphicon-menu-right"></span>
+									</button>
 									
 								</div>
 							</span>
@@ -200,7 +221,7 @@
 					</ul>
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentFiles">
-							<span class="col checkbox-col">
+							<span class="col checkbox-col" ng-if="authentication.user">
 								<input id="{{doc._id}}" type="checkbox" ng-model="doc.selected" ng-click="documentMgr.checkFile(doc)"/>
 								<label for="{{doc._id}}" title="Select row">
 									<span class="glyphicon glyphicon-ok"></span>
@@ -215,11 +236,16 @@
 									</span>
 									{{ doc.documentFileName | removeExtension }}
 								</span>
+								<span class="col author-col" title="{{ doc.documentAuthor }}">
+									{{ doc.documentAuthor }}
+								</span>
+								<!--
 								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
 								<span class="col type-col">{{ doc.internalExt}}</span>
+								-->
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
-								<span class="col status-col">
-									<span ng-if="doc.isPublished">Published</span>
+								<span class="col status-col" ng-if="authentication.user">
+									<span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
 								</span>
 								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
 									
@@ -228,7 +254,20 @@
 											<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
-											<li ng-if="project.userCan.createDocument && !doc.isPublished">
+											<li ng-if="doc.userCan.read">
+												<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File">
+													<span class="glyphicon glyphicon-download-alt"></span></a>
+											</li>
+											<li ng-if="doc.userCan.read && doc.internalMime === 'application/pdf'">
+												<button class="btn icon-btn"
+														ng-show="doc.internalMime === 'application/pdf'"
+													 	x-modal-pdf-viewer
+													 	x-pdfobject="doc"
+													 	title="View File">
+													<span class="glyphicon glyphicon-eye-open"></span>
+												</button>
+											</li>
+											<li ng-if="doc.userCan.publish && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Publish File(s)'"
@@ -241,7 +280,7 @@
 													<span class="glyphicon glyphicon-ok-circle"></span>
 												</button>
 											</li>
-											<li ng-if="project.userCan.createDocument && doc.isPublished">
+											<li ng-if="doc.userCan.unPublish && doc.isPublished">
 												<button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Unpublish File(s)'"
@@ -254,13 +293,13 @@
 													<span class="glyphicon glyphicon-ban-circle"></span>
 												</button>
 											</li>	
-											<li ng-if="project.userCan.createDocument">
+											<li ng-if="doc.userCan.delete">
 												<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
 														x-title-text="'Delete File(s)'"
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone'"
+														x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone.'"
 														x-confirm-items="[doc.documentFileName]"
 														x-on-ok="documentMgr.deleteFile"
 														x-ok-args="doc">
@@ -268,7 +307,7 @@
 												</button>
 											</li>
 											<li>
-												<button class="btn icon-btn" title="Toggle Details" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+												<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
 													<span class="glyphicon glyphicon-info-sign"></span>
 												</button>
 											</li>
@@ -322,6 +361,18 @@
 								</span>
 							</li>
 							<li>
+								<span class="name">Description:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.description }}</span>
+							</li>
+							<li>
+								<span class="name">Author:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.documentAuthor }}</span>
+							</li>
+							<li>
+								<span class="name">Date uploaded:</span>
+								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
+							</li>
+							<li>
 								<span class="name">Size:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>
 							</li>
@@ -329,10 +380,7 @@
 								<span class="name">Type:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.internalExt }}</span>
 							</li>
-							<li>
-								<span class="name">Date uploaded:</span>
-								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
-							</li>
+							<!--
 							<li>
 								<span class="name">Last modified date:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.dateUpdated | date : format : timezone }}</span>
@@ -341,6 +389,7 @@
 								<span class="name">Last update by:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.updatedBy.displayName }}</span>
 							</li>
+							-->
 						</ul>
 					</section>
 				</div>
@@ -364,11 +413,11 @@
 								<span class="value">---</span>
 							</li>
 							<li>
-								<span class="name">Size:</span>
+								<span class="name">Description:</span>
 								<span class="value">---</span>
 							</li>
 							<li>
-								<span class="name">Type:</span>
+								<span class="name">Author:</span>
 								<span class="value">---</span>
 							</li>
 							<li>

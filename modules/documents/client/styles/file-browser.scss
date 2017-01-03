@@ -86,6 +86,9 @@ $list-selected-border: 1px solid #4187c9;
 
 /* NAME-VALUE PAIR */
 .nv-pair {
+    margin: 0;
+    padding: 0;
+
     li {
         @include flexbox();
         @include flexdirection(row);
@@ -111,23 +114,19 @@ $list-selected-border: 1px solid #4187c9;
     @include flex(1 1 auto);
     @include flexdirection(column);
     overflow: hidden;
-
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-    }
 }
 
 .fb-header {
     @include flexbox();
     @include flex(0 0 auto);
-    padding: 0.7rem 1rem;
+    padding: 0.7rem 0.5rem;
     background: $file-browser-bg;
     border-bottom: $file-browser-border;
 
     .fb-breadcrumbs {
         @include flex(1 1 auto);
+        margin: 0;
+        padding: 0;
         overflow: hidden;
         white-space: nowrap;
 
@@ -135,6 +134,15 @@ $list-selected-border: 1px solid #4187c9;
             height: 3.4rem;
             padding: 0.7rem;
             font-weight: normal;
+
+            /* Fix this in core.scss */
+            span + span {
+                margin-left: 0;
+            }
+        }
+
+        .back-icon {
+            display: none;
         }
 
         li {
@@ -154,6 +162,7 @@ $list-selected-border: 1px solid #4187c9;
 
         li:last-child {
             .btn {
+                
                 font-weight: bold;
                 color: $file-browser-breadcrumb-active-color;
 
@@ -193,7 +202,32 @@ $list-selected-border: 1px solid #4187c9;
                 display: inline-block;
             }
 
+            li:last-child {
+                .btn {
+                    &:active,
+                    &:hover,
+                    &:focus {
+                        border: 1px solid transparent;
+                    }
+                }
+            }
+
             li:nth-last-child(2) {
+                position: absolute;
+
+                .icon-btn {
+                    min-width: 3rem;
+
+                    .root-icon {
+                        display: none;
+                    }
+
+                    .back-icon {
+                        margin: 0;
+                        display: block;
+                    }
+                }
+
                 + li {
                     position: absolute;
                     right: 0;
@@ -204,30 +238,6 @@ $list-selected-border: 1px solid #4187c9;
                         overflow: hidden;
                         text-overflow: ellipsis;
                         text-align: left;
-                    }
-                }
-            }
-
-            li:nth-last-child(2) {
-                position: absolute;
-
-                :before {
-                    position: absolute;
-                    top: 0;
-                    left: -1px;
-                    width: 100%;
-                    height: 3.4rem;
-                    display: inline-block;
-                    line-height: 3.4rem;
-                    font-size: 5rem;
-                    content: '‹'; 
-                }
-
-                .icon-btn {
-                    min-width: 3rem;
-
-                    span {
-                        display: none;
                     }
                 }
             }
@@ -296,6 +306,12 @@ $list-selected-border: 1px solid #4187c9;
     position: relative;
     overflow: hidden;
 
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
     .fb-list-item {
         @include flexbox();
         @include flexdirection(row); 
@@ -320,6 +336,14 @@ $list-selected-border: 1px solid #4187c9;
 
             .row-actions {
                 display: block;
+
+                a {
+                    display: inline-block;
+
+                    .glyphicon {
+                        top: 0.55rem;
+                    }
+                }
             }
         }
     }
@@ -460,6 +484,10 @@ $list-selected-border: 1px solid #4187c9;
                     color: #494949;
                 }
             }
+
+            .drill-in-btn {
+                display: none;
+            }
         }
     }
 
@@ -513,8 +541,11 @@ $list-selected-border: 1px solid #4187c9;
     .fb-list {
         .fb-col-group {
             .row-actions {
-                display: block;
                 right: 1rem;
+
+                .drill-in-btn {
+                    display: inline-block;
+                }
             }
         }
     }
@@ -735,6 +766,10 @@ $fb-upload-target-border: 2px dashed #BBB;
 
 .fb-upload-target-container {
     position: relative;
+
+    + .file-browser {
+        margin-top: 2rem;
+    }
 }
 
 .fb-upload-target-status {
@@ -807,19 +842,15 @@ $fb-upload-target-border: 2px dashed #BBB;
 }
 
 .fb-upload-container {
-    .file-browser {
-        margin-top: 2rem;
-    }
-
     .fb-list {
-        .cell-contents {
+        .fb-col-group {
+            .col.name-col {
+                padding-top: 1.8rem;
+            }
+
             .row-actions {
                 right: 1rem;
             }
-        }
-
-        .name-col {
-            padding-top: 1.8rem;
         }
     }
 }
@@ -905,6 +936,23 @@ $fb-upload-target-border: 2px dashed #BBB;
             margin-right: 1rem;
             font-size: 1.8rem;
             vertical-align: middle;
+        }
+    }
+}
+
+/* TO DO - FIX DROP TARGET TO INCLUDE REQUIREMENTS MSG */
+
+.fb-upload-target {
+    &.pcp {
+        .fb-upload-target-content {
+            top: 2.8rem;
+        }
+
+        .fb-upload-req-msg {
+            display: block;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #666;
         }
     }
 }

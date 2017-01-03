@@ -1,18 +1,19 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {
 				project: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
-			controller: function ($scope, $log, _, DocumentMgrService, TreeModel, ProjectModel, Document) {
+			controller: function ($scope, $log, _, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
 
+				$scope.authentication = Authentication;
 				$scope.project.directoryStructure = $scope.project.directoryStructure || {
 						id: 1,
 						lastId: 1,
@@ -40,6 +41,8 @@ angular.module('documents')
 
 				self.currentFiles = [];
 				self.currentDirs = [];
+
+				self.batchMenuEnabled = false;
 
 				self.infoPanel = {
 					open: false,
@@ -102,7 +105,9 @@ angular.module('documents')
 					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
 						if (self.sorting.column === 'name') {
 							return _.isEmpty(f.internalOriginalName) ? null : f.internalOriginalName.toLowerCase();
-						} else  if (self.sorting.column === 'type') {
+						} else if (self.sorting.column === 'author') {
+							return _.isEmpty(f.documentAuthor) ? null : f.documentAuthor.toLowerCase();
+						} else if (self.sorting.column === 'type') {
 							return _.isEmpty(f.internalExt) ? null : f.internalExt.toLowerCase();
 						} else if (self.sorting.column === 'size') {
 							return _.isEmpty(f.internalExt) ? 0 : f.internalSize;
@@ -246,6 +251,10 @@ angular.module('documents')
 					self.infoPanel.setData();
 					self.deleteSelected.setContext();
 					self.publishSelected.setContext();
+
+					// in the batch menu, we have some folder management and publish/unpublish of files.
+					// so user needs to be able to manage folders, or have some selected files they can pub/unpub
+					self.batchMenuEnabled = ($scope.project.userCan.manageFolders && _.size(self.checkedDirs) > 0) || _.size(self.publishSelected.publishableFiles) > 0 || _.size(self.publishSelected.unpublishableFiles) > 0;
 				};
 
 				self.deleteDocument = function(documentID) {
@@ -278,8 +287,7 @@ angular.module('documents')
 						}, function(error) {
 							$log.error('DocumentMgrService.removeDirectory error: ', JSON.stringify(error));
 							self.busy = false;
-							var items = (error && error.message) ? [error.message] : [];
-							DialogService.show('error', 'Delete Folder', "Selected folder could not be deleted.", items);
+							DialogService.error('Delete Folder', "Selected folder could not be deleted.", error);
 						});
 				};
 
@@ -292,8 +300,7 @@ angular.module('documents')
 						}, function(error) {
 							$log.error('deleteFile error: ', JSON.stringify(error));
 							self.busy = false;
-							var items = (error && error.message) ? [error.message] : [];
-							DialogService.show('error', 'Delete File', "Selected file could not be deleted.", items);
+							DialogService.error('Delete File', "Selected file could not be deleted.", error);
 						});
 				};
 
@@ -309,11 +316,11 @@ angular.module('documents')
 						} else {
 							self.busy = true;
 
-							var dirPromises = _.map(self.checkedDirs, function(d) {
+							var dirPromises = _.map(self.deleteSelected.deleteableFolders, function(d) {
 								return DocumentMgrService.removeDirectory($scope.project, d);
 							});
 
-							var filePromises = _.map(self.checkedFiles, function(f) {
+							var filePromises = _.map(self.deleteSelected.deleteableFiles, function(f) {
 								return self.deleteDocument(f._id);
 							});
 
@@ -338,14 +345,15 @@ angular.module('documents')
 									DialogService.show('success', self.deleteSelected.titleText, 'The selected items were deleted.', self.deleteSelected.confirmItems);
 								}, function(err) {
 									self.busy = false;
-									var items = (err && err.message) ? [err.message] : [];
-									DialogService.show('error', 'Delete failure', "An error occurred.  The selected items could not be deleted.", items);
+									DialogService.error('Delete failure', "An error occurred.  The selected items could not be deleted.", err);
 								});
 						}
 					},
 					cancel: undefined,
 					confirmText:  'Are you sure you want to delete the selected item(s)?',
 					confirmItems: [],
+					deleteableFolders: [],
+					deleteableFiles: [],
 					setContext: function() {
 						self.deleteSelected.confirmItems = [];
 						self.deleteSelected.titleText = 'Delete selected';
@@ -362,12 +370,22 @@ angular.module('documents')
 							self.deleteSelected.titleText = 'Delete File(s)';
 							self.deleteSelected.confirmText = 'Are you sure you want to delete the following ('+ files +') selected files?';
 						}
+
 						self.deleteSelected.confirmItems = [];
+						self.deleteSelected.deleteableFolders = [];
+						self.deleteSelected.deleteableFiles = [];
+
 						_.each(self.checkedDirs, function(o) {
-							self.deleteSelected.confirmItems.push(o.model.name);
+							if ($scope.project.userCan.manageFolders) {
+								self.deleteSelected.confirmItems.push(o.model.name);
+								self.deleteSelected.deleteableFolders.push(o);
+							}
 						});
 						_.each(self.checkedFiles, function(o) {
-							self.deleteSelected.confirmItems.push(o.documentFileName);
+							if (o.userCan.delete) {
+								self.deleteSelected.confirmItems.push(o.documentFileName);
+								self.deleteSelected.deleteableFiles.push(o);
+							}
 						});
 
 					}
@@ -388,8 +406,7 @@ angular.module('documents')
 							DialogService.show('success', 'Publish File(s)', _.size(published) + ' of ' + _.size(files) + ' files successfully published.', published);
 						}, function(err) {
 							self.busy = false;
-							var items = (err && err.message) ? [err.message] : [];
-							DialogService.show('error', 'Publish File(s)', "Selected files could not be published.", items);
+							DialogService.error('Publish File(s)', "Selected files could not be published.", err);
 						});
 				};
 
@@ -408,8 +425,7 @@ angular.module('documents')
 							DialogService.show('success', 'Unpublish File(s)', _.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.', unpublished);
 						}, function(err) {
 							self.busy = false;
-							var items = (err && err.message) ? [err.message] : [];
-							DialogService.show('error', 'Unpublish File(s)', "Selected files could not be unpublished.", items);
+							DialogService.error('Unpublish File(s)', "Selected files could not be unpublished.", err);
 						});
 				};
 
@@ -426,19 +442,34 @@ angular.module('documents')
 					okText: 'Yes',
 					cancelText: 'No',
 					publish: function() {
-						return self.publishFiles(self.checkedFiles);
+						return self.publishFiles(self.publishSelected.publishableFiles);
 					},
 					unpublish: function() {
-						return self.unpublishFiles(self.checkedFiles);
+						return self.unpublishFiles(self.publishSelected.unpublishableFiles);
 					},
 					cancel: undefined,
 					confirmText:  'Are you sure you want to publish the selected item(s)?',
 					confirmItems: [],
+					publishableFiles: [],
+					unpublishableFiles: [],
 					setContext: function() {
 						self.publishSelected.confirmItems = [];
+						self.publishSelected.publishableFiles = [];
+						self.publishSelected.unpublishableFiles = [];
 						// only documents/files....
 						_.each(self.checkedFiles, function(o) {
-							self.publishSelected.confirmItems.push(o.documentFileName);
+							var canDoSomething = false;
+							if (o.userCan.publish) {
+								canDoSomething = true;
+								self.publishSelected.publishableFiles.push(o);
+							}
+							if (o.userCan.unPublish) {
+								canDoSomething = true;
+								self.publishSelected.unpublishableFiles.push(o);
+							}
+							if (canDoSomething) {
+								self.publishSelected.confirmItems.push(o.documentFileName);
+							}
 						});
 
 					}
@@ -463,7 +494,7 @@ angular.module('documents')
 			controllerAs: 'documentMgr'
 		};
 	}])
-	.directive('documentMgrAddFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+	.directive('documentMgrAddFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'DialogService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, DialogService, TreeModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -499,8 +530,9 @@ angular.module('documents')
 										function (result) {
 											$modalInstance.close(result.data);
 										},
-										function (error) {
-											$log.error('addDirectory error: ', JSON.stringify(error));
+										function (err) {
+											//$log.error('addDirectory error: ', JSON.stringify(err));
+											DialogService.error('Add Folder Error', "Could not add folder", err);
 										}
 									);
 							};
@@ -517,7 +549,7 @@ angular.module('documents')
 			}
 		};
 	}])
-	.directive('documentMgrRenameFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+	.directive('documentMgrRenameFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'DialogService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, DialogService, TreeModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -554,8 +586,9 @@ angular.module('documents')
 										function (result) {
 											$modalInstance.close(result.data);
 										},
-										function (error) {
-											$log.error('addDirectory error: ', JSON.stringify(error));
+										function (err) {
+											//$log.error('renameDirectory error: ', JSON.stringify(err));
+											DialogService.error('Rename Folder Error', "Could not rename folder", err);
 										}
 									);
 							};
@@ -683,4 +716,39 @@ angular.module('documents')
 			controllerAs: 'documentMgrUpload'
 		};
 	}])
+
+	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+		return {
+			restrict: 'A',
+			scope: {
+				project: '=',
+				root: '=',
+				node: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('click', function () {
+					$modal.open({
+						animation: true,
+						templateUrl: 'modules/documents/client/views/document-manager-move.html',
+						resolve: {},
+						controllerAs: 'moveFiles',
+						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document) {
+							var tree = new TreeModel();
+							var self = this;
+							self.busy = true;
+
+							self.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+
+							self.ok = function () {
+								$modalInstance.dismiss('cancel');
+							};
+						}
+					});
+				});
+			}
+		};
+	}])
+
 ;

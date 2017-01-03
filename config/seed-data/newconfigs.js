@@ -289,14 +289,14 @@ var baseObjects = {
 			"code": "intake",
 		},
 		{
-			"description": "Pre-Application Preparation",
-			"name": "Pre-EA",
-			"code": "pre-ea",
+			"description": "Determination",
+			"name": "Determination",
+			"code": "determination",
 		},
 		{
-			"description": "Pre-Application",
-			"name": "Pre-App",
-			"code": "pre-app",
+			"description": "Scope",
+			"name": "Scope",
+			"code": "scope",
 		},
 		{
 			"description": "EAO Evaluation",
@@ -304,9 +304,9 @@ var baseObjects = {
 			"code": "evaluation",
 		},
 		{
-			"description": "Application Review",
-			"name": "Application Review",
-			"code": "application-review",
+			"description": "Review",
+			"name": "Review",
+			"code": "review",
 		},
 		{
 			"description": "Decision",
@@ -329,7 +329,7 @@ var baseObjects = {
 	name: '10-1-c',
 	description: 'This is the set of phases most commonly assigned to an assessment',
 	phases: [
-		"pre-ea",
+		"determination",
 		"pre-application",
 		"evaluation",
 		"review",

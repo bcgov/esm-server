@@ -1578,6 +1578,14 @@ tmpl-footer {
 	}
 }
 
+@media (max-device-width: 480px)
+	and (max-width: 480px)
+	and (orientation: portrait) {
+	.app-main {
+		bottom: 5.7rem;
+	}
+}
+
 ui-view {
 	position: absolute;
 	top: 0;
@@ -1831,6 +1839,8 @@ $header-height-sm: 5.2rem;
 	
 	.navbar-brand {
 		padding: 0;
+		width: 116px;
+		overflow: hidden;
 
 		a {		
 			text-decoration: none;	
@@ -1864,6 +1874,14 @@ $header-height-sm: 5.2rem;
 			+ span {
 				display: none;
 			}
+		}
+	}
+}
+
+@media (min-width: 480px) {
+	.app-header {
+		.navbar-brand {
+			width: auto;
 		}
 	}
 }
@@ -3562,55 +3580,6 @@ section {
 			background: transparent;
 			border-radius: 2px;
 		}
-	}
-}
-
-
-/* UPLOAD TARGET
------------------------------- */
-.upload-target {
-	position: relative;
-	padding: 2rem;
-	text-align: center;
-	font-weight: normal;
-	text-shadow: 1px 1px 0 #FFF;
-	border: 2px dashed #AAA;
-	border-radius: 4px;
-
-	.instructions {
-		font-size: 1.8rem;
-	}
-
-	.requirements {
-		font-size: 1.2rem;
-		font-style: italic;
-		color: #888;
-	}
-	
-	input {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		opacity: 0;
-		filter: alpha(opacity=0);
-	}
-
-	+ .list-group {
-		margin-top: 1rem;
-	}
-
-	&:hover,
-	&:focus {
-		background: $upload-target-focus-bg;
-		border-color: $upload-target-focus-border-color;
-	}
-
-	&.dragover {
-		background: $upload-target-focus-bg;
-		border-color: $upload-target-focus-border-color;
 	}
 }
 

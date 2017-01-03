@@ -20,9 +20,7 @@
 		</div>
 
 		<!-- UPLOAD STATUS -->
-		<div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed">
-
-		</div>
+		<div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed"></div>
 	</div>
 
 	<!-- FILE BROWSER -->
@@ -41,7 +39,7 @@
 					</div>
 				</div>
 				
-				<ul ng-if="uploadService.fileList != 0">
+				<ul>
 					<li class="fb-list-item" ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
 						<span class="fb-col-group">							
 							<span class="col name-col">

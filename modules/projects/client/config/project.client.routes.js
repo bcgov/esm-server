@@ -427,7 +427,7 @@ angular.module('project').config (
 				var options;
 
 				switch(phase.code) {
-					case "pre-ea":
+					case "determination":
 						options = [
 							{
 								"code": 'new-project-initiated',
@@ -473,7 +473,7 @@ angular.module('project').config (
 								"name": 'Section 34(1) Order - Cease or Remedy Activity'
 							}];
 						break;
-					case "pre-app":
+					case "scope":
 						options = [
 							{
 								"name": "Section 11 Order",
@@ -574,7 +574,7 @@ angular.module('project').config (
 								"name": 'Time Limit Suspension - s.30.2',
 							}];
 						break;
-					case "application-review":
+					case "review":
 						options = [
 							{
 								"name": "Application Accepted",

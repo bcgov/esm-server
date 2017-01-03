@@ -53,7 +53,6 @@
 			<div class="row">
 				<div class="upload-attachments form-group no-margin col-sm-12">
 					<label class="control-label">Upload Attachments</label>
-
 					<div class="alert alert-danger alert-dismissable" ng-show="s.filesRemoved">
 						Attachments must be in <strong>PDF format</strong> and limited to <strong>5MB</strong>.
 						<button type="button" class="close" data-dismiss="alert">
@@ -61,38 +60,71 @@
 						</button>
 					</div>
 
-					<div class="upload-target" ngf-drop ngf-select ng-model="s.comment.files"
-						ngf-drag-over-class="dragover"
-						ngf-multiple="true"
-						ngf-allow-dir="true"
-						accept="application/pdf"
-						ngf-max-total-size="5MB">
-						<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
-						<div class="requirements">Attachments must be in PDF format and limited to 5MB.</div>
-					</div>
-					<ul class="list-group">
-						<li class="list-group-item flex-row"
-							ng-class="{'danger': f.$error}"
-							ng-repeat="f in s.fileList">
-							<div class="icon">
-								<span class="glyphicon glyphicon-file"></span>
-							</div>
-							<div class="title">{{f.name}} {{f.$error}} {{f.$errorParam}}</div>
-							<div class="actions">
-								<div class="file-progress" ng-if="!f.$error && f.progress">
-									<div class="progress">
-										<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:{{f.progress}}%" ng-bind="f.progress + '%'">
-											<span class="sr-only">{{ f.progress }}</span>
-										</div>
-									</div>
+					<!-- UPLOAD CONTAINER -->
+					<div class="fb-upload-container">
+						<div class="fb-upload-target-container">
+							<div class="fb-upload-target pcp" 
+								ngf-drop 
+								ngf-select
+								ngf-allow-dir="true"
+								ng-model="s.comment.files"
+								ngf-drag-over-class="fb-upload-target-hover"
+								ngf-max-total-size="5MB"
+								ngf-multiple="true"
+								accept="application/pdf">
+								<div class="fb-upload-target-content">
+									<span class="glyphicon glyphicon-open icon-default"></span>
+									<span class="fb-upload-target-msg"><b>Drag &amp; Drop</b> or <b>browse files</b> to upload.</span>
+									<span class="fb-upload-req-msg">PDF format only and limited to 5MB.</span>
 								</div>
-								<button class="btn btn-default btn-sm" ng-if="!f.$error && !f.progress" ng-click="s.comment.removeFile(f)" title="Remove File">
-									<span class="glyphicon glyphicon-remove"></span>
-								</button>
+								<div class="fb-upload-target-border"></div>
 							</div>
-						</li>
-					</ul>
+
+							<!-- UPLOAD STATUS -->
+							<div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed"></div>
+						</div>
+
+						<div class="file-browser" ng-if="s.fileList != 0">
+							<div class="fb-body">
+
+								<div class="fb-list">
+									<ul>
+										<li class="fb-list-item" ng-class="{'has-error': f.$error}" ng-repeat="f in s.fileList">
+											<span class="fb-col-group">							
+												<span class="col name-col">
+													<span class="avatar">
+														<span class="fb-file glyphicon glyphicon-file"></span>
+													</span>
+													{{f.name}}
+												</span>
+												<span class="col file-size-progress-col">
+													<div class="progress-container">
+														<div class="progress-msg">
+															<span ng-if="f.progress && f.progress < 100">{{f.progress}}% of </span> 
+															<span>{{f.size | bytes:2}}</span>
+															<span ng-if="f.progress == 100"> - Complete</span>
+														</div>
+														<div class="progress">
+															<div class="progress-bar" style="width:{{f.progress}}%" title="{{f.progress}}%" role="progressbar"></div>
+														</div>
+													</div>
+													<button class="btn icon-btn" title="Remove File"
+														ng-click="s.comment.removeFile(f)"
+														ng-disabled="f.progress">
+														<span class="glyphicon glyphicon-trash"></span>
+													</button>
+												</span>
+											</span>
+										</li>
+									</ul>
+								</div>
+
+							</div>
+						</div>
+
+					</div><!-- / UPLOAD CONTAINER -->
 				</div>
+
 			</div>
 		</fieldset>
 	</div>
