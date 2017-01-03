@@ -79,7 +79,7 @@
 							x-confirm-items="documentMgr.publishSelected.confirmItems"
 							x-on-ok="documentMgr.publishSelected.unpublish"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
 					</li>
-					<li>
+					<li hidden>
 						<a title="Move Folders & Files"
 							x-document-mgr-move
 							x-title-text="'Unpublish File(s)'"
@@ -238,6 +238,18 @@
 											<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
+											<li ng-if="doc.userCan.read">
+												<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download Document">
+													<span class="glyphicon glyphicon-download-alt"></span></a>
+											</li>
+											<li ng-if="doc.userCan.read && doc.internalMime === 'application/pdf'">
+												<button class="btn icon-btn"
+														ng-show="doc.internalMime === 'application/pdf'"
+													 	x-modal-pdf-viewer
+													 	x-pdfobject="doc"
+													 	title="Open Document">
+													<span class="glyphicon glyphicon-new-window"></span></button>
+											</li>
 											<li ng-if="doc.userCan.publish && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
