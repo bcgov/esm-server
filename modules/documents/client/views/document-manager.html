@@ -122,16 +122,6 @@
 						<span>Author</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
 					</div>
-					<!--
-					<div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
-						<span>Size</span>
-						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
-					</div>
-					<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
-						<span>Type</span>
-						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
-					</div>
-					-->
 					<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
 						<span>Uploaded</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
@@ -165,13 +155,7 @@
 									</span>
 									{{ doc.model.name }}
 								</span>
-								<span class="col author-col">
-									---
-								</span>
-								<!--
-								<span class="col size-col">---</span>
-								<span class="col type-col">---</span>
-								-->
+								<span class="col author-col">---</span>
 								<span class="col date-added-col">---</span>
 								<span class="col status-col" ng-if="authentication.user">---</span>
 								<div class="row-actions">
@@ -351,7 +335,14 @@
 				</div>
 
 				<div class="scroll-container">
+					
+					<section ng-if="documentMgr.infoPanel.data.description">
+						<label>Description</label>
+						<div class="value">{{ documentMgr.infoPanel.data.description }}</div>
+					</section>
+
 					<section>
+						<label>Properties</label>
 						<ul class="nv-pair">
 							<li>
 								<span class="name">Status:</span>
@@ -359,10 +350,6 @@
 									<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
 									<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
 								</span>
-							</li>
-							<li>
-								<span class="name">Description:</span>
-								<span class="value">{{ documentMgr.infoPanel.data.description }}</span>
 							</li>
 							<li>
 								<span class="name">Author:</span>
