@@ -29,11 +29,6 @@
 			filter="{eacDecision:'select'}"
 			filter-data="projectList.eacDecisionArray"
 			sortable="'eacDecision'">{{o.eacDecision}}</td>
-		<td header-class="'comment-col'" 
-			data-title="'Comment Period'" 
-			filter="{openCommentPeriod:'select'}" 
-			filter-data="projectList.openPCPArray" 
-			sortable="'openCommentPeriod'">{{o.openCommentPeriod ? 'Open' : ''}}</td>
 	</tr>
 	<tr class="no-records" ng-show="!$data || !$data.length">
 		<td ng-if="environment === 'EAO'" colspan="4">No results match your search.</td>
