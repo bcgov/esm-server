@@ -696,6 +696,35 @@ var getGlobalProjectRoles = function() {
 	});
 };
 
+var addGlobalProjectUsersToProject = function(project) {
+	return new Promise (function (resolve, reject) {
+		var globalProjectRoles = [];
+		var globalProjectRoleUsers = [];
+		getGlobalProjectRoles()
+			.then(function(data) {
+				globalProjectRoles = data;
+				return Role.find({context: 'application', role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
+			})
+			.then(function(data) {
+				globalProjectRoleUsers = data;
+				var projRoles = [];
+				_.each(globalProjectRoleUsers, function(r) {
+					projRoles.push(addRole ({
+						context : project._id,
+						user    : r.user,
+						role    : r.role
+					}));
+				});
+				return Promise.all(projRoles);
+			})
+			.then(function(data) {
+				return {ok : true};
+			})
+			.then (resolve, complete (reject, 'addGlobalProjectUsersToProject'));
+	});
+};
+exports.addGlobalProjectUsersToProject = addGlobalProjectUsersToProject;
+
 var syncGlobalProjectUsers = function() {
 	return new Promise (function (resolve, reject) {
 		var globalProjectRoles = [];
