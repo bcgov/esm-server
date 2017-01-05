@@ -159,7 +159,7 @@ module.exports = DBModel.extend ({
 		});
 	},
 	postprocessAdd: function(project) {
-		return access.syncGlobalProjectUsers()
+		return access.addGlobalProjectUsersToProject(project)
 			.then(function() { return Promise.resolve(project); }, function(err) { return Promise.reject(err); });
 	},
 	preprocessUpdate: function(project) {
