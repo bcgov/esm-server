@@ -114,7 +114,7 @@
 				</span>
 
 				<div class="fb-col-group">
-					<div class="col name-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
+					<div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
 						<span>Name</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 					</div>
@@ -122,21 +122,11 @@
 						<span>Author</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
 					</div>
-					<!--
-					<div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
-						<span>Size</span>
-						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
-					</div>
-					<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
-						<span>Type</span>
-						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
-					</div>
-					-->
 					<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
 						<span>Uploaded</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 					</div>
-					<div class="col status-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user">
+					<div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user">
 						<span>Status</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
 					</div>
@@ -159,21 +149,15 @@
 							<span class="fb-col-group"  
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectDir(doc)"
 								ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)" title="{{doc.model.name}}">
-								<span class="col name-col">
+								<span class="col name-col first-col">
 									<span class="avatar">
 										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
 									</span>
 									{{ doc.model.name }}
 								</span>
-								<span class="col author-col">
-									---
-								</span>
-								<!--
-								<span class="col size-col">---</span>
-								<span class="col type-col">---</span>
-								-->
+								<span class="col author-col">---</span>
 								<span class="col date-added-col">---</span>
-								<span class="col status-col" ng-if="authentication.user">---</span>
+								<span class="col status-col last-col" ng-if="authentication.user">---</span>
 								<div class="row-actions">
 									
 									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
@@ -229,12 +213,12 @@
 							</span>
 							<span class="fb-col-group"
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectFile(doc)">
-								<span class="col name-col" title="{{ doc.documentFileName | removeExtension }}">
+								<span class="col name-col first-col" title="{{ doc.displayName | removeExtension }}">
 									<span class="avatar">
 										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
 										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
 									</span>
-									{{ doc.documentFileName | removeExtension }}
+									{{ doc.displayName | removeExtension }}
 								</span>
 								<span class="col author-col" title="{{ doc.documentAuthor }}">
 									{{ doc.documentAuthor }}
@@ -244,7 +228,7 @@
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								-->
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
-								<span class="col status-col" ng-if="authentication.user">
+								<span class="col status-col last-col" ng-if="authentication.user">
 									<span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
 								</span>
 								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
@@ -274,7 +258,7 @@
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to publish the selected file?'"
-														x-confirm-items="[doc.documentFileName]"
+														x-confirm-items="[doc.displayName]"
 														x-on-ok="documentMgr.publishFile"
 														x-ok-args="doc">
 													<span class="glyphicon glyphicon-ok-circle"></span>
@@ -287,7 +271,7 @@
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to unpublish the selected file?'"
-														x-confirm-items="[doc.documentFileName]"
+														x-confirm-items="[doc.displayName]"
 														x-on-ok="documentMgr.unpublishFile"
 														x-ok-args="doc">
 													<span class="glyphicon glyphicon-ban-circle"></span>
@@ -300,7 +284,7 @@
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone.'"
-														x-confirm-items="[doc.documentFileName]"
+														x-confirm-items="[doc.displayName]"
 														x-on-ok="documentMgr.deleteFile"
 														x-ok-args="doc">
 													<span class="glyphicon glyphicon-trash"></span>
@@ -344,14 +328,21 @@
 					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
 						<span aria-hidden="true">&times;</span>
 					</button>
-					<h2 title="{{documentMgr.infoPanel.data.documentFileName | removeExtension}}">{{documentMgr.infoPanel.data.documentFileName | removeExtension }}</h2>
+					<h2 title="{{documentMgr.infoPanel.data.displayName | removeExtension}}">{{documentMgr.infoPanel.data.displayName | removeExtension }}</h2>
 					<!--
 					<h2>Fetching Details...</h2>
 					-->
 				</div>
 
 				<div class="scroll-container">
+					
+					<section ng-if="documentMgr.infoPanel.data.description">
+						<label>Description</label>
+						<div class="value">{{ documentMgr.infoPanel.data.description }}</div>
+					</section>
+
 					<section>
+						<label>Properties</label>
 						<ul class="nv-pair">
 							<li>
 								<span class="name">Status:</span>
@@ -359,10 +350,6 @@
 									<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
 									<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
 								</span>
-							</li>
-							<li>
-								<span class="name">Description:</span>
-								<span class="value">{{ documentMgr.infoPanel.data.description }}</span>
 							</li>
 							<li>
 								<span class="name">Author:</span>

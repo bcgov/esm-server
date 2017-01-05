@@ -691,7 +691,7 @@ function controllerModalPdfViewer($modalInstance, $scope, pdf, pdfobject, Docume
 
 	Document.lookup(pdfobject._id)
 	.then(function (d) {
-		$scope.documentName = d.internalOriginalName;
+		$scope.documentName = d.displayName || d.documentFileName || d.internalOriginalName;
 		$scope.$apply();
 	});
 

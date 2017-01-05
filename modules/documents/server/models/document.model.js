@@ -100,6 +100,7 @@ module.exports = genSchema ('Document', {
 	project                 : { type:'ObjectId', ref:'Project', default:null },
 	directoryID             : { type:Number, default: 0 },
 
+	displayName             : { type: String, default: ''},
 	description             : { type:String, default:'' },
 
 	dateAdded               : { type: Date, default: Date.now },

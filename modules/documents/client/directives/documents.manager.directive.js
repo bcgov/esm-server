@@ -103,8 +103,13 @@ angular.module('documents')
 				self.applySort = function() {
 					// sort ascending first...
 					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
+						// more making sure that the displayName is set...
+						if (_.isEmpty(f.displayName)) {
+							f.displayName = f.documentFileName || f.internalOriginalName;
+						}
+
 						if (self.sorting.column === 'name') {
-							return _.isEmpty(f.internalOriginalName) ? null : f.internalOriginalName.toLowerCase();
+							return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
 						} else if (self.sorting.column === 'author') {
 							return _.isEmpty(f.documentAuthor) ? null : f.documentAuthor.toLowerCase();
 						} else if (self.sorting.column === 'type') {
@@ -119,7 +124,7 @@ angular.module('documents')
 							return !f.isPublished;
 						}
 						// by name if none specified... or we incorrectly identified...
-						return _.isEmpty(f.internalOriginalName) ? null : f.internalOriginalName.toLowerCase();
+						return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
 					});
 
 					// directories always/only sorted by name
@@ -205,6 +210,10 @@ angular.module('documents')
 								//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
 
 								self.unsortedFiles = _.map(result.data, function(f) {
+									// making sure that the displayName is set...
+									if (_.isEmpty(f.displayName)) {
+										f.displayName = f.documentFileName || f.internalOriginalName;
+									}
 									return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
 								});
 
@@ -296,7 +305,8 @@ angular.module('documents')
 					return self.deleteDocument(doc._id)
 						.then(function(result) {
 							self.selectNode(self.currentNode.model.id); // will mark as not busy...
-							DialogService.show('success', 'Delete File', 'The selected file was deleted.', [doc.documentFileName]);
+							var name = doc.displayName || doc.documentFileName || doc.internalOriginalName;
+							DialogService.show('success', 'Delete File', 'The selected file was deleted.', [name]);
 						}, function(error) {
 							$log.error('deleteFile error: ', JSON.stringify(error));
 							self.busy = false;
@@ -383,7 +393,8 @@ angular.module('documents')
 						});
 						_.each(self.checkedFiles, function(o) {
 							if (o.userCan.delete) {
-								self.deleteSelected.confirmItems.push(o.documentFileName);
+								var name = o.displayName || o.documentFileName || o.internalOriginalName;
+								self.deleteSelected.confirmItems.push(name);
 								self.deleteSelected.deleteableFiles.push(o);
 							}
 						});
@@ -400,8 +411,8 @@ angular.module('documents')
 						.then(function(result) {
 							//$log.debug('Publish File results ', JSON.stringify(result));
 							//$log.debug('Refreshing current directory...');
-							var published = _.map(result, function(o) { if (o.isPublished) return o.documentFileName; });
-							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.documentFileName; });
+							var published = _.map(result, function(o) { if (o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
+							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
 							self.selectNode(self.currentNode.model.id);
 							DialogService.show('success', 'Publish File(s)', _.size(published) + ' of ' + _.size(files) + ' files successfully published.', published);
 						}, function(err) {
@@ -419,8 +430,8 @@ angular.module('documents')
 						.then(function(result) {
 							//$log.debug('Unpublish File results ', JSON.stringify(result));
 							//$log.debug('Refreshing current directory...');
-							var published = _.map(result, function(o) { if (o.isPublished) return o.documentFileName; });
-							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.documentFileName; });
+							var published = _.map(result, function(o) { if (o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
+							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
 							self.selectNode(self.currentNode.model.id);
 							DialogService.show('success', 'Unpublish File(s)', _.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.', unpublished);
 						}, function(err) {
@@ -468,7 +479,8 @@ angular.module('documents')
 								self.publishSelected.unpublishableFiles.push(o);
 							}
 							if (canDoSomething) {
-								self.publishSelected.confirmItems.push(o.documentFileName);
+								var name = o.displayName || o.documentFileName || o.internalOriginalName;
+								self.publishSelected.confirmItems.push(name);
 							}
 						});
 

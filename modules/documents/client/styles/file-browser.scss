@@ -104,6 +104,10 @@ $list-selected-border: 1px solid #4187c9;
 
     span.value {
         @include flex(1 1 auto);
+
+        .label {
+            margin: -0.25rem 0;
+        }
     }
 }
 
@@ -493,11 +497,11 @@ $list-selected-border: 1px solid #4187c9;
 
     
     .col {
-        &:first-child {
+        &.first-col {
             padding-left: 1.5rem;
         }
 
-        &:last-child {
+        &.last-col {
             padding-right: 1.5rem;
         }
     }
@@ -556,6 +560,10 @@ span.avatar {
     @include flex(0 0 3rem);
 }
 
+.col.author-col {
+    @include flex(0 0 18%);
+}
+
 .col.name-col {
     @include flex(1 1 auto);
 }
@@ -569,26 +577,19 @@ span.avatar {
 }
 
 .col.status-col {
-    @include flex(0 0 18%)
+    @include flex(0 0 18%);
+
+
+    .glyphicon {
+        font-size: 1.8rem;
+        vertical-align: top;
+    }
 }
 
 .col.date-added-col {
-    @include flex(0 0 22%);
+    @include flex(0 0 20%);
 }
 
-@media (min-width: 1200px) {
-    .col.size-col{
-        @include flex(0 0 20%)
-    }
-
-    .col.type-col{
-        @include flex(0 0 17%)
-    }
-    
-    .col.date-added-col {
-        @include flex(0 0 20%)
-    }
-}
 
 /* CHECKBOX COL */
 .col.checkbox-col {
@@ -687,7 +688,7 @@ $fb-details-panel-width: 35rem;
             margin: 0 2rem;
             padding-top: 2rem;
             padding-right: 3rem;
-            padding-bottom: 1.5rem;
+            padding-bottom: 1.75rem;
             z-index: 3;
 
             h2 {
@@ -695,13 +696,12 @@ $fb-details-panel-width: 35rem;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                font-size: 2.2rem;
-                font-weight: normal;
+                font-size: 2rem;
             }
 
             .close {
                 position: absolute;
-                top: 1rem;
+                top: 1.25rem;
                 right: 0;
                 width: 3.4rem;
                 height: 3.4rem;
@@ -716,7 +716,7 @@ $fb-details-panel-width: 35rem;
         }
 
         section {
-            margin-bottom: 3rem;
+            margin-bottom: 2.5rem;
 
             &:last-child {
                 margin-bottom: 0;
@@ -735,12 +735,12 @@ $fb-details-panel-width: 35rem;
         .scroll-container {
             @include flex(1 1 auto);
             position: relative;
-            padding: 0.5rem 2rem 2rem 2rem;
+            padding: 0.25rem 2rem 2rem 2rem;
             overflow-y: auto;
         }
 
         li {
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
         }
     }
 }

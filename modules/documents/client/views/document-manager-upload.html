@@ -42,7 +42,7 @@
 				<ul>
 					<li class="fb-list-item" ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
 						<span class="fb-col-group">							
-							<span class="col name-col">
+							<span class="col name-col first-col">
 								<span class="avatar">
 									<span class="fb-success glyphicon glyphicon-ok" ng-if="f.uploaded"></span>
 									<span class="fb-error glyphicon glyphicon-alert" ng-if="f.failed"></span>
@@ -51,7 +51,7 @@
 								</span>
 								{{f.name}}
 							</span>
-							<span class="col file-size-progress-col">
+							<span class="col file-size-progress-col last-col">
 								<div class="progress-container">
 									<div class="progress-msg">
 										<span ng-if="f.progress && f.progress < 100">{{f.progress}}% of </span> 

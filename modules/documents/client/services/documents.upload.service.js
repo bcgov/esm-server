@@ -179,6 +179,7 @@ angular.module('documents')
 							documentisinreview: reviewdocs,
 							documentauthor: Authentication.user.displayName,
 							documentfilename: file.name,
+							displayname: file.name,
 							directoryid : directoryID
 						}
 					});
