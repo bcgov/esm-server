@@ -497,11 +497,11 @@ $list-selected-border: 1px solid #4187c9;
 
     
     .col {
-        &:first-child {
+        &.first-col {
             padding-left: 1.5rem;
         }
 
-        &:last-child {
+        &.last-col {
             padding-right: 1.5rem;
         }
     }
@@ -577,7 +577,7 @@ span.avatar {
 }
 
 .col.status-col {
-    @include flex(0 0 12%);
+    @include flex(0 0 18%);
 
 
     .glyphicon {
@@ -587,7 +587,7 @@ span.avatar {
 }
 
 .col.date-added-col {
-    @include flex(0 0 18%);
+    @include flex(0 0 20%);
 }
 
 

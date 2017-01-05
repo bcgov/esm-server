@@ -114,7 +114,7 @@
 				</span>
 
 				<div class="fb-col-group">
-					<div class="col name-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
+					<div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
 						<span>Name</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 					</div>
@@ -126,7 +126,7 @@
 						<span>Uploaded</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 					</div>
-					<div class="col status-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user">
+					<div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user">
 						<span>Status</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
 					</div>
@@ -149,7 +149,7 @@
 							<span class="fb-col-group"  
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectDir(doc)"
 								ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)" title="{{doc.model.name}}">
-								<span class="col name-col">
+								<span class="col name-col first-col">
 									<span class="avatar">
 										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
 									</span>
@@ -157,7 +157,7 @@
 								</span>
 								<span class="col author-col">---</span>
 								<span class="col date-added-col">---</span>
-								<span class="col status-col" ng-if="authentication.user">---</span>
+								<span class="col status-col last-col" ng-if="authentication.user">---</span>
 								<div class="row-actions">
 									
 									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
@@ -213,7 +213,7 @@
 							</span>
 							<span class="fb-col-group"
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectFile(doc)">
-								<span class="col name-col" title="{{ doc.displayName | removeExtension }}">
+								<span class="col name-col first-col" title="{{ doc.displayName | removeExtension }}">
 									<span class="avatar">
 										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
 										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
@@ -228,7 +228,7 @@
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								-->
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
-								<span class="col status-col" ng-if="authentication.user">
+								<span class="col status-col last-col" ng-if="authentication.user">
 									<span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
 								</span>
 								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
