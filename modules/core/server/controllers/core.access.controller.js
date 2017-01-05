@@ -696,7 +696,7 @@ var getGlobalProjectRoles = function() {
 	});
 };
 
-var addGlobalProjectUsersToProject = function(project) {
+var addGlobalProjectUsersToProject = function(projectId) {
 	return new Promise (function (resolve, reject) {
 		var globalProjectRoles = [];
 		var globalProjectRoleUsers = [];
@@ -710,7 +710,7 @@ var addGlobalProjectUsersToProject = function(project) {
 				var projRoles = [];
 				_.each(globalProjectRoleUsers, function(r) {
 					projRoles.push(addRole ({
-						context : project._id,
+						context : projectId,
 						user    : r.user,
 						role    : r.role
 					}));
@@ -810,9 +810,17 @@ var setRoleUserIndex = function (context, index) {
 				return Promise.all(promiseArray);
 			})
 			.then(function() {
-				return syncGlobalProjectUsers();
+				if (context === defaultContext) {
+					//console.log('we are editing application, need to refresh all global project users');
+					return syncGlobalProjectUsers();
+				} else {
+					return context;
+				}
 			})
-			.then(function() {
+			.then(function(data) {
+				if (data !== context) {
+					//console.log('we are editing application, now we are done.');
+				}
 				return {ok : true};
 			})
 			.then (resolve, complete (reject, 'setRoleUserIndex'));
