@@ -1,14 +1,14 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {
 				project: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
-			controller: function ($scope, $log, _, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
+			controller: function ($scope, $log, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
@@ -213,6 +213,15 @@ angular.module('documents')
 									// making sure that the displayName is set...
 									if (_.isEmpty(f.displayName)) {
 										f.displayName = f.documentFileName || f.internalOriginalName;
+									}
+									if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
+										var od = JSON.parse(f.oldData);
+										console.log(od);
+										try {
+											f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
+										} catch(ex) {
+											console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
+										}
 									}
 									return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
 								});
