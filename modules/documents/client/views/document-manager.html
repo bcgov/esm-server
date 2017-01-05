@@ -118,7 +118,7 @@
 						<span>Name</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 					</div>
-					<div class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('author')">
+					<div hidden class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('author')">
 						<span>Author</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
 					</div>
@@ -155,7 +155,7 @@
 									</span>
 									{{ doc.model.name }}
 								</span>
-								<span class="col author-col">---</span>
+								<span hidden class="col author-col">---</span>
 								<span class="col date-added-col">---</span>
 								<span class="col status-col last-col" ng-if="authentication.user">---</span>
 								<div class="row-actions">
@@ -220,7 +220,7 @@
 									</span>
 									{{ doc.displayName | removeExtension }}
 								</span>
-								<span class="col author-col" title="{{ doc.documentAuthor }}">
+								<span hidden class="col author-col" title="{{ doc.documentAuthor }}">
 									{{ doc.documentAuthor }}
 								</span>
 								<!--
@@ -344,17 +344,19 @@
 					<section>
 						<label>Properties</label>
 						<ul class="nv-pair">
-							<li>
+							<li ng-if="authentication.user">
 								<span class="name">Status:</span>
 								<span class="value">
 									<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
 									<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
 								</span>
 							</li>
+							<!--
 							<li>
 								<span class="name">Author:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.documentAuthor }}</span>
 							</li>
+							-->
 							<li>
 								<span class="name">Date uploaded:</span>
 								<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
@@ -395,7 +397,7 @@
 				<div class="scroll-container">
 					<section>
 						<ul class="nv-pair">
-							<li>
+							<li ng-if="authentication.user">
 								<span class="name">Status:</span>
 								<span class="value">---</span>
 							</li>
@@ -403,10 +405,12 @@
 								<span class="name">Description:</span>
 								<span class="value">---</span>
 							</li>
+							<!--
 							<li>
 								<span class="name">Author:</span>
 								<span class="value">---</span>
 							</li>
+							-->
 							<li>
 								<span class="name">Date uploaded:</span>
 								<span class="value">---</span>

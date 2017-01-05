@@ -105,7 +105,7 @@ module.exports = genSchema ('Document', {
 
 	dateAdded               : { type: Date, default: Date.now },
 	dateUpdated             : { type: Date, default: Date.now },
-	dateUploaded            : { type: Date, default: Date.now },
+	dateUploaded            : { type: Date, default: null },
 	datePosted 				: { type: Date, default: Date.now },
 	dateReceived			: { type: Date, default: Date.now },
 
