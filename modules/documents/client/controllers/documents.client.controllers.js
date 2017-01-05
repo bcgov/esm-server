@@ -288,7 +288,7 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
 				file.upload = Upload.upload({
 					url: docUpload.targetUrl,
 					file: file,
-					headers: { 'documenttype': docUpload.typeName,
+					body: { 'documenttype': docUpload.typeName,
 							   'documentsubtype': docUpload.subTypeName,
 							   'documentfoldername': docUpload.folderName,
 							   'documentisinreview': uploadingReviewDocs}

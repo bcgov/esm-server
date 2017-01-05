@@ -135,20 +135,20 @@ module.exports = function (app) {
 							// See the document.model.js for descriptions of the parameters to supply.
 							project                 : req.Project,
 							//projectID             : req.Project._id,
-							projectFolderType       : req.headers.documenttype,//req.headers.projectfoldertype,
-							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
-							projectFolderName       : req.headers.documentfoldername,
-							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
-							projectFolderDatePosted : Date.now(),//req.headers.projectfolderdateposted,
+							projectFolderType       : req.body.documenttype,//req.body.projectfoldertype,
+							projectFolderSubType    : req.body.documentsubtype,//req.body.projectfoldersubtype,
+							projectFolderName       : req.body.documentfoldername,
+							projectFolderURL        : newFilePath,
+							projectFolderDatePosted : Date.now(),
 							// NB                   : In EPIC, projectFolders have authors, not the actual documents.
-							projectFolderAuthor     : req.headers.projectfolderauthor,
+							projectFolderAuthor     : req.body.projectfolderauthor,
 							// These are the data as it was shown on the EPIC website.
-							documentAuthor          : req.headers.documentauthor,
-							documentFileName        : req.headers.documentfilename,
-							documentFileURL         : req.headers.documentfileurl,
-							documentFileSize        : req.headers.documentfilesize,
-							documentFileFormat      : req.headers.documentfileformat,
-							documentIsInReview      : req.headers.documentisinreview,
+							documentAuthor          : req.body.documentauthor,
+							documentFileName        : req.body.documentfilename,
+							documentFileURL         : req.body.documentfileurl,
+							documentFileSize        : req.body.documentfilesize,
+							documentFileFormat      : req.body.documentfileformat,
+							documentIsInReview      : req.body.documentisinreview,
 							documentVersion         : 0,
 							documentSource			: 'COMMENT',
 							// These are automatic as it actually is when it comes into our system
@@ -159,7 +159,7 @@ module.exports = function (app) {
 							internalExt             : file.extension,
 							internalSize            : file.size,
 							internalEncoding        : file.encoding,
-							directoryID             : req.headers.directoryid || 0
+							directoryID             : req.body.directoryid || 0
 						});
 					})
 					.then (resolve, reject);
@@ -205,26 +205,26 @@ module.exports = function (app) {
 							// See the document.model.js for descriptions of the parameters to supply.
 							project                 : req.Project,
 							//projectID             : req.Project._id,
-							projectFolderType       : req.headers.documenttype,//req.headers.projectfoldertype,
-							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
-							projectFolderName       : req.headers.documentfoldername,
-							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
+							projectFolderType       : req.body.documenttype,//req.body.projectfoldertype,
+							projectFolderSubType    : req.body.documentsubtype,//req.body.projectfoldersubtype,
+							projectFolderName       : req.body.documentfoldername,
+							projectFolderURL        : newFilePath,
 							datePosted 				: datePosted,
 							dateReceived 			: dateReceived,
 							
 							// Migrated from old EPIC
-							oldData            		: req.headers.olddata,
+							oldData            		: req.body.olddata,
 
 							// NB                   : In EPIC, projectFolders have authors, not the actual documents.
-							projectFolderAuthor     : req.headers.projectfolderauthor,
+							projectFolderAuthor     : req.body.projectfolderauthor,
 							// These are the data as it was shown on the EPIC website.
-							documentEPICProjectId 	: req.headers.documentepicprojectid,
-							documentAuthor          : req.headers.documentauthor,
-							documentFileName        : req.headers.documentfilename,
-							documentFileURL         : req.headers.documentfileurl,
-							documentFileSize        : req.headers.documentfilesize,
-							documentFileFormat      : req.headers.documentfileformat,
-							documentIsInReview      : req.headers.documentisinreview,
+							documentEPICProjectId 	: req.body.documentepicprojectid,
+							documentAuthor          : req.body.documentauthor,
+							documentFileName        : req.body.documentfilename,
+							documentFileURL         : req.body.documentfileurl,
+							documentFileSize        : req.body.documentfilesize,
+							documentFileFormat      : req.body.documentfileformat,
+							documentIsInReview      : req.body.documentisinreview,
 							documentVersion         : 0,
 							// These are automatic as it actually is when it comes into our system
 							internalURL             : newFilePath,
@@ -234,7 +234,7 @@ module.exports = function (app) {
 							internalExt             : file.extension,
 							internalSize            : file.size,
 							internalEncoding        : file.encoding,
-							directoryID             : req.headers.directoryid || 0
+							directoryID             : req.body.directoryid || 0
 						}, req.headers.inheritmodelpermissionid, readPermissions);
 					})
 					.then(function (d) {

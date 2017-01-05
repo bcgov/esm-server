@@ -155,7 +155,7 @@ angular.module('documents')
 					file.failed = false;
 
 					/*
-					 headers...
+					 body...
 
 					 projectfolderauthor,
 					 documentauthor,
@@ -172,14 +172,14 @@ angular.module('documents')
 					file.upload = Upload.upload({
 						url: targetUrl,
 						file: file,
-						headers: {
-							'documenttype': "Not Specified",
-							'documentsubtype': "Not Specified",
-							'documentfoldername':"Not Specified",
-							'documentisinreview': reviewdocs,
-							'documentauthor': Authentication.user.displayName,
-							'documentfilename': file.name,
-							'directoryid' : directoryID
+						data: {
+							documenttype: "Not Specified",
+							documentsubtype: "Not Specified",
+							documentfoldername:"Not Specified",
+							documentisinreview: reviewdocs,
+							documentauthor: Authentication.user.displayName,
+							documentfilename: file.name,
+							directoryid : directoryID
 						}
 					});
 
