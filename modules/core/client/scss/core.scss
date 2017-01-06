@@ -5542,5 +5542,8 @@ tmpl-template-render {
 	}
 }
 
+/* COMPONENTS
+----------------------------- */
+@import "modules/core/client/styles/spinner.scss";
 @import "modules/documents/client/styles/file-browser.scss";
 @import "modules/documents/client/styles/pdf-viewer.scss";

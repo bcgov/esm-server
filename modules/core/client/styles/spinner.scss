@@ -1,7 +1,7 @@
 
 $spinner-width: 40px;
 $spinner-color: #1a5a96;
-$spinner-bg: #FFF;
+$spinner-bg: rgba(255,255,255,0.8);
 $spinner-invert-color: #FFF;
 $spinner-invert-bg: rgba(0,0,0,0.8);
 
@@ -109,6 +109,11 @@ $spinner-invert-bg: rgba(0,0,0,0.8);
 			animation: dash 1.5s ease-in-out infinite, spin-inverted 6s ease-in-out infinite;
 		}
 	}
+
+    &.fixed {
+        position: fixed;
+        z-index: 1000;
+    }
 
 	.spinner {
 		position: absolute;
