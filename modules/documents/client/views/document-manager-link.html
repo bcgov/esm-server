@@ -122,7 +122,25 @@
     <section>
         <label>Linked Files (Number of Linked Files)</label>
         <div>
-
+            <ul>
+                <li class="fb-list-item" ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
+                    <span class="fb-col-group">							
+                        <span class="col name-col first-col">
+                            <span class="avatar">
+                                <span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+                                <span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+                            </span>
+                            {{f.name}}
+                        </span>
+                        <div class="row-actions">
+                            <button class="btn icon-btn"
+                                ng-click="uploadService.removeFile(f)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                    </span>
+                </li>
+            </ul>
         </div>
     </section><!-- Linked Files Section -->
 
