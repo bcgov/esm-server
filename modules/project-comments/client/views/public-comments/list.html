@@ -14,9 +14,31 @@
 <!-- Temporary fix until we move to angular modals -->
 <div class="temp-overlay"></div>
 
+<!--
 <div class="flex-title">
-	<h2>Comments</h2>
-	<div class="actions">
+
+</div>
+-->
+<div class="clearfix">
+	<div class="pull-left">
+		<div ng-if="s.period.userCan.vetComments">
+			<!-- PROTOTYPE EAO ROW TEMPLATES  -->
+			<ul class="tab-container nav nav-pills" role="tablist">
+				<li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')"  role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
+				<li role="presentation"><a href ng-click="s.toggle('Deferred')"  role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
+				<li role="presentation"><a href ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
+				<li role="presentation"><a href ng-click="s.toggle('Rejected')"  role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
+			</ul>
+		</div>
+		<div ng-if="s.period.userCan.classifyComments && !s.period.userCan.vetComments">
+			<!-- PROPONENT TEMPLATES  -->
+			<ul class="tab-container nav nav-tabs" role="tablist">
+				<li role="presentation" class="active"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
+				<li role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="actions pull-right">
 		<button class="btn btn-default btn-sm" ng-if="s.showTopicCloud === false"
 			data-toggle="modal"
 			data-target="#commentModal"
@@ -26,26 +48,9 @@
 	</div>
 </div>
 
-<div ng-if="s.period.userCan.vetComments">
-	<!-- PROTOTYPE EAO ROW TEMPLATES  -->
-	<ul class="tab-container nav nav-tabs" role="tablist">
-		<li role="presentation" class="active"><a href ng-click="s.toggle('Unvetted')"  role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
-		<li role="presentation"><a href ng-click="s.toggle('Deferred')"  role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
-		<li role="presentation"><a href ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
-		<li role="presentation"><a href ng-click="s.toggle('Rejected')"  role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
-	</ul>
-</div>
-<div ng-if="s.period.userCan.classifyComments && !s.period.userCan.vetComments">
-	<!-- PROPONENT TEMPLATES  -->
-	<ul class="tab-container nav nav-tabs" role="tablist">
-		<li role="presentation" class="active"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
-		<li role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
-	</ul>
-</div>
-
 <div class="tab-pane">
 
-	<div class="public-comment-panel panel panel-default no-margin">
+	<div class="public-comment-panel panel panel-default">
 		<table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-hover">
 			<tr class="comment-row" ng-repeat="o in $data" ng-click="s.detail(o)">
 				<td class="id-col no-mobile" header-class="'id-col no-mobile'" ng-if="authentication.user" data-title="'ID'" sortable="'commentId'">
