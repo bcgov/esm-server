@@ -76,30 +76,51 @@
 						x-document-mgr-link-modal
 						x-project="project"
 						x-target-name="'Public Comment Period'"
-						x-target="period.relatedDocuments"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
-
-				<div>
+						x-target="period.relatedDocuments"
+						x-published-only="'true'"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
+			</div>
+			<div class="fb-body">
+				<div class="fb-list">
+					<div class="column-header">
+						<div class="fb-col-group">
+							<div class="col name-col first-col">
+								<span>Name</span>
+							</div>
+							<div class="col type-col">
+								<span>Type</span>
+							</div>
+							<div class="col size-col last-col">
+								<span>Size</span>
+							</div>
+						</div>
+					</div>
 					<ul>
-						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
-						<span class="fb-col-group">
-							<span class="col name-col first-col">
-								<span class="avatar">
-									<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
-									<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
-								</span>
-								{{doc.displayName}}
+						<li class="fb-list-item" ng-hide="period.relatedDocuments.length > 0">
+							<span class="fb-col-group">
+								<span class="col first-col">No Linked Files.</span>
 							</span>
-                        <div class="row-actions">
-                            <button class="btn icon-btn"
-									ng-click="removeDocument(doc)">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                        </div>
-                    </span>
+						</li>
+						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
+							<span class="fb-col-group">
+								<span class="col name-col first-col">
+									<span class="avatar">
+										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+									</span>
+									{{doc.displayName}}
+								</span>
+								<span class="col type-col">{{ doc.internalExt}}</span>
+								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
+								<div class="row-actions">
+									<button class="btn icon-btn"
+											ng-click="removeDocument(doc)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</div>
+							</span>
 						</li>
 					</ul>
 				</div>
-
 			</div>
 		</div><!-- RELATED DOCUMENTS -->
 

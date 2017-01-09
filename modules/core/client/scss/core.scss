@@ -208,27 +208,27 @@ button.close {
 
 /* Margin Helpers */
 .m-b-0 {
-	margin-bottom: 0;
+	margin-bottom: 0 !important;
 }
 
 .m-b-1 { 
-	margin-bottom: 1rem;
+	margin-bottom: 1rem !important;
 }
 
 .m-b-2 {
-	margin-bottom: 2rem;
+	margin-bottom: 2rem !important;
 }
 
 .m-t-0 {
-	margin-top: 0;
+	margin-top: 0 !important;
 }
 
 .m-t-1 {
-	margin-top: 1rem;
+	margin-top: 1rem !important;
 }
 
 .m-t-2 {
-	margin-top: 2rem;
+	margin-top: 2rem !important;
 }
 
 /* MIXINS */
@@ -4115,7 +4115,7 @@ section {
 
 .public-comment-modal {
 	h4 {
-		margin-top: 1rem;
+		margin-top: 0;
 		font-weight: bold;
 	}
 	
