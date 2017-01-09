@@ -77,29 +77,54 @@
 						x-project="project"
 						x-target-name="'Public Comment Period'"
 						x-target="period.relatedDocuments"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
-
-				<div>
+			</div>
+			<div class="fb-body">
+				<div class="fb-list">
+					<div class="column-header">
+						<div class="fb-col-group">
+							<div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
+								<span>Name</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
+							</div>
+							<div hidden class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('author')">
+								<span>Author</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
+							</div>
+							<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
+								<span>Uploaded</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
+							</div>
+							<div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user">
+								<span>Status</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
+							</div>
+						</div>
+					</div>
 					<ul>
-						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
-						<span class="fb-col-group">
-							<span class="col name-col first-col">
-								<span class="avatar">
-									<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
-									<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
-								</span>
-								{{doc.displayName}}
+						<li class="fb-list-item" ng-hide="doc in period.relatedDocuments">
+							<span class="fb-col-group">
+								<span class="col first-col">No Linked Files.</span>
 							</span>
-                        <div class="row-actions">
-                            <button class="btn icon-btn"
-									ng-click="removeDocument(doc)">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                        </div>
-                    </span>
+						</li>
+						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
+							<span class="fb-col-group">
+								<span class="col name-col first-col">
+									<span class="avatar">
+										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+									</span>
+									{{doc.displayName}}
+								</span>
+								<div class="row-actions">
+									<button class="btn icon-btn"
+											ng-click="removeDocument(doc)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</div>
+							</span>
 						</li>
 					</ul>
 				</div>
-
 			</div>
 		</div><!-- RELATED DOCUMENTS -->
 
