@@ -130,7 +130,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
 				// console.log ('editing periodId = ', $stateParams.periodId);
-				return CommentPeriodModel.getModel ($stateParams.periodId);
+				return CommentPeriodModel.getForPublic ($stateParams.periodId);
 			}
 		},
 		onEnter: function($state, project){
@@ -231,7 +231,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		templateUrl: 'modules/project-comments/client/views/period-view.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
-				return CommentPeriodModel.getModel ($stateParams.periodId);
+				return CommentPeriodModel.getForPublic ($stateParams.periodId);
 			}
 		},
 		controller: function ($scope, period, project, _) {
@@ -254,6 +254,8 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					d.displayName = d.documentFileName || d.internalOriginalName;
 				}
 			});
+
+
 		}
 	})
 

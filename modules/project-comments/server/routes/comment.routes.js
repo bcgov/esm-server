@@ -20,6 +20,10 @@ module.exports = function (app) {
 	//
 	// resolve, publish, unpublish comment chains
 	//
+	app.route ('/api/commentperiod/for/public/:id').all (policy ('guest'))
+		.get (routes.setAndRun (CommentPeriod, function (model, req) {
+			return model.getForPublic (req.params.id);
+		}));
 	app.route ('/api/commentperiod/for/project/:projectid').all (policy ('guest'))
 		.get (routes.setAndRun (CommentPeriod, function (model, req) {
 			return model.getForProject (req.params.projectid);
