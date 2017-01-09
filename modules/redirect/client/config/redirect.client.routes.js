@@ -11,16 +11,25 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			var incomingURL = $window.location.href;
 			var newURL = $window.location.protocol + "//" + $window.location.host + "/";
 
-			// Find out which project this is.
-			var epicProjectID = incomingURL.replace(newURL+"redirect/documents/p","");
-			epicProjectID = epicProjectID.replace(/\/.*/,"");
-			try {
-				epicProjectID = parseInt(epicProjectID);
-			} catch (e) {
-				// If something goes wrong with the parsing, redirect to home page.
-				console.log("Parsing fail:", epicProjectID);
-				$window.location.href = newURL;
-				return;
+			var epicProjectID;
+			var homestring = "epic_project_home_";
+			var pjhomeIdx = incomingURL.indexOf(homestring);
+			// Test if it's a project home link
+			if (pjhomeIdx !== -1) {
+				epicProjectID = incomingURL.substr(pjhomeIdx+homestring.length);
+				epicProjectID = epicProjectID.substr(0, epicProjectID.indexOf("."));
+			} else {
+				// Find out which project this is.
+				epicProjectID = incomingURL.replace(newURL+"redirect/documents/p","");
+				epicProjectID = epicProjectID.replace(/\/.*/,"");
+				try {
+					epicProjectID = parseInt(epicProjectID);
+				} catch (e) {
+					// If something goes wrong with the parsing, redirect to home page.
+					console.log("Parsing fail:", epicProjectID);
+					$window.location.href = newURL;
+					return;
+				}
 			}
 			// Lookup the project by old epicID.  If not found or a bad incoming URL was found,
 			// lets just redirect to the homepage instead.
