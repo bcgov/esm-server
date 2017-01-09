@@ -83,21 +83,14 @@
 				<div class="fb-list">
 					<div class="column-header">
 						<div class="fb-col-group">
-							<div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
+							<div class="col name-col first-col">
 								<span>Name</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 							</div>
-							<div hidden class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('author')">
-								<span>Author</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
-							</div>
-							<div hidden class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+							<div class="col type-col">
 								<span>Type</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 							</div>
-							<div hidden class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+							<div class="col size-col last-col">
 								<span>Size</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
 							</div>
 						</div>
 					</div>
@@ -116,6 +109,8 @@
 									</span>
 									{{doc.displayName}}
 								</span>
+								<span class="col type-col">{{ doc.internalExt}}</span>
+								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
 								<div class="row-actions">
 									<button class="btn icon-btn"
 											ng-click="removeDocument(doc)">
