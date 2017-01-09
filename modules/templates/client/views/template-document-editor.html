@@ -21,7 +21,8 @@
             </div>
             <a class="list-group-item flex-row" ng-repeat="file in filelist" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
                 <span class="icon">
-                    <span class="glyphicon glyphicon-file"></span>
+                    <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(file.internalExt)"></span>
+                    <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(file.internalExt)"></span>
                 </span>
                 <span class="title">
                     <span>{{ file.internalOriginalName }}</span>

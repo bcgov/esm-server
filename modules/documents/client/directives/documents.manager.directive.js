@@ -1030,7 +1030,7 @@ angular.module('documents')
 							}
 						})
 						.catch(function (err) {
-							$log.error(err);
+							//$log.error(err);
 						});
 				});
 			}

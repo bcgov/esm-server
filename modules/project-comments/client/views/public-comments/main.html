@@ -65,11 +65,13 @@
 							<span class="fb-col-group">
 								<span class="col name-col first-col">
 									<span class="avatar">
-										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
-										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+										<span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
 									</span>
 									{{doc.displayName}}
 								</span>
+								<span class="col type-col">{{ doc.internalExt}}</span>
+								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
 								<span class="col actions-col last-col">
 									<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File" ng-if="doc.userCan.read">
 										<span class="glyphicon glyphicon-download-alt"></span>
