@@ -3742,7 +3742,7 @@ section {
 		color: #FFF;
 		background: #5091cd;
 		&:hover { 
-			background: #96c0e6;
+			background: #5f9bd1;
 		}
 	}
 
@@ -3777,6 +3777,12 @@ section {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
+}
+
+.pcp-comment-count-label {
+	display: inline-block;
+	margin-top: 0.8rem;
+	font-weight: bold;
 }
 
 .pcp-open-house {

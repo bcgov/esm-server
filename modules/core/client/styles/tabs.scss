@@ -1,5 +1,9 @@
 
 .pcp-tab-content {
+    .tab-pane {
+        padding-top: 1.4rem;
+    }
+
     .btn-sm {
         padding: 0.65rem 1rem;
     }
@@ -12,10 +16,11 @@
                 font-weight: bold;
                 background: #DDD;
                 color: #777;
+                text-shadow: 0 0 1px #FFF;
 
                 &:hover {
-                    background-color: #1a5a96;
-                    color: #FFF;
+                    background-color: #CCC;
+                    color: #494949;
                 }
             }
 
