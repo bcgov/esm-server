@@ -90,12 +90,12 @@
 								<span>Author</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
 							</div>
-							<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
-								<span>Uploaded</span>
+							<div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+								<span>Type</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 							</div>
-							<div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user">
-								<span>Status</span>
+							<div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+								<span>Size</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
 							</div>
 						</div>

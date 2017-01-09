@@ -37,7 +37,50 @@
 
     <div class="pcp-tab-content tab-content">
         <div class="tab-pane" id="pcpDocuments">
-            <!-- Related Documents Here -->
+            <div class="fb-body">
+				<div class="fb-list">
+					<div class="column-header">
+						<div class="fb-col-group">
+							<div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
+								<span>Name</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
+							</div>
+							<div class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+								<span>Type</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
+							</div>
+							<div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+								<span>Size</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
+							</div>
+						</div>
+					</div>
+					<ul>
+						<li class="fb-list-item" ng-hide="doc in period.relatedDocuments">
+							<span class="fb-col-group">
+								<span class="col first-col">No Documents Available.</span>
+							</span>
+						</li>
+						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
+							<span class="fb-col-group">
+								<span class="col name-col first-col">
+									<span class="avatar">
+										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+									</span>
+									{{doc.displayName}}
+								</span>
+								<div class="row-actions">
+									<button class="btn icon-btn"
+											ng-click="removeDocument(doc)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</div>
+							</span>
+						</li>
+					</ul>
+				</div>
+			</div>
         </div>
         <div class="tab-pane active" role="tab-panel" id="pcpComments">
             <tmpl-public-comment-list x-period="period" x-project="project"></tmpl-public-comment-list>
