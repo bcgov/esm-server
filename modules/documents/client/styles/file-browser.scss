@@ -598,6 +598,17 @@ span.avatar {
     @include flex(0 0 20%);
 }
 
+/* TODO - Need better solution for actions cols */
+.col.actions-col {
+    padding: 0.5rem;
+
+    .btn {
+        margin-top: -0.75rem;
+        margin-right: -0.5rem;
+        margin-bottom: -0.75rem;
+    }
+}
+
 
 /* CHECKBOX COL */
 .col.checkbox-col {
@@ -961,6 +972,27 @@ $fb-upload-target-border: 2px dashed #BBB;
             font-size: 1.3rem;
             font-style: italic;
             color: #666;
+        }
+    }
+}
+
+/* File Browser Modal */
+
+.fb-browser-modal {
+    .fb-link-select-files {
+        margin-bottom: 2rem;
+    }
+
+    .file-browser {
+        height: 40rem;
+    }
+
+    .linked-files-container {
+        max-height: 40rem;
+        overflow-y: auto;
+
+        .row-actions {
+            display: block;
         }
     }
 }

@@ -56,7 +56,7 @@
 						</div>
 					</div>
 					<ul>
-						<li class="fb-list-item" ng-hide="doc in period.relatedDocuments">
+						<li class="fb-list-item" ng-if="period.relatedDocuments == 0">
 							<span class="fb-col-group">
 								<span class="col first-col">No Documents Available.</span>
 							</span>
