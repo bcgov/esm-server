@@ -22,9 +22,6 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
 				return CommentPeriodModel.forProject (project._id);
-			},
-			artifacts: function (project, ArtifactModel) {
-				return ArtifactModel.forProject (project._id);
 			}
 		}
 	})
@@ -51,8 +48,6 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			// filter lists...
 			s.typeArray = [];
 			s.phaseArray = [];
-			s.artifactArray = [];
-			s.versionArray = [];
 
 			// build out the filter arrays...
 			var recs = _(angular.copy(periods)).chain().flatten();
@@ -62,13 +57,6 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			recs.pluck('phaseName').unique().value().map(function (item) {
 				s.phaseArray.push({id: item, title: item});
 			});
-			recs.pluck('artifactName').unique().value().map(function (item) {
-				s.artifactArray.push({id: item, title: item});
-			});
-			recs.pluck('artifactVersion').unique().value().map(function (item) {
-				s.versionArray.push({id: item, title: item});
-			});
-
 		},
 		controllerAs: 's'
 	})
@@ -93,11 +81,9 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($scope, $state, project, period, CommentPeriodModel, artifacts, _) {
+		controller: function ($scope, $state, project, period, CommentPeriodModel, _) {
 			$scope.period = period;
 			$scope.project = project;
-			// only allowing public comments to be created for now, so limit these to published artifacts only.
-			$scope.artifacts = _.filter(artifacts, function(o) { return o.isPublished; });
 			$scope.changeType = function () {
 				if (period.periodType === 'Public') {
 					period.commenterRoles = ['public'];
@@ -117,11 +103,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					
 					period.phase = project.currentPhase;
 					period.phaseName = project.currentPhase.name;
-					
-					period.artifactName = period.artifact.name;
-					period.artifactVersion = period.artifact.version;
-					period.artifactVersionNumber = period.artifact.versionNumber;
-					period.artifactTypeCode = period.artifact.typeCode;
+
 					CommentPeriodModel.add($scope.period)
 					.then(function (model) {
 						$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
@@ -166,7 +148,12 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.period = period;
 			$scope.project = project;
 
-			$scope.artifacts = [period.artifact];
+			_.each($scope.period.relatedDocuments, function(d) {
+				if (_.isEmpty(d.displayName)) {
+					d.displayName = d.documentFileName || d.internalOriginalName;
+				}
+			});
+
 
 			$scope.changeType = function () {
 				if (period.periodType === 'Public') {
@@ -178,6 +165,11 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
+
+
+			$scope.removeDocument = function(doc) {
+				_.remove($scope.period.relatedDocuments, doc);
+			};
 
 			$scope.save = function () {
 				if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.classificationRoles) === 0) {
@@ -225,12 +217,9 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
 				return CommentPeriodModel.getModel ($stateParams.periodId);
-			},
-			artifact: function (period, ArtifactModel) {
-				return ArtifactModel.getModel (period.artifact._id);
 			}
 		},
-		controller: function ($scope, period, project, artifact) {
+		controller: function ($scope, period, project, _) {
 			//console.log ('period user can: ', JSON.stringify(period.userCan, null, 4));
 			var today       = new Date ();
 			var start       = new Date (period.dateStarted);
@@ -241,10 +230,15 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.isClosed = (end < today);
 			$scope.period   = period;
 			$scope.project  = project;
-			$scope.artifact = artifact;
 			// anyone with vetting comments can add a comment at any time
 			// all others with add comment permission must wait until the period is open
 			$scope.allowCommentSubmit = (isopen && period.userCan.addComment) || period.userCan.vetComments;
+
+			_.each($scope.period.relatedDocuments, function(d) {
+				if (_.isEmpty(d.displayName)) {
+					d.displayName = d.documentFileName || d.internalOriginalName;
+				}
+			});
 		}
 	})
 

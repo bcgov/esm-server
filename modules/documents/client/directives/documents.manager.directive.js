@@ -772,4 +772,64 @@ angular.module('documents')
 		};
 	}])
 
+	.directive('documentMgrLinkModal',['$rootScope', '$modal', '$log', '$timeout', '_', 'DocumentMgrService', function ($rootScope, $modal, $log, $timeout, _, DocumentMgrService){
+		return {
+			restrict: 'A',
+			scope: {
+				project: '=',
+				target: '=',
+				targetName: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('click', function () {
+					$modal.open({
+						animation: true,
+						size: 'lg',
+						templateUrl: 'modules/documents/client/views/document-manager-link-modal.html',
+						resolve: {},
+						controllerAs: 'linkModal',
+						controller: function ($rootScope, $scope, $modalInstance) {
+							var self = this;
+
+							$scope.project = scope.project;
+							self.selectedDocuments = angular.copy(scope.target || []);
+
+							self.title = "Link Documents to '" + $scope.project.name + "'";
+							if (!_.isEmpty(scope.targetName)) {
+								self.title = "Link Documents to '" + scope.targetName + "'";
+							}
+
+
+
+
+
+
+
+
+
+
+
+							self.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+
+							self.ok = function () {
+								// return the data in the selected list...
+								$modalInstance.close(self.selectedDocuments);
+							};
+
+						}
+					}).result.then(function (data) {
+							$log.debug(data);
+							scope.target = data;
+						})
+						.catch(function (err) {
+							$log.error(err);
+						});
+				});
+			}
+		};
+
+	}])
+
 ;

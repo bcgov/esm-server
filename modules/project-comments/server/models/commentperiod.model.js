@@ -32,17 +32,9 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// for query optimization
 	//
 	phaseName        : { type:String, default: '' },
-	//
-	// these three define the target of this period
-	//
-	artifact              : { type:'ObjectId', ref:'Artifact' },
-	artifactVersion       : { type:String, default: '' },
-	artifactVersionNumber : { type:String, default:'',  index:true},
-	//
-	// these are surfaced for query optimization
-	//
-	artifactName     : { type:String, default: '' },
-	artifactTypeCode : { type:String, default: '' },
+
+	relatedDocuments: [{type: 'ObjectId', ref: 'Document'}],
+
 	//
 	// commenter roles, a list of roles that are allowed to post comments
 	// if this were a public period this would simply be 'public'
