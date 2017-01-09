@@ -104,8 +104,8 @@
 							<span class="fb-col-group">
 								<span class="col name-col first-col">
 									<span class="avatar">
-										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt !== 'png' || 'jpg' || 'jpeg'"></span>
-										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+										<span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
 									</span>
 									{{doc.displayName}}
 								</span>

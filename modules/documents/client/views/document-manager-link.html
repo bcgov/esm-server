@@ -44,14 +44,15 @@
                             <span>Name</span>
                             <span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
                         </div>
-                        <div hidden class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('author')">
-                            <span>Author</span>
-                            <span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
+                        <div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+                            <span>Type</span>
+                            <span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
                         </div>
-                        <div class="col date-added-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
-                            <span>Uploaded</span>
-                            <span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
+                        <div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+                            <span>Size</span>
+                            <span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
                         </div>
+
                         <div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user && publishedOnly !== 'true'">
                             <span>Status</span>
                             <span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
@@ -70,23 +71,18 @@
                                 <span class="fb-col-group"
                                         ng-click="$event.originalEvent.dropdown || documentMgr.selectDir(doc)"
                                         ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)" title="{{doc.model.name}}">
-                                <span class="col name-col first-col">
-                                    <span class="avatar">
-                                        <span class="fb-folder glyphicon glyphicon-folder-close"></span>
+                                    <span class="col name-col first-col">
+                                        <span class="avatar">
+                                            <span class="fb-folder glyphicon glyphicon-folder-close"></span>
+                                        </span>
+                                        <span class="name">
+                                            {{ doc.model.name }}
+                                        </span>
                                     </span>
-                                    <span class="name">
-                                        {{ doc.model.name }}
-                                    </span>
-                                </span>
-                                    <span hidden class="col author-col">---</span>
-                                    <span class="col date-added-col">---</span>
+                                    <span class="col type-col">---</span>
+                                    <span class="col size-col">---</span>
                                     <span class="col status-col last-col" ng-if="authentication.user && publishedOnly !== 'true'">---</span>
-                                    <div class="row-actions">
-                                        <button class="drill-in-btn btn icon-btn" ng-click="documentMgr.openDir(doc)">
-                                            <span class="glyphicon glyphicon-menu-right"></span>
-                                        </button>
-
-                                    </div>
+                                    <div class="row-actions"></div>
                                 </span>
                             </li>
                         </ul>
@@ -102,21 +98,15 @@
                                         ng-click="$event.originalEvent.dropdown || documentMgr.selectFile(doc)">
                                     <span class="col name-col first-col" title="{{ doc.displayName | removeExtension }}">
                                         <span class="avatar">
-                                            <span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
-                                            <span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+                                            <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+                                            <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
                                         </span>
                                         <span class="name">
                                             {{ doc.displayName | removeExtension }}
                                         </span>
                                     </span>
-                                    <span hidden class="col author-col" title="{{ doc.documentAuthor }}">
-                                        {{ doc.documentAuthor }}
-                                    </span>
-                                    <!--
-                                    <span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
                                     <span class="col type-col">{{ doc.internalExt}}</span>
-                                    -->
-                                    <span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
+                                    <span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
                                     <span class="col status-col last-col" ng-if="authentication.user && publishedOnly !== 'true'">
                                         <span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
                                     </span>
@@ -147,8 +137,8 @@
                     <span class="fb-col-group">
                         <span class="col name-col first-col">
                             <span class="avatar">
-                                <span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
-                                <span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+                                <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+                                <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
                             </span>
                             {{doc.displayName}}
                         </span>

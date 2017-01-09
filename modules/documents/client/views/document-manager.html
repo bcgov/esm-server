@@ -196,10 +196,6 @@
 											</li>
 										</ul>
 									</div>
-
-									<button class="drill-in-btn btn icon-btn" ng-click="documentMgr.openDir(doc)">
-										<span class="glyphicon glyphicon-menu-right"></span>
-									</button>
 									
 								</div>
 							</span>
@@ -217,8 +213,8 @@
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectFile(doc)">
 								<span class="col name-col first-col" title="{{ doc.displayName | removeExtension }}">
 									<span class="avatar">
-										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
-										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+										<span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
 									</span>
 									<span class="name">
 										{{ doc.displayName | removeExtension }}
