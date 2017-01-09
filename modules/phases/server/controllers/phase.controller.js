@@ -163,8 +163,8 @@ module.exports = DBModel.extend ({
 	start: function (phase) {
 		phase.status           = 'In Progress';
 		phase.dateStarted      = new Date ();
-		phase.dateCompletedEst = new Date (phase.dateStarted);
-		phase.dateCompletedEst.setDate (phase.dateCompletedEst.getDate () + phase.duration);
+	//	phase.dateCompletedEst = new Date (phase.dateStarted);
+	//	phase.dateCompletedEst.setDate (phase.dateCompletedEst.getDate () + phase.duration);
 		return this.findAndUpdate (phase);
 	},
 	// -------------------------------------------------------------------------
