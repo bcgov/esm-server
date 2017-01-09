@@ -193,13 +193,42 @@ textarea {
 
 
 
-/* UTILITY SELECTORS
+/* MIXINS / UTILITY SELECTORS
 ------------------------------ */
 button.close {
 	margin-right: -1rem;
 	width: 3.4rem;
 	padding: 0.7rem;
 	font-weight: normal;
+}
+
+.no-margin {
+	margin: 0;
+}
+
+/* Margin Helpers */
+.m-b-0 {
+	margin-bottom: 0;
+}
+
+.m-b-1 { 
+	margin-bottom: 1rem;
+}
+
+.m-b-2 {
+	margin-bottom: 2rem;
+}
+
+.m-t-0 {
+	margin-top: 0;
+}
+
+.m-t-1 {
+	margin-top: 1rem;
+}
+
+.m-t-2 {
+	margin-top: 2rem;
 }
 
 /* MIXINS */
@@ -266,10 +295,6 @@ button.close {
 .ng-cloak, 
 .x-ng-cloak {
   display: none !important;
-}
-
-.no-margin {
-	margin: 0;
 }
 
 .placeholder-value {
@@ -1646,6 +1671,10 @@ ui-view {
 			-webkit-flex: 0 0 auto;
 			-ms-flex: 0 0 auto;
 			flex: 0 0 auto;
+
+			.btn {
+				min-width: 8rem;
+			}
 		}
 
 		.actions-group {
@@ -3678,36 +3707,42 @@ section {
 }
 
 .pcp-alert {
-	padding: 2rem;
+	padding: 2.25rem 2rem;
 	background: #2b5580;
 	color: #FFF;
 
 	h2 {
 		margin-top: 0;
 		margin-bottom: 0;
-		font-size: 2.4rem;
-		font-weight: normal;
+		font-size: 2.8rem;
 	}
 
 	.pcp-dates {
-		font-size: 1.6rem;
+		font-size: 1.8rem;
 	}
 
-	.pcp-comment-btn-container {
-		margin: 0 auto;
-		padding-top: 1.75rem;
-		clear: both;
+	.pcp-about {
+		margin-top: 2rem;
+		padding-top: 1.25rem;
+		border-top: 2px solid rgba(255,255,255,0.2);
+
+		p {
+			margin: 0;
+			font-size: 1.5rem;
+			line-height: 2.2rem;
+		}
 	}
 
 	.submit-comment-btn {
 		width: 100%;
-		padding: 1rem 2rem;
+		margin-top: 2rem;
+		margin-bottom: 0.5rem;
+		padding: 1.5rem 2rem;
 		font-size: 1.6rem;
 		color: #FFF;
-		background: transparent;
-		border: 1px solid #FFF;
+		background: #5091cd;
 		&:hover { 
-			background: $corp-blue;
+			background: #5f9bd1;
 		}
 	}
 
@@ -3723,13 +3758,11 @@ section {
 
 @media (min-width: 1024px) {
 	.pcp-alert {
-		.pcp-comment-btn-container {
-			padding-top: 0;
-			float: right;
-			clear: none;
-		}
-
 		.submit-comment-btn {
+			position: absolute;
+			top: 2.25rem;
+			right: 2rem;
+			margin: 0;
 			width: auto;
 		}
 	}
@@ -3737,52 +3770,35 @@ section {
 
 .pcp-details {
 	padding: 2.5rem 2rem;
-	background: #FFF;
-
-	h4 {
-		margin-top: 0;
-		margin-bottom: 1rem;
-		font-size: 1.4rem;
-		font-weight: bold;
-	}
-
-	pre {
-		color: #888;
-	}
-
-	section {
-		margin-bottom: 2.5rem;
-		&:last-child { margin-bottom: 0; }
-	}
+	background-color: #FFF;
 }
 
-.pcp-package-links,
-.pcp-open-house-list {
+.pcp-package-links {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 }
 
-.pcp-related-docs {
-	.list-group {
-		margin-bottom: 0;
-	}
-
-	.list-group-item {
-		background: #F7F8FA;
-	}
+.pcp-comment-count-label {
+	display: inline-block;
+	margin-top: 0.8rem;
+	font-weight: bold;
 }
 
-.pcp-open-house-list {
-	li {
-		padding: 1rem 0;
-		border-top: 1px solid #DDD;
+.pcp-open-house {
+	margin-top: 2rem;
 
-		pre {
-			display: block;
+	ul {
+		margin: 0;
+		padding-left: 2rem;
+
+		li {
+			margin-bottom: 1rem;
+
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
-		
-		&:last-child { padding-bottom: 0; }
 	}
 }
 
@@ -3842,10 +3858,6 @@ section {
 	left: 0;
 
 	.nav-tabs {
-		border-top: 1px solid #DDD;
-		margin-top: 0;
-		margin-bottom: 1.5rem;
-
 		li {
 			margin-top: 0.5rem;
 		}
@@ -3885,7 +3897,6 @@ section {
 
 	.tab-pane {
 		position: relative;
-		padding: 0;
 	}
 	
 	.pcp-btn-bar {
@@ -5068,10 +5079,6 @@ section.project-info {
 		padding-top: 1rem;
 	}
 	
-	.tab-pane {
-		padding-top: 3rem;
-	}
-	
 	.well {
 		margin-bottom: 0;
 		min-height: 39.5rem;
@@ -5541,6 +5548,11 @@ tmpl-template-render {
 		max-height: 30rem;
 	}
 }
+
+/* COMPONENTS
+----------------------------- */
+@import "modules/core/client/styles/spinner.scss";
+@import "modules/core/client/styles/tabs.scss";
 
 @import "modules/documents/client/styles/file-browser.scss";
 @import "modules/documents/client/styles/pdf-viewer.scss";

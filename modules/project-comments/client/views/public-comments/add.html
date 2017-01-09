@@ -53,10 +53,10 @@
 			<div class="row">
 				<div class="upload-attachments form-group no-margin col-sm-12">
 					<label class="control-label">Upload Attachments</label>
-					<div class="alert alert-danger alert-dismissable" ng-show="s.filesRemoved">
+					<div class="alert alert-danger" ng-show="s.showAlert">
 						Attachments must be in <strong>PDF format</strong> and limited to <strong>5MB</strong>.
-						<button type="button" class="close" data-dismiss="alert">
-							<span aria-hidden="true">&times;</span>
+						<button type="button" class="close">
+							<span ng-click="s.closeAlert()">&times;</span>
 						</button>
 					</div>
 
@@ -69,9 +69,7 @@
 								ngf-allow-dir="true"
 								ng-model="s.comment.files"
 								ngf-drag-over-class="fb-upload-target-hover"
-								ngf-max-total-size="5MB"
-								ngf-multiple="true"
-								accept="application/pdf">
+								ngf-multiple="true">
 								<div class="fb-upload-target-content">
 									<span class="glyphicon glyphicon-open icon-default"></span>
 									<span class="fb-upload-target-msg"><b>Drag &amp; Drop</b> or <b>browse files</b> to upload.</span>

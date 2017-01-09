@@ -17,7 +17,7 @@ var _          = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'CommentPeriod',
 	plural : 'commentperiods',
-	populate: 'artifact',
+	populate: 'artifact relatedDocuments',
 	bind: ['setArtifactStage', 'addActivities', 'setRolesPermissions'],
 	preprocessAdd: function (period) {
 		var self=this;
@@ -166,7 +166,7 @@ module.exports = DBModel.extend ({
 				return periodsWithStats;
 			})
 			.then(function(res) {
-				//console.log('periodWithStats = ',JSON.stringify(res, null, 4));
+				console.log('periodWithStats = ',JSON.stringify(res, null, 4));
 				return res;
 			})
 			.then (resolve, reject);

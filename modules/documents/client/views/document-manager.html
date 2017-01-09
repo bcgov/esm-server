@@ -153,7 +153,9 @@
 									<span class="avatar">
 										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
 									</span>
-									{{ doc.model.name }}
+									<span class="name">
+										{{ doc.model.name }}
+									</span>
 								</span>
 								<span hidden class="col author-col">---</span>
 								<span class="col date-added-col">---</span>
@@ -218,7 +220,9 @@
 										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
 										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
 									</span>
-									{{ doc.displayName | removeExtension }}
+									<span class="name">
+										{{ doc.displayName | removeExtension }}
+									</span>
 								</span>
 								<span hidden class="col author-col" title="{{ doc.documentAuthor }}">
 									{{ doc.documentAuthor }}

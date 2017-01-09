@@ -1,5 +1,4 @@
 
-@import "modules/documents/client/styles/spinner.scss";
 
 /* COLORS */
 $file-browser-bg: #FFF;
@@ -566,6 +565,15 @@ span.avatar {
 
 .col.name-col {
     @include flex(1 1 auto);
+    position: relative;
+
+    .name {
+        position: absolute;
+        left: 4.5rem;
+        right: 0.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }
 
 .col.size-col{

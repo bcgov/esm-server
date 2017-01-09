@@ -23,6 +23,9 @@
 			<li role="presentation" ng-class="{'active':form.curTab === 'pcpDetails'}">
 				<a href ng-click="form.curTab = 'pcpDetails'">Details</a>
 			</li>
+			<li role="presentation" ng-class="{'active':form.curTab === 'pcpRelatedDocs'}">
+				<a href ng-click="form.curTab = 'pcpRelatedDocs'">Related Documents</a>
+			</li>
 			<li role="presentation" ng-class="{'active':form.curTab === 'pcpOpenHouses'}">
 				<a href ng-click="form.curTab = 'pcpOpenHouses'">Open Houses</a>
 			</li>
@@ -41,13 +44,6 @@
 						<!-- <option>Working Group</option> -->
 					</select>
 				</div>
-				<div class="col-sm-6 col-lg-4 form-group">
-					<label class="control-label" for="artifact">Content for Review</label>
-					<select class="form-control" ng-model="period.artifact"
-						ng-options="artifact as artifact.name for artifact in artifacts" required></select>
-				</div>
-			</div>
-			<div class="row">
 				<div class="col-md-6 col-lg-6 form-group">
 					<label class="control-label">Start / End Dates</label>
 					<div class="form-inline">
@@ -72,34 +68,67 @@
 		</div>
 		<!-- / DETAILS TAB CONTENT -->
 
+		<!-- RELATED DOCUMENTS -->
+		<div class="tab-pane" ng-show="form.curTab === 'pcpRelatedDocs'">
+			<div class="button-bar">
+				<button class="btn btn-sm btn-default" title="Upload Files"
+						ng-if="project.userCan.createCommentPeriod"
+						x-document-mgr-link-modal
+						x-project="project"
+						x-target-name="'Public Comment Period'"
+						x-target="period.relatedDocuments"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
+
+				<div>
+					<ul>
+						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
+						<span class="fb-col-group">
+							<span class="col name-col first-col">
+								<span class="avatar">
+									<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+									<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+								</span>
+								{{doc.displayName}}
+							</span>
+                        <div class="row-actions">
+                            <button class="btn icon-btn"
+									ng-click="removeDocument(doc)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                    </span>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div><!-- RELATED DOCUMENTS -->
+
 		<!-- OPEN HOUSE TAB CONTENT -->
 		<div class="tab-pane" ng-show="form.curTab === 'pcpOpenHouses'">
-			<div class="form-group open-house">
-				<div class="button-bar">
-					<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="add">
-						<span class="glyphicon glyphicon-plus"></span><span>Add Open House</span>
-					</button>
-				</div>
-				<ul class="list-group">
-					<li class="list-group-item flex-row" ng-if="period.openHouses.length == 0">
-						<span class="title">No Open Houses for this Comment Period.</span>
-					</li>
-					<li class="list-group-item flex-row" ng-repeat="h in period.openHouses">
-						<div class="title">
-							<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
-							<pre class="open-house-desc">{{ h.description }}</pre>
-						</div>
-						<div class="actions">
-							<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
-								<span class="glyphicon glyphicon-pencil"></span>
-							</button>
-							<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
-								<span class="glyphicon glyphicon-trash"></span>
-							</button>
-						</div>
-					</li>
-				</ul>
+			<div class="button-bar">
+				<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="add">
+					<span class="glyphicon glyphicon-plus"></span><span>Add Open House</span>
+				</button>
 			</div>
+			<ul class="list-group">
+				<li class="list-group-item flex-row" ng-if="period.openHouses.length == 0">
+					<span class="title">No Open Houses for this Comment Period.</span>
+				</li>
+				<li class="list-group-item flex-row" ng-repeat="h in period.openHouses">
+					<div class="title">
+						<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
+						<pre class="open-house-desc">{{ h.description }}</pre>
+					</div>
+					<div class="actions">
+						<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</button>
+						<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
+							<span class="glyphicon glyphicon-trash"></span>
+						</button>
+					</div>
+				</li>
+			</ul>
 		</div>
 		<!-- / OPEN HOUSE TAB CONTENT -->
 

@@ -453,6 +453,10 @@ angular.module ('comment')
 					controller: function ($rootScope, $scope, $modalInstance, comment) {
 						// console.log("Adding a comment.");
 						var s     = this;
+
+						var maxFileSize = 5 * 1024 * 1024; //5MB
+						var allowedType = 'application/pdf';
+
 						s.step    = 1;
 						s.comment = comment;
 						comment.period = scope.period;
@@ -460,15 +464,17 @@ angular.module ('comment')
 						comment.files = scope.files;
 						comment.makeVisible = false;
 						s.fileList = [];
+						s.showAlert = false;
+
 						$scope.$watch('s.comment.files', function (newValue) {
 							if (newValue) {
-								s.filesRemoved = false;
+								s.showAlert = false;
 								s.comment.inProgress = false;
 								_.each( newValue, function(file, idx) {
-									if (file.type === 'application/pdf') {
-										s.fileList.push(file);
+									if (file.type !== allowedType || file.size > maxFileSize) {
+										s.showAlert = true;
 									} else {
-										s.filesRemoved = true;
+										s.fileList.push(file);
 									}
 								});
 							}
@@ -476,6 +482,9 @@ angular.module ('comment')
 						s.comment.removeFile = function(f) {
 							_.remove(s.fileList, f);
 						};
+
+						s.closeAlert = function(){ s.showAlert = false; };
+
 						s.cancel  = function () { $modalInstance.dismiss ('cancel'); };
 						s.next    = function () { s.step++; };
 						s.ok      = function () { $modalInstance.close (s.comment); };
