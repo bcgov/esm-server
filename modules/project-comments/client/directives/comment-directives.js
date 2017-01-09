@@ -454,6 +454,8 @@ angular.module ('comment')
 						// console.log("Adding a comment.");
 						var s     = this;
 
+						$scope.project = scope.project;
+
 						var maxFileSize = 5 * 1024 * 1024; //5MB
 						var allowedType = 'application/pdf';
 
