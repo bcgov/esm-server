@@ -599,13 +599,21 @@ span.avatar {
 }
 
 /* TODO - Need better solution for actions cols */
-.col.actions-col {
-    padding: 0.5rem;
+.actions-col {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 
     .btn {
-        margin-top: -0.75rem;
-        margin-right: -0.5rem;
-        margin-bottom: -0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    a.btn {
+        display: inline-block;
+        color: #494949;
+
+        .glyphicon {
+            top: 0.55rem;
+        }
     }
 }
 

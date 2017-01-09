@@ -70,12 +70,18 @@
 									</span>
 									{{doc.displayName}}
 								</span>
-								<div class="row-actions">
-									<button class="btn icon-btn"
-											ng-click="removeDocument(doc)">
-										<span class="glyphicon glyphicon-trash"></span>
+								<span class="col actions-col last-col">
+									<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File" ng-if="doc.userCan.read">
+										<span class="glyphicon glyphicon-download-alt"></span>
+									</a>
+									<button class="btn icon-btn" ng-if="doc.userCan.read && doc.internalMime === 'application/pdf'"
+											ng-show="doc.internalMime === 'application/pdf'"
+											x-modal-pdf-viewer
+											x-pdfobject="doc"
+											title="View File">
+										<span class="glyphicon glyphicon-eye-open"></span>
 									</button>
-								</div>
+								</span>
 							</span>
 						</li>
 					</ul>
