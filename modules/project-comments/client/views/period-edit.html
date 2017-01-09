@@ -41,11 +41,6 @@
 						<!-- <option>Working Group</option> -->
 					</select>
 				</div>
-				<div class="col-sm-6 col-lg-4 form-group">
-					<label class="control-label" for="artifact">Content for Review</label>
-					<select class="form-control" ng-model="period.artifact"
-						ng-options="artifact as artifact.name for artifact in artifacts" required></select>
-				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6 col-lg-6 form-group">
@@ -69,6 +64,38 @@
 				<label class="control-label">Description</label>
 				<textarea rows="6" ng-model="period.instructions" class="form-control" spellcheck="false"></textarea>
 			</div>
+			<button class="btn icon-btn" title="Upload Files"
+					ng-if="project.userCan.createCommentPeriod"
+					x-document-mgr-link-modal
+					x-project="project"
+					x-target-name="'Public Comment Period'"
+					x-target="period.relatedDocuments"><span class="glyphicon glyphicon-link"></span></button>
+
+			<section>
+				<label>Related Documents</label>
+				<div>
+					<ul>
+						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
+                    <span class="fb-col-group">
+                        <span class="col name-col first-col">
+                            <span class="avatar">
+                                <span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+                                <span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+                            </span>
+                            {{doc.displayName}}
+                        </span>
+                        <div class="row-actions">
+                            <button class="btn icon-btn"
+									ng-click="removeDocument(doc)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                    </span>
+						</li>
+					</ul>
+				</div>
+			</section><!-- Linked Files Section -->
+
 		</div>
 		<!-- / DETAILS TAB CONTENT -->
 
