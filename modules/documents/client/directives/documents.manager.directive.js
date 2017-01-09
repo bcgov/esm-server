@@ -981,7 +981,8 @@ angular.module('documents')
 				project: '=',
 				target: '=',
 				targetName: '=',
-				publishedOnly: '='
+				publishedOnly: '=',
+				onOk: '='
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
@@ -1018,7 +1019,15 @@ angular.module('documents')
 						}
 					}).result.then(function (data) {
 							$log.debug(data);
-							scope.target = data;
+							// ok, pass data back to the caller....
+							if (scope.target) {
+								// if they set the target collection... update it.
+								scope.target = data;
+							}
+							if (scope.onOk) {
+								//if they set an OK handler, call it.
+								scope.onOk(data);
+							}
 						})
 						.catch(function (err) {
 							$log.error(err);

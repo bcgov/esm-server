@@ -311,7 +311,6 @@ angular.module ('templates')
 					scope.filelist = result;
 					scope.$apply();
 				});
-
 		}
 	};
 })

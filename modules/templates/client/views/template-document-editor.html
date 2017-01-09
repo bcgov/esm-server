@@ -4,15 +4,14 @@
     <div class="panel-heading flex-row">
         <h2>{{::title}}</h2>
         <div class="actions">
-            <button class="btn btn-default btn-sm" title="Link Document" 
-                ng-if="editable"
-                x-modal-document-link x-current="curVal" 
-                x-project="project" 
-                x-doc-location-code="docLocationCode" 
-                x-artifact="artifact"
-                x-documents-control="documentsControl">
-                <span class="glyphicon glyphicon-link"></span><span>Link Document<span>
-            </button>
+            <button class="btn btn-sm btn-default" title="Link Documents"
+                    ng-if="editable"
+                    x-document-mgr-link-modal
+                    x-project="project"
+                    x-target-name="title"
+                    x-target="filelist"
+                    x-published-only="'false'"
+                    x-on-ok="documentsControl.update"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
         </div>
     </div>
     <div class="attachments">

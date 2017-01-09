@@ -166,6 +166,21 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
 
+			$scope.addLinkedFiles = function(data) {
+				// add files in data to our relatedDocs
+				if (data) {
+					_.each(data, function(d) {
+						var f = _.find(period.relatedDocuments, function(r) { return r._id.toString() === d._id.toString(); });
+						if (!f) {
+							//ok, add this to the list.
+							if (_.isEmpty(d.displayName)) {
+								d.displayName = d.documentFileName || d.internalOriginalName;
+							}
+							period.relatedDocuments.push(d);
+						}
+					});
+				}
+			};
 
 			$scope.removeDocument = function(doc) {
 				_.remove($scope.period.relatedDocuments, doc);

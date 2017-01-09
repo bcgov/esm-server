@@ -71,13 +71,13 @@
 		<!-- RELATED DOCUMENTS -->
 		<div class="tab-pane" ng-show="form.curTab === 'pcpRelatedDocs'">
 			<div class="button-bar">
-				<button class="btn btn-sm btn-default" title="Upload Files"
+				<button class="btn btn-sm btn-default" title="Link Documents"
 						ng-if="project.userCan.createCommentPeriod"
 						x-document-mgr-link-modal
 						x-project="project"
 						x-target-name="'Public Comment Period'"
-						x-target="period.relatedDocuments"
-						x-published-only="'true'"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
+						x-published-only="'true'"
+				        x-on-ok="addLinkedFiles"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
 			</div>
 			<div class="fb-body">
 				<div class="fb-list">
@@ -104,14 +104,24 @@
 							<span class="fb-col-group">
 								<span class="col name-col first-col">
 									<span class="avatar">
-										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
+										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt !== 'png' || 'jpg' || 'jpeg'"></span>
 										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
 									</span>
 									{{doc.displayName}}
 								</span>
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
-								<div class="row-actions">
+								<div class="col actions-col">
+									<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File" ng-if="doc.userCan.read">
+										<span class="glyphicon glyphicon-download-alt"></span>
+									</a>
+									<button class="btn icon-btn" ng-if="doc.userCan.read && doc.internalMime === 'application/pdf'"
+											ng-show="doc.internalMime === 'application/pdf'"
+											x-modal-pdf-viewer
+											x-pdfobject="doc"
+											title="View File">
+										<span class="glyphicon glyphicon-eye-open"></span>
+									</button>
 									<button class="btn icon-btn"
 											ng-click="removeDocument(doc)">
 										<span class="glyphicon glyphicon-trash"></span>
