@@ -211,6 +211,9 @@ module.exports = DBModel.extend ({
 				nextPhase.progress = 0;
 				return self.findAndUpdate(nextPhase);
 			}
+			return null;
+		})
+		.then(function () {
 			return self.findAndUpdate(phase);
 		});
 	},
