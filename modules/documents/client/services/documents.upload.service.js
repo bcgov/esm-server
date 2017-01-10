@@ -136,7 +136,7 @@ angular.module('documents')
 		};
 
 
-		this.startUploads = function(targetUrl, directoryID, reviewdocs) {
+		this.startUploads = function(targetUrl, directoryID, reviewdocs, dateUploaded) {
 			var self = this;
 			if (self.actions.busy) {
 				return;
@@ -167,21 +167,26 @@ angular.module('documents')
 					 directoryid
 
 					 */
+					var data = {
+						documenttype: "Not Specified",
+						documentsubtype: "Not Specified",
+						documentfoldername:"Not Specified",
+						documentisinreview: reviewdocs,
+						documentauthor: Authentication.user.displayName,
+						documentfilename: file.name,
+						displayname: file.name,
+						directoryid : directoryID
+					};
+
+					if (dateUploaded) {
+						data.dateuploaded = dateUploaded;
+					}
 
 					file.status = undefined;
 					file.upload = Upload.upload({
 						url: targetUrl,
 						file: file,
-						data: {
-							documenttype: "Not Specified",
-							documentsubtype: "Not Specified",
-							documentfoldername:"Not Specified",
-							documentisinreview: reviewdocs,
-							documentauthor: Authentication.user.displayName,
-							documentfilename: file.name,
-							displayname: file.name,
-							directoryid : directoryID
-						}
+						data: data
 					});
 
 					$log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
