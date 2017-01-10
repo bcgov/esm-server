@@ -47,21 +47,21 @@
 							</div>
 							<div class="col type-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
 								<span>Type</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
 							</div>
 							<div class="col size-col last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
 								<span>Size</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
 							</div>
 						</div>
 					</div>
 					<ul>
-						<li class="fb-list-item" ng-if="period.relatedDocuments == 0">
+						<li class="fb-list-item" ng-if="documentMgr.sortedFiles == 0">
 							<span class="fb-col-group">
 								<span class="col first-col">No Documents Available.</span>
 							</span>
 						</li>
-						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
+						<li class="fb-list-item" ng-repeat="doc in documentMgr.sortedFiles">
 							<span class="fb-col-group">
 								<span class="col name-col first-col">
 									<span class="avatar">

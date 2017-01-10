@@ -83,24 +83,27 @@
 				<div class="fb-list">
 					<div class="column-header">
 						<div class="fb-col-group">
-							<div class="col name-col first-col">
+							<div class="col name-col first-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
 								<span>Name</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 							</div>
-							<div class="col type-col">
+							<div class="col type-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
 								<span>Type</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
 							</div>
-							<div class="col size-col last-col">
+							<div class="col size-col last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
 								<span>Size</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
 							</div>
 						</div>
 					</div>
 					<ul>
-						<li class="fb-list-item" ng-hide="period.relatedDocuments.length > 0">
+						<li class="fb-list-item" ng-hide="documentMgr.sortedFiles.length > 0">
 							<span class="fb-col-group">
 								<span class="col first-col">No Linked Files.</span>
 							</span>
 						</li>
-						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
+						<li class="fb-list-item" ng-repeat="doc in documentMgr.sortedFiles">
 							<span class="fb-col-group">
 								<span class="col name-col first-col">
 									<span class="avatar">
