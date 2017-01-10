@@ -606,25 +606,6 @@ span.avatar {
     @include flex(0 0 20%);
 }
 
-/* TODO - Need better solution for actions cols */
-.actions-col {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-
-    .btn {
-        margin-top: 0.5rem;
-    }
-
-    a.btn {
-        display: inline-block;
-        color: #494949;
-
-        .glyphicon {
-            top: 0.55rem;
-        }
-    }
-}
-
 
 /* CHECKBOX COL */
 .col.checkbox-col {

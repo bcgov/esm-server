@@ -41,15 +41,15 @@
 				<div class="fb-list">
 					<div class="column-header">
 						<div class="fb-col-group">
-							<div class="col name-col first-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
+							<div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
 								<span>Name</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 							</div>
-							<div class="col type-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+							<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
 								<span>Type</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
 							</div>
-							<div class="col size-col last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+							<div class="col size-col sortable last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
 								<span>Size</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
 							</div>
