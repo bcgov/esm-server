@@ -200,7 +200,7 @@ module.exports = DBModel.extend ({
 		phase.completedBy = null;
 		phase.dateCompleted = null;
 		phase.progress = 0;
-		self.findOne ({project:phase.project, order: (phase.order+1)})
+		return self.findOne ({project:phase.project, order: (phase.order+1)})
 		.then( function (nextPhase) {
 			if (nextPhase) {
 				nextPhase.status = "Not Started";
@@ -211,6 +211,9 @@ module.exports = DBModel.extend ({
 				nextPhase.progress = 0;
 				return self.findAndUpdate(nextPhase);
 			}
+			return null;
+		})
+		.then(function () {
 			return self.findAndUpdate(phase);
 		});
 	},
