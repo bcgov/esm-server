@@ -15,7 +15,7 @@ module.exports = DBModel.extend ({
 	name: 'Communication',
 	plural: 'communications',
 	sort: {dateUpdated:-1},
-	populate: 'artifacts artifacts.name artifacts.version artifacts.versionNumber',
+	populate: 'documents',
 
 
 	preprocessAdd : function (model) {

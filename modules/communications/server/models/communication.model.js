@@ -14,8 +14,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// which groups did we use (if any)?
 	groups              : [{ type:'ObjectId', ref:'Group'}],
 
-	// not all notifications will have artifacts, but we need to store them
-	artifacts           : [{type:'ObjectId', ref:'Artifact'}],
+	// not all notifications will have documents, but we need to store them
+	documents           : [{type:'ObjectId', ref:'Document'}],
 
 	// store which email template we started with (if any)...
 	emailTemplate       : { type:'ObjectId', ref:'EmailTemplate', default:null},

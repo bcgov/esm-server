@@ -16,7 +16,7 @@ angular
 		$scope.recipients = angular.copy(self.communication.recipients);
 		$scope.adhocRecipient = undefined;
 		$scope.existingRecipients = [];
-		$scope.artifacts = angular.copy(self.communication.artifacts);
+		$scope.documents = angular.copy(self.communication.documents);
 		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 
 		self.downloadAddressList = function () {
@@ -53,17 +53,18 @@ angular
 
 
 		var transformTemplate = function() {
-			var artifactHtml = '';
-			_.forEach($scope.artifacts, function(item) {
-				var url = window.location.origin + '/p/' + $scope.project.code + '/artifact/' + item._id + '/view';
-				var li = "<li><a href='" + url + "'>" + item.name + "</a></li>";
-				if (_.isEmpty(artifactHtml)) {
-					artifactHtml = '<ul>';
+			var documentHtml = '';
+			_.forEach($scope.documents, function(item) {
+				// /api/document/:document/fetch
+				var url = window.location.origin + '/api/document/' + item._id + '/fetch';
+				var li = "<li><a href='" + url + "'>" + item.displayName + "</a></li>";
+				if (_.isEmpty(documentHtml)) {
+					documentHtml = '<ul>';
 				}
-				artifactHtml += li;
+				documentHtml += li;
 			});
-			if (!_.isEmpty(artifactHtml)) {
-				artifactHtml += '</ul>';
+			if (!_.isEmpty(documentHtml)) {
+				documentHtml += '</ul>';
 			}
 			var projectUrl = window.location.origin + '/p/' + $scope.project.code + '/detail';
 			var projectUrlHtml = "<a href='" + projectUrl + "'>" + $scope.project.name + "</a>";
@@ -74,7 +75,7 @@ angular
 			subject = subject.replace('%CURRENT_USER_EMAIL%', $scope.authentication.user.email);
 
 			var content = !_.isEmpty(self.communication.templateContent) ? self.communication.templateContent : '';
-			content = content.replace('%RELATED_CONTENT%', artifactHtml);
+			content = content.replace('%RELATED_CONTENT%', documentHtml);
 			content = content.replace('%PROJECT_URL%', projectUrlHtml);
 			content = content.replace('%PROJECT_NAME%', $scope.project.name);
 			content = content.replace('%CURRENT_USER_NAME%', $scope.authentication.user.displayName);
@@ -99,8 +100,8 @@ angular
 
 			//(use angular copy to remove $$hashKey)...
 			// set the artifacts list...
-			var theArtifacts = _.forEach($scope.artifacts, function(o) { return o._id; });
-			self.communication.artifacts = angular.copy(theArtifacts);
+			var theDocuments = _.forEach($scope.documents, function(o) { return o._id; });
+			self.communication.documents = angular.copy(theDocuments);
 			// create a recipient list...
 			self.communication.recipients = angular.copy($scope.recipients);
 
@@ -231,10 +232,25 @@ angular
 			}
 		);
 
-		$scope.removeArtifact = function(id) {
-			var item =  _.find($scope.artifacts, function(o) { return o._id === id; });
+		$scope.removeDocument = function(id) {
+			var item =  _.find($scope.documents, function(o) { return o._id === id; });
 			if (item) {
-				_.remove($scope.artifacts, function(o) { return o._id === id; });
+				_.remove($scope.documents, function(o) { return o._id === id; });
+			}
+		};
+
+		$scope.addDocuments = function(data) {
+			if (data) {
+				_.each(data, function(d) {
+					var f = _.find($scope.documents, function(r) { return r._id.toString() === d._id.toString(); });
+					if (!f) {
+						//ok, add this to the list.
+						if (_.isEmpty(d.displayName)) {
+							d.displayName = d.documentFileName || d.internalOriginalName;
+						}
+						$scope.documents.push(d);
+					}
+				});
 			}
 		};
 
@@ -269,7 +285,11 @@ angular
 				backdropClass: 'modal-alert-backdrop'
 			});
 			// do not care how this modal is closed, just go to the desired location...
-			modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+			modalDocView.result.then(function (res) {
+				transitionCallback();
+			}, function (err) {
+				transitionCallback();
+			});
 		};
 
 		$scope.showSuccess = function(msg, transitionCallback, title) {
@@ -294,7 +314,11 @@ angular
 				backdropClass: 'modal-alert-backdrop'
 			});
 			// do not care how this modal is closed, just go to the desired location...
-			modalDocView.result.then(function (res) {transitionCallback(); }, function (err) { transitionCallback(); });
+			modalDocView.result.then(function (res) {
+				transitionCallback();
+			}, function (err) {
+				transitionCallback();
+			});
 		};
 
 		var doSend = function(communication) {
