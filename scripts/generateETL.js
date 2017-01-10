@@ -100,22 +100,22 @@ var doWork = function (option) {
 	.pipe(csv())
 	.on('data', function (data) {
 		if (option === 'filesasfolders') {
-			if (data['Line Type'] === 'File') {
-				// we are looking for duplicate DOCUMENT_ID's where the line type was File.  This will require
-				// multiple passes.
+			if (data['Row Type'] === 'File/Folder') {
+				// // we are looking for duplicate DOCUMENT_ID's where the line type was File.  This will require
+				// // multiple passes.
 				var docId = parseInt(data.DOCUMENT_ID.replace(',', ''));
-				// console.log("docid: ", docid);
+				// // console.log("docid: ", docid);
 
-				// Only push it if it's not already in the folders file.
-				var folderNameIdx;
-				_.each(documentIDFile, function (data, idx) { 
-					if (_.isEqual(data.docId, docId)) {
-						folderNameIdx = idx;
-						return;
-					}
-				});
+				// // Only push it if it's not already in the folders file.
+				// var folderNameIdx;
+				// _.each(documentIDFile, function (data, idx) { 
+				// 	if (_.isEqual(data.docId, docId)) {
+				// 		folderNameIdx = idx;
+				// 		return;
+				// 	}
+				// });
 
-				if (folderNameIdx === undefined) {
+				// if (folderNameIdx === undefined) {
 					var projectID = parseInt(data.PROJECT_ID);
 					var rootFolder = firstLookups[data.PROJECT_STATUS_CD.toUpperCase()];
 					var secondFolder = secondLookups[data.DOCUMENT_TYPE_CD.toUpperCase()];
@@ -127,13 +127,15 @@ var doWork = function (option) {
 						1: rootFolder,
 						2: secondFolder,
 						3: thirdFolder};
-					if (rootFolder !== undefined) {
-						filesasfoldersobj.push(obj);
-					}
-					filesasfolders.push(docId);
-				}
+						// console.log("obj:", obj);
+					// if (rootFolder !== undefined) {
+						// filesasfoldersobj.push(obj);
+					// }
+					// filesasfolders.push(docId);
+					filesasfolders.push(obj);
+				// }
 			}
-		} else if (option === 'Folder' && data['Line Type'] === 'Folder') {
+		} else if (option === 'Folder' && data['Row Type'] === 'Folder') {
 			var folderID = parseInt(data.DOCUMENT_ID.replace(',',''));
 			// console.log('DOCUMENT_ID: %s', folderID);
 			if (data.PROJECT_STATUS_CD ==='x') {
@@ -156,7 +158,7 @@ var doWork = function (option) {
 				3: thirdFolder };
 			// console.log(obj);
 			directories.push(obj);
-		} else if (option === 'Label' && data['Line Type'] === 'Label') {
+		} else if (option === 'Label' && data['Row Type'] === 'Label') {
 			// Just a label - document doesn't exist!
 			var docId = parseInt(data.DOCUMENT_ID.replace(',', ''));
 			// TODO: Make this reference a generic document
@@ -191,7 +193,7 @@ var doWork = function (option) {
 			};
 			labels.push(newObj);
 			// console.log("newObj:", newObj);
-		} else if (option === 'File' && data['Line Type'] === 'File') {
+		} else if (option === 'File' && (data['Row Type'] === 'File' || data['Row Type'] === 'File/Folder')) {
 
 			// This is a file, do something with it.
 			var docId = parseInt(data.DOCUMENT_ID.replace(',', ''));
@@ -270,28 +272,28 @@ var doWork = function (option) {
 			writeObj(labels, './labels.json');
 			break;
 			case "filesasfolders":
-			var trans = _.transform(_.countBy(filesasfolders),
-				function (result, count, value) {
-					if (count > 1) {
-						result.push(value);
-					}
-				},
-				[]
-				);
-			console.log("writing filesasfolders",trans.length);
-			var newObj = [];
-			_.each(trans, function (i) {
-					// console.log("i:", i);
-					var idx = filesasfoldersobj.getIndexBy('docId', i);
-					if (idx) {
-					// console.log("idx:", filesasfoldersobj[idx]);
-					newObj.push(filesasfoldersobj[idx]);
-				} else {
-					console.log(":", i);
-				}
-			});
-			console.log("writing newObj",newObj.length);
-			writeObj(newObj, './filesasfolders.json');
+			// var trans = _.transform(_.countBy(filesasfolders),
+			// 	function (result, count, value) {
+			// 		if (count > 1) {
+			// 			result.push(value);
+			// 		}
+			// 	},
+			// 	[]
+			// 	);
+			// console.log("writing filesasfolders",trans.length);
+			// var newObj = [];
+			// _.each(trans, function (i) {
+			// 		// console.log("i:", i);
+			// 		var idx = filesasfoldersobj.getIndexBy('docId', i);
+			// 		if (idx) {
+			// 		// console.log("idx:", filesasfoldersobj[idx]);
+			// 		newObj.push(filesasfoldersobj[idx]);
+			// 	} else {
+			// 		console.log(":", i);
+			// 	}
+			// });
+			console.log("writing newObj",filesasfolders.length);
+			writeObj(filesasfolders, './filesasfolders.json');
 			break;
 		}
 	});

@@ -1,8 +1,8 @@
 'use strict';
 
+var Promise 				= require('es6-promise').Promise;
 var request 				= require ('request');
 var requestWithRetry 		= require('requestretry');
-var csv 					= require('csv-parser');
 var fs 						= require('fs');
 var _ 						= require('lodash');
 var https 					= require('https');
@@ -13,10 +13,10 @@ var filesasfolders 			= require('./filesasfolders.json');
 var labels 					= require('./labels.json');
 var files 					= require('./files.json');
 var projects;
+require('events').EventEmitter.prototype._maxListeners = 100;
 
-var base = "http://localhost:3000";
-var Cookie = "sessionId=";
-
+// var base = "http://localhost:3000";
+// var Cookie = "sessionId=s%3ArGzQ6W7HP_xf_isKFb7OOEZpBouL7Llz.wlfYp0GE8tlZ%2BhV20MJJbgIS7txTY%2BfrPjtsMpnEg4Y";
 console.log("Count of filesasfolders:", filesasfolders.length);
 console.log("Count of folders:", folders.length);
 console.log("Count of labels:", labels.length);
@@ -70,23 +70,31 @@ var download = function(item, project) {
 		}
 
 		var url = "https://a100.gov.bc.ca/appsdata/epic/documents/" + fname;
-		// console.log("getting:", url, "to:", dest);
+		url = url.replace("https://a100.gov.bc.ca", "http://142.34.222.76");
+		console.log("getting:", url, "to:", dest);
 		var file = fs.createWriteStream(dest);
-		var request = https.get(url, function(response) {
-			response.pipe(file);
-			file.on('error', function(err) {
-				console.log("ERROR:", err);
-				// add the error object, however a reject will halt execution.
-				addErrorObject(item);
-				reject();
-			});
-			file.on('finish', function() {
-				console.log("Download Complete.");
-				file.close(function () {
-					resolve(item);
-				});
-			});
-		});
+		request({    url: url,
+                            headers: {
+                                'Host': 'a100.gov.bc.ca'
+                            }
+                        })
+	    .on('data', function (chunk) {
+	        file.write(chunk);
+	    })
+	    .on('error', function(err) {
+	        console.log("ERROR:", err);
+	        // add the error object, however a reject will halt execution.
+	        addErrorObject(item);
+	        reject();
+
+	    })
+	    .on('end', function() {
+	        console.log("Download Complete.");
+	        file.close(function () {
+	            console.log("done");
+	            resolve(item);
+	        });
+	    });
 	});
 };
 
@@ -133,10 +141,15 @@ var uploadFile = function(item) {
 		// Sanitize the header data:
 		item.documentFileName = item.documentFileName.trim();
 		item.documentFileName = item.documentFileName.replace(/\r?\n|\r/g, " ");
+		item.documentFileName = item.documentFileName.replace(/\'/g, "");
+		//item.documentFileName = item.documentFileName.replace("�", "e");
+		//item.documentFileName = item.documentFileName.replace("í", "i");
+		//item.documentFileName = item.documentFileName.replace("�", "a");
+
 
 		console.log("uploading to:", base + '/api/document/'+item.project_id+'/upload');
 		// console.log("uploading documentFileName:", item.documentFileName);
-		// console.log("uploading projectFolderURL:", item.projectFolderURL);
+		// console.log("uploading item:", item);
 
 		var fname = item.projectFolderURL.replace(/\\/g, '/');
 		var idx = fname.lastIndexOf('/');
@@ -145,37 +158,30 @@ var uploadFile = function(item) {
 		// console.log("------------------projectFolderDatePosted:", new Date(item.projectFolderDatePosted));
 		// console.log("------------------projectFolderDateReceived:", new Date(item.projectFolderDateReceived));
 
-		requestWithRetry ({
+		request ({
 			url					: base + '/api/document/'+item.project_id+'/upload',
 			method				: 'POST',
-			maxAttempts			: 25,
-			retryDelay			: 5000,
-			retryStrategy		: requestWithRetry.RetryStrategies.HTTPOrNetworkError,
+			// maxAttempts			: 25,
+			// retryDelay			: 5000,
+			// retryStrategy		: requestWithRetry.RetryStrategies.HTTPOrNetworkError,
 			headers: {
 				'User-Agent': 'request',
 				'Cookie'	: Cookie,
-
-				"documentepicprojectid"	: item.projectID,
-				"documentauthor"		: item.documentAuthor,
-				"documentfilename"		: item.documentFileName,
-				"olddata"				: item.oldData,
-				"directoryid"			: item.keepTrackOfNodeToUse,
-				"dateposted" 			: new Date(item.projectFolderDatePosted),
-				"datereceived" 			: new Date(item.projectFolderDateReceived),
-
-				// All documents are getting published automatically
-				"publishafterupload"    : true,
-
-				// Original references in old EPIC
-				"documentfileurl"		: item.projectFolderURL,
-				"documentfilesize"		: item.documentFileSize,
-				"documentfileformat"	: item.documentFileFormat,
-				"documentfileformat"	: item.documentFileFormat,
-				"documentepicprojectid"	: item.projectID,
-				"documentepicid"		: item.docId
+				dateposted 			: new Date(item.projectFolderDatePosted),
+				datereceived 			: new Date(item.projectFolderDateReceived),
+				publishafterupload    : true
 			},
 			formData: {
-				file: fs.createReadStream(dest)
+				file: fs.createReadStream(dest),
+				documentfilename: item.documentFileName,
+				documentauthor		: item.documentAuthor,
+				olddata				: item.oldData,
+				directoryid			: item.keepTrackOfNodeToUse,
+				documentfileurl		: item.projectFolderURL,
+				documentfilesize		: item.documentFileSize,
+				documentfileformat	: item.documentFileFormat,
+				documentepicprojectid	: item.projectID,
+				documentepicid		: item.docId
 			}
 		}, function (err, res, body) {
 			if (err) {
@@ -187,11 +193,17 @@ var uploadFile = function(item) {
 			} else {
 				console.log ('Uploading Complete.');
 				fs.unlink(dest);
+				console.log ('Unlinking.');
 				// Record that we did this so we don't do it again
 				addDownloadedObject(item.projectFolderURL);
+				console.log ('adding.');
+
 				resolve(item);
 			}
-		});
+		})
+		.on('finished', function(){
+    		console.log("This is the end...");
+    	});
 });
 };
 
@@ -356,55 +368,66 @@ request ({
 		console.log("200 OK.");
 		projects = JSON.parse(body);
 		var promises = [];
-		_.each(filesasfolders, function (promise) {
-			promises.push(promise);
-		});
-		_.each(folders, function (promise) {
-			promises.push(promise);
-		});
-		_.each(labels, function (promise) {
-			promises.push(promise);
-		});
+		// _.each(filesasfolders, function (promise) {
+		// 	promises.push(promise);
+		// });
+		// _.each(folders, function (promise) {
+		// 	promises.push(promise);
+		// });
+		// _.each(labels, function (promise) {
+		// 	promises.push(promise);
+		// });
 		_.each(files, function (promise) {
-			promises.push(promise);
+			// if (promise.docId === 36383) {
+				promises.push(promise);
+			// }
 		});		
-		Promise.resolve ()
+		Promise.resolve (1)
 		.then (function () {
 			return promises.reduce (function (current, item) {
 				return current.then (function () {
+					// console.log("i:",item.projectFolderURL);
+					item.documentFileName = item.documentFileName.trim();
+					item.documentFileName = item.documentFileName.replace(/\r?\n|\r/g, " ");
+					item.documentFileName = item.documentFileName.replace(/\'/g, "");
+
 					// These ones have been merged into p286
 					// NB: These projects have had their documents already uploaded into the newer project
-					if (item.projectID === 38) return Promise.resolve();
-					if (item.projectID === 404) return Promise.resolve();
+					if (item.projectID === 38) return Promise.resolve(1);
+					if (item.projectID === 404) return Promise.resolve(1);
 
 					// This has been merged into p348
 					// NB: These projects have had their documents already uploaded into the newer project
-					if (item.projectID === 278) return Promise.resolve();
+					if (item.projectID === 278) return Promise.resolve(1);
 					// This has been merged into p6
 					// NB: These projects have had their documents already uploaded into the newer project
-					if (item.projectID === 345) return Promise.resolve();
+					if (item.projectID === 345) return Promise.resolve(1);
 
 					// The following were not actually projects, so safe to ignore.
-					if (item.projectID === 20) return Promise.resolve();
-					if (item.projectID === 53) return Promise.resolve();
-					if (item.projectID === 60) return Promise.resolve();
+					if (item.projectID === 20) return Promise.resolve(1);
+					if (item.projectID === 53) return Promise.resolve(1);
+					if (item.projectID === 60) return Promise.resolve(1);
 
 					// Decision to be made yet.
-					if (item.projectID === 444) return Promise.resolve();
-					if (item.projectID === 445) return Promise.resolve();
-					if (item.projectID === 446) return Promise.resolve();
-					if (item.projectID === 447) return Promise.resolve();
-					if (item.projectID === 448) return Promise.resolve();
-					if (item.projectID === 449) return Promise.resolve();
-					if (item.projectID === 450) return Promise.resolve();
-					if (item.projectID === 451) return Promise.resolve();
-					if (item.projectID === 452) return Promise.resolve();
-					if (item.projectID === 453) return Promise.resolve();
+					if (item.projectID === 444) return Promise.resolve(1);
+					if (item.projectID === 445) return Promise.resolve(1);
+					if (item.projectID === 446) return Promise.resolve(1);
+					if (item.projectID === 447) return Promise.resolve(1);
+					if (item.projectID === 448) return Promise.resolve(1);
+					if (item.projectID === 449) return Promise.resolve(1);
+					if (item.projectID === 450) return Promise.resolve(1);
+					if (item.projectID === 451) return Promise.resolve(1);
+					if (item.projectID === 452) return Promise.resolve(1);
+					if (item.projectID === 453) return Promise.resolve(1);
 
 					// Skip already completed from prior upload
-					if (item.projectFolderURL && checkIfExists(item.projectFolderURL)) return Promise.resolve();
+					if (item.projectFolderURL && checkIfExists(item.projectFolderURL)) {
+						// console.log("already uploaded in the past..........................");
+						return Promise.resolve(1);	
+					}
 
 					// For formatting output
+					console.log("name:",item.documentFileName);
 					console.log("");
 					return createDirectoryStructure(item)
 					.then(function (project) {
@@ -419,7 +442,7 @@ request ({
 							return download(item, project);
 						} else {
 							// This wasn't a file to download
-							return Promise.resolve();
+							return Promise.resolve(1);
 						}
 					})
 					.then(function (dl) {
@@ -429,16 +452,16 @@ request ({
 							// Now upload it.
 							return uploadFile(dl);
 						}
-						return Promise.resolve();
+						return Promise.resolve(1);
 					})
 					.then(function (uploaded) {
 						if (uploaded) {
 							console.log("uploaded:", uploaded.projectFolderURL);
 						}
-						return Promise.resolve();
+						return Promise.resolve(1);
 					});
 				});
-			}, Promise.resolve());
+			}, Promise.resolve(1));
 		});
 	}
 });
