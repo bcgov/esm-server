@@ -414,8 +414,12 @@ angular.module('core')
 						s.ok = function () {
 							s.busy = true;
 							AccessModel.setRoleUserIndex(s.context._id, s.userRoleIndex)
-								.then(function() {
-									//console.log('> roles reloading...');
+								.then(function(data) {
+									//console.log('> roles reloading...', data);
+									return;
+								},function(err) {
+									console.log('Error loading roles...', err);
+									s.busy = false;
 									return;
 								})
 								.then(function() {
