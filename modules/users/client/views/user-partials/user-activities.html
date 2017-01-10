@@ -1,16 +1,10 @@
 
-<!--
-<div class="spinner-container fixed">
-    <div class="spinner">
-        <svg class="circular" viewBox="25 25 50 50">
-        <circle class="spin-path" cx="50" cy="50" r="20" fill="none" stroke-width="4" stroke-miterlimit="10"/>
-        </svg>
-    </div>
+<div class="spinner-container fixed" ng-show="dashboardLoading">
+    <div class="spinner-new rotating"></div>
 </div>
--->
 
 <!-- MAIN PANEL -->
-<div class="main-panel">
+<div class="main-panel" ng-hide="dashboardLoading">
 
     <div class="view-title-container flex-row">
         <h1>Dashboard</h1>
@@ -58,6 +52,7 @@
                 </table>
             </div>
 
+            <!--
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">
                     <h2 class="pull-left">Activities</h2>
@@ -83,10 +78,11 @@
                   </tr>
                 </table>
             </div>
-
+           -->
         </section>
 
         <!-- ACTIVITIES LIST -->
+        <!--
         <section class="right-panel activities-container hidden">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -165,7 +161,7 @@
                 </div>
             </div>
         </section>
-
+        -->
     </div>
 
 </div>
