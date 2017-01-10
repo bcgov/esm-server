@@ -1582,7 +1582,8 @@ tmpl-footer {
 	.left-panel {
 		position: relative;
 		width: $sidenav-width;
-		overflow: hidden;
+		overflow-y: auto;
+		overflow-x: hidden;
 		flex: 0 0 auto;
 		background: $left-panel-bg;
 		box-shadow: 0 0 $left-panel-shadow-width $left-panel-shadow-color;
