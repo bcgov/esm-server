@@ -628,6 +628,10 @@ module.exports = DBModel.extend({
 			});
 	},
 	mine: function () {
+		return new Promise(function(resolve, reject) {
+			resolve([]);
+		});
+		/*
 		var self = this;
 
 		var findMyRoles = function (username) {
@@ -723,6 +727,7 @@ module.exports = DBModel.extend({
 				//console.log("ERROR - artifacts.mine - artifacts(mine): ", JSON.stringify(err));
 				return [];
 			});
+			*/
 	},
 
 });

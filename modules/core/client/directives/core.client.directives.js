@@ -281,6 +281,7 @@ angular.module('core')
 						var s = this;
 
 						$scope.contacts = [];
+						s.busy = false;
 						/*
 						This stopped working in some environments and setups.
 						Very strange, so added in the USER_SEARCH_CHOOSER_SELECTED handler instead.
@@ -319,6 +320,7 @@ angular.module('core')
 						});
 
 						s.init = function (users, currentRoleName, currentUserName, showUserView, filterGlobalUsers) {
+							s.busy = true;
 							console.log('roleUsersModal.init... start');
 							//
 							// all the base data
@@ -368,6 +370,7 @@ angular.module('core')
 							//
 							s.currentRole = (currentRoleName) ? currentRoleName : (s.allRoles[0] || '');
 							console.log('roleUsersModal.init... end');
+							s.busy = false;
 						};
 
 						s.init(userList, undefined, undefined, true, true);
@@ -409,35 +412,37 @@ angular.module('core')
 							$modalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
-							$modalInstance.close({context: s.context._id, data: s.userRoleIndex});
+							s.busy = true;
+							AccessModel.setRoleUserIndex(s.context._id, s.userRoleIndex)
+								.then(function() {
+									//console.log('> roles reloading...');
+									return;
+								})
+								.then(function() {
+									return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
+								}, function(e) {
+									//console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
+									s.busy = false;
+								})
+								.then(function() {
+									return AccessModel.resetSessionContext();
+								}, function(e) {
+									//console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
+									s.busy = false;
+								})
+								.then(function() {
+									s.busy = false;
+									$modalInstance.close();
+									return;
+								}, function(e) {
+									//console.log('Error on state.reload() = ', JSON.stringify(e));
+									s.busy = false;
+								});
 						};
 					}
 				})
 				.result.then(function (data) {
-					AccessModel.setRoleUserIndex(data.context, data.data)
-						.then(function() {
-							//console.log('> roles reloading...');
-							return;
-						})
-						.then(function() {
-							return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
-						}, function(e) {
-							//console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
-						})
-						.then(function() {
-							return AccessModel.resetSessionContext();
-						}, function(e) {
-							//console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
-						})
-						.then(function() {
-							return $state.reload();
-						}, function(e) {
-							//console.log('Error on state.reload() = ', JSON.stringify(e));
-						})
-						.then(function() {
-							//console.log('< roles reloaded.');
-							return;
-						});
+					return $state.reload();
 				})
 				.catch(function (err) {
 					//console.log(err);

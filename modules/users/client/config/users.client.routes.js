@@ -128,26 +128,27 @@ angular.module('users').config(['$stateProvider',
 				url: '/activities',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
 				resolve: {
-					activities: function(ActivityModel) {
-						return ActivityModel.userActivities (null, 'write');
-					},
-					projects: function(ProjectModel) {
-						return ProjectModel.mine ();
-					},
-					artifacts: function(ArtifactModel) {
-						return ArtifactModel.mine ();
-					},
-					lookup: function(ProjectModel) {
-						return ProjectModel.lookup ();
-					}
 				},
-				controller: function ($scope, $state, $stateParams, lookup, activities, projects, artifacts, NgTableParams, _) {
+				controller: function ($scope, $state, $stateParams, NgTableParams, _, ProjectModel) {
 					// console.log (projects);
 					// console.log (activities);
 					//console.log (JSON.stringify(artifacts));
+					$scope.dashboardLoading = true;
+					$scope.projects = [];
+					$scope.projectParams = new NgTableParams ({count:50}, {dataset: $scope.projects});
 
+					ProjectModel.mine().then(function(data) {
+						$scope.projects = data;
+						$scope.projectParams = new NgTableParams ({count:50}, {dataset: $scope.projects});
+						$scope.dashboardLoading = false;
+						$scope.$apply();
+					}, function(err) {
+						// ?
+						$scope.dashboardLoading = false;
+						$scope.$apply();
 
-					$scope.projectParams = new NgTableParams ({count:50}, {dataset: projects});
+					});
+					/*
 					$scope.tableParams = new NgTableParams ({count:50}, {dataset: artifacts});
 
 					// filter lists...
@@ -169,7 +170,7 @@ angular.module('users').config(['$stateProvider',
 					} catch(err) {
 						//console.log('error getting the list of phase names to use.');
 					}
-
+					*/
 					$scope.getLinkUrl = function (state, params) {
 						$state.go(state, params);
 						// return $state.href (state, params);
