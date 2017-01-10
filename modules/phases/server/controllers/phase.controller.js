@@ -199,8 +199,23 @@ module.exports = DBModel.extend ({
 		phase.completed = false;
 		phase.completedBy = null;
 		phase.dateCompleted = null;
-		phase.progress = 50; //TODO: What value to use?
-		return self.findAndUpdate(phase);
+		phase.progress = 0;
+		return self.findOne ({project:phase.project, order: (phase.order+1)})
+		.then( function (nextPhase) {
+			if (nextPhase) {
+				nextPhase.status = "Not Started";
+				nextPhase.completed = false;
+				nextPhase.completedBy = null;
+				nextPhase.dateCompleted = null;
+				nextPhase.dateStarted = null;
+				nextPhase.progress = 0;
+				return self.findAndUpdate(nextPhase);
+			}
+			return null;
+		})
+		.then(function () {
+			return self.findAndUpdate(phase);
+		});
 	},
 	// -------------------------------------------------------------------------
 	//
