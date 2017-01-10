@@ -7,18 +7,11 @@
 
 <div class="document-viewer-body">
 	<div class="showbox">
-		<div class="loader" ng-class="{'show-loader': loading}">
-			<svg class="circular" viewBox="25 25 50 50">
-			<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-			</svg>
+		<div class="spinner-container transparent" ng-if="loading">
+			<div class="spinner-new rotating"></div>
 		</div>
-		<!-- 
-		<label ng-show="loading">{{loading}}</label>
-		-->
 	</div>
-	
-	<pdfviewer class="document" src="{{pdfURL}}" id="viewer" on-page-load='pageLoaded(page,total)' load-progress='loadProgress(loaded, total, state)'></pdfviewer>
-	
+	<pdfviewer class="document" src="{{pdfURL}}" id="viewer" on-page-load='pageLoaded(page,total)' load-progress='loadProgress(loaded, total, state)'></pdfviewer>	
 </div>
 
 <div class="document-viewer-footer" ng-class="{'show-footer': !loading}">
