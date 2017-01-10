@@ -17,7 +17,7 @@ var _          = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'CommentPeriod',
 	plural : 'commentperiods',
-	populate: 'artifact relatedDocuments',
+	populate: 'artifact',
 	bind: ['setArtifactStage', 'addActivities', 'setRolesPermissions'],
 	preprocessAdd: function (period) {
 		var self=this;
@@ -112,8 +112,45 @@ module.exports = DBModel.extend ({
 	// get all comment periods for a project
 	//
 	// -------------------------------------------------------------------------
+	getForPublic: function(id) {
+		var self = this;
+		var docs = new DocumentClass(self.opts);
+		var period;
+		return new Promise (function (resolve, reject) {
+			self.findById (id)
+				.then(function(p) {
+					period = p;
+					return docs.list({_id: {$in: p.relatedDocuments} });
+				})
+				.then(function(rd) {
+					period.relatedDocuments = rd;
+					resolve(period);
+				});
+		});
+	},
 	getForProject: function(projectId) {
-		return this.list ({project:projectId});
+		var self = this;
+		var docs = new DocumentClass(self.opts);
+		var periods;
+		return new Promise (function (resolve, reject) {
+			self.list ({project:projectId})
+				.then(function(ps) {
+					periods = ps;
+					var promises = _.map(ps, function(p) {
+						return new Promise(function(resolve, reject) {
+							docs.list({_id: {$in: p.relatedDocuments} })
+								.then(function(ds) {
+									p.relatedDocuments = ds;
+									resolve(p);
+								});
+						});
+					});
+					return Promise.all(promises);
+				})
+				.then(function(data) {
+					resolve(data);
+				});
+		});
 	},
 	getForProjectWithStats: function (projectId) {
 		var self    = this;
@@ -166,7 +203,7 @@ module.exports = DBModel.extend ({
 				return periodsWithStats;
 			})
 			.then(function(res) {
-				console.log('periodWithStats = ',JSON.stringify(res, null, 4));
+				//console.log('periodWithStats = ',JSON.stringify(res, null, 4));
 				return res;
 			})
 			.then (resolve, reject);

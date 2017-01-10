@@ -8,12 +8,14 @@
 <!-- COMMENT FORM - STEP 1 -->
 <form class="comment-form-1" ng-if="s.step===1">
 	<div class="modal-body">
-		<h4>Submitting Your Comments:  How it Works</h4>
-		<p>Comments submitted to the Environmental Assessment Office (EAO) will be published online.</p>
-		<p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
-		<p>EAO forwards all posted comments to project proponents so that they can be duly considered during the project's Environmental Assessment (EA) process.</p>
-		<p>You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
-		<p>All hyperlinks in comments will be converted to plain text. All attachments must be in PDF format and limited to 5MB.</p>
+		<h4>Submitting Your Comments: How it Works</h4>
+		<p>All accepted comments submitted to the Environmental Assessment Office (EAO) will be published online within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our  <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
+		<p>EAO forwards all accepted comments to the project proponent so they can be considered during the project's environmental assessment.</p>
+		<p>You may choose to provide your name and city/town when making a comment, but in order to have your name displayed with your comment; you must select the 'Make my Name visible to public' option. All hyperlinks in comments will be converted to plain text. All attachments must be in PDF format and limited to 5MB.</p>
+		<hr>
+		<p><strong>Privacy Policy</strong></p>
+		<p>Personal information collected through this comment period will inform the Environmental Assessment Office on the <em>{{project.name}}</em> under the authority of s.26 (c) and (e) of the <a href="http://www.bclaws.ca/Recon/document/ID/freeside/96165_00" target="_blank">Freedom of Information and Protection of Privacy Act</a>. If you have any questions about the collection, use and disclosure of your personal information, please contact:</p>
+		<p class="m-b-0">Rumon Carter - Director, Engagement &amp; Digital Services<br>Environmental Assessment Office<br>836 Yates Street, Victoria, BC<br>Rumon.Carter@gov.bc.ca<br>(250) 356-7440
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>

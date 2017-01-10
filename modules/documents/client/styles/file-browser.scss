@@ -320,6 +320,16 @@ $list-selected-border: 1px solid #4187c9;
         @include flexdirection(row); 
         border-bottom: $file-browser-row-border;
 
+        .row-actions {
+            a {
+                display: inline-block;
+
+                .glyphicon {
+                    top: 0.55rem;
+                }
+            }
+        }
+
         &.selected {
             color: $list-selected-color;
             background: $list-selected-bg;
@@ -339,14 +349,6 @@ $list-selected-border: 1px solid #4187c9;
 
             .row-actions {
                 display: block;
-
-                a {
-                    display: inline-block;
-
-                    .glyphicon {
-                        top: 0.55rem;
-                    }
-                }
             }
         }
     }
@@ -490,6 +492,12 @@ $list-selected-border: 1px solid #4187c9;
 
             .drill-in-btn {
                 display: none;
+            }
+
+            &.visible {
+                display: block;
+                top: 0.5rem;
+                right: 0.75rem;
             }
         }
     }
@@ -961,6 +969,27 @@ $fb-upload-target-border: 2px dashed #BBB;
             font-size: 1.3rem;
             font-style: italic;
             color: #666;
+        }
+    }
+}
+
+/* File Browser Modal */
+
+.fb-browser-modal {
+    .fb-link-select-files {
+        margin-bottom: 2rem;
+    }
+
+    .file-browser {
+        height: 40rem;
+    }
+
+    .linked-files-container {
+        max-height: 40rem;
+        overflow-y: auto;
+
+        .row-actions {
+            display: block;
         }
     }
 }

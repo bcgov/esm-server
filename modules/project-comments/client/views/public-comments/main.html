@@ -45,36 +45,55 @@
 								<span>Name</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 							</div>
-							<div class="col author-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+							<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
 								<span>Type</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'author'"></span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
 							</div>
-							<div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+							<div class="col size-col sortable last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
 								<span>Size</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
 							</div>
 						</div>
 					</div>
 					<ul>
-						<li class="fb-list-item" ng-hide="doc in period.relatedDocuments">
+						<li class="fb-list-item" ng-if="documentMgr.sortedFiles == 0">
 							<span class="fb-col-group">
 								<span class="col first-col">No Documents Available.</span>
 							</span>
 						</li>
-						<li class="fb-list-item" ng-repeat="doc in period.relatedDocuments">
+						<li class="fb-list-item" ng-repeat="doc in documentMgr.sortedFiles">
 							<span class="fb-col-group">
 								<span class="col name-col first-col">
 									<span class="avatar">
-										<span class="fb-file glyphicon glyphicon-file" ng-if="doc.internalExt == 'pdf'"></span>
-										<span class="fb-img glyphicon glyphicon-picture" ng-if="doc.internalExt == 'png' && 'jpg' && 'jpeg'"></span>
+										<span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
 									</span>
-									{{doc.displayName}}
+									<a href="/api/document/{{ doc._id }}/fetch" target="_self">{{doc.displayName}}</a>
 								</span>
-								<div class="row-actions">
-									<button class="btn icon-btn"
-											ng-click="removeDocument(doc)">
-										<span class="glyphicon glyphicon-trash"></span>
-									</button>
+								<span class="col type-col">{{ doc.internalExt}}</span>
+								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
+								<div class="row-actions visible">
+									<div class="btn-group">
+										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+										</button>
+										<ul class="dropdown-menu pull-right">
+											<li>
+												<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File" ng-if="doc.userCan.read">
+													<span class="glyphicon glyphicon-download-alt"></span>
+												</a>
+											</li>
+											<li>
+												<button class="btn icon-btn" ng-if="doc.userCan.read && doc.internalMime === 'application/pdf'"
+													ng-show="doc.internalMime === 'application/pdf'"
+													x-modal-pdf-viewer
+													x-pdfobject="doc"
+													title="View File">
+													<span class="glyphicon glyphicon-eye-open"></span>
+												</button>
+											</li>
+										<ul>
+									</div>
 								</div>
 							</span>
 						</li>
