@@ -41,7 +41,7 @@
 					ng-repeat="o in project.phases">
 					<div class="phase-info">
 						<span class="phase-name">{{o.name}}</span>
-						<div class="phase-status" ng-if="o.code != 'post-certification'">
+						<div class="phase-status">
 							<div class="phase-badge">
 								<span class="label"
 									ng-class="{'label-success': o.completed,
