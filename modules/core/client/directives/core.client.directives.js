@@ -412,35 +412,26 @@ angular.module('core')
 							$modalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
+							console.log('start the work...');
 							s.busy = true;
 							AccessModel.setRoleUserIndex(s.context._id, s.userRoleIndex)
-								.then(function(data) {
-									//console.log('> roles reloading...', data);
-									return;
-								},function(err) {
-									console.log('Error loading roles...', err);
-									s.busy = false;
-									return;
+								.then (function (res) {
+									console.log('got ', res);
+									console.log('call reload');
+									Application.reload(Authentication.user ? Authentication.user._id : 0, true).then(function() {
+										console.log('set context');
+										return AccessModel.resetSessionContext();
+									}).then(function(){
+										console.log('close');
+										s.busy = false;
+										$modalInstance.close();
+										return;
+									});
 								})
-								.then(function() {
-									return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
-								}, function(e) {
-									//console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
+								.catch (function (res) {
+									console.log('error: ', res);
 									s.busy = false;
-								})
-								.then(function() {
-									return AccessModel.resetSessionContext();
-								}, function(e) {
-									//console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
-									s.busy = false;
-								})
-								.then(function() {
-									s.busy = false;
-									$modalInstance.close();
 									return;
-								}, function(e) {
-									//console.log('Error on state.reload() = ', JSON.stringify(e));
-									s.busy = false;
 								});
 						};
 					}

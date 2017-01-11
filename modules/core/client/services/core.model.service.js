@@ -212,6 +212,9 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 					reject (res.data);
 				});
 			});
+		},
+		chunk: function(config) {
+			return $http (config);
 		}
 	});
 	ModelBase.extend = function (protoProps, staticProps) {
