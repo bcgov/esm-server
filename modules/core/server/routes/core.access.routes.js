@@ -63,7 +63,7 @@ module.exports = function (app) {
 	
 	app.route('/api/access/roleuserindex/context/:context')
 	.get(access.routes.getRoleUserIndex)
-	.put(access.routes.setRoleUserIndex);
+	.put (access.updateRoleUser);
 	
 	app.route('/api/access/userroles/context/:context')
 	.get(access.routes.getUserRoles);

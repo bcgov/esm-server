@@ -725,26 +725,32 @@ var addGlobalProjectUsersToProject = function(projectId) {
 };
 exports.addGlobalProjectUsersToProject = addGlobalProjectUsersToProject;
 
-var syncGlobalProjectUsers = function() {
+var syncGlobalProjectUsers = function(res) {
 	return new Promise (function (resolve, reject) {
 		var globalProjectRoles = [];
 		var globalProjectRoleUsers = [];
 		getGlobalProjectRoles()
 			.then(function(data) {
+				if (res) { res.write('.'); }
 				globalProjectRoles = data;
 				//console.log('syncGlobalProjectUsers.globalProjectRoles = ', JSON.stringify(globalProjectRoles));
 				return Role.find({context: 'application', role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
 			})
 			.then(function(data) {
+				if (res) { res.write('.'); }
 				//console.log('syncGlobalProjectUsers.globalProjectUsers.found = ', JSON.stringify(data));
 				globalProjectRoleUsers = data;
 				return Role.remove({ context: { $ne : 'application' }, role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
 			})
 			.then(function(data) {
+				if (res) { res.write('.'); }
 				//console.log('syncGlobalProjectUsers.globalProjectUsers.removedFromProjects = ', JSON.stringify(data));
 				return Project.find({},{_id:1}).exec();
 			})
 			.then(function(data) {
+				if (res) {
+					res.write('.');
+				}
 				//console.log('syncGlobalProjectUsers.getProjectIds = ', JSON.stringify(data));
 				var projRoles = [];
 				_.each(data, function(p) {
@@ -753,13 +759,14 @@ var syncGlobalProjectUsers = function() {
 							context : p._id,
 							user    : r.user,
 							role    : r.role
-						}));
+						}).then(function() {if (res) { res.write('.'); } return; }));
 					});
 				});
 				return Promise.all(projRoles);
 			})
 			.then(function(data) {
 				//console.log('syncGlobalProjectUsers.globalProjectUsers.addedToProjects = ', JSON.stringify(data));
+				if (res) { res.write('.'); }
 				return {ok : true};
 			})
 			.then (resolve, complete (reject, 'syncGlobalProjectUsers'));
@@ -771,7 +778,7 @@ exports.syncGlobalProjectUsers = syncGlobalProjectUsers;
 // get the index of users to roles, both ways, for a context
 //
 // -------------------------------------------------------------------------
-var setRoleUserIndex = function (context, index) {
+var setRoleUserIndex = function (context, index, res) {
 	return new Promise (function (resolve, reject) {
 
 		// no longer adding roles directly from the Add Role dialog, so we may need to add in new roles here.
@@ -780,7 +787,7 @@ var setRoleUserIndex = function (context, index) {
 		_.each(index.role, function (users, role) {
 			// do not add public as a role here...
 			if (!publicPattern.test(role) && !_.find(addRolePromises, function (p) { return p.role === role; })) {
-				addRolePromises.push(addRoleIfUnique({context: context, role: role}));
+				addRolePromises.push(addRoleIfUnique({context: context, role: role}).then(function() {if (res) { res.write('.'); } return; }));
 			}
 		});
 
@@ -793,14 +800,14 @@ var setRoleUserIndex = function (context, index) {
 						context : context,
 						user    : user,
 						role    : role
-					}));
+					}).then(function() {if (res) { res.write('.'); } return; }));
 				}
 				else {
 					promiseArray.push (deleteRole ({
 						context : context,
 						user    : user,
 						role    : role
-					}));
+					}).then(function() {if (res) { res.write('.'); } return; }));
 				}
 			});
 		});
@@ -810,14 +817,16 @@ var setRoleUserIndex = function (context, index) {
 				return Promise.all(promiseArray);
 			})
 			.then(function() {
+				if (res) { res.write('.'); }
 				if (context === defaultContext) {
 					//console.log('we are editing application, need to refresh all global project users');
-					return syncGlobalProjectUsers();
+					return syncGlobalProjectUsers(res);
 				} else {
 					return context;
 				}
 			})
 			.then(function(data) {
+				if (res) { res.write('.'); }
 				if (data !== context) {
 					//console.log('we are editing application, now we are done.');
 				}
@@ -827,6 +836,32 @@ var setRoleUserIndex = function (context, index) {
 	});
 };
 exports.setRoleUserIndex = setRoleUserIndex;
+
+var updateRoleUser = function(req, res) {
+	console.log('> updateRoleUser');
+	console.log('context = ', req.params.context);
+	console.log('index = ', JSON.stringify(req.body));
+
+	res.writeHead(200, {'content-type':'text/plain'});
+	res.write('.');
+
+	var context = req.params.context;
+	var index = req.body;
+
+	setRoleUserIndex(context, index, res)
+		.then(function() {
+			res.write('!');
+			res.end();
+		}, function(err) {
+			console.log('Error updating role users...');
+			res.write('*');
+			res.end();
+		});
+
+	console.log('< updateRoleUser');
+};
+exports.updateRoleUser = updateRoleUser;
+
 // =========================================================================
 //
 // Working stuff
@@ -994,7 +1029,6 @@ exports.routes = {
 	setPermissionRoleIndex : function (req, res) {
 		return runPromise (res, setPermissionRoleIndex (req.params.resource, req.body));
 	},
-
 	addRole : function (req, res) {
 		return runPromise (res, addRole (req.body));
 	},
