@@ -780,7 +780,7 @@ exports.syncGlobalProjectUsers = syncGlobalProjectUsers;
 // -------------------------------------------------------------------------
 var setRoleUserIndex = function (context, index, res) {
 	return new Promise (function (resolve, reject) {
-
+		console.log('1 ');
 		// no longer adding roles directly from the Add Role dialog, so we may need to add in new roles here.
 		var publicPattern = new RegExp('public', 'gi');
 		var addRolePromises = [];
@@ -811,12 +811,14 @@ var setRoleUserIndex = function (context, index, res) {
 				}
 			});
 		});
-
+	console.log('2 ');
 		Promise.all(addRolePromises)
 			.then(function() {
+				console.log('3 ');
 				return Promise.all(promiseArray);
 			})
 			.then(function() {
+				console.log('4 ');
 				if (res) { res.write('.'); }
 				if (context === defaultContext) {
 					//console.log('we are editing application, need to refresh all global project users');
@@ -826,6 +828,7 @@ var setRoleUserIndex = function (context, index, res) {
 				}
 			})
 			.then(function(data) {
+				console.log('5 ');
 				if (res) { res.write('.'); }
 				if (data !== context) {
 					//console.log('we are editing application, now we are done.');
@@ -849,11 +852,10 @@ var updateRoleUser = function(req, res) {
 	var index = req.body;
 
 	setRoleUserIndex(context, index, res)
-		.then(function() {
+		.then(function(data) {
 			res.write('!');
 			res.end();
 		}, function(err) {
-			console.log('Error updating role users...');
 			res.write('*');
 			res.end();
 		});
