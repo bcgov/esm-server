@@ -228,6 +228,10 @@ $list-selected-border: 1px solid #4187c9;
                     .back-icon {
                         margin: 0;
                         display: block;
+
+                        + span {
+                            display: none;
+                        }
                     }
                 }
 
