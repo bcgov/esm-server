@@ -40,7 +40,7 @@ angular.module('core')
 			return this.put('/api/access/permissionroleindex/resource/' + resourceId, index);
 		},
 		setRoleUserIndex: function (contextId, index) {
-			return this.put('/api/access/roleuserindex/context/' + contextId, index);
+			return this.talk('PUT', '/api/access/roleuserindex/context/' + contextId, index, null, 120000 );
 		},
 		addRoleIfUnique: function (contextId, role) {
 			return this.put('/api/access/addroleifunique/context/' + contextId, {

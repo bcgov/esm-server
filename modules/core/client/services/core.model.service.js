@@ -191,21 +191,21 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 		//
 		// -------------------------------------------------------------------------
 		put : function (url, data) {
-			return this.talk ('PUT', url, data, null);
+			return this.talk ('PUT', url, data, null, null);
 		},
 		post : function (url, data) {
-			return this.talk ('POST', url, data, null);
+			return this.talk ('POST', url, data, null, null);
 		},
 		get : function (url, headers) {
-			return this.talk ('GET', url, null, headers);
+			return this.talk ('GET', url, null, headers, null);
 		},
 		delete : function (url) {
-			return this.talk ('DELETE', url, null, null);
+			return this.talk ('DELETE', url, null, null, null);
 		},
-		talk : function (method, url, data, headers) {
+		talk : function (method, url, data, headers, timeout) {
 			// console.log (method, url, data, headers);
 			return new Promise (function (resolve, reject) {
-				$http ({method:method, url:url, data:data, headers: headers })
+				$http ({method:method, url:url, data:data, headers: headers, timeout: timeout })
 				.then (function (res) {
 					resolve (res.data);
 				}).catch (function (res) {
