@@ -13,25 +13,35 @@ var filesasfolders 			= require('./filesasfolders.json');
 var labels 					= require('./labels.json');
 var files 					= require('./files.json');
 var projects;
+var specificProject = process.argv[4];
 
-var DOWNLOAD_ACTION = true;
-var UPLOAD_ACTION = false;
+var DOWNLOAD_ONLY = true;
+var UPLOAD_ONLY = false;
 
 var action = process.argv[2];
 if (action === 'upload') {
-	console.log("uploading*********");
-	DOWNLOAD_ACTION = false;
-	UPLOAD_ACTION = true;
+	console.log("---------uploading");
+	DOWNLOAD_ONLY = false;
+	UPLOAD_ONLY = true;
+} else if (action === 'download') {
+	console.log("---------downloading");
+} else {
+	console.log("wrong arguments.");
+	return;
+}
+
+// Second argument is the filename to use for importing (files.json by default)
+var filenameimport = process.argv[3];
+files = require("./" + filenameimport);
+
+// Third argument is projectID to process
+if (specificProject) {
+	console.log("Processing specific project:", specificProject);
+	specificProject = parseInt(specificProject, 10);
 }
 
 //require('events').EventEmitter.prototype._maxListeners = 100;
 
-var base = "http://localhost:3000";
-var Cookie = "sessionId=s%3AY7od9Y2qqEh9iTN1jmP7--rrTYIK174g.f689JNlQqxzYy3Mlq4Mf%2Bm6UXQQKNES8IxtvrhhZAC8";
-//var base = "http://esm-dev.pathfinder.gov.bc.ca";
-//var Cookie = "sessionId=s%3Armj_sRRKwPIlnp3rm0tonRUzKwywteEE.BAnrUHSOPCK55QxF8fA2hOYK8N5x27C8nIqNUZvTERA";
-// var base = "http://esm-prod-test.pathfinder.gov.bc.ca";
-// var Cookie = "sessionId=s%3Avliwn9i1zJIPmQAKaVn2VuHx-tXA-hVB.K%2BNzjaGQNon0HbTvc0VN%2BRdWFVoojGiEVPBPtsHfPZk";
 
 console.log("Count of filesasfolders:", filesasfolders.length);
 console.log("Count of folders:", folders.length);
@@ -92,23 +102,20 @@ function addErrorObjectUp(obj){
 	var configJSON = JSON.stringify(config);
 	fs.writeFileSync('./errorObjectUp.json', configJSON);
 }
+
+
 var download = function(item, project) {
 	console.log("Downloading:", item.projectFolderURL, "for project:", item.project_id);
 	return new Promise(function (resolve, reject) {
 		var url = item.projectFolderURL;
 		var fname = item.projectFolderURL.replace(/\\/g, '/');
 		var idx = fname.lastIndexOf('/');
-		var dest = "projects/" + project.code + "/" + fname.substr(idx+1);
-
-		if (!fs.existsSync("projects")) {
-			console.log("creating project dir");
-			fs.mkdirSync("projects");
-		}
+		var dest = project.code + "/" + fname.substr(idx+1);
 
 		// Check if directory exists.
-		if (!fs.existsSync("projects/" + project.code)) {
+		if (!fs.existsSync(project.code)) {
 			console.log("Downloads dir does not exist. Creating...", project.code);
-			fs.mkdirSync("projects/" + project.code);
+			fs.mkdirSync(project.code);
 		}
 
 		var url = "https://a100.gov.bc.ca/appsdata/epic/documents/" + fname;
@@ -116,28 +123,27 @@ var download = function(item, project) {
 		console.log("getting:", url, "to:", dest);
 		var file = fs.createWriteStream(dest);
 		request({    url: url,
-			headers: {
-				'Host': 'a100.gov.bc.ca'
-			}
-		})
-		.on('data', function (chunk) {
-			file.write(chunk);
-		})
-		.on('error', function(err) {
-			console.log("-----------------ERROR:", err);
-			// add the error object, however a reject will halt execution.
-			addErrorObject(item);
-			resolve();
-
-		})
-		.on('end', function() {
-			console.log("Download Complete.");
-			file.close(function () {
-				addDownloadedObject(item.projectFolderURL);
-				console.log("done");
-				resolve(item);
-			});
-		});
+                            headers: {
+                                'Host': 'a100.gov.bc.ca'
+                            }
+                        })
+	    .on('data', function (chunk) {
+	        file.write(chunk);
+	    })
+	    .on('error', function(err) {
+	        console.log("-----------------ERROR:", err);
+	        // add the error object, however a reject will halt execution.
+	        addErrorObject(item);
+	        resolve();
+	    })
+	    .on('end', function() {
+	        console.log("Download Complete.");
+	        file.close(function () {
+	  	    addDownloadedObject(item.projectFolderURL);
+	            console.log("done");
+	            resolve(item);
+	        });
+	    });
 	});
 };
 
@@ -196,7 +202,7 @@ var uploadFile = function(item) {
 
 		var fname = item.projectFolderURL.replace(/\\/g, '/');
 		var idx = fname.lastIndexOf('/');
-		var dest = "projects/" + item.project_code + "/" + fname.substr(idx+1);
+		var dest = item.project_code + "/" + fname.substr(idx+1);
 
 		// console.log("------------------projectFolderDatePosted:", new Date(item.projectFolderDatePosted));
 		// console.log("------------------projectFolderDateReceived:", new Date(item.projectFolderDateReceived));
@@ -216,26 +222,27 @@ var uploadFile = function(item) {
 		};
 
 		request.post({ url                             : base + '/api/document/'+item.project_id+'/upload',
-			method                          : 'POST',
-			headers: {
-				'User-Agent': 'request',
-				'Cookie'        : Cookie,
-				dateposted                      : new Date(item.projectFolderDatePosted),
-				datereceived                    : new Date(item.projectFolderDateReceived),
-				publishafterupload    : true
-			}, formData: formData}, function optionalCallback(err, httpResponse, body) {
-				if (err) {
-					console.error('upload failed:', err);
-					//reject();
-					// Store the failure
-					addErrorObjectUp(item);
-					resolve();
-				} else {
-					console.log('Upload successful!');
-					addUploadedObject(item.projectFolderURL);
-				}
-		  //fs.unlink(dest);
-		  resolve(item);
+                        method                          : 'POST',
+                //      maxAttempts                     : 25,
+                //      retryDelay                      : 500,
+                        //retryStrategy         : requestWithRetry.RetryStrategies.HTTPOrNetworkError,
+                        headers: {
+                                'User-Agent': 'request',
+                                'Cookie'        : Cookie,
+                                dateposted                      : new Date(item.projectFolderDatePosted),
+                                datereceived                    : new Date(item.projectFolderDateReceived),
+                                publishafterupload    : true
+                        }, formData: formData}, function optionalCallback(err, httpResponse, body) {
+		  if (err) {
+		    console.error('upload failed:', err);
+		    addErrorObjectUp(item);
+			resolve();
+		  } else {
+		  	console.log('Upload successful!');
+			addUploadedObject(item.projectFolderURL);
+		  	//fs.unlink(dest);
+			resolve(item);
+		  }
 		});
 	});
 };
@@ -252,11 +259,11 @@ function getProject(projectID) {
 		}, function (err, response, body){
 		  // this callback will only be called when the request succeeded or after maxAttempts or on error
 		  if (response) {
-		  	console.log('The number of request attempts: ' + response.attempts);
-		  	if (response.attempts > 1) {
-		  		console.log('**************************************: ' + response.attempts);
-		  	}
-		  	resolve(body);
+			console.log('The number of request attempts: ' + response.attempts);
+			if (response.attempts > 1) {
+				console.log('**************************************: ' + response.attempts);
+			}
+			resolve(body);
 		  }
 		});
 	});
@@ -291,7 +298,7 @@ function createDirectoryStructure(item) {
 			// When doing labels, this is always null.
 			var item3 = item["3"];
 			var thirdFolder = item3 === undefined ?  undefined : item3.replace(/\r?\n|\r/g, " ").trim();
-
+			
 			if (thirdFolder) {
 				console.log("need to create directory structure:", firstFolder + "/" + secondFolder + "/" + thirdFolder);
 			} else {
@@ -411,14 +418,18 @@ request ({
 		// 	promises.push(promise);
 		// });
 		_.each(files, function (promise) {
-			// if (promise.docId === 36383) {
+			if (specificProject) {
+				if (promise.projectID === specificProject) {
+					promises.push(promise);
+				}
+			} else {
 				promises.push(promise);
-			// }
-		});
-Promise.resolve (1)
-.then (function () {
-	return promises.reduce (function (current, item) {
-		return current.then (function () {
+			}
+		});		
+		Promise.resolve (1)
+		.then (function () {
+			return promises.reduce (function (current, item) {
+				return current.then (function () {
 					// console.log("i:",item.projectFolderURL);
 					item.documentFileName = item.documentFileName.trim();
 					item.documentFileName = item.documentFileName.replace(/\r?\n|\r/g, " ");
@@ -454,15 +465,15 @@ Promise.resolve (1)
 					if (item.projectID === 453) return Promise.resolve(1);
 
 					// Skip already completed from prior upload
-					if (DOWNLOAD_ACTION) {
+					if (DOWNLOAD_ONLY) {
 						if (item.projectFolderURL && checkIfExistsDown(item.projectFolderURL)) {
-							// console.log("already uploaded in the past..........................");
-							return Promise.resolve(1);
+							console.log("already downloaded: ", item.projectFolderURL);
+							return Promise.resolve(1);	
 						}
-					} else if (UPLOAD_ACTION) {
+					} else if (UPLOAD_ONLY) {
 						if (item.projectFolderURL && checkIfExistsUp(item.projectFolderURL)) {
-							// console.log("already uploaded in the past..........................");
-							return Promise.resolve(1);
+							console.log("already uploaded: ", item.projectFolderURL);
+							return Promise.resolve(1);	
 						}
 					}
 
@@ -477,10 +488,7 @@ Promise.resolve (1)
 						item.project_code = project.code;
 						item.keepTrackOfNodeToUse = project.keepTrackOfNodeToUse;
 
-						if (DOWNLOAD_ACTION === false) {
-							console.log("skipping download");
-							return item;	
-						} 
+						if (!DOWNLOAD_ONLY) return item;
 
 						// Determine if there's a file to upload (non-digitized formats will be dealt with later)
 						if (item.projectFolderURL && item.projectFolderURL !== 'DEFAULTPDF') {
@@ -492,8 +500,8 @@ Promise.resolve (1)
 					})
 					.then(function (dl) {
 						// update the DB for the downloaded item.
-						if (dl && (UPLOAD_ACTION === true)) {
-							console.log("going to upload:", dl.projectFolderURL, "for project:", dl.project_id);
+						if (dl && UPLOAD_ONLY) {
+							console.log("uploading:", dl.projectFolderURL, "for project:", dl.project_id);
 							// Now upload it.
 							return uploadFile(dl);
 						}
@@ -502,6 +510,8 @@ Promise.resolve (1)
 					.then(function (uploaded) {
 						if (uploaded) {
 							console.log("uploaded:", uploaded.projectFolderURL);
+							console.log("Document Name:", uploaded.documentFileName);
+							console.log("-------------------------------------------------");
 						}
 						return Promise.resolve(1);
 					});
