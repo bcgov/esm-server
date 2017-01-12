@@ -42,7 +42,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'createProjectGroup',
 		'publish',
 		'unPublish',
-		'manageFolders'
+		'manageFolders',
+		'manageDocumentPermissions'
 	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],

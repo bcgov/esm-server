@@ -289,6 +289,14 @@
 													<span class="glyphicon glyphicon-trash"></span>
 												</button>
 											</li>
+											<li ng-if="project.userCan.manageDocumentPermissions">
+												<button class="btn icon-btn" title="Edit Permissions" ng-click="$event.stopPropagation();"
+														x-role-permissions-modal
+														x-context="project"
+														x-object="doc">
+													<span class="glyphicon glyphicon-cog"></span></button>
+												</button>
+											</li>
 											<li>
 												<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
 													<span class="glyphicon glyphicon-info-sign"></span>
@@ -374,7 +382,16 @@
 							</li>
 							-->
 						</ul>
+
 					</section>
+					<section>
+						<button ng-if="project.userCan.manageDocumentPermissions" class="btn icon-btn" title="Edit Permissions" ng-click="$event.stopPropagation();"
+								x-role-permissions-modal
+								x-context="project"
+								x-object="documentMgr.infoPanel.data">
+							<span class="glyphicon glyphicon-cog"></span></button>
+					</section>
+
 				</div>
 			</div>
 			<div class="fb-details-content" ng-if="documentMgr.infoPanel.data && documentMgr.infoPanel.type === 'Directory'">
