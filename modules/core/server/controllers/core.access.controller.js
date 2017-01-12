@@ -155,13 +155,13 @@ var findProjectById = function(context) {
 // -------------------------------------------------------------------------
 var createPermission = function (p) {
 	return new Promise (function (resolve, reject) {
-		//console.log ('createPermission', JSON.stringify(p, null, 4));
+		// console.log ('createPermission', JSON.stringify(p, null, 4));
 		(new Permission (p)).save ().then (resolve, complete (reject, 'createPermission'));
 	});
 };
 var createRole = function (p) {
 	return new Promise (function (resolve, reject) {
-		//console.log ('createRole', JSON.stringify(p, null, 4));
+		// console.log ('createRole', JSON.stringify(p, null, 4));
 		(new Role (p)).save ().then (resolve, complete (reject, 'createRole'));
 	});
 };
@@ -176,7 +176,7 @@ var createRole = function (p) {
 //
 // -------------------------------------------------------------------------
 var addPermission = function (p) {
-	//console.log('addPermission = ' + JSON.stringify(p, null, 4));
+	// console.log('addPermission = ' + JSON.stringify(p, null, 4));
 	return new Promise (function (resolve, reject) {
 		if (!p.permission) {
 			reject ({ message: 'no permission defined in addPermission' });
@@ -187,7 +187,7 @@ var addPermission = function (p) {
 		else {
 			findPermissions (p)
 			.then (function (r) {
-				//console.log('findPermissions = ' + JSON.stringify(r, null, 4));
+				// console.log('findPermissions = ' + JSON.stringify(r, null, 4));
 				return !r.length ? createPermission (p) : '';
 			})
 			.then (resolve, complete (reject, 'addPermission'));
@@ -195,7 +195,7 @@ var addPermission = function (p) {
 	});
 };
 var addPermissions = function (p) {
-	//console.log('addPermissions = ' + JSON.stringify(p, null, 4));
+	// console.log('addPermissions = ' + JSON.stringify(p, null, 4));
 	p.permissions = ensureArray (p.permissions);
 	p.roles = ensureArray (p.roles);
 	return Promise.all (expandPermissions(p).map (function (v) {
@@ -210,7 +210,7 @@ exports.addPermissions = addPermissions;
 //
 // -------------------------------------------------------------------------
 var deletePermission = function (p) {
-	//console.log('deletePermission = ' + JSON.stringify(p, null, 4));
+	// console.log('deletePermission = ' + JSON.stringify(p, null, 4));
 	return new Promise (function (resolve, reject) {
 		if (!p.resource) {
 			reject ({message:'no resource defined in deletePermission'});
@@ -256,7 +256,7 @@ var setPermissionRoles = function (p) {
 		//
 		// remove all roles from this permission
 		//
-		//console.log('setPermissionRoles = ' + JSON.stringify(p, null, 4));
+		// console.log('setPermissionRoles = ' + JSON.stringify(p, null, 4));
 		Permission.remove ({
 			resource   : p.resource,
 			permission : p.permission,
@@ -324,7 +324,7 @@ var addPermissionDefinition = function (p) {
 	return addPermission (p);
 };
 var addPermissionDefinitions = function (o) {
-	//console.log ('addPermissionDefinitions', JSON.stringify(o, null, 4));
+	// console.log ('addPermissionDefinitions', JSON.stringify(o, null, 4));
 	o.permissions = ensureArray (o.permissions);
 	return Promise.all (o.permissions.map (function (permission) {
 		return addPermission ({
@@ -430,7 +430,7 @@ exports.getPermissionRoleIndex = getPermissionRoleIndex;
 //
 // -------------------------------------------------------------------------
 var addRoleIfUnique = function (p) {
-	//console.log ('addRoleIfUnique', JSON.stringify(p, null, 4));
+	// console.log ('addRoleIfUnique', JSON.stringify(p, null, 4));
 	p.user = null;
 	if (p.context === defaultContext && p.context.lastIndexOf(defaultContext, 0) !== 0) {
 		p.owner = defaultContext+':'+p.role;
@@ -491,7 +491,7 @@ var setPermissionRoleIndex = function (resource, index) {
 				index.schemaName = 'application';
 			}
 			var m = mongoose.model (index.schemaName);
-			console.log ('updating ', index.schemaName, resource, JSON.stringify (modelroles));
+			// console.log ('updating ', index.schemaName, resource, JSON.stringify (modelroles));
 			return m.update ({_id:resource}, modelroles).exec ();
 		})
 		.then (function () { return {ok:true};})
@@ -510,7 +510,7 @@ exports.setPermissionRoleIndex = setPermissionRoleIndex;
 //
 // -------------------------------------------------------------------------
 var addRole = function (p) {
-	//console.log ('addRole', JSON.stringify(p, null, 4));
+	// console.log ('addRole', JSON.stringify(p, null, 4));
 	return new Promise (function (resolve, reject) {
 		if (!p.role) {
 			reject ({ message: 'no role defined in addRole' });
@@ -524,7 +524,7 @@ var addRole = function (p) {
 			}
 			findRoles (p)
 			.then (function (r) {
-				//console.log ('findRoles = ', JSON.stringify(r, null, 4));
+				// console.log ('findRoles = ', JSON.stringify(r, null, 4));
 				return !r.length ? createRole (p) : '';
 			})
 			.then (resolve, complete (reject, 'addRole'));
@@ -532,7 +532,7 @@ var addRole = function (p) {
 	});
 };
 var addRoles = function (p) {
-	//console.log ('addRoles', JSON.stringify(p, null, 4));
+	// console.log ('addRoles', JSON.stringify(p, null, 4));
 	p.roles = ensureArray (p.roles);
 	p.users = ensureArray (p.users);
 	return Promise.all (expandRoles(p).map (function (v) {
@@ -576,13 +576,13 @@ var deleteRoles = function (p) {
 //
 // -------------------------------------------------------------------------
 var addRoleDefinition = function (p) {
-	//console.log ('addRoleDefinition', JSON.stringify(p, null, 4));
+	// console.log ('addRoleDefinition', JSON.stringify(p, null, 4));
 	p.user = null;
 	return addRole (p);
 };
 exports.addRoleDefinition = addRoleDefinition;
 var addRoleDefinitions = function (o) {
-	//console.log ('addRoleDefinitions', JSON.stringify(o, null, 4));
+	// console.log ('addRoleDefinitions', JSON.stringify(o, null, 4));
 	o.roles = ensureArray (o.roles);
 	// console.log (o.context);
 	// console.log (o.owner);
@@ -733,20 +733,20 @@ var syncGlobalProjectUsers = function() {
 		getGlobalProjectRoles()
 			.then(function(data) {
 				globalProjectRoles = data;
-				//console.log('syncGlobalProjectUsers.globalProjectRoles = ', JSON.stringify(globalProjectRoles));
+				// console.log('syncGlobalProjectUsers.globalProjectRoles = ', JSON.stringify(globalProjectRoles));
 				return Role.find({context: 'application', role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
 			})
 			.then(function(data) {
-				//console.log('syncGlobalProjectUsers.globalProjectUsers.found = ', JSON.stringify(data));
+				// console.log('syncGlobalProjectUsers.globalProjectUsers.found = ', JSON.stringify(data));
 				globalProjectRoleUsers = data;
 				return Role.remove({ context: { $ne : 'application' }, role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
 			})
 			.then(function(data) {
-				//console.log('syncGlobalProjectUsers.globalProjectUsers.removedFromProjects = ', JSON.stringify(data));
+				// console.log('syncGlobalProjectUsers.globalProjectUsers.removedFromProjects = ', JSON.stringify(data));
 				return Project.find({},{_id:1}).exec();
 			})
 			.then(function(data) {
-				//console.log('syncGlobalProjectUsers.getProjectIds = ', JSON.stringify(data));
+				// console.log('syncGlobalProjectUsers.getProjectIds = ', JSON.stringify(data));
 				var projRoles = [];
 				_.each(data, function(p) {
 					_.each(globalProjectRoleUsers, function(r) {
@@ -760,7 +760,7 @@ var syncGlobalProjectUsers = function() {
 				return Promise.all(projRoles);
 			})
 			.then(function(data) {
-				//console.log('syncGlobalProjectUsers.globalProjectUsers.addedToProjects = ', JSON.stringify(data));
+				// console.log('syncGlobalProjectUsers.globalProjectUsers.addedToProjects = ', JSON.stringify(data));
 				return {ok : true};
 			})
 			.then (resolve, complete (reject, 'syncGlobalProjectUsers'));
@@ -812,7 +812,7 @@ var setRoleUserIndex = function (context, index) {
 			})
 			.then(function() {
 				if (context === defaultContext) {
-					//console.log('we are editing application, need to refresh all global project users');
+					// console.log('we are editing application, need to refresh all global project users');
 					return syncGlobalProjectUsers();
 				} else {
 					return context;
@@ -820,7 +820,7 @@ var setRoleUserIndex = function (context, index) {
 			})
 			.then(function(data) {
 				if (data !== context) {
-					//console.log('we are editing application, now we are done.');
+					// console.log('we are editing application, now we are done.');
 				}
 				return {ok : true};
 			})
@@ -861,7 +861,7 @@ exports.getUserRoles = getUserRoles;
 //
 // -------------------------------------------------------------------------
 var getAllUserRoles = function (p) {
-	//console.log ('getting all user roles for user context: ',p);
+	// console.log ('getting all user roles for user context: ',p);
 	return new Promise (function (resolve, reject) {
 		var listPromise;
 		if (!p.user) {
@@ -902,7 +902,7 @@ var getAllUserRoles = function (p) {
 				}
 			})
 			.then(function(proj) {
-				//console.log('proj = ' + JSON.stringify(proj));
+				// console.log('proj = ' + JSON.stringify(proj));
 				if (proj) {
 					return findRoles ({
 						context : proj._id,
@@ -913,7 +913,7 @@ var getAllUserRoles = function (p) {
 				}
 			})
 			.then(function(d) {
-				//console.log('results of findRoles: ' + JSON.stringify(d));
+				// console.log('results of findRoles: ' + JSON.stringify(d));
 				return d;
 			})
 			.then (pluckRoles)
@@ -947,7 +947,7 @@ var userPermissions = function (p) {
 			//
 			// add the splat because of course
 			//
-			//console.log ('roleSet = ', roleSet);
+			// console.log ('roleSet = ', roleSet);
 			return findPermissions ({
 				resource : p.resource,
 				role     : {$in : roleSet}
@@ -968,14 +968,14 @@ var purgeUserRoles = function(data) {
 	// expect a context (application or project id)
 	// expect a list of roles to purge...
 	// and if we are purging roles with users or without...
-	console.log('purgeUserRoles data = ', JSON.stringify(data));
+	// console.log('purgeUserRoles data = ', JSON.stringify(data));
 	var promise = Role.remove({ context: data.context, role: {$in: data.roles}, user : {$ne: null} }).exec();
 	return new Promise (function (resolve, reject) {
 		promise.then (function (res) {
-			console.log('purgeUserRoles Role.remove result = ', JSON.stringify(res));
+			// console.log('purgeUserRoles Role.remove result = ', JSON.stringify(res));
 			resolve(res);
 		}, function(err) {
-			console.log('purgeUserRoles Role.remove error = ', JSON.stringify(err));
+			// console.log('purgeUserRoles Role.remove error = ', JSON.stringify(err));
 			reject(err);
 		});
 	});
@@ -985,14 +985,14 @@ exports.purgeUserRoles = purgeUserRoles;
 var assignUserRoles = function(data) {
 
 	// expect an array of {context, user, role}
-	console.log('assignUserRoles data = ', JSON.stringify(data));
+	// console.log('assignUserRoles data = ', JSON.stringify(data));
 	return new Promise (function (resolve, reject) {
 		Role.insertMany(data, function(error, docs) {
 			if (error) {
-				console.log('assignUserRoles Role.insertMany error = ', JSON.stringify(error));
+				// console.log('assignUserRoles Role.insertMany error = ', JSON.stringify(error));
 				reject(error);
 			} else {
-				console.log('assignUserRoles Role.insertMany result = ', JSON.stringify(docs));
+				// console.log('assignUserRoles Role.insertMany result = ', JSON.stringify(docs));
 				resolve(docs);
 			}
 		});
@@ -1133,7 +1133,7 @@ exports.routes = {
 		return runPromise (res, Promise.resolve(User.find ({}).exec ()));
 	},
 	getContextUsers: function (req, res) {
-		//console.log('getContextUsers ', req.params.context);
+		// console.log('getContextUsers ', req.params.context);
 		var User = mongoose.model ('User');
 		var p = new Promise(function(resolve, reject) {
 			getRolesForContext ({
@@ -1141,15 +1141,15 @@ exports.routes = {
 				user     : { $ne : null }
 			})
 			.then (function(r) {
-				//console.log('r = ' , JSON.stringify(r, null, 4));
+				// console.log('r = ' , JSON.stringify(r, null, 4));
 				return _.uniq(_.map(r, 'user'));
 			})
 			.then(function(u) {
-				//console.log('u = ' , JSON.stringify(u, null, 4));
+				// console.log('u = ' , JSON.stringify(u, null, 4));
 				return User.find ({username: {$in: u}}).exec ();
 			})
 			.then(function(ul) {
-				//console.log('ul = ' , JSON.stringify(ul, null, 4));
+				// console.log('ul = ' , JSON.stringify(ul, null, 4));
 				return ul;
 			}).then (resolve, complete (reject, 'getContextUsers'));
 		});
