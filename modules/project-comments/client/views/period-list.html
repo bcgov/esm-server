@@ -21,9 +21,6 @@
 					<td title="'Documents'" sortable="'relatedDocuments.length'">
 						{{p.relatedDocuments.length}}
 					</td>
-					<td title="'Version'" filter="{ artifactVersion: 'select'}" filter-data="s.versionArray" sortable="'artifactVersion'">
-						{{p.artifactVersion}}
-					</td>
 					<td title="'Starts'" sortable="'dateStarted'">
 						{{ p.dateStarted | date : format : timezone }}
 					</td>
