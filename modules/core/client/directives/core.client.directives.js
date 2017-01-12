@@ -277,11 +277,28 @@ angular.module('core')
 							return AccessModel.globalProjectRoles();
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList, globalProjectRoles) {
+					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList, globalProjectRoles, ProjectModel) {
 						var s = this;
+
+						var contextRoles = _.filter(allRoles, function(r) {
+							if (r === 'public') {
+								return;
+							} else if (_.find(globalProjectRoles, function(gpr) { return gpr === r; }) === undefined) {
+								return r;
+							}
+						});
+
+						s.projects = [];
+						ProjectModel.lookup().then( function(res) {
+							s.projects = _.map(res, function(r) {
+								return { _id: r._id, name: r.name };
+							});
+						});
+
 
 						$scope.contacts = [];
 						s.busy = false;
+						s.progressMsg = '';
 						/*
 						This stopped working in some environments and setups.
 						Very strange, so added in the USER_SEARCH_CHOOSER_SELECTED handler instead.
@@ -411,28 +428,120 @@ angular.module('core')
 						s.cancel = function () {
 							$modalInstance.dismiss('cancel');
 						};
+
 						s.ok = function () {
-							console.log('start the work...');
 							s.busy = true;
-							AccessModel.setRoleUserIndex(s.context._id, s.userRoleIndex)
-								.then (function (res) {
-									console.log('got ', res);
-									console.log('call reload');
-									Application.reload(Authentication.user ? Authentication.user._id : 0, true).then(function() {
-										console.log('set context');
-										return AccessModel.resetSessionContext();
-									}).then(function(){
-										console.log('close');
+							s.progressMsg = 'Saving Roles...';
+
+							// ok, so delete all context and contextRoles....
+							var contextInsertData = [];
+							var globalInsertData = [];
+							_.each(s.userRoleIndex.user, function (roles, user) {
+								_.each(roles, function (value, role) {
+									if (value) {
+										var contextRole = _.find(contextRoles, function (r) {
+											return r === role;
+										});
+										if (contextRole) {
+											contextInsertData.push({context: s.context._id, user: user, role: role});
+										} else {
+											globalInsertData.push({context: s.context._id, user: user, role: role});
+										}
+									}
+								});
+							});
+
+							var projectRolesDelete = [];
+							var projectInsertData = [];
+							if (s.context._id === 'application') {
+								_.each(s.projects, function (p) {
+									projectRolesDelete.push({_id: p._id, name: p.name, data: {context: p._id, roles: globalProjectRoles}});
+									var piddy = {_id: p._id, name: p.name, data: [] };
+									_.each(globalInsertData, function (d) {
+										piddy.data.push({context: p._id, user: d.user, role: d.role});
+									});
+									projectInsertData.push(piddy);
+								});
+							}
+
+							if (s.context._id === 'application') {
+								// delete all application/system roles that have a user assigned...
+								s.progressMsg = 'Remove users from system roles...';
+								AccessModel.purgeUserRoles({context: s.context._id, roles: contextRoles})
+									.then(function (result) {
+										s.progressMsg = 'Assign selected users to system roles...';
+										//console.log(JSON.stringify(result));
+										// assign selected users to application / system roles...
+										return AccessModel.assignUserRoles(contextInsertData);
+									})
+									.then(function (result) {
+										s.progressMsg = 'Remove users from system managed Project roles..';
+										//console.log(JSON.stringify(result));
+										// delete all project global roles (application context) that have a user assigned...
+										return AccessModel.purgeUserRoles({context: s.context._id, roles: globalProjectRoles});
+									})
+									.then(function (result) {
+										s.progressMsg = 'Assign selected users to system managed Project roles..';
+										//console.log(JSON.stringify(result));
+										// assign selected users to project global roles (application context)...
+										return AccessModel.assignUserRoles(globalInsertData);
+									})
+
+									.then(function (result) {
+										s.progressMsg = 'Remove users from Projects...';
+										//console.log(JSON.stringify(result));
+										// delete all project global roles (project context)
+										var purgeUserRolesPromises = _.map(projectRolesDelete, function(p) {
+											return AccessModel.purgeUserRoles(p.data).then(function(r) {
+												s.progressMsg = 'Remove users from ' + p.name;
+												//console.log('delete all users roles in ', p.name);
+											});
+										});
+										return Promise.all(purgeUserRolesPromises);
+									})
+									.then(function (result) {
+										s.progressMsg = 'Assign users to Projects...';
+										//console.log(result.length);
+										var assignUserRolesPromises = _.map(projectInsertData, function(p) {
+											return AccessModel.assignUserRoles(p.data).then(function(r) {
+												s.progressMsg = 'Assign users to ' + p.name;
+												//console.log('assign all users roles in ', p.name);
+											});
+										});
+										return Promise.all(assignUserRolesPromises);
+									})
+									.then(function (result) {
+										s.progressMsg = 'Complete';
 										s.busy = false;
 										$modalInstance.close();
-										return;
+									}, function(err) {
+										console.log('error saving roles, ', err);
+										s.busy = false;
+										s.progressMsg = '';
 									});
-								})
-								.catch (function (res) {
-									console.log('error: ', res);
-									s.busy = false;
-									return;
-								});
+							} else {
+								s.progressMsg = 'Remove users from Project...';
+								// delete all project specific roles that have a user assigned...
+								AccessModel.purgeUserRoles({context: s.context._id, roles: contextRoles})
+									.then(function (result) {
+										//console.log(JSON.stringify(result));
+										s.progressMsg = 'Assign users to Project...';
+										return AccessModel.assignUserRoles(contextInsertData);
+									})
+									//.then(function(result) {
+									.then(function (result) {
+										//console.log(JSON.stringify(result));
+										s.progressMsg = 'Complete';
+										s.busy = false;
+										s.progressMsg = '';
+										$modalInstance.close();
+									}, function(err) {
+										console.log('error saving roles, ', err);
+										s.busy = false;
+										s.progressMsg = '';
+									});
+							}
+
 						};
 					}
 				})

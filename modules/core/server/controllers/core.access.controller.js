@@ -725,32 +725,27 @@ var addGlobalProjectUsersToProject = function(projectId) {
 };
 exports.addGlobalProjectUsersToProject = addGlobalProjectUsersToProject;
 
-var syncGlobalProjectUsers = function(res) {
+
+var syncGlobalProjectUsers = function() {
 	return new Promise (function (resolve, reject) {
 		var globalProjectRoles = [];
 		var globalProjectRoleUsers = [];
 		getGlobalProjectRoles()
 			.then(function(data) {
-				if (res) { res.write('.'); }
 				globalProjectRoles = data;
 				//console.log('syncGlobalProjectUsers.globalProjectRoles = ', JSON.stringify(globalProjectRoles));
 				return Role.find({context: 'application', role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
 			})
 			.then(function(data) {
-				if (res) { res.write('.'); }
 				//console.log('syncGlobalProjectUsers.globalProjectUsers.found = ', JSON.stringify(data));
 				globalProjectRoleUsers = data;
 				return Role.remove({ context: { $ne : 'application' }, role: {$in: globalProjectRoles }, user : {$ne: null} }).exec();
 			})
 			.then(function(data) {
-				if (res) { res.write('.'); }
 				//console.log('syncGlobalProjectUsers.globalProjectUsers.removedFromProjects = ', JSON.stringify(data));
 				return Project.find({},{_id:1}).exec();
 			})
 			.then(function(data) {
-				if (res) {
-					res.write('.');
-				}
 				//console.log('syncGlobalProjectUsers.getProjectIds = ', JSON.stringify(data));
 				var projRoles = [];
 				_.each(data, function(p) {
@@ -759,14 +754,13 @@ var syncGlobalProjectUsers = function(res) {
 							context : p._id,
 							user    : r.user,
 							role    : r.role
-						}).then(function() {if (res) { res.write('.'); } return; }));
+						}));
 					});
 				});
 				return Promise.all(projRoles);
 			})
 			.then(function(data) {
 				//console.log('syncGlobalProjectUsers.globalProjectUsers.addedToProjects = ', JSON.stringify(data));
-				if (res) { res.write('.'); }
 				return {ok : true};
 			})
 			.then (resolve, complete (reject, 'syncGlobalProjectUsers'));
@@ -778,16 +772,16 @@ exports.syncGlobalProjectUsers = syncGlobalProjectUsers;
 // get the index of users to roles, both ways, for a context
 //
 // -------------------------------------------------------------------------
-var setRoleUserIndex = function (context, index, res) {
+var setRoleUserIndex = function (context, index) {
 	return new Promise (function (resolve, reject) {
-		console.log('1 ');
+
 		// no longer adding roles directly from the Add Role dialog, so we may need to add in new roles here.
 		var publicPattern = new RegExp('public', 'gi');
 		var addRolePromises = [];
 		_.each(index.role, function (users, role) {
 			// do not add public as a role here...
 			if (!publicPattern.test(role) && !_.find(addRolePromises, function (p) { return p.role === role; })) {
-				addRolePromises.push(addRoleIfUnique({context: context, role: role}).then(function() {if (res) { res.write('.'); } return; }));
+				addRolePromises.push(addRoleIfUnique({context: context, role: role}));
 			}
 		});
 
@@ -800,36 +794,31 @@ var setRoleUserIndex = function (context, index, res) {
 						context : context,
 						user    : user,
 						role    : role
-					}).then(function() {if (res) { res.write('.'); } return; }));
+					}));
 				}
 				else {
 					promiseArray.push (deleteRole ({
 						context : context,
 						user    : user,
 						role    : role
-					}).then(function() {if (res) { res.write('.'); } return; }));
+					}));
 				}
 			});
 		});
-	console.log('2 ');
+
 		Promise.all(addRolePromises)
 			.then(function() {
-				console.log('3 ');
 				return Promise.all(promiseArray);
 			})
 			.then(function() {
-				console.log('4 ');
-				if (res) { res.write('.'); }
 				if (context === defaultContext) {
 					//console.log('we are editing application, need to refresh all global project users');
-					return syncGlobalProjectUsers(res);
+					return syncGlobalProjectUsers();
 				} else {
 					return context;
 				}
 			})
 			.then(function(data) {
-				console.log('5 ');
-				if (res) { res.write('.'); }
 				if (data !== context) {
 					//console.log('we are editing application, now we are done.');
 				}
@@ -839,30 +828,6 @@ var setRoleUserIndex = function (context, index, res) {
 	});
 };
 exports.setRoleUserIndex = setRoleUserIndex;
-
-var updateRoleUser = function(req, res) {
-	console.log('> updateRoleUser');
-	console.log('context = ', req.params.context);
-	console.log('index = ', JSON.stringify(req.body));
-
-	res.writeHead(200, {'content-type':'text/plain'});
-	res.write('.');
-
-	var context = req.params.context;
-	var index = req.body;
-
-	setRoleUserIndex(context, index, res)
-		.then(function(data) {
-			res.write('!');
-			res.end();
-		}, function(err) {
-			res.write('*');
-			res.end();
-		});
-
-	console.log('< updateRoleUser');
-};
-exports.updateRoleUser = updateRoleUser;
 
 // =========================================================================
 //
@@ -994,7 +959,55 @@ var userPermissions = function (p) {
 };
 exports.userPermissions = userPermissions;
 
+//
+//
+//
+
+var purgeUserRoles = function(data) {
+
+	// expect a context (application or project id)
+	// expect a list of roles to purge...
+	// and if we are purging roles with users or without...
+	console.log('purgeUserRoles data = ', JSON.stringify(data));
+	var promise = Role.remove({ context: data.context, role: {$in: data.roles}, user : {$ne: null} }).exec();
+	return new Promise (function (resolve, reject) {
+		promise.then (function (res) {
+			console.log('purgeUserRoles Role.remove result = ', JSON.stringify(res));
+			resolve(res);
+		}, function(err) {
+			console.log('purgeUserRoles Role.remove error = ', JSON.stringify(err));
+			reject(err);
+		});
+	});
+
+};
+exports.purgeUserRoles = purgeUserRoles;
+var assignUserRoles = function(data) {
+
+	// expect an array of {context, user, role}
+	console.log('assignUserRoles data = ', JSON.stringify(data));
+	return new Promise (function (resolve, reject) {
+		Role.insertMany(data, function(error, docs) {
+			if (error) {
+				console.log('assignUserRoles Role.insertMany error = ', JSON.stringify(error));
+				reject(error);
+			} else {
+				console.log('assignUserRoles Role.insertMany result = ', JSON.stringify(docs));
+				resolve(docs);
+			}
+		});
+	});
+};
+exports.assignUserRoles = assignUserRoles;
+
+
 exports.routes = {
+	purgeUserRoles: function(req, res) {
+		return runPromise( res, purgeUserRoles(req.body) );
+	},
+	assignUserRoles: function(req, res) {
+		return runPromise( res, assignUserRoles(req.body) );
+	},
 	addPermission : function (req, res) {
 		return runPromise (res, addPermission (req.body));
 	},
