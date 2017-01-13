@@ -691,9 +691,9 @@ module.exports = DBModel.extend ({
 			});
 		};
 		var getMyProjects = function(projectRoles) {
-			console.log('projectRoles ',JSON.stringify(projectRoles));
+			//console.log('projectRoles ',JSON.stringify(projectRoles));
 			var projectIds = _.uniq(_.map(projectRoles, 'context'));
-			console.log('projectIds ',JSON.stringify(projectIds));
+			//console.log('projectIds ',JSON.stringify(projectIds));
 			var q = {
 				_id: { "$in": projectIds },
 				dateCompleted: { "$eq": null }
