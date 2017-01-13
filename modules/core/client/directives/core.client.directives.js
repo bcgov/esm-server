@@ -248,7 +248,7 @@ angular.module('core')
 // interacting with a list of roles and users for a given context
 //
 // -------------------------------------------------------------------------
-.directive('roleUsersModal', function ($state, $modal, Authentication, Application, AccessModel, _) {
+.directive('roleUsersModal', function ($state, $modal, Authentication, Application, AccessModel, ProjectModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -277,7 +277,7 @@ angular.module('core')
 							return AccessModel.globalProjectRoles();
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList, globalProjectRoles, ProjectModel) {
+					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList, globalProjectRoles) {
 						var s = this;
 
 						var contextRoles = _.filter(allRoles, function(r) {
@@ -286,13 +286,6 @@ angular.module('core')
 							} else if (_.find(globalProjectRoles, function(gpr) { return gpr === r; }) === undefined) {
 								return r;
 							}
-						});
-
-						s.projects = [];
-						ProjectModel.lookup().then( function(res) {
-							s.projects = _.map(res, function(r) {
-								return { _id: r._id, name: r.name };
-							});
 						});
 
 
@@ -451,24 +444,25 @@ angular.module('core')
 								});
 							});
 
-							var projectRolesDelete = [];
-							var projectInsertData = [];
-							if (s.context._id === 'application') {
-								_.each(s.projects, function (p) {
-									projectRolesDelete.push({_id: p._id, name: p.name, data: {context: p._id, roles: globalProjectRoles}});
-									var piddy = {_id: p._id, name: p.name, data: [] };
-									_.each(globalInsertData, function (d) {
-										piddy.data.push({context: p._id, user: d.user, role: d.role});
-									});
-									projectInsertData.push(piddy);
-								});
-							}
 
 							if (s.context._id === 'application') {
 								// delete all application/system roles that have a user assigned...
-								s.progressMsg = 'Remove users from system roles...';
-								AccessModel.purgeUserRoles({context: s.context._id, roles: contextRoles})
-									.then(function (result) {
+								s.progressMsg = 'Fetch project data...';
+								var projectRolesDelete = [];
+								var projectInsertData = [];
+								ProjectModel.picklist()
+									.then(function(data) {
+										_.each(data, function (p) {
+											projectRolesDelete.push({_id: p._id, name: p.name, data: {context: p._id, roles: globalProjectRoles}});
+											var piddy = {_id: p._id, name: p.name, data: [] };
+											_.each(globalInsertData, function (d) {
+												piddy.data.push({context: p._id, user: d.user, role: d.role});
+											});
+											projectInsertData.push(piddy);
+										});
+										s.progressMsg = 'Remove users from system roles...';
+										return AccessModel.purgeUserRoles({context: s.context._id, roles: contextRoles});
+									}).then(function (result) {
 										s.progressMsg = 'Assign selected users to system roles...';
 										//console.log(JSON.stringify(result));
 										// assign selected users to application / system roles...
