@@ -429,8 +429,7 @@ $list-selected-border: 1px solid #4187c9;
         }
     }
 
-    @media only screen
-        and (min-device-width: 768px) 
+    @media only screen 
         and (max-device-width: 1024px) {
         
         .scroll-container {
@@ -551,7 +550,6 @@ $list-selected-border: 1px solid #4187c9;
 }
 
 @media only screen 
-    and (min-device-width: 768px)
     and (max-device-width: 1024px) {
     .fb-list {
         .fb-col-group {
