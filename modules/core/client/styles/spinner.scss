@@ -24,7 +24,7 @@ $spinner-invert-bg: rgba(0,0,0,0.8);
   	right: 0;
   	padding: 5%;
 	background: $spinner-bg;
-	z-index: 2;
+	z-index: 4;
 
 	&.inverted,
 	&.transparent {
@@ -84,9 +84,9 @@ $spinner-invert-bg: rgba(0,0,0,0.8);
 }
 
 .rotating {
-	-webkit-animation: rotating 1s linear infinite;
-	-moz-animation: rotating 1s linear infinite;
-	-ms-animation: rotating 1s linear infinite;
-	-o-animation: rotating 1s linear infinite;
-	animation: rotating 1s linear infinite;
+	-webkit-animation: rotating 0.75s linear infinite;
+	-moz-animation: rotating 0.75s linear infinite;
+	-ms-animation: rotating 0.75s linear infinite;
+	-o-animation: rotating 0.75s linear infinite;
+	animation: rotating 0.75s linear infinite;
 }

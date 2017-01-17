@@ -54,14 +54,13 @@
 				<div class="form-group">
 					<label class="control-label" for="shortDesc">Associated Value Components</label>
 					<div class="tag-list-container form-control">
-						<ul class="tag-list">
+						<ul class="tag-list clearfix">
 							<li class="tag" ng-repeat="o in condition.vcs">
 								<span class="tag-name" ui-sref="p.artifact.view({artifactId:o._id})">{{o.name}}</span>
 								<button class="btn" ng-click="condition.vcs.splice($index, 1)"><span aria-hidden="true">×</span></button>
 							</li>
 							<li class="add-tag">
-								<button class="btn btn-sm" type="button" title="Link Valued Components"
-									ng-click="editLinkedVcs()"><span class="glyphicon glyphicon-plus"></button>
+								<button class="btn btn-sm" type="button" title="Link Valued Components"ng-click="editLinkedVcs()"><span class="glyphicon glyphicon-plus"></button>
 							</li>
 						</ul>
 					</div>

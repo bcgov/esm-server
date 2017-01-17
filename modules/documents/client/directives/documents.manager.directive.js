@@ -738,6 +738,8 @@ angular.module('documents')
 			controllerAs: 'documentMgrUpload'
 		};
 	}])
+
+	// MOVE DOCUMENTS INTERFACE
 	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
 		return {
 			restrict: 'A',
@@ -771,6 +773,42 @@ angular.module('documents')
 			}
 		};
 	}])
+
+	// EDIT DOCUMENTS INTERFACE
+	.directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+		return {
+			restrict: 'A',
+			scope: {
+				project: '=',
+				root: '=',
+				node: '='
+			},
+			link: function (scope, element, attrs) {
+				element.on('click', function () {
+					$modal.open({
+						animation: true,
+						templateUrl: 'modules/documents/client/views/document-manager-edit.html',
+						resolve: {},
+						controllerAs: 'editFileProperties',
+						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document) {
+							var tree = new TreeModel();
+							var self = this;
+							self.busy = true;
+
+							self.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+
+							self.ok = function () {
+								$modalInstance.dismiss('cancel');
+							};
+						}
+					});
+				});
+			}
+		};
+	}])
+
 	.directive('documentMgrLink', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
