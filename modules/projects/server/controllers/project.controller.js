@@ -356,8 +356,47 @@ module.exports = DBModel.extend ({
 		});
 	},
 	moveDirectory: function (projectId, folderId, newParentId) {
-		// TODO: Implement
-		console.log("****Implement me****");
+		var self = this;
+		return new Promise(function(resolve, reject) {
+			return self.findById(projectId)
+				.then(function(project) {
+					// check for manageFolders permission
+					if (!project.userCan.manageFolders) {
+						reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+					} else {
+						return project;
+					}
+				})
+				.then(function (project) {
+					//console.log("current structure:", project.directoryStructure);
+					var tree = new TreeModel();
+					if (!project.directoryStructure) {
+						return project;
+					}
+					var root = tree.parse(project.directoryStructure);
+					// Walk until the right folder is found
+					var theNode = root.first(function (node) {
+						return node.model.id === parseInt(folderId);
+					});
+					var theParent = root.first(function(node) {
+						return node.model.id === parseInt(newParentId);
+					});
+					// If we found it, rename it as long as it's not the root.
+					if (theParent && theNode && !theNode.isRoot()) {
+						//console.log("found node:", theNode.model.id);
+						//console.log("found new parent:", theParent.model.id);
+						var newKid = theNode.drop();
+						theParent.addChild(newKid);
+					}
+					project.directoryStructure = {};
+					project.directoryStructure = root.model;
+					//console.log("new structure:", project.directoryStructure);
+					return project.save();
+				})
+				.then(function (p) {
+					resolve(p.directoryStructure);
+				});
+		});
 	},
 	getDirectoryStructure: function (projectId) {
 		return this.findById(projectId)
@@ -673,44 +712,66 @@ module.exports = DBModel.extend ({
 		var self = this;
 
 		//Ticket ESM-640.  If these are the user's only roles on a project, don't show the project.
-		//
 		var ignoredSystemRoles = ['compliance-lead', 'project-eao-staff', 'project-qa-officer'];
-		var findMyRoles = function (username) {
+		var findMyProjectRoles = function (username) {
 			return new Promise(function (fulfill, reject) {
-				Role.find({
-					user: username,
-					role: {$nin: ignoredSystemRoles}
-				}).exec(function (error, data) {
+				// find all my projects where i have a role other than an ignored system role.
+				Role.find({ user: username, role: {$nin: ignoredSystemRoles}, context: {$ne: 'application'} })
+					.select ({context: 1, role: 1})
+					.exec(function (error, data) {
 					if (error) {
 						reject(new Error(error));
 					} else if (!data) {
-						reject(new Error('findMyRoles: Roles not found for username: ' + username));
+						reject(new Error('findMyProjectRoles: Project IDs not found for username, no project roles assigned for: ' + username));
 					} else {
 						fulfill(data);
 					}
 				});
 			});
 		};
-
-		var getMyProjects = function(roles) {
-			var projectIds = _.uniq(_.map (roles, 'context'));
-			// don't want to query for 'application', it's not a project id...
-			_.remove(projectIds, function(o) { return o === 'application'; } );
-
+		var getMyProjects = function(projectRoles) {
+			//console.log('projectRoles ',JSON.stringify(projectRoles));
+			var projectIds = _.uniq(_.map(projectRoles, 'context'));
+			//console.log('projectIds ',JSON.stringify(projectIds));
 			var q = {
 				_id: { "$in": projectIds },
 				dateCompleted: { "$eq": null }
 			};
-			return self.listforaccess ('i do not want to limit my access', q, { _id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1 }, 'currentPhase', 'name');
+			return new Promise(function(fulfill, reject) {
+				ProjectModel.find (q)
+					.select ({_id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, read: 1 })
+					.populate ('currentPhase', 'name')
+					.sort ('name')
+					.exec (function(error, data) {
+					if (error) {
+						reject(new Error(error));
+					} else if (!data) {
+						fulfill([]);
+					} else {
+						// this mimics querying to see if we have read access to this project.
+						// because we have the project/roles, we can skip the overhead of going through the db controller and
+						// adding the permissions and userCan to determine user access.
+						// we need to save that overhead and waits as those operations read from users/roles/permissions tables.
+						var readProjects = _.map(data, function(d) {
+							var projRoles = _.filter(projectRoles, function(x) { return x.context === d._id.toString(); });
+							var roles = _.uniq(_.map(projRoles, 'role'));
+							var read = d.read;
+							var matched = _.intersection(read, roles);
+							if (matched.length > 0) {
+								return d;
+							}
+						});
+						fulfill(readProjects);
+					}
+				});
+			});
 		};
 
-		return findMyRoles(self.user.username)
-			.then(function(roles) {
-				//console.log("roles = " + JSON.stringify(roles, null, 4));
-				return getMyProjects(roles);
+		return findMyProjectRoles(self.user.username)
+			.then(function(prs) {
+				return getMyProjects(prs);
 			})
 			.then(function(projects) {
-				//console.log("projects = " + JSON.stringify(projects, null, 4));
 				return projects;
 			});
 	},

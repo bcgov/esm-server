@@ -700,7 +700,6 @@ exports.loadSystemUserRoles = function(file, req, res, opts) {
 						return Promise.all(promiseArray);
 					};
 
-
 					Promise.resolve ()
 						.then (function () {
 							return promises.reduce (function (current, item) {
@@ -733,14 +732,6 @@ exports.loadSystemUserRoles = function(file, req, res, opts) {
 										})
 										.then(function(data) {
 											if(data) {
-												//console.log('call syncGlobalProjectUsers()... ');
-												return access.syncGlobalProjectUsers();
-											} else {
-												return null;
-											}
-										})
-										.then(function(data) {
-											if(data) {
 												//console.log('syncGlobalProjectUsers()... ', JSON.stringify(data));
 												return data;
 											} else {
@@ -749,6 +740,14 @@ exports.loadSystemUserRoles = function(file, req, res, opts) {
 										});
 								});
 							}, Promise.resolve());
+						})
+						.then(function(data) {
+							if(data) {
+								//console.log('call syncGlobalProjectUsers()... ');
+								return access.syncGlobalProjectUsers();
+							} else {
+								return null;
+							}
 						})
 						.then (resolve, reject);
 				});

@@ -1,0 +1,68 @@
+<form>
+	<div class="modal-header">
+		<button ng-disabled="uploadService.actions.busy" type="button" class="btn btn-default close" ng-click="editFileProperties.cancel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h3 class="modal-title">Edit File  &nbsp;&rsaquo;&nbsp;  Document Name</h3>
+	</div>
+
+	<div class="modal-body">
+
+		<!--
+		<div class="spinner-container">
+			<div class="spinner-new rotating"></div>
+		</div>
+		-->
+
+		<div class="form-group">
+			<label class="control-label">Display Name</label>
+			<input class="form-control" type="text" placeholder="{{ displayName }}" />
+		</div>
+
+		<div class="form-group">
+			<label class="control-label">Document Type</label>
+			<select class="form-control select-file-type">
+				<option></option>
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label">Document Date</label>
+			<div class="input-group select-file-date">
+				<input class="form-control" type="text" placeholder="YYYY-MM-DD"/>
+				<span class="input-group-btn">
+					<button class="btn btn-default" data-toggle="dropdown"><span class="glyphicon glyphicon-calendar"></button>
+				</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label">Keywords</label>
+			<div class="form-control tag-list-container">
+			<ul class="tag-list clearfix">
+				<li class="tag ng-scope">
+					<span class="tag-name">Keyword 1</span>
+					<button class="btn" ng-click="condition.vcs.splice($index, 1)"><span aria-hidden="true">×</span></button>
+				</li>
+				<li class="tag ng-scope">
+					<span class="tag-name">Keyword 2</span>
+					<button class="btn" ng-click="condition.vcs.splice($index, 1)"><span aria-hidden="true">×</span></button>
+				</li>
+				<li class="add-tag">
+					<button class="btn btn-sm" type="button" title="Link Valued Components" ng-click="editLinkedVcs()"><span class="glyphicon glyphicon-plus"></span></button>
+				</li>
+			</ul>
+			</div>
+		</div>
+
+		<div class="form-group m-b-0">
+			<label class="control-label">Description</label>
+			<textarea class="form-control" size="8"></textarea>
+		</div>
+	</div>
+
+	<div class="modal-footer clearfix">
+		<button class="btn btn-default"ng-click="editFileProperties.cancel()">Cancel</button>
+		<button class="btn btn-primary" disabled>Save</button>
+	</div>
+</form>

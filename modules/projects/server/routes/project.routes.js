@@ -135,6 +135,12 @@ module.exports = function (app) {
 			});
 		}));
 
+	app.route ('/api/projects/picklist')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (Project, function (model, req) {
+			return model.list ({},{_id: 1, code: 1, name: 1});
+		}));
+
 	app.route ('/api/projects/regions')
 		.all (policy ('user'))
 		.get (routes.setAndRun (Project, function (model, req) {

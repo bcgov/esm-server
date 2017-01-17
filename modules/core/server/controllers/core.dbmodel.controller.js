@@ -456,7 +456,7 @@ _.extend (DBModel.prototype, {
 		//console.log ('dbmodel.addPermissions (1) context = ' + JSON.stringify(self.context));
 		//console.log ('dbmodel.addPermissions (2) user = ' + JSON.stringify(self.user.username));
 		//console.log ('dbmodel.addPermissions (3) resource = ' + JSON.stringify(model._id));
-
+		//var start = new Date().getTime();
 		return new Promise (function (resolve, reject) {
 			if (!model) resolve (model);
 			else if (self.isAdmin) {
@@ -486,6 +486,12 @@ _.extend (DBModel.prototype, {
 					//console.log ('dbmodel.addPermissions (6) access.userPermissions model.userCan = ', JSON.stringify(model.userCan));
 					return model;
 				})
+				//.then(function(result) {
+				//	var end = new Date().getTime();
+				//	var time = end - start;
+				//	console.log('dbmodel.addPermissions(context:' +  self.context + ', user:' + self.user.username + ', resource:' + model._id + ') elapsed ms = ' + time);
+				//	return result;
+				//})
 				.then (resolve, self.complete (reject, 'addPermissions'));
 			}
 		});

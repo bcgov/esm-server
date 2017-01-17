@@ -49,13 +49,12 @@
 
         <div class="form-group" ng-if="s.period.userCan.classifyComments">
             <label class="control-label">Assign Valued Components</label>
-            <div class="tag-list-container clearfix"
-                ng-class="{'form-control': s.period.userCan.classifyComments}">
-                <ul class="tag-list">
-                    <li class="tag" 
-                        ng-repeat="topic in s.comment.topics | orderBy:'toString()'">
+            <div class="tag-list-container" ng-class="{'form-control': s.period.userCan.classifyComments}">
+                <ul class="tag-list clearfix">
+                    <li class="tag" ng-repeat="topic in s.comment.topics | orderBy:'toString()'">
                         <span class="tag-name">{{topic}}{{topic.name}}</span>
-                    </li><li class="add-tag">
+                    </li>
+                    <li class="add-tag">
                         <button class="add-btn btn btn-sm" type="button" title="Assign Valued Components"
                             x-vc-chooser
                             x-project="s.project"

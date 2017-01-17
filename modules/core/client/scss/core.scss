@@ -3566,68 +3566,6 @@ section {
 }
 
 
-/* TAG LIST 
------------------------------- */
-.tag-list-container {
-	&.form-control {
-		min-height: 3.4rem;
-		height: auto;
-		padding: 0 0.2rem;
-	}
-
-	+ .tag-list-container {
-		margin-top: 1rem;
-	}
-}
-
-.tag-list {
-	margin: 0;
-	margin-top: 1px;
-	padding: 0;
-
-	.add-tag,
-	.tag {
-		margin: 0.2rem;
-		display: inline-block;
-		font-size: 1.2rem;
-		color: #FFF;
-		vertical-align: top;
-	}
-
-	.add-tag {
-		.btn {
-			padding: 0.3rem 0.7rem;
-			font-size: 1.2rem;
-			color: #FFF;
-			background: #CCC;
-
-			&:hover,
-			&:focus {
-				background: #999;
-			}
-		}
-	}
-
-	.tag {
-		padding-right: 0.2rem;
-		background: $success-bg;
-		border-radius: 4px;
-		box-shadow: 0 1px 1px rgba(0, 0, 0, .075);
-
-		.tag-name {
-			display: inline-block;
-			padding: 0.45rem 1rem;
-		}
-
-		.btn {
-			padding: 0 0.5rem;
-			background: transparent;
-			border-radius: 2px;
-		}
-	}
-}
-
-
 /* ARTIFACT VIEW
 ------------------------------ */
 .artifact-view {
@@ -5552,6 +5490,7 @@ tmpl-template-render {
 
 /* COMPONENTS
 ----------------------------- */
+@import "modules/core/client/styles/components.scss";
 @import "modules/core/client/styles/spinner.scss";
 @import "modules/core/client/styles/tabs.scss";
 

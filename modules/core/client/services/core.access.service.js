@@ -13,6 +13,12 @@ angular.module('core')
 .factory('AccessModel', function (ModelBase, _) {
 	var AccessClass = ModelBase.extend({
 		urlName: 'access',
+		purgeUserRoles: function (data) {
+			return this.put('/api/access/userroles/purge', data);
+		},
+		assignUserRoles: function (data) {
+			return this.put('/api/access/userroles/assign', data);
+		},
 		globalProjectRoles: function (contextId) {
 			return this.get('/api/access/globalprojectroles');
 		},

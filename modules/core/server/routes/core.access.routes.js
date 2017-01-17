@@ -60,11 +60,16 @@ module.exports = function (app) {
 	
 	app.route('/api/access/roleusers/context/:context')
 	.get(access.routes.getRoleUsers);
-	
+
 	app.route('/api/access/roleuserindex/context/:context')
-	.get(access.routes.getRoleUserIndex)
-	.put (access.updateRoleUser);
-	
+		.get(access.routes.getRoleUserIndex)
+		.put(access.routes.setRoleUserIndex);
+
+	app.route('/api/access/userroles/purge')
+		.put(access.routes.purgeUserRoles);
+	app.route('/api/access/userroles/assign')
+		.put(access.routes.assignUserRoles);
+
 	app.route('/api/access/userroles/context/:context')
 	.get(access.routes.getUserRoles);
 	app.route('/api/access/userroles/context/:context/user/:username')

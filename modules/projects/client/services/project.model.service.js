@@ -34,6 +34,9 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		lookup : function () {
 			return this.get ('/api/projects/lookup');
 		},
+		picklist : function() {
+			return this.get ('/api/projects/picklist');
+		},
 		published: function () {
 			return this.get ('/api/projects/published');
 		},
