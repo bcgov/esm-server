@@ -353,6 +353,10 @@ $list-selected-border: 1px solid #4187c9;
                 display: block;
             }
         }
+
+        &.disabled {
+            opacity: 0.5;
+        }
     }
 
     .fb-col-group {
