@@ -7,8 +7,8 @@
 
 <div class="modal-body">
 
-	<label class="control-label m-b-1" ng-if="moveDlg.view === 'select'">Select a destination Folder</label>
-	<label class="control-label m-b-1" ng-if="moveDlg.view === 'move'">Are you sure you want to move the following Files and Folders to '{{moveDlg.selectedName}}'?</label>
+	<div class="m-b-2" ng-if="moveDlg.view === 'select'">Select a Destination Folder</div>
+	<div class="m-b-2" ng-if="moveDlg.view === 'move'">Are you sure you want to move the following to '<strong>{{moveDlg.selectedName}}</strong>'?</div>
 
 	<div class="file-browser">
 		<div class="fb-header" ng-if="moveDlg.view === 'select'">
@@ -68,12 +68,12 @@
 										</span>
 									</span>
 								</span>
-								<span class="fb-col-group" ng-if="doc.sourceDir">
+								<span class="fb-col-group" title="You can't move the folder &quot;{{doc.model.name}}&quot; into itself." ng-if="doc.sourceDir">
 									<span class="col name-col first-col">
-										<span class="avatar" title="You can't move the folder &quot;{{doc.model.name}}&quot; into itself.">
+										<span class="avatar">
 											<span class="fb-folder glyphicon glyphicon-folder-close"></span>
 										</span>
-										<span class="name" title="You can't move the folder &quot;{{doc.model.name}}&quot; into itself.">
+										<span class="name">
 											{{ doc.model.name }}
 										</span>
 									</span>
