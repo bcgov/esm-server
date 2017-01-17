@@ -1132,7 +1132,7 @@ angular.module('documents')
 		};
 
 	}])
-	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '$timeout', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', function ($rootScope, $modal, $log, $timeout, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', function ($rootScope, $modal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -1156,7 +1156,6 @@ angular.module('documents')
 
 							self.view = 'select'; // select or mvoe
 							self.busy = false;
-
 
 							$scope.project = scope.project;
 							$scope.node = scope.node || scope.root;

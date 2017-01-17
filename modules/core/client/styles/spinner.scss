@@ -25,6 +25,7 @@ $spinner-invert-bg: rgba(0,0,0,0.8);
   	padding: 5%;
 	background: $spinner-bg;
 	z-index: 4;
+	transition: all linear 0.5s;
 
 	&.inverted,
 	&.transparent {
