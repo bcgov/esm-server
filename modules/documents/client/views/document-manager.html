@@ -334,19 +334,19 @@
 							<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">More</button>
 							<ul class="dropdown-menu pull-right">
 								<li>
+									<a title="Delete File"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+								</li>
+								<li>
+									<a title="Delete File"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
+								</li>
+								<li>
+									<a title="Delete File"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
+								</li>
+								<li>
 									<a title="Edit Permissions" ng-if="project.userCan.manageDocumentPermissions"
 										x-role-permissions-modal
 										x-context="project"
 										x-object="documentMgr.infoPanel.data"><span class="glyphicon glyphicon-cog"></span> Edit Permissions</a>
-								</li>
-								<li>
-									<a title="Delete File"><span class="glyphicon glyphicon-cog"></span> Delete</a>
-								</li>
-								<li>
-									<a title="Delete File"><span class="glyphicon circle-ok"></span> Publish</a>
-								</li>
-								<li>
-									<a title="Delete File"><span class="glyphicon glyphicon-circle-ban"></span> Unpublish</a>
 								</li>
 							</ul>
 						</div>
@@ -436,10 +436,12 @@
 			<!-- NO DETAILS -->
 			<div class="fb-details-content" ng-if="documentMgr.infoPanel.data && documentMgr.infoPanel.type === 'Multi'">
 				<div class="title-panel">
-					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<h2 title="{{project.name}}">{{project.name}}</h2>
+					<div class="title-panel-info">
+						<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h2 title="{{project.name}}">{{project.name}}</h2>
+					</div>
 				</div>
 				<div class="scroll-container">
 					There are {{documentMgr.infoPanel.data.checkedFiles}} files and {{documentMgr.infoPanel.data.checkedDirs}} folders selected.<br>Select one file or folder to view details.
