@@ -1,0 +1,83 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" ng-click="selectDirDlg.cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">{{selectDirDlg.title}} '{{selectedDir.selectedName}}'</h3>
+</div>
+
+<div class="modal-body">
+	<div class="file-browser">
+
+		<div class="fb-header">
+			<ul class="fb-breadcrumbs">
+				<li ng-repeat="node in selectDirDlg.currentPath">
+					<button class="btn icon-btn" ng-click="selectDirDlg.selectNode(node.model.id)">
+						<span class="root-icon glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+						<span class="back-icon glyphicon glyphicon-menu-left"></span>
+						<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+					</button>
+				</li>
+			</ul>
+			<div class="file-batch-actions">
+				<button class="btn icon-btn" title="Add New Folder"
+						ng-if="project.userCan.manageFolders"
+						ng-disabled="!selectDirDlg.selectedNode"
+						x-document-mgr-add-folder
+						x-project="project"
+						x-root="selectDirDlg.rootNode"
+						x-node="selectDirDlg.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
+			</div>
+		</div>
+
+		<div id="fbBody" class="fb-body" ng-class="{'panel-open': selectDirDlg.infoPanel.open}">
+
+			<div class="fb-list">
+
+				<!-- Load the File/Folder Directory -->
+				<div class="spinner-container" ng-show="selectDirDlg.busy">
+					<div class="spinner-new rotating"></div>
+				</div>
+
+				<div class="column-header">
+
+					<div class="fb-col-group">
+						<div class="col name-col first-col sortable" ng-class="{'descending': !selectDirDlg.sorting.ascending}" ng-click="selectDirDlg.sortBy('name')">
+							<span>Name</span>
+							<span class="sort-icon" ng-show="selectDirDlg.sorting.column === 'name'"></span>
+						</div>
+					</div>
+
+				</div>
+				<div class="scroll-container">
+					<div class="scroll-container-inner">
+
+						<div class="empty-directory-msg" ng-if="selectDirDlg.currentDirs.length == 0 && selectDirDlg.currentFiles.length == 0">This folder is empty.</div>
+
+						<ul>
+							<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in selectDirDlg.currentDirs">
+								<span class="fb-col-group"
+									  ng-click="$event.originalEvent.dropdown || selectDirDlg.selectDir(doc)"
+									  ng-dblclick="$event.originalEvent.dropdown || selectDirDlg.openDir(doc)" title="{{doc.model.name}}">
+								<span class="col name-col first-col">
+									<span class="avatar">
+										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
+									</span>
+									<span class="name">
+										{{ doc.model.name }}
+									</span>
+								</span>
+							</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+<div class="modal-footer clearfix">
+	<button class="btn btn-default" type="button" ng-click="selectDirDlg.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-disabled="!selectDirDlg.selectedNode" ng-click="selectDirDlg.ok()">OK</button>
+</div>
