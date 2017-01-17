@@ -79,12 +79,16 @@
 							x-confirm-items="documentMgr.publishSelected.confirmItems"
 							x-on-ok="documentMgr.publishSelected.unpublish"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
 					</li>
-					<li hidden>
+					<li>
 						<a title="Move Folders & Files"
-							x-document-mgr-move
-							x-title-text="'Unpublish File(s)'"
-							x-ok-text="documentMgr.publishSelected.okText"
-							x-cancel-text="documentMgr.publishSelected.cancelText"><span class="glyphicon glyphicon-transfer"></span> Move to...</a>
+						   ng-hide="documentMgr.moveSelected.moveableFiles.length === 0 && documentMgr.moveSelected.moveableFolders.length === 0"
+						   x-confirm-dialog
+						   x-title-text="documentMgr.moveSelected.titleText"
+						   x-ok-text="documentMgr.moveSelected.okText"
+						   x-cancel-text="documentMgr.moveSelected.cancelText"
+						   x-confirm-text="documentMgr.moveSelected.confirmText"
+						   x-confirm-items="documentMgr.moveSelected.confirmItems"
+						   x-on-ok="documentMgr.moveSelected.ok"><span class="glyphicon glyphicon-transfer"></span> Move to...</a>
 					</li>
 				</ul>
 			</div>

@@ -356,8 +356,47 @@ module.exports = DBModel.extend ({
 		});
 	},
 	moveDirectory: function (projectId, folderId, newParentId) {
-		// TODO: Implement
-		console.log("****Implement me****");
+		var self = this;
+		return new Promise(function(resolve, reject) {
+			return self.findById(projectId)
+				.then(function(project) {
+					// check for manageFolders permission
+					if (!project.userCan.manageFolders) {
+						reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+					} else {
+						return project;
+					}
+				})
+				.then(function (project) {
+					//console.log("current structure:", project.directoryStructure);
+					var tree = new TreeModel();
+					if (!project.directoryStructure) {
+						return project;
+					}
+					var root = tree.parse(project.directoryStructure);
+					// Walk until the right folder is found
+					var theNode = root.first(function (node) {
+						return node.model.id === parseInt(folderId);
+					});
+					var theParent = root.first(function(node) {
+						return node.model.id === parseInt(newParentId);
+					});
+					// If we found it, rename it as long as it's not the root.
+					if (theParent && theNode && !theNode.isRoot()) {
+						//console.log("found node:", theNode.model.id);
+						//console.log("found new parent:", theParent.model.id);
+						var newKid = theNode.drop();
+						theParent.addChild(newKid);
+					}
+					project.directoryStructure = {};
+					project.directoryStructure = root.model;
+					//console.log("new structure:", project.directoryStructure);
+					return project.save();
+				})
+				.then(function (p) {
+					resolve(p.directoryStructure);
+				});
+		});
 	},
 	getDirectoryStructure: function (projectId) {
 		return this.findById(projectId)

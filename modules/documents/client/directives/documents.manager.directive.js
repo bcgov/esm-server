@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'DialogService', 'SelectDirDialog', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, DialogService, SelectDirDialog, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -269,6 +269,7 @@ angular.module('documents')
 					self.infoPanel.setData();
 					self.deleteSelected.setContext();
 					self.publishSelected.setContext();
+					self.moveSelected.setContext();
 
 					// in the batch menu, we have some folder management and publish/unpublish of files.
 					// so user needs to be able to manage folders, or have some selected files they can pub/unpub
@@ -490,6 +491,106 @@ angular.module('documents')
 							if (canDoSomething) {
 								var name = o.displayName || o.documentFileName || o.internalOriginalName;
 								self.publishSelected.confirmItems.push(name);
+							}
+						});
+
+					}
+				};
+
+				self.moveSelected = {
+					titleText: 'Move File(s)',
+					okText: 'Yes',
+					cancelText: 'No',
+					ok: function() {
+						// confirmed, so do the work
+						return SelectDirDialog.select('Move Files', $scope.project, self.rootNode, self.rootNode, self.checkedDirs, self.checkedFiles).then(function(destination) {
+							if (!destination) {
+								console.log(' : ( ');
+							} else {
+
+								var dirs = _.size(self.checkedDirs);
+								var files = _.size(self.checkedFiles);
+								if (dirs === 0 && files === 0) {
+									return Promise.resolve();
+								} else {
+									self.busy = true;
+
+									var dirPromises = _.map(self.moveSelected.moveableFolders, function(d) {
+										return DocumentMgrService.moveDirectory($scope.project, d, destination);
+									});
+
+									var filePromises = _.map(self.moveSelected.moveableFiles, function(f) {
+										f.directoryID = destination.model.id;
+										return Document.save(f);
+									});
+
+									var directoryStructure;
+									return Promise.all(dirPromises)
+										.then(function(result) {
+											//$log.debug('Dir results ', JSON.stringify(result));
+											if (!_.isEmpty(result)) {
+												var last = _.last(result);
+												directoryStructure = last.data;
+											}
+											return Promise.all(filePromises);
+										})
+										.then(function(result) {
+											//$log.debug('File results ', JSON.stringify(result));
+											if (directoryStructure) {
+												//$log.debug('Setting the new directory structure...');
+												$scope.project.directoryStructure = directoryStructure;
+											}
+											//$log.debug('select and refresh destination directory...');
+											self.selectNode(destination.model.id);
+											DialogService.show('success', self.moveSelected.titleText, 'The selected items were moved.', self.moveSelected.confirmItems);
+										}, function(err) {
+											self.busy = false;
+											DialogService.error('Move failure', "An error occurred.  The selected items could not be moved.", err);
+										});
+								}
+							}
+
+						}, function(err) {
+							console.log('err ', err);
+						});
+					},
+					cancel: undefined,
+					confirmText:  'Are you sure you want to move the selected item(s)?',
+					confirmItems: [],
+					moveableFolders: [],
+					moveableFiles: [],
+					setContext: function() {
+						self.moveSelected.confirmItems = [];
+						self.moveSelected.titleText = 'Move selected';
+						self.moveSelected.confirmText = 'Are you sure you want to move the following the selected item(s)?';
+						var dirs = _.size(self.checkedDirs);
+						var files = _.size(self.checkedFiles);
+						if (dirs > 0 && files > 0) {
+							self.moveSelected.titleText = 'Move Folder(s) and File(s)';
+							self.moveSelected.confirmText = 'Are you sure you want to move the following ('+ dirs +') folders and ('+ files +') files?';
+						} else if (dirs > 0) {
+							self.moveSelected.titleText = 'Move Folder(s)';
+							self.moveSelected.confirmText = 'Are you sure you want to move the following ('+ dirs +') selected folders?';
+						} else if (files > 0) {
+							self.moveSelected.titleText = 'Move File(s)';
+							self.moveSelected.confirmText = 'Are you sure you want to move the following ('+ files +') selected files?';
+						}
+
+						self.moveSelected.confirmItems = [];
+						self.moveSelected.moveableFolders = [];
+						self.moveSelected.moveableFiles = [];
+
+						_.each(self.checkedDirs, function(o) {
+							if ($scope.project.userCan.manageFolders) {
+								self.moveSelected.confirmItems.push(o.model.name);
+								self.moveSelected.moveableFolders.push(o);
+							}
+						});
+						_.each(self.checkedFiles, function(o) {
+							if (o.userCan.write) {
+								var name = o.displayName || o.documentFileName || o.internalOriginalName;
+								self.moveSelected.confirmItems.push(name);
+								self.moveSelected.moveableFiles.push(o);
 							}
 						});
 
@@ -736,39 +837,6 @@ angular.module('documents')
 
 			},
 			controllerAs: 'documentMgrUpload'
-		};
-	}])
-	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
-		return {
-			restrict: 'A',
-			scope: {
-				project: '=',
-				root: '=',
-				node: '='
-			},
-			link: function (scope, element, attrs) {
-				element.on('click', function () {
-					$modal.open({
-						animation: true,
-						templateUrl: 'modules/documents/client/views/document-manager-move.html',
-						resolve: {},
-						controllerAs: 'moveFiles',
-						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document) {
-							var tree = new TreeModel();
-							var self = this;
-							self.busy = true;
-
-							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
-							};
-
-							self.ok = function () {
-								$modalInstance.dismiss('cancel');
-							};
-						}
-					});
-				});
-			}
 		};
 	}])
 	.directive('documentMgrLink', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
@@ -1034,6 +1102,235 @@ angular.module('documents')
 						});
 				});
 			}
+		};
+
+	}])
+	.service('SelectDirDialog', ['$rootScope', '$timeout', '$log', '$modal', '_', 'Authentication', 'TreeModel', 'moment', 'DocumentMgrService', function ($rootScope, $timeout, $log, $modal, _, Authentication, TreeModel, moment, DocumentMgrService) {
+
+		var service = this;
+
+		service.select = function(title, project, root, node, selectedDirs, selectedFiles) {
+
+			return new Promise(function(fulfill, reject) {
+				var _title = title;
+				var _project = project;
+				var _root = root;
+				var _node = node;
+				var _selectedDirs = selectedDirs;
+				var _selectedFiles = selectedFiles;
+
+				$modal.open({
+					animation: true,
+					size: 'lg',
+					windowClass: 'fb-browser-modal',
+					templateUrl: 'modules/documents/client/views/document-manager-select-dir-modal.html',
+					resolve: {},
+					controllerAs: 'selectDirDlg',
+					controller: function ($rootScope, $scope, $modalInstance) {
+						var self = this;
+						var tree = new TreeModel();
+
+						self.busy = false;
+						$scope.project = _project;
+						$scope.node = _node || _root;
+						$scope.authentication = Authentication;
+
+
+						self.titleText = _title || 'Select Folder';
+						self.title = self.titleText;
+
+						// default sort is by name ascending...
+						self.sorting = {
+							column: 'name',
+							ascending: true
+						};
+
+						self.rootNode = tree.parse($scope.project.directoryStructure);
+						self.selectedNode = undefined;
+						self.currentNode = undefined;
+						self.currentPath = undefined;
+						self.selectedName = undefined;
+
+						self.allChecked = false;
+						self.checkedDirs = [];
+						self.checkedFiles = [];
+						self.lastChecked = {fileId: undefined, directoryID: undefined};
+
+						self.unsortedFiles = [];
+						self.unsortedDirs = [];
+
+						self.currentFiles = [];
+						self.currentDirs = [];
+
+						self.sortBy = function(column) {
+							//is this the current column?
+							if (self.sorting.column.toLowerCase() === column.toLowerCase()){
+								//so we reverse the order...
+								self.sorting.ascending = !self.sorting.ascending;
+							} else {
+								// changing column, set to ascending...
+								self.sorting.column = column.toLowerCase();
+								self.sorting.ascending = true;
+							}
+							self.applySort();
+						};
+
+						self.applySort = function() {
+							// sort ascending first...
+							self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
+								// more making sure that the displayName is set...
+								if (_.isEmpty(f.displayName)) {
+									f.displayName = f.documentFileName || f.internalOriginalName;
+								}
+
+								if (self.sorting.column === 'name') {
+									return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
+								} else if (self.sorting.column === 'author') {
+									return _.isEmpty(f.documentAuthor) ? null : f.documentAuthor.toLowerCase();
+								} else if (self.sorting.column === 'type') {
+									return _.isEmpty(f.internalExt) ? null : f.internalExt.toLowerCase();
+								} else if (self.sorting.column === 'size') {
+									return _.isEmpty(f.internalExt) ? 0 : f.internalSize;
+								} else if (self.sorting.column === 'date') {
+									//date uploaded
+									return _.isEmpty(f.dateUploaded) ? 0 : f.dateUploaded;
+								} else if (self.sorting.column === 'pub') {
+									//is published...
+									return !f.isPublished;
+								}
+								// by name if none specified... or we incorrectly identified...
+								return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
+							});
+
+							// directories always/only sorted by name
+							self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
+								if (_.isEmpty(d.model.name)) {
+									return null;
+								}
+								return d.model.name.toLowerCase();
+							});
+
+							if (!self.sorting.ascending) {
+								// and if we are not supposed to be ascending... then reverse it!
+								self.currentFiles = _(self.currentFiles).reverse().value();
+								if (self.sorting.column === 'name') {
+									// name is the only sort that applies to Directories.
+									// so if descending on name, then we need to reverse it.
+									self.currentDirs = _(self.currentDirs).reverse().value();
+								}
+							}
+						};
+
+						self.checkAll = function() {
+						};
+						self.checkFile = function(doc) {
+						};
+						self.selectFile = function(doc) {
+						};
+
+						self.checkDir = function(doc) {
+						};
+						self.selectDir = function(doc) {
+							// selected a dir, make it the only item selected...
+							var checked = doc.selected;
+							_.each(self.currentDirs, function(o) { o.selected = false; });
+							_.each(self.currentFiles, function(o) { o.selected = false; });
+							doc.selected = !checked;
+						};
+						self.openDir = function(doc) {
+							// double clicked a dir, open it up!
+							// if it's not selected...
+							var dir = _.find(_selectedDirs, function(o) { return o.model.id === doc.model.id; });
+							if (!dir) {
+								self.selectNode(doc.model.id);
+							}
+						};
+
+						self.selectNode = function (nodeId) {
+							self.busy = true;
+							var theNode = self.rootNode.first(function (n) {
+								return n.model.id === nodeId;
+							});
+							if (!theNode) {
+								theNode = self.rootNode;
+							}
+
+							self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
+							self.currentPath = theNode.getPath() || [];
+							self.unsortedFiles = [];
+							self.unsortedDirs = [];
+							self.currentFiles = [];
+							self.currentDirs = [];
+
+							//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
+							DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
+								.then(
+									function (result) {
+										//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
+
+										self.unsortedFiles = _.map(result.data, function(f) {
+											// making sure that the displayName is set...
+											if (_.isEmpty(f.displayName)) {
+												f.displayName = f.documentFileName || f.internalOriginalName;
+											}
+											if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
+												var od = JSON.parse(f.oldData);
+												//console.log(od);
+												try {
+													f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
+												} catch(ex) {
+													console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
+												}
+											}
+											return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File', disabled: true});
+										});
+
+										self.unsortedDirs = _.map(self.currentNode.children, function (n) {
+											return _.extend(n,{selected: (_.find(self.checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
+										});
+										// if we have passed in selectedDirs, we want those excluded from the listing...
+										_.remove(self.unsortedDirs, function(n) { return _.find(_selectedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined; });
+
+										self.applySort();
+										// since we loaded this, make it the selected node
+										self.selectedNode = self.currentNode;
+										self.title = self.titleText + " to '" + self.selectedNode.model.name + "'";
+										if (self.selectedNode.model.name === 'ROOT') {
+											self.title = self.titleText + " to '" + $scope.project.name + "'";
+										}
+
+										self.busy = false;
+									},
+									function (error) {
+										$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
+										self.busy = false;
+									}
+								);
+						};
+
+
+						self.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+
+						self.ok = function () {
+							// return the data in the selected list...
+							$modalInstance.close(self.selectedNode);
+						};
+
+						self.selectNode($scope.node.model.id);
+					}
+				}).result
+					.then(function (data) {
+						$log.debug(data);
+						fulfill(data);
+					})
+					.catch(function (err) {
+						$log.error(err);
+						reject(err);
+					});
+			});
+
 		};
 
 	}])
