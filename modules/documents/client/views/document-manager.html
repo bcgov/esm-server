@@ -82,13 +82,12 @@
 					<li>
 						<a title="Move Folders & Files"
 						   ng-hide="documentMgr.moveSelected.moveableFiles.length === 0 && documentMgr.moveSelected.moveableFolders.length === 0"
-						   x-confirm-dialog
+						   x-document-mgr-move
 						   x-title-text="documentMgr.moveSelected.titleText"
-						   x-ok-text="documentMgr.moveSelected.okText"
-						   x-cancel-text="documentMgr.moveSelected.cancelText"
-						   x-confirm-text="documentMgr.moveSelected.confirmText"
-						   x-confirm-items="documentMgr.moveSelected.confirmItems"
-						   x-on-ok="documentMgr.moveSelected.ok"><span class="glyphicon glyphicon-transfer"></span> Move to...</a>
+						   x-project="project"
+						   x-root="documentMgr.rootNode"
+						   x-node="documentMgr.rootNode"
+						   x-move-selected="documentMgr.moveSelected"><span class="glyphicon glyphicon-transfer"></span> Move to...</a>
 					</li>
 				</ul>
 			</div>
@@ -136,7 +135,6 @@
 				<div class="scroll-container-inner">
 
 					<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
-
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentDirs">
 							<span class="col checkbox-col" ng-if="authentication.user">

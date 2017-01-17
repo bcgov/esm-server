@@ -1,44 +1,116 @@
-<!--
 <div class="modal-header">
-	<button ng-disabled="uploadService.actions.busy" type="button" class="btn btn-default close" ng-click="moveFiles.cancel()">
+	<button type="button" class="btn btn-default close" ng-click="moveDlg.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<h3 class="modal-title">Move Files &amp; Folders</h3>
+	<h3 class="modal-title">{{moveDlg.title}}</h3>
 </div>
 
 <div class="modal-body">
-	<div class="scroll-container">
-		<div class="scroll-container-inner">
-			<div class="empty-directory-msg" ng-if="documentMgrMove.currentDirs.length == 0 && documentMgrMove.currentFiles.length == 0">This folder is empty.</div>
-			<ul>
-				<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgrMove.currentDirs">
-					<span class="col checkbox-col">
-						<input id="{{doc.model.id}}" type="checkbox" ng-model="doc.selected" ng-click="documentMgrMove.checkDir(doc)"/>
-						<label for="{{doc.model.id}}">
-							<span class="glyphicon glyphicon-ok"></span>
-						</label>
-					</span>
-					<span class="fb-col-group"  
-						ng-click="$event.originalEvent.dropdown || documentMgrMove.selectDir(doc)"
-						ng-dblclick="$event.originalEvent.dropdown || documentMgrMove.openDir(doc)" title="{{doc.model.name}}">
-						<span class="col name-col">
-							<span class="avatar">
-								<span class="fb-folder glyphicon glyphicon-folder-close"></span>
-							</span>
-							{{ doc.model.name }}
-						</span>
-						<div class="row-actions" ng-if="doc.model.id === documentMgrMove.lastChecked.directoryID">
-							
-						</div>
-					</span>
+	<div class="file-browser">
+		<div class="fb-header">
+			<ul class="fb-breadcrumbs">
+				<li ng-repeat="node in moveDlg.currentPath">
+					<button class="btn icon-btn" ng-click="moveDlg.view === 'select' && moveDlg.selectNode(node.model.id)">
+						<span class="root-icon glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+						<span class="back-icon glyphicon glyphicon-menu-left"></span>
+						<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+					</button>
 				</li>
 			</ul>
+			<div class="file-batch-actions">
+				<button class="btn icon-btn" title="Add New Folder"
+						ng-if="moveDlg.view === 'select' && project.userCan.manageFolders"
+						ng-disabled="!moveDlg.selectedNode"
+						x-document-mgr-add-folder
+						x-project="project"
+						x-root="moveDlg.rootNode"
+						x-node="moveDlg.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
+			</div>
+		</div>
+
+		<div id="fbBody" class="fb-body">
+			<div class="fb-list">
+				<!-- Load the File/Folder Directory -->
+				<div class="spinner-container" ng-show="moveDlg.busy">
+					<div class="spinner-new rotating"></div>
+				</div>
+
+				<div class="column-header" ng-if="moveDlg.view === 'select'">
+					<div class="fb-col-group">
+						<div class="col name-col first-col sortable" ng-class="{'descending': !moveDlg.sorting.ascending}" ng-click="moveDlg.view === 'select' && moveDlg.sortBy('name')">
+							<span>Name</span>
+							<span class="sort-icon" ng-show="moveDlg.view === 'select' && moveDlg.sorting.column === 'name'"></span>
+						</div>
+					</div>
+				</div>
+				<div class="column-header" ng-if="moveDlg.view === 'move'">
+					<div class="fb-col-group">
+						<div class="col name-col first-col">
+							<span>Are you sure you want to move these files and folders to '{{moveDlg.selectedName}}'?</span>
+						</div>
+					</div>
+				</div>
+				<div class="scroll-container">
+					<div class="scroll-container-inner">
+
+						<div class="empty-directory-msg" ng-if="moveDlg.view === 'select' && moveDlg.currentDirs.length == 0 && moveDlg.currentFiles.length == 0">This folder is empty.</div>
+
+						<ul ng-if="moveDlg.view === 'select'">
+							<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in moveDlg.currentDirs">
+								<span class="fb-col-group"
+									  ng-click="$event.originalEvent.dropdown || moveDlg.selectDir(doc)"
+									  ng-dblclick="$event.originalEvent.dropdown || moveDlg.openDir(doc)" title="{{doc.model.name}}">
+								<span class="col name-col first-col">
+									<span class="avatar">
+										<span ng-if="!doc.sourceDir" class="fb-folder glyphicon glyphicon-folder-close"></span>
+										<span ng-if="doc.sourceDir" class="fb-folder glyphicon glyphicon-fire"></span>
+									</span>
+									<span class="name">
+										{{ doc.model.name }}
+									</span>
+								</span>
+							</span>
+							</li>
+						</ul>
+						<ul ng-if="moveDlg.view === 'move'">
+							<li class="fb-list-item" ng-repeat="doc in moveSelected.moveableFolders">
+								<span class="fb-col-group" title="{{doc.model.name}}">
+								<span class="col name-col first-col">
+									<span class="avatar">
+										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
+									</span>
+									<span class="name">
+										{{ doc.model.name }}
+									</span>
+								</span>
+							</span>
+							</li>
+						</ul>
+						<ul ng-if="moveDlg.view === 'move'">
+							<li class="fb-list-item" ng-repeat="doc in moveSelected.moveableFiles">
+								<span class="col name-col first-col" title="{{ doc.displayName | removeExtension }}">
+									<span class="avatar">
+										<span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+										<span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+									</span>
+									<span class="name">
+										{{ doc.displayName | removeExtension }}
+									</span>
+								</span>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
 		</div>
 	</div>
 </div>
-
 <div class="modal-footer clearfix">
-	<button class="btn btn-default"ng-click="moveFiles.cancel()">Cancel</button>
-	<button class="btn btn-primary" disabled>Move</button>
+	<button ng-if="moveDlg.view === 'select'" class="btn btn-default" type="button" ng-click="moveDlg.cancel()">Cancel</button>
+	<button ng-if="moveDlg.view === 'select'" class="btn btn-primary" type="button" ng-disabled="!moveDlg.selectedNode" ng-click="moveDlg.select()">Select</button>
+
+	<button ng-if="moveDlg.view === 'move'" class="btn btn-default" type="button" ng-click="moveDlg.cancel()">Close</button>
+	<button ng-if="moveDlg.view === 'move'" class="btn btn-default" type="button" ng-click="moveDlg.back()">Back</button>
+	<button ng-if="moveDlg.view === 'move'" class="btn btn-primary" type="button" ng-disabled="!moveDlg.selectedNode" ng-click="moveDlg.move()">Move</button>
 </div>
--->
