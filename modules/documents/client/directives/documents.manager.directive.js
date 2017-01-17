@@ -1319,6 +1319,16 @@ angular.module('documents')
 						};
 
 						self.selectNode($scope.node.model.id);
+
+						$scope.$watch(function (scope) {
+								return scope.project.directoryStructure;
+							},
+							function (data) {
+								var node = self.currentNode || self.rootNode;
+								self.rootNode = tree.parse(data);
+								self.selectNode(node.model.id);
+							}
+						);
 					}
 				}).result
 					.then(function (data) {

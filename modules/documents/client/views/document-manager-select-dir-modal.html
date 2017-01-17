@@ -18,6 +18,15 @@
 					</button>
 				</li>
 			</ul>
+			<div class="file-batch-actions">
+				<button class="btn icon-btn" title="Add New Folder"
+						ng-if="project.userCan.manageFolders"
+						ng-disabled="!selectDirDlg.selectedNode"
+						x-document-mgr-add-folder
+						x-project="project"
+						x-root="selectDirDlg.rootNode"
+						x-node="selectDirDlg.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
+			</div>
 		</div>
 
 		<div id="fbBody" class="fb-body" ng-class="{'panel-open': selectDirDlg.infoPanel.open}">
