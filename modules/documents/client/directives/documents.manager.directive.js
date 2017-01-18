@@ -875,8 +875,8 @@ angular.module('documents')
 							};
 
 							$scope.dateOptions = {
-								showWeeks: false,
-							}
+								showWeeks: false
+							};
 
 							$scope.dateOpen = function() {
 								$scope.datePicker.opened = true;
