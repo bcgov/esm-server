@@ -286,6 +286,11 @@ angular
 		}
 	)
 	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
+	.constant('DOCUMENT_TYPES',
+		[
+			'Inspection Report', 'Certificate', 'Certificate Amendment', 'Permit', 'Permit Amendment', 'Mine Manager Response'
+		]
+	)
 	.factory ('codeFromTitle', function () {
 		return function (title) {
 			if (title) {

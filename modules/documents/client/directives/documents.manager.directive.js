@@ -591,6 +591,11 @@ angular.module('documents')
 					}
 				};
 
+				self.onDocumentUpdate = function(value) {
+					// should refresh the table and the info panel...
+					self.selectNode(self.currentNode.model.id);
+				};
+
 				$scope.$on('documentMgrRefreshNode', function(event, args) {
 					self.selectNode(self.currentNode.model.id);
 				});
@@ -833,33 +838,80 @@ angular.module('documents')
 			controllerAs: 'documentMgrUpload'
 		};
 	}])
-	.directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, TreeModel) {
+	.directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'DOCUMENT_TYPES', function ($rootScope, $modal, $log, _, moment, DocumentMgrService, TreeModel, DOCUMENT_TYPES) {
 		return {
 			restrict: 'A',
 			scope: {
 				project: '=',
-				root: '=',
-				node: '='
+				doc: '=',
+				onUpdate: '='
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
 					$modal.open({
 						animation: true,
 						templateUrl: 'modules/documents/client/views/document-manager-edit.html',
-						resolve: {},
+						resolve: {
+							file: function(Document) {
+								return Document.getModel(scope.doc._id);
+							}
+						},
 						controllerAs: 'editFileProperties',
-						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document) {
-							var tree = new TreeModel();
+						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, file) {
 							var self = this;
 							self.busy = true;
+
+							$scope.project = scope.project;
+							$scope.types = DOCUMENT_TYPES;
+
+							$scope.doc = file;
+							// any dates going to the datepicker need to be javascript Date objects...
+							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? null : moment(file.documentDate).toDate();
+							$scope.doc.dateUploaded = _.isEmpty(file.dateUploaded) ? null : moment(file.dateUploaded).toDate();
+
+							$scope.datePicker = {
+								opened: false
+							};
+							$scope.dateOpen = function() {
+								$scope.datePicker.opened = true;
+							};
+							$scope.dateUploadedPicker = {
+								opened: false
+							};
+							$scope.dateUploadedOpen = function() {
+								$scope.dateUploadedPicker.opened = true;
+							};
+
+							$scope.$watch('doc.documentType',
+								function (data) {
+									if (data) {
+										// may need some logic as the type changes...
+									}
+								}
+							);
+
+							self.canEdit = $scope.doc.userCan.write;
 
 							self.cancel = function () {
 								$modalInstance.dismiss('cancel');
 							};
 
-							self.ok = function () {
-								$modalInstance.dismiss('cancel');
+							self.save = function (isValid) {
+								// should be valid here...
+								if (isValid) {
+									Document.save($scope.doc)
+										.then(function(result) {
+											// somewhere here we need to tell document manager to refresh it's document...
+											if (scope.onUpdate) {
+												scope.onUpdate(result);
+											}
+											$modalInstance.close(result);
+										}, function(error) {
+											console.log(error);
+										});
+								}
 							};
+
 						}
 					});
 				});

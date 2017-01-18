@@ -327,7 +327,11 @@
 					<div class="title-panel-btns">
 						<button class="btn btn-sm btn-default">Download</button>
 						<button class="btn btn-sm btn-default">View</button>
-						<button class="btn btn-sm btn-default" x-document-mgr-edit>Edit</button>
+						<button class="btn btn-sm btn-default"
+								x-document-mgr-edit
+								x-project="project"
+								x-doc="documentMgr.infoPanel.data"
+								x-on-update="documentMgr.onDocumentUpdate">Edit</button>
 						<div class="fb-menu btn-group">
 							<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">More</button>
 							<ul class="dropdown-menu pull-right">
@@ -335,10 +339,10 @@
 									<a title="Delete File"><span class="glyphicon glyphicon-trash"></span> Delete</a>
 								</li>
 								<li>
-									<a title="Delete File"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
+									<a title="Publish File"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
 								</li>
 								<li>
-									<a title="Delete File"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
+									<a title="Unpublish File"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
 								</li>
 								<li>
 									<a title="Edit Permissions" ng-if="project.userCan.manageDocumentPermissions"
@@ -369,7 +373,7 @@
 								</li>
 								<li>
 									<span class="name">Document Date:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
+									<span class="value">{{ documentMgr.infoPanel.data.documentDate | date : format : timezone }}</span>
 								</li>
 								<li>
 									<span class="name">Date Uploaded:</span>

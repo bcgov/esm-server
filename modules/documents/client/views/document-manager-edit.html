@@ -1,9 +1,9 @@
-<form>
+<form name="editFileForm" novalidate>
 	<div class="modal-header">
-		<button ng-disabled="uploadService.actions.busy" type="button" class="btn btn-default close" ng-click="editFileProperties.cancel()">
+		<button ng-disabled="editFileProperties.busy" type="button" class="btn btn-default close" ng-click="editFileProperties.cancel()">
 			<span aria-hidden="true">&times;</span>
 		</button>
-		<h3 class="modal-title">Edit File  &nbsp;&rsaquo;&nbsp;  Document Name</h3>
+		<h3 class="modal-title">Edit File  &nbsp;&rsaquo;&nbsp;  {{doc.displayName}}</h3>
 	</div>
 
 	<div class="modal-body">
@@ -14,28 +14,40 @@
 		</div>
 		-->
 
-		<div class="form-group">
-			<label class="control-label">Display Name</label>
-			<input class="form-control" type="text" placeholder="{{ displayName }}" />
+		<div class="form-group" x-show-errors>
+			<label for="displayName" class="control-label">Display Name<em class="required">(Required)</em></label>
+			<input class="form-control" id="displayName" name="displayName" type="text" ng-model="doc.displayName" required>
 		</div>
 
-		<div class="form-group">
-			<label class="control-label">Document Type</label>
-			<select class="form-control select-file-type">
-				<option></option>
-			</select>
+		<div class="form-group" x-show-errors>
+			<label class="control-label" for="type">Document Type<em class="required">(Required)</em></label>
+			<select class="form-control" title="Document Type" id="type" name="type"
+					ng-model="doc.documentType"
+					ng-options="type for type in types"
+					required></select>
 		</div>
 
-		<div class="form-group">
-			<label class="control-label">Document Date</label>
+		<div class="form-group" x-show-errors>
+			<label for="documentDate"  class="control-label">Document Date<em class="required">(Required)</em></label>
 			<div class="input-group select-file-date">
-				<input class="form-control" type="text" placeholder="YYYY-MM-DD"/>
+				<input class="form-control" id="documentDate" name="documentDate" ng-model="doc.documentDate" type="text" uib-datepicker-popup  is-open="datePicker.opened" datepicker-options="dateOptions" close-text="Close" placeholder="YYYY-MM-DD" disabled required/>
 				<span class="input-group-btn">
-					<button class="btn btn-default" data-toggle="dropdown"><span class="glyphicon glyphicon-calendar"></button>
+					<button class="btn btn-default" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
 				</span>
 			</div>
 		</div>
 
+		<div class="form-group" x-show-errors>
+			<label for="dateUploaded"  class="control-label">Date Uploaded<em class="required">(Required)</em></label>
+			<div class="input-group select-file-date">
+				<input class="form-control" id="dateUploaded" name="dateUploaded" ng-model="doc.dateUploaded" type="text" uib-datepicker-popup  is-open="dateUploadedPicker.opened" datepicker-options="dateOptions" close-text="Close" placeholder="YYYY-MM-DD" disabled required/>
+				<span class="input-group-btn">
+					<button class="btn btn-default" ng-click="dateUploadedOpen()"><span class="glyphicon glyphicon-calendar"/></button>
+				</span>
+			</div>
+		</div>
+
+		<!--
 		<div class="form-group">
 			<label class="control-label">Keywords</label>
 			<div class="form-control tag-list-container">
@@ -54,15 +66,15 @@
 			</ul>
 			</div>
 		</div>
-
-		<div class="form-group m-b-0">
-			<label class="control-label">Description</label>
-			<textarea class="form-control" size="8"></textarea>
+        -->
+		<div class="form-group m-b-0" x-show-errors>
+			<label for="description" class="control-label">Description</label>
+			<textarea class="form-control" id="description" name="description" ng-model="doc.description" size="8" ></textarea>
 		</div>
 	</div>
 
 	<div class="modal-footer clearfix">
-		<button class="btn btn-default"ng-click="editFileProperties.cancel()">Cancel</button>
-		<button class="btn btn-primary" disabled>Save</button>
+		<button class="btn btn-default" ng-click="editFileProperties.cancel()">Cancel</button>
+		<button class="btn btn-primary" ng-disabled="!editFileForm.$valid" ng-click="editFileProperties.save(editFileForm.$valid)">Save</button>
 	</div>
 </form>
