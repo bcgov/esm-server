@@ -838,7 +838,7 @@ angular.module('documents')
 			controllerAs: 'documentMgrUpload'
 		};
 	}])
-	.directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'DOCUMENT_TYPES', function ($rootScope, $modal, $log, _, moment, DocumentMgrService, TreeModel, DOCUMENT_TYPES) {
+	.directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'DOCUMENT_TYPES', 'INSPECTION_REPORT_FOLLOWUP_TYPES', function ($rootScope, $modal, $log, _, moment, DocumentMgrService, TreeModel, DOCUMENT_TYPES, INSPECTION_REPORT_FOLLOWUP_TYPES) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -863,15 +863,15 @@ angular.module('documents')
 
 							$scope.project = scope.project;
 							$scope.types = DOCUMENT_TYPES;
+							$scope.inspectionReportFollowupTypes = INSPECTION_REPORT_FOLLOWUP_TYPES;
 
+							$scope.originalName = file.displayName || file.documentFileName || file.internalOriginalName;
 							$scope.doc = file;
 							// any dates going to the datepicker need to be javascript Date objects...
-							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? null : moment(file.documentDate).toDate();
-							$scope.doc.dateUploaded = _.isEmpty(file.dateUploaded) ? null : moment(file.dateUploaded).toDate();
+							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? moment.now() : moment(file.documentDate).toDate();
 
 							$scope.datePicker = {
-								opened: false,
-								showWeeks: false,
+								opened: false
 							};
 
 							$scope.dateOptions = {
@@ -882,20 +882,50 @@ angular.module('documents')
 								$scope.datePicker.opened = true;
 							};
 
-							$scope.dateUploadedPicker = {
-								opened: false
-							};
-							$scope.dateUploadedOpen = function() {
-								$scope.dateUploadedPicker.opened = true;
-							};
-
 							$scope.$watch('doc.documentType',
 								function (data) {
 									if (data) {
-										// may need some logic as the type changes...
+										switch(data) {
+											case 'Inspection Report':
+												if (!$scope.doc.inspectionReport) {
+													$scope.doc.inspectionReport = { inspectorInitials: null, followup: null };
+												}
+												break;
+											case 'Certificate':
+												if (!$scope.doc.certificate) {
+													$scope.doc.certificate = {};
+												}
+												break;
+											case 'Certificate Amendment':
+												if (!$scope.doc.certificateAmendment) {
+													$scope.doc.certificateAmendment = {};
+												}
+												break;
+											case 'Permit':
+												if (!$scope.doc.permit) {
+													$scope.doc.permit = {};
+												}
+												break;
+											case 'Permit Amendment':
+												if (!$scope.doc.permitAmendment) {
+													$scope.doc.permitAmendment = {};
+												}
+												break;
+											case 'Mine Manager Response':
+												if (!$scope.doc.mineManagerResponse) {
+													$scope.doc.mineManagerResponse = {};
+												}
+												break;
+											default:
+												break;
+										}
 									}
 								}
 							);
+
+							$scope.validate = function() {
+								$scope.$broadcast('show-errors-check-validity', 'editFileForm');
+							};
 
 							self.canEdit = $scope.doc.userCan.write;
 
@@ -918,7 +948,6 @@ angular.module('documents')
 										});
 								}
 							};
-
 						}
 					});
 				});

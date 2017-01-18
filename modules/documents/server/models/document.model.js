@@ -102,7 +102,7 @@ module.exports = genSchema ('Document', {
 
 	displayName             : { type: String, default: ''},
 	description             : { type:String, default:'' },
-	documentDate            : { type: Date, default: null },
+	documentDate            : { type: Date, default: Date.now },
 
 	dateAdded               : { type: Date, default: Date.now },
 	dateUpdated             : { type: Date, default: Date.now },
@@ -126,7 +126,7 @@ module.exports = genSchema ('Document', {
 	// decide what is the latest based on approval of such
 	documentIsInReview      : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
 	documentAuthor          : { type:String, default:'' },  // NB: We should add a document author in addition to the folderAuthor.
-	documentType            : { type:String, default:'' },
+	documentType            : { type:String, default: null },
 	internalURL             : { type:String, default:'' },
 	internalOriginalName    : { type:String, default:'' },
 	internalName            : { type:String, default:'' },
@@ -136,6 +136,17 @@ module.exports = genSchema ('Document', {
 	internalEncoding        : { type:String, default:'' },
 	oldData                 : { type:String, default:'' },
 	order                   : { type: Number, default: 0}, // this will be used to sort supporting documents in artifacts, the order will be arbitrary and determined by the user.
-	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] } // for use with Public Comment Attachments...
-	
+	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] },// for use with Public Comment Attachments...
+
+	relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],
+	keywords                : [ { type:'String'} ],
+	documentId              : { type:'String', default: null }, // will be used as an id into other systems (ex MEM, MMTI, to be entered manually)
+
+	// supporting data for various document Types
+	inspectionReport        : { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} } , default: null },
+	certificate             : { type: {}, default: null },
+	certificateAmendment    : { type: {}, default: null },
+	permit                  : { type: {}, default: null },
+	permitAmendment         : { type: {}, default: null },
+	mineManagerResponse     : { type: {}, default: null }
 });

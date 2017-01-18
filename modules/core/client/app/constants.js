@@ -291,6 +291,11 @@ angular
 			'Inspection Report', 'Certificate', 'Certificate Amendment', 'Permit', 'Permit Amendment', 'Mine Manager Response'
 		]
 	)
+	.constant('INSPECTION_REPORT_FOLLOWUP_TYPES',
+		[
+			'Mine Manager Response', 'Inspection Complete'
+		]
+	)
 	.factory ('codeFromTitle', function () {
 		return function (title) {
 			if (title) {
