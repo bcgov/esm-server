@@ -1003,26 +1003,13 @@ $fb-upload-target-border: 2px dashed #BBB;
 }
 
 
-/* Edit File Details */
-.form-control {
-    &.select-file-type {
+/* Edit File Metadata Form */
+.fb-edit-form {
+    .document-type {
         width: 20rem;
     }
-}
 
-.select-file-date {
-    width: 20rem;
-
-    .input-group-btn {
-        .btn {
-            padding: 0;
-            width: 3.6rem;
-            height: 3.4rem;
-        }
-
-        .glyphicon {
-            top: 0.2rem;
-            font-size: 1.8rem;
-        }
+    .datepicker {
+        width: 20rem;
     }
 }

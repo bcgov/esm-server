@@ -870,11 +870,18 @@ angular.module('documents')
 							$scope.doc.dateUploaded = _.isEmpty(file.dateUploaded) ? null : moment(file.dateUploaded).toDate();
 
 							$scope.datePicker = {
-								opened: false
+								opened: false,
+								showWeeks: false,
 							};
+
+							$scope.dateOptions = {
+								showWeeks: false,
+							}
+
 							$scope.dateOpen = function() {
 								$scope.datePicker.opened = true;
 							};
+
 							$scope.dateUploadedPicker = {
 								opened: false
 							};

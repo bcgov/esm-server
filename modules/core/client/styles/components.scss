@@ -101,3 +101,79 @@ $tag-height: 3rem;
 		}
 	}
 }
+
+
+/* Date Picker Popup */
+.datepicker {
+    .input-group-btn {
+        .btn {
+            padding: 0;
+            width: 3.6rem;
+            height: 3.4rem;
+        }
+
+        .glyphicon {
+            top: 0.2rem;
+            margin-left: 0.2rem;
+            font-size: 1.8rem;
+        }
+    }
+
+    .dropdown-menu {
+        padding: 0;
+
+        li {
+            padding: 0.5rem;
+        }
+
+        li:last-child {
+            overflow: hidden;
+            padding: 0.2rem 0.7rem 0.7rem 0.7rem !important;
+
+            .btn {
+                border-color: #CCC;
+                background: #FFF;
+                color: #494949;
+
+                &:hover,
+                &:focus {
+                    background: #EEE;
+                }
+            }
+        }
+
+        table {
+            &:focus {
+                outline: none;
+            }
+
+            .btn {
+                font-weight: normal;
+            }
+        }
+
+        thead {
+            tr:first-child {
+                background-color: #EEE;
+
+                .btn-sm {
+                    font-size: 1.4rem;
+                }
+            }
+
+            .btn {
+                border-color: transparent;
+                background-color: transparent;
+
+                &:hover {
+                    border-color: #CCC;
+                    background-color: rgba(255,255,255,0.5);
+                }
+            }
+        }
+
+        th, td {
+            padding: 0.2rem;
+        }
+    }
+}
