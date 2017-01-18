@@ -19,7 +19,7 @@
 			<input class="form-control" id="displayName" name="displayName" type="text" ng-model="doc.displayName" required ng-blur="validate()">
 		</div>
 
-		<div class="form-group document-type" x-show-errors>
+		<div class="form-group" x-show-errors>
 			<label class="control-label" for="documentType">Document Type</label>
 			<select class="form-control" title="Document Type" id="documentType" name="documentType"
 				ng-model="doc.documentType"
@@ -33,7 +33,7 @@
 				<input class="form-control" id="inspectorInitials" name="inspectorInitials" type="text" ng-model="doc.inspectionReport.inspectorInitials" ng-required="doc.documentType === 'Inspection Report'" ng-blur="validate()">
 			</div>
 
-			<div class="form-group document-type" ng-class="{'has-error': editFileForm.followup.$invalid}" x-show-errors>
+			<div class="form-group" ng-class="{'has-error': editFileForm.followup.$invalid}" x-show-errors>
 				<label for="followup" class="control-label">Follow Up<em class="required">(Required)</em></label>
 				<select class="form-control" title="Document Type" id="followup" name="followup"
 						ng-model="doc.inspectionReport.followup"
@@ -45,7 +45,7 @@
 
 		<div class="form-group datepicker" x-show-errors>
 			<label class="control-label" for="documentDate">Document Date<em class="required">(Required)</em></label>
-			<div class="input-group">
+			<div class="datepicker-input">
 				<input class="form-control" placeholder="YYYY-MM-DD"  id="documentDate" name="documentDate" 
 					ng-model="doc.documentDate" type="text" 
 					uib-datepicker-popup  
@@ -55,9 +55,7 @@
 					disabled 
 					required
 					ng-change="validate()"/>
-				<span class="input-group-btn">
-					<button class="btn btn-default" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
-				</span>
+				<button class="btn btn-default calendar-btn" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
 			</div>
 		</div>
 
@@ -68,7 +66,7 @@
 
 		<div class="form-group m-b-0" x-show-errors>
 			<label for="description" class="control-label">Description</label>
-			<textarea class="form-control" id="description" name="description" ng-model="doc.description" size="8"  ng-blur="validate()"></textarea>
+			<textarea class="form-control" rows="6" id="description" name="description" ng-model="doc.description" ng-blur="validate()"></textarea>
 		</div>
 	</div>
 
