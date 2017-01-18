@@ -57,6 +57,56 @@ module.exports = DBModel.extend ({
 			return doc;
 		});
 	},
+	preprocessUpdate: function(doc) {
+		// logic here if we set specific document types...
+		switch(doc.documentType) {
+			case 'Inspection Report':
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				break;
+			case 'Certificate':
+				doc.inspectionReport = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				break;
+			case 'Certificate Amendment':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				break;
+			case 'Permit':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				break;
+			case 'Permit Amendment':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.mineManagerResponse  = null;
+				break;
+			case 'Mine Manager Response':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				break;
+			default:
+				break;
+		}
+		return doc;
+	},
 	// -------------------------------------------------------------------------
 	//
 	// get documents for a project sort by name
