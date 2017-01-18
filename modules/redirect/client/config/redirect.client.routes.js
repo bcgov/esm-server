@@ -18,6 +18,18 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			if (pjhomeIdx !== -1) {
 				epicProjectID = incomingURL.substr(pjhomeIdx+homestring.length);
 				epicProjectID = epicProjectID.substr(0, epicProjectID.indexOf("."));
+
+				// Adjust for merged projects
+				// 38, 404 => 286
+				// 278 => 348
+				// 345 => 6
+				if (epicProjectID === '38' || epicProjectID === '404') {
+					epicProjectID = 286;
+				} else if (epicProjectID === '278') {
+					epicProjectID = 348;
+				} else if (epicProjectID === '345') {
+					epicProjectID = 6;
+				}
 			} else {
 				// Find out which project this is.
 				epicProjectID = incomingURL.replace(newURL+"redirect/documents/p","");
