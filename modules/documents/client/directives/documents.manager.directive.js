@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -302,11 +302,11 @@ angular.module('documents')
 						.then(function(result) {
 							$scope.project.directoryStructure = result.data;
 							self.busy = false;
-							DialogService.show('success', 'Delete Folder', 'The selected folder was deleted.', [doc.model.name]);
+							AlertService.success('The selected folder was deleted.');
 						}, function(error) {
 							$log.error('DocumentMgrService.removeDirectory error: ', JSON.stringify(error));
 							self.busy = false;
-							DialogService.error('Delete Folder', "Selected folder could not be deleted.", error);
+							AlertService.error('The selected folder could not be deleted.');
 						});
 				};
 
@@ -316,11 +316,11 @@ angular.module('documents')
 						.then(function(result) {
 							self.selectNode(self.currentNode.model.id); // will mark as not busy...
 							var name = doc.displayName || doc.documentFileName || doc.internalOriginalName;
-							DialogService.show('success', 'Delete File', 'The selected file was deleted.', [name]);
+							AlertService.success('Delete File', 'The selected file was deleted.');
 						}, function(error) {
 							$log.error('deleteFile error: ', JSON.stringify(error));
 							self.busy = false;
-							DialogService.error('Delete File', "Selected file could not be deleted.", error);
+							AlertService.error('The selected file could not be deleted.');
 						});
 				};
 
@@ -362,10 +362,10 @@ angular.module('documents')
 									}
 									//$log.debug('Refreshing current directory...');
 									self.selectNode(self.currentNode.model.id);
-									DialogService.show('success', self.deleteSelected.titleText, 'The selected items were deleted.', self.deleteSelected.confirmItems);
+									AlertService.success('The selected items were deleted.');
 								}, function(err) {
 									self.busy = false;
-									DialogService.error('Delete failure', "An error occurred.  The selected items could not be deleted.", err);
+									AlertService.error('The selected items could not be deleted.');
 								});
 						}
 					},
@@ -424,10 +424,10 @@ angular.module('documents')
 							var published = _.map(result, function(o) { if (o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
 							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
 							self.selectNode(self.currentNode.model.id);
-							DialogService.show('success', 'Publish File(s)', _.size(published) + ' of ' + _.size(files) + ' files successfully published.', published);
+							AlertService.success(_.size(published) + ' of ' + _.size(files) + ' files successfully published.');
 						}, function(err) {
 							self.busy = false;
-							DialogService.error('Publish File(s)', "Selected files could not be published.", err);
+							AlertService.error('The selected files could not be published.');
 						});
 				};
 
@@ -443,10 +443,10 @@ angular.module('documents')
 							var published = _.map(result, function(o) { if (o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
 							var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
 							self.selectNode(self.currentNode.model.id);
-							DialogService.show('success', 'Unpublish File(s)', _.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.', unpublished);
+							AlertService.success(_.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.');
 						}, function(err) {
 							self.busy = false;
-							DialogService.error('Unpublish File(s)', "Selected files could not be unpublished.", err);
+							AlertService.error('The selected files could not be unpublished.');
 						});
 				};
 
@@ -540,10 +540,10 @@ angular.module('documents')
 										}
 										//$log.debug('select and refresh destination directory...');
 										self.selectNode(destination.model.id);
-										DialogService.show('success', self.moveSelected.titleText, 'The selected items were moved.', self.moveSelected.confirmItems);
+										AlertService.success('The selected items were moved.');
 									}, function (err) {
 										self.busy = false;
-										DialogService.error('Move failure', "An error occurred.  The selected items could not be moved.", err);
+										AlertService.error("The selected items could not be moved.");
 									});
 							}
 						}
@@ -591,12 +591,19 @@ angular.module('documents')
 					}
 				};
 
+				self.onPermissionsUpdate = function() {
+					//console.log('onPermissionsUpdate...');
+					self.selectNode(self.currentNode.model.id);
+				};
+
 				self.onDocumentUpdate = function(value) {
 					// should refresh the table and the info panel...
+					//console.log('onDocumentUpdate...');
 					self.selectNode(self.currentNode.model.id);
 				};
 
 				$scope.$on('documentMgrRefreshNode', function(event, args) {
+					//console.log('documentMgrRefreshNode...');
 					self.selectNode(self.currentNode.model.id);
 				});
 
@@ -605,6 +612,7 @@ angular.module('documents')
 						return scope.project.directoryStructure;
 					},
 					function (data) {
+						//console.log('$watch directoryStructure...');
 						var node = self.currentNode || self.rootNode;
 						self.rootNode = tree.parse(data);
 						self.selectNode(node.model.id);
@@ -615,7 +623,7 @@ angular.module('documents')
 			controllerAs: 'documentMgr'
 		};
 	}])
-	.directive('documentMgrAddFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'DialogService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, DialogService, TreeModel) {
+	.directive('documentMgrAddFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'AlertService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, AlertService, TreeModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -653,7 +661,7 @@ angular.module('documents')
 										},
 										function (err) {
 											//$log.error('addDirectory error: ', JSON.stringify(err));
-											DialogService.error('Add Folder Error', "Could not add folder", err);
+											AlertService.error("Could not add folder");
 										}
 									);
 							};
@@ -670,7 +678,7 @@ angular.module('documents')
 			}
 		};
 	}])
-	.directive('documentMgrRenameFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'DialogService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, DialogService, TreeModel) {
+	.directive('documentMgrRenameFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'AlertService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, AlertService, TreeModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -710,7 +718,7 @@ angular.module('documents')
 										},
 										function (err) {
 											//$log.error('renameDirectory error: ', JSON.stringify(err));
-											DialogService.error('Rename Folder Error', "Could not rename folder", err);
+											AlertService.error("Could not rename folder");
 										}
 									);
 							};
@@ -954,7 +962,7 @@ angular.module('documents')
 			}
 		};
 	}])
-	.directive('documentMgrLink', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'DialogService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, DialogService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgrLink', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {

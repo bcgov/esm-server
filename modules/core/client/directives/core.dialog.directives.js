@@ -74,67 +74,74 @@ angular.module('core')
 			}
 		};
 	}])
-	.service('DialogService', ['$rootScope', '$timeout', '$log', '$modal', '_', 'Authentication', function ($rootScope, $timeout, $log, $modal, _) {
+	.service('AlertService', ['$rootScope', '$timeout', '$log', '$modal', '_', 'Authentication', function ($rootScope, $timeout, $log, $modal, _) {
 
 		var service = this;
 
-		service.show = function(type, title, message, items) {
+		service.alert = function(type, message) {
 
-			var _type = type  || 'info'; // success, error, warning, info...
-			var _title = title || '';
-			var _message = message || '';
-			var _items = items || [];
+			return new Promise(function(fulfill, reject) {
+				var modal = $modal.open({
+					animation: true,
+					templateUrl: 'modules/core/client/views/dialogs/alert.html',
+					controller: function ($scope, $state, $modalInstance, _) {
+						var self = this;
 
-			$modal.open({
-				animation: true,
-				templateUrl: 'modules/core/client/views/dialogs/info.html',
-				resolve: {
-				},
-				controllerAs: 'infoDlg',
-				controller: function ($scope, $modalInstance) {
-					var infoDlg = this;
+						switch (type) {
+							case 'info':
+								self.alertType = 'alert-info';
+								break;
+							case 'warning':
+								self.alertType = 'alert-warning';
+								break;
+							case 'error':
+								self.alertType = 'alert-danger';
+								break;
+							default:
+								self.alertType = 'alert-success';
+								break;
+						}
 
-					infoDlg.type = _type;
-					infoDlg.titleText = _title;
-					infoDlg.messageText = _message;
+						self.msg = message;
 
-					// turn the strings into objects for ng-repeat
-					var id = 1;
-					infoDlg.items = _.map(_items, function(item) {
-						return {id: id++, value: item};
-					});
+						self.ok = function () {
+							$modalInstance.close('ok');
+						};
 
-					infoDlg.cancel = function () {
-						$modalInstance.dismiss('cancel');
-					};
-
-					infoDlg.ok = function () {
-						$modalInstance.close({});
-					};
-
-				}
-			}).result
-				.then(function (data) {
-					$log.debug(data);
-				})
-				.catch(function (err) {
-					$log.error(err);
+						self.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'alertDlg',
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
 				});
+
+				// do not care how this modal is closed, if a callback is provided, call it..
+				modal.result
+					.then(function (result) {
+						fulfill(result);
+					}, function (error) {
+						fulfill(error);
+					});
+			});
 		};
 
-		service.error = function(title, message, error) {
-			// short cut, look in error to see if we can determine a list of error messages, show an error msg dialog
-			var items = [];
-			if (error) {
-				// error.message?
-				if (error.message) {
-					items.push(error.message);
-				}
-				if (error.data && error.data.message) {
-					items.push(error.data.message);
-				}
-			}
-			return service.show('error', title, message, items);
+		service.info = function(message) {
+			return service.alert('info', message);
+		};
+
+		service.warning = function(message) {
+			return service.alert('warning', message);
+		};
+
+		service.error = function(message) {
+			return service.alert('error', message);
+		};
+
+		service.success = function(message) {
+			return service.alert('success', message);
 		};
 
 	}])

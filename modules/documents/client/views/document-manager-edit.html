@@ -29,16 +29,15 @@
 
 		<div ng-show="doc.documentType === 'Inspection Report'">
 			<div class="form-group document-type" x-show-errors>
-				<label for="inspectorInitials" class="control-label">Inspector Initials<em class="required">(Required)</em></label>
-				<input class="form-control" id="inspectorInitials" name="inspectorInitials" type="text" ng-model="doc.inspectionReport.inspectorInitials" ng-required="doc.documentType === 'Inspection Report'" ng-blur="validate()">
+				<label for="inspectorInitials" class="control-label">Inspector Initials</label>
+				<input class="form-control" id="inspectorInitials" name="inspectorInitials" type="text" ng-model="doc.inspectionReport.inspectorInitials" ng-blur="validate()">
 			</div>
 
 			<div class="form-group" ng-class="{'has-error': editFileForm.followup.$invalid}" x-show-errors>
-				<label for="followup" class="control-label">Follow Up<em class="required">(Required)</em></label>
+				<label for="followup" class="control-label">Follow Up</label>
 				<select class="form-control" title="Document Type" id="followup" name="followup"
 						ng-model="doc.inspectionReport.followup"
 						ng-options="type for type in inspectionReportFollowupTypes"
-						ng-required="doc.documentType === 'Inspection Report'"
 						ng-change="validate()"></select>
 			</div>
 		</div>

@@ -19,10 +19,23 @@ angular.module('core')
 		restrict: 'A',
 		scope: {
 			context: '=',
-			object: '='
+			object: '=',
+			reload: '=',
+			callback: '='
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
+
+				var _reload = true;
+				if (!_.isEmpty(scope.reload)) {
+					_reload = 'true' === scope.reload;
+				}
+
+				var _callback;
+				if (scope.callback) {
+					_callback = scope.callback;
+				}
+
 				$modal.open({
 					animation: true,
 					templateUrl: 'modules/core/client/views/role-permissions-modal.html',
@@ -45,6 +58,7 @@ angular.module('core')
 					},
 					controller: function ($scope, $modalInstance, allRoles, roleUsers, globalProjectRoles, permissionRoleIndex) {
 						var s = this;
+
 
 						var setPermissionRole = function (system, permission, role, value) {
 							if (!system.permission[permission]) system.permission[permission] = {};
@@ -196,22 +210,41 @@ angular.module('core')
 						return;
 					})
 					.then(function() {
-						return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
+						if (_reload) {
+							return Application.reload(Authentication.user ? Authentication.user._id : 0, true);
+						} else {
+							//console.log('not reloading...');
+							return;
+						}
 					}, function(e) {
 						//console.log('Error on Application.reload(' + (Authentication.user ? Authentication.user._id : 0) + ', true) = ', JSON.stringify(e));
 					})
 					.then(function() {
-						return AccessModel.resetSessionContext();
+						if (_reload) {
+							return AccessModel.resetSessionContext();
+						} else {
+							//console.log('not reloading...');
+							return;
+						}
 					}, function(e) {
 						//console.log('Error on AccessModel.resetSessionContext() = ', JSON.stringify(e));
 					})
 					.then(function() {
-						return $state.reload();
+						if (_reload) {
+							return $state.reload();
+						} else {
+							//console.log('not reloading...');
+							return;
+						}
 					}, function(e) {
 						//console.log('Error on state.reload() = ', JSON.stringify(e));
 					})
 					.then(function() {
-						//console.log('< permissions reloaded.');
+						//console.log('< permissions reloaded');
+						if (_callback) {
+							//console.log('_callback set, calling...');
+							_callback();
+						}
 						return;
 					});
 				})
