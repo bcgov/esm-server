@@ -39,10 +39,14 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.forProjectWithStats (project._id);
 			}
 		},
-		controller: function ($scope, NgTableParams, periods, project, _) {
+		controller: function ($scope, $state, NgTableParams, periods, project, _, moment, CommentPeriodModel, AlertService) {
 			var s = this;
-			console.log ('periods = ', periods);
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: periods});
+			//console.log ('periods = ', periods);
+			var ps = _.map(periods, function(p) {
+				var openForComment = moment(moment.now()).isBetween(p.dateStarted, p.dateCompleted);
+				return _.extend(p, {openForComment: openForComment});
+			});
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: ps});
 			$scope.project = project;
 
 			// filter lists...
@@ -50,13 +54,26 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			s.phaseArray = [];
 
 			// build out the filter arrays...
-			var recs = _(angular.copy(periods)).chain().flatten();
+			var recs = _(angular.copy(ps)).chain().flatten();
 			recs.pluck('periodType').unique().value().map(function (item) {
 				s.typeArray.push({id: item, title: item});
 			});
 			recs.pluck('phaseName').unique().value().map(function (item) {
 				s.phaseArray.push({id: item, title: item});
 			});
+
+			s.deletePeriod = function(p) {
+				return CommentPeriodModel.removePeriod(p)
+					.then(
+						function(result) {
+							$state.reload();
+							AlertService.success('Comment Period was deleted!');
+						},
+						function(error){
+							$state.reload();
+							AlertService.error('Comment Period could not be deleted.');
+						});
+			};
 		},
 		controllerAs: 's'
 	})

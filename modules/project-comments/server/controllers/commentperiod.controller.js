@@ -13,6 +13,7 @@ var MilestoneClass = require (path.resolve('./modules/milestones/server/controll
 var ArtifactClass = require (path.resolve('./modules/artifacts/server/controllers/artifact.controller'));
 var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 var _          = require ('lodash');
+var mongoose				= require('mongoose');
 
 module.exports = DBModel.extend ({
 	name : 'CommentPeriod',
@@ -257,6 +258,67 @@ module.exports = DBModel.extend ({
 			})
 			.then (resolve, reject);
 		});
+	},
+
+
+	removePeriod: function (period) {
+		var DocumentModel = mongoose.model('Document');
+		var CommentModel = mongoose.model('Comment');
+		var PeriodModel = mongoose.model('CommentPeriod');
+
+		return CommentModel.find({period : period._id })
+			.then(function (comments) {
+				var deleteDocs = [];
+				_.each(comments, function (comment) {
+					_.each(comment.documents, function (doc) {
+						deleteDocs.push(doc);
+					});
+				});
+				//console.log("docs to delete:", deleteDocs);
+				return _.uniq(deleteDocs);
+			})
+			.then( function (promises) {
+				var deleteDocs = function(item, query) {
+					return new Promise(function (rs, rj) {
+						// Delete it!
+						//console.log("deleting doc:", item);
+						DocumentModel.findOne({_id: item})
+							.then( function (doc) {
+								//console.log("found doc to delete:", doc);
+								var fs = require('fs');
+								fs.unlinkSync(doc.internalURL);
+								return doc._id;
+							})
+							.then( function (docID) {
+								return DocumentModel.remove({_id: docID});
+							})
+							.then(rs, rj);
+					});
+				};
+
+				Promise.resolve ()
+					.then (function () {
+						return promises.reduce (function (current, item) {
+							return current.then (function () {
+								return deleteDocs(item);
+							});
+						}, Promise.resolve());
+					});
+			})
+			.then( function (res) {
+				//console.log("deleted docs:", JSON.stringify(res));
+				//console.log("deleting comments...");
+				return CommentModel.remove({period: period._id});
+			})
+			.then( function (res) {
+				//console.log("deleted comments:", JSON.stringify(res));
+				//console.log("deleting period:", period._id);
+				return PeriodModel.remove({_id: period._id});
+			})
+			.then( function (res) {
+				//console.log("deleted period:", JSON.stringify(res));
+				return;
+			});
 	}
 });
 

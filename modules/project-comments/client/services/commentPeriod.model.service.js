@@ -17,6 +17,9 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 		// get all periods for a project
 		//
 		// -------------------------------------------------------------------------
+		removePeriod: function(period) {
+			return this.delete ('/api/commentperiod/' + period._id + '/remove');
+		},
 		getForPublic: function (id) {
 			return this.get ('/api/commentperiod/for/public/'+id);
 		},
