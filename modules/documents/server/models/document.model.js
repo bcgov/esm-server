@@ -148,5 +148,8 @@ module.exports = genSchema ('Document', {
 	certificateAmendment    : { type: {}, default: null },
 	permit                  : { type: {}, default: null },
 	permitAmendment         : { type: {}, default: null },
-	mineManagerResponse     : { type: {}, default: null }
+	mineManagerResponse     : { type: {}, default: null },
+	annualReport            : { type: {}, default: null },
+	annualReclamationReport : { type: {}, default: null },
+	damSafetyInspection     : { type: {}, default: null }
 });

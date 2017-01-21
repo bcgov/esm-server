@@ -288,7 +288,7 @@ angular
 	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
 	.constant('DOCUMENT_TYPES',
 		[
-			'Inspection Report', 'Certificate', 'Certificate Amendment', 'Permit', 'Permit Amendment', 'Mine Manager Response'
+			'Inspection Report', 'Certificate', 'Certificate Amendment', 'Permit', 'Permit Amendment', 'Mine Manager Response', 'Annual Report', 'Annual Reclamation Report', 'Dam Safety Inspection', ''
 		]
 	)
 	.constant('INSPECTION_REPORT_FOLLOWUP_TYPES',

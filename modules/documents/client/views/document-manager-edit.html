@@ -45,16 +45,32 @@
 		<div class="form-group datepicker" x-show-errors>
 			<label class="control-label" for="documentDate">Document Date<em class="required">(Required)</em></label>
 			<div class="datepicker-input">
-				<input class="form-control" placeholder="YYYY-MM-DD"  id="documentDate" name="documentDate" 
-					ng-model="doc.documentDate" type="text" 
-					uib-datepicker-popup  
-					is-open="datePicker.opened" 
-					datepicker-options="dateOptions"
-					close-text="Close" 
-					disabled 
-					required
-					ng-change="validate()"/>
+				<input class="form-control" placeholder="YYYY-MM-DD"  id="documentDate" name="documentDate"
+					   ng-model="doc.documentDate" type="text"
+					   uib-datepicker-popup
+					   is-open="datePicker.opened"
+					   datepicker-options="dateOptions"
+					   close-text="Close"
+					   disabled
+					   required
+					   ng-change="validate()"/>
 				<button class="btn btn-default calendar-btn" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
+			</div>
+		</div>
+
+		<div class="form-group datepicker" x-show-errors>
+			<label class="control-label" for="dateUploaded">Uploaded Date<em class="required">(Required)</em></label>
+			<div class="datepicker-input">
+				<input class="form-control" placeholder="YYYY-MM-DD"  id="dateUploaded" name="dateUploaded"
+					   ng-model="doc.dateUploaded" type="text"
+					   uib-datepicker-popup
+					   is-open="dateUploadedPicker.opened"
+					   datepicker-options="dateOptions"
+					   close-text="Close"
+					   disabled
+					   required
+					   ng-change="validate()"/>
+				<button class="btn btn-default calendar-btn" ng-click="dateUploadedOpen()"><span class="glyphicon glyphicon-calendar"/></button>
 			</div>
 		</div>
 

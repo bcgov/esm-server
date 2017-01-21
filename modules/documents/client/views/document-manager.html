@@ -246,6 +246,16 @@
 													<span class="glyphicon glyphicon-eye-open"></span>
 												</button>
 											</li>
+											<li ng-if="doc.userCan.write">
+												<button class="btn icon-btn" title="Edit File"
+														ng-if="doc.userCan.write"
+														x-document-mgr-edit
+														x-project="project"
+														x-doc="doc"
+														x-on-update="documentMgr.onDocumentUpdate">
+													<span class="glyphicon glyphicon-pencil"></span>
+												</button>
+											</li>
 											<li ng-if="doc.userCan.publish && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
@@ -415,7 +425,7 @@
 									<span class="value">{{ documentMgr.infoPanel.data.documentDate | date : format : timezone }}</span>
 								</li>
 								<li>
-									<span class="name">Date Uploaded:</span>
+									<span class="name">Uploaded Date:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
 								</li>
 								<li>
@@ -426,6 +436,23 @@
 									<span class="name">Type:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.internalExt }}</span>
 								</li>
+								<li ng-if="documentMgr.infoPanel.data.documentId">
+									<span class="name">Document ID:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.documentId }}</span>
+								</li>
+								<li ng-if="documentMgr.infoPanel.data.documentType">
+									<span class="name">Document Type:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.documentType }}</span>
+								</li>
+								<li ng-if="documentMgr.infoPanel.data.documentType ==='Inspection Report' && documentMgr.infoPanel.data.inspectionReport">
+									<span class="name">Inspector Initials:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.inspectorInitials }}</span>
+								</li>
+								<li ng-if="documentMgr.infoPanel.data.documentType ==='Inspection Report' && documentMgr.infoPanel.data.inspectionReport">
+									<span class="name">Follow up:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.followup }}</span>
+								</li>
+
 							</ul>
 						</section>
 

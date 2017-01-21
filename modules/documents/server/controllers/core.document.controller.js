@@ -66,6 +66,9 @@ module.exports = DBModel.extend ({
 				doc.permit = null;
 				doc.permitAmendment = null;
 				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
 				break;
 			case 'Certificate':
 				doc.inspectionReport = null;
@@ -73,6 +76,9 @@ module.exports = DBModel.extend ({
 				doc.permit = null;
 				doc.permitAmendment = null;
 				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
 				break;
 			case 'Certificate Amendment':
 				doc.inspectionReport = null;
@@ -80,6 +86,9 @@ module.exports = DBModel.extend ({
 				doc.permit = null;
 				doc.permitAmendment = null;
 				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
 				break;
 			case 'Permit':
 				doc.inspectionReport = null;
@@ -87,6 +96,9 @@ module.exports = DBModel.extend ({
 				doc.certificateAmendment = null;
 				doc.permitAmendment = null;
 				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
 				break;
 			case 'Permit Amendment':
 				doc.inspectionReport = null;
@@ -94,6 +106,9 @@ module.exports = DBModel.extend ({
 				doc.certificateAmendment = null;
 				doc.permit = null;
 				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
 				break;
 			case 'Mine Manager Response':
 				doc.inspectionReport = null;
@@ -101,8 +116,50 @@ module.exports = DBModel.extend ({
 				doc.certificateAmendment = null;
 				doc.permit = null;
 				doc.permitAmendment = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Annual Report':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Annual Reclamation Report' :
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Dam Safety Inspection':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
 				break;
 			default:
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
 				break;
 		}
 		return doc;

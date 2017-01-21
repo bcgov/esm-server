@@ -873,21 +873,26 @@ angular.module('documents')
 							$scope.types = DOCUMENT_TYPES;
 							$scope.inspectionReportFollowupTypes = INSPECTION_REPORT_FOLLOWUP_TYPES;
 
-							$scope.originalName = file.displayName || file.documentFileName || file.internalOriginalName;
-							$scope.doc = file;
-							// any dates going to the datepicker need to be javascript Date objects...
-							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? moment.now() : moment(file.documentDate).toDate();
-
-							$scope.datePicker = {
-								opened: false
-							};
-
 							$scope.dateOptions = {
 								showWeeks: false
 							};
 
+							$scope.originalName = file.displayName || file.documentFileName || file.internalOriginalName;
+							$scope.doc = file;
+							// any dates going to the datepicker need to be javascript Date objects...
+							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? moment.now() : moment(file.documentDate).toDate();
+							$scope.datePicker = {
+								opened: false
+							};
 							$scope.dateOpen = function() {
 								$scope.datePicker.opened = true;
+							};
+							$scope.doc.dateUploaded = _.isEmpty(file.dateUploaded) ? moment.now() : moment(file.dateUploaded).toDate();
+							$scope.dateUploadedPicker = {
+								opened: false
+							};
+							$scope.dateUploadedOpen = function() {
+								$scope.dateUploadedPicker.opened = true;
 							};
 
 							$scope.$watch('doc.documentType',
@@ -922,6 +927,21 @@ angular.module('documents')
 											case 'Mine Manager Response':
 												if (!$scope.doc.mineManagerResponse) {
 													$scope.doc.mineManagerResponse = {};
+												}
+												break;
+											case 'Annual Report':
+												if (!$scope.doc.annualReport) {
+													$scope.doc.annualReport = {};
+												}
+												break;
+											case 'Annual Reclamation Report':
+												if (!$scope.doc.annualReclamationReport) {
+													$scope.doc.annualReclamationReport = {};
+												}
+												break;
+											case 'Dam Safety Inspection':
+												if (!$scope.doc.damSafetyInspection) {
+													$scope.doc.damSafetyInspection = {};
 												}
 												break;
 											default:
