@@ -752,13 +752,14 @@ module.exports = DBModel.extend ({
 						// because we have the project/roles, we can skip the overhead of going through the db controller and
 						// adding the permissions and userCan to determine user access.
 						// we need to save that overhead and waits as those operations read from users/roles/permissions tables.
-						var readProjects = _.map(data, function(d) {
+						var readProjects = [];
+						_.each(data, function(d) {
 							var projRoles = _.filter(projectRoles, function(x) { return x.context === d._id.toString(); });
 							var roles = _.uniq(_.map(projRoles, 'role'));
 							var read = d.read;
 							var matched = _.intersection(read, roles);
 							if (matched.length > 0) {
-								return d;
+								readProjects.push(d);
 							}
 						});
 						fulfill(readProjects);
