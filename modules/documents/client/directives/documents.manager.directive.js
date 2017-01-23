@@ -962,6 +962,7 @@ angular.module('documents')
 							};
 
 							self.save = function (isValid) {
+								self.busy = true;
 								// should be valid here...
 								if (isValid) {
 									Document.save($scope.doc)
@@ -970,12 +971,15 @@ angular.module('documents')
 											if (scope.onUpdate) {
 												scope.onUpdate(result);
 											}
+											self.busy = false;
 											$modalInstance.close(result);
 										}, function(error) {
 											console.log(error);
+											self.busy = false;
 										});
 								}
 							};
+							self.busy = false;
 						}
 					});
 				});
