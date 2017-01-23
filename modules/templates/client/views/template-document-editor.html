@@ -19,7 +19,7 @@
             <div class="list-group-item flex-row" ng-if="filelist.length == 0">
                 <span class="title">No files available.</span>
             </div>
-            <div class="list-group-item flex-row" ng-repeat="file in filelist">
+            <div class="list-group-item flex-row" ng-repeat="file in filelist" href>
                 <span class="icon">
                     <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(file.internalExt)"></span>
                     <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(file.internalExt)"></span>
@@ -36,14 +36,16 @@
                     </span>
                 </span>
                 <span class="actions">
-                    <button ng-disabled="file.internalMime !== 'application/pdf'"
+                    <button ng-disabled="file.internalMime !== 'application/pdf'" ng-click="$event.stopPropagation()"
                             x-modal-pdf-viewer
                             x-pdfobject="file"
                             title="View File"
                             class="btn btn-sm btn-default"><span class="glyphicon glyphicon-eye-open"></span></button>
-                    <button class="btn btn-default btn-sm">
-                        <span title="Download File" class="glyphicon glyphicon-download-alt"></span>
-                    </button>
+                    <a class="btn btn-sm btn-default"
+                       ng-if="file.userCan.read"
+                       href="/api/document/{{ file._id }}/fetch"
+                       target="_self"
+                       title="Download File"><span class="glyphicon glyphicon-download-alt"></span></a>
                 </span>
             </div>
         </div>
