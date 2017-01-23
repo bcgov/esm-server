@@ -19,30 +19,33 @@
             <div class="list-group-item flex-row" ng-if="filelist.length == 0">
                 <span class="title">No files available.</span>
             </div>
-            <a class="list-group-item flex-row" ng-repeat="file in filelist" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download file">
+            <div class="list-group-item flex-row" ng-repeat="file in filelist">
                 <span class="icon">
                     <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(file.internalExt)"></span>
                     <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(file.internalExt)"></span>
                 </span>
                 <span class="title">
-                    <span>{{ file.internalOriginalName }}</span>
+                    <a ng-if="file.userCan.read"
+                       href="/api/document/{{ file._id }}/fetch"
+                       target="_self"
+                       title="Download File">{{ file.displayName || file.documentFileName || file.internalOriginalName  }}</a>
                     <span class="file-details">
-                        <span class="directory hidden">
-                            <small ng-if="file.projectFolderType">{{ file.projectFolderType }}</small>
-                            <small ng-if="file.projectFolderSubType"> / {{ file.projectFolderSubType }}</small>
-                            <small ng-if="file.projectFolderSubType"> / {{ file.projectFolderName }}</small>
-                        </span>
                         <small>V.{{ file.documentVersion }}</small>
                         <small> &nbsp;|&nbsp; {{ file.dateUpdated | amDateFormat:'MMMM Do YYYY'}}</small>
                         <span class="label label-success" ng-if="file.isPublished && authentication.user">Published</span>
                     </span>
                 </span>
                 <span class="actions">
+                    <button ng-disabled="file.internalMime !== 'application/pdf'"
+                            x-modal-pdf-viewer
+                            x-pdfobject="file"
+                            title="View File"
+                            class="btn btn-sm btn-default"><span class="glyphicon glyphicon-eye-open"></span></button>
                     <button class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-download-alt"></span>
+                        <span title="Download File" class="glyphicon glyphicon-download-alt"></span>
                     </button>
                 </span>
-            </a>
+            </div>
         </div>
     </div>
 </div>
