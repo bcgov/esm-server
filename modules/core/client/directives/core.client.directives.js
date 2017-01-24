@@ -67,6 +67,8 @@ angular.module('core')
 							system.role[role][permission] = value;
 						};
 
+						s.dirty = false;
+
 						s.init = function (roleName, showPermissionView) {
 							console.log('rolePermissionsModal.init... start');
 							// add in 'permissions' from the object...
@@ -138,11 +140,11 @@ angular.module('core')
 							// these deal with setting the roles by permission
 							//
 							s.permissionView = showPermissionView;
-							s.currentPermission = s.allPermissions[0] || '';
+							s.currentPermission = '';
 							//
 							// these deal with setting the permissions by role
 							//
-							s.currentRole = (roleName) ? roleName : (s.allRoles[0] || '');
+							s.currentRole = (roleName) ? roleName : '';
 							console.log('rolePermissionsModal.init... end');
 						};
 
@@ -169,10 +171,12 @@ angular.module('core')
 						});
 						
 						s.clickRole = function (permission, role, value) {
+							s.dirty = true;
 							setPermissionRole(s.permissionRoleIndex, permission, role, value);
 						};
 						
 						s.clickPermission = function (permission, role, value) {
+							s.dirty = true;
 							setPermissionRole(s.permissionRoleIndex, permission, role, value);
 						};
 						
@@ -338,6 +342,7 @@ angular.module('core')
 						$scope.contacts = [];
 						s.busy = false;
 						s.progressMsg = '';
+						s.dirty = false;
 						/*
 						This stopped working in some environments and setups.
 						Very strange, so added in the USER_SEARCH_CHOOSER_SELECTED handler instead.
@@ -419,12 +424,12 @@ angular.module('core')
 							//
 							s.userView = showUserView;
 							var selectedUser = _.find(s.allUsers, function(o) { return o.username === currentUserName; });
-							s.currentUser = (selectedUser) ? selectedUser : (!_.isEmpty(s.allUsers) ? s.allUsers[0] : undefined);
+							s.currentUser = (selectedUser) ? selectedUser : undefined;
 
 							//
 							// these deal with setting the users by role
 							//
-							s.currentRole = (currentRoleName) ? currentRoleName : (s.allRoles[0] || '');
+							s.currentRole = (currentRoleName) ? currentRoleName : '';
 							console.log('roleUsersModal.init... end');
 							s.busy = false;
 						};
@@ -459,9 +464,11 @@ angular.module('core')
 						};
 						
 						s.clickUser = function (user, role, value) {
+							s.dirty = true;
 							setUserRole(s.userRoleIndex, user.username, role, value);
 						};
 						s.clickRole = function (user, role, value) {
+							s.dirty = true;
 							setUserRole(s.userRoleIndex, user.username, role, value);
 						};
 						s.cancel = function () {
