@@ -246,7 +246,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	$scope.submitProject = function(isValid) {
 		if (!isValid) {
 			$scope.$broadcast('show-errors-check-validity', 'projectForm');
-			$scope.$broadcast('show-errors-check-validity', 'projectForm');
+			$scope.$broadcast('show-errors-check-validity', 'proponentForm');
 			$scope.$broadcast('show-errors-check-validity', 'detailsForm');
 			$scope.$broadcast('show-errors-check-validity', 'contactsForm');
 			return false;
