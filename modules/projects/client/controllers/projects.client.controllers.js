@@ -209,9 +209,9 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 // CONTROLLER: Projects List 2
 //
 // -----------------------------------------------------------------------------------
-controllerProjectsList2.$inject = ['$scope', 'NgTableParams', 'Authentication', '_', 'ENV', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', '$filter'];
+controllerProjectsList2.$inject = ['$scope', 'NgTableParams', 'Authentication', '_', 'ENV', 'PROJECT_TYPES', 'REGIONS', 'PROJECT_STATUS_PUBLIC', 'EAC_DECISIONS', '$filter'];
 /* @ngInject */
-function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, $filter) {
+function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, PROJECT_TYPES, REGIONS, PROJECT_STATUS_PUBLIC, EAC_DECISIONS, $filter) {
 	var projectList = this;
 
 	$scope.environment = ENV;
@@ -241,7 +241,10 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 			projs.pluck('status').unique().value().map( function(item) {
 				projectList.statusArray.push({id: item, title: item});
 			});
-			projs.pluck('eacDecision').unique().value().map( function (item) {
+			//projs.pluck('eacDecision').unique().value().map( function (item) {
+			//	projectList.eacDecisionArray.push({id: item, title: item});
+			//});
+			_.each(EAC_DECISIONS, function(item) {
 				projectList.eacDecisionArray.push({id: item, title: item});
 			});
 			projs.pluck('type').unique().value().map( function(item) {

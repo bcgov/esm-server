@@ -177,9 +177,9 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', 'EAC_DECISIONS', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
+function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, EAC_DECISIONS, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
 
 	ProjectModel.setModel ($scope.project);
 
@@ -202,6 +202,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 		ProjectModel.modelIsNew = true;
 	}
 
+
 	$scope.project = project;
 	$scope.questions = ProjectModel.getProjectIntakeQuestions();
 	$scope.regions = REGIONS;
@@ -209,6 +210,10 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	$scope.subTypes = PROJECT_SUB_TYPES;
 	$scope._ = _;
 	$scope.CEAA = CEAA_TYPES;
+	$scope.eacDecisions = [''];// optional, so give a choice to clear it out...
+	_.each(EAC_DECISIONS, function(item) {
+		$scope.eacDecisions.push(item);
+	});
 
 	$scope.saveProject = function(isValid) {
 		if (!isValid) {
