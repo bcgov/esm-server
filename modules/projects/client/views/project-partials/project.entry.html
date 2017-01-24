@@ -25,7 +25,7 @@
 				<a ng-click="form.curTab = 'Project Details'" title="Edit Project Details" name="detailsForm">
 					<span class="glyphicon glyphicon-exclamation-sign"></span>Project Details</a>
 			</li>
-			<li role="presentation" ng-class="{'active':form.curTab === 'Proponent Info'}" class="form-group" x-show-errors>
+			<li role="presentation" ng-class="{'active':form.curTab === 'Proponent Info'}" class="form-group" >
 				<a ng-click="form.curTab = 'Proponent Info'" title="Edit Project Details" name="proponentForm">
 					<span class="glyphicon glyphicon-exclamation-sign"></span>Proponent Info</a>
 			</li>
@@ -470,7 +470,6 @@
 						ng-if="project.status !== 'Initiated'"
 						type="submit">Save</button>
 				<button class="btn btn-success btn-sm"
-						ng-disabled="projectForm.$invalid"
 						ng-click="submitProject(projectForm.$valid)"
 						ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>
