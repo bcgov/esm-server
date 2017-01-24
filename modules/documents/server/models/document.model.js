@@ -102,7 +102,7 @@ module.exports = genSchema ('Document', {
 
 	displayName             : { type: String, default: ''},
 	description             : { type:String, default:'' },
-	documentDate            : { type: Date, default: Date.now },
+	documentDate            : { type: Date, default: null },
 
 	dateAdded               : { type: Date, default: Date.now },
 	dateUpdated             : { type: Date, default: Date.now },

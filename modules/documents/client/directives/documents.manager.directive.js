@@ -880,7 +880,7 @@ angular.module('documents')
 							$scope.originalName = file.displayName || file.documentFileName || file.internalOriginalName;
 							$scope.doc = file;
 							// any dates going to the datepicker need to be javascript Date objects...
-							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? moment.now() : moment(file.documentDate).toDate();
+							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? null : moment(file.documentDate).toDate();
 							$scope.datePicker = {
 								opened: false
 							};
