@@ -16,8 +16,8 @@ module.exports = DBModel.extend ({
 	name : 'Comment',
 	plural: 'comments',
 	// populate : [{ path:'user', select:'_id displayName username orgCode'}, {path: 'valuedComponents', select: 'name'}],
-	populate : [{ path:'user', select:'_id displayName username orgCode'},
-				{ path:'updatedBy', select:'_id displayName username orgCode'},
+	populate : [{ path:'user', select:'_id displayName username email orgName'},
+				{ path:'updatedBy', select:'_id displayName username email orgName'},
 				{ path:'documents', select:'_id eaoStatus'}],
 	// -------------------------------------------------------------------------
 	//
