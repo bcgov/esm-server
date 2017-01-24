@@ -24,7 +24,7 @@ var Project = mongoose.model ('Project');
 module.exports = DBModel.extend({
 	name: 'Artifact',
 	plural: 'artifacts',
-	populate: 'artifactType template document valuedComponents phase',
+	populate: [{path: 'artifactType'}, {path: 'template'}, {path: 'document'}, {path: 'valuedComponents'}, {path: 'phase'}, { path: 'addedBy', select: '_id displayName username email orgName' }, { path: 'updatedBy', select: '_id displayName username email orgName' }],
 	bind: ['getCurrentTypes'],
 	getForProject: function (projectid) {
 		return this.list({project: projectid}, {
@@ -48,7 +48,7 @@ module.exports = DBModel.extend({
 		var q = {project: projectid};
 		q.isPublished = qs.isPublished;
 		q.typeCode = { '$nin': qs.typeCodeNe.split(',') };
-		this.populate = 'artifactType template document valuedComponents addedBy updatedBy phase';
+
 		// we need the userCan populated so we can set permissions from these results, do not limit the result set fields...
 		return this.findMany(q);
 	},
