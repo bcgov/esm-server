@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -170,6 +170,33 @@ angular.module('documents')
 					doc.selected = !checked;
 					self.syncCheckedItems(doc);
 				};
+
+				self.dblClick = function(doc){
+					console.log("BG In dbl click handler");
+					function showFile(doc) {
+						return self.showFile(doc);
+					}
+					function cancel() {
+						console.log("BG cancel dbl click confirm");
+						return Promise.resolve();
+					}
+					var scope = {
+						titleText: doc.displayName,
+							confirmText: 'confirm',
+							confirmItems: undefined,
+							okText: 'oktext',
+							cancelText: 'canceltext',
+							onOk: showFile,
+							onCancel: cancel,
+							okArgs: doc
+					};
+					ConfirmService.confirmDialog(scope);
+				};
+
+				self.showFile = function(doc) {
+					console.log("BG showFile", doc);
+					return Promise.resolve(true);
+				}
 
 				self.checkDir = function(doc) {
 					self.syncCheckedItems(doc);

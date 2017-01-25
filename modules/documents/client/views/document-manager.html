@@ -19,7 +19,7 @@
 					x-root="documentMgr.rootNode"
 					x-node="documentMgr.selectedNode"><span class="glyphicon glyphicon-folder-close"></span></button>
 
-			<button class="btn icon-btn" title="Upload Files" 
+			<button class="btn icon-btn" title="Upload Files"
 					ng-if="project.userCan.createDocument"
 					ng-disabled="!documentMgr.selectedNode"
 					x-document-mgr-upload-modal
@@ -27,18 +27,18 @@
 					x-root="documentMgr.rootNode"
 					x-node="documentMgr.selectedNode"
 					x-type="'project'"><span class="glyphicon glyphicon-open"></span></button>
-			
+
 			<button class="toggle-details-btn btn icon-btn" title="Properties"
 					ng-disabled="!documentMgr.lastChecked"
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
-			
+
 			<div class="fb-menu btn-group">
 				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="!documentMgr.batchMenuEnabled">
 					<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 				</button>
 				<ul class="dropdown-menu pull-right">
 					<li>
-						<a title="Rename Folder" 
+						<a title="Rename Folder"
 							ng-if="project.userCan.manageFolders"
 						    ng-show="documentMgr.checkedDirs.length === 1 && documentMgr.checkedFiles.length === 0"
 							x-document-mgr-rename-folder
@@ -102,7 +102,7 @@
 			<div class="spinner-container" ng-show="documentMgr.busy">
 				<div class="spinner-new rotating"></div>
 			</div>
-			
+
 			<div class="column-header">
 				<span class="col checkbox-col" ng-if="authentication.user">
 					<input id="select-all" type="checkbox" title="Select All / None" ng-model="documentMgr.allChecked" ng-click="documentMgr.checkAll()"/>
@@ -143,7 +143,7 @@
 									<span class="glyphicon glyphicon-ok"></span>
 								</label>
 							</span>
-							<span class="fb-col-group"  
+							<span class="fb-col-group"
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectDir(doc)"
 								ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)" title="{{doc.model.name}}">
 								<span class="col name-col first-col">
@@ -158,7 +158,7 @@
 								<span class="col date-added-col">---</span>
 								<span class="col status-col last-col" ng-if="authentication.user">---</span>
 								<div class="row-actions">
-									
+
 									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
@@ -195,7 +195,7 @@
 									</div>
 									<button class="drill-in-btn btn icon-btn" ng-click="documentMgr.openDir(doc)">
 										<span class="glyphicon glyphicon-menu-right"></span>
-									</button>	
+									</button>
 								</div>
 							</span>
 						</li>
@@ -208,7 +208,7 @@
 									<span class="glyphicon glyphicon-ok"></span>
 								</label>
 							</span>
-							<span class="fb-col-group"
+							<span class="fb-col-group" ng-dblclick="documentMgr.dblClick(doc)"
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectFile(doc)">
 								<span class="col name-col first-col" title="{{ doc.displayName | removeExtension }}">
 									<span class="avatar">
@@ -227,7 +227,7 @@
 									<span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
 								</span>
 								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
-									
+
 									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
@@ -281,7 +281,7 @@
 														x-ok-args="doc">
 													<span class="glyphicon glyphicon-ban-circle"></span>
 												</button>
-											</li>	
+											</li>
 											<li ng-if="doc.userCan.delete">
 												<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
@@ -312,7 +312,7 @@
 											</li>
 										</ul>
 									</div>
-									
+
 								</div>
 							</span>
 						</li>
@@ -326,7 +326,7 @@
 			<div class="spinner-container" ng-show="documentMgr.busy">
 				<div class="spinner-new rotating"></div>
 			</div>
-			
+
 			<!-- FILE DETAILS -->
 			<div class="fb-details-content" ng-if="documentMgr.infoPanel.data && documentMgr.infoPanel.type === 'File'">
 				<div class="title-panel">
