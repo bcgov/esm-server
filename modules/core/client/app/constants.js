@@ -178,6 +178,18 @@ angular
 			'Substituted (Provincial Lead)'
 		]
 	)
+	.constant('EAC_DECISIONS',
+		[
+			'Withdrawn',
+			'Certificate Not Required',
+			'Certificate Issued',
+			'In Progress',
+			'Terminated',
+			'Pre-EA Act Approval',
+			'Certificate Refused',
+			'Further Assessment Required'
+		]
+	)
 	.constant('CE_STAGES',
 		[
 			'Pre-Construction',

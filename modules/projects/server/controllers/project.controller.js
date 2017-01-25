@@ -710,9 +710,10 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	mine: function () {
 		var self = this;
+		var isProjectIntake = _.find(self.opts.userRoles, function(r) { return r === 'project-intake'; }) !== undefined;
 
 		//Ticket ESM-640.  If these are the user's only roles on a project, don't show the project.
-		var ignoredSystemRoles = ['compliance-lead', 'project-eao-staff', 'project-qa-officer'];
+		var ignoredSystemRoles = ['compliance-lead', 'project-eao-staff', 'project-qa-officer', 'project-intake'];
 		var findMyProjectRoles = function (username) {
 			return new Promise(function (fulfill, reject) {
 				// find all my projects where i have a role other than an ignored system role.
@@ -729,6 +730,7 @@ module.exports = DBModel.extend ({
 				});
 			});
 		};
+
 		var getMyProjects = function(projectRoles) {
 			//console.log('projectRoles ',JSON.stringify(projectRoles));
 			var projectIds = _.uniq(_.map(projectRoles, 'context'));
@@ -768,12 +770,52 @@ module.exports = DBModel.extend ({
 			});
 		};
 
+		var getUnpublishedProjects = function() {
+			if (!isProjectIntake) {
+				return Promise.resolve([]);
+			} else {
+				var q = {
+					dateCompleted: { "$eq": null },
+					isPublished: false
+				};
+				return new Promise(function(fulfill, reject) {
+					ProjectModel.find (q)
+						.select ({_id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, read: 1 })
+						.populate ('currentPhase', 'name')
+						.sort ('name')
+						.exec (function(error, data) {
+							if (error) {
+								reject(new Error(error));
+							} else if (!data) {
+								fulfill([]);
+							} else {
+								fulfill(data);
+							}
+						});
+				});
+			}
+		};
+
+		var projects, unpublishedprojects, allprojects = [];
 		return findMyProjectRoles(self.user.username)
 			.then(function(prs) {
 				return getMyProjects(prs);
 			})
-			.then(function(projects) {
-				return projects;
+			.then(function(results) {
+				projects = results || [];
+				return getUnpublishedProjects();
+			})
+			.then(function(results) {
+				unpublishedprojects = results || [];
+
+				allprojects = projects;
+
+				_.each(unpublishedprojects, function(o) {
+					if (_.find(projects, function(p) { return p._id.toString() === o._id.toString(); }) === undefined) {
+						allprojects.push(o);
+					}
+				});
+				return _.sortBy(allprojects, function(o) { return o.name; });
 			});
 	},
 

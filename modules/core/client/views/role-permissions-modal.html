@@ -31,7 +31,8 @@
 					<div class="checkbox">
 						<label>
 							<input type="checkbox"
-								ng-change="s.clickRole(s.currentPermission, role, s.permissionRoleIndex.permission[s.currentPermission][role])"
+								   ng-disabled="!s.currentPermission"
+								   ng-change="s.clickRole(s.currentPermission, role, s.permissionRoleIndex.permission[s.currentPermission][role])"
 								ng-model="s.permissionRoleIndex.permission[s.currentPermission][role]" >
 								{{ role }}
 							</input>
@@ -56,6 +57,7 @@
 					<div class="checkbox">
 						<label>
 							<input type="checkbox"
+							ng-disabled="!s.currentRole"
 							ng-change="s.clickPermission(permission, s.currentRole, s.permissionRoleIndex.role[s.currentRole][permission])"
 							ng-model="s.permissionRoleIndex.role[s.currentRole][permission]" >
 							{{ permission }}
@@ -70,5 +72,5 @@
 </div>
 <div class="modal-footer">
 	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
-	<button class="btn btn-primary" ng-click="s.ok()">OK</button>
+	<button class="btn btn-primary" ng-disabled="!s.dirty" ng-click="s.ok()">OK</button>
 </div>

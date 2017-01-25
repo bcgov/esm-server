@@ -104,11 +104,12 @@
 					</div>
 				</div>
 				<div class="row">
-				<div class="col-md-12 form-group">
+				<div class="col-md-4 form-group">
 					<label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
-					<textarea class="form-control" rows="3"
-							name="eacDecision" id="eacDecision"
-							ng-model="project.eacDecision"></textarea>
+					<select class="form-control" name="eacDecision" id="eacDecision"
+							ng-model="project.eacDecision"
+							ng-options="d for d in eacDecisions">
+					</select>
 				</div>
           </div>
 			</fieldset>
