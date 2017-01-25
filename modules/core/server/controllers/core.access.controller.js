@@ -983,20 +983,23 @@ var purgeUserRoles = function(data) {
 };
 exports.purgeUserRoles = purgeUserRoles;
 var assignUserRoles = function(data) {
-
-	// expect an array of {context, user, role}
-	// console.log('assignUserRoles data = ', JSON.stringify(data));
-	return new Promise (function (resolve, reject) {
-		Role.insertMany(data, function(error, docs) {
-			if (error) {
-				// console.log('assignUserRoles Role.insertMany error = ', JSON.stringify(error));
-				reject(error);
-			} else {
-				// console.log('assignUserRoles Role.insertMany result = ', JSON.stringify(docs));
-				resolve(docs);
-			}
+	if (_.isEmpty(data) || _.size(data) === 0) {
+		return Promise.resolve([]);
+	} else {
+		// expect an array of {context, user, role}
+		// console.log('assignUserRoles data = ', JSON.stringify(data));
+		return new Promise (function (resolve, reject) {
+			Role.insertMany(data, function(error, docs) {
+				if (error) {
+					// console.log('assignUserRoles Role.insertMany error = ', JSON.stringify(error));
+					reject(error);
+				} else {
+					// console.log('assignUserRoles Role.insertMany result = ', JSON.stringify(docs));
+					resolve(docs);
+				}
+			});
 		});
-	});
+	}
 };
 exports.assignUserRoles = assignUserRoles;
 

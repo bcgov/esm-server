@@ -586,6 +586,7 @@ angular.module('core')
 										console.log('error saving roles, ', err);
 										s.busy = false;
 										s.progressMsg = '';
+										$scope.$apply();
 									});
 							}
 
