@@ -731,28 +731,7 @@ module.exports = DBModel.extend ({
 			});
 		};
 
-		var findMyIntakeProjects = function(username) {
-			if (isProjectIntake) {
-				return new Promise(function (fulfill, reject) {
-					// find all my projects where i have a role other than an ignored system role.
-					Role.find({ user: username, role: 'project-intake', context: {$ne: 'application'} })
-						.select ({context: 1, role: 1})
-						.exec(function (error, data) {
-							if (error) {
-								reject(new Error(error));
-							} else if (!data) {
-								reject(new Error('findMyProjectRoles: Project IDs not found for username, no project roles assigned for: ' + username));
-							} else {
-								fulfill(data);
-							}
-						});
-				});
-			} else {
-				return Promise.resolve([]);
-			}
-		};
-
-		var getMyProjects = function(projectRoles, unpublished) {
+		var getMyProjects = function(projectRoles) {
 			//console.log('projectRoles ',JSON.stringify(projectRoles));
 			var projectIds = _.uniq(_.map(projectRoles, 'context'));
 			//console.log('projectIds ',JSON.stringify(projectIds));
@@ -760,14 +739,6 @@ module.exports = DBModel.extend ({
 				_id: { "$in": projectIds },
 				dateCompleted: { "$eq": null }
 			};
-
-			if (unpublished && unpublished === true) {
-				q = {
-					_id: { "$in": projectIds },
-					dateCompleted: { "$eq": null },
-					isPublished: false
-				};
-			}
 			return new Promise(function(fulfill, reject) {
 				ProjectModel.find (q)
 					.select ({_id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, read: 1 })
@@ -799,21 +770,51 @@ module.exports = DBModel.extend ({
 			});
 		};
 
-		var projects, intakeprojects, allprojects = [];
+		var getUnpublishedProjects = function() {
+			if (!isProjectIntake) {
+				return Promise.resolve([]);
+			} else {
+				var q = {
+					dateCompleted: { "$eq": null },
+					isPublished: false
+				};
+				return new Promise(function(fulfill, reject) {
+					ProjectModel.find (q)
+						.select ({_id: 1, code: 1, name: 1, region: 1, status: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, read: 1 })
+						.populate ('currentPhase', 'name')
+						.sort ('name')
+						.exec (function(error, data) {
+							if (error) {
+								reject(new Error(error));
+							} else if (!data) {
+								fulfill([]);
+							} else {
+								fulfill(data);
+							}
+						});
+				});
+			}
+		};
+
+		var projects, unpublishedprojects, allprojects = [];
 		return findMyProjectRoles(self.user.username)
 			.then(function(prs) {
 				return getMyProjects(prs);
 			})
 			.then(function(results) {
 				projects = results || [];
-				return findMyIntakeProjects(self.user.username);
-			})
-			.then(function(iprs) {
-				return getMyProjects(iprs, true);
+				return getUnpublishedProjects();
 			})
 			.then(function(results) {
-				intakeprojects = results || [];
-				allprojects = _.union(projects, intakeprojects);
+				unpublishedprojects = results || [];
+
+				allprojects = projects;
+
+				_.each(unpublishedprojects, function(o) {
+					if (_.find(projects, function(p) { return p._id.toString() === o._id.toString(); }) === undefined) {
+						allprojects.push(o);
+					}
+				});
 				return _.sortBy(allprojects, function(o) { return o.name; });
 			});
 	},
