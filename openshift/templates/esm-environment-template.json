@@ -249,7 +249,7 @@
               "from": {
                 "kind": "ImageStreamTag",
                 "namespace": "${MONGO_IMAGE_NAMESPACE}",
-                "name": "mongodb:2.6"
+                "name": "mongodb:3.2"
               }
             }
           },
@@ -304,7 +304,7 @@
                       "/bin/sh",
                       "-i",
                       "-c",
-                      "mongostat --host 127.0.0.1 -u admin -p ${DATABASE_ADMIN_PASSWORD} -n 1 --noheaders"
+                      "mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD --eval='quit()'"
                     ]
                   }
                 },

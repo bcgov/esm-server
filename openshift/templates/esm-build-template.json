@@ -47,7 +47,7 @@
             "from": {
               "kind": "ImageStreamTag",
               "namespace": "${S2I_NAMESPACE}",
-              "name": "nodejs:0.10"
+              "name": "nodejs:4"
             }
           }
         },
@@ -76,10 +76,7 @@
               "secret": "${GENERIC_WEBHOOK_SECRET}"
             }
           }
-        ],
-        "postCommit": {
-          "script": "npm test"
-        }
+        ]
       }
     }
   ],
