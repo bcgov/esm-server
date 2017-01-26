@@ -8,7 +8,7 @@ angular.module('documents')
 				project: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
-			controller: function ($scope, $log, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
+			controller: function ($scope, $filter, $log, $modal, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
@@ -172,31 +172,61 @@ angular.module('documents')
 				};
 
 				self.dblClick = function(doc){
-					console.log("BG In dbl click handler");
-					function showFile(doc) {
-						return self.showFile(doc);
+					/*
+					If user can not read the document (BG: I'm not sure this is possible) then show an alert to say
+					"You can not read this document" (BG: someone needs to review the text)
+					Else (user can read file)
+						If the doc is a pdf then open it with the pdf viewer
+						Else show a confirmation dialog to offer the user can download the file.
+							If user selects yes then download the file.
+							Else no op
+					 */
+					if(!doc.userCan.read) {
+						AlertService.success('You can not have access to read this document.');
+						return;
 					}
-					function cancel() {
-						console.log("BG cancel dbl click confirm");
-						return Promise.resolve();
+					if(doc.internalMime === 'application/pdf') {
+						openPDF(doc);
+						return;
 					}
+					// $filter bytes is filterBytes in documents.client.controllers.js
+					var size = $filter('bytes')(doc.internalSize, 2);
+					var msg = 'Confirm download of: ' + doc.displayName + ' (' + size + ')';
+
 					var scope = {
 						titleText: doc.displayName,
-							confirmText: 'confirm',
+							confirmText: msg,
 							confirmItems: undefined,
-							okText: 'oktext',
-							cancelText: 'canceltext',
-							onOk: showFile,
-							onCancel: cancel,
+							okText: 'OK',
+							cancelText: 'Cancel',
+							onOk: downLoadFile,
+							onCancel: cancelDownload,
 							okArgs: doc
 					};
 					ConfirmService.confirmDialog(scope);
-				};
+					return;
 
-				self.showFile = function(doc) {
-					console.log("BG showFile", doc);
-					return Promise.resolve(true);
-				}
+					function downLoadFile(doc) {
+						var pdfURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
+						window.open(pdfURL, "_self");
+						return Promise.resolve(true);
+					}
+					function cancelDownload() {
+						return Promise.resolve();
+					}
+					function openPDF(doc){
+						var modalDocView = $modal.open({
+							resolve: {
+								pdfobject: { _id: doc._id }
+							},
+							templateUrl: 'modules/documents/client/views/partials/pdf-viewer.html',
+							controller: 'controllerModalPdfViewer',
+							controllerAs: 'pdfViewer',
+							windowClass: 'document-viewer-modal'
+						});
+						modalDocView.result.then(function () {}, function () {});
+					}
+				};
 
 				self.checkDir = function(doc) {
 					self.syncCheckedItems(doc);
