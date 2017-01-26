@@ -47,6 +47,11 @@
 			border-color: $brand-primary;
 		}
     }
+    .download {
+      /*  Match the padding on the btn.close element so the download link is aligned with the close button
+      */
+      padding:0.7rem;
+    }
 
     .loading-indicator {
         position: fixed;
