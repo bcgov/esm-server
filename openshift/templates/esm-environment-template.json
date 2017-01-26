@@ -138,6 +138,14 @@
                 ],
                 "env": [
                   {
+                    "name": "MOUNT_POINT_TIMEOUT",
+                    "value": "10"
+                  },
+                  {
+                    "name": "MOUNT_POINT_CHECK",
+                    "value": "${UPLOAD_PATH}"
+                  },
+                  {
                     "name": "DATABASE_SERVICE_NAME",
                     "value": "${DATABASE_SERVICE_NAME}"
                   },
@@ -169,14 +177,16 @@
                     "path": "${READINESS_PROBE_URL}",
                     "port": 3000
                   }
-                },
-                "livenessProbe": {
-                  "timeoutSeconds": 3000,
-                  "initialDelaySeconds": 30,
-                  "httpGet": {
-                    "path": "${READINESS_PROBE_URL}",
-                    "port": 3000
-                  }
+                  },
+                  "livenessProbe": {
+                    "exec": {
+                      "command": ["sh","/opt/app-root/src/scripts/mount_test.sh"]
+                      },
+                      "initialDelaySeconds": 10,
+                      "timeoutSeconds": 5,
+                      "periodSeconds": 60,
+                      "successThreshold": 1,
+                      "failureThreshold": 3
                 },
                 "resources": {
                   "limits": {
