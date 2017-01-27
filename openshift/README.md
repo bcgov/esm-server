@@ -132,7 +132,7 @@ failureThreshold: 3
 ```
 Mount detection script:
 ```
-<a href='https://github.com/bcgov/esm-server/blob/develop/scripts/mount_test.sh'></a>
+(https://github.com/bcgov/esm-server/blob/develop/scripts/mount_test.sh)
 
 
 ```
