@@ -131,8 +131,8 @@ Mount detection script:
 https://github.com/bcgov/esm-server/blob/develop/scripts/mount_test.sh
 
 
-Environment Variables:
 
+Environment Variables:
 
 MOUNT_POINT_CHECK=/remote/dir
 
