@@ -89,21 +89,21 @@ angular
 	)
 	.constant('PROJECT_TYPES',
 		[
-			'Mining',
-			'Energy-Electrical',
+			'Energy-Electricity',
 			'Energy-Petroleum & Natural Gas',
-			'Transportation',
-			'Water Management',
-			'Industrial',
-			'Waste Disposal',
 			'Food Processing',
-			'Tourist Destination',
-			'Other'
+			'Industrial',
+			'Mines',
+			'Other',
+			'Tourist Destination Resorts',
+			'Transportation',
+			'Waste Disposal',
+			'Water Management'
 		]
 	)
 	.constant('PROJECT_SUB_TYPES',
 		{
-			'Mining': [
+			'Mines': [
 				'Coal Mines',
 				'Construction Stone and Industrial Mineral Quarries',
 				'Mineral Mines',
@@ -111,7 +111,7 @@ angular
 				'Placer Mineral Mines',
 				'Sand and Gravel Pits'
 			],
-			'Energy-Electrical': [
+			'Energy-Electricity': [
 				'Electric Transmission Lines',
 				'Power Plants'
 			],
@@ -152,7 +152,7 @@ angular
 				'Meat and Meat Products Industry',
 				'Poultry Products Industry'
 			],
-			'Tourist Destination': [
+			'Tourist Destination Resorts': [
 				'Golf Resorts',
 				'Marina Resorts',
 				'Resort Developments',

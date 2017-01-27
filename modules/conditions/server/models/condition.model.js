@@ -23,7 +23,16 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	__access           : [],
 	subject            : {type:String, default: ''},
 	reportRequirements : {type:String, default: ''},
-	sector             : { type:String, default:'Mining', enum:['Mining', 'Energy', 'Transportation', 'Water Management', 'Industrial', 'Waste Management', 'Waste Disposal', 'Food Processing', 'Tourist Destination', 'Other']},
+	sector             : { type:String, default:'Mines', enum:['Energy-Electricity',
+		'Energy-Petroleum & Natural Gas',
+		'Food Processing',
+		'Industrial',
+		'Mines',
+		'Other',
+		'Tourist Destination Resorts',
+		'Transportation',
+		'Waste Disposal',
+		'Water Management']},
 	stages             : [{type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning']}],
 	pillars            : [{type:String, enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health']}]
 });
