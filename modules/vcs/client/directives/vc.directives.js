@@ -127,7 +127,16 @@ angular.module ('vcs')
 					windowClass: 'vc-chooser-view',
 					resolve: {
 						vcs: function (VcModel) {
-							return VcModel.forProject (scope.project._id);
+							return VcModel.forProject (scope.project._id)
+								.then( function (list) {
+									var rval = []; // ESM-733 display only published VCs
+									_.each(list, function (item) {
+										if(item.isPublished) {
+											rval.push(item);
+										}
+									});
+									return rval;
+								});
 						}
 					},
 					controller: function ($scope, $modalInstance, vcs) {
