@@ -922,7 +922,7 @@ function filterRemoveExtension() {
 			var index = input.lastIndexOf(".");
 			if (index !== -1 && (index >= input.length-5)) {
 				var filename = input.substring(0, index);
-				return filename.toLowerCase();
+				return filename; // ESM-724 Preserve file name case
 			}
 		}
 		return input;
