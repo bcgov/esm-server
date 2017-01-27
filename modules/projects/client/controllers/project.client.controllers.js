@@ -215,6 +215,25 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 		$scope.eacDecisions.push(item);
 	});
 
+	$scope.saveEPD = function(users) {
+		var user = _.isArray(users) ? users[0] : users;
+		$scope.project.responsibleEPD = user.firstName;
+		$scope.project.responsibleEPDEmail = user.email;
+		$scope.project.responsibleEPDPhone = user.phoneNumber;
+	}
+	$scope.saveProjectLead = function(users) {
+		var user = _.isArray(users) ? users[0] : users;
+		$scope.project.projectLead = user.firstName;
+		$scope.project.projectLeadEmail = user.email;
+		$scope.project.projectLeadPhone = user.phoneNumber;
+	}
+	$scope.saveCELead = function(users) {
+		var user = _.isArray(users) ? users[0] : users;
+		$scope.project.CELead = user.firstName;
+		$scope.project.CELeadLead = user.email;
+		$scope.project.CELeadPhone = user.phoneNumber;
+	}
+
 	$scope.saveProject = function(isValid) {
 		if (!isValid) {
 			$scope.$broadcast('show-errors-check-validity', 'projectForm');
