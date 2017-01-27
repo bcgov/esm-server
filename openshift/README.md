@@ -108,13 +108,11 @@ OpenShift CI/CD pieline Demos:
 - https://www.youtube.com/watch?v=wSFyg6Etwx8
  
 "Transport endpoint is not connected" healthcheck solution:
-----------------------------------------------------
 
-Caveat: As soon as the volume 'goes away' your application will also be torn down and unavailable until such time as the glusterFS/NFS/Remote mount comes back.  This is because the healthcheck once failed with kill the pod(s).  This may or may not be desirable based on your individual application behaviors.
+Caveat - As soon as the volume 'goes away' your application will also be torn down and unavailable until such time as the glusterFS/NFS/Remote mount comes back.  This is because the healthcheck once failed with kill the pod(s).  This may or may not be desirable based on your individual application behaviors.
 
 
 Liveness snippet to put in your deployment config:
-----------------------------------------------------
 ```
 livenessProbe:
 exec:
@@ -127,8 +125,11 @@ failureThreshold: 3
 ```
 
 Mount detection script:
-----------------------------------------------------------------------
+
+
 https://github.com/bcgov/esm-server/blob/develop/scripts/mount_test.sh
+
+
 ```
 #!/bin/sh
 echo "Starting file write test."
@@ -161,7 +162,8 @@ fi
 ```
 
 Environment Variables:
--------------------------------------------------------
+
+
 MOUNT_POINT_CHECK=/remote/dir
 
 
