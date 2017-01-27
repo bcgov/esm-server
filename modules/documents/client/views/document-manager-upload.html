@@ -59,7 +59,7 @@
 										<span ng-if="f.progress == 100"> - {{f.status}}</span>
 									</div>
 									<div class="progress">
-										<div class="progress-bar" style="width:{{f.progress}}%" title="{{f.progress}}%" role="progressbar"></div>
+										<div class="progress-bar" ng-style="{'width' : f.progress + '%'}" title="{{f.progress}}%" role="progressbar"></div>
 									</div>
 								</div>
 								<button class="btn icon-btn"
