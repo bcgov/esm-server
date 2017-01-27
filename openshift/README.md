@@ -107,7 +107,65 @@ OpenShift CI/CD pieline Demos:
 - https://www.youtube.com/watch?v=65BnTLcDAJI
 - https://www.youtube.com/watch?v=wSFyg6Etwx8
  
+"Transport endpoint is not connected" healthcheck solution:
+----------------------------------------------------
 
+Caveat: As soon as the volume 'goes away' your application will also be torn down and unavailable until such time as the glusterFS/NFS/Remote mount comes back.  This is because the healthcheck once failed with kill the pod(s).  This may or may not be desirable based on your individual application behaviors.
+
+
+Liveness snippet to put in your deployment config:
+----------------------------------------------------
+```
+livenessProbe:
+exec:
+  command: [sh, /opt/app-root/src/scripts/mount_test.sh]
+initialDelaySeconds: 10
+timeoutSeconds: 5
+periodSeconds: 60
+successThreshold: 1
+failureThreshold: 3
+```
+
+Mount detection script:
+----------------------------------------------------------------------
+https://github.com/bcgov/esm-server/blob/develop/scripts/mount_test.sh
+```
+#!/bin/sh
+echo "Starting file write test."
+echo "Checking: $MOUNT_POINT_CHECK for $MOUNT_POINT_TIMEOUT seconds."
+
+TOUCHFILE=${MOUNT_POINT_CHECK}/.mount_test_$(date +%Y-%m-%d--%H-%M-%S).$RANDOM.$$
+touch ${TOUCHFILE} &>/dev/null &
+TOUCHPID=$!
+for (( i=1 ; i<$MOUNT_POINT_TIMEOUT ; i++ )) ; do
+	if ps -p $TOUCHPID > /dev/null ; then
+		sleep 1
+	else
+		break
+	fi
+done
+if ps -p $TOUCHPID > /dev/null ; then
+	$(kill -s SIGTERM $TOUCHPID &>/dev/null)
+	echo "Could not write in ${MOUNT_POINT_CHECK} in $MOUNT_POINT_TIMEOUT sec."
+	exit 1
+else
+	if [ ! -f ${TOUCHFILE} ]; then
+		echo "CRIT: ${TOUCHFILE} is not writable."
+		exit 1
+	else
+		rm ${TOUCHFILE} &>/dev/null
+		echo "File test write success"
+		exit 0
+	fi
+fi
+```
+
+Environment Variables:
+-------------------------------------------------------
+MOUNT_POINT_CHECK=/remote/dir
+
+
+MOUNT_POINT_TIMEOUT=seconds
   
 
    
