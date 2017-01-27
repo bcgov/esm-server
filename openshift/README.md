@@ -107,6 +107,8 @@ OpenShift CI/CD pieline Demos:
 - https://www.youtube.com/watch?v=65BnTLcDAJI
 - https://www.youtube.com/watch?v=wSFyg6Etwx8
  
+
+-----------
 ```
 Transport endpoint is not connected healthcheck solution:
 ```
