@@ -154,7 +154,7 @@ angular.module('users')
 									console.log("Invoke the FIND");
 									this.search();
 								}
-							}
+							};
 
 						}
 					}).result.then(function (data) {
