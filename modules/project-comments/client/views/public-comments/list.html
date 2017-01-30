@@ -27,7 +27,7 @@
 		</div>
 		<div ng-if="s.period.userCan.classifyComments && !s.period.userCan.vetComments">
 			<!-- PROPONENT TEMPLATES  -->
-			<ul class="tab-container nav nav-tabs" role="tablist">
+			<ul class="tab-container nav nav-pills" role="tablist">
 				<li role="presentation" class="active"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
 				<li role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
 			</ul>
