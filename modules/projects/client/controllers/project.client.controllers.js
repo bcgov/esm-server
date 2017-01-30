@@ -230,7 +230,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	$scope.saveCELead = function(users) {
 		var user = _.isArray(users) ? users[0] : users;
 		$scope.project.CELead = user.firstName;
-		$scope.project.CELeadLead = user.email;
+		$scope.project.CELeadEmail = user.email;
 		$scope.project.CELeadPhone = user.phoneNumber;
 	};
 

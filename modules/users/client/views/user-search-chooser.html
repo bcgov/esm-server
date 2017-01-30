@@ -11,15 +11,15 @@
 		<div class="inline-search-fields">
 			<div class="form-group">
 				<label class="control-label">Name</label>
-				<input class="form-control" type="text" ng-model="s.name"></input>
+				<input class="form-control" type="text" ng-model="s.name" ng-keypress="s.keyPressEvent($event)"></input>
 			</div>
 			<div class="form-group">
 				<label class="control-label">Email</label>
-				<input class="form-control" type="text" ng-model="s.email"></input>
+				<input class="form-control" type="text" ng-model="s.email" ng-keypress="s.keyPressEvent($event)"></input>
 			</div>
 			<div class="form-group col-md-3">
 				<label class="control-label">Organization</label>
-				<input class="form-control" type="text" ng-model="s.org"></input>
+				<input class="form-control" type="text" ng-model="s.org" ng-keypress="s.keyPressEvent($event)"></input>
 			</div>
 			<div class="form-group">
 				<label class="control-label">Project Group</label>

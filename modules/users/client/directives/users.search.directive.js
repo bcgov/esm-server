@@ -147,6 +147,15 @@ angular.module('users')
 								});
 							};
 
+							s.keyPressEvent = function(event) {
+
+								if (event.keyCode === 13) {
+									event.preventDefault();
+									console.log("Invoke the FIND");
+									this.search();
+								}
+							};
+
 						}
 					}).result.then(function (data) {
 						var isFunction = typeof(scope.destination) === 'function';
