@@ -458,7 +458,6 @@ angular.module ('comment')
 						$scope.project = scope.project;
 
 						var maxFileSize = 5 * 1024 * 1024; //5MB
-						var allowedType = 'application/pdf';
 
 						s.step    = 1;
 						s.comment = comment;
@@ -474,7 +473,7 @@ angular.module ('comment')
 								s.showAlert = false;
 								s.comment.inProgress = false;
 								_.each( newValue, function(file, idx) {
-									if (file.type !== allowedType || file.size > maxFileSize) {
+									if (file.size > maxFileSize) {
 										s.showAlert = true;
 									} else {
 										s.fileList.push(file);
