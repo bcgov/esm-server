@@ -6,11 +6,6 @@ var _ = require('lodash'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
 	Role = mongoose.model('_Role');
-	//Invitation = mongoose.model('Invitation');
-	// Role = mongoose.model('Role'),
-	// Roles = require(path.resolve('./modules/roles/server/controllers/role.controller'));
-
-var Invitation = require(path.resolve('./modules/invitations/server/controllers/invitation.controller'));
 
 // ensure that we have come through Siteminder...
 var parseSm = function (req) {
@@ -161,61 +156,6 @@ exports.signIn = function (req, res) {
 			}
 			res.redirect(redirectPath);
 		});
-};
-
-exports.acceptInvitation = function (req, res) {
-	//console.log('acceptInvitation > token = ', req.params.token);
-	//console.log('acceptInvitation > user = ', JSON.stringify(req.user));
-	var redirectPath = '/';
-	var invite, siteMinder, user;
-
-	(new Invitation({user: req.user, context: 'application'})).acceptInvitation(req)
-		.then(function (data) {
-			//console.log('acceptInvitation > invite = ', JSON.stringify(data));
-			invite = data;
-			return parseSm(req);
-		})
-		.then(function (sm) {
-			//console.log('acceptInvitation > siteMinder = ', JSON.stringify(sm));
-			siteMinder = sm;
-			return findUserByGuid(siteMinder.userGuid).catch(function () {
-				// user may not have guid populated yet...
-				return null;
-			});
-		})
-		.then(function (u) {
-			if (u) {
-				//console.log('acceptInvitation > found guid = ', JSON.stringify(u));
-				user = u;
-			}
-			//console.log('acceptInvitation > call checkUsers = ', JSON.stringify(u));
-			return checkUsers(siteMinder, user, invite.user);
-		})
-		.then(function (u) {
-			//console.log('acceptInvitation > checkUsers = ', JSON.stringify(u));
-			user = u; // may come from the invite user, or the sm user...
-			//console.log('acceptInvitation > call updateRolesUsername = ', JSON.stringify(u));
-			return updateRolesUsername(siteMinder, user);
-		})
-		.then(function () {
-			//console.log('acceptInvitation > call updateUserFromSiteminder = ', JSON.stringify(user));
-			return updateUserFromSiteminder(siteMinder, user);
-		})
-		.then(function () {
-			//console.log('acceptInvitation > call loginUser = ', JSON.stringify(user));
-			return loginUser(req, user);
-		})
-		.then(function () {
-			//console.log(chalk.green('loginUser(): ' + req.isAuthenticated()));
-			res.redirect(redirectPath);
-		})
-		.catch(function (err) {
-			//console.error(chalk.red('Error: acceptInvitation(): ' + err.message));
-			// should we do something differently here?
-			// can we examine an error type and send off a different message?
-			res.redirect(redirectPath);
-		});
-
 };
 
 exports.logHeaders = function(req, res) {

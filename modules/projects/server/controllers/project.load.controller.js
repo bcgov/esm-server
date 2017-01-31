@@ -4,9 +4,7 @@ var fs                  = require ('fs');
 var mongoose            = require ('mongoose');
 var Project             = require ('../controllers/project.controller');
 var OrganizationController = require ('../../../organizations/server/controllers/organization.controller');
-var PhaseController 	= require ('../../../phases/server/controllers/phase.controller');
 var Model               = mongoose.model ('Project');
-var Phase               = mongoose.model ('Phase');
 var Organization        = mongoose.model ('Organization');
 var CSVParse            = require ('csv-parse');
 
@@ -21,83 +19,6 @@ var CSVParse            = require ('csv-parse');
 module.exports = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		var params = req.url.split("/");
-		var doPhaseWork = function(project, phase) {
-			var finalPhaseCode = phase.toLowerCase().replace (/\W+/g,'-');
-			// console.log("final:", finalPhaseCode);
-			var stopProcessing = false;
-			// This is a really horrible way to do this, but it's good enough for now.
-			return new Promise(function(rs, rj) {
-				if (finalPhaseCode === "pre-application") {
-					rs(project);
-				} else if (finalPhaseCode === "under-construction") {
-					return (new Project(opts)).startNextPhase(project)
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[1];
-						pr.currentPhaseCode = pr.phases[1].code;
-						pr.currentPhaseName = pr.phases[1].name;
-						new Project(opts)
-							.saveDocument(pr)
-							.then(rs);
-						});
-				} else if (finalPhaseCode === "operating") {
-					return (new Project(opts)).startNextPhase(project) // intake
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then (function (project) {
-						project.currentPhase     = project.phases[2];
-						project.currentPhaseCode = project.phases[2].code;
-						project.currentPhaseName = project.phases[2].name; // set to pre-app
-						new Project(opts)
-							.saveDocument(project)
-							.then(rs);
-					});
-				} else if (finalPhaseCode === "care-and-maintenance") {
-					return (new Project(opts)).startNextPhase(project) // intake
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[2];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then (function (project) {
-						project.currentPhase     = project.phases[3];
-						project.currentPhaseCode = project.phases[3].code;
-						project.currentPhaseName = project.phases[3].name;
-						new Project(opts)
-							.saveDocument(project)
-							.then(rs);
-						});
-				} else if (finalPhaseCode === "closed") {
-					return (new Project(opts)).startNextPhase(project) // intake
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[1];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[2];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then( function (pr) {
-						pr.currentPhase     = pr.phases[3];
-						return (new Project(opts)).startNextPhase(pr); // pre-ea
-					})
-					.then (function (project) {
-						project.currentPhase     = project.phases[4];
-						project.currentPhaseCode = project.phases[4].code;
-						project.currentPhaseName = project.phases[4].name;
-						new Project(opts)
-							.saveDocument(project)
-							.then(rs);
-						});
-				} else {
-					console.log("unhandled phase code. ", finalPhaseCode);
-				}
-			});
-		};
 		var doOrgWork = function(proponent, project) {
 			return new Promise(function(rs, rj) {
 				Organization.findOne ({name:proponent.name}, function (err, result) {
@@ -174,7 +95,6 @@ module.exports = function(file, req, res, opts) {
 						if (!isNaN(row.id)) {
 							id = parseInt(row.id);
 						}
-						var phaseObj = null;
 						var newObj = null;
 						var published = row.isPublished === 'TRUE' || row.isPublished === 'true';
 						var termsAgreed = row.isTermsAgreed === 'TRUE' || row.isTermsAgreed === 'true';
@@ -182,7 +102,6 @@ module.exports = function(file, req, res, opts) {
 							name: row.Proponent
 						};
 						var query = { memPermitID: row.id };
-						phaseObj 	= row.phase;
 						newObj = {
 							name 				: row.ProjectName,
 							memPermitID			: row.id,
@@ -200,7 +119,7 @@ module.exports = function(file, req, res, opts) {
 							isTermsAgreed 		: termsAgreed,
 							type				: row.type
 						};
-						promises.push({obj: newObj, query: query, proponent: newProponent, phase: phaseObj });
+						promises.push({obj: newObj, query: query, proponent: newProponent});
 					}
 				});
 
@@ -217,9 +136,6 @@ module.exports = function(file, req, res, opts) {
 							//
 							.then(function (project) {
 								return doOrgWork(item.proponent, project);
-							})
-							.then(function (org) {
-								return doPhaseWork(org, item.phase);
 							});
 						});
 					}, Promise.resolve());

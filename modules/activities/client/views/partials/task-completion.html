@@ -1,8 +1,0 @@
-<ul class="list-unstyled no-lower-margin">
-	<li ng-repeat="req in reqChecklist.reqs">
-		<div class="pull-right" ng-if="req.dateComplete"><span class="glyphicon glyphicon-ok-circle text-success"></span></div>
-		<div class="pull-right" ng-if="!req.dateComplete"><span class="glyphicon glyphicon-remove-circle text-danger"></span></div>
-		{{ req.name }}
-	</li>
-	<li ng-if="reqChecklist.reqs.length === 0">No requirements defined.</li>
-</ul>
