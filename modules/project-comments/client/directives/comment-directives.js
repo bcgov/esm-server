@@ -443,6 +443,7 @@ angular.module ('comment')
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/add.html',
 					controllerAs: 's',
+					backdrop: 'static',
 					size: 'lg',
 					windowClass: 'public-comment-modal',
 					resolve: {
