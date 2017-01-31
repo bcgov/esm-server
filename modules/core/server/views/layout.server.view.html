@@ -13,8 +13,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-  <!-- Facebook META -->
-  <meta property="fb:app_id" content="{{facebookAppId}}">
   <meta property="og:site_name" content="{{title}}">
   <meta property="og:title" content="{{title}}">
   <meta property="og:description" content="{{description}}">
@@ -34,6 +32,9 @@
         rel="alternate"
         type="application/rss+xml"
         title="News & Announcements for the Environmental Assessment Office" />
+  
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
   <!-- Application CSS Files -->
   {% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
@@ -61,6 +62,9 @@
   {% for jsFile in jsAppFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
 
   <script type="text/javascript" src="/dist/conf.js"> </script>
+
+  <script src="https://use.typekit.net/xuv4guc.js"></script>
+  <script>try{Typekit.load({ async: true });}catch(e){}</script>
 
   {% if livereload %}
   <!--Livereload script rendered -->

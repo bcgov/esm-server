@@ -76,14 +76,6 @@ var seedingAsync = function() {
 	checkIntegration('emailtemplates').then(function () {
 		require('../seed-data/load-emailtemplates')();
 	});
-
-	checkIntegration('loadmem').then(function () {
-		require('../seed-data/load-mem')();
-	});
-
-	 require('../seed-data/load-prototypeuser')();
-	 require('../seed-data/load-prototypedata')();
-
 };
 
 // =========================================================================

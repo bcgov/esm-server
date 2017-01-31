@@ -31,7 +31,6 @@ module.exports.initLocalVariables = function (app) {
 	}
 	app.locals.keywords = config.app.keywords;
 	app.locals.googleAnalyticsTrackingID = config.app.googleAnalyticsTrackingID;
-	app.locals.facebookAppId = config.facebook.clientID;
 	app.locals.jsLibFiles = config.files.client.jsLibFiles;
 	app.locals.jsAppFiles = config.files.client.jsAppFiles;
 	app.locals.cssFiles = config.files.client.css;

@@ -13,7 +13,7 @@
 		<p>EAO publishes all accepted comments within seven days of receipt. Comments are not accepted if - in EAO’s view - they are profane, abusive or do not relate to the matter being consulted upon as stated in our <a href="http://www.eao.gov.bc.ca/pdf/EAO_Policy_Public_Comment.pdf" target="_blank">Public Comment Policy [PDF]</a>.</p>
 		<p>EAO forwards all posted comments to project proponents so that they can be duly considered during the project's Environmental Assessment (EA) process.</p>
 		<p>You may provide your name and city/town when making a comment, but in order to have your name displayed with your comment you must select the 'Show my name and location on the public site' option.</p>
-		<p>All hyperlinks in comments will be converted to plain text. All attachments must be in PDF format and limited to 5MB.</p>
+		<p>All hyperlinks in comments will be converted to plain text. All attachments must be no larger than <strong>5MB</strong>.</p>
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
@@ -55,7 +55,7 @@
 					<label class="control-label">Upload Attachments</label>
 
 					<div class="alert alert-danger alert-dismissable" ng-show="s.filesRemoved">
-						Attachments must be in <strong>PDF format</strong> and limited to <strong>5MB</strong>.
+						Attachments must be no larger than <strong>5MB</strong>.
 						<button type="button" class="close" data-dismiss="alert">
 							<span aria-hidden="true">&times;</span>
 						</button>
@@ -65,10 +65,9 @@
 						ngf-drag-over-class="dragover"
 						ngf-multiple="true"
 						ngf-allow-dir="true"
-						accept="application/pdf"
 						ngf-max-total-size="5MB">
 						<div class="instructions"><strong>Drag and Drop Files Here</strong> or <strong>Select Files</strong></div>
-						<div class="requirements">Attachments must be in PDF format and limited to 5MB.</div>
+						<div class="requirements">Attachments must be no larger than <strong>5MB</strong>.</div>
 					</div>
 					<ul class="list-group">
 						<li class="list-group-item flex-row"

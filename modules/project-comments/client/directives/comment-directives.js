@@ -377,6 +377,8 @@ angular.module ('comment')
 			element.on('click', function () {
 				$modal.open ({
 					animation: true,
+					backdrop  : 'static',
+					keyboard  : false,
 					templateUrl: 'modules/project-comments/client/views/public-comments/add.html',
 					controllerAs: 's',
 					size: 'lg',
@@ -401,11 +403,7 @@ angular.module ('comment')
 								s.filesRemoved = false;
 								s.comment.inProgress = false;
 								_.each( newValue, function(file, idx) {
-									if (file.type === 'application/pdf') {
-										s.fileList.push(file);
-									} else {
-										s.filesRemoved = true;
-									}
+									s.fileList.push(file);
 								});
 							}
 						});
