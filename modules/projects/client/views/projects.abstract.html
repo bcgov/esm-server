@@ -1,7 +1,7 @@
 
 <ui-view class="main-panel home-view" id="main-content-section">
 
-	<div class="welcome-alert alert alert-success alert-dismissible" role="alert">
+	<div ng-if="!seenOnce" class="welcome-alert alert alert-success alert-dismissible" role="alert">
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 		<h2>EAO Project Information &amp; Collaboration System</h2>
 		<p>Welcome to the BC Environmental Assessment Office’s new web-based Project Information and Collaboration System (“EPIC”), our tool to improve the efficiency and transparency of the provincial environmental assessment process, and to provide citizens and stakeholders with more intuitive access to project data and information.</p>
