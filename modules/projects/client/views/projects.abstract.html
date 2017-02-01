@@ -1,128 +1,144 @@
 
 <ui-view id="main-content-section">
 
-    <div class="hero-banner landing-pg-banner">
+    <div class="hero-banner">
         <div class="container">
             <div class="container-inner">
                 <div class="hb-txt">
-                    <h1>British Columbia <span>Mine Information</span><span class="badge" id="alpha" title="What is this?">Alpha 2.0</span></h1>
-                    <p>Mining is one of British Columbia’s oldest and most dynamic industries. The Province of British Columbia is committed to continuing to provide effective oversight of this important sector.</p>
-                    <div class="hb-btns">
-                        <a class="btn slide-l-btn hero-btn inverted" href="mine-list.html"><i class="material-icons">list</i><span>View List</span></a>
-                        &nbsp;&nbsp;<span>or</span>&nbsp;&nbsp;
-                        <a class="btn slide-l-btn hero-btn inverted" href="mine.html"><i class="material-icons">map</i><span>View Map</span></a>
-                    </div>
+                    <h1>Find Mines in British Columbia</h1>
+                    <p class="mb-2">The BC Mine Information website’s currently includes 15 major mine sites</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <main>
-        <div class="bg-default">
-            <div class="site-intro container">
-                <div class="row">
-                    <div class="col-lg-8">
-                        <section class="about-info">
-                            <h2>About BC Mine Information</h2>
-                            <p>The Ministry of Energy and Mines (MEM), the Ministry of Environment (ENV) and the Environmental Assessment Office (EAO) have collaborated to make information on the Province’s oversight of major mines in British Columbia more accessible than ever before.</p>
-                            <p>This is the first time mine-related information from all three agencies has been made available online in one place, and more information will be added on an ongoing basis.</p>
-                            <p>This site currently profiles 15 major mines across the province (7 operating metal mines, 6 operating coal mines, and 2 under construction metal mines). Other permitted major mines in BC will be added in the coming months.</p>
-                            <p class="mb-0">If you want to learn more about a major mine not yet included on this website, please visit <a href="https://mines.empr.gov.bc.ca" target="_blank">mines.empr.gov.bc.ca</a>.</p>
-                        </section>
-                    </div>
-                    <div class="col-lg-4">
-                        <section class="fast-facts">
-                            <h4>Fast Facts about the Mining Industry in British Columbia</h4>
-                            <ul class="row mb-0">
-                                <li class="col-xs-12 col-sm-6 col-lg-12">
-                                    <div>
-                                        <span class="metric">$2<sup>B</sup></span>
-                                        <span class="metric-desc">2015 Production Value of Mining [ Natural Resources Canada Preliminary Estimate ]</span>
-                                    </div>
-                                </li>
-                                <li class="col-xs-12 col-sm-6 col-lg-12">
-                                    <div>
-                                        <span class="metric">$272<sup>M</sup></span>
-                                        <span class="metric-desc">2015 Industry Mineral Exploration Spending [ British Columbia Geological Survey ]</span>
-                                    </div>
-                                </li>
-                                <li class="col-xs-12 col-sm-6 col-lg-12">
-                                    <div>
-                                        <span class="metric">13</span>
-                                        <span class="metric-desc">Number of Operating Metal &amp; Coal Mines in British Columbia</span>
-                                    </div>
-                                </li>
-                                <li class=" col-xs-12 col-sm-6 col-lg-12">
-                                    <div>
-                                        <span class="metric">8</span>
-                                        <span class="metric-desc">Number of Mines Under Review by the Environmental Assessment Office</span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </section>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="fb-container bg-faded">
-            <section class="container">
-                <h2>Mining in British Columbia</h2>
-                <div class="row feature-blocks">
-                    <div class="col-md-4">
-                        <div class="feature-block">
-                            <h3>The Mining Lifecycle</h3>
-                            <p>It can take decades to develop a deposit into a mine, which in turn can operate for decades</p>
-                            <a class="btn inverted" href="mining-lifecycle.html">Learn More</a>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="feature-block">
-                            <h3>Topics of Interest</h3>
-                            <p>Profiling key topics of interest regarding mining activities in British Columbia</p>
-                            <a class="btn inverted" href="topics-of-interest.html">Learn More</a>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="feature-block">
-                            <h3>Find Mines in B.C.</h3>
-                            <p>The BC Mine Information website’s interactive map currently includes 15 mine sites</p>
-                            <a class="btn inverted" href="mine-list.html">View List</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+    <div class="container">
+        <div class="row">
+            <main class="col-lg-8">
+                <section>
+                    <h2>Major Mines in British Columbia</h2>
+                    <p class="tab-intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-        <div class="fb-container">
-            <section class="container mt-0">
-                <h2>Our Processes &amp; Procedures</h2>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="feature-block">
-                            <h3>Legislation</h3>
-                            <p>Learn about the key statutes and regulations that apply to all mining activities in the Province of British Columbia</p>
-                            <a class="btn inverted" href="legislation.html">Learn More</a>
+                    <div class="mine-list">
+                        <div class="sort-header">
+                            <div class="sh-row">
+                                <div class="sh-col name">Name</div>
+                                <div class="sh-col operator">Operator</div>
+                                <div class="sh-col commodity">Commodity Type</div>
+                            </div>
+                        </div>
+                        <div class="mmti-accord mine-list" id="complianceList" role="tablist" aria-multiselectable="false">
+                            <div class="mmti-accord-item">
+                                <div class="mmti-accord-header" role="tab" id="headingOne">
+                                    <div>
+                                        <a class="toggle collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="material-icons open-icon">add</i>
+                                            <i class="material-icons close-icon">remove</i>
+                                        </a>
+                                        <span class="ah-col name"><a ui-sref="project">Mount Milligan</a></span>
+                                        <span class="ah-col operator">Thompson Creek Metals Company Inc.</span>
+                                        <span class="ah-col commodity">Metal</span>
+                                    </div>
+                                </div>
+                                <div class="collapse" role="tabpanel"
+                                    id="collapseOne"
+                                    aria-labelledby="headingOne">
+                                    <div class="mmti-accord-body">
+                                        <span class="summary">
+                                            The Mount Milligan copper-gold mine is located 155 km northwest of Prince George, between the communities of Fort St. James and Mackenzie in central BC. Mine construction began in 2010, and Mount Milligan began production in August 2013.
+                                        </span>
+                                        <div class="mine-list-container">
+                                            <div class="mmti-list-header">Details</div>
+                                            <ul class="mmti-list nv-pair">
+                                                <li>
+                                                    <span class="name">Operator</span>
+                                                    <span class="value">Thompson Creek Metals Company Inc.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Ownership</span>
+                                                    <span class="value">Thompson Creek Metals Company Inc. (wholly-owned subsidiary of Canterra Gold Inc.)</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Commodities</span>
+                                                    <span class="value">Gold, Copper</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Number of Tailings Impoundments</span>
+                                                    <span class="value">1</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mmti-accord-item">
+                                <div class="mmti-accord-header" role="tab" id="headingTwo">
+                                    <div>
+                                        <a class="toggle collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                            <i class="material-icons open-icon">add</i>
+                                            <i class="material-icons close-icon">remove</i>
+                                        </a>
+                                        <span class="ah-col name"><a href ui-sref="project">Mount Milligan</a></span>
+                                        <span class="ah-col operator">Thompson Creek Metals Company Inc.</span>
+                                        <span class="ah-col commodity">Metal</span>
+                                    </div>
+                                </div>
+                                <div class="collapse" role="tabpanel"
+                                    id="collapseTwo"
+                                    aria-labelledby="headingTwo">
+                                    <div class="mmti-accord-body">
+                                        <span class="summary">
+                                            The Mount Milligan copper-gold mine is located 155 km northwest of Prince George, between the communities of Fort St. James and Mackenzie in central BC. Mine construction began in 2010, and Mount Milligan began production in August 2013.
+                                        </span>
+                                        <div class="mine-list-container">
+                                            <div class="mmti-list-header">Details</div>
+                                            <ul class="mmti-list nv-pair">
+                                                <li>
+                                                    <span class="name">Operator</span>
+                                                    <span class="value">Thompson Creek Metals Company Inc.</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Ownership</span>
+                                                    <span class="value">Thompson Creek Metals Company Inc. (wholly-owned subsidiary of Canterra Gold Inc.)</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Commodities</span>
+                                                    <span class="value">Gold, Copper</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Number of Tailings Impoundments</span>
+                                                    <span class="value">1</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="feature-block">
-                            <h3>Authorizations</h3>
-                            <p>Environmental assessment certificates and permits issued under the Mines Act and Environmental Management Act</p>
-                            <a class="btn inverted" href="authorizations.html">Learn More</a>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="feature-block">
-                            <h3>Compliance Oversight</h3>
-                            <p>Several provincial agencies work together to provide integrated oversight of British Columbia’s mining sector</p>
-                            <a class="btn inverted" href="compliance-oversight.html">Learn More</a>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                </section>
+            </main>
+            <aside class="col-lg-4">
+                <section>
+                    <h4>External Links &amp; Resources</h4>
+                    <ul class="mmti-list">
+                        <li>
+                            <a href="#">Ministy of Energy &amp; Mines</a>
+                        </li>
+                        <li>
+                            <a href="#">Mineral Exploration &amp; Mining</a>
+                        </li>
+                        <li>
+                            <a href="#">Ministry of Environment</a>
+                        </li>
+                        <li>
+                            <a href="#">Environmental Assessment Office</a>
+                        </li>
+                    </ul>
+                </section>
+            </aside>
         </div>
-
-    </main>
+    </div>
 
 </ui-view>
 

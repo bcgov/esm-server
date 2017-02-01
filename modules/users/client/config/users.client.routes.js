@@ -81,7 +81,7 @@ angular.module('users').config(['$stateProvider',
 				url: '/local/signin',
 				template: '<tmpl-login></tmpl-login>'
 			})
-		// TODO: Siteminder! when Siteminder is in place and we have Admin users, make this state = authentication.signin
+			// TODO: Siteminder! when Siteminder is in place and we have Admin users, make this state = authentication.signin
 			.state('authentication.signin', {
 				url: '/signin',
 				controller: function() {
@@ -115,9 +115,9 @@ angular.module('users').config(['$stateProvider',
 				url: '/:token',
 				templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
 			})
-			.state('guidance', {
-				url: '/guidance',
-				templateUrl: 'modules/guidance/client/views/guidance-main.html'
+			.state('topics', {
+				url: '/topics-of-interest',
+				templateUrl: 'modules/topics/client/views/topics-of-interest.html'
 			})
 			.state('contact', {
 				url: '/contact',
