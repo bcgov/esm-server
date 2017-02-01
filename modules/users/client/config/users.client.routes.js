@@ -5,6 +5,49 @@ angular.module('users').config(['$stateProvider',
 	function ($stateProvider) {
 		// Users state routing
 		$stateProvider
+
+			// Authorizations
+			.state('authorizations', {
+				url: '/authorizations',
+				templateUrl: 'modules/authorizations/client/views/authorizations.html'
+			})
+
+			// Compliance Oversight
+			.state('compliance-oversight', {
+				url: '/compliance-oversight',
+				templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html'
+			})
+
+			// Legislation
+			.state('legislation', {
+				url: '/legislation',
+				templateUrl: 'modules/legislation/client/views/legislation.html'
+			})
+
+			// Mining Lifecycle
+			.state('mining-lifecycle', {
+				url: '/lifecycle',
+				templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html'
+			})
+
+			// Topics
+			.state('topics', {
+				url: '/topics-of-interest',
+				templateUrl: 'modules/topics/client/views/topics-of-interest.html'
+			})
+			.state('reclamation-and-securities', {
+				url: '/reclamation-and-securities',
+				templateUrl: 'modules/topics/client/views/reclamation-and-securities.html'
+			})
+			.state('tailings-management', {
+				url: '/water-quality',
+				templateUrl: 'modules/topics/client/views/tailings-management.html'
+			})
+			.state('water-quality', {
+				url: '/water-quality',
+				templateUrl: 'modules/topics/client/views/water-quality.html'
+			})
+
 			.state('settings', {
 				abstract: true,
 				url: '/settings',
@@ -53,17 +96,6 @@ angular.module('users').config(['$stateProvider',
 				url: '/password',
 				templateUrl: 'modules/users/client/views/settings/change-password.client.view.html'
 			})
-			/*
-				deleted these templates, too.
-			.state('settings.accounts', {
-				url: '/accounts',
-				templateUrl: 'modules/users/client/views/settings/manage-social-accounts.client.view.html'
-			})
-			.state('settings.picture', {
-				url: '/picture',
-				templateUrl: 'modules/users/client/views/settings/change-profile-picture.client.view.html'
-			})
-			*/
 			.state('authentication', {
 				abstract: true,
 				url: '/authentication',
@@ -72,9 +104,6 @@ angular.module('users').config(['$stateProvider',
 			.state('settings.invite', {
 				url: '/invite',
 				templateUrl: 'modules/users/client/views/settings/invite.client.view.html',
-				/*data: {
-					roles: ['user', 'admin']
-				}*/
 			})
 			// TODO: Siteminder! when Siteminder is in place and we have Admin users, remove this state
 			.state('authentication.local', {
@@ -114,10 +143,6 @@ angular.module('users').config(['$stateProvider',
 			.state('password.reset.form', {
 				url: '/:token',
 				templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
-			})
-			.state('topics', {
-				url: '/topics-of-interest',
-				templateUrl: 'modules/topics/client/views/topics-of-interest.html'
 			})
 			.state('contact', {
 				url: '/contact',
