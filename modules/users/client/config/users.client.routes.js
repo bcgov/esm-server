@@ -6,6 +6,12 @@ angular.module('users').config(['$stateProvider',
 		// Users state routing
 		$stateProvider
 
+			// Landing Page (Home)
+			.state('home', {
+				url: '/',
+				templateUrl: 'modules/home/client/views/home.html'
+			})
+
 			// Authorizations
 			.state('authorizations', {
 				url: '/authorizations',

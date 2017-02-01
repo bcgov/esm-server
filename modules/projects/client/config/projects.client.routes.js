@@ -7,7 +7,7 @@ angular.module('projects').config (
 
 		// Project List Page (Mine List)
 		.state('projects', {
-			url: '/',
+			url: '/find-mines-in-british-columbia',
 			templateUrl: 'modules/projects/client/views/projects.abstract.html',
 			resolve: {
 				projects: function ($stateParams, ProjectModel) {
