@@ -37,29 +37,53 @@
 		<!-- DETAILS TAB CONTENT -->
 		<div class="tab-pane" ng-show="form.curTab === 'pcpDetails'">
 			<div class="row">
-				<div class="col-sm-6 col-lg-4 form-group">
+				<div class="col-sm-3 col-lg-3 form-group">
 					<label class="control-label">Comment Period Type</label>
 					<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
 						<option ng-selected="selected">Public</option>
 						<!-- <option>Working Group</option> -->
 					</select>
 				</div>
-				<div class="col-md-6 col-lg-6 form-group">
-					<label class="control-label">Start / End Dates</label>
-					<div class="form-inline">
-						<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateStarted">
-							<span ng-if="!period.dateStarted">Start Date</span>
-							{{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
-							<span class="glyphicon glyphicon-calendar"></span>
-						</div>
-						<span> &nbsp; - &nbsp; </span>
-						<div class="form-control date-picker" x-modal-date-picker x-selected-date="period.dateCompleted">
-							<span ng-if="!period.dateCompleted">End Date</span>
-							{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
-							<span class="glyphicon glyphicon-calendar"></span>
-						</div>
+				<div class="col-sm-2 col-lg-2 form-group">
+					<label class="control-label">&nbsp;</label>
+					<select class="form-control"
+						ng-change="typeChange()"
+						ng-model="pType"
+						ng-options="t.displayName for t in pTypes"
+						ng-selected="t === pType">
+					</select>
+				</div>
+				<div class="col-sm-2 col-lg-2 form-group">
+					<label class="control-label">Range</label>
+					<select class="form-control"
+						ng-disabled="!rangePickerEnabled"
+						ng-change="periodChange()"
+						ng-model="pOption"
+						ng-options="p.displayName for p in pOptions"
+						ng-selected="p === pOption">
+					</select>
+				</div>
+				<div class="col-md-2 col-lg-2 form-group">
+					<label class="control-label">Start Date</label>
+					<div class="form-control date-picker"
+						ng-disabled="!startPickerEnabled"
+						x-modal-date-picker x-selected-date="period.dateStarted">
+						<span ng-if="!period.dateStarted">Start Date</span>
+						{{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
+						<span class="glyphicon glyphicon-calendar"></span>
 					</div>
 				</div>
+				<div class="col-sm-2 col-lg-2 form-group">
+					<label class="control-label">End Date</label>
+					<div class="form-control date-picker"
+						ng-disabled="!endPickerEnabled"
+						x-modal-date-picker x-selected-date="period.dateCompleted">
+						<span ng-if="!period.dateCompleted">End Date</span>
+						{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
+						<span class="glyphicon glyphicon-calendar"></span>
+					</div>
+				</div>
+			</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label">Description</label>

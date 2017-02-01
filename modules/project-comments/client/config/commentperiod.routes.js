@@ -98,8 +98,8 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($scope, $state, project, period, CommentPeriodModel, _) {
-			createEditCommonSetup($scope, period, project);
+		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel, _) {
+			createEditCommonSetup($timeout, $scope, _, period, project);
 
 			$scope.hasErrors = false;
 			//$scope.errorMessage = '';
@@ -127,7 +127,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				}
 			};
 
-			defineDocumentMgr($scope);
+			defineDocumentMgr($scope, _);
 
 			$scope.documentMgr.applySort();
 
@@ -155,12 +155,12 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($scope, $state, period, project, CommentPeriodModel, CommentModel, _) {
+		controller: function ($timeout, $scope, $state, period, project, CommentPeriodModel, CommentModel, _) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
-			createEditCommonSetup($scope, period, project);
+			createEditCommonSetup($timeout, $scope, _, period, project);
 
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
@@ -195,7 +195,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				}
 			};
 
-			defineDocumentMgr($scope);
+			defineDocumentMgr($scope, _);
 
 			$scope.documentMgr.applySort();
 
@@ -293,7 +293,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 
 	;
 
-	function createEditCommonSetup($scope,period,project) {
+	function createEditCommonSetup($timeout, $scope, _, period, project) {
 		$scope.period = period;
 		$scope.project = project;
 		$scope.changeType = function () {
@@ -309,17 +309,26 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		});
 
-		$scope.addLinkedFiles = function(data) {
-			addLinkedFiles(data,$scope);
-		};
+		$scope.addLinkedFiles = function(data) { addLinkedFiles($scope, _, data);	};
 
 		$scope.removeDocument = function(doc) {
 			_.remove($scope.period.relatedDocuments, doc);
 			$scope.documentMgr.applySort();
 		};
 
+		// manage the start and end dates plus the controls that set period length based on presets (e.g. 30, 45, etc days)
+		setupPeriodOptions($scope, _);
+
+		// initialize the period controls
+		typeChange($scope, _);
+
+		// on change to start date or end date via date picker...
+		$scope.$on('modalDatePicker.onChange', function () {
+			periodChange($scope, _);
+		});
 	}
-	function defineDocumentMgr($scope) {
+
+	function defineDocumentMgr($scope, _) {
 		$scope.documentMgr = {
 			sortedFiles: $scope.period.relatedDocuments,
 			sorting: {
@@ -373,7 +382,8 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		};
 	}
-	function addLinkedFiles(data,$scope) {
+
+	function addLinkedFiles($scope, _, data) {
 		var period = $scope.period;
 		// add files in data to our relatedDocs
 		if (data) {
@@ -390,6 +400,80 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			$scope.documentMgr.applySort();
 		}
 	}
+
+	function setupPeriodOptions($scope, _) {
+
+		$scope.pTypes = [
+			{displayName: "Start Day", value: "start"},
+			{displayName: "End Day", value: "end"},
+			{displayName: "Custom", value: "custom"}
+		];
+		$scope.pType = $scope.pTypes[0];
+		$scope.typeChange = function () {
+			typeChange($scope, _);
+		};
+
+		$scope.pOptions = [
+			{displayName: "30 days", value: "30"},
+			{displayName: "45 days", value: "45"},
+			{displayName: "60 days", value: "60"},
+			{displayName: "75 days", value: "75"}
+		];
+		$scope.pOption = $scope.pOptions[0];
+		$scope.periodChange = function () {
+			periodChange($scope, _);
+		};
+	}
+
+	function typeChange($scope, _) {
+		var type = $scope.pType.value;
+		$scope.endPickerEnabled = true;
+		$scope.startPickerEnabled = true;
+		$scope.rangePickerEnabled = true;
+		switch (type) {
+			case 'start':
+				$scope.endPickerEnabled = false;
+				break;
+			case 'end':
+				$scope.startPickerEnabled = false;
+				break;
+			case 'custom':
+				$scope.rangePickerEnabled = false;
+		}
+		periodChange($scope, _);
+	}
+
+	function periodChange($scope, _) {
+		var type = $scope.pType.value;
+		var period = $scope.period;
+		var numberOfDaysToAdd = 1 * $scope.pOption.value; // convert to number
+		numberOfDaysToAdd--; // decrease by one. The start and end dates are part of the period
+		switch (type) {
+			case 'start':
+				// derive the end date based on start date and number of days
+				if (period.dateStarted) {
+					var sDate = new Date(period.dateStarted);
+					sDate.setDate(sDate.getDate() + numberOfDaysToAdd);
+					period.dateCompleted = sDate;
+				} else {
+					period.dateCompleted = undefined;
+				}
+				break;
+			case 'end':
+				// derive the start date based on end date and subtract number of days
+				if (period.dateCompleted) {
+					var eDate = new Date(period.dateCompleted);
+					eDate.setDate(eDate.getDate() - numberOfDaysToAdd);
+					period.dateStarted = eDate;
+				} else {
+					period.dateStarted = undefined;
+				}
+				break;
+			case 'custom':
+			// no op
+		}
+	}
+
 }]);
 
 
