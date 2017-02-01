@@ -1,0 +1,17 @@
+
+.sort-header {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    background: #EEE;
+    font-size: 0.875rem;
+
+    .sh-row {
+        display: table-row;
+    }
+
+    .sh-col {
+        display: table-cell;
+        padding: 0.5rem 1rem;
+    }
+}

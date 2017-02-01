@@ -1,0 +1,154 @@
+
+// Banner
+.hero-banner {
+    position: relative;
+    border-bottom: 4px solid $gold;
+    background-color: rgba($header-bg, 0.85);
+
+    .container {
+        display: table;
+        padding: 0;
+        height: 100%;
+    }
+
+    .container-inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+}
+
+@media (min-width: 760px) {
+    .hero-banner {
+        height: 30rem;
+
+        .container {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+    }
+}
+
+@media (min-height: 900px) and (min-width: 1200px) {
+    .hero-banner {
+        height: 40rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-banner {
+        .container {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+@media (min-width: 1360px) {
+    .hero-banner {
+        .container {
+            max-width: 1200px;
+        }
+    }
+}
+
+// Banner Text
+.hb-txt {
+    padding: 2rem 1.5rem;
+    //background-color: rgba(#003366, 0.75); 
+    color: #FFF;
+
+    h1 {
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+        line-height: 2.25rem;
+
+        span {
+            display: block;
+        }
+    }
+
+    p {
+        margin-bottom: 2rem;
+        font-size: 0.9375rem;
+        line-height: 1.5rem;
+    }
+
+    .badge {
+        position: relative;
+        top: 0.4rem;
+        color: $gold;
+        vertical-align: top;
+        text-align: left;
+        text-transform: uppercase;
+        font-size: 0.875rem;
+    }
+}
+
+@media (min-width: 460px) {
+    .hb-txt {
+        h1 {
+            span {
+                display: inline;
+            }
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .hb-txt {
+    display: inline-block;
+    padding: 2rem;
+
+        h1 {
+            margin-bottom: 2.25rem;
+            font-size: 2.4rem;
+            line-height: 2.5rem;
+        }
+
+        p {
+            margin-bottom: 2.75rem;
+            font-size: 1rem;
+            line-height: 1.75rem;
+        }
+    }
+}
+
+@media (min-width: 900px) {
+    .hb-txt {
+        margin-top: 3.5rem;
+        max-width: 45rem;
+    }
+}
+
+
+// Banner Buttons
+.hb-btns {
+    label {
+        margin-bottom: 0.75rem;
+        display: block;
+        font-size: 0.9375rem;
+        font-weight: 400;
+    }
+}
+
+
+// Banner Images
+.hero-banner {
+    background-image: url("/images/sample-bg-img-duotone.jpg");
+    background-repeat: no-repeat;
+}
+
+@media (min-width: 760px) {
+    .hero-banner {
+        background-position: center 3rem;
+        background-size: 105%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .hero-banner {
+        background-position: center -2rem;
+        background-repeat: no-repeat;
+        background-size: 120%;
+    }
+}

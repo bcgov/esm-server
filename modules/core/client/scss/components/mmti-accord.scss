@@ -1,0 +1,90 @@
+.mmti-accord {
+    margin-top: 0.25rem;
+}
+
+// Accord Item
+.mmti-accord-item {
+    margin-bottom: 0.25rem;
+
+    &:nth-child(even) {
+        .mmti-accord-header {
+            background: #f1f1f1;
+        }
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+// Accord Header
+.mmti-accord-header {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    background: #F7F8FA;
+
+    div {
+        display: table-row;
+        width: 100%;
+    }
+
+    .ah-col {
+        display: table-cell;
+        padding: 1.25rem 1rem;
+        line-height: 1rem;
+        font-size: 0.875rem;
+
+        &:first-child {
+            padding-left: 0;
+        }
+    }
+
+    .date {
+        padding: 1rem;
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .toggle {
+        display: table-cell;
+        width: 3.5rem;
+        vertical-align: middle;
+        text-align: center;
+
+        &:active,
+        &:focus,
+        &:hover {
+            text-decoration: none;
+        }
+
+        .close-icon {
+            display: block;
+        }
+
+        .open-icon {
+            display: none;
+        }
+
+        &.collapsed {
+            .close-icon {
+                display: none;
+            }
+            
+            .open-icon {
+                display: block;
+            }
+        }
+    }
+}
+
+// Accord Body
+.mmti-accord-body {
+    padding: 1rem;
+}
+
+@media (min-width: 760px) {
+    .mmti-accord-body {
+        padding-left: 3.5rem;
+    }
+}

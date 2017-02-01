@@ -1,0 +1,57 @@
+
+.mmti-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+        @include clearfix();
+        margin-top: 1px;
+        padding: 0.6rem 0.75rem;
+        background: #f7f8fa;
+        font-size: 0.875rem;
+        line-height: 1.3rem;
+    }
+
+    &.nv-pair {
+        span {
+            float: left;
+            width: 50%;
+            display: block;
+
+            &:first-child {
+                margin-bottom: 0.25rem;
+            }
+        }
+    }
+}
+
+
+@media (min-width: 760px) {
+    .mmti-list {
+        &.nv-pair {
+            li {
+                @include clearfix();
+            }
+
+            span {
+                float: left;
+
+                &:first-child {
+                    width: 30%;
+                }
+
+                &:last-child {
+                    width: 70%;
+                }
+            }
+        }
+    }
+}
+
+.mmti-list-header {
+    padding: 0.4rem 0.75rem;
+    background-color: rgba(0, 51, 102, 0.8);
+    color: #FFF;
+    font-size: 0.875rem;
+}

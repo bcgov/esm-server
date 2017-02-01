@@ -1,0 +1,172 @@
+
+a {
+    color: #1a5a96;
+}
+
+// Container
+.container {
+    margin: 0 auto;
+    padding-top: 2rem;
+    padding-right: 1.5rem;
+    padding-bottom: 2.25rem;
+    padding-left: 1.5rem;
+    width: 100%;
+    max-width: 1100px;
+
+    section {
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .container {
+        padding-top: 3rem;
+        padding-right: 2rem;
+        padding-bottom: 3.5rem;
+        padding-left: 2rem;
+    }
+}
+
+// Main Element
+main {
+    h2 {
+        margin-bottom: 1.5rem;
+        line-height: 2rem;
+        font-size: 1.75rem;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.5rem;
+    }
+}
+
+@media (min-width: 760px) {
+    main {
+        h2 {
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            line-height: 2.25rem;
+        }
+    }
+}
+
+main {
+    section {
+        margin-bottom: 2.5rem;
+
+        h3 {
+            margin-bottom: 1.5rem;
+        }
+
+        h4 {
+            margin-bottom: 1.5rem;
+            line-height: 1.9rem;
+        }
+
+        h5 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        ul {
+            margin-bottom: 1.75rem;
+            list-style-type: square;
+        }
+    }
+}
+
+// Landing Page
+.site-intro {
+    .fast-facts {
+        margin-top: 2.5rem;
+    }
+}
+
+@media (min-width: 900px) {
+    .site-intro {
+        .fast-facts {
+            margin-top: 0;
+        }
+    }
+}
+
+// Mine List
+.mine-list {
+    .summary {
+        font-size: 0.875rem;
+        font-style: italic;
+    }
+
+    .mine-list-container {
+        margin-top: 1.5rem;
+    }
+
+    .ah-col {
+        &.name {
+            padding-left: 0;
+            font-weight: 700;
+        }
+    }
+
+    .sh-col,
+    .ah-col {
+        &.commodity {
+            width: 9.5rem;
+            text-align: center;
+        }
+
+        &.operator {
+            display: none;
+            width: 40%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .mine-list {
+        .sh-col,
+        .ah-col {
+            &.operator {
+                display: table-cell;
+            }
+        }
+    }
+}
+
+// Mine Page
+.tab-intro {
+    margin-bottom: 2.5rem;
+}
+
+.ce-list {
+    .summary {
+        font-size: 0.875rem;
+        font-style: italic;
+    }
+
+    .ah-col {
+        &.name {
+            padding-left: 0;
+            font-weight: 700;
+        }
+    }
+
+    .date {
+        font-size: 0.875rem;
+    }
+
+    .doc-list-container {
+        margin-top: 1.5rem;
+    }
+}
+
+.ce-list-header {
+    padding: 1rem;
+    background: #DDD;
+    font-size: 0.875rem;
+}

@@ -4,7 +4,7 @@ module.exports = {
   client: {
     lib: {
       css: [
-        'public/lib/bootstrap/dist/css/bootstrap.css',
+        //'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/angular-toastr/dist/angular-toastr.css',
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
         'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
@@ -20,8 +20,10 @@ module.exports = {
         'public/lib/angular-ui-utils/ui-utils.js',
         'public/lib/tinymce-dist/tinymce.js',
         'public/lib/angular-ui-tinymce/src/tinymce.js',
-        'public/lib/jquery/dist/jquery.min.js',
-        'public/lib/bootstrap/dist/js/bootstrap.min.js',
+
+        //'public/lib/jquery/dist/jquery.min.js',
+        //'public/lib/bootstrap/dist/js/bootstrap.min.js',
+
         'public/lib/angular-bootstrap/ui-bootstrap.js',
         'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
         'public/lib/angular-file-upload/angular-file-upload.js',
@@ -40,14 +42,14 @@ module.exports = {
         'public/lib/moment-timezone/moment-timezone.js',
         'public/lib/angular-moment/angular-moment.js',
         'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-	'public/lib/angular-scroll/angular-scroll.min.js',
-	'public/lib/angular-cookies/angular-cookies.min.js',
-	'public/moment-timezone-data.js',
+	    'public/lib/angular-scroll/angular-scroll.min.js',
+	    'public/lib/angular-cookies/angular-cookies.min.js',
+	    'public/moment-timezone-data.js',
         'public/lib/pdfjs-dist/build/pdf.combined.js',
         'public/lib/ng-pdfviewer/ng-pdfviewer.js',
         'public/lib/ng-pdfviewer/pdf.js',
         'public/lib/ng-pdfviewer/compatibility.js',
-	'public/readable-range.js'
+		'public/readable-range.js'
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },

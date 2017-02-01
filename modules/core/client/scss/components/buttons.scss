@@ -1,0 +1,117 @@
+
+.btn {
+    border: 2px solid #003366;
+    border-radius: 0.25rem;
+    background: transparent;
+    color: #003366;
+    font-weight: 400;
+    transition: all linear 0.2s;
+
+    &.inverted {
+        color: #FFF;
+        border: 2px solid #FFF;
+
+        &:active,
+        &:focus,
+        &:hover {
+            border-color: $gold;
+            background: $gold;
+            color: #003366;
+        }
+    }
+}
+
+.slide-r-btn,
+.slide-l-btn {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+    border-radius: 0.2rem;
+    transition: all ease-out 0.2s;
+
+    i, span {
+        vertical-align: middle;
+        transition: all ease-out 0.2s; 
+    }
+
+    i {
+        opacity: 0;
+    }
+
+    span {
+        display: inline-block;
+        //font-size: 0.875rem;
+    }
+
+    &:hover {
+        text-decoration: none;
+
+        i, span {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+}
+
+.slide-r-btn {
+    i {
+        margin-left: 0.5rem;
+        transform: translateX(20px);
+    }
+
+    span {
+        margin-left: 0.5rem;
+        transform: translateX(12px);
+    }
+}
+
+.slide-l-btn {
+    i {
+        margin-right: 0.5rem;
+        transform: translateX(-20px);
+    }
+
+    span {
+        margin-right: 0.5rem;
+        transform: translateX(-12px);
+    }
+}
+
+@media (max-device-width: 1024px) {
+    .slide-r-btn,
+    .slide-l-btn {
+        i, span {
+            transform: translateX(0);
+        }
+
+        i {
+            opacity: 1;
+        }
+    }
+}
+
+
+main {
+    .btn {
+        padding: 0.65rem 0.75rem;
+    }
+}
+
+.content-btns {
+    margin-top: 3rem;
+}
+
+.content-btn {
+    padding: 0.5rem 0.75rem;
+    background: #EEE;
+    font-size: 0.9375rem;
+
+    &:hover {
+        background: #EEE;
+    }
+}
+
+.hero-btn {
+    padding: 0.65rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+}

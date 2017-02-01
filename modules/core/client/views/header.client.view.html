@@ -1,101 +1,60 @@
 
-<div class="app-header">
-	<nav class="navbar">
-		<div class="navbar-header">
-			<div class="navbar-brand">
-				<a ui-sref="projects" href>
-					<img class="app-brand-img" src="{{logo}}" alt="Government of B.C." title="Government of B.C.">
-				</a>
-			</div>
+<header id="header">
+	<div class="brand-container">
+		<a class="brand" href="index.html"></a>
+		<button class="navbar-toggler float-right collapsed" type="button" 
+			data-toggle="collapse" 
+			data-target="#mainNav" 
+			aria-controls="mainNav" 
+			aria-expanded="false" 
+			aria-label="Toggle navigation"><i class="material-icons">menu</i><span>MENU</span>
+		</button>
+	</div>
+	<nav class="navbar navbar-toggleable-md main-nav">
+		<div class="collapse navbar-collapse" id="mainNav">
+			<ul class="navbar-nav">
+				<!--
+				<li class="nav-item"><a class="nav-link">Find Mines in British Columbia</span></a></li>
+				-->
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="aboutMMTI" 
+						data-toggle="dropdown" 
+						aria-haspopup="true" 
+						aria-expanded="false"><span>Mining in British Columbia</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="aboutMMTI">
+						<a class="dropdown-item" href="mining-lifecycle.html">
+							<strong>The Mining Lifecycle</strong>
+							<span class="dd-item-desc">It can take decades to develop a deposit into a mine, which in turn can operate for decades.</span></a>
+						<a class="dropdown-item" href="topics-of-interest.html">
+							<strong>Topics of Interest</strong>
+							<span class="dd-item-desc">Tailings Management, Water Quality, Reclamation &amp; Securities</span>
+						</a>
+						<a class="dropdown-item" href="#">
+							<strong>Find Mines in BC</strong>
+							<span class="dd-item-desc">The BC Mine Information website’s interactive map currently includes 10 mine sites.</span></a>
+					</div>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" id="aboutMMTI" 
+						data-toggle="dropdown" 
+						aria-haspopup="true" 
+						aria-expanded="false"><span>Our Processes &amp; Procedures</span>
+					</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="aboutMMTI">
+						<a class="dropdown-item" href="legislation.html">
+							<strong>Legislation</strong>
+							<span class="dd-item-desc">Learn about the key statutes and regulations that apply to all mining activities in the Province of British Columbia.</span></a>
+						<a class="dropdown-item" href="authorizations.html">
+							<strong>Authorizations</strong>
+							<span class="dd-item-desc">Environmental assessment certificates and permits issued under the Mines Act and Environmental Management Act.</span></a>
+						<a class="dropdown-item" href="compliance-oversight.html">
+							<strong>Compliance Oversight</strong>
+							<span class="dd-item-desc">Several provincial agencies work together to provide integrated oversight of British Columbia’s mines.</span></a>
+					</div>
+				</li>
+				<li class="nav-item"><a class="nav-link"><span>Connect With Us</span></a></li>
+			</ul>
 		</div>
-		<span ng-if="false">
-		<!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-		NAVBAR MENU RENDER
-
-		This is where the navigation navbar renders, this is mostly application context content
-		and things that are present throughout a session like user profile, logout, admin functions
-		and that sort of thing
-
-		\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
-		</span>
-		<ul class="custom-nav">
-			<li ng-if="ADMIN_FEATURES.enablePrototype" class="custom-nav-item">
-				<a href ui-sref="admin.prototype.projectmain">
-					<span class="glyphicon glyphicon-home"></span>
-					<span>PROTOTYPE</span>
-				</a>
-			</li>
-			<li class="custom-nav-item">
-				<a href ui-sref="projects">
-					<span class="glyphicon glyphicon-home"></span>
-					<span>HOME</span>
-				</a>
-			</li>
-
-			<li class="custom-nav-item" ng-show="authentication.user">
-				<a href ui-sref="activities">
-					<span class="glyphicon glyphicon-dashboard"></span>
-					<span>DASHBOARD</span>
-				</a>
-			</li>
-
-			<li class="custom-nav-item dropdown" ng-if="'true' === ADMIN_FEATURES.enableSystemMenu && systemMenu.shouldRender(authentication.user)">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
-					<span class="glyphicon glyphicon-cog"></span>
-					<span>SYSTEM</span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
-					<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-					</li>
-					<li ng-if="application.userCan.manageRoles">
-						<a href x-role-users-modal x-context="application">Edit System Roles</a>
-					</li>
-					<li ng-if="application.userCan.managePermissions">
-						<a href x-role-permissions-modal x-context="application" x-object="application" >Edit System Permissions</a>
-					</li>
-        </ul>
-			</li>
-      <!--
-		  this is meant to be a temporary option, strictly limited to the admin role, apis are locked to admin role.
-		  once project is loaded and running, this option can be removed.
-	    -->
-      <li class="custom-nav-item dropdown" ng-if="'true' === ADMIN_FEATURES.enableImportMenu && (authentication.user && authentication.user.roles.indexOf ('admin') !== -1)">
-        <a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Administration">
-          <span class="glyphicon glyphicon-cog"></span>
-          <span>ADMIN</span>
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
-          <li>
-            <a href x-modal-project-import x-project="import">Import</a>
-          </li>
-        </ul>
-      </li>
-
-			<li class="custom-nav-item user-menu" ng-show="!authentication.user">
-				<a ui-sref="authentication.signin">
-					<span class="glyphicon glyphicon-log-in"></span>
-					<span>LOG IN</span>
-				</a>
-			</li>
-
-			<li class="custom-nav-item user-menu dropdown" ng-show="authentication.user">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-					<span class="glyphicon glyphicon-user"></span>
-					<span>{{ authentication.user.displayName }}</span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
-					<li><a x-modal-edit-my-profile href>Edit Profile</a></li>
-					<!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
-					<li><a href="/api/auth/signout" target="_self">Logout</a></li>
-				</ul>
-			</li>
-		</ul>
-
-
 	</nav>
-</div>
+</header>

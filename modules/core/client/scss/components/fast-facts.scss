@@ -1,0 +1,120 @@
+
+$ff-metric-bg: #002663;
+
+.fast-facts {
+    h4 {
+        margin-bottom: 1.4rem;
+        font-size: 1.4rem;
+        line-height: 1.75rem;
+    }
+
+    ul.row {
+        margin-right: -0.5rem;
+        margin-bottom: 1rem;
+        margin-left: -0.5rem;
+        padding: 0;
+        list-style-type: none;
+
+        li {
+            display: table;
+            padding-right: 0.5rem;
+            padding-left: 0.5rem;
+            margin-bottom: 0.5rem;
+            width: 100%;
+
+            div {
+                display: table-row;
+            }
+
+            &:nth-child(4) {
+                margin-bottom: 0;
+            }
+        }  
+    }
+}
+
+@media (min-width: 760px) {
+    .fast-facts {
+        ul.row {
+            li {
+                width: auto;
+                margin-bottom: 1rem;
+
+                &:nth-child(3),
+                &:nth-child(4) {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 900px) {
+    .fast-facts {
+        h4 {
+            font-size: 1.25rem;
+            line-height: 1.65rem;
+        }
+
+        ul.row {
+            li {
+                margin-bottom: 0.5rem;
+
+                &:nth-child(3),
+                &:nth-child(4) {
+                    margin-bottom: 0.5rem;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .fast-facts {
+        h4 {
+            span {
+                display: block;
+            }
+        }
+    }
+}
+
+
+.metric,
+.metric-desc {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.metric {
+    padding-right: 0.25rem;
+    padding-left: 0.25rem;
+    width: 4.75rem;
+    height: 4.5rem;
+    background: $ff-metric-bg;
+    color: #FFF;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+
+    sup {
+        top: 0;
+        font-size: 100%;
+    }
+}
+
+.metric-desc {
+    padding-right: 1rem;
+    padding-bottom: 0.2rem;
+    padding-left: 1rem;
+    font-size: 0.75rem;
+    font-style: italic;
+    line-height: 1rem;
+    background-color: #f7f7f7;
+}
+
+@media (min-width: 1200px) {
+    .metric-desc {
+        font-size: 0.825rem;
+    }
+}
