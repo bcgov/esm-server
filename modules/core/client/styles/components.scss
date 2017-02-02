@@ -187,3 +187,36 @@ $tag-height: 3rem;
         }
     }
 }
+
+
+// Fixed Alert
+$fixed-alert-width: 60rem;
+
+.welcome-alert {
+    position: fixed;
+    top: 3rem;
+    left: 50%;
+    z-index: 999;
+    box-shadow: 0.5rem 0.5rem 1rem rgba(#000, 0.2);
+    margin-left: calc(#{$fixed-alert-width} * -0.5);
+    padding: 2rem;
+    width: 60rem;
+    background-color: #FFF;
+    color: #494949;
+
+    h2, p {
+        margin-bottom: 2rem;
+    }
+
+    p {
+        + p {
+            margin-top: 0;
+        }
+    }
+
+    .btn {
+        padding: 0.75rem 1rem;
+        width: 10rem;
+        font-size: 1.5rem;
+    }
+}

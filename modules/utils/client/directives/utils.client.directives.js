@@ -818,9 +818,9 @@ function directiveModalSelectItems($modal) {
 // DIRECTIVE: Date Pickerwindow
 //
 // -----------------------------------------------------------------------------------
-directiveModalDatePicker.$inject = ['$modal'];
+directiveModalDatePicker.$inject = ['$modal', '$rootScope', '$timeout'];
 /* @ngInject */
-function directiveModalDatePicker($modal) {
+function directiveModalDatePicker($modal, $rootScope, $timeout) {
     var directive = {
         restrict:'A',
         scope: {
@@ -845,11 +845,15 @@ function directiveModalDatePicker($modal) {
 					}
 				});
 				modalAddComment.result.then(function (chosenDate) {
-                    if (!chosenDate) {
-                        scope.selectedDate = null;
-                    } else {
-                        scope.selectedDate = chosenDate;
-                    }
+					if (!chosenDate) {
+						scope.selectedDate = null;
+					} else {
+						scope.selectedDate = chosenDate;
+					}
+					// let the modal finish so it can set the value into the model.
+					$timeout(function() {
+						$rootScope.$broadcast('modalDatePicker.onChange');
+					},10);
 				}, function () {});
 			});
 		}

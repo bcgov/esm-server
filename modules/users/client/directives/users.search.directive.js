@@ -158,11 +158,7 @@ angular.module('users')
 
 						}
 					}).result.then(function (data) {
-						var isFunction = typeof(scope.destination) === 'function';
-
-						if(isFunction) {
-							scope.destination(data);
-						} else if (_.isArray(scope.destination)) {
+						if (_.isArray(scope.destination)) {
 							scope.destination = data;
 						} else {
 							scope.destination = data[0];

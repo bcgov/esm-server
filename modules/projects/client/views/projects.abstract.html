@@ -1,43 +1,17 @@
 
 <ui-view class="main-panel home-view" id="main-content-section">
 
-	<!-- BEGIN: MEM DECRIPTION PANEL -->
-	<div class="panel panel-default" ng-if="false" ng-show="environment === 'MEM' && !authentication.user">
-		<div class="panel-heading">
-			<h3 class="panel-title">Public Project Listing</h3>
-		</div>
-		<div class="panel-body">
-			<p>The Ministry of Energy and Mines (MEM) is committed to making information on permitted mine sites in British Columbia more accessible to interested parties. MEM has collaborated with the BC Environmental Assessment Office (EAO) to develop a new platform and has to date posted the following information online:</p>
-			<ul>
-				<li>Permits and amendments for major mines that are currently operating or under construction</li>
-				<li>MEM inspection reports (2013 onwards) for major mines that are currently operating or under construction</li>
-			</ul>
-			<p>In the coming months, the following information will be posted:</p>
-			<ul>
-				<li>Permits and amendments for all major mines in BC (i.e., closed mines and mines in care and maintenance in addition to those that are currently operating/under construction)</li>
-				<li>Dam safety inspections/reviews for permitted major mines (2013 onwards)</li>
-				<li>Annual reclamation reports for permitted major mines (2013 onwards)</li>
-			</ul>
-			<p>More documents will be posted in future phases of this initiative; this first phase is limited to documents that meet the specifications above and are currently available electronically. Requests for specific documents not available via this web platform can be directed to the Ministry of Energy and Mines and/or to the Office of the Chief Information Officer (for requests made under the Freedom of Information and Protection of Privacy Act).</p>
+	<div ng-if="!seenOnce" class="welcome-alert alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		<h2>EAO Project Information &amp; Collaboration System</h2>
+		<p>Welcome to the BC Environmental Assessment Office’s new web-based Project Information and Collaboration System (EPIC), which is aimed at improving the efficiency and transparency of the provincial environmental assessment process by providing citizens and stakeholders with more intuitive access to project data and information.</p>
+		<p>EPIC is being launched as a “beta” – a fully-functional starting point upon which to build continuous improvements. As such, we’re seeking your feedback on how to make it better meet your needs. To do so, please send us an email at <a href="mailto:epicsupport.eao@gov.bc.ca">epicsupport.eao@gov.bc.ca</a> or <a href ui-sref="contact">click here</a> to learn more.</p>
+		<div class="clearfix">
+			<button class="btn btn-success pull-right" data-dismiss="alert" aria-label="Close">Get Started</button>
 		</div>
 	</div>
-	<!-- END: MEM DESCRIPTION PANEL -->
 
 	<div class="row">
-		<!-- 
-		<div class="col-sm-4 col-md-4 col-lg-3">
-			<div class="news-feed panel panel-default" ng-init="form.expandnews = false">
-				<div class="panel-heading"><h2>News & Announcements</h2></div>
-				<div class="panel-body">
-					<tmpl-recent-activity id="anchor-recent" x-form="form"></tmpl-recent-activity>
-				</div>
-				<div class="panel-footer">
-					<a class="show-all-news-link btn btn-link" href="/news">View all News & Announcements</a>
-				</div>
-			</div>
-		</div>
-		-->
-
 		<div class="col-sm-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -46,7 +20,6 @@
 				<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
 			</div>
 		</div>
-
 	</div>
 
 	<div class="panel panel-default no-margin">

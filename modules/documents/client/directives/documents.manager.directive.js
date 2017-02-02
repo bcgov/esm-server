@@ -8,7 +8,7 @@ angular.module('documents')
 				project: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
-			controller: function ($scope, $filter, $log, $modal, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
+			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
@@ -386,11 +386,21 @@ angular.module('documents')
 					okText: 'Yes',
 					cancelText: 'No',
 					ok: function() {
+						/*
+							Here the user has selected OK on the confirm dialog. We need to show the progress which is behind the
+							confirm dialog. To do this we'll place the long running task in a setImmediate and return from this
+							ok method.
+						*/
 						var dirs = _.size(self.checkedDirs);
 						var files = _.size(self.checkedFiles);
 						if (dirs === 0 && files === 0) {
 							return Promise.resolve();
 						} else {
+							$timeout(doDelete, 10);
+							return Promise.resolve();
+						}
+						// do the work ....
+						function doDelete() {
 							self.busy = true;
 
 							var dirPromises = _.map(self.deleteSelected.deleteableFolders, function(d) {
@@ -419,6 +429,7 @@ angular.module('documents')
 									}
 									//$log.debug('Refreshing current directory...');
 									self.selectNode(self.currentNode.model.id);
+									self.busy = false;
 									AlertService.success('The selected items were deleted.');
 								}, function(err) {
 									self.busy = false;
@@ -809,6 +820,7 @@ angular.module('documents')
 						size: 'lg',
 						templateUrl: 'modules/documents/client/views/document-manager-upload-modal.html',
 						resolve: {},
+						backdrop: 'static',
 						controllerAs: 'uploadModal',
 						controller: function ($rootScope, $scope, $modalInstance) {
 							var self = this;

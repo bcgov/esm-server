@@ -28,12 +28,20 @@ angular.module('projects').config (
 						return ProjectModel.published ();
 					}
 				},
-				controller: function (Utils, $scope, $stateParams, ENV, projects, Authentication, Application) {
+				controller: function ($cookies, Utils, $scope, $stateParams, ENV, projects, Authentication, Application) {
 					$scope.projects = projects;
 					$scope.environment = ENV;
 					$scope.authentication = Authentication;
 					$scope.Application = Application;
 					$scope.filterObj = {};
+					$scope.seenOnce = $cookies.get('seenOnce');
+					if (!$scope.seenOnce) {
+						// console.log("Haven't seen you before.");
+						var now = new Date();
+						$cookies.put('seenOnce', true, {expires: new Date(now.getFullYear()+1, now.getMonth(), now.getDate())});
+					} else {
+						// console.log("Welcome back.");
+					}
 				}
 			})
 			// -------------------------------------------------------------------------
