@@ -54,6 +54,9 @@ angular.module('project').config (
 		url: '/detail',
 		templateUrl: 'modules/projects/client/views/project-partials/project.detail.html',
 		resolve: {
+			project: function ($stateParams, ProjectModel) {
+				return ProjectModel.byCode ($stateParams.projectid);
+			},
 			activeperiod: function ($stateParams, CommentPeriodModel, project) {
 				// Go through the periods on the project, surface the active one and enable commenting
 				// right from here.
