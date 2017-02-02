@@ -53,6 +53,14 @@
 }
 
 .ce-list {
+    .sh-col,
+    .ah-col {
+        &.date {
+            width: 9.5rem;
+            text-align: right;
+        }
+    }
+
     .date {
         font-size: 0.875rem;
     }

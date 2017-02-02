@@ -51,8 +51,7 @@ module.exports = {
       'public/lib/ng-pdfviewer/ng-pdfviewer.js',
       'public/lib/ng-pdfviewer/pdf.js',
       'public/lib/ng-pdfviewer/compatibility.js',
-      'public/readable-range.js',
-      'public/utils.js'
+      'public/readable-range.js'
 
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
