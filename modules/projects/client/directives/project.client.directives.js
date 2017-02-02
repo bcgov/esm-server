@@ -48,13 +48,10 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-import.html',
 					controller: 'controllerModalProjectImport',
 					controllerAs: 'projectImport',
-					resolve: {
-						rProject: function () {
-							return scope.project;
-						}
-					},
+					resolve: {},
 					size: 'lg'
 				});
+
 				modalProjectEntry.result.then(function (data) {
 					if ($state.current.name === 'projects') {
 						// reload the complete projects list
@@ -63,7 +60,9 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 						$rootScope.$broadcast('refreshProject');
 						$rootScope.$broadcast('refreshDocumentList');
 					}
-				}, function () {});
+				}, function () {
+					console.log('');
+				});
 			});
 		}
 	};

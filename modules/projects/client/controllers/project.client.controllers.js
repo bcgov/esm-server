@@ -92,18 +92,12 @@ function controllerProjectVCEntry(rProjectVCEntry, _, $modalInstance) {
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectImport.$inject = ['Upload', '$modalInstance', '$timeout', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_', 'ENV'];
+controllerModalProjectImport.$inject = ['Upload', '$modalInstance', '$timeout', '$scope', '$state', '_'];
 /* @ngInject */
-function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, $state, sProject, ProjectModel, rProject, REGIONS, PROJECT_TYPES, _, ENV) {
+function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, $state, _) {
 	var projectImport = this;
-	$scope.environment = ENV;
 
-	// Setup default endpoint for import option
-	if (ENV === 'MEM') {
-		$scope.defaultOption = '/api/projects/import/mem';
-	} else {
-		$scope.defaultOption = '/api/projects/import/eao';
-	}
+	$scope.defaultOption = '/api/import';
 
 	projectImport.fileList = [];
 
@@ -139,12 +133,13 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 
 	// Standard save make sure documents are uploaded before save.
 	projectImport.upload = function() {
-		// console.log("Got file:",projectImport.fileList);
+		 console.log("Got file:",projectImport.fileList);
 		var docCount = projectImport.fileList.length;
 		projectImport.fileList.forEach(function (item) {
 			// Check file type
+			console.log("item.importType:", $scope.defaultOption);
 			var upload = Upload.upload({
-				url: item.importType,
+				url: $scope.defaultOption,
 				file: item
 			});
 
@@ -152,7 +147,10 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 				$timeout(function () {
 					//console.log('filedata', response.data);
 					// // when the last file is finished, send complete event.
-					if (--docCount === 0) {
+					if (response.status === 200) {
+						--docCount;
+					}
+					if (docCount === 0) {
 						// emit to parent.
 						$scope.$emit('importUploadComplete');
 					}
@@ -160,11 +158,9 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 					item.processingComplete = true;
 				});
 			}, function (response) {
-				// if (response.status > 0) {
-				// 	projectImport.errorMsg = response.status + ': ' + response.data;
-				// } else {
-				// 	_.remove($scope.files, file);
-				// }
+				 if (response.status > 0) {
+				 	projectImport.errorMsg = response.status + ': ' + response.data;
+				 }
 			}, function (evt) {
 				item.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
 			});
