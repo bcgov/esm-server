@@ -21,9 +21,9 @@ header {
     display: block;
     width: 140px;
     height: 50px;
-    background-image: url("/images/bcgov-logo-horiz-SM.png");
+        background-image: url("/modules/core/client/images/bcgov-logo-horiz-SM.png");
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: auto;
 }
 
 .navbar-toggler {
@@ -126,15 +126,16 @@ header {
         left: 0;
         right: 0;
         z-index: 1000;
-        padding-bottom: 0;
+        padding: 0;
         border-bottom-style: solid;
-        border-bottom-width: 4px;
+        border-bottom-width: 0;
         border-bottom-color: transparent;
-        //background-color: rgba($header-bg, 0.8);
+        background-color: rgba($header-bg, 0.8);
         transition: all linear 0.2s;
 
         &.dark {
             padding-bottom: 0.25rem;
+            border-bottom-width: 4px;
             border-bottom-color: $gold;
             background-color: $header-bg;
         }
@@ -149,25 +150,26 @@ header {
     }
 
     .brand {
+        margin: 0.25rem;
         width: 170px; // Using PX dimensions here to ensure exact match to image
-        height: 60px;
-        background-image: url("/images/bcgov-logo-horiz-LG.png");
+        height: 3.5rem;
+        background-image: url("/modules/core/client/images/bcgov-logo-horiz-LG.png");
+        background-size: auto;
     }
 
     .main-nav {
         float: right;
-        margin-top: 0.15rem;
 
         .navbar-nav {
             margin-top: 0;
 
             .nav-link {
-                height: 3.5rem; //60px to match the branding height
+                height: 4rem; //60px to match the branding height
                 padding: 0.5rem 1rem !important;
                 border-top: none;
 
                 span {
-                    margin-top: 0.6rem;
+                    margin-top: 1rem;
                     display: block;
                 }
 
@@ -182,7 +184,7 @@ header {
                     padding: 0.5rem;
                     min-width: 18rem;
                     background-color: #002663;
-                    box-shadow: 0.1rem 0.2rem 1rem rgba(0,0,0,0.5);
+                    // box-shadow: 0.2rem 0.2rem 0.5rem rgba(0,0,0,0.2);
                 }
 
                 &.dropdown {

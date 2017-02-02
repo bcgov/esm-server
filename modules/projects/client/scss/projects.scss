@@ -1,0 +1,63 @@
+
+
+.mine-list,
+.ce-list {
+    .summary {
+        font-size: 0.875rem;
+        font-style: italic;
+    }
+
+    .ah-col {
+        &.name {
+            padding-left: 0;
+            font-weight: 700;
+        }
+    }
+}
+
+.mine-list {
+    .mine-list-container {
+        margin-top: 1.5rem;
+    }
+
+    .sh-col,
+    .ah-col {
+        &.commodity {
+            width: 9.5rem;
+            text-align: center;
+        }
+
+        &.operator {
+            display: none;
+            width: 40%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .mine-list {
+        .sh-col,
+        .ah-col {
+            &.operator {
+                display: table-cell;
+            }
+        }
+    }
+}
+
+// Mine Page
+.tab-intro {
+    margin-bottom: 2.5rem;
+}
+
+.ce-list {
+    .date {
+        font-size: 0.875rem;
+    }
+
+    .doc-list-container {
+        margin-top: 1.5rem;
+    }
+}

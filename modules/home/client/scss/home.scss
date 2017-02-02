@@ -1,0 +1,15 @@
+
+// Home Page
+.site-intro {
+    .fast-facts {
+        margin-top: 2.5rem;
+    }
+}
+
+@media (min-width: 900px) {
+    .site-intro {
+        .fast-facts {
+            margin-top: 0;
+        }
+    }
+}

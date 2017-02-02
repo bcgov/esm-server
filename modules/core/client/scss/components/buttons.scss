@@ -42,7 +42,8 @@
         //font-size: 0.875rem;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
         text-decoration: none;
 
         i, span {

@@ -34,8 +34,8 @@ module.exports = {
   // for obsecurity reasons
   sessionKey: 'sessionId',
   sessionCollection: 'sessions',
-  logo: 'modules/core/client/img/brand/mem-logo.png',
-  favicon: 'modules/core/client/img/brand/favicon.ico'
+  //logo: 'modules/core/client/images/brand/mem-logo.png',
+  favicon: 'modules/core/client/images/favicon.ico'
 };
 
 console.log(module.exports.app);
