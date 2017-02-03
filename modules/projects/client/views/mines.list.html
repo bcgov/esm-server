@@ -44,7 +44,7 @@
                                             <i class="material-icons open-icon">add</i>
                                             <i class="material-icons close-icon">remove</i>
                                         </a>
-                                        <span class="ah-col name"><a ui-sref="project">{{p.name}}</a></span>
+                                        <span class="ah-col name"><a ui-sref="project({projectid: p.code})">{{p.name}}</a></span>
                                         <span class="ah-col operator">{{p.operator}}</span>
                                         <span class="ah-col commodity">{{p.commodityType}}</span>
                                     </div>
@@ -65,7 +65,7 @@
                                                 </li>
                                                 <li>
                                                     <span class="name">Ownership</span>
-                                                    <span class="value" ng-bind-html="ownership(p)"</span>
+                                                    <span class="value" ng-bind-html="ownership(p)"></span>
                                                 </li>
                                                 <li>
                                                     <span class="name">Commodities</span>
