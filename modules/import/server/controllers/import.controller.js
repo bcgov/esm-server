@@ -101,7 +101,7 @@ var importProjects = function(opts, data, startRow) {
 				activities.push({ name: 'Operation', order: 3, status: row.operation });
 				activities.push({ name: 'Closure', order: 4, status: row.closure });
 				activities.push({ name: 'Reclamation', order: 5, status: row.reclamation });
-				activities.push({ name: 'Monitoring &amp; Reporting', order: 5, status: row.monitoring });
+				activities.push({ name: 'Monitoring & Reporting', order: 5, status: row.monitoring });
 				obj.activities = [];
 				obj.activities = activities;
 				obj.markModified('activities');
