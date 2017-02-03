@@ -53,7 +53,7 @@ function loadData() {
 var run = function () {
 	var connectUrl = "mongodb://localhost:27017/mmti-dev";
 	var complianceData = loadData();
-	var collectionName = 'complianceOversight';
+	var collectionName = 'inspections';
 	var collection;
 	return new Promise(function (resolve, reject) {
 
