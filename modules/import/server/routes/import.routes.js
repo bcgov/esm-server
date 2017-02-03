@@ -9,7 +9,7 @@ var Import   = require ('../controllers/import.controller');
 module.exports = function (app) {
 
 	app.route ('/api/import')
-		.all (policy ('guest'))
+		.all (policy ('admin'))
 		.post (function (req, res) {
 			var file = req.files.file;
 			if (file) {

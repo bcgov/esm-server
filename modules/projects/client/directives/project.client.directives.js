@@ -33,14 +33,12 @@ function directiveProjectSchedule($modal) {
 // DIRECTIVE: Modal Project Entry
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectImport.$inject = ['$modal', '$state', '$rootScope', 'ProjectModel'];
+directiveModalProjectImport.$inject = ['$modal', '$state', '$rootScope'];
 /* @ngInject */
-function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) {
+function directiveModalProjectImport($modal, $state, $rootScope) {
 	var directive = {
 		restrict:'A',
-		scope : {
-			project: '='
-		},
+		scope : {},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
 				var modalProjectEntry = $modal.open({
