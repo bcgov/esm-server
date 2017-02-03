@@ -5,7 +5,7 @@
         <div class="container-inner">
             <div class="hb-txt">
                 <h1>{{project.name}}</h1>
-                <p class="mb-2" ng-bind-html="content(project, 'SUBTITLE', 'DETAILS')"></p>
+                <p class="mb-2" ng-bind-html="content(project, 'OVERVIEW_INTRO_TEXT', 'MINES')"></p>
             </div>
         </div>
     </div>
@@ -16,7 +16,7 @@
         <div class="row">
             <main class="col-lg-8">
                 <section>
-                    <h2>About {{project.name}} Mine</h2>
+                    <h2>About {{project.name}}</h2>
 
                     <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item">
@@ -36,12 +36,17 @@
                     <div class="tab-content">
 
                         <!-- Overview -->
-                        <div class="overview tab-pane active" id="overview" role="tabpanel" ng-bind-html="content(project, 'INTRO_TEXT', 'DETAILS')">
+                        <div class="overview tab-pane active"
+                             id="overview"
+                             role="tabpanel"
+                             ng-bind-html="content(project, 'INTRO_TEXT', 'DETAILS')">
                         </div><!-- / Overview -->
                         
                         <!-- Authorizations -->
                         <div class="authorizations tab-pane" id="authorizations" role="tabpanel">
-                            <p class="tab-intro" ng-bind-html="content(project, 'INTRO_TEXT', 'AUTHORIZATION')"></p>
+                            <p class="tab-intro"
+                               ng-bind-html="content(project, 'INTRO_TEXT', 'AUTHORIZATION')"></p>
+                            <p>Learn more about Authorizations <a ui-sref="authorizations">here</a>.</p>
                             <section class="auth-list-section">
                                 <h3>Environmental Assessment Act <span>Environmental Assessment Office</span></h3>
                                 <ul>
@@ -114,7 +119,9 @@
 
                         <!-- Compliance Oversight -->
                         <div class="compliance tab-pane" id="compliance" role="tabpanel">
-                            <p class="tab-intro" ng-bind-html="content(project, 'INTRO_TEXT', 'COMPLIANCE')"></p>
+                            <p class="tab-intro"
+                               ng-bind-html="content(project, 'INTRO_TEXT', 'COMPLIANCE')"></p>
+                            <p>Learn more about Compliance Oversight <a ui-sref="compliance-oversight">here</a>.</p>
                             <section>
                                 <h3>Compliance Oversight <span>January 1 - December 31, 2016<span></h3>
                                 <div class="ce-list">
@@ -348,7 +355,7 @@
                         </li>
                     </ul>
                 </section>
-                <section>
+                <section ng-if="links.length > 0">
                     <h4>External Links &amp; Resources</h4>
                     <ul class="mmti-side-list">
                         <li ng-repeat="l in links">
