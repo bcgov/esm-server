@@ -354,6 +354,20 @@ module.exports = DBModel.extend ({
 			internalOriginalName : doc.internalOriginalName
 		});
 	},
+	getEpicProjectFolderURL: function (data) {
+		// console.log("looking for projectFolderURL:", data.url);
+		return new Promise (function (resolve, reject) {
+			DocumentModel.findOne ({projectFolderURL: data.url}, function (err, result) {
+				if (result !== null) {
+					// console.log("found the document:", result._id);
+					resolve(result);
+				} else {
+					// console.log("Document not found");
+					resolve(null);
+				}
+			});
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// get all documents from a supplied list

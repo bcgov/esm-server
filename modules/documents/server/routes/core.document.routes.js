@@ -262,6 +262,10 @@ module.exports = function (app) {
 		.put(routes.setAndRun(DocumentClass, function (model, req) {
 			return model.unpublish(req.Document);
 		}));
+	app.route('/api/getDocumentByEpicURL').all(policy('guest'))
+		.put(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.getEpicProjectFolderURL(req.body);
+		}));
 
 };
 

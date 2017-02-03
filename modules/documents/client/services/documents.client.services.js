@@ -14,6 +14,9 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 		getDocumentsInList: function (documentList) {
 			return this.put('/api/documentlist', documentList);
 		},
+		getDocumentByProjectFolderURL: function (projectFolderURL){
+			return this.put('/api/getDocumentByEpicURL', {url: projectFolderURL});
+		},
 		getDocument: function (id) {
             return this.get('/api/document/'+id);
         },
