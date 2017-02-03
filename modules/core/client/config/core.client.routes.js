@@ -19,7 +19,6 @@ angular.module('core').config (
 		url: '/',
 		templateUrl: 'modules/home/client/views/home.html'
 	})
-
 	// Authorizations
 	.state('authorizations', {
 		url: '/authorizations',
@@ -81,6 +80,7 @@ angular.module('core').config (
 		url: '/recover',
 		template: '<tmpl-recover></tmpl-recover>'
 	})
+
 	// Home state routing
 	.state('not-found', {
 		url: '/not-found',
@@ -119,27 +119,7 @@ angular.module('core').config (
 		templateUrl: 'modules/core/client/views/prototype.load.error.html',
 		controller: function($scope, $location, _) {
 		}
-	})
-	;
-
-	// $stateProvider.modalState = function (name, opts) {
-	// 	var modalInstance;
-	// 	$stateProvider.state (name, {
-	// 		url: opts.url,
-	// 		resolve: opts.resolve || {},
-	// 		onEnter: function ($modal, $state) {
-	// 			modalInstance = $modal.open (opts);
-	// 			modalInstance.result['finally'](function () {
-	// 				modalInstance = null;
-	// 				if ($state.$current.name === name) $state.go ('^');
-	// 			});
-	// 		},
-	// 		onExit: function () {
-	// 			if (modalInstance) modalInstance.close ();
-	// 		}
-	// 	});
-	// };
-
+	});
 }]);
 
 

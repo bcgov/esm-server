@@ -65,7 +65,7 @@ header {
         .nav-link {
             position: relative;
             z-index: 1001; // +1 to keep above dropdown menus
-            padding: 0.875rem 1rem;
+            padding: 0.875rem 0.5rem;
             line-height: 1.2rem;
             border-top: 1px solid $mn-border-color;
             color: $mn-color;
@@ -155,10 +155,10 @@ header {
     }
 
     .brand {
-        margin-top: 0.2rem;
+        margin-top: 0.25rem;
         margin-left: 0.25rem;
         width: 380px; // Using PX dimensions here to ensure exact match to image
-        height: 3.5rem;
+        height: 60px;
         background-image: url("/modules/core/client/images/bcgov-logo-horiz-LG.png");
         background-size: auto;
     }
@@ -175,7 +175,7 @@ header {
                 border-top: none;
 
                 span {
-                    margin-top: 0.8rem;
+                    margin-top: 0.9rem;
                     display: block;
                 }
 

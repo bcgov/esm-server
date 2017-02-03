@@ -4,13 +4,14 @@ module.exports = {
   client: {
     lib: {
       css: [
-        //'public/lib/bootstrap/dist/css/bootstrap.css',
-        'public/lib/angular-toastr/dist/angular-toastr.css',
-        'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
+      //'public/lib/bootstrap/dist/css/bootstrap.css',
+      'public/lib/angular-toastr/dist/angular-toastr.css',
+      'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
 
-		// TO BE REMOVED
-        //'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
-        //'public/assimilated/ng-table/dist/ng-table.min.css'
+      // TO BE REMOVED
+      //'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
+      //'public/assimilated/ng-table/dist/ng-table.min.css'
+
       ],
       js: [
    		'public/lib/es6-shim/es6-shim.min.js',
@@ -52,7 +53,6 @@ module.exports = {
       'public/lib/ng-pdfviewer/pdf.js',
       'public/lib/ng-pdfviewer/compatibility.js',
       'public/readable-range.js'
-
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
