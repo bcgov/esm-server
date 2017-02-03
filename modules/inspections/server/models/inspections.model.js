@@ -5,7 +5,7 @@
 //
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
-('ComplianceOversight', {
+('Inspection', {
 	projectId							: { type: String, default:'' },
 	inspectionNum						: { type: String, default:'' },
 	inspectionDate						: { type: Date, default: Date.now },

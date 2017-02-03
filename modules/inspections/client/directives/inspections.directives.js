@@ -19,7 +19,7 @@ directiveProjectComplianceOversight.$inject = [];
 function directiveProjectComplianceOversight() {
 	var directive = {
 		restrict: 'E',
-		templateUrl: 'modules/compliance-oversight/client/views/project-compliance.html',
+		templateUrl: 'modules/inspections/client/views/project-inspections.html',
 		scope: {
 		},
 		controller: controllerComplianceBrowser,
