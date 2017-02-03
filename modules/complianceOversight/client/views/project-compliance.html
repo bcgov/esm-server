@@ -1,0 +1,36 @@
+<section>
+    <h3>Compliance Oversight <span>January 1 - December 31, 2016</span></h3>
+    <div class="ce-list-header">Viewing {{complianceList.data.length}} Records</div>
+
+    <div class="mmti-accord ce-list" id="complianceList" role="tablist" aria-multiselectable="false"
+         ng-repeat="c in complianceList.data">
+        <div class="mmti-accord-item" >
+            <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
+                <div>
+                    <a class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true"
+                       aria-controls="collapseOne">
+                        <i class="material-icons open-icon">add</i>
+                        <i class="material-icons close-icon">remove</i>
+                    </a>
+                    <span class="ah-col name">{{c.name}}</span>
+                    <span class="ah-col date">{{c.date}}</span>
+                </div>
+            </div>
+            <div class="collapse" role="tabpanel"
+                 id="collapse-{{c._id}}"
+                 aria-labelledby="heading-{{c._id}}">
+                <div class="mmti-accord-body">
+                    <div class="summary">{{c.summary}}</div>
+                    <div class="doc-list-container" ng-if="c.related">
+                        <div class="mmti-list-header">Related Documents</div>
+                        <ul class="mmti-list"  ng-repeat="r in c.related">
+                            <li><a href="{{r.ref}}" target="_blank">{{r.name}}</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
