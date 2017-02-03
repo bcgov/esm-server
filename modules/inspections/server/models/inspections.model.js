@@ -7,15 +7,35 @@
 module.exports = require('../../../core/server/controllers/core.schema.controller')
 ('Inspection', {
 	projectId: {type: String, default: ''},
+	orgCode: {type: String, default: ''},
 	inspectionNum: {type: String, default: ''},
 	inspectionDate: {type: Date, default: Date.now},
+	inspectorInitials: {type: String, default: ''},
 	inspectionSummary: {type: String, default: ''},
-	inspector: {type: String, default: ''},
 	recentFollowUp: {type: String, default: ''},
 	inspectionDocumentName: {type: String, default: ''},
 	inspectionDocumentURL: {type: String, default: ''},
-	followUpDocuments: [{name: String, ref: String}]
+	followUpDocumentNames: [{name: String, ref: String}],
+	followUpDocumentUrls: [{name: String, ref: String}],
+	authorizationID: {type: String, default: ''}
 });
+
+
+module.exports.columnNames = [
+	"projectId",
+	"orgCode",
+	"inspectionNum",
+	"inspectionDate",
+	"inspectorInitials",
+	"inspectionSummary",
+	"recentFollowUp",
+	"inspectionDocumentName",
+	"inspectionDocumentURL",
+	"followUpDocumentNames",
+	"followUpDocumentUrls",
+	"authorizationID"
+];
+
 /* Original EPIC stuff follows*/
 // __audit       : true,
 // __access      : [],
