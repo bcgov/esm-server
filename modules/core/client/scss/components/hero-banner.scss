@@ -20,6 +20,8 @@
 @media (min-width: 760px) {
     .hero-banner {
         height: 30rem;
+        background-position: center;
+        background-size: 120%;
 
         .container {
             padding-left: 2rem;
@@ -36,6 +38,10 @@
 
 @media (min-width: 1200px) {
     .hero-banner {
+        background-position: center -2rem;
+        background-repeat: no-repeat;
+        background-size: 120%;
+
         .container {
             padding-left: 0;
             padding-right: 0;
@@ -50,6 +56,7 @@
         }
     }
 }
+
 
 // Banner Text
 .hb-txt {
@@ -123,25 +130,36 @@
 
 // Banner Buttons
 .hb-btns {
+    text-align: center;
+
     label {
         margin-bottom: 0.75rem;
         display: block;
         font-size: 0.9375rem;
         font-weight: 400;
     }
-}
 
-@media (min-width: 760px) {
-    .hero-banner {
-        background-position: center 3rem;
-        background-size: 105%;
+    .btn {
+        width: 10rem;
+
+        + span {
+            display: block;
+            margin: 0.25rem 0;
+        }
     }
 }
 
-@media (min-width: 1200px) {
-    .hero-banner {
-        background-position: center -2rem;
-        background-repeat: no-repeat;
-        background-size: 120%;
+@media (min-width: 400px) {
+    .hb-btns {
+        text-align: left;
+
+        .btn {
+            width: auto;
+
+            + span {
+                display: inline-block;
+                margin: 0 0.5rem;
+            }
+        }
     }
 }

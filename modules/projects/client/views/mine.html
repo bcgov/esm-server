@@ -4,8 +4,8 @@
     <div class="container">
         <div class="container-inner">
             <div class="hb-txt">
-                <h1>Mount Milligan Mine</h1>
-                <p class="mb-2">The Mount Milligan copper-gold mine is located 155 km northwest of Prince George, between the communities of Fort St. James and Mackenzie in central British Columbia.</p>
+                <h1>{{project.name}}</h1>
+                <p class="mb-2" ng-bind-html="content(project, 'OVERVIEW_INTRO_TEXT', 'MINES')"></p>
             </div>
         </div>
     </div>
@@ -16,38 +16,37 @@
         <div class="row">
             <main class="col-lg-8">
                 <section>
-                    <h2>About Mount Milligan Mine</h2>
+                    <h2>About {{project.name}}</h2>
 
                     <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#overview">Mine Overview</a>
+                            <a class="nav-link active" data-toggle="tab" href="#overview" ng-click="page('DETAILS')">Mine Overview</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#authorizations">Authorizations</a>
+                            <a class="nav-link" data-toggle="tab" href="#authorizations" ng-click="page('AUTHORIZATION')">Authorizations</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#compliance">Compliance Oversight</a>
+                            <a class="nav-link" data-toggle="tab" href="#compliance" ng-click="page('COMPLIANCE')">Compliance Oversight</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#docs">Other Documents</a>
+                            <a class="nav-link" data-toggle="tab" href="#docs" ng-click="page('DOCS')">Other Documents</a>
                         </li>
                     </ul>
 
                     <div class="tab-content">
 
                         <!-- Overview -->
-                        <div class="overview tab-pane active" id="overview" role="tabpanel">
-                            <p>The Mount Milligan copper-gold mine is located 155 km northwest of Prince George, between the communities of Fort St. James and Mackenzie in central British Columbia.</p>
-                            <p>The Mount Milligan project underwent several separate phases of mine planning and feasibility assessment over a 15-year period, including two separate Environmental Assessment (EA) processes. During those reviews, and in response to concerns from First Nations regulators and other stakeholders, the original 1993 mine design was significantly modified in several key ways to reduce the mine footprint by more than 1,300 hectares—a roughly 50% reduction from the 1,324.6 hectares of total disturbance reported in 2015.</p>
-                            <p>During the design phase, Mount Milligan developed an extensive fish habitat mitigation and compensation plan. A key component of the habitat compensation plan was the construction of three large overwintering ponds, covering roughly 3 hectares of new habitat.</p>
-                            <p>For the construction activities, Mount Milligan partnered with Duz Cho Logging, which is owned by the local First Nation, the McLeod Lake Indian Band. The company is well-regarded for its high standards for safety and for its quality workmanship. Duz Cho constructed the ponds between 2012 and 2014 using innovative reclamation techniques.</p>
-                            <p>Effectiveness monitoring on the overwintering ponds by a third-party monitor confirms that all ponds are functioning as intended. Milligan exemplifies that successful reclamation doesn’t just happen at the end of mine life—it starts early in the planning process, and sets a stage for future success.</p>
-                            <p class="mb-0">Thompson Creek Metals Company Inc. received the 2015 British Columbia Jake McDonald Mine Reclamation Award for outstanding reclamation achievements at the Mount Milligan Mine.</p>
+                        <div class="overview tab-pane active"
+                             id="overview"
+                             role="tabpanel"
+                             ng-bind-html="content(project, 'INTRO_TEXT', 'DETAILS')">
                         </div><!-- / Overview -->
                         
                         <!-- Authorizations -->
                         <div class="authorizations tab-pane" id="authorizations" role="tabpanel">
-                            <p class="tab-intro">Major mine projects require many authorizations from different federal and provincial agencies. Environmental assessment (EA) certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mines in British Columbia. Learn more about Authorizations <a href="authorizations.html">here</a>.</p>
+                            <p class="tab-intro"
+                               ng-bind-html="content(project, 'INTRO_TEXT', 'AUTHORIZATION')"></p>
+                            <p>Learn more about Authorizations <a ui-sref="authorizations">here</a>.</p>
                             <section class="auth-list-section">
                                 <h3>Environmental Assessment Act <span>Environmental Assessment Office</span></h3>
                                 <ul>
@@ -120,7 +119,9 @@
 
                         <!-- Compliance Oversight -->
                         <div class="compliance tab-pane" id="compliance" role="tabpanel">
-                            <p class="tab-intro">The Ministry of Energy and Mines (MEM), Ministry of Environment (ENV) and Environmental Assessment Office (EAO) work together to provide integrated oversight of British Columbia’s mining sector. Compliance and enforcement (C&E) activities begin after a claim is staked and continue through exploration and the life of a mine. Learn more about Compliance Oversight <a href="compliance-oversight.html">here</a>.</p>
+                            <p class="tab-intro"
+                               ng-bind-html="content(project, 'INTRO_TEXT', 'COMPLIANCE')"></p>
+                            <p>Learn more about Compliance Oversight <a ui-sref="compliance-oversight">here</a>.</p>
                             <section>
                                 <h3>Compliance Oversight <span>January 1 - December 31, 2016<span></h3>
                                 <div class="ce-list">
@@ -329,68 +330,36 @@
                     <ul class="mmti-side-list mine-details-list">
                         <li>
                             <span class="name">Operator</span>
-                            <span class="value">Thompson Creek Metals Company Inc.</span>
+                            <span class="value">{{project.operator}}</span>
                         </li>
                         <li>
                             <span class="name">Ownership</span>
-                            <span class="value">Thompson Creek Metals Company Inc. (wholly-owned subsidiary of Canterra Gold Inc.)</span>
+                            <span class="value" ng-bind-html="ownership(project)"></span>
                         </li>
                         <li>
-                            <span class="name">Commodoties</span>
-                            <span class="value">Gold, Copper</span>
+                            <span class="name">Commodities</span>
+                            <span class="value">{{project.commodities ? project.commodities.join(', ') : ''}}</span>
                         </li>
                         <li>
                             <span class="name">Number of Tailings Impoundments</span>
-                            <span class="value">1</span>
+                            <span class="value">{{project.tailingsImpoundments}}</span>
                         </li>
                     </ul>
                 </section>
                 <section>
                     <h4>Site Activities</h4>
                     <ul class="sa-list">
-                        <li class="complete">
-                            <span class="sa-name">Design</span>
-                            <span class="sa-status">Complete</span>
-                        </li>
-                        <li class="complete">
-                            <span class="sa-name">Construction</span>
-                            <span class="sa-status">Complete</span>
-                        </li>
-                        <li class="active">
-                            <span class="sa-name">Operation</span>
-                            <span class="sa-status">Active<span>
-                        </li>
-                        <li class="inactive">
-                            <span class="sa-name">Closure</span>
-                            <span class="sa-status">Inactive</span>
-                        </li>
-                        <li class="active">
-                            <span class="sa-name">Reclamation</span>
-                            <span class="sa-status">Active</span>
-                        </li>
-                        <li class="active">
-                            <span class="sa-name">Monitoring &amp; Reporting</span>
-                            <span class="sa-status">Active<span>
+                        <li ng-repeat="act in project.activities | orderBy : act.order" class="{{statusClass(act)}}">
+                            <span class="sa-name">{{act.name}}</span>
+                            <span class="sa-status">{{act.status}}</span>
                         </li>
                     </ul>
                 </section>
-                <section>
+                <section ng-if="links.length > 0">
                     <h4>External Links &amp; Resources</h4>
                     <ul class="mmti-side-list">
-                        <li>
-                            <a href="#">Ministy of Energy &amp; Mines</a>
-                        </li>
-                        <li>
-                            <a href="#">Mineral Exploration &amp; Mining</a>
-                        </li>
-                        <li>
-                            <a href="#">Ministry of Environment</a>
-                        </li>
-                        <li>
-                            <a href="#">Environmental Assessment Office</a>
-                        </li>
-                        <li>
-                            <a href="#">Mount Milligan Mine - Environmental Assessment</a>
+                        <li ng-repeat="l in links">
+                            <a href="{{l.link}}">{{l.title}}</a>
                         </li>
                     </ul>
                 </section>

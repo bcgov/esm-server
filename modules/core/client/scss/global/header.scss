@@ -1,15 +1,9 @@
 
 header {
     @include clearfix;
-    padding: 0.25rem 0.75rem 0.25rem 0.5rem;
+    padding: 0.5rem;
     background: $header-bg;
     color: $header-font-color;
-}
-
-@media (min-width: 1200px) {
-    header {
-        padding: 0.25rem 0.5rem;
-    }
 }
 
 .brand-container {
@@ -19,15 +13,15 @@ header {
 .brand {
     float: left;
     display: block;
-    width: 140px;
-    height: 50px;
-        background-image: url("/modules/core/client/images/bcgov-logo-horiz-SM.png");
+    width: 240px;
+    height: 40px;
+    background-image: url("/modules/core/client/images/bcgov-logo-horiz-SM.png");
     background-repeat: no-repeat;
     background-size: auto;
 }
 
 .navbar-toggler {
-    margin-top: 0.4rem;
+    margin-top: 0.05rem;
     padding: 0.5rem 0.4rem;
     border: 2px solid $gold;
     color: $gold;
@@ -45,8 +39,19 @@ header {
         margin-bottom: -0.25rem;
 
         + span {
+            display: none;
             margin-left: 0.25rem;
             font-size: 0.85rem;
+        }
+    }
+}
+
+@media (min-width: 400px) {
+    .navbar-toggler {
+        i {
+            + span {
+                display: inline-block;
+            }
         }
     }
 }
@@ -150,10 +155,10 @@ header {
     }
 
     .brand {
-        margin-top: 0.2rem;
+        margin-top: 0.25rem;
         margin-left: 0.25rem;
-        width: 170px; // Using PX dimensions here to ensure exact match to image
-        height: 3.5rem;
+        width: 380px; // Using PX dimensions here to ensure exact match to image
+        height: 60px;
         background-image: url("/modules/core/client/images/bcgov-logo-horiz-LG.png");
         background-size: auto;
     }
@@ -170,7 +175,7 @@ header {
                 border-top: none;
 
                 span {
-                    margin-top: 0.8rem;
+                    margin-top: 0.9rem;
                     display: block;
                 }
 

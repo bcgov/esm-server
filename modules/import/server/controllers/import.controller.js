@@ -88,7 +88,20 @@ var importProjects = function(opts, data, startRow) {
 				} catch (e) {}
 
 				obj.operator = row.operator;
-				obj.ownership = row.owner;
+				// owner can be a bit gnarly, touch it up here.
+				// some have \r, replace with ;  we only want ; separating different owners.
+				try {
+					var value = row.owner.replace(/[\r\n]/g, ";");
+					value = value.replace(/^;+|;+(?=;|$)/g, ''); // make sure only one ; in a row
+					var owners = [];
+					_.each(value.split(';'), function(o) {
+						owners.push(o.trim());
+					});
+					obj.ownership = owners.join(';');
+				} catch(e) {
+					obj.ownership = row.owner;
+				}
+
 				obj.commodityType = row.commodityType;
 				obj.commodities = _.isEmpty(row.commodities) ? [] : _.split(row.commodities, ',');
 
@@ -101,7 +114,7 @@ var importProjects = function(opts, data, startRow) {
 				activities.push({ name: 'Operation', order: 3, status: row.operation });
 				activities.push({ name: 'Closure', order: 4, status: row.closure });
 				activities.push({ name: 'Reclamation', order: 5, status: row.reclamation });
-				activities.push({ name: 'Monitoring &amp; Reporting', order: 5, status: row.monitoring });
+				activities.push({ name: 'Monitoring & Reporting', order: 5, status: row.monitoring });
 				obj.activities = [];
 				obj.activities = activities;
 				obj.markModified('activities');
