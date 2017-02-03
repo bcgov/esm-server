@@ -29,9 +29,7 @@ angular.module('project').config (
 
 				$scope.ownership = function(p) {
 					try {
-						var value = p.ownership.replace(/[\r\n]/g, ";");
-						value = value.replace(/;/g, "<br>");
-						return value;
+						return p.ownership.replace(/;/g, "<br>");
 					} catch(e) {
 						return p.ownership;
 					}
