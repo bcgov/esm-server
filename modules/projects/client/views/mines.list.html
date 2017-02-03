@@ -1,0 +1,111 @@
+
+<ui-view id="main-content-section">
+
+    <div class="hero-banner">
+        <div class="container">
+            <div class="container-inner">
+                <div class="hb-txt">
+                    <h1>Find Mines in British Columbia</h1>
+                    <p class="mb-2">The BC Mine Information website’s currently includes 15 major mine sites</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <main class="col-lg-8">
+                <section>
+                    <h2>Major Mines in British Columbia</h2>
+                    <p class="tab-intro">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+                    <div class="mine-list">
+                        <div class="sort-header">
+                            <div class="sh-row">
+                                <div class="sh-col name sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('name')">
+                                    <span>Name</span>
+                                    <span class="sort-icon" ng-show="sorting.column === 'name'"></span>
+                                </div>
+                                <div class="sh-col operator sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('operator')">
+                                    <span>Operator</span>
+                                    <span class="sort-icon" ng-show="sorting.column === 'operator'"></span>
+                                </div>
+                                <div class="sh-col commodity sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('commodity')">
+                                    <span>Commodity Type</span>
+                                    <span class="sort-icon" ng-show="sorting.column === 'commodity'"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mmti-accord mine-list" id="complianceList" role="tablist" aria-multiselectable="false">
+                            <div ng-repeat="p in sortedList" class="mmti-accord-item">
+                                <div class="mmti-accord-header" role="tab" id="heading{{$index+1}}">
+                                    <div>
+                                        <a class="toggle collapsed" data-toggle="collapse" href="#collapse{{$index+1}}" aria-expanded="true" aria-controls="collapse{{$index+1}}">
+                                            <i class="material-icons open-icon">add</i>
+                                            <i class="material-icons close-icon">remove</i>
+                                        </a>
+                                        <span class="ah-col name"><a ui-sref="project">{{p.name}}</a></span>
+                                        <span class="ah-col operator">{{p.operator}}</span>
+                                        <span class="ah-col commodity">{{p.commodityType}}</span>
+                                    </div>
+                                </div>
+                                <div class="collapse" role="tabpanel"
+                                    id="collapse{{$index+1}}"
+                                    aria-labelledby="heading{{$index+1}}">
+                                    <div class="mmti-accord-body">
+                                        <span class="summary">
+                                            {{content(p, 'OVERVIEW_INTRO_TEXT', 'MINES')}}
+                                        </span>
+                                        <div class="mine-list-container">
+                                            <div class="mmti-list-header">Details</div>
+                                            <ul class="mmti-list nv-pair">
+                                                <li>
+                                                    <span class="name">Operator</span>
+                                                    <span class="value">{{p.operator}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Ownership</span>
+                                                    <span class="value" ng-bind-html="ownership(p)"</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Commodities</span>
+                                                    <span class="value">{{p.commodities ? p.commodities.join(', ') : ''}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="name">Number of Tailings Impoundments</span>
+                                                    <span class="value">{{p.tailingsImpoundments}}</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            <aside class="col-lg-4">
+                <section>
+                    <h4>External Links &amp; Resources</h4>
+                    <ul class="mmti-list">
+                        <li>
+                            <a href="#">Ministy of Energy &amp; Mines</a>
+                        </li>
+                        <li>
+                            <a href="#">Mineral Exploration &amp; Mining</a>
+                        </li>
+                        <li>
+                            <a href="#">Ministry of Environment</a>
+                        </li>
+                        <li>
+                            <a href="#">Environmental Assessment Office</a>
+                        </li>
+                    </ul>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+</ui-view>
+
+

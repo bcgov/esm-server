@@ -31,5 +31,6 @@ module.exports = DBModel.extend ({
 				.then (resolve, reject);
 		});
 	}
+
 });
 
