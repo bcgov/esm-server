@@ -5,55 +5,6 @@ angular.module('users').config(['$stateProvider',
 	function ($stateProvider) {
 		// Users state routing
 		$stateProvider
-
-			// Landing Page (Home)
-			.state('home', {
-				url: '/',
-				templateUrl: 'modules/home/client/views/home.html'
-			})
-
-			// Authorizations
-			.state('authorizations', {
-				url: '/authorizations',
-				templateUrl: 'modules/authorizations/client/views/authorizations.html'
-			})
-
-			// Compliance Oversight
-			.state('compliance-oversight', {
-				url: '/compliance-oversight',
-				templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html'
-			})
-
-			// Legislation
-			.state('legislation', {
-				url: '/legislation',
-				templateUrl: 'modules/legislation/client/views/legislation.html'
-			})
-
-			// Mining Lifecycle
-			.state('mining-lifecycle', {
-				url: '/lifecycle',
-				templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html'
-			})
-
-			// Topics
-			.state('topics', {
-				url: '/topics-of-interest',
-				templateUrl: 'modules/topics/client/views/topics-of-interest.html'
-			})
-			.state('reclamation-and-securities', {
-				url: '/reclamation-and-securities',
-				templateUrl: 'modules/topics/client/views/reclamation-and-securities.html'
-			})
-			.state('tailings-management', {
-				url: '/water-quality',
-				templateUrl: 'modules/topics/client/views/tailings-management.html'
-			})
-			.state('water-quality', {
-				url: '/water-quality',
-				templateUrl: 'modules/topics/client/views/water-quality.html'
-			})
-
 			.state('settings', {
 				abstract: true,
 				url: '/settings',
