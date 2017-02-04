@@ -7,6 +7,7 @@
 module.exports = require('../../../core/server/controllers/core.schema.controller')
 ('Inspection', {
 	projectId: {type: String, default: ''},
+	projectCode: {type: String, default: ''},
 	orgCode: {type: String, default: ''},
 	inspectionName: {type: String, default: ''},
 	inspectionNum: {type: String, default: ''},
@@ -21,21 +22,6 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 	authorizationID: {type: String, default: ''}
 });
 
-
-module.exports.columnNames = [
-	"projectId",
-	"orgCode",
-	"inspectionNum",
-	"inspectionDate",
-	"inspectorInitials",
-	"inspectionSummary",
-	"recentFollowUp",
-	"inspectionDocumentName",
-	"inspectionDocumentURL",
-	"followUpDocumentNames",
-	"followUpDocumentUrls",
-	"authorizationID"
-];
 
 /* Original EPIC stuff follows*/
 // __audit       : true,
