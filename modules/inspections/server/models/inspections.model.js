@@ -8,6 +8,7 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 ('Inspection', {
 	projectId: {type: String, default: ''},
 	orgCode: {type: String, default: ''},
+	inspectionName: {type: String, default: ''},
 	inspectionNum: {type: String, default: ''},
 	inspectionDate: {type: Date, default: Date.now},
 	inspectorInitials: {type: String, default: ''},

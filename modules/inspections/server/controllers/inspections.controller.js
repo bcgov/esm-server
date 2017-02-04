@@ -5,6 +5,7 @@
 //
 // =========================================================================
 var path     = require('path');
+var _ = require('lodash');
 var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 
 module.exports = DBModel.extend ({
@@ -12,7 +13,8 @@ module.exports = DBModel.extend ({
 	plural : 'inspections',
 
 	getForProject: function (projectId) {
-		return this.list ({project:projectId});
+		console.log("BG inspection.controller getForProject", projectId);
+		return this.list ({projectId:projectId});
 	}
 });
 

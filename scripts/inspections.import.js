@@ -38,6 +38,20 @@ function loadCSV() {
 	});
 }
 
+const orgMap = {
+	'ENV': 'Ministry of Environment',
+	'MEM': 'Ministry of Energy and Mines'
+}
+function transform(jsonData) {
+	_.forEach(jsonData, function(inspection) {
+		var orgName =orgMap[inspection.orgCode];
+		if(!orgName) {
+			throw new Error("Import failed on unexpected organization code", inspection.orgCode);
+		}
+		inspection.inspectionName = inspection.inspectionNum + "-" + inspection.orgCode + " (" + orgName + ")";
+	})
+	return jsonData;
+}
 var run = function () {
 	var connectUrl = "mongodb://localhost:27017/mmti-dev";
 	var collectionName = 'inspections';
@@ -46,6 +60,9 @@ var run = function () {
 	return new Promise(function (resolve, reject) {
 		console.log('start');
 		loadCSV()
+			.then(function (results) {
+				return transform(results);
+			})
 			.then(function (results) {
 				jsonData = results;
 				// connect to db

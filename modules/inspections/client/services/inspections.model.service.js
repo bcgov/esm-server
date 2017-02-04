@@ -1,24 +1,19 @@
-
 'use strict';
-// =========================================================================
-//
-// this is the data model (service). This is how all data
-// is accessed through the front end
-//
-// =========================================================================
-angular.module('inspections').factory ('InspectionsModel', function (ModelBase, _) {
-	//
-	// build the model by extending the base model. the base model will
-	// have all the basic crud stuff built in
-	//
-	var InspectionsModel = ModelBase.extend ({
-		urlName : 'inspections/for/project/brucejack',
+
+angular.module('inspections')
+	.factory('InspectionsModel', InspectionsModelF);
+
+InspectionsModelF.$inject = ['ModelBase', '_'];
+/* @ngInject */
+function InspectionsModelF(ModelBase, _) {
+	console.log("BG construction of InspectionsModel");
+	var InspectionsModel = ModelBase.extend({
+		// TODO BG understand the urlName property and fix to use project id
+		// urlName: 'inspections/for/project',
 		forProject: function (projectid) {
-			console.log("BG inspection model for project");
-			return this.get ('/api/inspections/for/project/' + projectid);
+			console.log("BG inspections.model.service InspectionsModel.forProject projectId", projectid);
+			return this.get('/api/inspections/for/project/' + projectid);
 		}
 	});
-	return new InspectionsModel ();
-});
-
-
+	return new InspectionsModel();
+}

@@ -13,6 +13,8 @@ module.exports = function (app) {
 	app.route ('/api/inspections/for/project/:projectid')
 		.all (policy ('guest'))
 		.get (routes.setAndRun (InspectionController, function (model, req) {
-			return model.getForProject (req.params.project);
+			console.log("BG inspection.route get", req.params);
+
+			return model.getForProject (req.params.projectid);
 		}));
 };
