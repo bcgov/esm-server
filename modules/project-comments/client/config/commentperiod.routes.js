@@ -21,6 +21,15 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view class="comment-period-view"></ui-view>',
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
+				// Temporary redirect to PCP for these two projects
+				if (project.code === 'aurora-lng-digby-island') {
+					window.location = "http://www.eao.gov.bc.ca/pcp/forms/aurora_digby_form.html";
+					return null;
+				} else if (project.code === 'kemess-underground') {
+					window.location = "http://www.eao.gov.bc.ca/pcp/forms/kemess_form.html";
+					return null;
+				}
+
 				return CommentPeriodModel.forProject (project._id);
 			}
 		}
