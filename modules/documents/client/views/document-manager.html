@@ -32,6 +32,10 @@
 					ng-disabled="!documentMgr.lastChecked"
 					ng-click="documentMgr.infoPanel.toggle()"><span class="glyphicon glyphicon-info-sign"></span></button>
 
+			<button class="btn icon-btn" title="Sharable Link to this folder">
+				<a href="{{documentMgr.folderURL}}"><span class="glyphicon glyphicon-link"></span></a>
+			</button>
+
 			<div class="fb-menu btn-group">
 				<button type="button" class="btn icon-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ng-disabled="!documentMgr.batchMenuEnabled">
 					<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
@@ -93,7 +97,6 @@
 			</div>
 		</div>
 	</div>
-
 	<div id="fbBody" class="fb-body" ng-class="{'panel-open': documentMgr.infoPanel.open}">
 
 		<div class="fb-list">

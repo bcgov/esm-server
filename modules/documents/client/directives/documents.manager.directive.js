@@ -5,13 +5,25 @@ angular.module('documents')
 		return {
 			restrict: 'E',
 			scope: {
-				project: '='
+				project: '=',
+				opendir: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
 			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
+
+				if ($scope.opendir) {
+					try {
+						self.opendir = $scope.opendir.substr(1,$scope.opendir.length - 1);
+						self.opendir = self.opendir.split('=');
+						self.opendir = parseInt(self.opendir[1]);
+					} catch (e) {
+						console.log("couldn't parse directory");
+					}
+					self.openDir = null;
+				}
 
 				$scope.authentication = Authentication;
 				$scope.project.directoryStructure = $scope.project.directoryStructure || {
@@ -254,6 +266,7 @@ angular.module('documents')
 					}
 
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
+					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
 					self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
@@ -686,6 +699,11 @@ angular.module('documents')
 						self.selectNode(node.model.id);
 					}
 				);
+
+				if (self.opendir) {
+					console.log("Going to directory:", self.opendir);
+					self.selectNode(self.opendir);
+				}
 
 			},
 			controllerAs: 'documentMgr'
@@ -1202,6 +1220,7 @@ angular.module('documents')
 					}
 
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
+					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
 					self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
@@ -1471,6 +1490,7 @@ angular.module('documents')
 								}
 
 								self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
+								self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
 								self.currentPath = theNode.getPath() || [];
 								self.unsortedFiles = [];
 								self.unsortedDirs = [];
