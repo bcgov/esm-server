@@ -11,25 +11,41 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			var incomingURL = $window.location.href;
 			var newURL = $window.location.protocol + "//" + $window.location.host + "/";
 
-			var epicProjectID;
-			var homestring = "epic_project_home_";
-			var pjhomeIdx = incomingURL.indexOf(homestring);
-			// Test if it's a project home link
-			if (pjhomeIdx !== -1) {
-				epicProjectID = incomingURL.substr(pjhomeIdx+homestring.length);
-				epicProjectID = epicProjectID.substr(0, epicProjectID.indexOf("."));
+			var getProjectIDString = function (idx, theString, terminus) {
+				var epicID = incomingURL.substr(idx+theString.length);
+				epicID = epicID.substr(0, epicID.indexOf(terminus));
 
 				// Adjust for merged projects
 				// 38, 404 => 286
 				// 278 => 348
 				// 345 => 6
-				if (epicProjectID === '38' || epicProjectID === '404') {
-					epicProjectID = 286;
-				} else if (epicProjectID === '278') {
-					epicProjectID = 348;
-				} else if (epicProjectID === '345') {
-					epicProjectID = 6;
+				if (epicID === '38' || epicID === '404') {
+					epicID = 286;
+				} else if (epicID === '278') {
+					epicID = 348;
+				} else if (epicID === '345') {
+					epicID = 6;
 				}
+				return epicID;
+			};
+
+			var epicProjectID;
+			var homestring = "epic_project_home_";
+			var docliststring = "epic_project_doc_list_";
+			var docpagestring = "epic_document_";
+			var pjhomeIdx = incomingURL.indexOf(homestring);
+			var doclistIdx = incomingURL.indexOf(docliststring);
+			var docpageIdx = incomingURL.indexOf(docpagestring);
+
+			if (doclistIdx !== -1) {
+				// Test if it's a epic_project_doc_list_ link
+				epicProjectID = getProjectIDString(doclistIdx, docliststring, "_");
+			} else if (docpageIdx !== -1) {
+				// Test if it's a epic_document_ link
+				epicProjectID = getProjectIDString(docpageIdx, docpagestring, "_");
+			} else if (pjhomeIdx !== -1) {
+				// Test if it's a epic_project_home_ link
+				epicProjectID = getProjectIDString(pjhomeIdx, homestring, ".");
 			} else {
 				// Find out which project this is.
 				var projectFolderURL = incomingURL.replace(newURL+"redirect/documents/","");
