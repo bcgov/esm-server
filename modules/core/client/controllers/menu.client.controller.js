@@ -45,7 +45,6 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope,
    		}
    	});
 
-
 	menu.pageAnchors = function(id) {
 		// get all links in the container.
 		if (!id) {
@@ -65,7 +64,6 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope,
 		return showParent;
 	};
 
-
    	menu.showMenu = function(id) {
    		if (id) {
 	   		return (angular.element (document.querySelector (id)).length > 0);
@@ -78,7 +76,4 @@ function controllerSystemMenu($scope, $state, Authentication, Menus, $rootScope,
 	menu.projectsMenu = Menus.getMenu ('projectsMenu');
 	menu.projectTopMenu  = Menus.getMenu ('projectTopMenu');
 	menu.projectMenu  = Menus.getMenu ('projectMenu');
-
-
-
 }

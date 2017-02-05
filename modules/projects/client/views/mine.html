@@ -1,0 +1,178 @@
+
+
+<div class="hero-banner">
+    <div class="container">
+        <div class="container-inner">
+            <div class="hb-txt">
+                <h1>{{project.name}}</h1>
+                <p class="mb-2" ng-bind-html="content(project, 'OVERVIEW_INTRO_TEXT', 'MINES')"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <main class="col-lg-8">
+                <section>
+                    <h2>About {{project.name}}</h2>
+
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#overview" ng-click="page('DETAILS')">Mine Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#authorizations" ng-click="page('AUTHORIZATION')">Authorizations</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#compliance" ng-click="page('COMPLIANCE')">Compliance Oversight</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#docs" ng-click="page('DOCS')">Other Documents</a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <!-- Overview -->
+                        <div class="overview tab-pane active"
+                             id="overview"
+                             role="tabpanel"
+                             ng-bind-html="content(project, 'INTRO_TEXT', 'DETAILS')">
+                        </div><!-- / Overview -->
+                        
+                        <!-- Authorizations -->
+                        <div class="authorizations tab-pane" id="authorizations" role="tabpanel">
+                            <p class="tab-intro"
+                               ng-bind-html="content(project, 'INTRO_TEXT', 'AUTHORIZATION')"></p>
+                            <p>Learn more about Authorizations <a ui-sref="authorizations">here</a>.</p>
+                            <section class="auth-list-section">
+                                <h3>Environmental Assessment Act <span>Environmental Assessment Office</span></h3>
+                                <ul>
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="http://a100.gov.bc.ca/appsdata/epic/documents/p285/1237403247586_286469e2062a9eff93eeb05dbbaf5feb44436a0a2dce54b6eef3ef5cdccfb280.pdf" target="_blank">Environmental Assessment Certificate</a>
+                                        </span>
+                                        <span class="auth-date">Issued &nbsp;|&nbsp; 2009-03-16</span>
+                                    </li>
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="http://a100.gov.bc.ca/appsdata/epic/documents/p285/d35402/1362418919238_7663b740436f6524ba2a1c5cf145e0cee79912c6feb99d7932b630eaeaf6fae0.pdf" target="_blank">Environmental Assessment Certificate - Amendement</a>
+                                        </span>
+                                        <span class="auth-date">Certificate Amended &nbsp;|&nbsp; 2013-03-01</span>
+                                    </li>
+                                </ul>
+                            </section>
+                            <section class="auth-list-section">
+                                <h3>Environmental Management Act <span>Ministry of Environment</span></h3>
+                                <ul>
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582a2d5348077f0017feb5a0/fetch" target="_blank">Air Permit</a>
+                                        </span>
+                                        <span class="auth-date">Permit Amended &nbsp;|&nbsp; 2016-06-22</span>
+                                    </li>
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582a2d5348077f0017feb5a1/fetch" target="_blank">Effluent Permit</a>
+                                        </span>
+                                        <span class="auth-date">Permit Amended &nbsp;|&nbsp; 2016-06-22</span>
+                                    </li>
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="https://mem-mmt-test.pathfinder.gov.bc.ca/api/document/582a2d5348077f0017feb5a2/fetch" target="_blank">Landfill Permit</a>
+                                        </span>
+                                        <span class="auth-date">Permit Amended &nbsp;|&nbsp; 2016-06-21</span>
+                                    </li>
+                                </ul>
+                            </section>
+                            <section class="auth-list-section">
+                                <h3>Mines Act <span>Ministry of Energy and Mines</span></h3>
+                                <ul class="authorizations-list">
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="https://mines.empr.gov.bc.ca/api/document/5822594b6d6ad30017cd6b81/fetch" target="_blank">Approval to Operate Tailings Storage Facility</a>
+                                        </span>
+                                        <span class="auth-date">Permit Amended &nbsp;|&nbsp; 2013-06-05</span>
+                                    </li>
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="https://mines.empr.gov.bc.ca/api/document/582259466d6ad30017cd6b40/fetch" target="_blank">Approval Construction of a Blend and Feed Ore Stockpile</a>
+                                        </span>
+                                        <span class="auth-date">Permit Amended &nbsp;|&nbsp; 2013-04-16</span>
+                                    </li>
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="https://mines.empr.gov.bc.ca/api/document/582259536d6ad30017cd6bf6/fetch" target="_blank">Approving Change in Security Schedule</a></span>
+                                        <span class="auth-date">Permit Amended &nbsp;|&nbsp; 2010-07-14</span>
+                                    </li>
+                                    <li class="flex-row">
+                                        <span class="auth-name">
+                                            <a href="https://mines.empr.gov.bc.ca/api/document/5822597e6d6ad30017cd6db0/fetch" target="_blank">Approving Change in Security Schedule</a>
+                                        </span>
+                                        <span class="auth-date">Permit Issued &nbsp;|&nbsp; 2009-09-08</span>
+                                    </li>
+                                </ul>
+                            </section>
+                        </div><!-- / Authorizations -->
+
+                        <!-- Compliance Oversight -->
+                        <div class="compliance tab-pane" id="compliance" role="tabpanel">
+                            <p class="tab-intro"
+                               ng-bind-html="content(project, 'INTRO_TEXT', 'COMPLIANCE')"></p>
+                            <p>Learn more about Compliance Oversight <a ui-sref="compliance-oversight">here</a>.</p>
+                            <tmpl-project-compliance project="project"></tmpl-project-compliance>
+                        </div>
+
+                        <!-- Other Documents -->
+                        <div class="documents tab-pane" id="docs" role="tabpanel">
+                            Content TBD
+                        </div>
+                    </div>
+
+                </section>
+            </main>
+            <aside class="col-lg-4">
+                <section>
+                    <div class="map-section"><div class="map-thumb">Map Thumbnail Here</div></div>
+                    <ul class="mmti-side-list mine-details-list">
+                        <li>
+                            <span class="name">Operator</span>
+                            <span class="value">{{project.operator}}</span>
+                        </li>
+                        <li>
+                            <span class="name">Ownership</span>
+                            <span class="value" ng-bind-html="ownership(project)"></span>
+                        </li>
+                        <li>
+                            <span class="name">Commodities</span>
+                            <span class="value">{{project.commodities ? project.commodities.join(', ') : ''}}</span>
+                        </li>
+                        <li>
+                            <span class="name">Number of Tailings Impoundments</span>
+                            <span class="value">{{project.tailingsImpoundments}}</span>
+                        </li>
+                    </ul>
+                </section>
+                <section>
+                    <h4>Site Activities</h4>
+                    <ul class="sa-list">
+                        <li ng-repeat="act in project.activities | orderBy : act.order" class="{{statusClass(act)}}">
+                            <span class="sa-name">{{act.name}}</span>
+                            <span class="sa-status">{{act.status}}</span>
+                        </li>
+                    </ul>
+                </section>
+                <section ng-if="links.length > 0">
+                    <h4>External Links &amp; Resources</h4>
+                    <ul class="mmti-side-list">
+                        <li ng-repeat="l in links">
+                            <a href="{{l.link}}">{{l.title}}</a>
+                        </li>
+                    </ul>
+                </section>
+            </aside>
+        </div>
+    </div>
+</div>

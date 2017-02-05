@@ -14,6 +14,53 @@ angular.module('core').config (
 	});
 
 	$stateProvider
+	// Landing Page (Home)
+	.state('home', {
+		url: '/',
+		templateUrl: 'modules/home/client/views/home.html'
+	})
+	// Authorizations
+	.state('authorizations', {
+		url: '/authorizations',
+		templateUrl: 'modules/authorizations/client/views/authorizations.html'
+	})
+
+	// Compliance Oversight
+	.state('compliance-oversight', {
+		url: '/compliance-oversight',
+		templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html'
+	})
+
+	// Legislation
+	.state('legislation', {
+		url: '/legislation',
+		templateUrl: 'modules/legislation/client/views/legislation.html'
+	})
+
+	// Mining Lifecycle
+	.state('mining-lifecycle', {
+		url: '/lifecycle',
+		templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html'
+	})
+
+	// Topics
+	.state('topics', {
+		url: '/topics-of-interest',
+		templateUrl: 'modules/topics/client/views/topics-of-interest.html'
+	})
+	.state('reclamation-and-securities', {
+		url: '/reclamation-and-securities',
+		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html'
+	})
+	.state('tailings-management', {
+		url: '/water-quality',
+		templateUrl: 'modules/topics/client/views/tailings-management.html'
+	})
+	.state('water-quality', {
+		url: '/water-quality',
+		templateUrl: 'modules/topics/client/views/water-quality.html'
+	})
+	
 	.state('configuration', {
 		url: '/configuration',
 		template: '<tmpl-configuration></tmpl-configuration>',
@@ -33,6 +80,7 @@ angular.module('core').config (
 		url: '/recover',
 		template: '<tmpl-recover></tmpl-recover>'
 	})
+
 	// Home state routing
 	.state('not-found', {
 		url: '/not-found',
@@ -71,27 +119,7 @@ angular.module('core').config (
 		templateUrl: 'modules/core/client/views/prototype.load.error.html',
 		controller: function($scope, $location, _) {
 		}
-	})
-	;
-
-	// $stateProvider.modalState = function (name, opts) {
-	// 	var modalInstance;
-	// 	$stateProvider.state (name, {
-	// 		url: opts.url,
-	// 		resolve: opts.resolve || {},
-	// 		onEnter: function ($modal, $state) {
-	// 			modalInstance = $modal.open (opts);
-	// 			modalInstance.result['finally'](function () {
-	// 				modalInstance = null;
-	// 				if ($state.$current.name === name) $state.go ('^');
-	// 			});
-	// 		},
-	// 		onExit: function () {
-	// 			if (modalInstance) modalInstance.close ();
-	// 		}
-	// 	});
-	// };
-
+	});
 }]);
 
 

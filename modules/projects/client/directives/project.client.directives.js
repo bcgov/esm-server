@@ -33,14 +33,12 @@ function directiveProjectSchedule($modal) {
 // DIRECTIVE: Modal Project Entry
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectImport.$inject = ['$modal', '$state', '$rootScope', 'ProjectModel'];
+directiveModalProjectImport.$inject = ['$modal', '$state', '$rootScope'];
 /* @ngInject */
-function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) {
+function directiveModalProjectImport($modal, $state, $rootScope) {
 	var directive = {
 		restrict:'A',
-		scope : {
-			project: '='
-		},
+		scope : {},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
 				var modalProjectEntry = $modal.open({
@@ -48,13 +46,10 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-import.html',
 					controller: 'controllerModalProjectImport',
 					controllerAs: 'projectImport',
-					resolve: {
-						rProject: function () {
-							return scope.project;
-						}
-					},
+					resolve: {},
 					size: 'lg'
 				});
+
 				modalProjectEntry.result.then(function (data) {
 					if ($state.current.name === 'projects') {
 						// reload the complete projects list
@@ -63,7 +58,9 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 						$rootScope.$broadcast('refreshProject');
 						$rootScope.$broadcast('refreshDocumentList');
 					}
-				}, function () {});
+				}, function () {
+					console.log('');
+				});
 			});
 		}
 	};

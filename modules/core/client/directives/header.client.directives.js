@@ -35,6 +35,8 @@ angular.module('core')
 					// $scope.isProponentAdmin = (Authentication.user && Authentication.user.roles.indexOf ($scope.project.proponentAdminRole) !== -1);
 				}
 			});
+
+			$scope.currentclass = "derpclass";
 		}
 	};
 });

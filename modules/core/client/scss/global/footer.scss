@@ -52,6 +52,7 @@ footer {
     a {
         color: #FFF;
 
+        &:focus,
         &:hover {
             color: $gold;
         }

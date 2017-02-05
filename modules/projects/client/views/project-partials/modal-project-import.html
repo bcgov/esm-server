@@ -44,20 +44,6 @@
 						<p class="form-control-static">{{f.name}}</p>
 					</td>
 
-					<td ng-if="!f.$error">
-						<select ng-init="f.importType = defaultOption" ng-model="f.importType" class="form-control input-sm ng-pristine ng-valid ng-touched">
-							<option ng-if="environment === 'MEM'" value="/api/projects/import/mem" label="MEM Projects">MEM Projects</option>
-							<option ng-if="environment === 'MEM'" value="/api/users/import/mem" label="MEM Contacts">MEM Contacts</option>
-							<option ng-if="environment === 'MEM'" value="/api/userroles/import/mem" label="MEM User Roles">MEM User Roles</option>
-							<option ng-if="environment === 'EAO'" value="/api/projects/import/eao" label="EAO Projects">EAO Projects</option>
-							<option ng-if="environment === 'EAO'" value="/api/users/import/eao" label="EAO Contacts">EAO Contacts</option>
-							<option ng-if="environment === 'EAO'" value="/api/groupusers/import" label="EAO Group Contacts">EAO Group Contacts</option>
-							<option ng-if="environment === 'EAO'" value="/api/documents/import" label="EAO Documents">EAO Documents</option>
-              				<option ng-if="environment === 'EAO'" value="/api/userroles/project/import/eao" label="EAO User Roles (Project)">EAO User Roles (Project)</option>
-              				<option ng-if="environment === 'EAO'" value="/api/userroles/system/import/eao" label="EAO User Roles (System)">EAO User Roles (System)</option>
-						</select>
-					</td>
-
 					<td ng-if="!f.$error && !f.progress" class="text-right">
 						<p class="form-control-static"><a href ng-click="projectImport.removeFile(f)"><span class="glyphicon glyphicon-remove"></span></a></p>
 					</td>
