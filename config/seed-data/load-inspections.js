@@ -1,11 +1,11 @@
 'use strict';
 
-var _        = require ('lodash');
-var mongoose = require ('mongoose');
-var Promise = require('Promise');
+var _ = require('lodash');
+var mongoose = require('mongoose');
+//var Promise = require('Promise');
 var CSVParse = require('csv-parse');
-var Project = mongoose.model ('Project');
-var Inspection = mongoose.model ('Inspection');
+var Project = mongoose.model('Project');
+var Inspection = mongoose.model('Inspection');
 //see model = require('../../modules/inspections/server/models/inspections.model');
 var fs = require('fs');
 var path = require('path');
@@ -31,7 +31,7 @@ module.exports = load;
 function loadCSV() {
 	return new Promise(function (resolve, reject) {
 		// Now parse and go through the csv file.
-		fs.readFile(path.resolve(__dirname,PATH), 'utf8', function (err, data) {
+		fs.readFile(path.resolve(__dirname, PATH), 'utf8', function (err, data) {
 			if (err) {
 				console.log("Load CSV error:", err);
 				reject(err);
@@ -51,15 +51,16 @@ function loadCSV() {
 const orgMap = {
 	'ENV': 'Ministry of Environment',
 	'MEM': 'Ministry of Energy and Mines'
-}
+};
+
 function transform(jsonData) {
-	_.forEach(jsonData, function(inspection) {
-		var orgName =orgMap[inspection.orgCode];
-		if(!orgName) {
+	_.forEach(jsonData, function (inspection) {
+		var orgName = orgMap[inspection.orgCode];
+		if (!orgName) {
 			throw new Error("Import failed on unexpected organization code", inspection.orgCode);
 		}
 		inspection.inspectionName = inspection.inspectionNum + "-" + inspection.orgCode + " (" + orgName + ")";
-	})
+	});
 	return jsonData;
 }
 
@@ -80,7 +81,7 @@ function load() {
 				console.log('Load Inspections end');
 				resolve(':)');
 			})
-			.catch(function(err) {
+			.catch(function (err) {
 				console.log('ERROR: end err = ', JSON.stringify(err));
 				reject(err);
 			});
@@ -88,13 +89,12 @@ function load() {
 }
 
 
-
 function loadInspections(inspectionList) {
 	// console.log("BG load inspections", inspectionList);
-	_.each (inspectionList, function (inspection) {
+	_.each(inspectionList, function (inspection) {
 		console.log("BG load inspection", inspection.projectCode, inspection.inspectionName);
-		Project.find ({code:inspection.projectCode}, function (err, project) {
-			if(err) {
+		Project.find({code: inspection.projectCode}, function (err, project) {
+			if (err) {
 				throw err;
 			}
 			if (project.length === 0) {
@@ -105,8 +105,7 @@ function loadInspections(inspectionList) {
 			}
 			inspection.projectId = project._id;
 			// console.log("Save inspection", inspection);
-			(new Inspection (inspection)).save();
+			(new Inspection(inspection)).save();
 		});
 	});
-};
-
+}

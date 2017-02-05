@@ -12,9 +12,9 @@ module.exports = DBModel.extend ({
 	name : 'Inspection',
 	plural : 'inspections',
 
-	getForProject: function (projectId) {
-		console.log("BG inspection.controller getForProject", projectId);
-		return this.list ({projectId:projectId});
+	getForProject: function (projectCode) {
+		console.log("BG inspection.controller getForProject projectCode:", projectCode);
+		return this.list ({projectCode:projectCode});
 	}
 });
 

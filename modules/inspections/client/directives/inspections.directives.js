@@ -11,6 +11,7 @@ function directiveProjectComplianceOversight() {
 		restrict: 'E',
 		templateUrl: 'modules/inspections/client/views/project-inspections.html',
 		scope: {
+			project: "=project"
 		},
 		controller: projectInspectionController,
 		controllerAs: 'complianceList'
@@ -22,8 +23,10 @@ projectInspectionController.$inject = ['$scope', 'InspectionsModel'];
 /* @ngInject */
 function projectInspectionController($scope, InspectionsModel) {
 	var complianceList = this;
-	console.log("BG projectInspectionController");
-	InspectionsModel.forProject('Brucejack').then(function (data) {
+	var project = $scope.project;
+	var code = project.code;
+	console.log("BG projectInspectionController ", code);
+	InspectionsModel.forProject(code).then(function (data) {
 		console.log("BG have data from collection", data);
 		complianceList.data = data;
 	});
