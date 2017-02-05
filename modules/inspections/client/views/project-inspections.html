@@ -1,9 +1,21 @@
 <section>
     <h3>Compliance Oversight <span>January 1 - December 31, 2016</span></h3>
     <div class="ce-list-header">Viewing {{complianceList.data.length}} Records</div>
+    <div class="sort-header">
+        <div class="sh-row">
+            <div class="sh-col name sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('inspectionName')">
+                <span>Name</span>
+                <span class="sort-icon" ng-show="sorting.column === 'inspectionName'"></span>
+            </div>
+            <div class="sh-col commodity sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('inspectionDate')">
+                <span>Date</span>
+                <span class="sort-icon" ng-show="sorting.column === 'inspectionDate'"></span>
+            </div>
+        </div>
+    </div>
 
     <div class="mmti-accord ce-list" id="complianceList" role="tablist" aria-multiselectable="false"
-         ng-repeat="c in complianceList.data">
+         ng-repeat="c in sortedList">
         <div class="mmti-accord-item" >
             <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
                 <div>
