@@ -79,7 +79,11 @@ var seedingAsync = function() {
 	});
 
 	checkIntegration('projects').then(function () {
-		require('../seed-data/load-projects')();
+		try {
+			require('../seed-data/load-projects')();
+		} catch (error) {
+			console.error(error);
+		}
 	})
 		.then(function () {
 			checkIntegration('inspections').then(function () {

@@ -17,8 +17,7 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 	recentFollowUp: {type: String, default: ''},
 	inspectionDocumentName: {type: String, default: ''},
 	inspectionDocumentURL: {type: String, default: ''},
-	followUpDocumentNames: [{name: String, ref: String}],
-	followUpDocumentUrls: [{name: String, ref: String}],
+	followUpDocuments: [{name: String, ref: String}],
 	authorizationID: {type: String, default: ''}
 });
 

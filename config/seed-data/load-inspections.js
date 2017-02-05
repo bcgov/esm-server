@@ -60,6 +60,31 @@ function transform(jsonData) {
 			throw new Error("Import failed on unexpected organization code", inspection.orgCode);
 		}
 		inspection.inspectionName = inspection.inspectionNum + "-" + inspection.orgCode + " (" + orgName + ")";
+
+		try {
+			if (inspection.followUpDocumentNames && inspection.followUpDocumentNames.length > 0) {
+				if (inspection.followUpDocumentUrls && inspection.followUpDocumentUrls.length > 0) {
+					var names = inspection.followUpDocumentNames.split(";");
+					var urls = inspection.followUpDocumentUrls.split(";");
+
+					if (names.length !== urls.length) {
+						throw new Error("Import inspections failed. The number of follow up document names does not match the number of urls");
+					}
+					inspection.followUpDocuments = [];
+					delete inspection.followUpDocumentNames;
+					delete inspection.followUpDocumentUrls;
+					for (var i = 0; i < names.length; i++) {
+						var e = {name: names[i], ref: urls[i]};
+						inspection.followUpDocuments.push(e);
+					}
+				} else {
+					throw new Error("Import inspections failed. There are followUpDocumentNames but no followUpDocumentUrls");
+				}
+			}
+		} catch (e) {
+			console.error(e);
+			throw e;
+		}
 	});
 	return jsonData;
 }
