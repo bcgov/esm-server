@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div class="main">
+<div class="main" id="anchor-point">
     <div class="container">
         <div class="row">
             <main class="col-lg-8">
@@ -44,26 +44,60 @@
                         
                         <!-- Authorizations -->
                         <div class="authorizations tab-pane" id="authorizations" role="tabpanel">
+                            
+                            <!-- Putting generic content back in until we have content. -->
+                            <!--
                             <p class="tab-intro"
                                ng-bind-html="content(project, 'INTRO_TEXT', 'AUTHORIZATION')"></p>
-                            <p>Learn more about Authorizations <a ui-sref="authorizations">here</a>.</p>
+                            -->
+                            <p class="tab-intro">Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in British Columbia. Below you will find a list of authorizations associated with each of these three acts. <span>Learn more about Authorizations <a ui-sref="authorizations">here</a>.</span></p>
+                            
                             <section class="auth-list-section">
                                 <h3>Environmental Assessment Act <span>Environmental Assessment Office</span></h3>
-                                <ul>
-                                    <li class="flex-row">
-                                        <span class="auth-name">
-                                            <a href="http://a100.gov.bc.ca/appsdata/epic/documents/p285/1237403247586_286469e2062a9eff93eeb05dbbaf5feb44436a0a2dce54b6eef3ef5cdccfb280.pdf" target="_blank">Environmental Assessment Certificate</a>
-                                        </span>
-                                        <span class="auth-date">Issued &nbsp;|&nbsp; 2009-03-16</span>
-                                    </li>
-                                    <li class="flex-row">
-                                        <span class="auth-name">
-                                            <a href="http://a100.gov.bc.ca/appsdata/epic/documents/p285/d35402/1362418919238_7663b740436f6524ba2a1c5cf145e0cee79912c6feb99d7932b630eaeaf6fae0.pdf" target="_blank">Environmental Assessment Certificate - Amendement</a>
-                                        </span>
-                                        <span class="auth-date">Certificate Amended &nbsp;|&nbsp; 2013-03-01</span>
-                                    </li>
-                                </ul>
+
+                                <div class="mmti-accord authorizations-list">
+                                    <div class="mmti-accord-item">
+                                        <div class="mmti-accord-header" role="tab" id="headingOne">
+                                            <div>
+                                                <a class="toggle collapsed" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                    <i class="material-icons open-icon">add</i>
+                                                    <i class="material-icons close-icon">remove</i>
+                                                </a>
+                                                <span class="ah-col name"><a ui-sref="project({projectid: p.code})">Environmental Assessment Certificate</a></span>
+                                                <span class="ah-col date">Issued &nbsp;|&nbsp; 2009-03-16</span>
+                                            </div>
+                                        </div>
+                                        <div class="collapse" role="tabpanel"
+                                            id="collapseOne"
+                                            aria-labelledby="headingOne">
+                                            <div class="mmti-accord-body">
+                                                Content TBD
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mmti-accord-item">
+                                        <div class="mmti-accord-header" role="tab" id="headingTwo">
+                                            <div>
+                                                <a class="toggle collapsed" data-toggle="collapse" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                                                    <i class="material-icons open-icon">add</i>
+                                                    <i class="material-icons close-icon">remove</i>
+                                                </a>
+                                                <span class="ah-col name"><a ui-sref="project({projectid: p.code})">Environmental Assessment Certificate - Amendement</a></span>
+                                                <span class="ah-col date">Certificate Amended &nbsp;|&nbsp; 2013-03-01</span>
+                                            </div>
+                                        </div>
+                                        <div class="collapse" role="tabpanel"
+                                            id="collapseTwo"
+                                            aria-labelledby="headingTwo">
+                                            <div class="mmti-accord-body">
+                                                Content TBD
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </section>
+
                             <section class="auth-list-section">
                                 <h3>Environmental Management Act <span>Ministry of Environment</span></h3>
                                 <ul>
@@ -119,9 +153,12 @@
 
                         <!-- Compliance Oversight -->
                         <div class="compliance tab-pane" id="compliance" role="tabpanel">
+                            <!-- Putting generic content back in until we have content. -->
+                            <!--
                             <p class="tab-intro"
                                ng-bind-html="content(project, 'INTRO_TEXT', 'COMPLIANCE')"></p>
-                            <p>Learn more about Compliance Oversight <a ui-sref="compliance-oversight">here</a>.</p>
+                            -->
+                            <p class="tab-intro">The Ministry of Energy and Mines (MEM), Ministry of Environment (MOE), Environmental Assessment Office (EAO) and Ministry of Forests work together to provide integrated oversight of British Columbia’s mining sector. Compliance and enforcement (C&E) activities begin after a claim is staked and continue through exploration and the life of a mine. <span>Learn more about Compliance Oversight <a ui-sref="compliance-oversight">here</a>.</span></p>
                             <tmpl-project-compliance project="project"></tmpl-project-compliance>
                         </div>
 

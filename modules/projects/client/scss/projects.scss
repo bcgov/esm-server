@@ -52,6 +52,25 @@
     margin-bottom: 2.5rem;
 }
 
+// Needs to be moved to the authorizations module
+.authorizations-list {
+    .sh-col,
+    .ah-col {
+        &.date {
+            width: 16rem;
+        }
+    }
+    
+    .ah-col {
+        &.name {
+            padding-left: 0;
+            font-weight: 700;
+        }
+    }
+}
+
+
+// Needs to be moved to the inspections module
 .ce-list {
     .sh-col,
     .ah-col {
