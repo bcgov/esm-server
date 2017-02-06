@@ -7,14 +7,46 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 		abstract:false,
 		// Catch everything, we will deal with this on a per-item basis.
 		url: '/redirect/*path',
-		controller: function ($scope, $window, ProjectModel, Document) {
+		controller: function ($scope, $window, ProjectModel, Document, $timeout) {
 			var incomingURL = $window.location.href;
 			var newURL = $window.location.protocol + "//" + $window.location.host + "/";
+
+			var executeRedirect = function (url, next, docsPage) {
+				var detailOrDocs = docsPage ? '/docs' : '/detail';
+
+				return new Promise(function (resolve, reject) {
+					$timeout(function () {
+						$window.location.href = url;
+					}, 1000)
+					.then(function () {
+						if (next) {
+							$timeout(function () {
+								$window.location.href = newURL + '/p/' + next + detailOrDocs;
+							}, 2000);
+						} else {
+							$timeout(function () {
+								$window.location.href = newURL;
+							}, 2000);
+						}
+						resolve('success');
+					}, function () {
+						if (next) {
+							$timeout(function () {
+								$window.location.href = newURL + '/p/' + next + detailOrDocs;
+							}, 2000);
+						} else {
+							$timeout(function () {
+								$window.location.href = newURL;
+							}, 2000);
+						}
+						reject('error');
+					});
+				});
+			};
 
 			var getProjectIDString = function (idx, theString, terminus) {
 				var epicID = incomingURL.substr(idx+theString.length);
 				epicID = epicID.substr(0, epicID.indexOf(terminus));
-
 				// Adjust for merged projects
 				// 38, 404 => 286
 				// 278 => 348
@@ -49,31 +81,41 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			} else {
 				// Find out which project this is.
 				var projectFolderURL = incomingURL.replace(newURL+"redirect/documents/","");
+				console.log("Looking for:", projectFolderURL);
 				return Document.getDocumentByProjectFolderURL(projectFolderURL)
 				.then(function (doc) {
+					epicProjectID = incomingURL.replace(newURL+"redirect/documents/p","");
+					epicProjectID = epicProjectID.replace(/\/.*/,"");
 					if (doc !== null) {
-						$window.location.href = newURL + "api/document/" + doc._id + "/fetch";
-						return;
+						return ProjectModel.lookupByEpicID(epicProjectID)
+						.then(function (p) {
+							if (p) {
+								console.log("Redirecting to project:", p.code);
+								executeRedirect(newURL + "api/document/" + doc._id + "/fetch", p.code, true);
+							} else {
+								// This shouldn't happen
+								executeRedirect(newURL + "api/document/" + doc._id + "/fetch", null, false);
+							}
+							return;
+						});
 					} else {
-						epicProjectID = incomingURL.replace(newURL+"redirect/documents/p","");
-						epicProjectID = epicProjectID.replace(/\/.*/,"");
 						try {
 							epicProjectID = parseInt(epicProjectID);
 							return ProjectModel.lookupByEpicID(epicProjectID)
 							.then(function (p) {
 								if (p) {
-									console.log("Redirecting to project:", p.code);
-									newURL += "p/" + p.code + "/detail";
+									console.log("Redirecting to project:", p.code, true);
+									executeRedirect(newURL, p.code, true);
 								} else {
 									console.log("Couldn't find project.");
+									executeRedirect(newURL, null, false);
 								}
-								$window.location.href = newURL;
 								return;
 							});
 						} catch (e) {
 							// If something goes wrong with the parsing, redirect to home page.
 							console.log("Parsing fail:", epicProjectID);
-							$window.location.href = newURL;
+							executeRedirect(newURL, null, false);
 							return;
 						}
 					}
@@ -89,7 +131,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 				} else {
 					console.log("Couldn't find project.");
 				}
-				$window.location.href = newURL;
+				executeRedirect(newURL, null);
 			});
 		}
 	})
