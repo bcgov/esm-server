@@ -18,6 +18,7 @@ angular.module('users').config(['$httpProvider',
                 break;
               case 403:
                 // Add unauthorized behaviour
+                $location.path('signin');
                 break;
             }
 
@@ -47,6 +48,7 @@ angular.module('organizations').config(['$httpProvider',
                 break;
               case 403:
                 // Add unauthorized behaviour
+                $location.path('signin');
                 break;
             }
 

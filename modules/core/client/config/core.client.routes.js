@@ -17,48 +17,75 @@ angular.module('core').config (
 	// Landing Page (Home)
 	.state('home', {
 		url: '/',
-		templateUrl: 'modules/home/client/views/home.html'
+		templateUrl: 'modules/home/client/views/home.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 	// Authorizations
 	.state('authorizations', {
 		url: '/authorizations',
-		templateUrl: 'modules/authorizations/client/views/authorizations.html'
+		templateUrl: 'modules/authorizations/client/views/authorizations.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 
 	// Compliance Oversight
 	.state('compliance-oversight', {
 		url: '/compliance-oversight',
-		templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html'
+		templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 
 	// Legislation
 	.state('legislation', {
 		url: '/legislation',
-		templateUrl: 'modules/legislation/client/views/legislation.html'
+		templateUrl: 'modules/legislation/client/views/legislation.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 
 	// Mining Lifecycle
 	.state('mining-lifecycle', {
 		url: '/lifecycle',
-		templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html'
+		templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 
 	// Topics
 	.state('topics', {
 		url: '/topics-of-interest',
-		templateUrl: 'modules/topics/client/views/topics-of-interest.html'
+		templateUrl: 'modules/topics/client/views/topics-of-interest.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 	.state('reclamation-and-securities', {
 		url: '/reclamation-and-securities',
-		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html'
+		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 	.state('tailings-management', {
 		url: '/tailings-management',
-		templateUrl: 'modules/topics/client/views/tailings-management.html'
+		templateUrl: 'modules/topics/client/views/tailings-management.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 	.state('water-quality', {
 		url: '/water-quality',
-		templateUrl: 'modules/topics/client/views/water-quality.html'
+		templateUrl: 'modules/topics/client/views/water-quality.html',
+		data: {
+			roles: ['admin']
+		}
 	})
 	
 	.state('configuration', {
@@ -74,11 +101,17 @@ angular.module('core').config (
 	})
 	.state('register', {
 		url: '/register',
-		template: '<tmpl-register></tmpl-register>'
+		template: '<tmpl-register></tmpl-register>',
+		data: {
+			roles: ['admin']
+		}
 	})
 	.state('recover', {
 		url: '/recover',
-		template: '<tmpl-recover></tmpl-recover>'
+		template: '<tmpl-recover></tmpl-recover>',
+		data: {
+			roles: ['admin']
+		}
 	})
 
 	// Home state routing

@@ -161,7 +161,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 								$state.go(toState, toParams);
 							}
 						} else {
-							$state.go('forbidden');
+							$state.go('login');
 						}
 					}, function(bad) {
 						//console.log('sync bad...:| ', JSON.stringify(bad));
@@ -178,7 +178,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($wi
 						}
 					} else {
 						event.preventDefault();
-						$state.go('forbidden');
+						$state.go('login');
 					}
 				}
 
