@@ -3,10 +3,8 @@ function scroll_style() {
     var window_top = $(window).scrollTop();
     var div_top = $('#anchor-point').offset().top;
 
-    if (window_top > div_top) {
+    if (window_top > div_top - 90) {
         $("#header").addClass("dark");
-    } else if (window_top < div_top) {
-        $("#header").removeClass("dark");
     } else {
         $("#header").removeClass("dark");
     }
