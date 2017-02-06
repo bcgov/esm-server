@@ -45,6 +45,10 @@ main {
         font-size: 1rem;
         line-height: 1.5rem;
     }
+
+    a {
+        text-decoration: underline;
+    }
 }
 
 @media (min-width: 760px) {
