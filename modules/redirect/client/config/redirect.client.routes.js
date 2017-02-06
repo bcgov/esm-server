@@ -68,13 +68,16 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			var pjhomeIdx = incomingURL.indexOf(homestring);
 			var doclistIdx = incomingURL.indexOf(docliststring);
 			var docpageIdx = incomingURL.indexOf(docpagestring);
+			var redirectToDocs = false;
 
 			if (doclistIdx !== -1) {
 				// Test if it's a epic_project_doc_list_ link
 				epicProjectID = getProjectIDString(doclistIdx, docliststring, "_");
+				redirectToDocs = true;
 			} else if (docpageIdx !== -1) {
 				// Test if it's a epic_document_ link
 				epicProjectID = getProjectIDString(docpageIdx, docpagestring, "_");
+				redirectToDocs = true;
 			} else if (pjhomeIdx !== -1) {
 				// Test if it's a epic_project_home_ link
 				epicProjectID = getProjectIDString(pjhomeIdx, homestring, ".");
@@ -127,11 +130,12 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			.then(function (p) {
 				if (p) {
 					console.log("Redirecting to project:", p.code);
-					newURL += "p/" + p.code + "/detail";
+					// newURL += "p/" + p.code + "/detail";
+					executeRedirect(newURL, p.code, redirectToDocs);
 				} else {
 					console.log("Couldn't find project.");
+					executeRedirect(newURL, null, false);
 				}
-				executeRedirect(newURL, null);
 			});
 		}
 	})
