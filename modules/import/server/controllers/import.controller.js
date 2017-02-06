@@ -6,9 +6,123 @@ var mongoose            = require ('mongoose');
 var CSVParse            = require ('csv-parse');
 var _                   = require ('lodash');
 
+var OrganizationController = require (path.resolve('./modules/organizations/server/controllers/organization.controller')),
+	Organization  = mongoose.model ('Organization');
+
 var ProjectController = require (path.resolve('./modules/projects/server/controllers/project.controller')),
 	Project  = mongoose.model ('Project');
 
+
+var OtherDocumentsController = require (path.resolve('./modules/other-documents/server/controllers/other.documents.controller')),
+	OtherDocument  = mongoose.model ('OtherDocument');
+
+
+
+var importOrganizations = function(opts, data, startRow) {
+	var OrgCtrl = new OrganizationController(opts);
+	return new Promise(function(resolve, reject) {
+
+		var columnNames = ['name','legalName','orgCode','orgType','website','address1','address2','city','province','country','postal','description'];
+
+		var rowParser = function(row) {
+			//console.log('row = ', row);
+			var obj = {
+				name            : row.name,
+				legalName       : row.legalName,
+				orgCode         : row.orgCode,
+				orgType         : row.orgType,
+				website         : row.website,
+				address1        : row.address1,
+				address2        : row.address2,
+				city            : row.city,
+				province        : row.province,
+				country         : row.country,
+				postal          : row.postal,
+				description     : row.description
+			};
+			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
+			return obj;
+		};
+
+		var setValues = function(obj, row) {
+			if (_.isEmpty(row.name)) {
+				// do nothing...
+			} else {
+				if (!obj) {
+					obj = new Organization();
+				}
+				obj.name = row.name;
+				obj.legalName = row.legalName;
+				obj.orgCode = row.orgCode;
+				obj.orgType = row.orgType;
+				obj.website = row.website;
+				obj.address1 = row.address1;
+				obj.address2 = row.address2;
+				obj.city = row.city;
+				obj.province = row.province;
+				obj.country = row.country;
+				obj.postal = row.postal;
+				obj.description = row.description;
+				//console.log('setValues obj = ', JSON.stringify(obj, null, 4));
+			}
+		};
+
+
+		var parse = new CSVParse(data, {delimiter: ',', columns: columnNames}, function(err, output){
+			var promises = [];
+
+			// assumption here is data is created in excel, and thought of as 1 based index...
+			var firstRow = (startRow > 0) ? startRow - 1 : 0;
+
+			Object.keys(output).forEach(function(key, index) {
+				// row 1 - version
+				// row 2 - notes
+				// row 3 - headings
+				// ???
+				if (index >= firstRow) {
+					var row = output[key];
+					promises.push(rowParser(row));
+				}
+			});
+
+			var importOrganization = function(row) {
+				return new Promise(function(rs, rj) {
+					// console.log("item:", item);
+					if (row.name === '') {
+						// console.log("resolving nothing for org, it was null.");
+						rs(null);
+					} else {
+						Organization.findOne ({name: row.name}, function (err, result) {
+							if (err) {
+								rj(err);
+							}
+							if (result === null) {
+								var o = new Organization();
+								setValues(o, row);
+								console.log("creating:", row.name);
+								OrgCtrl.create(o).then(rs, rj);
+							} else {
+								setValues(result, row);
+								result.save().then(rs, rj);
+							}
+						});
+					}
+				});
+			};
+
+			Promise.resolve ()
+				.then (function () {
+					return promises.reduce (function (current, item) {
+						return current.then (function () {
+							return importOrganization(item);
+						});
+					}, Promise.resolve());
+				})
+				.then (resolve, reject);
+		});
+	});
+
+};
 
 var importProjects = function(opts, data, startRow) {
 	var ProjCtrl = new ProjectController(opts);
@@ -514,7 +628,6 @@ var importAuthorizations = function(opts, data, startRow) {
 	});
 };
 
-
 var importMinesList = function(opts, data, startRow) {
 	var ProjCtrl = new ProjectController(opts);
 
@@ -610,6 +723,115 @@ var importMinesList = function(opts, data, startRow) {
 	});
 };
 
+var importOtherDocuments = function(opts, data, startRow) {
+	var ProjCtrl = new ProjectController(opts);
+	var OrgCtrl = new OrganizationController(opts);
+	var OdCtrl = new OtherDocumentsController(opts);
+
+	return new Promise(function(resolve, reject) {
+
+		var columnNames = ['name', 'agency', 'title', 'link', 'documentType', 'date'];
+
+		var rowParser = function(row) {
+			//console.log('row = ', row);
+			var obj = {
+				name: row.name,
+				agency: row.agency,
+				title: row.title,
+				link: row.link,
+				documentType: row.documentType,
+				date: row.date
+			};
+			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
+			return obj;
+		};
+
+		var setValues = function(obj, row) {
+			if (_.isEmpty(row.name)) {
+				// do nothing...
+			} else {
+				if (!obj) {
+					obj = new OtherDocument();
+				}
+
+				// row name is for project
+				// row agency is for agency
+				obj.source = 'Import';
+				obj.title = row.title;
+				obj.link = row.link;
+				obj.documentType = row.documentType;
+				obj.date = row.date;
+				//console.log('setValues obj = ', JSON.stringify(obj, null, 4));
+			}
+		};
+
+
+		var parse = new CSVParse(data, {delimiter: ',', columns: columnNames}, function(err, output){
+			var promises = [];
+
+			// assumption here is data is created in excel, and thought of as 1 based index...
+			var firstRow = (startRow > 0) ? startRow - 1 : 0;
+
+			Object.keys(output).forEach(function(key, index) {
+				// row 1 - version
+				// row 2 - notes
+				// row 3 - headings
+				// ???
+				if (index >= firstRow) {
+					var row = output[key];
+					promises.push(rowParser(row));
+				}
+			});
+
+			var importData = function(row) {
+				var project, agency, doc;
+
+				return new Promise(function(rs, rj) {
+					ProjCtrl.findOne({name: row.name})
+						.then(function(res) {
+							if (res) {
+								project = res;
+								return OrgCtrl.findOne({name: row.agency});
+							} else {
+								console.log('Could not find project for other document.  ', row.name);
+								rs();
+							}
+						})
+						.then(function(res) {
+							if (res) {
+								agency = res;
+								var q = {project: project, agency: agency, link: row.link};
+								return OdCtrl.findOne(q);
+							} else {
+								console.log('Could not find agency for other document.  ', row.agency);
+								rs();
+							}
+						})
+						.then(function(res) {
+							if (!res) {
+								res = new OtherDocument();
+							}
+							setValues(res, row);
+							res.project = project;
+							res.agency = agency;
+							res.save().then(rs, rj);
+						});
+				});
+			};
+
+			Promise.resolve ()
+				.then (function () {
+					return promises.reduce (function (current, item) {
+						return current.then (function () {
+							return importData(item);
+						});
+					}, Promise.resolve());
+				})
+				.then (resolve, reject);
+		});
+	});};
+
+
 module.exports = function(file, req, res, opts) {
 	return new Promise (function (resolve, reject) {
 		// Now parse and go through this thing.
@@ -643,10 +865,13 @@ module.exports = function(file, req, res, opts) {
 				var val = parseInt(lines[0].split(',')[1]);
 				startRow = _.isNaN(val) ? 3 : val;
 			} catch(e) {
-				startRow = 3;
+				startRow = 3; // 1 - import file type, 2 - header/column names, 3 - data
 			}
 
 			switch(importFileType) {
+				case 'mmti-organizations-v1':
+					importer = importOrganizations;
+					break;
 				case 'mmti-projects-v1':
 					importer = importProjects;
 					break;
@@ -661,6 +886,9 @@ module.exports = function(file, req, res, opts) {
 					break;
 				case 'mmti-mines-list-v1':
 					importer = importMinesList;
+					break;
+				case 'mmti-other-documents-v1':
+					importer = importOtherDocuments;
 					break;
 			}
 
