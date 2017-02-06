@@ -73,9 +73,28 @@ var seedingAsync = function() {
 		require('../seed-data/load-application')();
 	});
 
+
 	checkIntegration('emailtemplates').then(function () {
 		require('../seed-data/load-emailtemplates')();
 	});
+
+	checkIntegration('projects').then(function () {
+		try {
+			require('../seed-data/load-projects')();
+		} catch (error) {
+			console.error(error);
+		}
+	})
+		.then(function () {
+			checkIntegration('inspections').then(function () {
+				try {
+					require('../seed-data/load-inspections')();
+				} catch (error) {
+					console.error(error);
+				}
+			});
+		});
+
 };
 
 // =========================================================================
