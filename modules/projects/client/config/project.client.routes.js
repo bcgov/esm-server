@@ -12,10 +12,14 @@ angular.module('project').config (
 			resolve: {
 				project: function ($stateParams, ProjectModel) {
 					return ProjectModel.byCode($stateParams.projectid);
+				},
+				otherDocuments: function($stateParams, project, OtherDocumentModel) {
+					return OtherDocumentModel.forProject(project._id);
 				}
 			},
-			controller: function ($scope, $stateParams, project, _) {
+			controller: function ($scope, $stateParams, project, otherDocuments, _) {
 				$scope.project = project;
+				$scope.otherDocuments = otherDocuments || [];
 				$scope.links = project.externalLinks;
 
 				$scope.content = function(p, type, page) {

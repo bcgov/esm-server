@@ -12,15 +12,12 @@ module.exports = DBModel.extend ({
 	plural : 'organizations',
 	populate: 'primaryContact',
 	preprocessAdd: function (org) {
-		if (!org.name && !org.company) {
-			org.name = org.company = 'No Name';
-		} else if (!org.name && org.company) {
-			org.name = org.company;
-		} else if (!org.company && org.name) {
-			org.company = org.name;
-		}
 		if (!org.code) {
-			org.code = org.name.toLowerCase ();
+			if (org.orgCode) {
+				org.code = org.orgCode.toLowerCase ();
+			} else {
+				org.code = org.name.toLowerCase ();
+			}
 			org.code = org.code.replace (/\W/g,'-');
 			org.code = org.code.replace (/^-+|-+(?=-|$)/g, '');
 			//
