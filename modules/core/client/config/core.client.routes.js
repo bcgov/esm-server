@@ -53,7 +53,7 @@ angular.module('core').config (
 		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html'
 	})
 	.state('tailings-management', {
-		url: '/water-quality',
+		url: '/tailings-management',
 		templateUrl: 'modules/topics/client/views/tailings-management.html'
 	})
 	.state('water-quality', {
