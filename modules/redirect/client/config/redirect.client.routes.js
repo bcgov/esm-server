@@ -21,7 +21,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					.then(function () {
 						if (next) {
 							$timeout(function () {
-								$window.location.href = newURL + '/p/' + next + detailOrDocs;
+								$window.location.href = $window.location.protocol + "//" + $window.location.host + '/p/' + next + detailOrDocs;
 							}, 2000);
 						} else {
 							$timeout(function () {
@@ -32,7 +32,7 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					}, function () {
 						if (next) {
 							$timeout(function () {
-								$window.location.href = newURL + '/p/' + next + detailOrDocs;
+								$window.location.href = $window.location.protocol + "//" + $window.location.host + '/p/' + next + detailOrDocs;
 							}, 2000);
 						} else {
 							$timeout(function () {
