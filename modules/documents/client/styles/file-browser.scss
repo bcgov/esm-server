@@ -83,6 +83,14 @@ $list-selected-border: 1px solid #4187c9;
     }
 }
 
+a.icon-btn {
+    color: #494949;
+
+    .glyphicon {
+        top: 0.55rem;
+    }
+}
+
 /* NAME-VALUE PAIR */
 .nv-pair {
     margin: 0;
