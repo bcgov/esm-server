@@ -1,26 +1,59 @@
 
 .nav-pills {
+    @include clearfix();
+    display: block;
+    margin: -0.5rem;
     margin-bottom: 2.5rem;
-    background: transparent;
-    border-bottom: 3px solid #f1f1f1;
-    border-radius: 0;
 
     .nav-item {
-        margin-bottom: -3px;
+        float: left;
+        width: 50%;
+        text-align: center;
     }
 
     .nav-link {
-        position: relative;
-        border-bottom: 3px solid #f1f1f1;
+        margin: 0.25rem;
+        padding: 0.75rem;
         border-radius: 0;
-        text-transform: uppercase;
-        font-size: 0.875rem;
-        font-weight: 400;
+        background-color: #EEE;
+        font-size: 0.85rem;
 
         &.active {
-            border-color: #38598a;
+            background-color: #38598a;
+            color: #FFF;
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .nav-pills {
+        margin-bottom: 2.5rem;
+        background-color: transparent;
+        border-bottom: 3px solid #f1f1f1;
+        border-radius: 0;
+
+        .nav-item {
+            float: none;
+            display: inline-block;
+            margin-bottom: -3px;
+            width: auto;
+        }
+
+        .nav-link {
+            position: relative;
+            margin: 0;
+            padding: 0.5rem 1rem;
+            border-bottom: 3px solid #f1f1f1;
             background-color: transparent;
-            color: #38598a;
+            text-transform: uppercase;
+            font-size: 0.875rem;
+            font-weight: 400;
+
+            &.active {
+                border-color: #38598a;
+                background-color: transparent;
+                color: #38598a;
+            }
         }
     }
 }
