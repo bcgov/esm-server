@@ -16,15 +16,19 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 
 				return new Promise(function (resolve, reject) {
 					$timeout(function () {
+						console.log("initial redir:", url);
 						$window.location.href = url;
 					}, 1000)
 					.then(function () {
 						if (next) {
 							$timeout(function () {
-								$window.location.href = $window.location.protocol + "//" + $window.location.host + '/p/' + next + detailOrDocs;
+								var theURL = $window.location.protocol + "//" + $window.location.host + '/p/' + next + detailOrDocs;
+								console.log("next redir:", theURL);
+								$window.location.href = theURL;
 							}, 2000);
 						} else {
 							$timeout(function () {
+								console.log("next redir:", newURL);
 								$window.location.href = newURL;
 							}, 2000);
 						}
@@ -32,10 +36,13 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 					}, function () {
 						if (next) {
 							$timeout(function () {
+								var theURL = $window.location.protocol + "//" + $window.location.host + '/p/' + next + detailOrDocs;
+								console.log("next redir:", theURL);
 								$window.location.href = $window.location.protocol + "//" + $window.location.host + '/p/' + next + detailOrDocs;
 							}, 2000);
 						} else {
 							$timeout(function () {
+								console.log("next redir:", newURL);
 								$window.location.href = newURL;
 							}, 2000);
 						}
