@@ -8,10 +8,18 @@ angular.module('maps')
 // CONTROLLER: Maps
 //
 // -----------------------------------------------------------------------------------
-controllerMap.$inject = ['$scope', 'Authentication', 'uiGmapGoogleMapApi', '$filter', '_', 'ArtifactModel', 'Document'];
+controllerMap.$inject = ['$scope', 'Authentication', 'uiGmapGoogleMapApi', '$filter', '_', 'Document', 'ProjectModel'];
 /* @ngInject */
-function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, ArtifactModel, Document) {
+function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, Document, ProjectModel) {
 	var mpl = this;
+
+	ProjectModel.lookup()
+	.then(function (projects) {
+		console.log("projects:", projects);
+		$scope.projects = projects;
+		$scope.$apply();
+	});
+
 	$scope.showPoint = false;
 
 	mpl.center = {latitude: 54.726668, longitude: -127.647621};
@@ -19,97 +27,88 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, A
 	mpl.markers = [];
 	mpl.KMLLayers = [];
 
-	mpl.map = {
-		center: mpl.center,
-		zoom: 5,
-		options: {
-			scrollwheel: false,
-			minZoom: 4
-		},
-		markers: mpl.projectFiltered // array of models to display
-	};
+	// mpl.map = {
+	// 	center: mpl.center,
+	// 	zoom: 5,
+	// 	options: {
+	// 		scrollwheel: false,
+	// 		minZoom: 4
+	// 	},
+	// 	markers: mpl.projectFiltered // array of models to display
+	// };
 
-	$scope.$watch('showPoint', function(newValue){
+	// $scope.$watch('showPoint', function(newValue){
+	// 	if (newValue) {
+	// 		mpl.projectFiltered = mpl.markers;
+	// 	} else {
+	// 		mpl.projectFiltered = [];
+	// 	}
+	// });
+
+	$scope.$watch('projects', function(newValue) {
+		console.log("w_projects:", newValue);
 		if (newValue) {
-			mpl.projectFiltered = mpl.markers;
-		} else {
-			mpl.projectFiltered = [];
-		}
-	});
-
-	$scope.$watch('project', function(newValue) {
-		if (newValue) {
-
-			mpl.center = {
-				latitude: newValue.lat,
-				longitude: newValue.lon
-			};
-
-			mpl.markers.push({
-				id: newValue._id,
-				latitude: newValue.lat,
-				longitude: newValue.lon
-			});
-
-			// Go through the project's artifacts, and run through all their
-			// main documents and supporting documents.  If a KML is detected,
-			// show it.  This should behave as per what the user can/can't see
-			// with respect to their Artifact/Document privileges.
-
-			// Mem doesn't have artifacts (yet)
-			Document.getProjectDocuments(newValue._id,false).then( function(res) {
-				_.each(res, function (doc) {
-					if (doc.internalExt === 'kml' || doc.internalExt === 'kmz') {
-						console.log("Adding layer:", doc._id);
-						var kmlURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
-						mpl.KMLLayers.push({
-							url: kmlURL,
-							label: doc.internalOriginalName,
-							show: true,
-							_id: doc._id
-						});
+			mpl.map = {
+				center: {
+					latitude: 54.726668,
+					longitude: -127.647621
+				},
+				zoom: 5,
+				options: {
+					scrollwheel: false,
+					minZoom: 4
+				},
+				markers: newValue, // array of models to display
+				markersEvents: {
+					click: function(marker, eventName, model) {
+						// Is there an open comment period?
+						// CommentPeriodModel.forProject(model._id)
+						// .then( function (periods) {
+						// 	var isOpen = false;
+						// 	_.each(periods, function (period) {
+						// 		var today 	= new Date ();
+						// 		var start 	= new Date (period.dateStarted);
+						// 		var end 	= new Date (period.dateCompleted);
+						// 		var open 	= start < today && today < end;
+						// 		if (open) {
+						// 			model.isOpen = true;
+						// 			model.period = period;
+						// 		}
+						// 	});
+						// });
+						// projectList.map.window.model = model;
+						// projectList.map.window.show = true;
 					}
-				});
-			});
-
-			// ArtifactModel.forProject(newValue._id)
-			// .then( function(res) {
-			// 	_.each(res, function (artifact) {
-			// 		ArtifactModel.lookup(artifact._id)
-			// 		.then (function (art) {
-			// 			// Go through Main Document
-			// 			if (art.document && art.document.internalExt === 'kml') {
-			// 				var mainDocument = art.document;
-			// 				// console.log("pushing main:", art.document);
-			// 				mpl.KMLLayers.push({
-			// 					url: window.location.protocol + "//" + window.location.host + "/api/document/" + mainDocument._id + "/fetch",
-			// 					label: mainDocument.internalOriginalName,
-			// 					show: true,
-			// 					_id: mainDocument._id
-			// 				});
-			// 			}
-			// 			// Go through supporting documents
-			// 			_.each(art.supportingDocuments, function (supporting) {
-			// 				Document.getDocument(supporting)
-			// 				.then( function (res) {
-			// 					// ML: This is silly.  When documents convert to the proper DBModel,
-			// 					// this needs to change.
-			// 					var doc = res;
-			// 					if (doc && doc.internalExt === 'kml') {
-			// 						// console.log("pushing supporting doc:", doc);
-			// 						mpl.KMLLayers.push({
-			// 							url: window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch",
-			// 							label: doc.internalOriginalName,
-			// 							show: true,
-			// 							_id: doc._id
-			// 						});
-			// 					}
-			// 				});
-			// 			});
-			// 		});
-			// 	});
-			// });
-			$scope.showPoint = true;
+				},
+				window: {
+					marker: {},
+					show: false,
+					closeClick: function() {
+						this.show = false;
+					},
+					options: {
+						// offset to fit the custom icon
+							// pixelOffset: new maps.Size(0, -35, 'px', 'px')
+					} // define when map is ready
+				},
+				clusterOptions: {
+					calculator : function(markers, numStyles) {
+						var changeAt = 500;
+						var index = 0;
+						var count = markers.length;
+						var dv = count;
+						while (dv !== 0) {
+							dv = parseInt(dv / changeAt, 10);
+							index++;
+						}
+						index = Math.min(index, numStyles);
+						return {
+							text: count,
+							index: index
+						};
+					}
+				}
+			};
 		}
 	});
 }
