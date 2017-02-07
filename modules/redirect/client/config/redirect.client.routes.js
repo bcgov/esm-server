@@ -137,8 +137,12 @@ angular.module('core').config(['$stateProvider', function ($stateProvider) {
 			.then(function (p) {
 				if (p) {
 					console.log("Redirecting to project:", p.code);
-					// newURL += "p/" + p.code + "/detail";
-					executeRedirect(newURL, p.code, redirectToDocs);
+					if (redirectToDocs) {
+						newURL += "p/" + p.code + "/docs";
+					} else {
+						newURL += "p/" + p.code + "/detail";
+					}
+					executeRedirect(newURL, null, false);
 				} else {
 					console.log("Couldn't find project.");
 					executeRedirect(newURL, null, false);
