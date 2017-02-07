@@ -2,7 +2,6 @@
 
 var _ = require('lodash');
 var mongoose = require('mongoose');
-//var Promise = require('Promise');
 var CSVParse = require('csv-parse');
 var Project = mongoose.model('Project');
 var Inspection = mongoose.model('Inspection');
@@ -90,8 +89,6 @@ function transform(jsonData) {
 }
 
 function load() {
-	var collectionName = 'inspections';
-	var inspectionList;
 	return new Promise(function (resolve, reject) {
 		console.log('Load Inspections start');
 		loadCSV()
@@ -99,15 +96,14 @@ function load() {
 				return transform(results);
 			})
 			.then(function (results) {
-				inspectionList = results;
-				return loadInspections(inspectionList);
+				return loadInspections(results);
 			})
 			.then(function () {
 				console.log('Load Inspections end');
 				resolve(':)');
 			})
 			.catch(function (err) {
-				console.log('ERROR: end err = ', JSON.stringify(err));
+				console.error('ERROR: end err = ', err);
 				reject(err);
 			});
 	});
@@ -115,22 +111,30 @@ function load() {
 
 
 function loadInspections(inspectionList) {
-	// console.log("BG load inspections", inspectionList);
-	_.each(inspectionList, function (inspection) {
-		console.log("BG load inspection", inspection.projectCode, inspection.inspectionName);
-		Project.find({code: inspection.projectCode}, function (err, project) {
-			if (err) {
-				throw err;
-			}
-			if (project.length === 0) {
-				throw new Error("Load inspections failed.. Could not locate project code '" + inspection.projectCode + "'");
-			}
-			if (project.length > 1) {
-				throw new Error("Load inspections failed.. Found more than one project with code '" + inspection.projectCode + "'");
-			}
-			inspection.projectId = project._id;
-			// console.log("Save inspection", inspection);
-			(new Inspection(inspection)).save();
+	var allPromises = [];
+	_.each(inspectionList, function (pItem) {
+		var p;
+		p = new Promise(function (resolve, reject) {
+			Project.find({code: pItem.projectCode})
+				.then(function (project) {
+					if (project.length === 0) {
+						reject("Load pItem failed.. Could not locate project code '" + pItem.projectCode + "'");
+					}
+					if (project.length > 1) {
+						reject("Load pItem failed.. Found more than one project with code '" + pItem.projectCode + "'");
+					}
+					pItem.projectId = project._id;
+					console.log("Save inspection pItem", pItem.projectCode);
+					var a = new Inspection(pItem);
+					a.save(function(err, doc, numAffected) {
+						if(err) {
+							reject(err);
+						}
+						resolve(a);
+					});
+				});
 		});
+		allPromises.push(p);
 	});
+	return Promise.all(allPromises);
 }

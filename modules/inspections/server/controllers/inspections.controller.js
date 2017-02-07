@@ -13,7 +13,6 @@ module.exports = DBModel.extend ({
 	plural : 'inspections',
 
 	getForProject: function (projectCode) {
-		console.log("BG inspection.controller getForProject projectCode:", projectCode);
 		return this.list ({projectCode:projectCode});
 	}
 });
