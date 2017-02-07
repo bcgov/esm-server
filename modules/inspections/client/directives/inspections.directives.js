@@ -25,9 +25,7 @@ function projectInspectionController($scope, _, InspectionsModel) {
 	// var complianceList = this;
 	var project = $scope.project;
 	var code = project.code;
-	console.log("BG projectInspectionController ", code);
 	InspectionsModel.forProject(code).then(function (data) {
-		console.log("BG have data from collection", data);
 		// complianceList.data = data;
 		$scope.sortedList = data;
 		$scope.applySort();

@@ -9,11 +9,12 @@ var _ = require('lodash');
 var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 
 module.exports = DBModel.extend ({
-	name : 'Inspection',
-	plural : 'inspections',
+	name : 'Authorization',
+	plural : 'authorizations',
 
-	getForProject: function (projectCode) {
-		return this.list ({projectCode:projectCode});
+	getForProject: function (projectCode, agencyCode) {
+		console.log("BG authorizations.controller getForProject projectCode/agencyCode", projectCode, agencyCode);
+		return this.list ({projectCode:projectCode, agencyCode: agencyCode});
 	}
 });
 
