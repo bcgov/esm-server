@@ -16,7 +16,15 @@ var ProjectController = require (path.resolve('./modules/projects/server/control
 var OtherDocumentsController = require (path.resolve('./modules/other-documents/server/controllers/other.documents.controller')),
 	OtherDocument  = mongoose.model ('OtherDocument');
 
-
+var getDate = function(s) {
+	var d = new Date(s);
+	if (isNaN(d)) {
+		// try dd / mm / yyyy -> cannot be parsed by Date
+		var dparts = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+		d = new Date(dparts[3], dparts[2] - 1, dparts[1]);
+	}
+	return d;
+};
 
 var importOrganizations = function(opts, data, startRow) {
 	var OrgCtrl = new OrganizationController(opts);
@@ -776,7 +784,7 @@ var importOtherDocuments = function(opts, data, startRow) {
 
 	return new Promise(function(resolve, reject) {
 
-		var columnNames = ['name', 'agency', 'title', 'link', 'documentType', 'date'];
+		var columnNames = ['agency', 'name', 'title', 'documentType', 'date', 'link'];
 
 		var rowParser = function(row) {
 			//console.log('row = ', row);
@@ -788,7 +796,7 @@ var importOtherDocuments = function(opts, data, startRow) {
 				documentType: row.documentType,
 				date: row.date
 			};
-			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
+			console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 			return obj;
 		};
 
@@ -806,8 +814,8 @@ var importOtherDocuments = function(opts, data, startRow) {
 				obj.title = row.title;
 				obj.link = row.link;
 				obj.documentType = row.documentType;
-				obj.date = row.date;
-				//console.log('setValues obj = ', JSON.stringify(obj, null, 4));
+				obj.date = getDate(row.date);
+				console.log('setValues obj = ', JSON.stringify(obj, null, 4));
 			}
 		};
 
