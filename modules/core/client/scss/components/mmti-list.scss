@@ -55,3 +55,30 @@
     color: #FFF;
     font-size: 0.875rem;
 }
+
+// External Link List (MAIN)
+.content-external-links {
+    li {
+        margin-top: 0.5rem;
+        font-size: 1rem;
+        line-height: 1.1rem;
+
+        a {
+            i {
+                opacity: 0;
+                margin-top: 1px;
+                margin-left: 0.25rem;
+                vertical-align: top;
+                font-size: inherit;
+                transition: all ease-out 0.2s;
+            }
+
+            &:focus,
+            &:hover {
+                i {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

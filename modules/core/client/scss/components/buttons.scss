@@ -92,7 +92,7 @@
 
 main {
     .btn {
-        padding: 0.5rem;
+        padding: 0.4rem;
     }
 }
 
@@ -102,11 +102,16 @@ main {
 
 .content-btn {
     padding: 0.25rem 0.75rem;
-    background: #EEE;
+    border: 2px solid #1a5a96;
+    background: transparent;
+    color: #1a5a96;
     font-size: 0.9375rem;
+    font-weight: 600;
 
+    &:focus,
     &:hover {
-        background: #EEE;
+        border-color: $gold;
+        background: $gold;
     }
 }
 
