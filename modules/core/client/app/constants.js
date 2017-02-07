@@ -183,6 +183,7 @@ angular
 			'Withdrawn',
 			'Certificate Not Required',
 			'Certificate Issued',
+			'Certificate Expired',
 			'In Progress',
 			'Terminated',
 			'Pre-EA Act Approval',
