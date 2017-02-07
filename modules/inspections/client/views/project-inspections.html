@@ -3,48 +3,50 @@
     <!--
     <div class="ce-list-header">Viewing {{complianceList.data.length}} Records</div>
     -->
-    <div class="sort-header">
-        <div class="sh-row">
-            <div class="sh-col name sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('inspectionName')">
-                <span>Name</span>
-                <span class="sort-icon" ng-show="sorting.column === 'inspectionName'"></span>
-            </div>
-            <div class="sh-col commodity sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('inspectionDate')">
-                <span>Date</span>
-                <span class="sort-icon" ng-show="sorting.column === 'inspectionDate'"></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="mmti-accord ce-list" id="complianceList" role="tablist" aria-multiselectable="false"
-         ng-repeat="c in sortedList">
-        <div class="mmti-accord-item" >
-            <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
-                <div>
-                    <a class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true"
-                       aria-controls="collapseOne">
-                        <i class="material-icons open-icon">add</i>
-                        <i class="material-icons close-icon">remove</i>
-                    </a>
-                    <span class="ah-col name">{{c.inspectionName}}</span>
-                    <span class="ah-col date">{{c.inspectionDate | date:'MMM dd, yyyy'}}</span>
+    <div class="ce-list">
+        <div class="sort-header">
+            <div class="sh-row">
+                <div class="sh-col name sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('inspectionName')">
+                    <span>Name</span>
+                    <span class="sort-icon" ng-show="sorting.column === 'inspectionName'"></span>
+                </div>
+                <div class="sh-col date sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('inspectionDate')">
+                    <span>Date</span>
+                    <span class="sort-icon" ng-show="sorting.column === 'inspectionDate'"></span>
                 </div>
             </div>
-            <div class="collapse" role="tabpanel"
-                 id="collapse-{{c._id}}"
-                 aria-labelledby="heading-{{c._id}}">
-                <div class="mmti-accord-body">
-                    <div class="summary" >{{c.inspectionSummary}}</div>
-                    <div class="doc-list-container" ng-if="c.followUpDocuments.length > 0">
-                        <div class="mmti-list-header">Related Documents</div>
-                        <ul class="mmti-list"  ng-repeat="r in c.followUpDocuments">
-                            <li><a href="{{r.ref}}" target="_blank">{{r.name}}</a></li>
-                        </ul>
+        </div>
+        <div class="mmti-accord" id="complianceList" role="tablist" aria-multiselectable="false"
+            ng-repeat="c in sortedList">
+            <div class="mmti-accord-item" >
+                <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
+                    <div>
+                        <a class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true"
+                        aria-controls="collapseOne">
+                            <i class="material-icons open-icon">add</i>
+                            <i class="material-icons close-icon">remove</i>
+                        </a>
+                        <span class="ah-col name">{{c.inspectionName}}</span>
+                        <span class="ah-col date">{{c.inspectionDate | date:'MMM dd, yyyy'}}</span>
                     </div>
+                </div>
+                <div class="collapse" role="tabpanel"
+                    id="collapse-{{c._id}}"
+                    aria-labelledby="heading-{{c._id}}">
+                    <div class="mmti-accord-body">
+                        <div class="summary" >{{c.inspectionSummary}}</div>
+                        <div class="doc-list-container" ng-if="c.followUpDocuments.length > 0">
+                            <div class="mmti-list-header">Related Documents</div>
+                            <ul class="mmti-list"  ng-repeat="r in c.followUpDocuments">
+                                <li><a href="{{r.ref}}" target="_blank">{{r.name}}</a></li>
+                            </ul>
+                        </div>
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </section>
 

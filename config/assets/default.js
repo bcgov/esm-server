@@ -57,13 +57,13 @@ module.exports = {
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
     css: [
-      'modules/*/client/css/*.css',
+      'modules/core/client/css/*.css',
     ],
     less: [
       'modules/*/client/less/*.less'
     ],
     sass: [
-      'modules/*/client/scss/*.scss'
+      'modules/core/client/scss/*.scss'
     ],
     js: [
       'modules/core/client/app/config.js',
