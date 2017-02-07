@@ -49,6 +49,14 @@ main {
     a {
         text-decoration: underline;
     }
+
+    // Named anchor helper
+    .pg-anchor[id]:before {
+        content:" ";
+        display:block;
+        height: 98px;
+        margin:-98px 0 0;
+    }
 }
 
 @media (min-width: 760px) {
