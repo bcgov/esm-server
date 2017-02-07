@@ -91,7 +91,13 @@ var seedingAsync = function() {
 		});
 	}
 
-	checkIntegration('projects')
+	checkIntegration('organizations')
+		.then(function () {
+			return loadData('../seed-data/load-organizations');
+		})
+		.then(function () {
+			return checkIntegration('projects');
+		})
 		.then(function () {
 			return loadData('../seed-data/load-projects');
 		})

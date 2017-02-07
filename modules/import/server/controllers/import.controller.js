@@ -353,7 +353,23 @@ var importDetails = function(opts, data, startRow) {
 							links.push({ source: l.source, type: l.type, page: l.page, title: l.title, link: l.link});
 						}
 					});
-					links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'DETAILS', title: row.title, link: row.link});
+					//
+					// we need to parse out titles and links - they are ; separated
+					//
+					if (!_.isEmpty(row.title) && !_.isEmpty(row.link)) {
+						var titles = row.title.split(';');
+						var hrefs = row.link.split(';');
+						if (_.size(titles) === _.size(hrefs)) {
+							_.each(titles, function(value, index) {
+								var title = value;
+								var link = hrefs[index];
+								links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'DETAILS', title: _.trim(title), link: _.trim(link)});
+							});
+						} else {
+							console.log('Titles and Links do not pair up. ', row.name);
+						}
+
+					}
 					obj.externalLinks = [];
 					obj.externalLinks = links;
 					obj.markModified('externalLinks');
@@ -461,7 +477,22 @@ var importCompliance = function(opts, data, startRow) {
 							links.push({ source: l.source, type: l.type, page: l.page, title: l.title, link: l.link});
 						}
 					});
-					links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'COMPLIANCE', title: row.title, link: row.link});
+					//
+					// we need to parse out titles and links - they are ; separated
+					//
+					if (!_.isEmpty(row.title) && !_.isEmpty(row.link)) {
+						var titles = row.title.split(';');
+						var hrefs = row.link.split(';');
+						if (_.size(titles) === _.size(hrefs)) {
+							_.each(titles, function(value, index) {
+								var title = value;
+								var link = hrefs[index];
+								links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'COMPLIANCE', title: _.trim(title), link: _.trim(link)});
+							});
+						} else {
+							console.log('Titles and Links do not pair up. ', row.name);
+						}
+					}
 					obj.externalLinks = [];
 					obj.externalLinks = links;
 					obj.markModified('externalLinks');
@@ -569,7 +600,22 @@ var importAuthorizations = function(opts, data, startRow) {
 							links.push({ source: l.source, type: l.type, page: l.page, title: l.title, link: l.link});
 						}
 					});
-					links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'AUTHORIZATION', title: row.title, link: row.link});
+					//
+					// we need to parse out titles and links - they are ; separated
+					//
+					if (!_.isEmpty(row.title) && !_.isEmpty(row.link)) {
+						var titles = row.title.split(';');
+						var hrefs = row.link.split(';');
+						if (_.size(titles) === _.size(hrefs)) {
+							_.each(titles, function(value, index) {
+								var title = value;
+								var link = hrefs[index];
+								links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'AUTHORIZATION', title: _.trim(title), link: _.trim(link)});
+							});
+						} else {
+							console.log('Titles and Links do not pair up. ', row.name);
+						}
+					}
 					obj.externalLinks = [];
 					obj.externalLinks = links;
 					obj.markModified('externalLinks');
