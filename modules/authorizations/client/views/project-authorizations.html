@@ -1,0 +1,30 @@
+<script src="../../../../config/seed-data/load-inspections.js"></script>
+<section class="auth-list-section">
+  <h3>{{actName}} <span>{{agencyName}}</span></h3>
+
+  <div class="mmti-accord ce-list" id="authorization-{{agencyCode}}" role="tablist" aria-multiselectable="false"
+       ng-repeat="c in list">
+    <div class="mmti-accord-item">
+      <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
+        <div>
+          <a data-ng-if="c.authorizationSummary" class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true"
+             aria-controls="collapseOne">
+            <i class="material-icons open-icon">add</i>
+            <i class="material-icons close-icon">remove</i>
+          </a>
+          <span data-ng-if="!c.authorizationSummary" class="toggle">&nbsp;</span>
+          <span class="ah-col name">{{c.documentName}}</span>
+          <span class="ah-col date">{{c.authorizationDate | date:'MMM dd, yyyy'}}</span>
+        </div>
+      </div>
+      <div class="collapse" role="tabpanel"
+           id="collapse-{{c._id}}"
+           aria-labelledby="heading-{{c._id}}">
+        <div class="mmti-accord-body">
+          <div class="summary">{{c.authorizationSummary}}</div>
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
