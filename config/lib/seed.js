@@ -111,9 +111,9 @@ var seedingAsync = function() {
 			console.log("Next authorizations");
 			return checkIntegration('authorizations');
 		})
-		.then(function () {
-			return loadData('../seed-data/load-authorizations');
-		})
+//		.then(function () {
+//			return loadData('../seed-data/load-authorizations');
+//		})
 		.then(function () {
 			console.log("Finished seeding projects and dependent objects");
 		});
