@@ -1,0 +1,116 @@
+@media (max-width: 760px) {
+    .mmti-table {
+        width: 100%;
+        display: block;
+        font-size: 0.875rem;
+
+        thead {
+            display: none;
+        }
+
+        tbody, tr {
+            display: block;
+            width: 100%;
+        }
+
+        tr {
+            background: #f7f8fa;
+
+            &:nth-child(even){
+                background: #f1f1f1;
+            }
+        }
+
+        td {
+            display: block;
+            padding: 1rem;
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .mmti-table {
+        width: 100%;
+        table-layout: fixed;
+
+        thead, tbody {
+            tr {
+                border-bottom: 0.25rem solid #FFF;  
+            }
+        }
+
+        thead {
+            background: #EEE;
+            font-size: 0.875rem;
+
+            th {
+                padding: 0.5rem;
+                font-weight: 400;
+
+                &:first-child {
+                    padding-left: 1rem;
+                }
+
+                &:last-child {
+                    padding-right: 1rem;
+                }
+
+                &.sortable {
+                    transition: background-color ease-out 0.2s;
+                    cursor: pointer;
+                    user-select: none;
+                }
+
+                .sort-icon {
+                    display: inline-block;
+                    margin-top: -2px;
+                    margin-left: 0.25rem;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 5px 5px 0 5px;
+                    border-color: #494949 transparent transparent transparent; 
+                    vertical-align: middle;
+                }
+
+                &.descending {
+                    .sort-icon {
+                        border-width: 0 5px 5px 5px;
+                        border-color: transparent transparent #494949 transparent;
+                    }
+                }
+
+                &.sortable {
+                    &:hover {
+                        background-color: #DDD;
+                    }
+                }
+            }
+        }
+
+        tbody {
+            tr {
+                border-bottom: 0.25rem solid #FFF;
+                background: #f7f8fa;
+
+                &:nth-child(even){
+                    background: #f1f1f1;
+                }
+            }
+
+            td {
+                padding: 1.25rem 0.5rem;
+                vertical-align: top;
+                font-size: 0.875rem;
+
+                &:first-child {
+                    padding-left: 1rem;
+                }
+
+                &:last-child {
+                    padding-right: 1rem;
+                }
+            }
+        }
+    }
+}
