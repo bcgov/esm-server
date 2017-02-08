@@ -9,14 +9,11 @@ angular.module('maps').config (
         .state('maps', {
             url: '/map',
             templateUrl: 'modules/maps/client/views/map.html',
+            params: {
+                project: null
+            },
             data: {
                 roles: ['admin']
-            },
-            resolve: {
-                projects: function ($stateParams, ProjectModel) {
-                    // if we need to filter, use ProjectModel.query({blah});
-                    return ProjectModel.all();
-                }
             },
             controller: 'controllerMap',
             controllerAs: 'projectsList'

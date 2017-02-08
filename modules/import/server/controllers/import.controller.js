@@ -198,11 +198,11 @@ var importProjects = function(opts, data, startRow) {
 				obj.markModified('externalIDs');
 
 				try {
-					obj.lat = parseFloat(row.lat);
+					obj.latitude = parseFloat(row.lat);
 				} catch (e) {}
 
 				try {
-					obj.lon = parseFloat(row.lon);
+					obj.longitude = parseFloat(row.lon);
 				} catch (e) {}
 
 				try {
@@ -784,20 +784,24 @@ var importOtherDocuments = function(opts, data, startRow) {
 
 	return new Promise(function(resolve, reject) {
 
-		var columnNames = ['agency', 'name', 'title', 'documentType', 'date', 'link'];
+		var columnNames = ['agency', 'name', 'title', 'documentType', 'date', 'filename', 'link'];
 
 		var rowParser = function(row) {
-			//console.log('row = ', row);
-			var obj = {
-				name: row.name,
-				agency: row.agency,
-				title: row.title,
-				link: row.link,
-				documentType: row.documentType,
-				date: row.date
-			};
-			console.log('v1: obj = ', JSON.stringify(obj, null, 4));
-			return obj;
+			var result = [];
+			_.each(_.split(row.agency, ","), function(a) {
+				var obj = {
+					name: row.name,
+					agency: _.trim(a),
+					title: row.title,
+					link: row.link,
+					filename: row.filename,
+					documentType: row.documentType,
+					date: row.date
+				};
+				console.log('row to obj = ', JSON.stringify(obj, null, 4));
+				result.push(obj);
+			});
+			return result;
 		};
 
 		var setValues = function(obj, row) {
@@ -814,8 +818,9 @@ var importOtherDocuments = function(opts, data, startRow) {
 				obj.title = row.title;
 				obj.link = row.link;
 				obj.documentType = row.documentType;
+				obj.filename = row.filename;
 				obj.date = getDate(row.date);
-				console.log('setValues obj = ', JSON.stringify(obj, null, 4));
+				//console.log('setValues obj = ', JSON.stringify(obj, null, 4));
 			}
 		};
 
@@ -833,7 +838,10 @@ var importOtherDocuments = function(opts, data, startRow) {
 				// ???
 				if (index >= firstRow) {
 					var row = output[key];
-					promises.push(rowParser(row));
+					var parsed = rowParser(row);
+					_.each(parsed, function(o) {
+						promises.push(o);
+					});
 				}
 			});
 
@@ -845,7 +853,7 @@ var importOtherDocuments = function(opts, data, startRow) {
 						.then(function(res) {
 							if (res) {
 								project = res;
-								return OrgCtrl.findOne({name: row.agency});
+								return OrgCtrl.findOne({ $or:[ {'name': row.agency}, {'orgCode': row.agency} ]});
 							} else {
 								console.log('Could not find project for other document.  ', row.name);
 								rs();

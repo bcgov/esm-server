@@ -89,7 +89,7 @@ module.exports = [
 		"description": "",
 		"name": "Red Chris",
 		"latitude": 57.7049,
-		"longitude": 129.791,
+		"longitude": -129.791,
 		"code": "red-chris"
 	},
 	{
