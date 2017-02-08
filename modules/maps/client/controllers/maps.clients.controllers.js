@@ -8,16 +8,28 @@ angular.module('maps')
 // CONTROLLER: Maps
 //
 // -----------------------------------------------------------------------------------
-controllerMap.$inject = ['$scope', 'Authentication', 'uiGmapGoogleMapApi', '$filter', '_', 'Document', 'ProjectModel'];
+controllerMap.$inject = ['$scope', 'Authentication', 'uiGmapGoogleMapApi', '$filter', '_', 'Document', 'ProjectModel', '$stateParams'];
 /* @ngInject */
-function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, Document, ProjectModel) {
+function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, Document, ProjectModel, $stateParams) {
 	var projectList = this;
-	ProjectModel.all()
-	.then(function (p) {
-		console.log("projects:", p);
-		$scope.projects = p;
-		$scope.$apply();
-	});
+
+	if ($stateParams.project) {
+		// console.log("$scope.project", $stateParams.project);
+		ProjectModel.byCode($stateParams.project.code)
+		.then(function (p) {
+			// console.log("project:", p);
+			$scope.projects = [];
+			$scope.projects.push(p);
+			$scope.$apply();
+		});
+	} else {
+		ProjectModel.all()
+		.then(function (p) {
+			console.log("projects:", p);
+			$scope.projects = p;
+			$scope.$apply();
+		});
+	}
 
 	$scope.map = {
 		center: {
@@ -83,6 +95,7 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, D
 
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
+			console.log("newval:", newValue);
 			projectList.projects = newValue;
 		}
 	});
