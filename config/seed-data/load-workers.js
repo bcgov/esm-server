@@ -23,7 +23,7 @@ function loadAuthorizations() {
 function clearCollection(collection) {
 	collection.remove({}, function (err) {
 		if (err) {
-			console.log(err)
+			console.log(err);
 		} else {
 			console.log(collection.modelName, ' cleared');
 		}
