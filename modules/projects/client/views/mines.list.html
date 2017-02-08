@@ -53,9 +53,7 @@
                                     id="collapse{{$index+1}}"
                                     aria-labelledby="heading{{$index+1}}">
                                     <div class="mmti-accord-body">
-                                        <span class="summary">
-                                            {{content(p, 'OVERVIEW_INTRO_TEXT', 'MINES')}}
-                                        </span>
+                                        <span class="summary" ng-bind-html="content(p, 'OVERVIEW_INTRO_TEXT', 'MINES')"></span>
                                         <div class="mine-list-container">
                                             <div class="mmti-list-header">Details</div>
                                             <ul class="mmti-list nv-pair">
@@ -74,6 +72,9 @@
                                                 <li>
                                                     <span class="name">Number of Tailings Impoundments</span>
                                                     <span class="value">{{p.tailingsImpoundments}}</span>
+                                                </li>
+                                                <li>
+                                                    <span class="btn" href ui-sref="maps({project: p})"><i class="material-icons">map</i><span>View Map</span></span>
                                                 </li>
                                             </ul>
                                         </div>

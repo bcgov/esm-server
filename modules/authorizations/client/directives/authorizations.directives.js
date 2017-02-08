@@ -17,7 +17,6 @@ function directiveProjectAuthorizationOversight() {
 		controller: projectAuthorizationController,
 		controllerAs: 'auth'
 	};
-	console.log("BG authorizations directive", directive);
 	return directive;
 }
 
@@ -36,10 +35,7 @@ function projectAuthorizationController($scope, _, AuthorizationsModel) {
 	var agencyCode = $scope.agencyCode;
 	$scope.agencyName = agencyMap[agencyCode].name;
 	$scope.actName = agencyMap[agencyCode].act;
-	console.log("BG projectAuthorizationController ", projectCode, agencyCode, $scope);
 	AuthorizationsModel.forProject(projectCode, agencyCode).then(function (data) {
-		console.log("BG have data from collection", data);
-		// complianceList.data = data;
 		$scope.list = data;
 	});
 }

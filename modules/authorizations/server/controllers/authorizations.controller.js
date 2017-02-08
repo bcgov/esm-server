@@ -13,7 +13,6 @@ module.exports = DBModel.extend({
 	plural: 'authorizations',
 
 	getForProject: function (projectCode, agencyCode) {
-		console.log("BG authorizations.controller getForProject projectCode/agencyCode", projectCode, agencyCode);
 		return this.list({projectCode: projectCode, agencyCode: agencyCode});
 	}
 });
