@@ -9,6 +9,7 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 	title: {type: String, default: ''}, // title for hyperlink...
 	link: {type: String, default: ''} , //hyperlink...
 	documentType: {type: String, default: ''},
+	filename: {type: String, default: ''},
 	date: {type: Date},
 
 	agency : { type:'ObjectId', ref:'Organization', default:null, index:true },
