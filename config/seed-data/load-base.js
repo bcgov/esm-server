@@ -63,6 +63,7 @@ function LoadWorker () {
 				}
 				var loadedDataDate = results.date;
 				var dataDate = integrationRow && integrationRow.dataDate && integrationRow.dataDate.getTime();
+				var dataDate = integrationRow && integrationRow.dataDate && integrationRow.dataDate.getTime();
 				results.needsUpdate = (!dataDate || dataDate < loadedDataDate);
 				// console.log("Dates", dataDate, loadedDataDate, results.needsUpdate);
 				if (!results.needsUpdate) {

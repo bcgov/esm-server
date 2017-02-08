@@ -12,9 +12,9 @@ function run() {
 }
 
 const agencyMap = {
-	'ENV': {name: 'Ministry of Environment', act: "Environmental Management Act"},
-	'MEM': {name: 'Ministry of Energy and Mines', act: "Mines Act"},
-	'EAO': {name: "Environmental Assessment Office", act: "Environmental Assessment Act"}
+	'ENV': {agencyCode:'ENV', name: 'Ministry of Environment', act: "Environmental Management Act"},
+	'MEM': {agencyCode:'MEM', name: 'Ministry of Energy and Mines', act: "Mines Act"},
+	'EAO': {agencyCode:'EAO', name: "Environmental Assessment Office", act: "Environmental Assessment Act"}
 };
 
 function ImporterBase() {
@@ -29,34 +29,34 @@ function ImporterBase() {
 	this.getAgency = function (code) {
 		var agency = agencyMap[code];
 		if (!agency) {
-			throw "Import failed on unexpected organization code " + code;
+			_.forEach(agencyMap, function (ag, index) {
+				if(ag.name === code) {
+					agency = ag;
+					return;
+				}
+			});
 		}
 		return agency;
 	};
 
-	this.processRelated = function (rowNames,rowUrls) {
+	this.processRelated = function (json) {
 		var followUpDocuments = [];
-		try {
-			if (rowNames && rowNames.length > 0) {
-				if (rowUrls && rowUrls.length > 0) {
-					var names = rowNames.split(";");
-					var urls = rowUrls.split(";");
-
-					if (names.length !== urls.length) {
-						throw new Error("Import failed. The number of follow up document names does not match the number of urls");
-					}
-					for (var i = 0; i < names.length; i++) {
-						var e = {name: names[i], ref: urls[i]};
-						followUpDocuments.push(e);
-					}
-				} else {
-					throw new Error("Import failed. There are followUpDocumentNames but no followUpDocumentUrls");
-				}
+		for(var i=1;i<5;i++){
+			var n = json['rn'+i];
+			var u = json['ru'+i];
+			if(n && u) {
+				var e = {name: n, ref: u};
+				followUpDocuments.push(e);
 			}
-		} catch (e) {
-			console.error(e);
-			throw e;
 		}
+		delete json.rn1;
+		delete json.rn2;
+		delete json.rn3;
+		delete json.rn4;
+		delete json.ru1;
+		delete json.ru2;
+		delete json.ru3;
+		delete json.ru4;
 		return followUpDocuments;
 	}
 }
@@ -72,30 +72,40 @@ function Authorization() {
 
 	this.columnNames = [
 		"agencyCode",
-		"projectCode",
+		"projectName",
 		"authorizationID",
 		"documentName",
 		"authorizationDate",
 		"documentType",
 		"documentStatus",
 		"documentURL",
-		"authorizationSummary",
-		"followUpDocumentNames",
-		"followUpDocumentUrls"
+		"rn1",
+		"ru1",
+		"rn2",
+		"ru2",
+		"rn3",
+		"ru3",
+		"rn4",
+		"ru4"
 	];
 	this.transform = function (jsonData) {
 		var _this = this;
-		_.forEach(jsonData, function (json) {
-			if(!json.projectCode || json.projectCode.length ==0) {
-				throw "Row missing projectCode";
+		_.forEach(jsonData, function (json, index) {
+			if(!json.projectName || json.projectName.length ==0) {
+				console.log("Row is missing project. Skipping this data:", index);
+				return;
 			}
 			var agency = _this.getAgency(json.agencyCode);
+			if(!agency) {
+				console.log("Row is missing agency. Skipping this data:", index);
+				return;
+			}
+			json.agencyCode = agency.agencyCode;
 			json.agencyName = agency.name;
 			json.actName = agency.act;
-			json.followUpDocuments = _this.processRelated(json.followUpDocumentNames, json.followUpDocumentUrls);
-			delete json.followUpDocumentNames;
-			delete json.followUpDocumentUrls;
+			json.followUpDocuments = _this.processRelated(json);
 			_this.dateValidate(json.authorizationDate);
+			delete json.undefined;
 		});
 		return jsonData;
 	}
@@ -113,8 +123,8 @@ function Inspections() {
 	console.log("INPUT", this.INPUT);
 	console.log("OUTPUT", this.OUTPUT);
 	this.columnNames = [
-		"projectCode",
-		"orgCode",
+		"projectName",
+		"agencyCode",
 		"inspectionNum",
 		"inspectionDate",
 		"inspectorInitials",
@@ -128,15 +138,22 @@ function Inspections() {
 	];
 	this.transform = function (jsonData) {
 		var _this = this;
-		_.forEach(jsonData, function (json) {
-			if(!json.projectCode || json.projectCode.length ==0) {
-				throw "Row missing projectCode";
+		_.forEach(jsonData, function (json, index) {
+			if(!json.projectName || json.projectName.length ==0) {
+				console.log("Row is missing project. Skipping this data:", index);
+				return;
 			}
-			var agency = _this.getAgency(json.orgCode);
+			var agency = _this.getAgency(json.agencyCode);
+			if(!agency) {
+				console.log("Row is missing agency. Skipping this data:", index);
+				return;
+			}
+			json.agencyCode = agency.agencyCode;
+			json.agencyName = agency.name;
+			json.actName = agency.act;
 			json.inspectionName = json.inspectionNum + "-" + json.orgCode + " (" + agency.name + ")";
-			json.followUpDocuments = _this.processRelated(json.followUpDocumentNames, json.followUpDocumentUrls);
-			delete json.followUpDocumentNames;
-			delete json.followUpDocumentUrls;
+			json.followUpDocuments = _this.processRelated(json);
+			delete json.undefined;
 			_this.dateValidate(json.inspectionDate);
 		});
 		return jsonData;

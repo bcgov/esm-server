@@ -7,6 +7,7 @@
 module.exports = require('../../../core/server/controllers/core.schema.controller')
 ('Authorization', {
 	projectId: {type: String, default: ''},
+	projectName: {type: String, default: ''},
 	projectCode: {type: String, default: ''},
 	agencyCode: {type: String, default: ''},
 	agencyName: {type: String, default: ''},
