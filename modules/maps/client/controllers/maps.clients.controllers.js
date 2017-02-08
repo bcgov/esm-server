@@ -8,11 +8,15 @@ angular.module('maps')
 // CONTROLLER: Maps
 //
 // -----------------------------------------------------------------------------------
-controllerMap.$inject = ['google', 'uiGmapIsReady', '$scope', 'Authentication', 'uiGmapGoogleMapApi', '$filter', '_', 'Document', 'ProjectModel', '$stateParams'];
+controllerMap.$inject = ['$rootScope', 'uiGmapIsReady', '$scope', 'Authentication', 'uiGmapGoogleMapApi', '$filter', '_', 'Document', 'ProjectModel', '$stateParams'];
 /* @ngInject */
-function controllerMap(google, uiGmapIsReady, $scope, Authentication, uiGmapGoogleMapApi, $filter, _, Document, ProjectModel, $stateParams) {
+function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmapGoogleMapApi, $filter, _, Document, ProjectModel, $stateParams) {
 	var projectList = this;
 	$scope.control = {};
+
+	// Map is active
+	$rootScope.isMapActive = true;
+
 	var lat = 54.726668;
 	var lng = -127.647621;
 	if ($stateParams.project) {
