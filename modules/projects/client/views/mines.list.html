@@ -53,9 +53,7 @@
                                     id="collapse{{$index+1}}"
                                     aria-labelledby="heading{{$index+1}}">
                                     <div class="mmti-accord-body">
-                                        <span class="summary">
-                                            {{content(p, 'OVERVIEW_INTRO_TEXT', 'MINES')}}
-                                        </span>
+                                        <span class="summary" ng-bind-html="content(p, 'OVERVIEW_INTRO_TEXT', 'MINES')"></span>
                                         <div class="mine-list-container">
                                             <div class="mmti-list-header">Details</div>
                                             <ul class="mmti-list nv-pair">
