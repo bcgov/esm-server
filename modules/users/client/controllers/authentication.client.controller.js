@@ -53,7 +53,7 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
       // If successful we assign the response to the global user model
       loginPanel.authentication.user = response;
       // And redirect to the previous or home page
-      $state.go('projects');
+      $state.go('home');
     }).error(function (response) {
       loginPanel.error = response.message;
     });
