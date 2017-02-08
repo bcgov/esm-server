@@ -18,6 +18,7 @@ angular.module('maps').config (
                     return ProjectModel.all();
                 }
             },
-            controller: 'controllerMap'
+            controller: 'controllerMap',
+            controllerAs: 'projectsList'
         });
     }]);

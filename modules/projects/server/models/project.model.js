@@ -18,8 +18,8 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 			link: {type: String, default: ''}  //hyperlink...
 		}],  // EPIC, MEM Project Ids, Permit IDs etc
 
-	lat: {type: Number, default: 0},
-	lon: {type: Number, default: 0},
+	latitude: {type: Number, default: 0},
+	longitude: {type: Number, default: 0},
 
 	commodityType: {type: String, default: ''},
 	commodities: [{type: String, default: ''}],
