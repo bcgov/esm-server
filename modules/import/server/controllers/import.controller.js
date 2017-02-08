@@ -198,11 +198,11 @@ var importProjects = function(opts, data, startRow) {
 				obj.markModified('externalIDs');
 
 				try {
-					obj.lat = parseFloat(row.lat);
+					obj.latitude = parseFloat(row.lat);
 				} catch (e) {}
 
 				try {
-					obj.lon = parseFloat(row.lon);
+					obj.longitude = parseFloat(row.lon);
 				} catch (e) {}
 
 				try {
@@ -796,7 +796,7 @@ var importOtherDocuments = function(opts, data, startRow) {
 				documentType: row.documentType,
 				date: row.date
 			};
-			console.log('v1: obj = ', JSON.stringify(obj, null, 4));
+			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 			return obj;
 		};
 
@@ -815,7 +815,7 @@ var importOtherDocuments = function(opts, data, startRow) {
 				obj.link = row.link;
 				obj.documentType = row.documentType;
 				obj.date = getDate(row.date);
-				console.log('setValues obj = ', JSON.stringify(obj, null, 4));
+				//console.log('setValues obj = ', JSON.stringify(obj, null, 4));
 			}
 		};
 
