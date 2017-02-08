@@ -16,8 +16,8 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 	inspectorInitials: {type: String, default: ''},
 	inspectionSummary: {type: String, default: ''},
 	recentFollowUp: {type: String, default: ''},
-	inspectionDocumentName: {type: String, default: ''},
-	inspectionDocumentURL: {type: String, default: ''},
+	documentName: {type: String, default: ''},
+	documentURL: {type: String, default: ''},
 	followUpDocuments: [{name: String, ref: String}],
 	authorizationID: {type: String, default: ''}
 });

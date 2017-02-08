@@ -41,6 +41,10 @@ function ImporterBase() {
 
 	this.processRelated = function (json) {
 		var followUpDocuments = [];
+		if(json.documentName && json.documentURL) {
+			var related = {name: json.documentName, ref: json.documentURL};
+			followUpDocuments.push(related);
+		}
 		for(var i=1;i<5;i++){
 			var n = json['rn'+i];
 			var u = json['ru'+i];
@@ -95,6 +99,7 @@ function Authorization() {
 				console.log("Row is missing project. Skipping this data:", index);
 				return;
 			}
+			json.projectName = json.projectName.trim();
 			var agency = _this.getAgency(json.agencyCode);
 			if(!agency) {
 				console.log("Row is missing agency. Skipping this data:", index);
@@ -130,8 +135,8 @@ function Inspections() {
 		"inspectorInitials",
 		"inspectionSummary",
 		"recentFollowUp",
-		"inspectionDocumentName",
-		"inspectionDocumentURL",
+		"documentName",
+		"documentURL",
 		"followUpDocumentNames",
 		"followUpDocumentUrls",
 		"authorizationID"
