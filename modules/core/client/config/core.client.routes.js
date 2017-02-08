@@ -14,14 +14,6 @@ angular.module('core').config (
 	});
 
 	$stateProvider
-	// Landing Page (Home)
-	.state('home', {
-		url: '/',
-		templateUrl: 'modules/home/client/views/home.html',
-		data: {
-			roles: ['admin']
-		}
-	})
 	// Authorizations
 	.state('authorizations', {
 		url: '/authorizations',

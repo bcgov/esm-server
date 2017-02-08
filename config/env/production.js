@@ -40,5 +40,6 @@ module.exports = {
         rejectUnauthorized: false
       }
     }
-  }
+  },
+  seedDB: process.env.MONGO_SEED || true
 };

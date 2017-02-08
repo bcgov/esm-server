@@ -1,0 +1,46 @@
+@media (max-width: 760px) {
+    tr {
+        margin-bottom: 0.25rem;
+        padding: 0.5rem 1rem;
+    }
+
+    td {
+        &.name,
+        &.type,
+        &.date {
+            padding: 0.25rem 0;
+            width: 100%;
+        }
+
+        &.name {
+            font-weight: 700;
+        }
+
+        &.agency,
+        &.date,
+        &.type {
+            &:before {
+                display: inline-block;
+                width: 30%;
+            }
+        }
+
+        &.agency {
+            &:before {
+                content: 'Agency:';
+            }
+        }
+
+        &.date {
+            &:before {
+                content: 'Date:';
+            }
+        }
+
+        &.type {
+            &:before {
+                content: 'Type:';
+            }
+        }
+    }
+}

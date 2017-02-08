@@ -1,38 +1,31 @@
-<section>
 
-	<div class="sort-header">
-		<div class="sh-row">
-			<div class="sh-col name sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('name')">
+<table class="mmti-table">
+	<thead>
+		<tr>
+			<th class="sh-col name sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('name')">
 				<span>Name</span>
 				<span class="sort-icon" ng-show="sorting.column === 'name'"></span>
-			</div>
-			<div class="sh-col agency sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('agency')">
+			</th>
+			<th class="sh-col agency sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('agency')">
 				<span>Agency</span>
 				<span class="sort-icon" ng-show="sorting.column === 'agency'"></span>
-			</div>
-			<div class="sh-col type sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('type')">
+			</th>
+			<th class="sh-col type sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('type')">
 				<span>Type</span>
 				<span class="sort-icon" ng-show="sorting.column === 'type'"></span>
-			</div>
-			<div class="sh-col date sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('date')">
+			</th>
+			<th class="sh-col date sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('date')">
 				<span>Date</span>
 				<span class="sort-icon" ng-show="sorting.column === 'date'"></span>
-			</div>
-		</div>
-	</div>
-
-	<div class="mmti-accord ce-list" id="otherDocumentsList" role="tablist" aria-multiselectable="false"
-		 ng-repeat="doc in sortedList">
-		<div class="">
-			<div>
-				<div>
-					<span class="ah-col name"><a href="{{doc.link}}">{{doc.title}}</a></span>
-					<span class="ah-col agency">{{doc.agency.orgCode}}</span>
-					<span class="ah-col type">{{doc.documentType}}</span>
-					<span class="ah-col date">{{doc.date | date:'MMM dd, yyyy'}}</span>
-				</div>
-			</div>
-		</div>
-	</div>
-</section>
-
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr id="otherDocumentsList" role="tablist" aria-multiselectable="false" ng-repeat="doc in sortedList">
+			<td class="ah-col name"><a href="{{doc.link}}">{{doc.title}}</a></td>
+			<td class="ah-col agency">{{doc.agency.orgCode}}</td>
+			<td class="ah-col type">{{doc.documentType}}</td>
+			<td class="ah-col date">{{doc.date | date:'MMM dd, yyyy'}}</td>
+		</tr>
+	</tbody>
+</table>
