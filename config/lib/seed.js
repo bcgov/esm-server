@@ -102,21 +102,17 @@ var seedingAsync = function() {
 			return loadData('../seed-data/load-projects');
 		})
 		.then(function () {
-			return checkIntegration('inspections');
-		})
-		.then(function () {
-			return loadData('../seed-data/load-inspections');
-		})
-		.then(function () {
-			console.log("Next authorizations");
-			return checkIntegration('authorizations');
-		})
-//		.then(function () {
-//			return loadData('../seed-data/load-authorizations');
-//		})
-		.then(function () {
 			console.log("Finished seeding projects and dependent objects");
 		});
+
+	console.log("load workers");
+	try {
+		var loaderWorker = require('../seed-data/load-workers');
+		loaderWorker.inspections();
+		loaderWorker.authorizations();
+	}catch(e) {
+		console.error(e);
+	}
 
 
 };

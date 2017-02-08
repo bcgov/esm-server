@@ -10,6 +10,7 @@ var Schema       = mongoose.Schema;
 var IntegrationSchema  = new Schema ({
 	module        : { type:String , required:true, unique:true },
 	runDate : {type:Date, default:null},
+	dataDate : {type:Date, default:null},
 	output : {type:String, default:''}
 });
 
