@@ -35,8 +35,9 @@ function LoadWorker () {
 			})
 			.catch(function (err) {
 				console.error(err);
-			})
-	}
+			});
+	};
+
 	this.loadJSON = function (fPath) {
 		return new Promise(function (resolve, reject) {
 			// Now parse and go through the csv file.
@@ -50,7 +51,7 @@ function LoadWorker () {
 				}
 			});
 		});
-	}
+	};
 
 	this.checkIntegration = function (results) {
 		return new Promise(function (resolve, reject) {
@@ -70,7 +71,7 @@ function LoadWorker () {
 				resolve(results);
 			});
 		});
-	}
+	};
 
 	this.saveIntegration = function (results) {
 		return new Promise(function (resolve, reject) {
@@ -86,5 +87,5 @@ function LoadWorker () {
 				resolve(results);
 			});
 		});
-	}
+	};
 }
