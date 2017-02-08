@@ -25,7 +25,7 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, D
 	} else {
 		ProjectModel.all()
 		.then(function (p) {
-			console.log("projects:", p);
+			// console.log("projects:", p);
 			$scope.projects = p;
 			$scope.$apply();
 		});
@@ -95,7 +95,7 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, D
 
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
-			console.log("newval:", newValue);
+			// console.log("newval:", newValue);
 			projectList.projects = newValue;
 		}
 	});
