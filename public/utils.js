@@ -18,3 +18,10 @@ $(function() {
     $(window).scroll(scroll_style);
     scroll_style();
 });
+
+
+$(function(){ 
+    $('.dropdown-item').click(function() {
+        $('#mainNav').collapse('hide');
+    });
+ });

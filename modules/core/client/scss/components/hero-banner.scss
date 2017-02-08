@@ -70,7 +70,7 @@
         line-height: 2.25rem;
 
         span {
-            display: block;
+            display: inline-block;
         }
     }
 
@@ -123,7 +123,7 @@
 @media (min-width: 900px) {
     .hb-txt {
         margin-top: 1.5rem;
-        max-width: 45rem;
+        max-width: 43rem;
     }
 }
 
