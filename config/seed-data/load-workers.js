@@ -21,11 +21,11 @@ function loadAuthorizations() {
 }
 
 function clearCollection(collection) {
-	collection.remove({}, function(err) {
+	collection.remove({}, function (err) {
 		if (err) {
 			console.log(err)
 		} else {
-			console.log(collection.modelName,' cleared');
+			console.log(collection.modelName, ' cleared');
 		}
 	});
 }
@@ -52,15 +52,16 @@ function loadInspectionList(inspectionList) {
 	var allPromises = [];
 	_.each(inspectionList, function (pItem) {
 		var p = new Promise(function (resolve, reject) {
-			// console.log("Save " , pItem.inspectionNum);
 			var queryFor = pItem.projectName;
 			findProject(queryFor)
 				.then(function (project) {
 					if (!project) {
-						reject();
+						// resolve with nothing ... effectively skip importing this item
+						resolve();
 					}
 					pItem.projectId = project._id;
 					pItem.projectCode = project.code;
+					pItem.inspectionName = pItem.agencyCode + "-" + pItem.inspectionNum + " (" + pItem.agencyName + ")";
 					//console.log("Save inspection pItem", pItem.inspectionNum);
 					var a = new Inspection(pItem);
 					a.save(function (err, doc, numAffected) {
@@ -89,19 +90,20 @@ function loadAuthorizationList(authorizationList) {
 			findProject(queryFor)
 				.then(function (project) {
 					if (!project) {
-						reject("No project "+ queryFor);
+						// resolve with nothing ... effectively skip importing this item
+						resolve();
 					}
 					pItem.projectId = project._id;
 					pItem.projectCode = project.code;
-				console.log("Save authorization pItem", pItem.projectName, 	pItem.projectId);
-				var a = new Authorization(pItem);
-				a.save(function (err, doc, numAffected) {
-					if (err) {
-						reject(err);
-					}
-					resolve(a);
+					// console.log("Save authorization pItem", pItem.projectName, 	pItem.projectId);
+					var a = new Authorization(pItem);
+					a.save(function (err, doc, numAffected) {
+						if (err) {
+							reject(err);
+						}
+						resolve(a);
+					});
 				});
-			});
 		});
 		allPromises.push(p);
 	});

@@ -4,32 +4,32 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var fs = require('fs');
 var path = require('path');
-var Integration  = mongoose.model ('Integration');
+var Integration = mongoose.model('Integration');
 
 
 module.exports = LoadWorker;
 
-function LoadWorker () {
+function LoadWorker() {
 	const _this = this;
 	this.loader = function (fPath, loadWorker) {
 		return _this.loadJSON(fPath)
 			.then(function (results) {
 				return _this.checkIntegration(results);
 			})
-			.then(function(results) {
-				if(! results.needsUpdate) {
+			.then(function (results) {
+				if (!results.needsUpdate) {
 					results.seedData = false;
 					return results;
 				} else {
 					return loadWorker(results.data)
-						.then( function(loadResults) {
+						.then(function (loadResults) {
 							results.seedData = true;
 							return results;
 						});
 				}
 			})
-			.then(function(results) {
-				if(results.seedData) {
+			.then(function (results) {
+				if (results.seedData) {
 					return _this.saveIntegration(results);
 				}
 			})
@@ -62,10 +62,9 @@ function LoadWorker () {
 					reject(err);
 				}
 				var loadedDataDate = results.date;
-				var dataDate = integrationRow && integrationRow.dataDate && integrationRow.dataDate.getTime();
-				var dataDate = integrationRow && integrationRow.dataDate && integrationRow.dataDate.getTime();
+				var dataDate = integrationRow && integrationRow.dataDate.getTime();
 				results.needsUpdate = (!dataDate || dataDate < loadedDataDate);
-				// console.log("Dates", dataDate, loadedDataDate, results.needsUpdate);
+				console.log("Dates", dataDate, loadedDataDate, results.needsUpdate);
 				if (!results.needsUpdate) {
 					console.log('Seeding :' + name + ' has already been performed');
 				}
