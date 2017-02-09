@@ -1,4 +1,22 @@
+.auth-section {
+    margin-bottom: 2.5rem;
 
+    h3 {
+        margin-bottom: 1rem;
+    }
+}
+
+.auth-list {
+    .ah-col {
+        &.name {
+            padding-left: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: 700;
+        }
+    }
+}
 
 .mine-list,
 .ce-list {
