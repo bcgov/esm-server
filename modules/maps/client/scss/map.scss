@@ -1,7 +1,7 @@
 
 .map-container {
-    position: fixed;
-    top: 4rem;
+    position: absolute;
+    top: 0;
     right: 0;
     left: 0;
     bottom: 0;
@@ -9,19 +9,67 @@
     z-index: 9999;
 
     ui-gmap-google-map {
-       position: absolute;
-       width: 100%;
-       height: 100%;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        .angular-google-map,
+        .angular-google-map-container {
+            width: 100%;
+            height: 100%;
+        }
     }
 }
 
-.angular-google-map {
-   z-index: 9999;
-   width: 100%;
-   height: 100%;
+.map-active {
+    @include flex-box();
+    @include flex-direction(column);
+    width: 100vw;
+    height: 100vh;
+
+    .view {
+        @include flex(1 1 auto);
+        position: relative;
+    }
 }
 
-.angular-google-map-container {
-    width: 100%;
-    height: 100%;
+.map-header-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    box-shadow: 0 0 0.75rem rgba(#000, 0.5);
+
+    .action-bar {
+        padding: 0.75rem 1rem;
+        background-color: rgba($header-bg, 0.75);
+        color: #FFF;
+        font-size: 0.875rem;
+    }
+}
+
+.map-header {
+    padding: 0.5rem;
+    background: rgba($header-bg, 0.9);
+
+    .close-btn {
+        margin-top: 4px;
+        margin-right: 3px;
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        line-height: 1rem;
+        color: #FFF;
+    }
+}
+
+@media (min-width: 900px) {
+    .map-header {
+        padding: 0;
+
+        .close-btn {
+            margin: 1rem;
+        }
+    }
 }

@@ -6,10 +6,12 @@
 				<span>Name</span>
 				<span class="sort-icon" ng-show="sorting.column === 'name'"></span>
 			</th>
+			
 			<th class="sh-col agency sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('agency')">
 				<span>Agency</span>
 				<span class="sort-icon" ng-show="sorting.column === 'agency'"></span>
 			</th>
+			
 			<th class="sh-col type sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('type')">
 				<span>Type</span>
 				<span class="sort-icon" ng-show="sorting.column === 'type'"></span>
@@ -22,8 +24,10 @@
 	</thead>
 	<tbody>
 		<tr id="otherDocumentsList" role="tablist" aria-multiselectable="false" ng-repeat="doc in sortedList">
-			<td class="ah-col name"><a href="{{doc.link}}">{{doc.title}}</a></td>
-			<td class="ah-col agency">{{doc.agency.orgCode}}</td>
+			<td class="ah-col name">
+				<div><a href="{{doc.link}}">{{doc.title}}</a></div>
+				<div>{{{doc.agency.orgCode}}}</div>	
+			</td>
 			<td class="ah-col type">{{doc.documentType}}</td>
 			<td class="ah-col date">{{doc.date | date:'MMM dd, yyyy'}}</td>
 		</tr>

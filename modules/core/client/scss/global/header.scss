@@ -134,8 +134,8 @@ header {
         padding: 0;
         border-bottom-style: solid;
         border-bottom-width: 0;
-        border-bottom-color: transparent;
-        background-color: rgba($header-bg, 0.9);
+        border-bottom-color: rgba(#5475a7, 0.25);
+        background-color: rgba($header-bg, 0);
         transition: all linear 0.2s;
 
         &.dark {
