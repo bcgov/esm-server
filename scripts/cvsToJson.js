@@ -161,9 +161,11 @@ function Inspections() {
 		'InspectionSummary',
 		'RecentFollowUp',
 		'InspectionDocumentName',
+		'InspectionDocumentFilename',
 		'InspectionDocumentURL',
-		'FollowUpDocumentNames (Separate with Semi colon)',
-		'FollowUpDocumentUrls (Separate with Semi Colon)',
+		'FollowUpDocumentNames ',
+		'FollowUpDocumentFileames',
+		'FollowUpDocumentUrls',
 		'OtherDocument',
 		'OtherDocumentURL',
 		'AuthorizationID',
@@ -179,9 +181,13 @@ function Inspections() {
 		"inspectionSummary",
 		"recentFollowUp",
 		"documentName",
+		"InspectionDocumentFilename",
 		"documentURL",
-		"followUpDocumentNames",
-		"followUpDocumentUrls",
+		"rn1",
+		"junk1",
+		"ru1",
+		"rn2",
+		"ru2",
 		"authorizationID"
 	];
 	this.transform = function (jsonData) {
@@ -201,6 +207,8 @@ function Inspections() {
 			json.actName = agency.act;
 			json.inspectionName = json.inspectionNum + "-" + json.orgCode + " (" + agency.name + ")";
 			json.followUpDocuments = _this.processRelated(json);
+			delete json.junk1;
+			delete json.InspectionDocumentFilename;
 			delete json.undefined;
 			_this.dateValidate(json.inspectionDate);
 		});
@@ -229,7 +237,7 @@ function loadCSV(importer) {
 			};
 			var parse = new CSVParse(data, options, function (err, output) {
 				// remove the title row
-				output.shift();
+				//output.shift();
 				// console.log(output);
 				resolve(output);
 				return;
