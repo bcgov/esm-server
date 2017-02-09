@@ -37,10 +37,10 @@
 	{% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
 </head>
 
-<body ng-cloak x-scroll>
-	<tmpl-header class="header-container"></tmpl-header>
+<body ng-cloak x-scroll ng-class="{'map-active': isMapActive}">
+	<tmpl-header class="header-container" ng-if="!isMapActive"></tmpl-header>
 	{% block content %}{% endblock %}
-	<tmpl-footer class="footer-container"></tmpl-footer>
+	<tmpl-footer class="footer-container" ng-if="!isMapActive"></tmpl-footer>
 
   	<!--Embedding The User Object-->
 	<script type="text/javascript">

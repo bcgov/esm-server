@@ -1,7 +1,9 @@
 'use strict';
-module.exports = {
+/* jshint -W100 */
+module.exports = 
+{
   "name": "Projects",
-  "date": "2017-02-09T21:37:26.635Z",
+  "date": "2017-02-09T22:39:01.438Z",
   "data": [
     {
       "description": "",
@@ -2745,3 +2747,4 @@ module.exports = {
     }
   ]
 }
+;

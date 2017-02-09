@@ -252,7 +252,7 @@ function preProcess(importer) {
 					data: results
 				}
 				return new Promise(function (resolve, reject) {
-					var	json = "'use strict';\nmodule.exports = " + JSON.stringify(output, null, 2);
+					var	json = "'use strict';\nmodule.exports = " + JSON.stringify(output, null, 2) + ";";
 					fs.writeFile(importer.OUTPUT, json, {encoding: 'utf8'}, function (err, data) {
 						if (err) reject(err);
 						console.log("JSON saved to file ", importer.OUTPUT);

@@ -24,7 +24,7 @@ module.exports = DBModel.extend ({
 
 			self.guaranteeUniqueCode(o.code)
 				.then(function(code) {
-					console.log('code = ', code);
+					//console.log('code = ', code);
 					o.code = code;
 					return o;
 				})

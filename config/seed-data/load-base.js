@@ -82,7 +82,7 @@ function LoadWorker() {
 					allPromises.push(p);
 				});
 				return Promise.all(allPromises);
-			})
+			});
 	};
 
 	/**
@@ -146,8 +146,8 @@ function LoadWorker() {
 					resolve();
 				}
 			});
-		})
-	}
+		});
+	};
 
 	/**
 	 * Helper to locate a project by name
@@ -167,6 +167,6 @@ function LoadWorker() {
 				}
 				return project[0];
 			});
-	}
+	};
 
 }

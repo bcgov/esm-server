@@ -13,14 +13,14 @@ var OtherDocument 	= mongoose.model ('OtherDocument');
 module.exports = DBModel.extend ({
 	name : 'OtherDocument',
 	plural : 'otherdocuments',
-	populate: [{ path: 'project', select: 'name code' }, { path: 'agency', select: 'code name orgCode' }],
+	populate: [{ path: 'project', select: 'name code' }, { path: 'agencies', select: 'code name orgCode' }],
 
 	getForProject : function (projectid) {
 		return this.list ({project: projectid});
 	},
 
 	getForAgency : function (agencyid) {
-		return this.list ({agency: agencyid});
+		return this.list ({agencies: { $in: [agencyid] } });
 	}
 
 });

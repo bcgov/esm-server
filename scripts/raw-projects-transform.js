@@ -33,7 +33,14 @@ function run() {
         date: (new Date).toISOString(),
         data: data
     }
-    var	json = "'use strict';\nmodule.exports = " + JSON.stringify(output, null, 2);
+    var d = [];
+    d.push("'use strict';");
+    d.push("/* jshint -W100 */");
+    // supress "This character may get silently deleted by one or more browsers." jshint warnings
+    d.push("module.exports = ");
+    d.push(JSON.stringify(output, null, 2));
+    d.push(";");
+    var	json = d.join("\n");
     fs.writeFile(OUTPUT, json, {encoding: 'utf8'}, function (err, data) {
         if (err) reject(err);
         console.log("JSON saved to file ", OUTPUT);

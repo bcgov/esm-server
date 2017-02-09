@@ -31,7 +31,7 @@ module.exports = function() {
 		})
 		.catch(function(reason){
 			console.error(reason);
-		})
+		});
 };
 
 function loadOrganization() {

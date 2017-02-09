@@ -15,11 +15,14 @@
 
     &.nv-pair {
         span {
-            float: left;
-            width: 50%;
-            display: block;
+            &.name,
+            &.value {
+                float: left;
+                display: block;
+                width: 50%;
+            }
 
-            &:first-child {
+            &.name {
                 margin-bottom: 0.25rem;
             }
         }
@@ -35,13 +38,13 @@
             }
 
             span {
-                float: left;
-
-                &:first-child {
+                &.name {
+                    float: left;
                     width: 30%;
                 }
 
-                &:last-child {
+                &.value {
+                    float: left;
                     width: 70%;
                 }
             }

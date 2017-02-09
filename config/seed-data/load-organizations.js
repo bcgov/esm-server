@@ -22,4 +22,4 @@ function obsolete() {
 		allPromises.push(p);
 	});
 	return Promise.all(allPromises);
-};
+}

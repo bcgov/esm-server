@@ -33,8 +33,7 @@ module.exports = {
 			"orgType": "Ministry",
 			"orgCode": "MEM",
 			"legalName": ""
-		}
-		,
+		},
 		{
 			"description": "",
 			"name": "Ministry of Environment",
