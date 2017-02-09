@@ -7,7 +7,8 @@
     <div class="mmti-accord-item">
       <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
         <div>
-          <a data-ng-if="c.authorizationSummary" class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true"
+          <a data-ng-if="c.followUpDocuments" class="toggle collapsed" data-toggle="collapse"
+             href="#collapse-{{c._id}}" aria-expanded="true"
              aria-controls="collapseOne">
             <i class="material-icons open-icon">add</i>
             <i class="material-icons close-icon">remove</i>
@@ -22,7 +23,13 @@
            aria-labelledby="heading-{{c._id}}">
         <div class="mmti-accord-body">
           <div class="summary">{{c.authorizationSummary}}</div>
+          <div class="doc-list-container" ng-if="c.followUpDocuments.length > 0">
+            <div class="mmti-list-header">Related Documents</div>
+            <ul class="mmti-list"  ng-repeat="r in c.followUpDocuments">
+              <li><a href="{{r.ref}}" target="_blank">{{r.name}}</a></li>
+            </ul>
           </div>
+        </div>
       </div>
     </div>
   </div>

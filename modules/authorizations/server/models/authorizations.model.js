@@ -7,14 +7,15 @@
 module.exports = require('../../../core/server/controllers/core.schema.controller')
 ('Authorization', {
 	projectId: {type: String, default: ''},
+	projectName: {type: String, default: ''},
 	projectCode: {type: String, default: ''},
 	agencyCode: {type: String, default: ''},
 	agencyName: {type: String, default: ''},
 	actName: {type: String, default: ''},
 	documentName: {type: String, default: ''},
 	documentURL: {type: String, default: ''},
-	documentType: {type: String, default:''},
-	documentStatus: {type: String, default:''},
+	documentType: {type: String, default: ''},
+	documentStatus: {type: String, default: ''},
 	authorizationDate: {type: Date, default: Date.now},
 	authorizationSummary: {type: String, default: ''},
 	followUpDocuments: [{name: String, ref: String}],

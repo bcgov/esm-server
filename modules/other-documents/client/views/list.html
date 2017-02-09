@@ -20,16 +20,17 @@
 				<span>Date</span>
 				<span class="sort-icon" ng-show="sorting.column === 'date'"></span>
 			</th>
+			<th class="sh-col name">
+				<span></span>
+			</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr id="otherDocumentsList" role="tablist" aria-multiselectable="false" ng-repeat="doc in sortedList">
-			<td class="ah-col name">
-				<div><a href="{{doc.link}}">{{doc.title}}</a></div>
-				<div>{{{doc.agency.orgCode}}}</div>	
-			</td>
+			<td class="ah-col name"><a target="_blank" href="{{doc.link}}">{{doc.title}}</a></td>
 			<td class="ah-col type">{{doc.documentType}}</td>
 			<td class="ah-col date">{{doc.date | date:'MMM dd, yyyy'}}</td>
+			<td>{{doc.agenciesDisplay}}</td>
 		</tr>
 	</tbody>
 </table>

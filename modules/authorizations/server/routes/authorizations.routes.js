@@ -13,8 +13,6 @@ module.exports = function (app) {
 	app.route ('/api/authorizations/for/projectCode/:projectCode/agencyCode/:agencyCode')
 		.all (policy ('guest'))
 		.get (routes.setAndRun (AuthorizationController, function (model, req) {
-			console.log("BG authorization.route get", req.params);
-
 			return model.getForProject (req.params.projectCode, req.params.agencyCode);
 		}));
 };

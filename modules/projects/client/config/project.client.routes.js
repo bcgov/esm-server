@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('project').config (
+angular.module('project').config(
 	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
 	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
 
@@ -13,7 +13,7 @@ angular.module('project').config (
 				project: function ($stateParams, ProjectModel) {
 					return ProjectModel.byCode($stateParams.projectid);
 				},
-				otherDocuments: function($stateParams, project, OtherDocumentModel) {
+				otherDocuments: function ($stateParams, project, OtherDocumentModel) {
 					return OtherDocumentModel.forProject(project._id);
 				}
 			},
@@ -31,41 +31,42 @@ angular.module('project').config (
 				$scope.project.staticMap += "%7C" + $scope.project.latitude + "," + $scope.project.longitude;
 				$scope.project.staticMap += "&zoom=4&size=300x300&maptype=map&key=" + apiKey;
 
-				$scope.content = function(p, type, page) {
+				$scope.content = function (p, type, page) {
 					try {
-						var content = _.find(p.content, function(o) { return o.type === type && o.page === page; });
+						var content = _.find(p.content, function (o) {
+							return o.type === type && o.page === page;
+						});
 						return content.html || content.text;
-					} catch(e) {
+					} catch (e) {
 						return '';
 					}
 				};
+					$scope.ownership = function (p) {
+						try {
+							return p.ownership.replace(/;/g, "<br>");
+						} catch (e) {
+							return p.ownership;
+						}
+					};
 
-				$scope.ownership = function(p) {
-					try {
-						return p.ownership.replace(/;/g, "<br>");
-					} catch(e) {
-						return p.ownership;
-					}
-				};
+					$scope.statusClass = function (act) {
+						try {
+							var value = act.status.toLowerCase();
+							value = value.replace(/[/]/g, "");
+							return value;
+						} catch (e) {
+							return '';
+						}
+					};
 
-				$scope.statusClass = function(act) {
-					try {
-						var value = act.status.toLowerCase();
-						value = value.replace(/[/]/g, "");
-						return value;
-					} catch(e) {
-						return '';
-					}
-				};
+					$scope.page = function (page) {
+						$scope.links = _.filter($scope.project.externalLinks, function (l) {
+							return l.type === 'EXTERNAL_LINK' && l.page === page;
+						});
+					};
 
-				$scope.page = function(page) {
-					$scope.links = _.filter($scope.project.externalLinks, function(l) { return l.type === 'EXTERNAL_LINK' && l.page === page; } );
-				};
-
-				$scope.page('DETAILS');
-			}
-		})
-
-		;
+					$scope.page('DETAILS');
+				}
+			});
 	}]);
 
