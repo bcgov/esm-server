@@ -34,11 +34,16 @@ angular.module('otherdocuments')
 					// sort ascending first...
 					$scope.sortedList = _.sortBy($scope.list, function (f) {
 						// more making sure that the displayName is set...
+						// make an agency string list...
+						var agencyNames = _.transform(f.agencies, function(result, a) {
+							result.push(a.name);
+						}, []);
+						_.extend(f, {agenciesDisplay: agencyNames.join(', ')});
 
 						if ($scope.sorting.column === 'title') {
 							return _.isEmpty(f.title) ? null : f.title.toLowerCase();
-						} else if ($scope.sorting.column === 'agency') {
-							return _.isEmpty(f.agency) && _.isEmpty(f.agency.orgCode) ? null : f.agency.orgCode.toLowerCase();
+						//} else if ($scope.sorting.column === 'agency') {
+						//	return _.isEmpty(f.agency) && _.isEmpty(f.agency.orgCode) ? null : f.agency.orgCode.toLowerCase();
 						} else if ($scope.sorting.column === 'type') {
 							return _.isEmpty(f.documentType) ? null : f.documentType.toLowerCase();
 						} else if ($scope.sorting.column === 'date') {

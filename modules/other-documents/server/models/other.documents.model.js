@@ -12,7 +12,7 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 	filename: {type: String, default: ''},
 	date: {type: Date},
 
-	agency : { type:'ObjectId', ref:'Organization', default:null, index:true },
+	agencies : [{ type:'ObjectId', ref:'Organization', default:null}],
 	project : { type:'ObjectId', ref:'Project', default:null, index:true }
 
 });
