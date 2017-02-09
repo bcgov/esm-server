@@ -2,7 +2,7 @@
 <section class="auth-section">
 	<h3>{{actName}} <span>{{agencyName}}</span></h3>
 	<div class="mmti-accord auth-list" id="authorization-{{agencyCode}}" role="tablist" aria-multiselectable="false">
-		<div class="mmti-accord-item" ng-repeat="c in list">
+		<div class="mmti-accord-item" ng-repeat="c in list | orderBy: '-authorizationDate'">
 			<div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
 				<div>
 					<a data-ng-if="c.followUpDocuments" class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true" aria-controls="collapseOne">
