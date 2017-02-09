@@ -3,109 +3,121 @@
 var _ = require('lodash');
 var mongoose = require('mongoose');
 var path = require('path');
+var Organization = mongoose.model('Organization');
 var Project = mongoose.model('Project');
+var Inspection = mongoose.model('Inspection');
+var Authorization = mongoose.model('Authorization');
 
 var LoadWorker = require('./load-base');
 var base = new LoadWorker();
 
-module.exports.inspections = loadInspections;
-module.exports.authorizations = loadAuthorizations;
 
-function loadInspections() {
-	var fPath = path.resolve(__dirname, 'load-inspections-data.json');
-	return base.loader(fPath, loadInspectionList);
-}
-function loadAuthorizations() {
-	var fPath = path.resolve(__dirname, 'load-authorizations-data.json');
-	return base.loader(fPath, loadAuthorizationList);
-}
+var didProjectsUpdateHack = false;
 
-function clearCollection(collection) {
-	collection.remove({}, function (err) {
-		if (err) {
-			console.log(err);
-		} else {
-			console.log(collection.modelName, ' cleared');
-		}
-	});
-}
-
-function findProject(queryFor) {
-	return Project.find({name: queryFor})
-		.then(function (project) {
-			if (project.length === 0) {
-				console.log("Load pItem failed.. Could not locate project  '" + queryFor + "'");
-				return null;
+module.exports = function() {
+	console.log("Load worker");
+	loadOrganization()
+		.then(function(results) {
+			return  loadProjects();
+		})
+		.then(function(results) {
+			if(results.seedData) {
+				didProjectsUpdateHack = true;
 			}
-			if (project.length > 1) {
-				console.log("Load pItem failed.. Found more than one project with  '" + queryFor + "'");
-				return null;
+			return  loadInspections(didProjectsUpdateHack);
+		})
+		.then(function(results) {
+			return  loadAuthorizations(didProjectsUpdateHack);
+		})
+		.catch(function(reason){
+			console.error(reason);
+		})
+};
+
+function loadOrganization() {
+	var fPath = path.resolve(__dirname, 'load-organizations-data.js');
+	return base.loader(fPath, Organization, createOrganization, false);
+}
+
+function loadProjects() {
+	var fPath = path.resolve(__dirname, 'load-projects-data.js');
+	return base.loader(fPath, Project, createProject, false);
+}
+
+function loadInspections(forceUpdate) {
+	var fPath = path.resolve(__dirname, 'load-inspections-data.js');
+	return base.loader(fPath, Inspection, createInspection, forceUpdate);
+}
+function loadAuthorizations(forceUpdate) {
+	var fPath = path.resolve(__dirname, 'load-authorizations-data.js');
+	return base.loader(fPath, Authorization, createAuthorization, forceUpdate);
+}
+
+function createOrganization(base, pItem) {
+	return new Promise(function (resolve, reject) {
+		var p = new Organization(pItem);
+		p.save(function (err, doc, numAffected) {
+			if (err) {
+				reject(err);
 			}
-			return project[0];
+			resolve(p);
 		});
-}
-function loadInspectionList(inspectionList) {
-	console.log("Load Inspections ");
-	var Inspection = mongoose.model('Inspection');
-	clearCollection(Inspection);
-	//see model = require('../../modules/inspections/server/models/inspections.model');
-	var allPromises = [];
-	_.each(inspectionList, function (pItem) {
-		var p = new Promise(function (resolve, reject) {
-			var queryFor = pItem.projectName;
-			findProject(queryFor)
-				.then(function (project) {
-					if (!project) {
-						// resolve with nothing ... effectively skip importing this item
-						resolve();
-					}
-					pItem.projectId = project._id;
-					pItem.projectCode = project.code;
-					pItem.inspectionName = pItem.agencyCode + "-" + pItem.inspectionNum + " (" + pItem.agencyName + ")";
-					//console.log("Save inspection pItem", pItem.inspectionNum);
-					var a = new Inspection(pItem);
-					a.save(function (err, doc, numAffected) {
-						if (err) {
-							reject(err);
-						}
-						resolve(a);
-					});
-				});
-		});
-		allPromises.push(p);
 	});
-	return Promise.all(allPromises);
 }
 
 
-function loadAuthorizationList(authorizationList) {
-	console.log("Load authorizations");
-	var Authorization = mongoose.model('Authorization');
-	clearCollection(Authorization);
-	var allPromises = [];
-	_.each(authorizationList, function (pItem) {
-		var p;
-		p = new Promise(function (resolve, reject) {
-			var queryFor = pItem.projectName;
-			findProject(queryFor)
-				.then(function (project) {
-					if (!project) {
-						// resolve with nothing ... effectively skip importing this item
-						resolve();
-					}
-					pItem.projectId = project._id;
-					pItem.projectCode = project.code;
-					// console.log("Save authorization pItem", pItem.projectName, 	pItem.projectId);
-					var a = new Authorization(pItem);
-					a.save(function (err, doc, numAffected) {
-						if (err) {
-							reject(err);
-						}
-						resolve(a);
-					});
-				});
+function createProject(base, pItem) {
+	return new Promise(function (resolve, reject) {
+		var p = new Project(pItem);
+		p.save(function (err, doc, numAffected) {
+			if (err) {
+				reject(err);
+			}
+			resolve(p);
 		});
-		allPromises.push(p);
 	});
-	return Promise.all(allPromises);
 }
+
+function createInspection(base, pItem) {
+	return new Promise(function (resolve, reject) {
+		var queryFor = pItem.projectName;
+		base.findProject(queryFor)
+			.then(function (project) {
+				if (!project) {
+					resolve();
+				}
+				pItem.projectId = project._id;
+				pItem.projectCode = project.code;
+				pItem.inspectionName = pItem.agencyCode + "-" + pItem.inspectionNum + " (" + pItem.agencyName + ")";
+				var a = new Inspection(pItem);
+				a.save(function (err, doc, numAffected) {
+					if (err) {
+						reject(err);
+					}
+					resolve(a);
+				});
+			});
+	});
+}
+
+function createAuthorization(base, pItem) {
+	return new Promise(function (resolve, reject) {
+		var queryFor = pItem.projectName;
+		base.findProject(queryFor)
+			.then(function (project) {
+				if (!project) {
+					resolve();
+				}
+				pItem.projectId = project._id;
+				pItem.projectCode = project.code;
+				var a = new Authorization(pItem);
+				a.save(function (err, doc, numAffected) {
+					if (err) {
+						reject(err);
+					}
+					resolve(a);
+				});
+			});
+	});
+}
+

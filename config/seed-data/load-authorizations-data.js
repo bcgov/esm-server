@@ -1,28 +1,8 @@
-{
+'use strict';
+module.exports = {
   "name": "Authorizations",
+  "date": "2017-02-09T22:02:13.112Z",
   "data": [
-    {
-      "agencyCode": "EAO",
-      "projectName": "Brucejack",
-      "authorizationID": " M15-01",
-      "documentName": "Environmental Assessment Certificate",
-      "authorizationDate": "3/26/2015",
-      "documentType": "Certificate",
-      "documentStatus": "Issued ",
-      "documentURL": "https://projects.eao.gov.bc.ca/p/brucejack-gold-mine/docs?folder=108",
-      "agencyName": "Environmental Assessment Office",
-      "actName": "Environmental Assessment Act",
-      "followUpDocuments": [
-        {
-          "name": "Environmental Assessment Certificate",
-          "ref": "https://projects.eao.gov.bc.ca/p/brucejack-gold-mine/docs?folder=108"
-        },
-        {
-          "name": "r 1",
-          "ref": "http"
-        }
-      ]
-    },
     {
       "agencyCode": "EAO",
       "projectName": "Brucejack",
@@ -2929,6 +2909,5 @@
         }
       ]
     }
-  ],
-  "date": 1486594061669
+  ]
 }

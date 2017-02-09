@@ -78,38 +78,8 @@ var seedingAsync = function() {
 		require('../seed-data/load-emailtemplates')();
 	});
 
-	function loadData(fileRef) {
-		console.log("Load ...", fileRef);
-		return new promise(function (resolve, reject) {
-			try {
-				resolve(require(fileRef)());
-			} catch (error) {
-				console.error(error);
-				reject(error);
-			}
-			resolve();
-		});
-	}
-
-	checkIntegration('organizations')
-		.then(function () {
-			return loadData('../seed-data/load-organizations');
-		})
-		.then(function () {
-			return checkIntegration('projects');
-		})
-		.then(function () {
-			return loadData('../seed-data/load-projects');
-		})
-		.then(function () {
-			console.log("Finished seeding projects and dependent objects");
-		});
-
-	console.log("load workers");
 	try {
-		var loaderWorker = require('../seed-data/load-workers');
-		loaderWorker.inspections();
-		loaderWorker.authorizations();
+			require('../seed-data/load-workers')();
 	}catch(e) {
 		console.error(e);
 	}

@@ -1,29 +1,8 @@
-{
+'use strict';
+module.exports = {
   "name": "Inspections",
+  "date": "2017-02-09T22:02:13.082Z",
   "data": [
-    {
-      "projectName": "Mount Milligan",
-      "agencyCode": "MEM",
-      "inspectionNum": "61037",
-      "inspectionDate": "1/12/2016",
-      "inspectorInitials": "RCC",
-      "inspectionSummary": "On January 12, 2016, Rory Cumming, Inspector of Mines, Electrical visited the Mount Milligan mine site to conduct an electrical inspection.",
-      "recentFollowUp": "Mine Manager's Response",
-      "documentName": "M-236_Mount_Milligan_2016-01-12_InspectionRpt_61037_RCC",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/586e90fcd2ec8e001b1c8887/fetch",
-      "followUpDocumentNames": "M-236_Mount_Milligan_2016-01-12_InspectionRptResponse_61037_RCC",
-      "followUpDocumentUrls": "https://mines.empr.gov.bc.ca/api/document/582259826d6ad30017cd6dd7/fetch",
-      "authorizationID": "",
-      "agencyName": "Ministry of Energy and Mines",
-      "actName": "Mines Act",
-      "inspectionName": "61037-undefined (Ministry of Energy and Mines)",
-      "followUpDocuments": [
-        {
-          "name": "M-236_Mount_Milligan_2016-01-12_InspectionRpt_61037_RCC",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/586e90fcd2ec8e001b1c8887/fetch"
-        }
-      ]
-    },
     {
       "projectName": "Mount Milligan",
       "agencyCode": "MEM",
@@ -2157,6 +2136,5 @@
       "inspectionName": "null-undefined (Environmental Assessment Office)",
       "followUpDocuments": []
     }
-  ],
-  "date": 1486594061640
+  ]
 }
