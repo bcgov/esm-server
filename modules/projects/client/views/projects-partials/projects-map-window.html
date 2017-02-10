@@ -1,15 +1,11 @@
 
-<div class="map-popup">
+<div class="map-popup feature-block">
 	<h3>{{ parameter.name }}</h3>
-	<span class="map-popup-type"><strong>Type:</strong> &nbsp;{{ parameter.type }}</span>
 	<div class="map-popup-content" 
 		ng-if="parameter.description" 
 		ng-bind-html="parameter.description">
 	</div>
-	<a class="public-comment-btn btn btn-sm btn-success"
-		ng-if="parameter.isOpen" 
-		href="p/{{parameter.code}}/commentperiod/{{parameter.period._id}}">Public Commenting Open - Click Here</a>
-	<div class="map-popup-links"> 
-		<a ui-sref="p.detail({projectid: parameter.code })">View Project Details</a>
+	<div>
+		<a class="btn inverted" href ui-sref="project({projectid: parameter.code })">View Project Details<i class="btn glyphicon glyphicon-circle-arrow-right"></i></a>
 	<div>
 </div>

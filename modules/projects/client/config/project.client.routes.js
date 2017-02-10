@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('project').config(
+angular.module('project').config (
 	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
 	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
 
@@ -13,7 +13,7 @@ angular.module('project').config(
 				project: function ($stateParams, ProjectModel) {
 					return ProjectModel.byCode($stateParams.projectid);
 				},
-				otherDocuments: function ($stateParams, project, OtherDocumentModel) {
+				otherDocuments: function($stateParams, project, OtherDocumentModel) {
 					return OtherDocumentModel.forProject(project._id);
 				}
 			},
@@ -23,7 +23,7 @@ angular.module('project').config(
 				$scope.links = project.externalLinks;
 				console.log("scope.project.latitude:", $scope.project.latitude);
 				console.log("scope.project.longitude:", $scope.project.longitude);
-				var apiKey = "AIzaSyCTbJdM2XHNQ6ybqPzyaT-242tIAgIbk8w";
+				var apiKey = "";
 				// Static map generation
 				$scope.project.staticMap = "https://maps.googleapis.com/maps/api/staticmap?center=55.726668,-125.647621";
 				$scope.project.staticMap += "&markers=color:blue%7Clabel:";
@@ -31,42 +31,41 @@ angular.module('project').config(
 				$scope.project.staticMap += "%7C" + $scope.project.latitude + "," + $scope.project.longitude;
 				$scope.project.staticMap += "&zoom=4&size=300x300&maptype=map&key=" + apiKey;
 
-				$scope.content = function (p, type, page) {
+				$scope.content = function(p, type, page) {
 					try {
-						var content = _.find(p.content, function (o) {
-							return o.type === type && o.page === page;
-						});
+						var content = _.find(p.content, function(o) { return o.type === type && o.page === page; });
 						return content.html || content.text;
-					} catch (e) {
+					} catch(e) {
 						return '';
 					}
 				};
-					$scope.ownership = function (p) {
-						try {
-							return p.ownership.replace(/;/g, "<br>");
-						} catch (e) {
-							return p.ownership;
-						}
-					};
 
-					$scope.statusClass = function (act) {
-						try {
-							var value = act.status.toLowerCase();
-							value = value.replace(/[/]/g, "");
-							return value;
-						} catch (e) {
-							return '';
-						}
-					};
+				$scope.ownership = function(p) {
+					try {
+						return p.ownership.replace(/;/g, "<br>");
+					} catch(e) {
+						return p.ownership;
+					}
+				};
 
-					$scope.page = function (page) {
-						$scope.links = _.filter($scope.project.externalLinks, function (l) {
-							return l.type === 'EXTERNAL_LINK' && l.page === page;
-						});
-					};
+				$scope.statusClass = function(act) {
+					try {
+						var value = act.status.toLowerCase();
+						value = value.replace(/[/]/g, "");
+						return value;
+					} catch(e) {
+						return '';
+					}
+				};
 
-					$scope.page('DETAILS');
-				}
-			});
+				$scope.page = function(page) {
+					$scope.links = _.filter($scope.project.externalLinks, function(l) { return l.type === 'EXTERNAL_LINK' && l.page === page; } );
+				};
+
+				$scope.page('DETAILS');
+			}
+		})
+
+		;
 	}]);
 

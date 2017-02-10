@@ -1,4 +1,4 @@
-<div class="map-container">
+<div class="map-container" id='legend'>
 
     <ui-gmap-google-map id='projects-map'
         center='map.center'
@@ -25,6 +25,12 @@
             clusterOptions="map.clusterOptions"
             events="map.markersEvents">
         </ui-gmap-marker>
+
+        <ui-gmap-layer  ng-repeat="layer in KMLLayers"
+            type="KmlLayer"
+            options="layer"
+            show="layer.show">
+        </ui-gmap-layer>
 
     </ui-gmap-google-map>
     <div class="row map-filter hidden">

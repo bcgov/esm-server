@@ -13,6 +13,12 @@ controllerMap.$inject = ['$rootScope', 'uiGmapIsReady', '$scope', 'Authenticatio
 function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmapGoogleMapApi, $filter, _, Document, ProjectModel, $stateParams) {
 	var projectList = this;
 	$scope.control = {};
+	$scope.KMLLayers = [];
+
+	$scope.toggleLayer = function (item) {
+		console.log("toggleLayer:", item);
+		item.show = !item.show;
+	};
 
 	// Map is active
 	$rootScope.isMapActive = true;
@@ -26,11 +32,41 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 		ProjectModel.byCode($stateParams.project.code)
 		.then(function (p) {
 			console.log("project:", p);
+
+			// TODO: Add layers when they arrive from biz.
+			// $scope.KMLLayers.push(
+			// 	{	url: "https://example.com/fetch",
+			// 		label: "ADMIN",
+			// 		preserveViewport: true,
+			// 		show: false,
+			// 		_id: 654654
+			// 	});
 			$scope.projects = [];
 			$scope.projects.push(p);
 			uiGmapIsReady.promise().then(function (maps) {
 				var gMap = $scope.control.getGMap();
 				gMap.setZoom(9);
+				// TODO: Add layers when they arrive from biz.
+				// var controlUI = angular.element('<div>Legend</div>');
+				// controlUI.css('backgroundColor','#fff');
+				// controlUI.css('border','2px solid #fff');
+				// controlUI.css('borderRadius','3px');
+				// controlUI.css('boxShadow','0 2px 6px rgba(0,0,0,.3)');
+				// controlUI.css('cursor','pointer');
+				// controlUI.css('marginBottom','22px');
+				// controlUI.css('textAlign','center');
+				// controlUI.css('z-index','9999');
+				// controlUI.css('position','fixed');
+				// controlUI.css('top','50px');
+				// controlUI.css('right','50px');
+				// controlUI.bind('click', function (e) {
+					// For handling click on layer
+				// 	console.log(e);
+				// });
+				// controlUI.innerHTML = 'Click to recenter the map';
+				// angular.element.append(controlUI);
+				// var body = angular.element(document.querySelector('#legend'));
+				// body.append(controlUI)
 			});
 			$scope.$apply();
 		});
@@ -71,8 +107,8 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 				// 		}
 				// 	});
 				// });
-				projectList.map.window.model = model;
-				projectList.map.window.show = true;
+				$scope.map.window.model = model;
+				$scope.map.window.show = true;
 			}
 		},
 		window: {
