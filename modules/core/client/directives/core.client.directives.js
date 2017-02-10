@@ -145,6 +145,10 @@ angular.module('core')
 							// these deal with setting the permissions by role
 							//
 							s.currentRole = (roleName) ? roleName : '';
+
+							// sort permissions and roles...
+							s.allRoles = _.sortBy(s.allRoles, function(r) { return r.toLowerCase(); });
+							s.allPermissions = _.sortBy(s.allPermissions, function(r) { return r.toLowerCase(); });
 							console.log('rolePermissionsModal.init... end');
 						};
 
@@ -412,8 +416,14 @@ angular.module('core')
 							}
 
 							s.userRoleIndex = userRoleIndex;
-							s.allRoles = _.difference(allRoles, unassignableRoles);
-							s.allUsers = _.filter(users, function(u) { return globalUsers.indexOf(u.username) < 0; });
+							var allRolez = _.difference(allRoles, unassignableRoles);
+							var allUserz = _.filter(users, function(u) { return globalUsers.indexOf(u.username) < 0; });
+
+							// sort alpha...
+							s.allRoles = _.sortBy(allRolez, function(r) { return r.toLowerCase(); });
+							// sort by lastName then first Name
+							s.allUsers = _.sortByOrder(allUserz, ['lastName', 'firstName']);
+
 							//
 							// expose the inputs
 							////
