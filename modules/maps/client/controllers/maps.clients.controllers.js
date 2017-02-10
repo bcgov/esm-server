@@ -37,8 +37,9 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 		// console.log("$scope.project", $stateParams.project);
 		ProjectModel.byCode($stateParams.project.code)
 		.then(function (p) {
-			console.log("project:", p);
-
+			// Show the marker automatically
+			$scope.map.window.model = p;
+			$scope.map.window.show = true;
 			// TODO: Add layers when they arrive from biz.
 			// $scope.KMLLayers.push(
 			// 	{	url: "https://example.com/fetch",
