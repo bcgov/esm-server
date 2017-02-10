@@ -1,5 +1,7 @@
-{
+'use strict';
+module.exports = {
   "name": "Authorizations",
+  "date": "2017-02-09T23:41:51.469Z",
   "data": [
     {
       "agencyCode": "EAO",
@@ -16,10 +18,6 @@
         {
           "name": "Environmental Assessment Certificate",
           "ref": "https://projects.eao.gov.bc.ca/p/brucejack-gold-mine/docs?folder=108"
-        },
-        {
-          "name": "r 1",
-          "ref": "http"
         }
       ]
     },
@@ -861,7 +859,7 @@
     },
     {
       "agencyCode": "ENV",
-      "projectName": "Greenhills",
+      "projectName": "Greenhills Operations",
       "authorizationID": "AMS6248",
       "documentName": "Effluent Discharge",
       "authorizationDate": "5/26/2016",
@@ -879,7 +877,7 @@
     },
     {
       "agencyCode": "ENV",
-      "projectName": "Greenhills",
+      "projectName": "Greenhills Operations",
       "authorizationID": "AMS6249",
       "documentName": "Air Discharge",
       "authorizationDate": "9/19/2016",
@@ -897,7 +895,7 @@
     },
     {
       "agencyCode": "ENV",
-      "projectName": "Greenhills",
+      "projectName": "Greenhills Operations",
       "authorizationID": "AMS6725",
       "documentName": "Refuse Discharge",
       "authorizationDate": "3/14/2012",
@@ -915,7 +913,7 @@
     },
     {
       "agencyCode": "ENV",
-      "projectName": "Greenhills",
+      "projectName": "Greenhills Operations",
       "authorizationID": "AMS6764",
       "documentName": "Effluent Discharge",
       "authorizationDate": "12/18/2014",
@@ -1149,7 +1147,7 @@
     },
     {
       "agencyCode": "ENV",
-      "projectName": "Mount Milligan Mine",
+      "projectName": "Mount Milligan",
       "authorizationID": "AMS104777",
       "documentName": "Effluent Discharge",
       "authorizationDate": "6/22/2016",
@@ -1167,7 +1165,7 @@
     },
     {
       "agencyCode": "ENV",
-      "projectName": "Mount Milligan Mine",
+      "projectName": "Mount Milligan",
       "authorizationID": "AMS104778",
       "documentName": "Refuse Discharge",
       "authorizationDate": "6/21/2016",
@@ -1185,7 +1183,7 @@
     },
     {
       "agencyCode": "ENV",
-      "projectName": "Mount Milligan Mine",
+      "projectName": "Mount Milligan",
       "authorizationID": "AMS104779",
       "documentName": "Air Discharge",
       "authorizationDate": "6/21/2016",
@@ -1367,7 +1365,7 @@
       "agencyCode": "MEM",
       "projectName": "Brule",
       "authorizationID": "C-221",
-      "documentName": "Approving Coal Reject Blackhaul to Northeast Dump",
+      "documentName": "Approving Coal Reject Backhaul to Northeast Dump",
       "authorizationDate": "9/24/2013",
       "documentType": "Permit",
       "documentStatus": "Amended",
@@ -1376,7 +1374,7 @@
       "actName": "Mines Act",
       "followUpDocuments": [
         {
-          "name": "Approving Coal Reject Blackhaul to Northeast Dump",
+          "name": "Approving Coal Reject Backhaul to Northeast Dump",
           "ref": "https://mines.empr.gov.bc.ca/api/document/58228f276d6ad30017cdefe4/fetch"
         }
       ]
@@ -2929,6 +2927,5 @@
         }
       ]
     }
-  ],
-  "date": 1486594061669
-}
+  ]
+};

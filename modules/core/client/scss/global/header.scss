@@ -134,7 +134,7 @@ header {
         padding: 0;
         border-bottom-style: solid;
         border-bottom-width: 0;
-        border-bottom-color: transparent;
+        border-bottom-color: rgba(#5475a7, 0.25);
         background-color: rgba($header-bg, 0);
         transition: all linear 0.2s;
 
@@ -154,8 +154,8 @@ header {
     }
 
     .brand {
-        margin-top: 0.25rem;
-        margin-left: 0.25rem;
+        margin-top: 2px;
+        margin-left: 2px;
         width: 380px; // Using PX dimensions here to ensure exact match to image
         height: 60px;
         background-image: url("/modules/core/client/images/bcgov-logo-horiz-LG.png");

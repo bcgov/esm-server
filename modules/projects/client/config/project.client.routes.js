@@ -17,7 +17,9 @@ angular.module('project').config (
 					return OtherDocumentModel.forProject(project._id);
 				}
 			},
-			controller: function ($scope, $stateParams, project, otherDocuments, _) {
+			controller: function ($rootScope, $scope, $stateParams, project, otherDocuments, _) {
+				// Force this false when we enter
+				$rootScope.isMapActive = false;
 				$scope.project = project;
 				$scope.otherDocuments = otherDocuments || [];
 				$scope.links = project.externalLinks;

@@ -4,8 +4,15 @@ var CSVParse = require('csv-parse');
 var fs = require('fs');
 var path = require('path');
 
-run();
+/*
+Run this script on any new inspections or authorizations CSV content.  It parses the CSV, does some checks on the data
+and generates a file for the config/seed-data folder that will automatically update the database the next time the
+server is started.
+ */
 
+
+
+run();
 function run() {
 	preProcess(new Inspections());
 	preProcess(new Authorization());
@@ -69,10 +76,29 @@ function ImporterBase() {
 function Authorization() {
 	ImporterBase.call(this);
 	this.INPUT = path.resolve(__dirname, 'load-authorizations-data.csv');
-	this.OUTPUT = path.resolve(__dirname, '..', 'config', 'seed-data', 'load-authorizations-data.json');
+	this.OUTPUT = path.resolve(__dirname, '..', 'config', 'seed-data', 'load-authorizations-data.js');
 	this.getName = function() {return 'Authorizations';}
 	console.log("INPUT", this.INPUT);
 	console.log("OUTPUT", this.OUTPUT);
+
+	this.csvExpectedColumns = [ 'agency',
+		'projectCode',
+		'authorizationId',
+		'Authorization name (Title)',
+		'Issue date',
+		'type(Permit or Certificate)',
+		'status (Issued or Amended)',
+		'location of document (URL)',
+		'relatedDocName',
+		'relatedDocUrl',
+		'relatedDocName',
+		'relatedDocUrl',
+		'relatedDocName',
+		'relatedDocUrl',
+		'relatedDocName',
+		'relatedDocUrl',
+		'relatedDocName',
+		'relatedDocUrl' ];
 
 	this.columnNames = [
 		"agencyCode",
@@ -123,10 +149,29 @@ function Inspections() {
 	ImporterBase.call(this);
 	this.getName = function() {return 'Inspections';}
 	this.INPUT = path.resolve(__dirname, 'load-inspections-data.csv');
-	this.OUTPUT = path.resolve(__dirname, '..', 'config', 'seed-data', 'load-inspections-data.json');
+	this.OUTPUT = path.resolve(__dirname, '..', 'config', 'seed-data', 'load-inspections-data.js');
 
 	console.log("INPUT", this.INPUT);
 	console.log("OUTPUT", this.OUTPUT);
+	this.csvExpectedColumns = [ 'ProjectCode',
+		'OrgCode',
+		'InspectionId',
+		'InspectionDate',
+		'InspectorInitials',
+		'InspectionSummary',
+		'RecentFollowUp',
+		'InspectionDocumentName',
+		'InspectionDocumentFilename',
+		'InspectionDocumentURL',
+		'FollowUpDocumentNames ',
+		'FollowUpDocumentFileames',
+		'FollowUpDocumentUrls',
+		'OtherDocument',
+		'OtherDocumentURL',
+		'AuthorizationID',
+		'Type of Inspection'
+	];
+
 	this.columnNames = [
 		"projectName",
 		"agencyCode",
@@ -136,9 +181,13 @@ function Inspections() {
 		"inspectionSummary",
 		"recentFollowUp",
 		"documentName",
+		"InspectionDocumentFilename",
 		"documentURL",
-		"followUpDocumentNames",
-		"followUpDocumentUrls",
+		"rn1",
+		"junk1",
+		"ru1",
+		"rn2",
+		"ru2",
 		"authorizationID"
 	];
 	this.transform = function (jsonData) {
@@ -158,6 +207,8 @@ function Inspections() {
 			json.actName = agency.act;
 			json.inspectionName = json.inspectionNum + "-" + json.orgCode + " (" + agency.name + ")";
 			json.followUpDocuments = _this.processRelated(json);
+			delete json.junk1;
+			delete json.InspectionDocumentFilename;
 			delete json.undefined;
 			_this.dateValidate(json.inspectionDate);
 		});
@@ -176,10 +227,17 @@ function loadCSV(importer) {
 				reject(err);
 				return;
 			}
-			var options = {delimiter: ',', columns: importer.columnNames};
+			var options = {delimiter: ',', columns: function(firstRow) {
+				if(firstRow.length !== importer.csvExpectedColumns.length) {
+					console.error("Mismatch in expected columns Actual/Expected/AsFound", firstRow.length,  importer.csvExpectedColumns.length, firstRow);
+
+				}
+				return importer.columnNames;
+			}
+			};
 			var parse = new CSVParse(data, options, function (err, output) {
 				// remove the title row
-				output.shift();
+				//output.shift();
 				// console.log(output);
 				resolve(output);
 				return;
@@ -198,11 +256,11 @@ function preProcess(importer) {
 			.then(function (results) {
 				var output ={
 					name: importer.getName(),
-					data: results,
-					date: Date.now()
+					date: (new Date).toISOString(),
+					data: results
 				}
 				return new Promise(function (resolve, reject) {
-					var json = JSON.stringify(output, null, 2);
+					var	json = "'use strict';\nmodule.exports = " + JSON.stringify(output, null, 2) + ";";
 					fs.writeFile(importer.OUTPUT, json, {encoding: 'utf8'}, function (err, data) {
 						if (err) reject(err);
 						console.log("JSON saved to file ", importer.OUTPUT);

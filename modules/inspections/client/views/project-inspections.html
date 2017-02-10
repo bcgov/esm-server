@@ -1,3 +1,4 @@
+
 <section>
     <h3>Compliance Oversight <span>January 1 - December 31, 2016</span></h3>
     <!--
@@ -16,9 +17,8 @@
                 </div>
             </div>
         </div>
-        <div class="mmti-accord" id="complianceList" role="tablist" aria-multiselectable="false"
-            ng-repeat="c in sortedList">
-            <div class="mmti-accord-item" >
+        <div class="mmti-accord" id="complianceList" role="tablist" aria-multiselectable="false">
+            <div class="mmti-accord-item" ng-repeat="c in sortedList | orderBy: 'date'">
                 <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
                     <div>
                         <a class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true"

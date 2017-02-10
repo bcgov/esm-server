@@ -17,6 +17,12 @@
     }
 }
 
+.hero-btn {
+    padding: 0.65rem 1rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+}
+
 @media (min-width: 760px) {
     .hero-banner {
         height: 30rem;
@@ -70,7 +76,7 @@
         line-height: 2.25rem;
 
         span {
-            display: block;
+            display: inline-block;
         }
     }
 
@@ -123,7 +129,7 @@
 @media (min-width: 900px) {
     .hb-txt {
         margin-top: 1.5rem;
-        max-width: 45rem;
+        max-width: 43rem;
     }
 }
 

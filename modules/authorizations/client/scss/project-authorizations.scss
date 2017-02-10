@@ -1,0 +1,17 @@
+
+.auth-list {
+    .sh-col,
+    .ah-col {
+        &.date {
+            width: 7rem;
+            text-align: right;
+        }
+    }
+    
+    .ah-col {
+        &.name {
+            padding-left: 0;
+            font-weight: 700;
+        }
+    }
+}

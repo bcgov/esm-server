@@ -23,6 +23,12 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 	// Map is active
 	$rootScope.isMapActive = true;
 
+	$scope.toggleMapActive = function(){
+		$rootScope.isMapActive = false;
+		window.history.back();
+	};
+
+
 	var lat = 54.726668;
 	var lng = -127.647621;
 	if ($stateParams.project) {
@@ -86,7 +92,7 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 		},
 		zoom: 6,
 		options: {
-			scrollwheel: false,
+			scrollwheel: true,
 			minZoom: 4
 		},
 		markers: $scope.projects, // array of models to display

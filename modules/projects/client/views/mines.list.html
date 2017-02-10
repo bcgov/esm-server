@@ -6,7 +6,7 @@
             <div class="container-inner">
                 <div class="hb-txt">
                     <h1>Find Mines in British Columbia</h1>
-                    <p class="mb-2">The BC Mine Information website’s currently includes 15 major mine sites</p>
+                    <p class="mb-2">The BC Mine Information Website currently includes 15 major mine sites</p>
                 </div>
             </div>
         </div>
@@ -53,7 +53,13 @@
                                     id="collapse{{$index+1}}"
                                     aria-labelledby="heading{{$index+1}}">
                                     <div class="mmti-accord-body">
-                                        <span class="summary" ng-bind-html="content(p, 'OVERVIEW_INTRO_TEXT', 'MINES')"></span>
+                                        <div class="summary" ng-bind-html="content(p, 'OVERVIEW_INTRO_TEXT', 'MINES')"></div>
+                                        <!--
+                                        <div>
+                                            <a class="btn btn-sm btn-link" ui-sref="maps({project: p})"><span>Goto Mine Page</span></a>
+                                            <a class="btn btn-sm btn-link" ui-sref="maps({project: p})"><span>View on Map</span></a> 
+                                        </div>
+                                        -->
                                         <div class="mine-list-container">
                                             <div class="mmti-list-header">Details</div>
                                             <ul class="mmti-list nv-pair">
@@ -72,9 +78,6 @@
                                                 <li>
                                                     <span class="name">Number of Tailings Impoundments</span>
                                                     <span class="value">{{p.tailingsImpoundments}}</span>
-                                                </li>
-                                                <li>
-                                                    <span class="btn" href ui-sref="maps({project: p})"><i class="material-icons">map</i><span>View Map</span></span>
                                                 </li>
                                             </ul>
                                         </div>

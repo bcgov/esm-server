@@ -1,31 +1,62 @@
 
-<table class="mmti-table">
-	<thead>
-		<tr>
-			<th class="sh-col name sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('name')">
+<div class="mmti-doc-list">
+	<div class="sort-header">
+		<div class="sh-row">
+			<div class="sh-col name sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('name')">
 				<span>Name</span>
 				<span class="sort-icon" ng-show="sorting.column === 'name'"></span>
-			</th>
-			<th class="sh-col agency sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('agency')">
+			</div>
+			<!--
+			<div class="sh-col agency sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('agency')">
 				<span>Agency</span>
 				<span class="sort-icon" ng-show="sorting.column === 'agency'"></span>
-			</th>
-			<th class="sh-col type sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('type')">
+			</div>	
+			<div class="sh-col type sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('type')">
 				<span>Type</span>
 				<span class="sort-icon" ng-show="sorting.column === 'type'"></span>
-			</th>
-			<th class="sh-col date sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('date')">
+			</div>
+			-->
+			<div class="sh-col date sortable" ng-class="{'descending': !sorting.ascending}" ng-click="sortBy('date')">
 				<span>Date</span>
 				<span class="sort-icon" ng-show="sorting.column === 'date'"></span>
-			</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr id="otherDocumentsList" role="tablist" aria-multiselectable="false" ng-repeat="doc in sortedList">
-			<td class="ah-col name"><a href="{{doc.link}}">{{doc.title}}</a></td>
-			<td class="ah-col agency">{{doc.agency.orgCode}}</td>
-			<td class="ah-col type">{{doc.documentType}}</td>
-			<td class="ah-col date">{{doc.date | date:'MMM dd, yyyy'}}</td>
-		</tr>
-	</tbody>
-</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="mmti-accord">
+		<div class="mmti-accord-item" ng-repeat="doc in sortedList">
+			<div class="mmti-accord-header" role="tab" id="heading-{{doc._id}}">
+				<a class="toggle collapsed" data-toggle="collapse" href="#collapse-{{doc._id}}" aria-expanded="true" aria-controls="collapse-{{doc._id}}}">
+					<i class="material-icons open-icon">add</i>
+					<i class="material-icons close-icon">remove</i>
+				</a>
+				<span class="ah-col name">{{doc.title}}</span>
+				<span class="ah-col date">{{doc.date | date:'MMM dd, yyyy'}}</span>
+			</div>
+			<div class="collapse" role="tabpanel" id="collapse-{{doc._id}}"
+				aria-labelledby="heading-{{doc._id}}">
+				<div class="mmti-accord-body">
+					<div class="mmti-list-header">Details</div>
+					<ul class="mmti-list nv-pair">
+						<li>
+							<span class="name">Type</span>
+							<span class="value">{{doc.documentType}}</span>
+						</li>
+						<li>
+							<span class="name">Agency</span>
+							<span class="value">{{doc.agenciesDisplay}}</span>
+						</li>
+					</ul>
+					<div class="mmti-list-header">Related Documents</div>	
+					<ul class="mmti-list nv-pair">
+						<li>
+							<a target="_blank" href="{{doc.link}}">{{doc.title}}</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>

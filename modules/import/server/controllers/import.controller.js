@@ -12,21 +12,25 @@ var OrganizationController = require (path.resolve('./modules/organizations/serv
 var ProjectController = require (path.resolve('./modules/projects/server/controllers/project.controller')),
 	Project  = mongoose.model ('Project');
 
-
 var OtherDocumentsController = require (path.resolve('./modules/other-documents/server/controllers/other.documents.controller')),
 	OtherDocument  = mongoose.model ('OtherDocument');
 
 var getDate = function(s) {
-	var d = new Date(s);
-	if (isNaN(d)) {
-		// try dd / mm / yyyy -> cannot be parsed by Date
-		var dparts = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-		d = new Date(dparts[3], dparts[2] - 1, dparts[1]);
+	try {
+		var d = new Date(s);
+		if (isNaN(d)) {
+			// try dd / mm / yyyy -> cannot be parsed by Date
+			var dparts = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+			d = new Date(dparts[3], dparts[2] - 1, dparts[1]);
+		}
+		return d;
+	} catch(e) {
+		console.log('Error parsing date: ', s);
+		return;
 	}
-	return d;
 };
 
-var importOrganizations = function(opts, data, startRow) {
+var importOrganizations = function(opts, data, startRow, purge) {
 	var OrgCtrl = new OrganizationController(opts);
 	return new Promise(function(resolve, reject) {
 
@@ -35,18 +39,18 @@ var importOrganizations = function(opts, data, startRow) {
 		var rowParser = function(row) {
 			//console.log('row = ', row);
 			var obj = {
-				name            : row.name,
-				legalName       : row.legalName,
-				orgCode         : row.orgCode,
-				orgType         : row.orgType,
-				website         : row.website,
-				address1        : row.address1,
-				address2        : row.address2,
-				city            : row.city,
-				province        : row.province,
-				country         : row.country,
-				postal          : row.postal,
-				description     : row.description
+				name            : _.trim(row.name),
+				legalName       : _.trim(row.legalName),
+				orgCode         : _.trim(row.orgCode),
+				orgType         : _.trim(row.orgType),
+				website         : _.trim(row.website),
+				address1        : _.trim(row.address1),
+				address2        : _.trim(row.address2),
+				city            : _.trim(row.city),
+				province        : _.trim(row.province),
+				country         : _.trim(row.country),
+				postal          : _.trim(row.postal),
+				description     : _.trim(row.description)
 			};
 			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 			return obj;
@@ -93,23 +97,44 @@ var importOrganizations = function(opts, data, startRow) {
 				}
 			});
 
-			var importOrganization = function(row) {
+			var cleanUp = function () {
+				if (purge) {
+					return new Promise(function (rs, rj) {
+						Organization.remove({}, function(err, result) {
+								if (err) {
+									console.log('Organization cleanup error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									console.log('Organization cleanup: ', JSON.stringify(result));
+									rs();
+								}
+							}
+						);
+					});
+				} else {
+					console.log('Organization cleanup not requested');
+					return Promise.resolve();
+				}
+			};
+
+			var importData = function(row) {
 				return new Promise(function(rs, rj) {
 					// console.log("item:", item);
 					if (row.name === '') {
 						// console.log("resolving nothing for org, it was null.");
 						rs(null);
 					} else {
-						Organization.findOne ({name: row.name}, function (err, result) {
+						Organization.findOne ({ name: {$regex: row.name, $options: "i"} }, function (err, result) {
 							if (err) {
 								rj(err);
 							}
 							if (result === null) {
 								var o = new Organization();
 								setValues(o, row);
-								console.log("creating:", row.name);
+								console.log("Organization create: ", row.name);
 								OrgCtrl.create(o).then(rs, rj);
 							} else {
+								console.log("Organization update: ", row.name);
 								setValues(result, row);
 								result.save().then(rs, rj);
 							}
@@ -118,11 +143,11 @@ var importOrganizations = function(opts, data, startRow) {
 				});
 			};
 
-			Promise.resolve ()
+			cleanUp()
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							return importOrganization(item);
+							return importData(item);
 						});
 					}, Promise.resolve());
 				})
@@ -132,7 +157,7 @@ var importOrganizations = function(opts, data, startRow) {
 
 };
 
-var importProjects = function(opts, data, startRow) {
+var importProjects = function(opts, data, startRow, purge) {
 	var ProjCtrl = new ProjectController(opts);
 
 	return new Promise(function(resolve, reject) {
@@ -142,24 +167,24 @@ var importProjects = function(opts, data, startRow) {
 		var rowParser = function(row) {
 			//console.log('row = ', row);
 			var obj = {
-				name: row.name,
-				subtitle: row.subtitle,
-				memId: row.memId,
-				epicId: row.epicId,
-				lat: row.lat,
-				lon: row.lon,
-				operator: row.operator,
-				owner: row.owner,
-				commodityType: row.commodityType,
-				commodities: row.commodities,
-				tailingsImpoundments: row.tailingsImpoundments,
-				status: row.status,
-				design: row.design,
-				construction: row.construction,
-				operation: row.operation,
-				closure: row.closure,
-				reclamation: row.reclamation,
-				monitoring: row.monitoring
+				name: _.trim(row.name),
+				subtitle: _.trim(row.subtitle),
+				memId: _.trim(row.memId),
+				epicId: _.trim(row.epicId),
+				lat: _.trim(row.lat),
+				lon: _.trim(row.lon),
+				operator: _.trim(row.operator),
+				owner: _.trim(row.owner),
+				commodityType: _.trim(row.commodityType),
+				commodities: _.trim(row.commodities),
+				tailingsImpoundments: _.trim(row.tailingsImpoundments),
+				status: _.trim(row.status),
+				design: _.trim(row.design),
+				construction: _.trim(row.construction),
+				operation: _.trim(row.operation),
+				closure: _.trim(row.closure),
+				reclamation: _.trim(row.reclamation),
+				monitoring: _.trim(row.monitoring)
 			};
 			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 			return obj;
@@ -187,11 +212,11 @@ var importProjects = function(opts, data, startRow) {
 					});
 				}
 				if (!_.isEmpty(row.memId)) {
-					obj.externalIDs.push({ source: 'Import', type: 'MEM_ID', referenceID: row.memId });
+					obj.externalIDs.push({ source: 'IMPORT', type: 'MEM_ID', referenceID: row.memId });
 				}
 
 				if (!_.isEmpty(row.epicId)) {
-					obj.externalIDs.push({ source: 'Import', type: 'EPIC_ID', referenceID: row.epicId });
+					obj.externalIDs.push({ source: 'IMPORT', type: 'EPIC_ID', referenceID: row.epicId });
 				}
 				obj.externalIDs = [];
 				obj.externalIDs = externalIDs;
@@ -280,18 +305,39 @@ var importProjects = function(opts, data, startRow) {
 				}
 			});
 
-			var importProject = function(row) {
+			var cleanUp = function () {
+				if (purge) {
+					return new Promise(function (rs, rj) {
+						Project.remove({}, function(err, result) {
+								if (err) {
+									console.log('Project cleanup error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									console.log('Project cleanup: ', JSON.stringify(result));
+									rs();
+								}
+							}
+						);
+					});
+				} else {
+					console.log('Project cleanup not requested');
+					return Promise.resolve();
+				}
+			};
+
+			var importData = function(row) {
 				return new Promise(function(rs, rj) {
-					Project.findOne ({name: row.name}, function (err, result) {
+					Project.findOne ({ name: {$regex: row.name, $options: "i"} }, function (err, result) {
 						if (err) {
 							rj(err);
 						}
 						if (result === null) {
 							var p = new Project();
 							setValues(p, row);
-							console.log("creating:", row.name);
+							console.log("Project create: ", row.name);
 							ProjCtrl.create(p).then(rs, rj);
 						} else {
+							console.log("Project update: ", row.name);
 							setValues(result, row);
 							result.save().then(rs, rj);
 						}
@@ -299,11 +345,11 @@ var importProjects = function(opts, data, startRow) {
 				});
 			};
 
-			Promise.resolve ()
+			cleanUp()
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							return importProject(item);
+							return importData(item);
 						});
 					}, Promise.resolve());
 				})
@@ -312,7 +358,7 @@ var importProjects = function(opts, data, startRow) {
 	});
 };
 
-var importDetails = function(opts, data, startRow) {
+var importDetails = function(opts, data, startRow, purge) {
 	var ProjCtrl = new ProjectController(opts);
 
 	return new Promise(function(resolve, reject) {
@@ -322,11 +368,11 @@ var importDetails = function(opts, data, startRow) {
 		var rowParser = function(row) {
 			//console.log('row = ', row);
 			var obj = {
-				name: row.name,
-				title: row.title,
-				link: row.link,
-				introText: row.introText,
-				introHtml: row.introHtml
+				name: _.trim(row.name),
+				title: _.trim(row.title),
+				link: _.trim(row.link),
+				introText: _.trim(row.introText),
+				introHtml: _.trim(row.introHtml)
 			};
 			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 			return obj;
@@ -374,7 +420,7 @@ var importDetails = function(opts, data, startRow) {
 								links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'DETAILS', title: _.trim(title), link: _.trim(link)});
 							});
 						} else {
-							console.log('Titles and Links do not pair up. ', row.name);
+							console.log('Project (' + row.name + ') DETAILS external links.  Titles (' + _.size(titles) + ') and Links (' + _.size(hrefs) + ') do not pair up.');
 						}
 
 					}
@@ -405,17 +451,51 @@ var importDetails = function(opts, data, startRow) {
 				}
 			});
 
-			var importProject = function(row) {
+			var cleanUp = function () {
+				if (purge) {
+					return new Promise(function (rs, rj) {
+						Project.update({},
+							{
+								$pull: {
+									content: {
+										source: 'IMPORT', type: 'INTRO_TEXT', page: 'DETAILS', title: 'Introduction'
+									},
+									externalLinks: {
+										source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'DETAILS'
+									}
+								}
+
+							},
+							{multi: true},
+							function (err, result) {
+								if (err) {
+									console.log('Project DETAILS cleanup error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									console.log('Project DETAILS cleanup: ', JSON.stringify(result));
+									rs();
+								}
+							}
+						);
+					});
+				} else {
+					console.log('Project DETAILS cleanup not requested');
+					return Promise.resolve();
+				}
+			};
+
+			var importData = function(row) {
 				return new Promise(function(rs, rj) {
 
-					Project.findOne ({name: row.name}, function (err, result) {
+					Project.findOne ({ name: {$regex: row.name, $options: "i"} }, function (err, result) {
 						if (err) {
 							rj(err);
 						}
 						if (result === null) {
-							console.log("Could not find project to update details: ", row.name);
+							console.log("Project DETAILS update, project not found: ", row.name);
 							rs();
 						} else {
+							console.log("Project DETAILS update: ", row.name);
 							setValues(result, row);
 							result.save().then(rs, rj);
 						}
@@ -423,11 +503,11 @@ var importDetails = function(opts, data, startRow) {
 				});
 			};
 
-			Promise.resolve ()
+			cleanUp()
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							return importProject(item);
+							return importData(item);
 						});
 					}, Promise.resolve());
 				})
@@ -436,7 +516,7 @@ var importDetails = function(opts, data, startRow) {
 	});
 };
 
-var importCompliance = function(opts, data, startRow) {
+var importCompliance = function(opts, data, startRow, purge) {
 	var ProjCtrl = new ProjectController(opts);
 
 	return new Promise(function(resolve, reject) {
@@ -446,11 +526,11 @@ var importCompliance = function(opts, data, startRow) {
 		var rowParser = function(row) {
 			//console.log('row = ', row);
 			var obj = {
-				name: row.name,
-				title: row.title,
-				link: row.link,
-				introText: row.introText,
-				introHtml: row.introHtml
+				name: _.trim(row.name),
+				title: _.trim(row.title),
+				link: _.trim(row.link),
+				introText: _.trim(row.introText),
+				introHtml: _.trim(row.introHtml)
 			};
 			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 			return obj;
@@ -498,7 +578,7 @@ var importCompliance = function(opts, data, startRow) {
 								links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'COMPLIANCE', title: _.trim(title), link: _.trim(link)});
 							});
 						} else {
-							console.log('Titles and Links do not pair up. ', row.name);
+							console.log('Project (' + row.name + ') COMPLIANCE external links.  Titles (' + _.size(titles) + ') and Links (' + _.size(hrefs) + ') do not pair up.');
 						}
 					}
 					obj.externalLinks = [];
@@ -528,17 +608,51 @@ var importCompliance = function(opts, data, startRow) {
 				}
 			});
 
-			var importProject = function(row) {
+			var cleanUp = function () {
+				if (purge) {
+					return new Promise(function (rs, rj) {
+						Project.update({},
+							{
+								$pull: {
+									content: {
+										source: 'IMPORT', type: 'INTRO_TEXT', page: 'COMPLIANCE', title: 'Introduction'
+									},
+									externalLinks: {
+										source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'COMPLIANCE'
+									}
+								}
+
+							},
+							{multi: true},
+							function (err, result) {
+								if (err) {
+									console.log('Project COMPLIANCE cleanup error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									console.log('Project COMPLIANCE cleanup: ', JSON.stringify(result));
+									rs();
+								}
+							}
+						);
+					});
+				} else {
+					console.log('Project COMPLIANCE cleanup not requested');
+					return Promise.resolve();
+				}
+			};
+
+			var importData = function(row) {
 				return new Promise(function(rs, rj) {
 
-					Project.findOne ({name: row.name}, function (err, result) {
+					Project.findOne ({ name: {$regex: row.name, $options: "i"} }, function (err, result) {
 						if (err) {
 							rj(err);
 						}
 						if (result === null) {
-							console.log("Could not find project to update details: ", row.name);
+							console.log("Project COMPLIANCE update, project not found: ", row.name);
 							rs();
 						} else {
+							console.log("Project COMPLIANCE update: ", row.name);
 							setValues(result, row);
 							result.save().then(rs, rj);
 						}
@@ -546,11 +660,11 @@ var importCompliance = function(opts, data, startRow) {
 				});
 			};
 
-			Promise.resolve ()
+			cleanUp()
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							return importProject(item);
+							return importData(item);
 						});
 					}, Promise.resolve());
 				})
@@ -559,7 +673,7 @@ var importCompliance = function(opts, data, startRow) {
 	});
 };
 
-var importAuthorizations = function(opts, data, startRow) {
+var importAuthorizations = function(opts, data, startRow, purge) {
 	var ProjCtrl = new ProjectController(opts);
 
 	return new Promise(function(resolve, reject) {
@@ -569,11 +683,11 @@ var importAuthorizations = function(opts, data, startRow) {
 		var rowParser = function(row) {
 			//console.log('row = ', row);
 			var obj = {
-				name: row.name,
-				title: row.title,
-				link: row.link,
-				introText: row.introText,
-				introHtml: row.introHtml
+				name: _.trim(row.name),
+				title: _.trim(row.title),
+				link: _.trim(row.link),
+				introText: _.trim(row.introText),
+				introHtml: _.trim(row.introHtml)
 			};
 			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 			return obj;
@@ -621,7 +735,7 @@ var importAuthorizations = function(opts, data, startRow) {
 								links.push({ source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'AUTHORIZATION', title: _.trim(title), link: _.trim(link)});
 							});
 						} else {
-							console.log('Titles and Links do not pair up. ', row.name);
+							console.log('Project (' + row.name + ') AUTHORIZATION external links.  Titles (' + _.size(titles) + ') and Links (' + _.size(hrefs) + ') do not pair up.');
 						}
 					}
 					obj.externalLinks = [];
@@ -651,17 +765,51 @@ var importAuthorizations = function(opts, data, startRow) {
 				}
 			});
 
-			var importProject = function(row) {
+			var cleanUp = function () {
+				if (purge) {
+					return new Promise(function (rs, rj) {
+						Project.update({},
+							{
+								$pull: {
+									content: {
+										source: 'IMPORT', type: 'INTRO_TEXT', page: 'AUTHORIZATION', title: 'Introduction'
+									},
+									externalLinks: {
+										source: 'IMPORT', type: 'EXTERNAL_LINK', page: 'AUTHORIZATION'
+									}
+								}
+
+							},
+							{multi: true},
+							function (err, result) {
+								if (err) {
+									console.log('Project AUTHORIZATION cleanup error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									console.log('Project AUTHORIZATION cleanup: ', JSON.stringify(result));
+									rs();
+								}
+							}
+						);
+					});
+				} else {
+					console.log('Project AUTHORIZATION cleanup not requested');
+					return Promise.resolve();
+				}
+			};
+
+			var importData = function(row) {
 				return new Promise(function(rs, rj) {
 
-					Project.findOne ({name: row.name}, function (err, result) {
+					Project.findOne ({ name: {$regex: row.name, $options: "i"} }, function (err, result) {
 						if (err) {
 							rj(err);
 						}
 						if (result === null) {
-							console.log("Could not find project to update details: ", row.name);
+							console.log("Project AUTHORIZATION update, project not found: ", row.name);
 							rs();
 						} else {
+							console.log("Project AUTHORIZATION update: ", row.name);
 							setValues(result, row);
 							result.save().then(rs, rj);
 						}
@@ -669,11 +817,11 @@ var importAuthorizations = function(opts, data, startRow) {
 				});
 			};
 
-			Promise.resolve ()
+			cleanUp()
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							return importProject(item);
+							return importData(item);
 						});
 					}, Promise.resolve());
 				})
@@ -682,7 +830,7 @@ var importAuthorizations = function(opts, data, startRow) {
 	});
 };
 
-var importMinesList = function(opts, data, startRow) {
+var importMinesList = function(opts, data, startRow, purge) {
 	var ProjCtrl = new ProjectController(opts);
 
 	return new Promise(function(resolve, reject) {
@@ -692,9 +840,9 @@ var importMinesList = function(opts, data, startRow) {
 		var rowParser = function(row) {
 			//console.log('row = ', row);
 			var obj = {
-				name: row.name,
-				introText: row.introText,
-				introHtml: row.introHtml
+				name: _.trim(row.name),
+				introText: _.trim(row.introText),
+				introHtml: _.trim(row.introHtml)
 			};
 			//console.log('v1: obj = ', JSON.stringify(obj, null, 4));
 			return obj;
@@ -716,7 +864,7 @@ var importMinesList = function(opts, data, startRow) {
 							content.push({ source: o.source, type: o.type, page: o.page, title: o.title, text: o.text, html: o.html});
 						}
 					});
-					content.push({ source: 'Import', type: 'OVERVIEW_INTRO_TEXT', page: 'MINES', title: 'Introduction', text: row.introText, html: _.isEmpty(row.introHtml) ? row.introText : row.introHtml});
+					content.push({ source: 'IMPORT', type: 'OVERVIEW_INTRO_TEXT', page: 'MINES', title: 'Introduction', text: row.introText, html: _.isEmpty(row.introHtml) ? row.introText : row.introHtml});
 					obj.content = [];
 					obj.content = content;
 					obj.markModified('content');
@@ -744,19 +892,50 @@ var importMinesList = function(opts, data, startRow) {
 				}
 			});
 
-			var importProject = function(row) {
-				return new Promise(function(rs, rj) {
-					var p = new Project();
-					setValues(p, row);
+			var cleanUp = function () {
+				if (purge) {
+					return new Promise(function (rs, rj) {
+						Project.update({},
+							{
+								$pull: {
+									content: {
+										source: 'IMPORT',
+										type: 'OVERVIEW_INTRO_TEXT',
+										page: 'MINES',
+										title: 'Introduction'
+									}
+								}
+							},
+							{multi: true},
+							function (err, result) {
+								if (err) {
+									console.log('Project MINES cleanup error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									console.log('Project MINES cleanup: ', JSON.stringify(result));
+									rs();
+								}
+							}
+						);
+					});
+				} else {
+					console.log('Project MINES cleanup not requested');
+					return Promise.resolve();
+				}
+			};
 
-					Project.findOne ({name: p.name}, function (err, result) {
+			var importData = function(row) {
+				return new Promise(function(rs, rj) {
+
+					Project.findOne ({ name: {$regex: row.name, $options: "i"} }, function (err, result) {
 						if (err) {
 							rj(err);
 						}
 						if (result === null) {
-							console.log("Could not find project to update details: ", p.name);
+							console.log("Project MINES update, project not found: ", row.name);
 							rs();
 						} else {
+							console.log("Project MINES update: ", row.name);
 							setValues(result, row);
 							result.save().then(rs, rj);
 						}
@@ -764,11 +943,11 @@ var importMinesList = function(opts, data, startRow) {
 				});
 			};
 
-			Promise.resolve ()
+			cleanUp()
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
-							return importProject(item);
+							return importData(item);
 						});
 					}, Promise.resolve());
 				})
@@ -777,7 +956,7 @@ var importMinesList = function(opts, data, startRow) {
 	});
 };
 
-var importOtherDocuments = function(opts, data, startRow) {
+var importOtherDocuments = function(opts, data, startRow, purge) {
 	var ProjCtrl = new ProjectController(opts);
 	var OrgCtrl = new OrganizationController(opts);
 	var OdCtrl = new OtherDocumentsController(opts);
@@ -787,21 +966,17 @@ var importOtherDocuments = function(opts, data, startRow) {
 		var columnNames = ['agency', 'name', 'title', 'documentType', 'date', 'filename', 'link'];
 
 		var rowParser = function(row) {
-			var result = [];
-			_.each(_.split(row.agency, ","), function(a) {
-				var obj = {
-					name: row.name,
-					agency: _.trim(a),
-					title: row.title,
-					link: row.link,
-					filename: row.filename,
-					documentType: row.documentType,
-					date: row.date
+			var obj = {
+					name: _.trim(row.name),
+					agency: _.map(_.split(row.agency, ","), function(a) { return _.trim(a); }),
+					title: _.trim(row.title),
+					link: _.trim(row.link),
+					filename: _.trim(row.filename),
+					documentType: _.trim(row.documentType),
+					date: _.trim(row.date)
 				};
-				console.log('row to obj = ', JSON.stringify(obj, null, 4));
-				result.push(obj);
-			});
-			return result;
+				//console.log('row to obj = ', JSON.stringify(obj, null, 4));
+			return obj;
 		};
 
 		var setValues = function(obj, row) {
@@ -814,12 +989,18 @@ var importOtherDocuments = function(opts, data, startRow) {
 
 				// row name is for project
 				// row agency is for agency
-				obj.source = 'Import';
+				obj.source = 'IMPORT';
 				obj.title = row.title;
 				obj.link = row.link;
 				obj.documentType = row.documentType;
 				obj.filename = row.filename;
-				obj.date = getDate(row.date);
+				var d = getDate(row.date);
+				if (!d ||isNaN(d)) {
+					console.log('Project Other Documents Invalid date (' + row.date + ') error: ', JSON.stringify(obj));
+					obj.date = new Date();
+				} else {
+					obj.date = d;
+				}
 				//console.log('setValues obj = ', JSON.stringify(obj, null, 4));
 			}
 		};
@@ -838,50 +1019,70 @@ var importOtherDocuments = function(opts, data, startRow) {
 				// ???
 				if (index >= firstRow) {
 					var row = output[key];
-					var parsed = rowParser(row);
-					_.each(parsed, function(o) {
-						promises.push(o);
-					});
+					promises.push(rowParser(row));
 				}
 			});
 
+			var cleanUp = function() {
+				if (purge) {
+					return new Promise(function(rs, rj) {
+						OtherDocument.remove({}, function(err, result) {
+								if (err) {
+									console.log('Project Other Documents cleanup error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									console.log('Project Other Documents cleanup: ', JSON.stringify(result));
+									rs();
+								}
+							}
+						);
+					});
+				} else {
+					console.log('Project Other Documents cleanup not requested');
+					return Promise.resolve();
+				}
+			};
+
 			var importData = function(row) {
-				var project, agency, doc;
+				var project, agencies, doc;
 
 				return new Promise(function(rs, rj) {
-					ProjCtrl.findOne({name: row.name})
+					ProjCtrl.findOne({ name: {$regex: row.name, $options: "i"} })
 						.then(function(res) {
 							if (res) {
 								project = res;
-								return OrgCtrl.findOne({ $or:[ {'name': row.agency}, {'orgCode': row.agency} ]});
+								return OrgCtrl.list({ 'orgCode': {$in: row.agency } });
 							} else {
-								console.log('Could not find project for other document.  ', row.name);
+								console.log('Project Other Documents, project not found: ', row.name);
 								rs();
 							}
 						})
 						.then(function(res) {
 							if (res) {
-								agency = res;
-								var q = {project: project, agency: agency, link: row.link};
+								agencies = res;
+								var q = {project: project, link: {$regex: row.link, $options: "i"} };
 								return OdCtrl.findOne(q);
 							} else {
-								console.log('Could not find agency for other document.  ', row.agency);
+								console.log('Project Other Documents, agencies not found: ', row.agency);
 								rs();
 							}
 						})
 						.then(function(res) {
 							if (!res) {
+								console.log('Project (' + row.name + ') Other Documents creating: ', row.link);
 								res = new OtherDocument();
+							} else {
+								console.log('Project (' + row.name + ') Other Documents updating: ', row.link);
 							}
 							setValues(res, row);
 							res.project = project;
-							res.agency = agency;
+							res.agencies = agencies;
 							res.save().then(rs, rj);
 						});
 				});
 			};
 
-			Promise.resolve ()
+			cleanUp()
 				.then (function () {
 					return promises.reduce (function (current, item) {
 						return current.then (function () {
@@ -895,6 +1096,8 @@ var importOtherDocuments = function(opts, data, startRow) {
 
 
 module.exports = function(file, req, res, opts) {
+	//console.log(JSON.stringify(req.headers));
+	var purge = 'true' === req.headers.purge;
 	return new Promise (function (resolve, reject) {
 		// Now parse and go through this thing.
 		fs.readFile(file.path, 'utf8', function(err, data) {
@@ -959,7 +1162,7 @@ module.exports = function(file, req, res, opts) {
 				return;
 			}
 
-			resolve(importer(opts, data, startRow));
+			resolve(importer(opts, data, startRow, purge));
 
 		});
 	});

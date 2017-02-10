@@ -1,12 +1,23 @@
 <div class="map-container" id='legend'>
+    
+    <div class="map-header-container">
+        <div class="map-header clearfix">
+            <div class="brand-container float-left">
+                <a class="brand" href="#" ng-click="toggleMapActive()"></a>
+            </div>
+            <button class="btn close-btn float-right" ng-click="toggleMapActive()"><i class="material-icons">close</i></button>
+        </div>
+        <div class="action-bar">
+            Mines Found: {{ projects.length }}
+        </div>
+    </div>
 
     <ui-gmap-google-map id='projects-map'
         center='map.center'
         control='control'
         zoom='map.zoom'
-        refresh='1'
+        refresh='1',
         options='map.options'>
-
         <ui-gmap-window
             show="map.window.show"
             coords="map.window.model"
@@ -21,7 +32,6 @@
             models="projects"
             idKey="'_id'"
             coords="'self'"
-            type="'cluster'"
             clusterOptions="map.clusterOptions"
             events="map.markersEvents">
         </ui-gmap-marker>
@@ -33,14 +43,5 @@
         </ui-gmap-layer>
 
     </ui-gmap-google-map>
-    <div class="row map-filter hidden">
-        <div class="col-sm-12">
-            <div class="form-inline">
-                <div class="form-group form-group-sm">
-                    <span class="form-control-static">Projects Found: {{ projects.length }}</span><br>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </div>

@@ -18,8 +18,40 @@
             color: #003366;
         }
     }
+
+    i {
+        vertical-align: middle;
+
+        + span {
+            vertical-align: middle;
+        }
+
+    }
+
+    &.btn-default {
+        border: 2px solid #1a5a96;
+        color: #1a5a96;
+    }
+
+    &.btn-sm {
+        font-weight: 700;
+
+        i {
+            margin-top: -0.1rem;
+            margin-right: 0.1rem;
+        }
+    }
 }
 
+// Main Button
+main {
+    .btn-default {
+        padding: 0.4rem;
+    }
+}
+
+
+// Slide Buttons
 .slide-r-btn,
 .slide-l-btn {
     padding-right: 0.5rem;
@@ -28,7 +60,6 @@
     transition: all ease-out 0.2s;
 
     i, span {
-        vertical-align: middle;
         transition: all ease-out 0.2s; 
     }
 
@@ -89,19 +120,13 @@
     }
 }
 
-
-main {
-    .btn {
-        padding: 0.4rem;
-    }
-}
-
+// Content Buttons
 .content-btns {
     margin-top: 3rem;
 }
 
 .content-btn {
-    padding: 0.25rem 0.75rem;
+    padding: 0.4rem 0.75rem;
     border: 2px solid #1a5a96;
     background: transparent;
     color: #1a5a96;
@@ -113,10 +138,4 @@ main {
         border-color: $gold;
         background: $gold;
     }
-}
-
-.hero-btn {
-    padding: 0.65rem 1rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
 }

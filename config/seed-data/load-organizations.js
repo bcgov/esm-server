@@ -7,6 +7,11 @@ var _ = require('lodash');
 
 
 module.exports = function () {
+	console.log("This module has been replaced by load-worker.  Once fully tested we'll delete this module.");
+	return Promise.resolve();
+};
+
+function obsolete() {
 	var allPromises = [];
 	_.each(items, function (item) {
 		var p = new Promise(function(resolve, reject) {
@@ -17,4 +22,4 @@ module.exports = function () {
 		allPromises.push(p);
 	});
 	return Promise.all(allPromises);
-};
+}
