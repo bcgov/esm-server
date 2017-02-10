@@ -47,8 +47,6 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 			// 		show: false,
 			// 		_id: 654654
 			// 	});
-			$scope.projects = [];
-			$scope.projects.push(p);
 			uiGmapIsReady.promise().then(function (maps) {
 				var gMap = $scope.control.getGMap();
 				gMap.setZoom(9);
@@ -74,6 +72,9 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 				// var body = angular.element(document.querySelector('#legend'));
 				// body.append(controlUI)
 			});
+			return ProjectModel.all();
+		}).then(function (ps) {
+			$scope.projects = ps;
 			$scope.$apply();
 		});
 	} else {
