@@ -25,30 +25,31 @@ ul.sa-list {
 
         .sa-name {
             @include flex(1 1 auto);
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 1rem;
         }
 
         .sa-status {
             @include flex(0 0 auto);
-            padding: 0.5rem;
-            width: 5rem;
-            font-size: 0.75rem;
+            padding: 0.4rem;
+            width: 6.5rem;
+            font-size: 0.85rem;
+            font-weight: 700;
             text-align: center;
             text-transform: uppercase;
         }
 
-        &.complete {
+        &.active {
             .sa-name {
-                background:rgba(#96c0e6, 0.5); 
+                background: rgba(#5091cd, 0.4);
             }
 
             .sa-status {
-                background: #96c0e6;
+                background: #5091cd;
                 color: #FFF;
             }
         }
 
-        &.active {
+        &.complete {
             .sa-name {
                 background: rgba(#66cc66, 0.5);
             }
@@ -60,8 +61,50 @@ ul.sa-list {
         }
 
         &.inactive {
+            .sa-name {
+                background: #CCC;
+            }
+
+            .sa-status {
+                background: #AAA;
+                color: #FFF;
+            }
+        }
+
+        &.pending {
+            .sa-name {
+                background:rgba(#96c0e6, 0.5); 
+            }
+
+            .sa-status {
+                background: #96c0e6;
+                color: #FFF;
+            }
+        }
+
+        &.na {
+            .sa-name,
+            .sa-status {
+                color: #AAA;
+            }
+
+            .sa-name {
+                background: #EEE;
+            }
+
             .sa-status {
                 background: #DDD;
+            }
+        }
+
+        &.suspended {
+            .sa-name {
+                background: #EEE;
+            }
+
+            .sa-status {
+                background: #DDD;
+                color: #AAA;
             }
         }
     }
