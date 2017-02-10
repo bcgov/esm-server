@@ -790,7 +790,8 @@ angular.module('core')
 		restrict: 'A',
 		scope: {
 			context: '=',
-			current: '='
+			current: '=',
+			public: '='
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
@@ -809,11 +810,19 @@ angular.module('core')
 						// don't do live updates to the target...
 						s.selected = angular.copy(scope.current);
 
-						s.allRoles = allRoles;
-						var index = allRoles.reduce(function (prev, next) {
+						var nonPublicRoles = allRoles;
+						if (!scope.public) {
+							nonPublicRoles = _.without(allRoles, 'public');
+						}
+						// alpha sort the roles list...
+						var sortedRoles = _.sortBy(nonPublicRoles, function(r) { return r.toLowerCase(); });
+						s.allRoles = sortedRoles;
+
+						var index = s.allRoles.reduce(function (prev, next) {
 							prev[next] = next;
 							return prev;
 						}, {});
+
 						s.cancel = function () {
 							$modalInstance.dismiss('cancel');
 						};
