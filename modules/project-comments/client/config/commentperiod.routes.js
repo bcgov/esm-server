@@ -107,8 +107,8 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel, _) {
-			createEditCommonSetup($timeout, $scope, _, period, project);
+		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel, _, moment) {
+			createEditCommonSetup($timeout, $scope, _, moment, period, project);
 
 			$scope.hasErrors = false;
 			//$scope.errorMessage = '';
@@ -122,6 +122,8 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					
 					period.phase = project.currentPhase;
 					period.phaseName = project.currentPhase.name;
+
+					$scope.instructionsSubstitution();
 
 					CommentPeriodModel.add($scope.period)
 					.then(function (model) {
@@ -164,12 +166,12 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state, period, project, CommentPeriodModel, CommentModel, _) {
+		controller: function ($timeout, $scope, $state, period, project, CommentPeriodModel, CommentModel, _, moment) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
-			createEditCommonSetup($timeout, $scope, _, period, project);
+			createEditCommonSetup($timeout, $scope, _, moment, period, project);
 
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
@@ -179,6 +181,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					$scope.hasErrors = true;
 					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
 				} else {
+					$scope.instructionsSubstitution();
 					CommentPeriodModel.save($scope.period)
 					.then(function (model) {
 						// console.log ('period was saved',model);
@@ -302,7 +305,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 
 	;
 
-	function createEditCommonSetup($timeout, $scope, _, period, project) {
+	function createEditCommonSetup($timeout, $scope, _, moment, period, project) {
 		$scope.period = period;
 		$scope.project = project;
 		$scope.changeType = function () {
@@ -312,6 +315,46 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				period.commenterRoles = [];
 			}
 		};
+
+		//ESM-813 - generic instructions text...
+		// we will analyze on save and substitute...
+		if (_.isEmpty(period.instructions)) {
+			period.instructions = "The public comment period regarding the Proponent's %DOCUMENT_TYPES% for the proposed %PROJECT_NAME% Project is open from %DATE_RANGE%.";
+		}
+
+		$scope.instructionsSubstitution = function () {
+			// check to see if we can make substitutions to the instructions...
+			var PERIOD_TYPE = '%PERIOD_TYPE%';
+			var PROJECT_NAME = '%PROJECT_NAME%';
+			var DOCUMENT_TYPES = '%DOCUMENT_TYPES%';
+			var DATE_RANGE = '%DATE_RANGE%';
+
+			if (!_.isEmpty(period.periodType)) {
+				PERIOD_TYPE = period.periodType;
+			}
+			if (!_.isEmpty(project.name)) {
+				PROJECT_NAME = project.name;
+			}
+
+			var doctypes = _.map(_.filter(period.relatedDocuments, function(d) { return !_.isEmpty(d.documentType); }), function(r) { return r.documentType; });
+			doctypes = _.uniq(doctypes);
+			if (_.size(doctypes) > 0) {
+				DOCUMENT_TYPES = doctypes.join(", ");
+				if (_.size(doctypes) > 1) {
+					DOCUMENT_TYPES = DOCUMENT_TYPES + ' documents';
+				}
+			}
+
+			if (period.dateStarted && period.dateCompleted) {
+				DATE_RANGE = moment(period.dateStarted).format("MMMM Do YYYY") + ' to ' + moment(period.dateCompleted).format("MMMM Do YYYY");
+			}
+
+			period.instructions = period.instructions.replace('%PERIOD_TYPE%', PERIOD_TYPE);
+			period.instructions = period.instructions.replace('%PROJECT_NAME%', PROJECT_NAME);
+			period.instructions = period.instructions.replace('%DOCUMENT_TYPES%', DOCUMENT_TYPES);
+			period.instructions = period.instructions.replace('%DATE_RANGE%', DATE_RANGE);
+		};
+
 		_.each($scope.period.relatedDocuments, function(d) {
 			if (_.isEmpty(d.displayName)) {
 				d.displayName = d.documentFileName || d.internalOriginalName;
