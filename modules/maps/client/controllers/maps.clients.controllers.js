@@ -28,7 +28,6 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 		window.history.back();
 	};
 
-
 	var lat = 54.726668;
 	var lng = -127.647621;
 	if ($stateParams.project) {
@@ -40,6 +39,7 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 			// Show the marker automatically
 			$scope.map.window.model = p;
 			$scope.map.window.show = true;
+			$scope.map.window.options.pixelOffset = new window.google.maps.Size(0, -35, 'px', 'px');
 			// TODO: Add layers when they arrive from biz.
 			// $scope.KMLLayers.push(
 			// 	{	url: "https://example.com/fetch",
@@ -81,6 +81,7 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 	} else {
 		ProjectModel.all()
 		.then(function (p) {
+			$scope.map.window.options.pixelOffset = new window.google.maps.Size(0, -35, 'px', 'px');
 			// console.log("projects:", p);
 			$scope.projects = p;
 			$scope.$apply();
