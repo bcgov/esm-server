@@ -4,7 +4,7 @@
 // comment period routes
 //
 // =========================================================================
-angular.module('comment').config(['$stateProvider', function ($stateProvider) {
+angular.module('comment').config(['$stateProvider', 'moment', function ($stateProvider, moment) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -48,7 +48,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.forProjectWithStats (project._id);
 			}
 		},
-		controller: function ($scope, $state, NgTableParams, periods, project, _, moment, CommentPeriodModel, AlertService) {
+		controller: function ($scope, $state, NgTableParams, periods, project, _, CommentPeriodModel, AlertService) {
 			var s = this;
 			//console.log ('periods = ', periods);
 			var ps = _.map(periods, function(p) {
@@ -108,7 +108,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 			}
 		},
 		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel, _) {
-			createEditCommonSetup($timeout, $scope, _, period, project);
+			createEditCommonSetup($timeout, $scope, _,  period, project);
 
 			$scope.hasErrors = false;
 			//$scope.errorMessage = '';
@@ -164,12 +164,12 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state, period, project, CommentPeriodModel, CommentModel, _) {
+		controller: function ($timeout, $scope, $state,  period, project, CommentPeriodModel, CommentModel, _) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
-			createEditCommonSetup($timeout, $scope, _, period, project);
+			createEditCommonSetup($timeout, $scope, _,  period, project);
 
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
@@ -410,73 +410,131 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		}
 	}
 
+	/*
+	 * For both create and edit setup the period and UI elements
+	 */
 	function setupPeriodOptions($scope, _) {
-
-		$scope.pTypes = [
+		// from the model
+		// rangeType        : { type:String, default:null, enum:['start', 'end', 'custom']},
+		// rangeOption      : { type:String, default:null, enum:['30', '45', '60', '75', 'custom']},
+		var period = $scope.period;
+		var rangeTypes = [
 			{displayName: "Start Day", value: "start"},
 			{displayName: "End Day", value: "end"},
 			{displayName: "Custom", value: "custom"}
 		];
-		$scope.pType = $scope.pTypes[0];
-		$scope.typeChange = function () {
-			typeChange($scope, _);
-		};
-
-		$scope.pOptions = [
+		var rangeOptions = [
 			{displayName: "30 days", value: "30"},
 			{displayName: "45 days", value: "45"},
 			{displayName: "60 days", value: "60"},
-			{displayName: "75 days", value: "75"}
+			{displayName: "75 days", value: "75"},
+			{displayName: "", value: "custom"}
 		];
-		$scope.pOption = $scope.pOptions[0];
+		$scope.rangeTypes = rangeTypes;
+		$scope.rangeOptions = rangeOptions;
+		$scope.typeChange = function () {
+			typeChange($scope, _);
+		};
 		$scope.periodChange = function () {
 			periodChange($scope, _);
 		};
+
+		// if new or old instance of period prior to adding range
+		if (!period.rangeType || !period.rangeOption) {
+			period.rangeType = 'custom';
+			period.rangeOption = 'custom';
+			//console.log("defaulting on type and range ");
+		}
+
+		if(!period.dateStarted) {
+			period.dateStarted = moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0}).toDate();
+		}
+		if(!period.dateCompleted) {
+			period.dateCompleted = moment().set({'hour':23, 'minute':59, 'second': 0, 'millisecond': 0}).toDate();
+		}
+
+		// UI elements .. set to match model values
+		$scope.rType = _.find(rangeTypes, function(t) { return t.value === period.rangeType; });
+		$scope.rOption = _.find(rangeOptions, function(o) { return o.value === period.rangeOption; });
 	}
 
+	/**
+	 * UI allows user to set the end date based on start date, or the reverse, or custom start-to-end.
+	 * This handler enables UI controls based on the selected type and fires the periodChange handler.
+	 */
 	function typeChange($scope, _) {
-		var type = $scope.pType.value;
+		// get value from UI
+		var type = $scope.rType.value;
+		var period = $scope.period;
+		// store UI set value into model
+		period.rangeType = type;
+
+		var defaultOption = $scope.rangeOptions[0]; // 30 days
+		var customOption = $scope.rangeOptions[4];
+
 		$scope.endPickerEnabled = true;
 		$scope.startPickerEnabled = true;
 		$scope.rangePickerEnabled = true;
 		switch (type) {
 			case 'start':
 				$scope.endPickerEnabled = false;
+				$scope.rOption = defaultOption;
 				break;
 			case 'end':
 				$scope.startPickerEnabled = false;
+				$scope.rOption = defaultOption;
 				break;
 			case 'custom':
 				$scope.rangePickerEnabled = false;
+				$scope.rOption = customOption;
 		}
 		periodChange($scope, _);
 	}
 
+	/**
+	 * Recompute the start / end dates based on UI changes
+	 *
+	 */
 	function periodChange($scope, _) {
-		var type = $scope.pType.value;
+		// get value from UI
+		var rOption = $scope.rOption.value;
+		// store UI set value into model
 		var period = $scope.period;
-		var numberOfDaysToAdd = 1 * $scope.pOption.value; // convert to number
-		numberOfDaysToAdd--; // decrease by one. The start and end dates are part of the period
+		period.rangeOption = rOption;
+
+		var type = period.rangeType;
+
+		// add X number of days based on (a) but preserve the time in the original (b)
+		function computeDate(a, b, numberOfDaysToAdd) {
+			if (!a)
+				return undefined;
+			var savedTime;
+			if (b) {
+				var mb = moment(b);
+				savedTime = {hour: mb.hour(), minute: mb.minute(), second: mb.second()};
+			}
+			var ms = moment(a);
+			ms.add(numberOfDaysToAdd, 'days');
+			if (savedTime) {
+				ms.hour(savedTime.hour).minute(savedTime.minute).second(savedTime.second);
+			}
+			return ms.toDate();
+		}
+
+		var numberOfDaysToAdd;
 		switch (type) {
 			case 'start':
 				// derive the end date based on start date and number of days
-				if (period.dateStarted) {
-					var sDate = new Date(period.dateStarted);
-					sDate.setDate(sDate.getDate() + numberOfDaysToAdd);
-					period.dateCompleted = sDate;
-				} else {
-					period.dateCompleted = undefined;
-				}
+				// Convert to number. Period includes start and end date subtract one
+				period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, ( 1 * (rOption - 1)));
+				//console.log("start periodChange ", period);
 				break;
 			case 'end':
-				// derive the start date based on end date and subtract number of days
-				if (period.dateCompleted) {
-					var eDate = new Date(period.dateCompleted);
-					eDate.setDate(eDate.getDate() - numberOfDaysToAdd);
-					period.dateStarted = eDate;
-				} else {
-					period.dateStarted = undefined;
-				}
+				// derive the end date based on start date and number of days
+				// Convert to number. Period includes start and end date subtract one
+				numberOfDaysToAdd = -1 * (rOption - 1);
+				period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, ( -1 * (rOption - 1)));
+				//console.log("end periodChange ", period);
 				break;
 			case 'custom':
 			// no op

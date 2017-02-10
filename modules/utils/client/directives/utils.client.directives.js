@@ -825,10 +825,19 @@ function directiveModalDatePicker($modal, $rootScope, $timeout) {
         restrict:'A',
         scope: {
         	selectedDate: '=',
-        	title: '@'
+        	title: '@',
+        	pickerEnabled: '='
         },
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
+				/*
+				Setting ng-disabled on an element with the date picker modal does not disable the click
+				event. It only changes the cursor and ui to look disabled.  To control whether the date picker
+				is enabled use the x-picker-enabled attribute.
+				 */
+				if(!scope.pickerEnabled) {
+					return;
+				}
 				var modalAddComment = $modal.open({
 					animation: true,
 					templateUrl: 'modules/utils/client/views/partials/modal-date-picker.html',
