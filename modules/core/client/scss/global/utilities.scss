@@ -7,6 +7,12 @@
   }
 }
 
+@mixin list-reset() {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
 @mixin flex-box() {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -26,11 +32,7 @@
   flex-direction: $values;
 }
 
-// Selectors 
-.flex-row {
-  @include flex-box();
-  @include flex-direction(row)
-}
+
 
 // Icon Sizing 
 .material-icons.md-18 { font-size: 18px; }
@@ -42,4 +44,9 @@
 .wf-loading {
     display: none;
 }
+
+
+
+
+
 

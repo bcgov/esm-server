@@ -24,6 +24,9 @@
 @import "components/tab-nav.scss";
 
 // Pages
+@import "modules/authorizations/client/scss/project-authorizations.scss";
 @import "modules/home/client/scss/home.scss";
-@import "modules/projects/client/scss/projects.scss";
+@import "modules/inspections/client/scss/project-inspections.scss";
 @import "modules/maps/client/scss/map.scss";
+@import "modules/other-documents/client/scss/other-documents.scss";
+@import "modules/projects/client/scss/projects.scss";
