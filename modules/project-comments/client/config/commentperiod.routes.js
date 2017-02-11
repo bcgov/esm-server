@@ -305,7 +305,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 
 	;
 
-	function createEditCommonSetup($timeout, $scope, _, moment, period, project) {
+	function createEditCommonSetup($timeout, $scope, _, period, project) {
 		$scope.period = period;
 		$scope.project = project;
 		$scope.changeType = function () {
@@ -490,9 +490,11 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 		}
 
 		if(!period.dateStarted) {
+			// console.log("Creating start date",period.dateStarted,period);
 			period.dateStarted = moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0}).toDate();
 		}
 		if(!period.dateCompleted) {
+			// console.log("Creating end date",period.dateCompleted,period);
 			period.dateCompleted = moment().set({'hour':23, 'minute':59, 'second': 0, 'millisecond': 0}).toDate();
 		}
 
