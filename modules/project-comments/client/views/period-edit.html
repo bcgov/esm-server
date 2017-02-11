@@ -211,7 +211,8 @@
 				<a class="pull-right btn btn-link btn-xs" ng-if="period.periodType !== 'Public'"
 					x-role-chooser
 					x-context="project"
-					x-current="period.commenterRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.commenterRoles"
+				    x-public="true"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">
@@ -224,7 +225,8 @@
 				<a class="pull-right btn btn-link btn-xs"
 					x-role-chooser
 					x-context="project"
-					x-current="period.vettingRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.vettingRoles"
+				    x-public="false"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">
@@ -237,7 +239,8 @@
 				<a class=" pull-right btn btn-link btn-xs"
 					x-role-chooser
 					x-context="project"
-					x-current="period.classificationRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.classificationRoles"
+				    x-public="false"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">
