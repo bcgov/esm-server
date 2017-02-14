@@ -513,6 +513,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 		var type = $scope.rType.value;
 		var period = $scope.period;
 		// store UI set value into model
+		var isChanged = period.rangeType !== $scope.rType.value;
 		period.rangeType = type;
 
 		var defaultOption = $scope.rangeOptions[0]; // 30 days
@@ -524,15 +525,15 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 		switch (type) {
 			case 'start':
 				$scope.endPickerEnabled = false;
-				$scope.rOption = defaultOption;
+				if(isChanged) $scope.rOption = defaultOption;
 				break;
 			case 'end':
 				$scope.startPickerEnabled = false;
-				$scope.rOption = defaultOption;
+				if(isChanged) $scope.rOption = defaultOption;
 				break;
 			case 'custom':
 				$scope.rangePickerEnabled = false;
-				$scope.rOption = customOption;
+				if(isChanged) $scope.rOption = customOption;
 		}
 		periodChange($scope, _);
 	}
