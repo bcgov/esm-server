@@ -27,11 +27,11 @@ angular.module('project').config (
 				console.log("scope.project.longitude:", $scope.project.longitude);
 				var apiKey = "AIzaSyDrR25JJBP365DYGaT-y0pCd8_RZleJZG0";
 				// Static map generation
-				$scope.project.staticMap = "https://maps.googleapis.com/maps/api/staticmap?center=55.726668,-125.647621";
-				$scope.project.staticMap += "&markers=color:blue%7Clabel:";
-				$scope.project.staticMap += $scope.project.commodityType === "Metal" ? "M" : "C";
+				$scope.project.staticMap = "https://maps.googleapis.com/maps/api/staticmap?center=53.727,-125.6476";
+				$scope.project.staticMap += "&markers=color:red%7Clabel:";
+				//$scope.project.staticMap += $scope.project.commodityType === "Metal" ? "M" : "C";
 				$scope.project.staticMap += "%7C" + $scope.project.latitude + "," + $scope.project.longitude;
-				$scope.project.staticMap += "&zoom=4&size=300x200&maptype=map&key=" + apiKey;
+				$scope.project.staticMap += "&zoom=4&size=320x200&maptype=map&key=" + apiKey;
 
 				$scope.content = function(p, type, page) {
 					try {
