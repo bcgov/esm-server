@@ -500,7 +500,8 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 
 		// UI elements .. set to match model values
 		$scope.rType = _.find(rangeTypes, function(t) { return t.value === period.rangeType; });
-		$scope.rOption = _.find(rangeOptions, function(o) { return o.value === period.rangeOption; });
+		// note need to force conversion to number for === to work
+		$scope.rOption = _.find(rangeOptions, function(o) { return ((1 * o.value) === (1*period.rangeOption)); });
 	}
 
 	/**
