@@ -118,6 +118,10 @@
 								<span>Size</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
 							</div>
+							<div class="col size-col sortable last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')">
+								<span>Status</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
+							</div>
 						</div>
 					</div>
 					<ul>
@@ -137,6 +141,7 @@
 								</span>
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
+								<span class="col status-col"><span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span></span>
 								<span class="row-actions visible">
 									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
