@@ -65,6 +65,9 @@ angular.module('projects').config (
 					// sort ascending first...
 					$scope.sortedList = _.sortBy($scope.projects, function(p) {
 
+						var overviewIntroText =$scope.content(p, 'OVERVIEW_INTRO_TEXT', 'MINES');
+						_.extend(p, {overviewIntroText: overviewIntroText});
+
 						if ($scope.sorting.column === 'name') {
 							return _.isEmpty(p.name) ? null : p.name.toLowerCase();
 						} else if ($scope.sorting.column === 'operator') {

@@ -30,6 +30,25 @@ module.exports = DBModel.extend ({
 				})
 				.then (resolve, reject);
 		});
+	},
+
+	decorate: function(o) {
+		// didn't want to waste time figuring out how to get virtual schema functions to work in the
+		// schema controller mess.
+		// just putting this here to help on the map windows.
+		var parseContent = function(p, type, page) {
+			try {
+				var content = _.find(p.content, function(o) { return o.type === type && o.page === page; });
+				return content.html || content.text;
+			} catch(e) {
+				return '';
+			}
+		};
+
+		var overviewIntroText = parseContent(o, 'OVERVIEW_INTRO_TEXT', 'MINES');
+		o._doc.overviewIntroText = overviewIntroText;
+
+		return o;
 	}
 
 });
