@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Inspections",
-  "date": "2017-02-09T23:41:51.494Z",
+  "date": "2017-02-14T17:13:38.625Z",
   "data": [
     {
       "projectName": "Mount Milligan",
@@ -2316,7 +2316,7 @@ module.exports = {
     {
       "projectName": "Brucejack",
       "agencyCode": "EAO",
-      "inspectionNum": "null",
+      "inspectionNum": "",
       "inspectionDate": "7/5/2016",
       "inspectorInitials": "CP",
       "inspectionSummary": "Between July 5 and July 8, 2016, C&E Parks and C&E McLean inspected the Brucejack Project (Project), including the mine site, access roads, the Tide transfer area, the Redeye camp, the Troy laydown, the Bowser camp, aerodrome, and laydown area, the Knipple transfer area and camp, and the glacier road. During the inspection C&E Parks and C&E McLean noted areas of compliance concern to Pretium staff accompanying the inspection, and completed a debrief of inspection observations with Pretium representatives after the inspection via teleconference on the afternoon of July 21, 2016.",
@@ -2326,7 +2326,7 @@ module.exports = {
       "authorizationID": "",
       "agencyName": "Environmental Assessment Office",
       "actName": "Environmental Assessment Act",
-      "inspectionName": "null-undefined (Environmental Assessment Office)",
+      "inspectionName": "-undefined (Environmental Assessment Office)",
       "followUpDocuments": [
         {
           "name": "EAO Inspection Record",
@@ -2337,7 +2337,7 @@ module.exports = {
     {
       "projectName": "Brule",
       "agencyCode": "EAO",
-      "inspectionNum": "null",
+      "inspectionNum": "",
       "inspectionDate": "7/21/2015",
       "inspectorInitials": "JC, BB",
       "inspectionSummary": "This record details the results of an inspection against conditions attached to EAC# M06-02, that occurred July 21, 2015. The inspection was conducted by Justin Carlson, Compliance Officer, BC Environmental Assessment Office and Brenda Black, Compliance Officer, BC Environmental Assessment Office. In addition to officer Black, officer Carlson was accompanied during the inspection by the following: Alex BRISSARD, Environmental Manager (Walter Energy) and Harrison MAZUR, Environmental Technician (Walter Energy). The Brule Mine is currently in care and maintenance mode as production has stopped. ",
@@ -2347,7 +2347,7 @@ module.exports = {
       "authorizationID": "",
       "agencyName": "Environmental Assessment Office",
       "actName": "Environmental Assessment Act",
-      "inspectionName": "null-undefined (Environmental Assessment Office)",
+      "inspectionName": "-undefined (Environmental Assessment Office)",
       "followUpDocuments": [
         {
           "name": "EAO Inspection Record",
@@ -2358,7 +2358,7 @@ module.exports = {
     {
       "projectName": "Red Chris",
       "agencyCode": "EAO",
-      "inspectionNum": "null",
+      "inspectionNum": "",
       "inspectionDate": "6/17/2015",
       "inspectorInitials": "CP, BB",
       "inspectionSummary": "EAO Senior Compliance Officer Chris Parks (C&E Parks) and EAO Compliance Officer Brenda Black (C&E Black) conducted an inspection of the Red Chris Mine on June 17, 2015, against the requirements of EAC#M05-02 (Appendix A). Cory KOENIG, Senior Environmental Advisor, Red Chris Development Company Ltd. (RCDC), attended the inspection with C&E Parks and C&E Black. RCDC is a subsidiary of Imperial Metals.",
@@ -2368,7 +2368,7 @@ module.exports = {
       "authorizationID": "",
       "agencyName": "Environmental Assessment Office",
       "actName": "Environmental Assessment Act",
-      "inspectionName": "null-undefined (Environmental Assessment Office)",
+      "inspectionName": "-undefined (Environmental Assessment Office)",
       "followUpDocuments": [
         {
           "name": "EAO Inspection Record",
