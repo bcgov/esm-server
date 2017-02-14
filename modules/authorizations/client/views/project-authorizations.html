@@ -13,7 +13,8 @@
 					<!-- 
 					<span data-ng-if="!c.authorizationSummary" class="toggle">&nbsp;</span>
 					-->
-					<span class="ah-col name">{{c.documentName}}</span>
+					<span class="ah-col name">{{c.authorizationID}} - {{c.documentName}}</span>
+					<span class="ah-col status">{{c.documentType}} {{c.documentStatus}}</span>
 					<span class="ah-col date">{{c.authorizationDate | date:'MMM dd, yyyy'}}</span>
 				</div>
 			</div>

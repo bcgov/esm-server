@@ -3,7 +3,6 @@
     .sh-col,
     .ah-col {
         &.date {
-            width: 7rem;
             text-align: right;
         }
     }
@@ -12,6 +11,23 @@
         &.name {
             padding-left: 0;
             font-weight: 400;
+        }
+        &.date {
+            white-space: nowrap;
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .auth-list {
+        .ah-col {
+            &.status {
+                width: 28%;
+            }
+
+            &.date {
+                width: 7.5rem;
+            }
         }
     }
 }

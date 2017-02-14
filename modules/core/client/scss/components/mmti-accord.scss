@@ -35,12 +35,16 @@
 
     .ah-col {
         display: table-cell;
-        padding: 1.25rem 1rem;
+        padding: 1.25rem 0.75rem;
         line-height: 1rem;
         font-size: 0.875rem;
 
         &:first-child {
             padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 1rem;
         }
     }
 
