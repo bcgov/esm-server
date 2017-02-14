@@ -1,45 +1,30 @@
-@media (max-width: 760px) {
-    tr {
-        margin-bottom: 0.25rem;
-        padding: 0.5rem 1rem;
+// Document List
+.mmti-doc-list {
+    .sh-col,
+    .ah-col {
+        &.date {
+            width: 7rem;
+            text-align: right;
+        }
     }
 
-    td {
-        &.name,
-        &.type,
-        &.date {
-            padding: 0.25rem 0;
-            width: 100%;
-        }
-
+    .ah-col {
         &.name {
-            font-weight: 700;
+            padding-left: 0;
+            font-weight: 400;
         }
+    }
+}
 
-        &.agency,
-        &.date,
-        &.type {
-            &:before {
-                display: inline-block;
-                width: 30%;
+.mmti-doc-list {
+    &.nv-pair {
+        span {
+            &.name {
+                margin: 0;
+                width: 25%;
             }
-        }
-
-        &.agency {
-            &:before {
-                content: 'Agency:';
-            }
-        }
-
-        &.date {
-            &:before {
-                content: 'Date:';
-            }
-        }
-
-        &.type {
-            &:before {
-                content: 'Type:';
+            &.value {
+                width: 75%;
             }
         }
     }

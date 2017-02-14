@@ -1,5 +1,6 @@
 
-<section class="auth-section">
+
+<section class="auth-section" ng-if="list.length > 0">
 	<h3>{{actName}} <span>{{agencyName}}</span></h3>
 	<div class="mmti-accord auth-list" id="authorization-{{agencyCode}}" role="tablist" aria-multiselectable="false">
 		<div class="mmti-accord-item" ng-repeat="c in list | orderBy: '-authorizationDate'">

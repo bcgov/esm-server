@@ -1,11 +1,11 @@
-<div class="map-container">
+<div class="map-container" id='legend'>
     
     <div class="map-header-container">
         <div class="map-header clearfix">
             <div class="brand-container float-left">
-                <a class="brand" href="#" ng-click="blah()"></a>
+                <a class="brand" href="#" ng-click="toggleMapActive()"></a>
             </div>
-            <button class="btn close-btn float-right" ng-click="blah()"><i class="material-icons">close</i></button>
+            <button class="btn close-btn float-right" ng-click="toggleMapActive()"><i class="material-icons">close</i></button>
         </div>
         <div class="action-bar">
             Mines Found: {{ projects.length }}
@@ -27,6 +27,7 @@
             templateParameter="map.window.model"
             ng-cloak>
         </ui-gmap-window>
+
         <ui-gmap-markers
             models="projects"
             idKey="'_id'"
@@ -34,6 +35,13 @@
             clusterOptions="map.clusterOptions"
             events="map.markersEvents">
         </ui-gmap-marker>
+
+        <ui-gmap-layer  ng-repeat="layer in KMLLayers"
+            type="KmlLayer"
+            options="layer"
+            show="layer.show">
+        </ui-gmap-layer>
+
     </ui-gmap-google-map>
 
 </div>
