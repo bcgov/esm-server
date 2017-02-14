@@ -2,8 +2,8 @@
 <div class="map-popup">
 	<h3>{{ parameter.name }}</h3>
 	<div class="map-popup-content" 
-		ng-if="parameter.description" 
-		ng-bind-html="parameter.description">
+		ng-if="parameter.overviewIntroText"
+		ng-bind-html="parameter.overviewIntroText">
 	</div>
 	<div class="popup-btns">
 		<a class="btn slide-r-btn inverted" ui-sref="project({projectid: parameter.code })"><span>View Mine</span><i class="material-icons">arrow_forward</i></a>
