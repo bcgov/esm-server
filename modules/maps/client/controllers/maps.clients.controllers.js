@@ -13,7 +13,13 @@ controllerMap.$inject = ['$scope', 'Authentication', 'uiGmapGoogleMapApi', '$fil
 function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, ArtifactModel, Document) {
 	var mpl = this;
 	$scope.showPoint = false;
-	mpl.center = {latitude: 54.726668, longitude: -127.647621};
+
+	// Just in case something goes sideways.
+	if ($scope.project) {
+		mpl.center = {latitude: $scope.project.lat, longitude: $scope.project.lon};
+	} else {
+		mpl.center = {latitude: 54.726668, longitude: -127.647621};
+	}
 	mpl.layers = {};
 	mpl.markers = [];
 	mpl.KMLLayers = [];
@@ -38,8 +44,7 @@ function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, A
 
 	$scope.$watch('project', function(newValue) {
 		if (newValue) {
-
-			mpl.center = {
+			mpl.map.center = {
 				latitude: newValue.lat,
 				longitude: newValue.lon
 			};
