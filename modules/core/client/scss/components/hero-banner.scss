@@ -27,7 +27,7 @@
     .hero-banner {
         height: 30rem;
         background-position: center;
-        background-size: 120%;
+        background-size: 150%;
 
         .container {
             padding-left: 2rem;
@@ -39,6 +39,7 @@
 @media (min-height: 900px) and (min-width: 1200px) {
     .hero-banner {
         height: 40rem;
+        background-size: 120%;
     }
 }
 

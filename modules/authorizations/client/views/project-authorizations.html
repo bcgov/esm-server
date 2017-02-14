@@ -14,8 +14,10 @@
 					<span data-ng-if="!c.authorizationSummary" class="toggle">&nbsp;</span>
 					-->
 					<span class="ah-col name">{{c.authorizationID}} - {{c.documentName}}</span>
-					<span class="ah-col status">{{c.documentType}} {{c.documentStatus}}</span>
-					<span class="ah-col date">{{c.authorizationDate | date:'MMM dd, yyyy'}}</span>
+					<span class="ah-col date">
+						<span>{{c.documentType}} {{c.documentStatus}}</span>
+						<span>{{c.authorizationDate | date:'MMM dd, yyyy'}}</span>
+					</span>
 				</div>
 			</div>
 			<div class="collapse" role="tabpanel" id="collapse-{{c._id}}" aria-labelledby="heading-{{c._id}}">

@@ -13,7 +13,9 @@
             font-weight: 400;
         }
         &.date {
-            white-space: nowrap;
+            span {
+                display: block;
+            }
         }
     }
 }
@@ -21,12 +23,19 @@
 @media (min-width: 760px) {
     .auth-list {
         .ah-col {
-            &.status {
-                width: 28%;
-            }
-
             &.date {
-                width: 7.5rem;
+                span {
+                    display: inline-block;
+                }
+
+                span:first-child {
+                    &:after {
+                        display: inline-block;
+                        margin-left: 0.25rem;
+                        margin-right: 0.25rem;
+                        content: '-';
+                    }
+                }
             }
         }
     }
