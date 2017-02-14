@@ -74,6 +74,7 @@
     }
 }
 
+// Map Popup Styling
 .gm-style-iw {
    width: 25rem !important;
    top: 0 !important;
@@ -89,46 +90,62 @@
        width: 100%;
        overflow: visible !important;
    }
+}
 
-   .map-popup {
-       position: relative;
-       height: 16.5rem;
-       margin-bottom: -18px;
-       margin-right: -55px;
-       padding: 1.5rem;
-       box-shadow: 0.25rem 0.25rem 1rem rgba(#000, 0.5);
-       border-radius: 4px;
-       background: #003366;
-       color: #FFF;
+.map-popup-content {
+    @include flex-box();
+    @include flex-direction(column);
+    position: relative;
+    height: 16.25rem;
+    margin-bottom: -18px;
+    margin-right: -55px;
+    padding: 1.5rem;
+    box-shadow: 0.25rem 0.25rem 1rem rgba(#000, 0.5);
+    border-radius: 4px;
+    background: #003366;
+    color: #FFF;
 
-       &:after {
-            position: absolute;
-            bottom: -28px;
-            left: 50%;
-            margin-left: -20px;
-            display: block;
-            width: 0;
-            height: 0;
-            border-left: 18px solid transparent;
-            border-right: 18px solid transparent;
-            border-top: 30px solid #003366;
-            content: ' ';
-       }
+    &:after {
+        position: absolute;
+        bottom: -28px;
+        left: 50%;
+        margin-left: -20px;
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 18px solid transparent;
+        border-right: 18px solid transparent;
+        border-top: 30px solid #003366;
+        content: ' ';
+    }
 
-       h3 {
-           margin-bottom: 1rem;
-       }
+    h3 {
+        margin-bottom: 1rem;
+    }
 
-       .map-popup-content {
-            p {
-                margin-bottom: 0;
-                line-height: 1.25rem;
-                font-size: 0.875rem;
-            }
-       }
+    .popup-title-container,
+    .popup-btn-container {
+        @include flex(0 0 auto);
+    }
 
-       .popup-btns {
-           margin-top: 1.5rem;
-       }
-   }
+    .popup-detail-container {
+        @include flex(1 1 auto);
+        overflow: hidden;
+        height: 5rem;
+
+        p {
+            margin-bottom: 0;
+            line-height: 1.25rem;
+            font-size: 0.875rem;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: underline;
+        }
+    }
+
+    .popup-btn-container {
+        margin-top: 1.25rem;
+    }
 }
