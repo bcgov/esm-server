@@ -180,7 +180,7 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				var obj = [	"Permits & Applications",
 							"Inspection Reports",
-							"Geotechnical Reports",
+							"Geotechnical Information",
 							"Site Monitoring & Activities (including Reclamation)"];
 				resolve(obj);
 			});
