@@ -31,7 +31,7 @@ angular.module('project').config (
 				$scope.project.staticMap += "&markers=color:blue%7Clabel:";
 				$scope.project.staticMap += $scope.project.commodityType === "Metal" ? "M" : "C";
 				$scope.project.staticMap += "%7C" + $scope.project.latitude + "," + $scope.project.longitude;
-				$scope.project.staticMap += "&zoom=4&size=300x300&maptype=map&key=" + apiKey;
+				$scope.project.staticMap += "&zoom=4&size=300x200&maptype=map&key=" + apiKey;
 
 				$scope.content = function(p, type, page) {
 					try {

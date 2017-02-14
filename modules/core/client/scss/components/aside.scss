@@ -88,6 +88,14 @@ aside {
     margin-bottom: 0;
     display: table;
     width: 100%;
+
+    a {
+        display: block;
+
+        img {
+            width: 100%;
+        }
+    }
 }
 
 .map-thumb {
