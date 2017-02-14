@@ -24,4 +24,4 @@ $(function(){
     $('.dropdown-item').click(function() {
         $('#mainNav').collapse('hide');
     });
- });
+});

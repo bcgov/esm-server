@@ -61,3 +61,37 @@
 .tab-intro {
     margin-bottom: 2.5rem;
 }
+
+
+// TODO - Nees to be moved to the module once it's created
+.mine-details-list {
+    li {
+        @include clearfix();
+
+        span {
+            float: left;
+            display: block;
+            width: 50%;
+        }
+    }
+}
+
+.map-section {
+    margin-bottom: 0;
+    display: table;
+    width: 100%;
+
+    a {
+        display: block;
+
+        img {
+            width: 100%;
+        }
+    }
+}
+
+.map-thumb {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
