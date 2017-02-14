@@ -25,7 +25,7 @@ angular.module('project').config (
 				$scope.links = project.externalLinks;
 				console.log("scope.project.latitude:", $scope.project.latitude);
 				console.log("scope.project.longitude:", $scope.project.longitude);
-				var apiKey = "";
+				var apiKey = "AIzaSyDrR25JJBP365DYGaT-y0pCd8_RZleJZG0";
 				// Static map generation
 				$scope.project.staticMap = "https://maps.googleapis.com/maps/api/staticmap?center=55.726668,-125.647621";
 				$scope.project.staticMap += "&markers=color:blue%7Clabel:";
