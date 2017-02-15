@@ -29,13 +29,11 @@
     }
 
     &.btn-default {
-        border: 2px solid #1a5a96;
+        background: #EEE;
         color: #1a5a96;
     }
 
     &.btn-sm {
-        font-weight: 700;
-
         i {
             margin-top: -0.1rem;
             margin-right: 0.1rem;
@@ -46,7 +44,7 @@
 // Main Button
 main {
     .btn-default {
-        padding: 0.4rem;
+        padding: 0.5rem;
     }
 }
 

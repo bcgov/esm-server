@@ -17,7 +17,7 @@
             <main class="col-lg-8">
                 <section>
                     <h2>Major Mines in British Columbia</h2>
-                    <p class="tab-intro">Use the list below to navigate to information on individual mine sites. Click on any mine to go directly to its profile page, or click the ‘+’ sign to expand the list item to see basic information (e.g., operator, ownership, commodity/ies produced) about that mine. You can also use our interactive map to navigate to information on individual mines across British Columbia.</p>
+                    <p class="tab-intro">Use the list below to navigate to information on individual mine sites. Click on any mine to go directly to its profile page, or click the ‘+’ sign to expand the list item to see basic information (e.g., operator, ownership, commodity/ies produced) about that mine. You can also use our <a ui-sref="maps">interactive map</a> to navigate to information on individual mines across British Columbia.</p>
 
                     <div class="mine-list">
                         <div class="sort-header">
@@ -54,12 +54,10 @@
                                     aria-labelledby="heading{{$index+1}}">
                                     <div class="mmti-accord-body">
                                         <div class="summary" ng-bind-html="p.overviewIntroText"></div>
-                                        <!--
-                                        <div>
-                                            <a class="btn btn-sm btn-link" ui-sref="maps({project: p})"><span>Goto Mine Page</span></a>
-                                            <a class="btn btn-sm btn-link" ui-sref="maps({project: p})"><span>View on Map</span></a> 
+                                        <div class="mine-btns">
+                                            <a class="btn btn-default" ui-sref="project({projectid: p.code})"><span>Go to Mine Details</span></a>
+                                            <a class="btn btn-default" ui-sref="maps({project: p})"><span>Show on Map</span></a> 
                                         </div>
-                                        -->
                                         <div class="mine-list-container">
                                             <div class="mmti-list-header">Details</div>
                                             <ul class="mmti-list nv-pair">

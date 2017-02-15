@@ -14,6 +14,18 @@
 
         p {
             font-size: 0.875rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .mine-btns {
+        margin-top: 1rem;
+
+        .btn {
+            font-size: 0.875rem;
         }
     }
 

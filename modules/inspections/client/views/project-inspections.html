@@ -37,8 +37,8 @@
                         <div class="summary" >{{c.inspectionSummary}}</div>
                         <div class="doc-list-container" ng-if="c.followUpDocuments.length > 0">
                             <div class="mmti-list-header">Related Documents</div>
-                            <ul class="mmti-list"  ng-repeat="r in c.followUpDocuments">
-                                <li><a href="{{r.ref}}" target="_blank">{{r.name}}</a></li>
+                            <ul class="mmti-list">
+                                <li ng-repeat="r in c.followUpDocuments"><a href="{{r.ref}}" target="_blank">{{r.name}}</a></li>
                             </ul>
                         </div>
                     </div>
