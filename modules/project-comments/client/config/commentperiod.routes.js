@@ -528,7 +528,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 		// UI elements .. set to match model values
 		$scope.rType = _.find(rangeTypes, function(t) { return t.value === period.rangeType; });
 		// note need to force conversion to number for === to work
-		$scope.rOption = _.find(rangeOptions, function(o) { return ((1 * o.value) === (1*period.rangeOption)); });
+		$scope.rOption = _.find(rangeOptions, function(o) { return ( o.value === (''+period.rangeOption)); });
 	}
 
 	/**
@@ -600,14 +600,14 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 			case 'start':
 				// derive the end date based on start date and number of days
 				// Convert to number. Period includes start and end date subtract one
-				period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, ( 1 * (rOption - 1)));
+				period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, (rOption - 1));
 				//console.log("start periodChange ", period);
 				break;
 			case 'end':
 				// derive the end date based on start date and number of days
 				// Convert to number. Period includes start and end date subtract one
 				numberOfDaysToAdd = -1 * (rOption - 1);
-				period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, ( -1 * (rOption - 1)));
+				period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, (rOption - 1));
 				//console.log("end periodChange ", period);
 				break;
 			case 'custom':

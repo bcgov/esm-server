@@ -41,9 +41,10 @@
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
 						<button class="btn btn-default btn-sm"
-										ng-if="!p.isPublished && project.userCan.createCommentPeriod && !p.openForComment"
+										ng-if="!p.isPublished && project.userCan.createCommentPeriod"
 										title="Publish Comment"
 										ng-click="$event.stopPropagation();"
+										ng-disabled="p.openForComment"
 										x-confirm-dialog
 										x-title-text="'Publish Comment'"
 										x-ok-text="'Yes'"
@@ -54,9 +55,10 @@
 							<span class="glyphicon glyphicon-ok-circle"></span>
 						</button>
 						<button class="btn btn-default btn-sm"
-										ng-if="p.isPublished && project.userCan.createCommentPeriod && !p.openForComment"
+										ng-if="p.isPublished && project.userCan.createCommentPeriod"
 										title="Unpublish Comment"
 										ng-click="$event.stopPropagation();"
+										ng-disabled="p.openForComment"
 										x-confirm-dialog
 										x-title-text="'Unpublish Comment'"
 										x-ok-text="'Yes'"
