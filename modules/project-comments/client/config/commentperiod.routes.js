@@ -4,7 +4,7 @@
 // comment period routes
 //
 // =========================================================================
-angular.module('comment').config(['$stateProvider', 'moment', function ($stateProvider, moment) {
+angular.module('comment').config(['$stateProvider', 'moment', "_", function ($stateProvider, moment, _) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -75,7 +75,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 					});
 			}
 		},
-		controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, _, CommentPeriodModel, AlertService) {
+		controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, CommentPeriodModel, AlertService) {
 			var s = this;
 			//console.log ('periods = ', periods);
 			$scope.activeperiod = null;
@@ -168,8 +168,8 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel, _) {
-			createEditCommonSetup($timeout, $scope, _,  period, project);
+		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel) {
+			createEditCommonSetup($timeout, $scope, period, project);
 
 			$scope.hasErrors = false;
 			//$scope.errorMessage = '';
@@ -199,7 +199,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 				}
 			};
 
-			defineDocumentMgr($scope, _);
+			defineDocumentMgr($scope);
 
 			$scope.documentMgr.applySort();
 
@@ -227,12 +227,12 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state,  period, project, CommentPeriodModel, CommentModel, _) {
+		controller: function ($timeout, $scope, $state,  period, project, CommentPeriodModel, CommentModel) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
-			createEditCommonSetup($timeout, $scope, _,  period, project);
+			createEditCommonSetup($timeout, $scope, period, project);
 
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
@@ -268,7 +268,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 				}
 			};
 
-			defineDocumentMgr($scope, _);
+			defineDocumentMgr($scope);
 
 			$scope.documentMgr.applySort();
 
@@ -291,7 +291,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 				return CommentPeriodModel.getForPublic ($stateParams.periodId);
 			}
 		},
-		controller: function ($scope, period, project, _) {
+		controller: function ($scope, period, project) {
 			//console.log ('period user can: ', JSON.stringify(period.userCan, null, 4));
 			var self = this;
 			var today       = new Date ();
@@ -366,7 +366,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 
 	;
 
-	function createEditCommonSetup($timeout, $scope, _, period, project) {
+	function createEditCommonSetup($timeout, $scope, period, project) {
 		$scope.period = period;
 		$scope.project = project;
 		$scope.changeType = function () {
@@ -422,7 +422,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 			}
 		});
 
-		$scope.addLinkedFiles = function(data) { addLinkedFiles($scope, _, data);	};
+		$scope.addLinkedFiles = function(data) { addLinkedFiles($scope, data);	};
 
 		$scope.removeDocument = function(doc) {
 			_.remove($scope.period.relatedDocuments, doc);
@@ -430,18 +430,18 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 		};
 
 		// manage the start and end dates plus the controls that set period length based on presets (e.g. 30, 45, etc days)
-		setupPeriodOptions($scope, _);
+		setupPeriodOptions($scope);
 
 		// initialize the period controls
-		typeChange($scope, _);
+		typeChange($scope);
 
 		// on change to start date or end date via date picker...
 		$scope.$on('modalDatePicker.onChange', function () {
-			periodChange($scope, _);
+			periodChange($scope);
 		});
 	}
 
-	function defineDocumentMgr($scope, _) {
+	function defineDocumentMgr($scope) {
 		$scope.documentMgr = {
 			sortedFiles: $scope.period.relatedDocuments,
 			sorting: {
@@ -496,7 +496,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 		};
 	}
 
-	function addLinkedFiles($scope, _, data) {
+	function addLinkedFiles($scope, data) {
 		var period = $scope.period;
 		// add files in data to our relatedDocs
 		if (data) {
@@ -517,7 +517,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 	/*
 	 * For both create and edit setup the period and UI elements
 	 */
-	function setupPeriodOptions($scope, _) {
+	function setupPeriodOptions($scope) {
 		// from the model
 		// rangeType        : { type:String, default:null, enum:['start', 'end', 'custom']},
 		// rangeOption      : { type:String, default:null, enum:['30', '45', '60', '75', 'custom']},
@@ -537,10 +537,10 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 		$scope.rangeTypes = rangeTypes;
 		$scope.rangeOptions = rangeOptions;
 		$scope.typeChange = function () {
-			typeChange($scope, _);
+			typeChange($scope);
 		};
 		$scope.periodChange = function () {
-			periodChange($scope, _);
+			periodChange($scope);
 		};
 
 		// if new or old instance of period prior to adding range
@@ -569,7 +569,7 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 	 * UI allows user to set the end date based on start date, or the reverse, or custom start-to-end.
 	 * This handler enables UI controls based on the selected type and fires the periodChange handler.
 	 */
-	function typeChange($scope, _) {
+	function typeChange($scope) {
 		// get value from UI
 		var type = $scope.rType.value;
 		var period = $scope.period;
@@ -596,14 +596,14 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 				$scope.rangePickerEnabled = false;
 				if(isChanged) $scope.rOption = customOption;
 		}
-		periodChange($scope, _);
+		periodChange($scope);
 	}
 
 	/**
 	 * Recompute the start / end dates based on UI changes
 	 *
 	 */
-	function periodChange($scope, _) {
+	function periodChange($scope) {
 		// get value from UI
 		var rOption = $scope.rOption.value;
 		// store UI set value into model
