@@ -14,7 +14,7 @@
 		</div>
 		<section class="panel panel-default">
 			<table class="pcp-table table table-hover" ng-table="tableParams" show-filter="toggleFilter">
-				<tr class="clickable" ng-repeat="p in $data" ui-sref="p.commentperiod.detail({periodId:p._id})">
+				<tr class="clickable" ng-repeat="p in $data"  ng-if="project.userCan.createCommentPeriod || p.isPublished"  ui-sref="p.commentperiod.detail({periodId:p._id})">
 					<td title="'Type'" filter="{'periodType':'select'}" filter-data="s.typeArray" sortable="'periodType'">
 						{{p.periodType}}
 					</td>
