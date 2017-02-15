@@ -10,11 +10,7 @@
         padding: 0.6rem 0.75rem;
         font-size: 0.875rem;
         line-height: 1.3rem;
-        border-top: 1px solid #DDD;
-
-        &:first-child {
-            border-top: none;
-        }
+        background: #f7f8fa;
     }
 
     &.nv-pair {
