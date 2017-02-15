@@ -18,7 +18,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 		$httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
 
 		uiGmapGoogleMapApiProvider.configure({
-			key: 'AIzaSyCTbJdM2XHNQ6ybqPzyaT-242tIAgIbk8w',
+			key: 'AIzaSyC0ttINKXWK9lj-7UynXks3ngWUnLQSjlY',
 			v: '3.25',
 			// libraries: 'weather,geometry,visualization'
 		});

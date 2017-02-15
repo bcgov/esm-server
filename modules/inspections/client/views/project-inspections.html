@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="mmti-accord" id="complianceList" role="tablist" aria-multiselectable="false">
-            <div class="mmti-accord-item" ng-repeat="c in sortedList | orderBy: '-inspectionDate'">
+            <div class="mmti-accord-item" ng-repeat="c in sortedList">
                 <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
                     <div>
                         <a class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true"
