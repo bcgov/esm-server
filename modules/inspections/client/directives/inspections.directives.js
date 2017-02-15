@@ -25,7 +25,8 @@ function projectInspectionController($scope, _, InspectionsModel) {
 	// var complianceList = this;
 	var project = $scope.project;
 	var code = project.code;
-	InspectionsModel.forProject(code).then(function (data) {
+	InspectionsModel.forProject(code)
+	.then(function (data) {
 		// complianceList.data = data;
 		$scope.sortedList = data;
 		$scope.applySort();
@@ -39,27 +40,25 @@ function projectInspectionController($scope, _, InspectionsModel) {
 
 	function sortBy(column) {
 		//is this the current column?
-		if ($scope.sorting.column.toLowerCase() === column.toLowerCase()){
+		if ($scope.sorting.column === column) {
 			//so we reverse the order...
 			$scope.sorting.ascending = !$scope.sorting.ascending;
 		} else {
 			// changing column, set to ascending...
-			$scope.sorting.column = column.toLowerCase();
 			$scope.sorting.ascending = true;
 		}
+		$scope.sorting.column = column;
 		$scope.applySort();
 	}
 
 	function applySort() {
 		// sort ascending first...
 		$scope.sortedList = _.sortBy($scope.sortedList, function(p) {
-
 			if ($scope.sorting.column === 'inspectionName') {
-				return _.isEmpty(p.inspectionName) ? null : p.inspectionName.toLowerCase();
+				return _.isEmpty(p.inspectionName) ? null : p.inspectionName;
 			} else if ($scope.sorting.column === 'inspectionDate') {
-				return _.isEmpty(p.inspectionDate) ? null : p.inspectionDate.getTime();
+				return _.isEmpty(p.inspectionDate) ? null : new Date(p.inspectionDate);
 			}
-			return _.isEmpty(p.inspectionName) ? null : p.inspectionName.toLowerCase();
 		});
 
 		if (!$scope.sorting.ascending) {
