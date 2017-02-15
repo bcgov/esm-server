@@ -114,7 +114,7 @@ angular.module('documents')
 
 				self.applySort = function() {
 					// sort ascending first...
-					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
+					self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
 						// more making sure that the displayName is set...
 						if (_.isEmpty(f.displayName)) {
 							f.displayName = f.documentFileName || f.internalOriginalName;
@@ -137,15 +137,19 @@ angular.module('documents')
 						}
 						// by name if none specified... or we incorrectly identified...
 						return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-					});
+					}).sortBy(function (f) {
+						return f.order;
+					}).value();
 
 					// directories always/only sorted by name
-					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
+					self.currentDirs = _(self.unsortedDirs).chain().sortBy(function (d) {
 						if (_.isEmpty(d.model.name)) {
 							return null;
 						}
 						return d.model.name.toLowerCase();
-					});
+					}).sortBy(function (d) {
+						return d.model.order;
+					}).value();
 
 					if (!self.sorting.ascending) {
 						// and if we are not supposed to be ascending... then reverse it!
@@ -1135,7 +1139,7 @@ angular.module('documents')
 
 				self.applySort = function() {
 					// sort ascending first...
-					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
+					self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
 						// more making sure that the displayName is set...
 						if (_.isEmpty(f.displayName)) {
 							f.displayName = f.documentFileName || f.internalOriginalName;
@@ -1158,15 +1162,19 @@ angular.module('documents')
 						}
 						// by name if none specified... or we incorrectly identified...
 						return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-					});
+					}).sortBy(function (f) {
+						return f.order;
+					}).value();
 
 					// directories always/only sorted by name
-					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
+					self.currentDirs = _(self.unsortedDirs).chain().sortBy(function (d) {
 						if (_.isEmpty(d.model.name)) {
 							return null;
 						}
 						return d.model.name.toLowerCase();
-					});
+					}).sortBy(function (d) {
+						return d.model.order;
+					}).value();
 
 					if (!self.sorting.ascending) {
 						// and if we are not supposed to be ascending... then reverse it!
@@ -1413,7 +1421,7 @@ angular.module('documents')
 
 							self.applySort = function () {
 								// sort ascending first...
-								self.currentFiles = _.sortBy(self.unsortedFiles, function (f) {
+								self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
 									// more making sure that the displayName is set...
 									if (_.isEmpty(f.displayName)) {
 										f.displayName = f.documentFileName || f.internalOriginalName;
@@ -1436,15 +1444,19 @@ angular.module('documents')
 									}
 									// by name if none specified... or we incorrectly identified...
 									return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-								});
+								}).sortBy(function (f) {
+									return f.order;
+								}).value();
 
 								// directories always/only sorted by name
-								self.currentDirs = _.sortBy(self.unsortedDirs, function (d) {
+								self.currentDirs = _(self.unsortedDirs).chain().sortBy(function (d) {
 									if (_.isEmpty(d.model.name)) {
 										return null;
 									}
 									return d.model.name.toLowerCase();
-								});
+								}).sortBy(function (d) {
+									return d.model.order;
+								}).value();
 
 								if (!self.sorting.ascending) {
 									// and if we are not supposed to be ascending... then reverse it!
