@@ -46,11 +46,45 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
 				return CommentPeriodModel.forProjectWithStats (project._id);
+			},
+			activeperiod: function ($stateParams, CommentPeriodModel, project) {
+				// Go through the periods on the project, surface the active one and enable commenting
+				// right from here.
+				// The following code is copied from project.client.routes.js
+				console.log("Comment period route looking for active period(s)", project._id);
+				return CommentPeriodModel.forProject (project._id)
+					.then( function (periods) {
+						var today	= new Date ();
+						var openPeriod = null;
+						_.each(periods, function (period) {
+							console.log("Comment period rout looking at period", period);
+							var start 	= new Date (period.dateStarted);
+							var end		= new Date (period.dateCompleted);
+							var isopen 	= start < today && today < end;
+							if (isopen) {
+								openPeriod = period;
+								return false;
+							}
+						});
+						if (openPeriod) {
+							console.log("Found open period:", openPeriod);
+							return openPeriod;
+						} else {
+							return null;
+						}
+					});
 			}
 		},
-		controller: function ($scope, $state, NgTableParams, periods, project, _, CommentPeriodModel, AlertService) {
+		controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, _, CommentPeriodModel, AlertService) {
 			var s = this;
 			//console.log ('periods = ', periods);
+			$scope.activeperiod = null;
+			if (activeperiod) {
+				// Switch on the UI for comment period
+				// console.log("activeperiod:", activeperiod);
+				$scope.activeperiod = activeperiod;
+				$scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+			}
 			var ps = _.map(periods, function(p) {
 				var openForComment = moment(moment.now()).isBetween(p.dateStarted, p.dateCompleted);
 				return _.extend(p, {openForComment: openForComment});
