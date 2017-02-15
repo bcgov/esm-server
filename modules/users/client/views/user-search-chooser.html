@@ -42,7 +42,7 @@
 		<!-- Class on the TR element for a SELECTED item should include the 'active' selector (see ng-class on TR element) -->
 
 		<tr ng-class="{'active': isChecked(o)}"
-			ng-repeat="o in $data" 
+			ng-repeat="o in $data"
 			ng-click="toggleItem(o)">
 			<td class="checkbox-col"
 				header-class="'checkbox-col'"
@@ -51,11 +51,17 @@
 			</td>
 			<td class="name-col" 
 				header-class="'name-col'" 
-				data-title="'Name'" 
-				filter="{'displayName':'text'}" 
-				sortable="'displayName'">{{o.displayName}}</a>
+				data-title="'Last Name'"
+				filter="{'lastName':'text'}"
+				sortable="'lastName'">{{o.lastName}}</a>
 			</td>
-			<td class="name-col" 
+			<td class="name-col"
+				header-class="'name-col'"
+				data-title="'First Name'"
+				filter="{'firstName':'text'}"
+				sortable="'firstName'">{{o.firstName}}</a>
+			</td>
+			<td class="name-col"
 				header-class="'name-col'" 
 				data-title="'Email'" 
 				filter="{'email':'text'}" 
