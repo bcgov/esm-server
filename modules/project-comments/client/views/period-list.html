@@ -31,15 +31,41 @@
 						<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>{{p.stats.totalPublicAssigned}}
 					</td>
 					<td title="'Total Comments'" >
-						<i ng-if="p.isPublished" class="glyphicon glyphicon-ok"></i>{{p.stats.totalPublic}}
+						{{p.stats.totalPublic}}
 					</td>
-					<td class="actions-col action-x2" header-class="'actions-col action-x2'">
+					<td class="actions-col action-x3" header-class="'actions-col action-x3'">
 						<a class="btn btn-default btn-sm"
 							ng-click="$event.stopPropagation()"
 							ng-if="project.userCan.createCommentPeriod"
 							ui-sref="p.commentperiod.edit({periodId:p._id})" href>
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
+						<button class="btn btn-default btn-sm"
+										ng-if="!p.isPublished && project.userCan.createCommentPeriod && !p.openForComment"
+										title="Publish Comment"
+										ng-click="$event.stopPropagation();"
+										x-confirm-dialog
+										x-title-text="'Publish Comment'"
+										x-ok-text="'Yes'"
+										x-cancel-text="'No'"
+										x-confirm-text="'Are you sure you want to publish this comment period?'"
+										x-on-ok="s.publishCommentPeriod"
+										x-ok-args="p">
+							<span class="glyphicon glyphicon-ok-circle"></span>
+						</button>
+						<button class="btn btn-default btn-sm"
+										ng-if="p.isPublished && project.userCan.createCommentPeriod && !p.openForComment"
+										title="Unpublish Comment"
+										ng-click="$event.stopPropagation();"
+										x-confirm-dialog
+										x-title-text="'Unpublish Comment'"
+										x-ok-text="'Yes'"
+										x-cancel-text="'No'"
+										x-confirm-text="'Are you sure you want to unpublish this comment period?'"
+										x-on-ok="s.unpublishCommentPeriod"
+										x-ok-args="p">
+							<span class="glyphicon glyphicon-ban-circle"></span>
+						</button>
 						<button class="btn btn-default btn-sm"
 								ng-if="project.userCan.createCommentPeriod && p.openForComment"
 								title="Delete Comment Period"

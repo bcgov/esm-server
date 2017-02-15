@@ -83,6 +83,33 @@ angular.module('comment').config(['$stateProvider', 'moment', function ($statePr
 							AlertService.error('Comment Period could not be deleted.');
 						});
 			};
+
+			s.publishCommentPeriod = function(p) {
+				console.log("BG publishCommentPeriod in comment period routes", p);
+				return CommentPeriodModel.publishCommentPeriod(p)
+					.then(
+						function(result) {
+							$state.reload();
+							AlertService.success('Comment Period was published!');
+						},
+						function(error){
+							$state.reload();
+							AlertService.error('Comment Period could not be published.');
+						});
+			};
+			s.unpublishCommentPeriod = function(p) {
+				console.log("BG unpublishCommentPeriod in comment period routes", p);
+				return CommentPeriodModel.unpublishCommentPeriod(p)
+					.then(
+						function(result) {
+							$state.reload();
+							AlertService.success('Comment Period was unpublished!');
+						},
+						function(error){
+							$state.reload();
+							AlertService.error('Comment Period could not be unpublished.');
+						});
+			};
 		},
 		controllerAs: 's'
 	})

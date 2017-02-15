@@ -17,7 +17,9 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		'vetComments',
 		'classifyComments',
 		'listComments',
-		'addComment'
+		'addComment',
+		'publish',
+		'unPublish'
 	],
 	__tracking       : true, // start and stop dates
 

@@ -85,11 +85,11 @@ module.exports = function (app) {
 	//
 	app.route ('/api/publish/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
-			return model.publishCommentPeriod (req.CommentPeriod.ancestor, true);
+			return model.publishCommentPeriod (req.CommentPeriod, true);
 		}));
 	app.route ('/api/unpublish/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
-			return model.publishCommentPeriod (req.CommentPeriod.ancestor, false);
+			return model.publishCommentPeriod (req.CommentPeriod, false);
 		}));
 	app.route ('/api/resolve/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {

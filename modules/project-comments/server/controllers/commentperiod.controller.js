@@ -236,27 +236,21 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	publishCommentPeriod: function (commentPeriod, value) {
 		var self    = this;
-		var Comment = this.mongoose.model('Comment');
-		var query   = { period: commentPeriod._id };
-		var update;
-		if (value) {
-			update = {
-				isPublished: true,
-				$addToSet: {read: 'public'}
-			};
-		} else {
-			update = {
-				isPublished: false,
-				$pull: {read: 'public'}
-			};
-		}
-		return new Promise (function (resolve, reject) {
-			Comment.update (query, update, {multi: true}).exec()
-			.then (function () {
-				commentPeriod.set ({ isPublished: value });
-				return self.saveDocument (commentPeriod);
-			})
-			.then (resolve, reject);
+		if (!commentPeriod)
+			return Promise.resolve();
+
+		return new Promise(function (resolve, reject) {
+			if(value) {
+				commentPeriod.publish();
+			}
+			else {
+				commentPeriod.unpublish();
+			}
+			commentPeriod.save()
+				.then(function() {
+					return commentPeriod;
+				})
+				.then(resolve, reject);
 		});
 	},
 
