@@ -28,6 +28,10 @@ function controllerMap($rootScope, uiGmapIsReady, $scope, Authentication, uiGmap
 		window.history.back();
 	};
 
+	$scope.toggleMapHome = function() {
+		$rootScope.isMapActive = false;
+	};
+
 	var lat = 54.726668;
 	var lng = -127.647621;
 	if ($stateParams.project) {
