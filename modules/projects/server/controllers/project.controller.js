@@ -236,7 +236,8 @@ module.exports = DBModel.extend ({
 					}
 
 					root.model.lastId += 1;
-					var node = theNode.addChild(tree.parse({id: root.model.lastId, name: folderName}));
+					// Need to add order property to the folder item to apply alternate sorting
+					var node = theNode.addChild(tree.parse({id: root.model.lastId, name: folderName, order: 0}));
 					newNodeId = node.model.id;
 				} else {
 					// If we didn't find the node, this is an error.
