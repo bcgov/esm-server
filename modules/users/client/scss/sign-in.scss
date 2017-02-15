@@ -1,0 +1,50 @@
+
+.sign-in-container {
+    @include flex-box();
+    @include flex-direction(column);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: #FFF;
+    z-index: 9999;
+
+    .sign-in-body {
+        @include flex(1 1 auto);
+        position: relative;
+        padding: 2rem;
+    }
+}
+
+.sign-in-header-container {
+    @include flex(0 0 auto);
+    border-bottom: 3px solid $gold;
+}
+
+.sign-in-header {
+    padding: 0.5rem;
+    background: $header-bg;
+}
+
+@media (min-width: 900px) {
+    .sign-in-header {
+        padding: 0;
+    }
+}
+
+.sign-in-form-container {
+    margin-top: 2rem;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 2rem;
+    max-width: 30rem;
+    background: #244278;
+    color: #FFF;
+
+    h2 {
+        margin-bottom: 1.75rem;
+        font-size: 1.75rem;
+        font-weight: 300;
+    }
+}
