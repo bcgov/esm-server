@@ -12,7 +12,8 @@ angular.module('documents')
 	.directive('modalDocumentLink', directiveModalDocumentLink)
 	.directive('modalPdfViewer', directiveModalPdfViewer)
 	.directive('modalDocumentUploadClassifyMem', directiveModalDocumentUploadClassifyMem)
-	.directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
+	.directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify)
+	.directive('modalDocumentInstructions', directiveModalDocumentInstructions);
 
 	// .directive('modalDocumentViewer', directiveModalDocumentViewer)
 	// .directive('modalDocumentBuckets', directiveModalDocumentBuckets);
@@ -431,3 +432,36 @@ function directiveModalDocumentUploadReview($modal, $rootScope) {
 //     };
 //     return directive;
 // }
+
+
+
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Display instructions for user
+//
+// -----------------------------------------------------------------------------------
+directiveModalDocumentInstructions.$inject = ['$modal'];
+/* @ngInject */
+function directiveModalDocumentInstructions($modal) {
+	var directive = {
+		restrict:'A',
+		scope: {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocInstructions = $modal.open({
+					animation: true,
+					templateUrl: 'modules/documents/client/views/partials/modal-document-instructions.html',
+					controller: 'controllerModalDocumentInstructions',
+					controllerAs: 'instruct',
+					size: 'lg'
+				});
+				modalDocInstructions.result.then(function (data) {
+					// do nothing
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}
