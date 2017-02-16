@@ -629,20 +629,16 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			return ms.toDate();
 		}
 
+		// Convert to number when type is not "custom". Period includes start and end date subtract one
 		var numberOfDaysToAdd;
 		switch (type) {
 			case 'start':
-				// derive the end date based on start date and number of days
-				// Convert to number. Period includes start and end date subtract one
-				period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, (rOption - 1));
-				//console.log("start periodChange ", period);
+				numberOfDaysToAdd = (rOption - 1);
+				period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
 				break;
 			case 'end':
-				// derive the end date based on start date and number of days
-				// Convert to number. Period includes start and end date subtract one
 				numberOfDaysToAdd = -1 * (rOption - 1);
-				period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, (rOption - 1));
-				//console.log("end periodChange ", period);
+				period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
 				break;
 			case 'custom':
 			// no op
