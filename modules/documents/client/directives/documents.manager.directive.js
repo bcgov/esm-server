@@ -26,11 +26,27 @@ angular.module('documents')
 				}
 
 				$scope.authentication = Authentication;
-				$scope.project.directoryStructure = $scope.project.directoryStructure || {
+
+				ProjectModel.getProjectDirectory($scope.project)
+				.then( function (dir) {
+					$scope.project.directoryStructure = dir || {
 						id: 1,
 						lastId: 1,
 						name: 'ROOT'
 					};
+
+					self.rootNode = tree.parse($scope.project.directoryStructure);
+
+
+					if (self.opendir) {
+						console.log("Going to directory:", self.opendir);
+						self.selectNode(self.opendir);
+					} else {
+						self.selectNode(self.rootNode);
+					}
+
+					$scope.$apply();
+				});
 
 				// default sort is by name ascending...
 				self.sorting = {
@@ -38,7 +54,7 @@ angular.module('documents')
 					ascending: true
 				};
 
-				self.rootNode = tree.parse($scope.project.directoryStructure);
+				// self.rootNode = tree.parse($scope.project.directoryStructure);
 				self.selectedNode = undefined;
 				self.currentNode = undefined;
 				self.currentPath = undefined;
@@ -373,8 +389,9 @@ angular.module('documents')
 				self.deleteDir = function(doc) {
 					self.busy = true;
 					return DocumentMgrService.removeDirectory($scope.project, doc)
-						.then(function(result) {
+						.then(function (result) {
 							$scope.project.directoryStructure = result.data;
+							$scope.$broadcast('documentMgrRefreshNode', {directoryStructure: result.data});
 							self.busy = false;
 							AlertService.success('The selected folder was deleted.');
 						}, function(error) {
@@ -443,6 +460,7 @@ angular.module('documents')
 									if (directoryStructure) {
 										//$log.debug('Setting the new directory structure...');
 										$scope.project.directoryStructure = directoryStructure;
+										$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
 									}
 									//$log.debug('Refreshing current directory...');
 									self.selectNode(self.currentNode.model.id);
@@ -622,6 +640,7 @@ angular.module('documents')
 										if (directoryStructure) {
 											//$log.debug('Setting the new directory structure...');
 											$scope.project.directoryStructure = directoryStructure;
+											$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
 										}
 										//$log.debug('select and refresh destination directory...');
 										self.selectNode(destination.model.id);
@@ -687,28 +706,11 @@ angular.module('documents')
 					self.selectNode(self.currentNode.model.id);
 				};
 
-				$scope.$on('documentMgrRefreshNode', function(event, args) {
-					//console.log('documentMgrRefreshNode...');
+				$scope.$on('documentMgrRefreshNode', function (event, args) {
+					// console.log('documentMgrRefreshNode...', args.directoryStructure);
+					self.rootNode = tree.parse(args.directoryStructure);
 					self.selectNode(self.currentNode.model.id);
 				});
-
-				// set it up at the root...
-				$scope.$watch(function (scope) {
-						return scope.project.directoryStructure;
-					},
-					function (data) {
-						//console.log('$watch directoryStructure...');
-						var node = self.currentNode || self.rootNode;
-						self.rootNode = tree.parse(data);
-						self.selectNode(node.model.id);
-					}
-				);
-
-				if (self.opendir) {
-					console.log("Going to directory:", self.opendir);
-					self.selectNode(self.opendir);
-				}
-
 			},
 			controllerAs: 'documentMgr'
 		};
@@ -758,12 +760,11 @@ angular.module('documents')
 
 						}
 					}).result.then(function (data) {
-						scope.project.directoryStructure = data;
-						$rootScope.$broadcast('DOCUMENT_MGR_FOLDER_ADDED', {directoryStructure: data});
+						$rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
 					})
-						.catch(function (err) {
-							//$log.error(err);
-						});
+					.catch(function (err) {
+						//$log.error(err);
+					});
 				});
 			}
 		};
@@ -815,12 +816,12 @@ angular.module('documents')
 
 						}
 					}).result.then(function (data) {
-						scope.project.directoryStructure = data;
-						$rootScope.$broadcast('DOCUMENT_MGR_FOLDER_RENAMED', {directoryStructure: data});
+						console.log("deleted data:", data);
+						$rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
 					})
-						.catch(function (err) {
-							//$log.error(err);
-						});
+					.catch(function (err) {
+						//$log.error(err);
+					});
 				});
 			}
 		};
