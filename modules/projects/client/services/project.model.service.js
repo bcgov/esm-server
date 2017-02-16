@@ -43,6 +43,9 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		mine: function () {
 			return this.get ('/api/projects/mine');
 		},
+		getProjectDirectory: function (project) {
+			return this.get ('/api/project/' + project._id + '/directory/list');
+		},
 		// -------------------------------------------------------------------------
 		//
 		// add a phase, form a base phase, to a project. All ancenstors get copied
