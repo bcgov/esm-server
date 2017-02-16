@@ -135,6 +135,7 @@ module.exports = DBModel.extend({
 
 	search: function (name, email, org, groupId) {
 		var self = this;
+		self.sort = {lastName: 1}; // doesn't look like we can sort with case insensitivity :|
 		var getUsers = new Promise(function (resolve, reject) {
 			var q = {};
 			if (!_.isEmpty(name)) {
