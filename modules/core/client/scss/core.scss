@@ -1602,6 +1602,10 @@ tmpl-footer {
 			z-index: 1;
 		}
 
+		.view-body-insert {
+			flex: 0 0 auto;
+		}
+
 		.view-body-container {
 			flex: 1 1 auto;
 		}
@@ -1640,6 +1644,7 @@ ui-view {
 /* PAGE (VIEW) CONTAINERS
 ------------------------------ */
 .view-body-container,
+.view-body-insert,
 .view-footer-container {
 	padding: 2rem;
 }
