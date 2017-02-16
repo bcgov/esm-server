@@ -32,8 +32,8 @@ function projectInspectionController($scope, _, InspectionsModel) {
 		$scope.applySort();
 	});
 	$scope.sorting = {
-		column: 'inspectionName',
-		ascending: true
+		column: 'inspectionDate',
+		ascending: false
 	};
 	$scope.applySort = applySort;
 	$scope.sortBy = sortBy;
