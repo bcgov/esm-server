@@ -431,7 +431,8 @@ module.exports = DBModel.extend ({
 	},
 	publishDirectory: function (projectId, directoryId) {
 		var self = this;
-		return new Promise(function(resolve, reject) {
+		return new Promise(function (resolve, reject) {
+			var root = null;
 			return self.findById(projectId)
 			.then(function (project) {
 				// check for manageFolders permission
@@ -447,7 +448,7 @@ module.exports = DBModel.extend ({
 					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1, published: true};
 					return project.directoryStructure;
 				}
-				var root = tree.parse(project.directoryStructure);
+				root = tree.parse(project.directoryStructure);
 				var node = root.first(function (n) {
 					// Do it this way because parseInt(directoryId) strips away string chars and leaves
 					// the numbers, resulting in potentially unintended consequence
@@ -456,16 +457,28 @@ module.exports = DBModel.extend ({
 				if (node) {
 					// set it to published.
 					node.model.published = true;
+					project.directoryStructure = {};
+					project.directoryStructure = root.model;
+					return self.saveAndReturn(project);
 				} else {
 					// console.log("couldn't find requested node.");
+					return null;
 				}
-				resolve(root.model);
+			}).then(function (p) {
+				if (p) {
+					console.log("back end publishing.");
+					resolve(root.model);
+				} else {
+					console.log("back end REJECT.");
+					reject(root.model);
+				}
 			});
 		});
 	},
 	unPublishDirectory: function (projectId, directoryId) {
 		var self = this;
 		return new Promise(function(resolve, reject) {
+			var root = null;
 			return self.findById(projectId)
 			.then(function (project) {
 				// check for manageFolders permission
@@ -481,7 +494,7 @@ module.exports = DBModel.extend ({
 					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1, published: true};
 					return project.directoryStructure;
 				}
-				var root = tree.parse(project.directoryStructure);
+				root = tree.parse(project.directoryStructure);
 				var node = root.first(function (n) {
 					// Do it this way because parseInt(directoryId) strips away string chars and leaves
 					// the numbers, resulting in potentially unintended consequence
@@ -490,10 +503,19 @@ module.exports = DBModel.extend ({
 				if (node) {
 					// set it to unpublished.
 					node.model.published = false;
+					project.directoryStructure = {};
+					project.directoryStructure = root.model;
+					return self.saveAndReturn(project);
 				} else {
 					// console.log("couldn't find requested node.");
+					return null;
 				}
-				resolve(root.model);
+			}).then(function (p) {
+				if (p) {
+					resolve(root.model);
+				} else {
+					reject(root.model);
+				}
 			});
 		});
 	},
