@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Inspections",
-  "date": "2017-02-16T22:13:00.093Z",
+  "date": "2017-02-17T00:23:32.399Z",
   "data": [
     {
       "projectName": "Mount Milligan",
@@ -162,12 +162,21 @@ module.exports = {
       "inspectionSummary": "On September 1, 2016, Laurie Meade and Kris Bailey, Inspectors of Mines, Health and Safety conducted a general inspection of the Mount Milligan mine site.",
       "recentFollowUp": "Mine Manager's Response",
       "documentName": "MEM Inspection Report 68056",
-      "documentURL": "",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a603f187567d001d1888d4/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
       "inspectionName": "68056-undefined (Ministry of Energy and Mines)",
-      "followUpDocuments": []
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 68056",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a603f187567d001d1888d4/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 68056",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/582294036d6ad30017ce0b29/fetch"
+        }
+      ]
     },
     {
       "projectName": "Mount Milligan",
@@ -178,12 +187,46 @@ module.exports = {
       "inspectionSummary": "An inspection of the Mount Milligan mine was conducted on September 7, 2016, by Sean Shaw (Inspector of Mines, Environmental Geoscience), John Przeczek (contracted Inspector of Mines, Reclamation) and Brian Oke (Inspector of Mines, Permitting). The inspectors were accompanied by the mine manager and several mine employees as well as three members of the Nak ‘Azdli Whut’en First Nation.",
       "recentFollowUp": "Mine Manager's Response",
       "documentName": "MEM Inspection Report 69820",
-      "documentURL": "",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6042887567d001d188900/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
       "inspectionName": "69820-undefined (Ministry of Energy and Mines)",
-      "followUpDocuments": []
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 69820",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6042887567d001d188900/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 69820",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6346287567d001d188c9f/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "Mount Milligan",
+      "agencyCode": "MEM",
+      "inspectionNum": "70916",
+      "inspectionDate": "11/22/2016",
+      "inspectorInitials": "",
+      "inspectionSummary": "An occupational health and safety inspection was done at the Mount Milligan mine on November 22, 2016 by Inspectors of Mines Kris Bailey and Laurie Meade.",
+      "recentFollowUp": "Mine Manager's Response",
+      "documentName": "MEM Inspection Report 70916",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a637a087567d001d188cb2/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "70916-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 70916",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a637a087567d001d188cb2/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 70916",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a637a287567d001d188cbf/fetch"
+        }
+      ]
     },
     {
       "projectName": "Red Chris",
@@ -526,6 +569,27 @@ module.exports = {
     {
       "projectName": "Highland Valley Copper",
       "agencyCode": "MEM",
+      "inspectionNum": "61503",
+      "inspectionDate": "1/26/2016",
+      "inspectorInitials": "SGR",
+      "inspectionSummary": "On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the\nbooster pump house.On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the\nbooster pump house.On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the\nbooster pump house.On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the\nbooster pump house.On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the\nbooster pump house.",
+      "recentFollowUp": "",
+      "documentName": "MEM Inspection Report 61503",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58227e216d6ad30017cdcbe3/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "61503-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 61503",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58227e216d6ad30017cdcbe3/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "Highland Valley Copper",
+      "agencyCode": "MEM",
       "inspectionNum": "63580",
       "inspectionDate": "4/26/2016",
       "inspectorInitials": "RCC",
@@ -545,6 +609,77 @@ module.exports = {
         {
           "name": "Mine Manager's Response to Inspection Report 63580",
           "ref": "https://mines.empr.gov.bc.ca/api/document/582293df6d6ad30017ce0a3f/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "Highland Valley Copper",
+      "agencyCode": "MEM",
+      "inspectionNum": "65597",
+      "inspectionDate": "7/7/2016",
+      "inspectorInitials": "SGR",
+      "inspectionSummary": "On July 7, 2016, Stephen Rothman, Inspector of Mines, Health & Safety, conducted a general inspection of the Highland Valley Copper mine site.",
+      "recentFollowUp": "",
+      "documentName": "MEM Inspection Report 65597",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6277c87567d001d188c2d/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "65597-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 65597",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6277c87567d001d188c2d/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "Highland Valley Copper",
+      "agencyCode": "MEM",
+      "inspectionNum": "66257",
+      "inspectionDate": "7/18/2016",
+      "inspectorInitials": "BG",
+      "inspectionSummary": "On July 18, 2016, Blythe Golobic, Inspector of Mines, Health & Safety, visited the Highland Valley Copper mine to conduct a general inspection.",
+      "recentFollowUp": "Mine Manager's Response",
+      "documentName": "MEM Inspection Report 66257",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6277d87567d001d188c3a/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "66257-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 66257",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6277d87567d001d188c3a/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 66257",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6277d87567d001d188c47/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "Highland Valley Copper",
+      "agencyCode": "MEM",
+      "inspectionNum": "71618",
+      "inspectionDate": "9/23/2016",
+      "inspectorInitials": "SS",
+      "inspectionSummary": "On September 23, 2016, Sean Shaw, Senior Inspector of Mines, Environmental Geosciene and Sonia Meili, Inspector of Mines, Reclamation, conducted an inspection of the Highland Valley Copper mine.",
+      "recentFollowUp": "Senior Environmental Coordinator's Response",
+      "documentName": "MEM Inspection Report 71618",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6274b87567d001d188c07/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "71618-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 71618",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6274b87567d001d188c07/fetch"
+        },
+        {
+          "name": "Senior Environmental Coordinator's Response to Inspection Report 71618",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a638c387567d001d188ccc/fetch"
         }
       ]
     },
@@ -1569,7 +1704,7 @@ module.exports = {
       "inspectionNum": "66262",
       "inspectionDate": "7/19/2016",
       "inspectorInitials": "GRM",
-      "inspectionSummary": "On July 19 & 20, 2016, Senior Inspector of Mines Greg McLean conducted a mechanical inspection of the Brucejack mine site. He was accompanied by inspectors of mines Katelynn Coutts, Aaron Unger, Andrew Sinstadt and James Robinson.",
+      "inspectionSummary": "On July 19 & 20, 2016, Senior Inspector of Mines Greg McLean conducted a mechanical inspection of the Brucejack mine site. He was accompanied by Inspectors of Mines Katelynn Coutts, Aaron Unger, Andrew Sinstadt and James Robinson.",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 66262",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a4ffc387567d001d188383/fetch",
@@ -1591,18 +1726,23 @@ module.exports = {
     {
       "projectName": "Brucejack",
       "agencyCode": "MEM",
-      "inspectionNum": "",
+      "inspectionNum": "66437",
       "inspectionDate": "7/19/2016",
       "inspectorInitials": "AU",
-      "inspectionSummary": "",
+      "inspectionSummary": "On July 19 & 20, 2016, Inspector of Mines Aaron Unger conducted an ergonomics inspection at the Brucejack mine. He was accompanied by Inspectors of Mines Greg McLean, Katelynn Coutts, Andrew Sinstadt and James Robinson.",
       "recentFollowUp": "",
-      "documentName": "",
-      "documentURL": "",
+      "documentName": "MEM Inspection Report 66437",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a60b6a87567d001d18894c/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
-      "inspectionName": "-undefined (Ministry of Energy and Mines)",
-      "followUpDocuments": []
+      "inspectionName": "66437-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 66437",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a60b6a87567d001d18894c/fetch"
+        }
+      ]
     },
     {
       "projectName": "Brucejack",
@@ -1723,7 +1863,7 @@ module.exports = {
       "inspectionNum": "71456",
       "inspectionDate": "12/7/2016",
       "inspectorInitials": "DWF",
-      "inspectionSummary": "Senior Inspector of Mines Doug Flynn conducted a general inspection of the Brucejack mine site on December 7–9, 2016. He was accompanied by James Robinson, Inspector of Mines, Mechanical, who submitted a separate inspection report (71621).",
+      "inspectionSummary": "Senior Inspector of Mines Doug Flynn conducted a general inspection of the Brucejack mine site on December 7–9, 2016. He was accompanied by James Robinson, Inspector of Mines, Mechanical, who submitted a separate inspection report (71621).Senior Inspector of Mines Doug Flynn conducted a general inspection of the Brucejack mine site on December 7–9, 2016. He was accompanied by James Robinson, Inspector of Mines, Mechanical, who submitted a separate inspection report (71621).",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 71456",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a5f9b987567d001d18875e/fetch",
@@ -2340,7 +2480,7 @@ module.exports = {
       "inspectionNum": "27793",
       "inspectionDate": "4/19/2016",
       "inspectorInitials": "JG",
-      "inspectionSummary": "On April 19, 2016, Jack Green, Environmental Protection Officer, visited the Gibraltar mine for an on-site inspection. He was accompanied by 2 mine employees. Site inspection consisted of a review of the mine's Environmental Management Act air permit requirements and a tour of the\nmine and mill operation, including authorized discharges.On April 19, 2016, Jack Green, Environmental Protection Officer, visited the Gibraltar mine for an on-site inspection. He was accompanied by 2 mine employees. Site inspection consisted of a review of the mine's Environmental Management Act air permit requirements and a tour of the\nmine and mill operation, including authorized discharges.On April 19, 2016, Jack Green, Environmental Protection Officer, visited the Gibraltar mine for an on-site inspection. He was accompanied by 2 mine employees. Site inspection consisted of a review of the mine's Environmental Management Act air permit requirements and a tour of the\nmine and mill operation, including authorized discharges.",
+      "inspectionSummary": "On April 19, 2016, Jack Green, Environmental Protection Officer, visited the Gibraltar mine for an on-site inspection. He was accompanied by 2 mine employees. Site inspection consisted of a review of the mine's Environmental Management Act air permit requirements and a tour of the\nmine and mill operation, including authorized discharges.On April 19, 2016, Jack Green, Environmental Protection Officer, visited the Gibraltar mine for an on-site inspection. He was accompanied by 2 mine employees. Site inspection consisted of a review of the mine's Environmental Management Act air permit requirements and a tour of the\nmine and mill operation, including authorized discharges.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 27793",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/589bb67487567d001d18801a/fetch",
@@ -2856,6 +2996,98 @@ module.exports = {
         {
           "name": "ENV Inspection Report 27148",
           "ref": "https://mines.empr.gov.bc.ca/api/document/589bbac687567d001d1881e1/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "New Afton",
+      "agencyCode": "MEM",
+      "inspectionNum": "67976",
+      "inspectionDate": "8/30/2016",
+      "inspectorInitials": "SGR",
+      "inspectionSummary": "On August 30, 2016, Inspector of Mines Stephen Rothman conducted a general inspection of the New Afton mine.",
+      "recentFollowUp": "",
+      "documentName": "MEM Inspection Report 67976",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a61ce087567d001d188b88/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "67976-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 67976",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a61ce087567d001d188b88/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 67976",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a62d5e87567d001d188c8c/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "New Afton",
+      "agencyCode": "MEM",
+      "inspectionNum": "69578",
+      "inspectionDate": "10/4/2016",
+      "inspectorInitials": "MIC",
+      "inspectionSummary": "A geotechnical inspection of the New Afton Mine was conducted on October 4, 2016 by Michael Cullen, accompanied by Inspectors of Mines Steve Rothman and Blythe Golobic.",
+      "recentFollowUp": "",
+      "documentName": "MEM Inspection Report 69578",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a60ec087567d001d1889f7/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "69578-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 69578",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a60ec087567d001d1889f7/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "New Afton",
+      "agencyCode": "MEM",
+      "inspectionNum": "69816",
+      "inspectionDate": "10/19/2016",
+      "inspectorInitials": "AAU",
+      "inspectionSummary": "On October 19 & 20, 2016, Inspector of Mines Aaron Unger conducted an ergonomics inspection of the New Afton mine. He was accompanied by Inspectors of Mines Katelynn Coutts and Andrew Sinstadt. Inspector Coutts submitted a separate occupational health inspection report (69976) for this visit.",
+      "recentFollowUp": "",
+      "documentName": "MEM Inspection Report 69816",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a60e7587567d001d1889b3/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "69816-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 69816",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a60e7587567d001d1889b3/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 69816",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a60e7587567d001d1889c5/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "New Afton",
+      "agencyCode": "MEM",
+      "inspectionNum": "69976",
+      "inspectionDate": "10/19/2016",
+      "inspectorInitials": "KC",
+      "inspectionSummary": "On October 19 & 20, 2016, Inspectors of Mines Katelynn Coutts, Andrew Sinstadt and Aaron Unger inspected the New Afton mine. Inspector Unger submitted a separate ergonomics inspection report (69816) for this visit.",
+      "recentFollowUp": "",
+      "documentName": "MEM Inspection Report 69976",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a60e7587567d001d1889b2/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "69976-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 69976",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a60e7587567d001d1889b2/fetch"
         }
       ]
     },
