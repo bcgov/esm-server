@@ -38,6 +38,12 @@
   <!-- Application CSS Files -->
   {% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
 
+  <script type="text/javascript">
+        function toggleSideNav() {
+          $('.left-panel').toggleClass('open');
+        }
+	</script>
+
 </head>
 
 <body class="ng-cloak" x-scroll>

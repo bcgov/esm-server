@@ -833,9 +833,10 @@ function directiveModalDatePicker($modal, $rootScope, $timeout) {
 				/*
 				Setting ng-disabled on an element with the date picker modal does not disable the click
 				event. It only changes the cursor and ui to look disabled.  To control whether the date picker
-				is enabled use the x-picker-enabled attribute.
+				is enabled use the x-picker-enabled attribute. Default to enabled if this attribute is not defined.
 				 */
-				if(!scope.pickerEnabled) {
+				if(scope.pickerEnabled !== undefined && !scope.pickerEnabled) {
+					console.log("Exit date picker");
 					return;
 				}
 				var modalAddComment = $modal.open({

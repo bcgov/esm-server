@@ -380,7 +380,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 		//ESM-813 - generic instructions text...
 		// we will analyze on save and substitute...
 		if (_.isEmpty(period.instructions)) {
-			period.instructions = "The public comment period regarding the Proponent's %DOCUMENT_TYPES% for the proposed %PROJECT_NAME% Project is open from %DATE_RANGE%.";
+			period.instructions = "The public comment period regarding the Proponent's [INSERT DOCUMENT TYPE] for the proposed %PROJECT_NAME% Project is open from %DATE_RANGE%.";
 		}
 
 		$scope.instructionsSubstitution = function () {

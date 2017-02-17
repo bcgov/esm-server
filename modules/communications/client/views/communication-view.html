@@ -1,5 +1,6 @@
 
 <div class="view-title-container flex-row">
+	<a class="btn icon-btn mobile-nav-btn" ui-sref="p.communication.list"><span class="glyphicon glyphicon glyphicon-chevron-left"></span></a>
 	<h1>Project Update &nbsp;&rsaquo;&nbsp; {{s.communication.name}}</h1>
 	<div class="actions">
 		<button class="btn btn-default btn-sm" ng-if="s.communication.userCan.write" ng-click="$event.stopPropagation()" x-mode="'edit'"
@@ -66,10 +67,6 @@
 
 			</table>
 		</div>
-	</div>
-
-	<div class="form-footer no-border clearfix">
-		<a class="back-btn btn btn-link pull-left" ui-sref="p.communication.list"><span class="glyphicon glyphicon-chevron-left"></span>Back to Project Updates</a>
 	</div>
 
 </div>
