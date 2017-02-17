@@ -554,6 +554,32 @@ angular.module('documents')
 						});
 				};
 
+				self.publishFolder = function(folder) {
+					self.busy = true;
+					return ProjectModel.publishDirectory($scope.project, folder.model.id)
+						.then(function (directoryStructure) {
+							$scope.project.directoryStructure = directoryStructure;
+							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+							AlertService.success(folder.model.name + ' folder successfully published.');
+						}, function () {
+							self.busy = false;
+							AlertService.error('The selected folder could not be published.');
+						});
+				};
+
+				self.unpublishFolder = function(folder) {
+					self.busy = true;
+					return ProjectModel.unpublishDirectory($scope.project, folder.model.id)
+						.then(function (directoryStructure) {
+							$scope.project.directoryStructure = directoryStructure;
+							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+							AlertService.success(folder.model.name + ' folder successfully un-published.');
+						}, function () {
+							self.busy = false;
+							AlertService.error('The selected folder could not be un-published.');
+						});
+				};
+
 				self.publishFile = function(file) {
 					return self.publishFiles([file]);
 				};
@@ -708,7 +734,7 @@ angular.module('documents')
 				};
 
 				$scope.$on('documentMgrRefreshNode', function (event, args) {
-					// console.log('documentMgrRefreshNode...', args.directoryStructure);
+					console.log('documentMgrRefreshNode...', args.directoryStructure);
 					if (args.nodeId) {
 						// Refresh the node
 						self.selectNode(args.nodeId);
