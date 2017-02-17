@@ -23,6 +23,7 @@ angular.module('projects').config (
 			.state('projects', {
 				url: '/',
 				templateUrl: 'modules/projects/client/views/projects.abstract.html',
+				cache: false,
 				resolve: {
 					projects: function ($stateParams, ProjectModel) {
 						return ProjectModel.published ();
