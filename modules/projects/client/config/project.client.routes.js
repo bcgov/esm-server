@@ -69,7 +69,8 @@ angular.module('project').config (
 						var start 	= new Date (period.dateStarted);
 						var end		= new Date (period.dateCompleted);
 						var isopen 	= start < today && today < end;
-						if (isopen) {
+						var isPublished = period.isPublished;
+						if (isopen && isPublished) {
 							openPeriod = period;
 							return false;
 						}

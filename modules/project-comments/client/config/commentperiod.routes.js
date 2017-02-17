@@ -51,7 +51,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				// Go through the periods on the project, surface the active one and enable commenting
 				// right from here.
 				// The following code is copied from project.client.routes.js
-				console.log("Comment period route looking for active period(s)", project._id);
 				return CommentPeriodModel.forProject (project._id)
 					.then( function (periods) {
 						var today	= new Date ();
@@ -61,7 +60,8 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 							var start 	= new Date (period.dateStarted);
 							var end		= new Date (period.dateCompleted);
 							var isopen 	= start < today && today < end;
-							if (isopen) {
+							var isPublished = period.isPublished;
+							if (isopen && isPublished) {
 								openPeriod = period;
 								return false;
 							}

@@ -35,6 +35,9 @@
 					<td title="'Type'" filter="{'periodType':'select'}" filter-data="s.typeArray" sortable="'periodType'">
 						{{p.periodType}}
 					</td>
+					<td title="'Status'" sortable="'isPublished'">
+						<span ng-if="p.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
+					</td>
 					<td title="'Documents'" sortable="'relatedDocuments.length'">
 						{{p.relatedDocuments.length}}
 					</td>
@@ -57,13 +60,15 @@
 							ui-sref="p.commentperiod.edit({periodId:p._id})" href>
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
+						<!-- Only one of the next two buttons appear. Depends on isPublished state of PCP.  Can change from unpublished to publish any time but
+								can only change from published to unpublished if the comment period is closed.
+						-->
 						<button class="btn btn-default btn-sm"
 										ng-if="!p.isPublished && project.userCan.createCommentPeriod"
 										title="Publish Comment"
 										ng-click="$event.stopPropagation();"
-										ng-disabled="p.openForComment"
 										x-confirm-dialog
-										x-title-text="'Publish Comment'"
+										x-title-text="'Publish Comment Period'"
 										x-ok-text="'Yes'"
 										x-cancel-text="'No'"
 										x-confirm-text="'Are you sure you want to publish this comment period?'"
@@ -77,7 +82,7 @@
 										ng-click="$event.stopPropagation();"
 										ng-disabled="p.openForComment"
 										x-confirm-dialog
-										x-title-text="'Unpublish Comment'"
+										x-title-text="'Unpublish Comment Period'"
 										x-ok-text="'Yes'"
 										x-cancel-text="'No'"
 										x-confirm-text="'Are you sure you want to unpublish this comment period?'"
