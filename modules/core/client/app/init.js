@@ -113,6 +113,25 @@ angular.element(document).ready(function () {
 	  (window.location.port ? ':' + window.location.port : '');
   }
 
+
+	(function (i, s, o, g, r, a, m) {
+		i.GoogleAnalyticsObject = r;
+		i[r] = i[r] || function () {
+				(i[r].q = i[r].q || []).push(arguments);
+			};
+		i[r].l = 1 * new Date();
+		a = s.createElement(o);
+		m = s.getElementsByTagName(o)[0];
+		a.async = 1;
+		a.src = g;
+		m.parentNode.insertBefore(a, m);
+	})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+	window.ga('create', 'UA-92166912-1', 'auto');
+	window.ga('set', 'anonymizeIp', true);
+	window.ga('set', 'hostname', window.location.hostname);
+	window.ga('send', 'pageview');
+
 	//Then init the app
 	angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
 });
