@@ -32,12 +32,30 @@ angular.module('emailtemplate').config(['$stateProvider', function ($stateProvid
 		templateUrl: 'modules/email-templates/client/views/email-template-list.html',
 		resolve: {
 			emailtemplate: function ($stateParams, EmailTemplateModel) {
-				return EmailTemplateModel.getCollection ();
+				return EmailTemplateModel.getCollection();
 			}
 		},
-		controller: function ($scope, NgTableParams, emailtemplate) {
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: emailtemplate});
-		}
+		controller: function ($scope, $state, AlertService, NgTableParams, emailtemplate, EmailTemplateModel) {
+			var s = this;
+			$scope.tableParams = new NgTableParams({count: 10}, {dataset: emailtemplate});
+			s.confirmText = function(template) {
+				return "Are you sure you would like to permanently delete email template '"+ template.name + "'?";
+			}
+			s.deleteEmailTemplate = function (template) {
+				console.log("Delete email template", template);
+				return EmailTemplateModel.deleteId(template._id)
+					.then(
+						function (result) {
+							$state.reload();
+							AlertService.success('Email Template was deleted!');
+						},
+						function (error) {
+							$state.reload();
+							AlertService.error('Email Template could not be deleted.');
+						});
+			};
+		},
+		controllerAs: 's'
 	})
 	// -------------------------------------------------------------------------
 	//
