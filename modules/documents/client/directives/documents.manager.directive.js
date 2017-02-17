@@ -32,7 +32,8 @@ angular.module('documents')
 					$scope.project.directoryStructure = dir || {
 						id: 1,
 						lastId: 1,
-						name: 'ROOT'
+						name: 'ROOT',
+						published: true
 					};
 
 					self.rootNode = tree.parse($scope.project.directoryStructure);
@@ -708,8 +709,13 @@ angular.module('documents')
 
 				$scope.$on('documentMgrRefreshNode', function (event, args) {
 					// console.log('documentMgrRefreshNode...', args.directoryStructure);
-					self.rootNode = tree.parse(args.directoryStructure);
-					self.selectNode(self.currentNode.model.id);
+					if (args.nodeId) {
+						// Refresh the node
+						self.selectNode(args.nodeId);
+					} else {
+						self.rootNode = tree.parse(args.directoryStructure);
+						self.selectNode(self.currentNode.model.id);
+					}
 				});
 			},
 			controllerAs: 'documentMgr'
@@ -1096,7 +1102,8 @@ angular.module('documents')
 				$scope.project.directoryStructure = $scope.project.directoryStructure || {
 						id: 1,
 						lastId: 1,
-						name: 'ROOT'
+						name: 'ROOT',
+						published: true
 					};
 
 				// default sort is by name ascending...

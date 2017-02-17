@@ -399,10 +399,10 @@ module.exports = DBModel.extend ({
 				});
 		});
 	},
-	getDirectoryStructure: function (project) {
+	getDirectoryStructure: function (projectId) {
 		var self = this;
 		return new Promise(function (resolve, reject) {
-			return self.findById(project._id)
+			return self.findById(projectId)
 			.then(function (project) {
 				var bFilter = true;
 				if (project.userCan.manageFolders) {
@@ -429,10 +429,10 @@ module.exports = DBModel.extend ({
 			});
 		});
 	},
-	publishDirectory: function (project, directoryId) {
+	publishDirectory: function (projectId, directoryId) {
 		var self = this;
 		return new Promise(function(resolve, reject) {
-			return self.findById(project._id)
+			return self.findById(projectId)
 			.then(function (project) {
 				// check for manageFolders permission
 				if (!project.userCan.manageFolders) {
@@ -463,10 +463,10 @@ module.exports = DBModel.extend ({
 			});
 		});
 	},
-	unPublishDirectory: function (project, directoryId) {
+	unPublishDirectory: function (projectId, directoryId) {
 		var self = this;
 		return new Promise(function(resolve, reject) {
-			return self.findById(project._id)
+			return self.findById(projectId)
 			.then(function (project) {
 				// check for manageFolders permission
 				if (!project.userCan.manageFolders) {
