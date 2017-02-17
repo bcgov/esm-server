@@ -576,6 +576,4 @@ function controllerProjectActivities(
 
 	// });
 
-
-
 }
