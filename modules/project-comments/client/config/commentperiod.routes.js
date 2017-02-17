@@ -119,7 +119,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			};
 
 			s.publishCommentPeriod = function(p) {
-				console.log("BG publishCommentPeriod in comment period routes", p);
 				return CommentPeriodModel.publishCommentPeriod(p)
 					.then(
 						function(result) {
@@ -132,7 +131,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 						});
 			};
 			s.unpublishCommentPeriod = function(p) {
-				console.log("BG unpublishCommentPeriod in comment period routes", p);
 				return CommentPeriodModel.unpublishCommentPeriod(p)
 					.then(
 						function(result) {

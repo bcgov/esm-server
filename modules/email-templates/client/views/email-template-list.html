@@ -23,6 +23,19 @@
 					<a ng-if="application.userCan.createEmailTemplate" class="btn btn-link btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.emailtemplate.edit({emailtemplateId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
+					<button class="btn btn-default btn-sm"
+						ng-if="application.userCan.createEmailTemplate"
+						title="Delete Comment Period"
+						ng-click="$event.stopPropagation();"
+						x-confirm-dialog
+						x-title-text="'Delete Email Template'"
+						x-ok-text="'Yes'"
+						x-cancel-text="'No'"
+						x-confirm-text="s.confirmText(o)"
+						x-on-ok="s.deleteEmailTemplate"
+						x-ok-args="o">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
 				</td>
 			</tr>
 			<tr ng-if="!$data || $data.length === 0">
