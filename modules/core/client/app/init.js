@@ -254,6 +254,7 @@ angular.element(document).ready(function () {
 
 	window.ga('create', 'UA-92166912-1', 'auto');
 	window.ga('set', 'anonymizeIp', true);
+	window.ga('set', 'hostname', window.location.hostname);
 	window.ga('send', 'pageview');
 
 	//Then init the app
