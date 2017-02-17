@@ -203,6 +203,10 @@ var seedingAsync = function() {
 	checkIntegration('app-20160727.10').then(function () {
 		require('../seed-data/application')();
 	});
+
+	checkIntegration('folders-20170216.11').then(function () {
+		require('../seed-data/folders')();
+	});
 };
 
 // =========================================================================
