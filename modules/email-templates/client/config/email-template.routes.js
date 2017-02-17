@@ -40,7 +40,7 @@ angular.module('emailtemplate').config(['$stateProvider', function ($stateProvid
 			$scope.tableParams = new NgTableParams({count: 10}, {dataset: emailtemplate});
 			s.confirmText = function(template) {
 				return "Are you sure you would like to permanently delete email template '"+ template.name + "'?";
-			}
+			};
 			s.deleteEmailTemplate = function (template) {
 				console.log("Delete email template", template);
 				return EmailTemplateModel.deleteId(template._id)
