@@ -1606,13 +1606,18 @@ ui-view {
 .view-title-container {
 	height: 6.2rem;
 	padding: 1.5rem 2rem;
+	border-bottom: 1px solid #EEE;
 	background: #FFF;
-	border-bottom: 1px solid #DDD;
 	min-width: 0;
+
+	.mobile-nav-btn {
+		margin-top: -0.2rem;
+		margin-right: 0.75rem;
+	}
 
     h1 {
         margin: 0;
-        padding-top: 0.2rem;
+        padding-top: 0.4rem;
 		font-size: 2.4rem;
 		font-weight: bold;
 		white-space: nowrap;
@@ -5421,6 +5426,12 @@ tmpl-template-render {
 .user-table {
 	tbody {
 		max-height: 30rem;
+	}
+}
+
+.form-footer {
+	.btn {
+		min-width: 8rem;
 	}
 }
 
