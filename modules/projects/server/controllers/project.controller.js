@@ -215,7 +215,7 @@ module.exports = DBModel.extend ({
 				if (!project.directoryStructure) {
 					// console.log("setting default");
 					// TODO: bring this in from DB instead of hardcoding
-					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1};
+					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1, published: true};
 				}
 				var root = tree.parse(project.directoryStructure);
 				// Walk until the right folder is found
@@ -236,7 +236,8 @@ module.exports = DBModel.extend ({
 					}
 
 					root.model.lastId += 1;
-					var node = theNode.addChild(tree.parse({id: root.model.lastId, name: folderName}));
+					// Need to add order property to the folder item to apply alternate sorting
+					var node = theNode.addChild(tree.parse({id: root.model.lastId, name: folderName, order: 0, published: false}));
 					newNodeId = node.model.id;
 				} else {
 					// If we didn't find the node, this is an error.
@@ -398,10 +399,102 @@ module.exports = DBModel.extend ({
 				});
 		});
 	},
-	getDirectoryStructure: function (projectId) {
-		return this.findById(projectId)
-		.then(function (project) {
-			return project.directoryStructure;
+	getDirectoryStructure: function (project) {
+		var self = this;
+		return new Promise(function (resolve, reject) {
+			return self.findById(project._id)
+			.then(function (project) {
+				var bFilter = true;
+				if (project.userCan.manageFolders) {
+					console.log("User can manage folders, give them everything.");
+					bFilter = false;
+				}
+
+				var tree = new TreeModel();
+				if (!project.directoryStructure) {
+					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1, published: true};
+					return project.directoryStructure;
+				}
+				var root = tree.parse(project.directoryStructure);
+				root.all(function (node) {
+				    return node.model.published !== true;
+				}).forEach( function (n) {
+					if (bFilter) {
+						// console.log("dropping node:", n);
+						n.drop();
+					}
+				});
+
+				resolve(root.model);
+			});
+		});
+	},
+	publishDirectory: function (project, directoryId) {
+		var self = this;
+		return new Promise(function(resolve, reject) {
+			return self.findById(project._id)
+			.then(function (project) {
+				// check for manageFolders permission
+				if (!project.userCan.manageFolders) {
+					reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+				} else {
+					return project;
+				}
+			})
+			.then(function (project) {
+				var tree = new TreeModel();
+				if (!project.directoryStructure) {
+					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1, published: true};
+					return project.directoryStructure;
+				}
+				var root = tree.parse(project.directoryStructure);
+				var node = root.first(function (n) {
+					// Do it this way because parseInt(directoryId) strips away string chars and leaves
+					// the numbers, resulting in potentially unintended consequence
+					return ('' + n.model.id) === directoryId;
+				});
+				if (node) {
+					// set it to published.
+					node.model.published = true;
+				} else {
+					// console.log("couldn't find requested node.");
+				}
+				resolve(root.model);
+			});
+		});
+	},
+	unPublishDirectory: function (project, directoryId) {
+		var self = this;
+		return new Promise(function(resolve, reject) {
+			return self.findById(project._id)
+			.then(function (project) {
+				// check for manageFolders permission
+				if (!project.userCan.manageFolders) {
+					reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+				} else {
+					return project;
+				}
+			})
+			.then(function (project) {
+				var tree = new TreeModel();
+				if (!project.directoryStructure) {
+					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1, published: true};
+					return project.directoryStructure;
+				}
+				var root = tree.parse(project.directoryStructure);
+				var node = root.first(function (n) {
+					// Do it this way because parseInt(directoryId) strips away string chars and leaves
+					// the numbers, resulting in potentially unintended consequence
+					return ('' + n.model.id) === directoryId;
+				});
+				if (node) {
+					// set it to unpublished.
+					node.model.published = false;
+				} else {
+					// console.log("couldn't find requested node.");
+				}
+				resolve(root.model);
+			});
 		});
 	},
 	// -------------------------------------------------------------------------

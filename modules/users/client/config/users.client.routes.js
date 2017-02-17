@@ -127,6 +127,7 @@ angular.module('users').config(['$stateProvider',
 			.state('activities', {
 				url: '/activities',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
+				cache: false,
 				resolve: {
 				},
 				controller: function ($scope, $state, $stateParams, NgTableParams, _, ProjectModel) {

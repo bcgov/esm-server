@@ -4,7 +4,7 @@
 // comment period routes
 //
 // =========================================================================
-angular.module('comment').config(['$stateProvider', function ($stateProvider) {
+angular.module('comment').config(['$stateProvider', 'moment', "_", function ($stateProvider, moment, _) {
 	$stateProvider
 	// -------------------------------------------------------------------------
 	//
@@ -46,11 +46,45 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		resolve: {
 			periods: function ($stateParams, CommentPeriodModel, project) {
 				return CommentPeriodModel.forProjectWithStats (project._id);
+			},
+			activeperiod: function ($stateParams, CommentPeriodModel, project) {
+				// Go through the periods on the project, surface the active one and enable commenting
+				// right from here.
+				// The following code is copied from project.client.routes.js
+				console.log("Comment period route looking for active period(s)", project._id);
+				return CommentPeriodModel.forProject (project._id)
+					.then( function (periods) {
+						var today	= new Date ();
+						var openPeriod = null;
+						_.each(periods, function (period) {
+							console.log("Comment period rout looking at period", period);
+							var start 	= new Date (period.dateStarted);
+							var end		= new Date (period.dateCompleted);
+							var isopen 	= start < today && today < end;
+							if (isopen) {
+								openPeriod = period;
+								return false;
+							}
+						});
+						if (openPeriod) {
+							console.log("Found open period:", openPeriod);
+							return openPeriod;
+						} else {
+							return null;
+						}
+					});
 			}
 		},
-		controller: function ($scope, $state, NgTableParams, periods, project, _, moment, CommentPeriodModel, AlertService) {
+		controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, CommentPeriodModel, AlertService) {
 			var s = this;
 			//console.log ('periods = ', periods);
+			$scope.activeperiod = null;
+			if (activeperiod) {
+				// Switch on the UI for comment period
+				// console.log("activeperiod:", activeperiod);
+				$scope.activeperiod = activeperiod;
+				$scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+			}
 			var ps = _.map(periods, function(p) {
 				var openForComment = moment(moment.now()).isBetween(p.dateStarted, p.dateCompleted);
 				return _.extend(p, {openForComment: openForComment});
@@ -83,6 +117,33 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 							AlertService.error('Comment Period could not be deleted.');
 						});
 			};
+
+			s.publishCommentPeriod = function(p) {
+				console.log("BG publishCommentPeriod in comment period routes", p);
+				return CommentPeriodModel.publishCommentPeriod(p)
+					.then(
+						function(result) {
+							$state.reload();
+							AlertService.success('Comment Period was published!');
+						},
+						function(error){
+							$state.reload();
+							AlertService.error('Comment Period could not be published.');
+						});
+			};
+			s.unpublishCommentPeriod = function(p) {
+				console.log("BG unpublishCommentPeriod in comment period routes", p);
+				return CommentPeriodModel.unpublishCommentPeriod(p)
+					.then(
+						function(result) {
+							$state.reload();
+							AlertService.success('Comment Period was unpublished!');
+						},
+						function(error){
+							$state.reload();
+							AlertService.error('Comment Period could not be unpublished.');
+						});
+			};
 		},
 		controllerAs: 's'
 	})
@@ -107,8 +168,8 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel, _) {
-			createEditCommonSetup($timeout, $scope, _, period, project);
+		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel) {
+			createEditCommonSetup($timeout, $scope, period, project);
 
 			$scope.hasErrors = false;
 			//$scope.errorMessage = '';
@@ -123,6 +184,8 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					period.phase = project.currentPhase;
 					period.phaseName = project.currentPhase.name;
 
+					$scope.instructionsSubstitution();
+
 					CommentPeriodModel.add($scope.period)
 					.then(function (model) {
 						$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
@@ -136,7 +199,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				}
 			};
 
-			defineDocumentMgr($scope, _);
+			defineDocumentMgr($scope);
 
 			$scope.documentMgr.applySort();
 
@@ -164,12 +227,12 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state, period, project, CommentPeriodModel, CommentModel, _) {
+		controller: function ($timeout, $scope, $state,  period, project, CommentPeriodModel, CommentModel) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
-			createEditCommonSetup($timeout, $scope, _, period, project);
+			createEditCommonSetup($timeout, $scope, period, project);
 
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
@@ -179,6 +242,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 					$scope.hasErrors = true;
 					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
 				} else {
+					$scope.instructionsSubstitution();
 					CommentPeriodModel.save($scope.period)
 					.then(function (model) {
 						// console.log ('period was saved',model);
@@ -204,7 +268,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				}
 			};
 
-			defineDocumentMgr($scope, _);
+			defineDocumentMgr($scope);
 
 			$scope.documentMgr.applySort();
 
@@ -227,7 +291,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				return CommentPeriodModel.getForPublic ($stateParams.periodId);
 			}
 		},
-		controller: function ($scope, period, project, _) {
+		controller: function ($scope, period, project) {
 			//console.log ('period user can: ', JSON.stringify(period.userCan, null, 4));
 			var self = this;
 			var today       = new Date ();
@@ -302,7 +366,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 
 	;
 
-	function createEditCommonSetup($timeout, $scope, _, period, project) {
+	function createEditCommonSetup($timeout, $scope, period, project) {
 		$scope.period = period;
 		$scope.project = project;
 		$scope.changeType = function () {
@@ -312,13 +376,53 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 				period.commenterRoles = [];
 			}
 		};
+
+		//ESM-813 - generic instructions text...
+		// we will analyze on save and substitute...
+		if (_.isEmpty(period.instructions)) {
+			period.instructions = "The public comment period regarding the Proponent's [INSERT DOCUMENT TYPE] for the proposed %PROJECT_NAME% Project is open from %DATE_RANGE%.";
+		}
+
+		$scope.instructionsSubstitution = function () {
+			// check to see if we can make substitutions to the instructions...
+			var PERIOD_TYPE = '%PERIOD_TYPE%';
+			var PROJECT_NAME = '%PROJECT_NAME%';
+			var DOCUMENT_TYPES = '%DOCUMENT_TYPES%';
+			var DATE_RANGE = '%DATE_RANGE%';
+
+			if (!_.isEmpty(period.periodType)) {
+				PERIOD_TYPE = period.periodType;
+			}
+			if (!_.isEmpty(project.name)) {
+				PROJECT_NAME = project.name;
+			}
+
+			var doctypes = _.map(_.filter(period.relatedDocuments, function(d) { return !_.isEmpty(d.documentType); }), function(r) { return r.documentType; });
+			doctypes = _.uniq(doctypes);
+			if (_.size(doctypes) > 0) {
+				DOCUMENT_TYPES = doctypes.join(", ");
+				if (_.size(doctypes) > 1) {
+					DOCUMENT_TYPES = DOCUMENT_TYPES + ' documents';
+				}
+			}
+
+			if (period.dateStarted && period.dateCompleted) {
+				DATE_RANGE = moment(period.dateStarted).format("MMMM Do YYYY") + ' to ' + moment(period.dateCompleted).format("MMMM Do YYYY");
+			}
+
+			period.instructions = period.instructions.replace('%PERIOD_TYPE%', PERIOD_TYPE);
+			period.instructions = period.instructions.replace('%PROJECT_NAME%', PROJECT_NAME);
+			period.instructions = period.instructions.replace('%DOCUMENT_TYPES%', DOCUMENT_TYPES);
+			period.instructions = period.instructions.replace('%DATE_RANGE%', DATE_RANGE);
+		};
+
 		_.each($scope.period.relatedDocuments, function(d) {
 			if (_.isEmpty(d.displayName)) {
 				d.displayName = d.documentFileName || d.internalOriginalName;
 			}
 		});
 
-		$scope.addLinkedFiles = function(data) { addLinkedFiles($scope, _, data);	};
+		$scope.addLinkedFiles = function(data) { addLinkedFiles($scope, data);	};
 
 		$scope.removeDocument = function(doc) {
 			_.remove($scope.period.relatedDocuments, doc);
@@ -326,18 +430,18 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		};
 
 		// manage the start and end dates plus the controls that set period length based on presets (e.g. 30, 45, etc days)
-		setupPeriodOptions($scope, _);
+		setupPeriodOptions($scope);
 
 		// initialize the period controls
-		typeChange($scope, _);
+		typeChange($scope);
 
 		// on change to start date or end date via date picker...
 		$scope.$on('modalDatePicker.onChange', function () {
-			periodChange($scope, _);
+			periodChange($scope);
 		});
 	}
 
-	function defineDocumentMgr($scope, _) {
+	function defineDocumentMgr($scope) {
 		$scope.documentMgr = {
 			sortedFiles: $scope.period.relatedDocuments,
 			sorting: {
@@ -392,7 +496,7 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		};
 	}
 
-	function addLinkedFiles($scope, _, data) {
+	function addLinkedFiles($scope, data) {
 		var period = $scope.period;
 		// add files in data to our relatedDocs
 		if (data) {
@@ -410,73 +514,131 @@ angular.module('comment').config(['$stateProvider', function ($stateProvider) {
 		}
 	}
 
-	function setupPeriodOptions($scope, _) {
-
-		$scope.pTypes = [
+	/*
+	 * For both create and edit setup the period and UI elements
+	 */
+	function setupPeriodOptions($scope) {
+		// from the model
+		// rangeType        : { type:String, default:null, enum:['start', 'end', 'custom']},
+		// rangeOption      : { type:String, default:null, enum:['30', '45', '60', '75', 'custom']},
+		var period = $scope.period;
+		var rangeTypes = [
 			{displayName: "Start Day", value: "start"},
 			{displayName: "End Day", value: "end"},
 			{displayName: "Custom", value: "custom"}
 		];
-		$scope.pType = $scope.pTypes[0];
-		$scope.typeChange = function () {
-			typeChange($scope, _);
-		};
-
-		$scope.pOptions = [
+		var rangeOptions = [
 			{displayName: "30 days", value: "30"},
 			{displayName: "45 days", value: "45"},
 			{displayName: "60 days", value: "60"},
-			{displayName: "75 days", value: "75"}
+			{displayName: "75 days", value: "75"},
+			{displayName: "", value: "custom"}
 		];
-		$scope.pOption = $scope.pOptions[0];
-		$scope.periodChange = function () {
-			periodChange($scope, _);
+		$scope.rangeTypes = rangeTypes;
+		$scope.rangeOptions = rangeOptions;
+		$scope.typeChange = function () {
+			typeChange($scope);
 		};
+		$scope.periodChange = function () {
+			periodChange($scope);
+		};
+
+		// if new or old instance of period prior to adding range
+		if (!period.rangeType || !period.rangeOption) {
+			period.rangeType = 'custom';
+			period.rangeOption = 'custom';
+			//console.log("defaulting on type and range ");
+		}
+
+		if(!period.dateStarted) {
+			// console.log("Creating start date",period.dateStarted,period);
+			period.dateStarted = moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0}).toDate();
+		}
+		if(!period.dateCompleted) {
+			// console.log("Creating end date",period.dateCompleted,period);
+			period.dateCompleted = moment().set({'hour':23, 'minute':59, 'second': 0, 'millisecond': 0}).toDate();
+		}
+
+		// UI elements .. set to match model values
+		$scope.rType = _.find(rangeTypes, function(t) { return t.value === period.rangeType; });
+		// note need to force conversion to number for === to work
+		$scope.rOption = _.find(rangeOptions, function(o) { return ( o.value === (''+period.rangeOption)); });
 	}
 
-	function typeChange($scope, _) {
-		var type = $scope.pType.value;
+	/**
+	 * UI allows user to set the end date based on start date, or the reverse, or custom start-to-end.
+	 * This handler enables UI controls based on the selected type and fires the periodChange handler.
+	 */
+	function typeChange($scope) {
+		// get value from UI
+		var type = $scope.rType.value;
+		var period = $scope.period;
+		// store UI set value into model
+		var isChanged = period.rangeType !== $scope.rType.value;
+		period.rangeType = type;
+
+		var defaultOption = $scope.rangeOptions[0]; // 30 days
+		var customOption = $scope.rangeOptions[4];
+
 		$scope.endPickerEnabled = true;
 		$scope.startPickerEnabled = true;
 		$scope.rangePickerEnabled = true;
 		switch (type) {
 			case 'start':
 				$scope.endPickerEnabled = false;
+				if(isChanged) $scope.rOption = defaultOption;
 				break;
 			case 'end':
 				$scope.startPickerEnabled = false;
+				if(isChanged) $scope.rOption = defaultOption;
 				break;
 			case 'custom':
 				$scope.rangePickerEnabled = false;
+				if(isChanged) $scope.rOption = customOption;
 		}
-		periodChange($scope, _);
+		periodChange($scope);
 	}
 
-	function periodChange($scope, _) {
-		var type = $scope.pType.value;
+	/**
+	 * Recompute the start / end dates based on UI changes
+	 *
+	 */
+	function periodChange($scope) {
+		// get value from UI
+		var rOption = $scope.rOption.value;
+		// store UI set value into model
 		var period = $scope.period;
-		var numberOfDaysToAdd = 1 * $scope.pOption.value; // convert to number
-		numberOfDaysToAdd--; // decrease by one. The start and end dates are part of the period
+		period.rangeOption = rOption;
+
+		var type = period.rangeType;
+
+		// add X number of days based on (a) but preserve the time in the original (b)
+		function computeDate(a, b, numberOfDaysToAdd) {
+			if (!a)
+				return undefined;
+			var savedTime;
+			if (b) {
+				var mb = moment(b);
+				savedTime = {hour: mb.hour(), minute: mb.minute(), second: mb.second()};
+			}
+			var ms = moment(a);
+			ms.add(numberOfDaysToAdd, 'days');
+			if (savedTime) {
+				ms.hour(savedTime.hour).minute(savedTime.minute).second(savedTime.second);
+			}
+			return ms.toDate();
+		}
+
+		// Convert to number when type is not "custom". Period includes start and end date subtract one
+		var numberOfDaysToAdd;
 		switch (type) {
 			case 'start':
-				// derive the end date based on start date and number of days
-				if (period.dateStarted) {
-					var sDate = new Date(period.dateStarted);
-					sDate.setDate(sDate.getDate() + numberOfDaysToAdd);
-					period.dateCompleted = sDate;
-				} else {
-					period.dateCompleted = undefined;
-				}
+				numberOfDaysToAdd = (rOption - 1);
+				period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
 				break;
 			case 'end':
-				// derive the start date based on end date and subtract number of days
-				if (period.dateCompleted) {
-					var eDate = new Date(period.dateCompleted);
-					eDate.setDate(eDate.getDate() - numberOfDaysToAdd);
-					period.dateStarted = eDate;
-				} else {
-					period.dateStarted = undefined;
-				}
+				numberOfDaysToAdd = -1 * (rOption - 1);
+				period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
 				break;
 			case 'custom':
 			// no op

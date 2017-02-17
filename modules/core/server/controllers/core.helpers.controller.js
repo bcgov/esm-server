@@ -324,7 +324,7 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which) {
 	if (r.getall) app.route ('/api/'+basename).all (policy.isAllowed)
 		.get  (function (req, res) {
 			var o = new DBClass (req.user);
-			o.list ()
+			o.list ({}, "-directoryStructure")
 			.then (success(res), failure(res));
 		});
 	if (r.getall) app.route ('/api/write/'+basename).all (policy.isAllowed)

@@ -48,9 +48,9 @@
 					<label class="control-label">&nbsp;</label>
 					<select class="form-control"
 						ng-change="typeChange()"
-						ng-model="pType"
-						ng-options="t.displayName for t in pTypes"
-						ng-selected="t === pType">
+						ng-model="rType"
+						ng-options="t.displayName for t in rangeTypes"
+						ng-selected="t === rType">
 					</select>
 				</div>
 				<div class="col-sm-2 col-lg-2 form-group">
@@ -58,16 +58,17 @@
 					<select class="form-control"
 						ng-disabled="!rangePickerEnabled"
 						ng-change="periodChange()"
-						ng-model="pOption"
-						ng-options="p.displayName for p in pOptions"
-						ng-selected="p === pOption">
+						ng-model="rOption"
+						ng-options="p.displayName for p in rangeOptions"
+						ng-selected="p === rOption">
 					</select>
 				</div>
 				<div class="col-md-2 col-lg-2 form-group">
 					<label class="control-label">Start Date</label>
 					<div class="form-control date-picker"
 						ng-disabled="!startPickerEnabled"
-						x-modal-date-picker x-selected-date="period.dateStarted">
+						x-modal-date-picker x-selected-date="period.dateStarted" x-picker-enabled="startPickerEnabled"
+					 	title="{{ period.dateStarted | amDateFormat:'HH:mm:ss' }}">
 						<span ng-if="!period.dateStarted">Start Date</span>
 						{{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
 						<span class="glyphicon glyphicon-calendar"></span>
@@ -77,7 +78,8 @@
 					<label class="control-label">End Date</label>
 					<div class="form-control date-picker"
 						ng-disabled="!endPickerEnabled"
-						x-modal-date-picker x-selected-date="period.dateCompleted">
+						x-modal-date-picker x-selected-date="period.dateCompleted" x-picker-enabled="endPickerEnabled"
+					 	title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}">
 						<span ng-if="!period.dateCompleted">End Date</span>
 						{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
 						<span class="glyphicon glyphicon-calendar"></span>
@@ -118,6 +120,10 @@
 								<span>Size</span>
 								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
 							</div>
+							<div class="col size-col sortable last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')">
+								<span>Status</span>
+								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
+							</div>
 						</div>
 					</div>
 					<ul>
@@ -137,6 +143,7 @@
 								</span>
 								<span class="col type-col">{{ doc.internalExt}}</span>
 								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
+								<span class="col status-col"><span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span></span>
 								<span class="row-actions visible">
 									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -209,7 +216,8 @@
 				<a class="pull-right btn btn-link btn-xs" ng-if="period.periodType !== 'Public'"
 					x-role-chooser
 					x-context="project"
-					x-current="period.commenterRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.commenterRoles"
+				    x-public="true"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">
@@ -222,7 +230,8 @@
 				<a class="pull-right btn btn-link btn-xs"
 					x-role-chooser
 					x-context="project"
-					x-current="period.vettingRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.vettingRoles"
+				    x-public="false"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">
@@ -235,7 +244,8 @@
 				<a class=" pull-right btn btn-link btn-xs"
 					x-role-chooser
 					x-context="project"
-					x-current="period.classificationRoles"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.classificationRoles"
+				    x-public="false"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">

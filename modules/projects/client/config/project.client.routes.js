@@ -60,6 +60,7 @@ angular.module('project').config (
 			activeperiod: function ($stateParams, CommentPeriodModel, project) {
 				// Go through the periods on the project, surface the active one and enable commenting
 				// right from here.
+				// The following code is duplicated in commentperiod.routes.js
 				return CommentPeriodModel.forProject (project._id)
 				.then( function (periods) {
 					var today	= new Date ();

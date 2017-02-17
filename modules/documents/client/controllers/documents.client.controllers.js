@@ -10,6 +10,7 @@ angular.module('documents')
 	.controller('controllerModalDocumentUploadClassify', controllerModalDocumentUploadClassify)
 	.controller('controllerModalDocumentLink', controllerModalDocumentLink)
 	.controller('controllerModalDocumentUploadReview', controllerModalDocumentUploadReview)
+	.controller('controllerModalDocumentInstructions', controllerModalDocumentInstructions)
 	.controller('controllerSignatureUpload', controllerSignatureUpload)
 	.filter('removeExtension', filterRemoveExtension)
 	.filter('displayFriendlyCode', filterDisplayFriendlyLocationCode)
@@ -908,6 +909,21 @@ function controllerSignatureUpload(UserModel, $rootScope, $scope, Upload, $timeo
 	};
 }
 
+
+// -----------------------------------------------------------------------------------
+//
+// CONTROLLER: Modal: View Instructions for Documents Page
+//
+// -----------------------------------------------------------------------------------
+controllerModalDocumentInstructions.$inject = ['$modalInstance'];
+/* @ngInject */
+function controllerModalDocumentInstructions($modalInstance) {
+	var modal = this;
+
+	modal.continue = function () {
+		$modalInstance.dismiss('cancel');
+	};
+}
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Remove Extension
