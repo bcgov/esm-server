@@ -22,26 +22,33 @@ module.exports = function () {
 				_.each(projects, function (p) {
 					console.log("doing:", p._id);
 					var tree = new TreeModel();
-					if (p.directoryStructure) {
-						var root = tree.parse(p.directoryStructure);
-						var nodes = root.all(function (node) {
-							if (node.model.published === undefined) {
-								console.log("Node does not have published property:", node.model.id);
-							}
-							return (node.model.published === undefined);
-						});
-						_.each(nodes, function (n) {
-							// Publish it.
-							console.log("publishing:", n.model.id);
-							n.model.published = true;
-						});
-
-						Project.update({_id: p._id}, {$set: { 'directoryStructure': root.model}}, function (err, doc) {
-							if (!err) {
-								console.log("updated project:", p._id);
-							}
-						});
+					if (p.directoryStructure === null) {
+						// It's null, and lets bake in the default:
+						p.directoryStructure = 	{
+							id: 1,
+							lastId: 1,
+							name: 'ROOT',
+							published: true
+						};
 					}
+					var root = tree.parse(p.directoryStructure);
+					var nodes = root.all(function (node) {
+						if (node.model.published === undefined) {
+							console.log("Node does not have published property:", node.model.id);
+						}
+						return (node.model.published === undefined);
+					});
+					_.each(nodes, function (n) {
+						// Publish it.
+						console.log("publishing:", n.model.id);
+						n.model.published = true;
+					});
+
+					Project.update({_id: p._id}, {$set: { 'directoryStructure': root.model}}, function (err, doc) {
+						if (!err) {
+							console.log("updated project:", p._id);
+						}
+					});
 				});
 			}
 		});
