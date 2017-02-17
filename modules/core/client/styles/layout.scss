@@ -1,0 +1,101 @@
+
+.app-container {
+    @include flexbox();
+    @include flexflow(column nowrap);
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+.app-header {
+    @include flex(0 0 auto);
+}
+
+.app-main {
+    @include flex(1 1 auto);
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+
+
+    .left-panel {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+        visibility: hidden;
+
+        .sidenav {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 22rem;
+            overflow-y: auto;
+            background: #FFF;
+            transform: translateX(-22rem);
+            transition: all 0.3s ease-out 0.1s;
+        }
+
+        .sidenav-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        &.open {
+            visibility: visible;
+
+            .sidenav {
+                transform: translateX(0);
+            }
+        }
+    }
+
+    .main-panel {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        overflow-y: auto;
+    }
+}
+
+@media (min-width: 1020px) {
+    .side-toggle-btn {
+        display: none;
+    }
+
+    .app-main {
+        @include flexbox();
+        flex-direction: row;
+
+        .main-panel,
+        .left-panel {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+        }
+
+        .main-panel {
+            right: 0;
+            left: 22rem;
+        }
+
+        .left-panel {
+            left: 0;
+            width: 22rem;
+            visibility: visible;
+
+            .sidenav {
+                position: absolute;
+                transform: translateX(0);
+            }
+
+            .sidenav-overlay {
+                display: none;
+            }
+        }
+    }
+}

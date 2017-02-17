@@ -1545,17 +1545,6 @@ h2.page-title {
 
 /* APPLICATION LAYOUT 
 ------------------------------ */
-.app-container {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: -webkit-flex;
-	display: flex;
-	flex-flow: column nowrap;
-}
-
 tmpl-header,
 tmpl-footer {
 	display: block;
@@ -1563,32 +1552,11 @@ tmpl-footer {
 }
 
 .app-main {
-	position: fixed;
-	top: 5.2rem;
-	right: 0;
-	bottom: 4rem;
-	left: 0;
-	display: -webkit-flex;
-	display: flex;
-	z-index: 999;
-
 	.left-panel,
 	.main-panel {
 		display: -webkit-flex;
 		display: flex;
 		flex-flow: column nowrap;
-	}
-
-	.left-panel {
-		position: relative;
-		width: $sidenav-width;
-		overflow-y: auto;
-		overflow-x: hidden;
-		flex: 0 0 auto;
-		background: $left-panel-bg;
-		box-shadow: 0 0 $left-panel-shadow-width $left-panel-shadow-color;
-		z-index: 2;
-		transition: width ease-out 0.2s;
 	}
 
 	.main-panel {
@@ -1609,20 +1577,6 @@ tmpl-footer {
 		.view-footer-container {
 			flex: 0 0 auto;
 		}
-	}
-}
-
-@media (min-width: 1024px) {
-	.app-main {
-		top: 6.2rem;
-	}
-}
-
-@media (max-device-width: 480px)
-	and (max-width: 480px)
-	and (orientation: portrait) {
-	.app-main {
-		bottom: 5.7rem;
 	}
 }
 
@@ -2113,29 +2067,6 @@ $header-height-sm: 5.2rem;
 }
 
 
-/* FOOTER
------------------------------- */
-.app-footer {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	padding: 1rem 2rem;
-	font-size: $footer-font-size;
-	color: #FFF;
-	background: $corp-blue;
-	border-top: 2px solid $corp-gold;
-	
-	a {
-		color: #FFF;
-	}
-}
-
-.app-footer.show-footer {
-	bottom: 0;
-}
-
-
 /* SIDE NAVIGATION
 ------------------------------ */
 $sidenav-shadow: 0 0 0.4rem #CCC;
@@ -2185,23 +2116,23 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 	}
 
 	.project-home-link {
-		position: relative;
-		display: table-cell;
-		width: $sidenav-width;
-		height: 6.2rem;
-		padding: 0.9rem 1.5rem 0.9rem 4.25rem;
+		display: block;
+		min-height: 6.2rem;
+		padding-top: 2.2rem;
+		padding-right: 1.5rem;
+		padding-left: 4.25rem;
+		padding-bottom: 2.2rem;
 		font-weight: bold;
 		color: #1a5a96;
 		text-decoration: none;
 		line-height: 1.5rem;
 		background: #EEE;
-		vertical-align: middle;
 
 		.glyphicon {
 			position: absolute;
-			top: 1.7rem;
+			top: 1.8rem;
 			left: 1rem;
-			font-size: 2.6rem;
+			font-size: 2.4rem;
 		}
 	}
 }
@@ -5490,9 +5421,14 @@ tmpl-template-render {
 
 /* COMPONENTS
 ----------------------------- */
+@import "modules/core/client/styles/mixins.scss";
+@import "modules/core/client/styles/layout.scss";
 @import "modules/core/client/styles/components.scss";
 @import "modules/core/client/styles/spinner.scss";
 @import "modules/core/client/styles/tabs.scss";
+
+/* GLOBAL */
+@import "modules/core/client/scss/global/footer.scss";
 
 @import "modules/documents/client/styles/file-browser.scss";
 @import "modules/documents/client/styles/pdf-viewer.scss";

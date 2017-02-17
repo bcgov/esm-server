@@ -1,0 +1,33 @@
+
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex($values) {
+	-webkit-box-flex: $values;
+  	   -moz-box-flex: $values;
+		-ms-box-flex: $values;
+  	    -webkit-flex: $values;
+  	        -ms-flex: $values;
+  		        flex: $values; 
+}
+
+@mixin flexdirection($values) {
+  -webkit-flex-direction: $values;
+  -ms-flex-direction: $values;
+  flex-direction: $values;
+}
+
+@mixin flexflow($values) {
+  -webkit-flex-flow: $values;
+  -ms-flex-flow: $values;
+  flex-flow: $values;
+}
+
+@mixin display-flex {
+	display: -webkit-flex;
+	display: flex;
+}
