@@ -32,7 +32,7 @@
 				<li role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
 			</ul>
 		</div>
-		<span class="pcp-comment-count-label" ng-if="!s.period.userCan.classifyComments && !s.period.userCan.vetComments">Total Comments ( )</span>
+		<span class="pcp-comment-count-label" ng-if="!s.period.userCan.classifyComments && !s.period.userCan.vetComments">Total Comments ({{s.totalPublic}})</span>
 	</div>
 	<div class="actions pull-right">
 		<button class="btn btn-default btn-sm" ng-if="s.showTopicCloud === false"

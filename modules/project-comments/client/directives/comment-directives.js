@@ -19,7 +19,7 @@ angular.module ('comment')
 		restrict: 'E',
 		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
 		controllerAs: 's',
-		controller: function ($rootScope, $scope, $filter, NgTableParams, Authentication, CommentModel, UserModel, _) {
+		controller: function ($rootScope, $scope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, _) {
 			var s       = this;
 			var project = s.project = $scope.project;
 			var period  = s.period  = $scope.period;
@@ -29,53 +29,35 @@ angular.module ('comment')
 			s.pillarsArray = [];
 			s.showTopicCloud = false;
 
-			var refreshFilterArrays = function(data) {
+			var refreshFilterArrays = function() {
 
-				var allTopics = [];
-				var allPillars = [];
+				var sortedTopics = _.sortBy(s.period.topics, '_id');
+				var sortedPillars = _.sortBy(s.period.pillars, '_id');
 
-				var topicList = [];
-				var pillarList = [];
+				var allTopics = _.pluck(sortedTopics, '_id');
+				var allPillars = _.pluck(sortedPillars, '_id');
 
-				_.forEach(data, function(item) {
-					allTopics = allTopics.concat(item.topics);
-					allPillars = allPillars.concat(item.pillars);
-				});
+				var topicList = _.transform(allTopics, function(result, t) {
+					result.push({id: t, title: t});
+				}, []);
 
-				_.forEach(_.uniq(allTopics), function(item) {
-					var o = {id: item, title: item};
-					if (!_.includes(topicList, o))
-						topicList.push(o);
-				});
+				var pillarList = _.transform(allPillars, function(result, p) {
+					result.push({id: p, title: p});
+				}, []);
+
 				// jsherman - 20160804: need an empty one for chrome, so we can de-select the filter...
 				// adds a bogus one to safari and IE though:( so put at the bottom.
 				topicList.push({id: '', title: ''});
 				angular.copy(topicList, s.topicsArray);
-
-				_.forEach(_.uniq(allPillars), function(item) {
-					var o = {id: item, title: item};
-					if (!_.includes(pillarList, o))
-						pillarList.push(o);
-				});
 				// as above...
 				pillarList.push({id: '', title: ''});
 				angular.copy(pillarList, s.pillarsArray);
 
-				var topicCloud = [];
-				//  Grab the topics and insert them into the tag cloud.
-				_.each(allTopics, function (topic) {
-					// console.log("checking for topic:", topic);
-					var index = _.indexOf(_.pluck(topicCloud, 'name'), topic);
-					var count = 1;
-					if (index !== -1) {
-						count = topicCloud[index].size +1;
-						_.remove(topicCloud, {
-							name: topic
-						});
-					}
-					// Add the new value in.
-					topicCloud.push( {name: topic, size: count});
-				});
+
+				var topicCloud = _.transform(sortedTopics, function(result, t) {
+					result.push({name: t._id, size: t.count});
+				}, []);
+
 				s.refreshVisualization = 1;
 				// This is an example of what the tag cloud expects
 				// s.commentsByTopicVis = { name: 'byTopic', children:[
@@ -119,46 +101,51 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.refreshEao = function () {
-				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
-					_.each(result.data, function (item) {
-						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
-						item.publishedDocumentCount = item.documents.length;
-					});
+				CommentPeriodModel.getForPublic($scope.period._id)
+					.then(function(p) {
+						s.period = p;
 
-					s.totalPending  = result.totalPending;
-					s.totalDeferred = result.totalDeferred;
-					s.totalPublic   = result.totalPublic;
-					s.totalRejected = result.totalRejected;
-					s.totalAssigned   = result.totalAssigned;
-					s.totalUnassigned = result.totalUnassigned;
-
-					s.tableParams   = new NgTableParams (
-						{	count:10,
-							filter:currentFilter,
-							sorting: {dateAdded: 'desc'}},
-						{
-							debugMode: false,
-							total: result.data.length,
-							getData: function($defer, params) {
-								var orderedData = params.sorting() ? $filter('orderBy')(result.data, params.orderBy()) : result.data;
-
-								var authorCommentFilterValue = params.filter().authorCommentFilter;
-								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
-								orderedData	= $filter('filter')(orderedData, params.filter());
-								if (authorCommentFilterValue) {
-									// now we apply the authorComment filter...
-									orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
-								}
-								params.total(orderedData.length);
-								$scope.filteredCount = orderedData.length;
-								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
-								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-							}
+						s.totalPending  = p.stats.totalPending;
+						s.totalDeferred = p.stats.totalDeferred;
+						s.totalPublic   = p.stats.totalPublic;
+						s.totalRejected = p.stats.totalRejected;
+						s.totalAssigned   = p.stats.totalAssigned;
+						s.totalUnassigned = p.stats.totalUnassigned;
+						refreshFilterArrays();
+						return CommentModel.getEAOCommentsForPeriod (s.period._id);
+					})
+					.then(function(result) {
+						_.each(result.data, function (item) {
+							item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
+							item.publishedDocumentCount = item.documents.length;
 						});
-					s.dataset = result.data;
-					refreshFilterArrays(result.data);
-					$scope.$apply ();
-				});
+
+						s.tableParams   = new NgTableParams (
+							{	count:10,
+								filter:currentFilter,
+								sorting: {dateAdded: 'desc'}},
+							{
+								debugMode: false,
+								total: result.data.length,
+								getData: function($defer, params) {
+									var orderedData = params.sorting() ? $filter('orderBy')(result.data, params.orderBy()) : result.data;
+
+									var authorCommentFilterValue = params.filter().authorCommentFilter;
+									params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
+									orderedData	= $filter('filter')(orderedData, params.filter());
+									if (authorCommentFilterValue) {
+										// now we apply the authorComment filter...
+										orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
+									}
+									params.total(orderedData.length);
+									$scope.filteredCount = orderedData.length;
+									params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
+									$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+								}
+							});
+						s.dataset = result.data;
+						$scope.$apply ();
+					});
 			};
 
 			s.downloadCommentData = function () {
@@ -224,43 +211,54 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.refreshPublic = function () {
-				CommentModel.getPublishedCommentsForPeriod ($scope.period._id)
-				.then (function (collection) {
-					_.each(collection, function (item) {
-						var publishedCount = 0;
-						_.each(item.documents, function (doc) {
-							if (doc.eaoStatus === 'Published') {
-								publishedCount++;
-							}
-						});
-						item.publishedDocumentCount = publishedCount;
-						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
-					});
-					s.tableParams   = new NgTableParams (
-						{	count:50,
-							sorting: {dateAdded: 'desc'}},
-						{
-							debugMode: false,
-							total: collection.length,
-							getData: function($defer, params) {
-								var orderedData = params.sorting() ? $filter('orderBy')(collection, params.orderBy()) : collection;
-								var authorCommentFilterValue = params.filter().authorCommentFilter;
-								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
-								orderedData	= $filter('filter')(orderedData, params.filter());
-								if (authorCommentFilterValue) {
-									// now we apply the authorComment filter...
-									orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
+				CommentPeriodModel.getForPublic($scope.period._id)
+					.then(function(p) {
+						s.period = p;
+
+						s.totalPending  = p.stats.totalPending;
+						s.totalDeferred = p.stats.totalDeferred;
+						s.totalPublic   = p.stats.totalPublic;
+						s.totalRejected = p.stats.totalRejected;
+						s.totalAssigned   = p.stats.totalAssigned;
+						s.totalUnassigned = p.stats.totalUnassigned;
+						refreshFilterArrays();
+						return CommentModel.getPublishedCommentsForPeriod (s.period._id);
+					})
+					.then(function(collection) {
+						_.each(collection, function (item) {
+							var publishedCount = 0;
+							_.each(item.documents, function (doc) {
+								if (doc.eaoStatus === 'Published') {
+									publishedCount++;
 								}
-								params.total(orderedData.length);
-								$scope.filteredCount = orderedData.length;
-								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
-								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-							}
+							});
+							item.publishedDocumentCount = publishedCount;
+							item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
 						});
-					s.dataset = collection;
-					refreshFilterArrays(collection);
-					$scope.$apply ();
-				});
+						s.tableParams   = new NgTableParams (
+							{	count:50,
+								sorting: {dateAdded: 'desc'}},
+							{
+								debugMode: false,
+								total: collection.length,
+								getData: function($defer, params) {
+									var orderedData = params.sorting() ? $filter('orderBy')(collection, params.orderBy()) : collection;
+									var authorCommentFilterValue = params.filter().authorCommentFilter;
+									params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
+									orderedData	= $filter('filter')(orderedData, params.filter());
+									if (authorCommentFilterValue) {
+										// now we apply the authorComment filter...
+										orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
+									}
+									params.total(orderedData.length);
+									$scope.filteredCount = orderedData.length;
+									params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
+									$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+								}
+							});
+						s.dataset = collection;
+						$scope.$apply ();
+					});
 			};
 			// -------------------------------------------------------------------------
 			//
@@ -268,47 +266,57 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.refreshProponent = function () {
-				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
-					_.each(result.data, function (item) {
-						var publishedCount = 0;
-						_.each(item.documents, function (doc) {
-							if (doc.eaoStatus === 'Published') {
-								publishedCount++;
-							}
-						});
-						item.publishedDocumentCount = publishedCount;
-						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
-					});
-					// filters find classified in unclassified by default, just create a numeric field for filtering...
-					_.forEach(result.data, function(o) { o.proponentFilter = o.proponentStatus === 'Unclassified' ? 0 : 1; });
-					s.totalAssigned   = result.totalAssigned;
-					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams   = new NgTableParams (
-						{	count:50,
-							filter:currentFilter,
-							sorting: {dateAdded: 'desc'}},
-						{
-							debugMode: false,
-							total: result.data.length,
-							getData: function($defer, params) {
-								var orderedData = params.sorting() ? $filter('orderBy')(result.data, params.orderBy()) : result.data;
-								var authorCommentFilterValue = params.filter().authorCommentFilter;
-								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
-								orderedData	= $filter('filter')(orderedData, params.filter());
-								if (authorCommentFilterValue) {
-									// now we apply the authorComment filter...
-									orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
+				CommentPeriodModel.getForPublic($scope.period._id)
+					.then(function(p) {
+						s.period = p;
+
+						s.totalPending  = p.stats.totalPending;
+						s.totalDeferred = p.stats.totalDeferred;
+						s.totalPublic   = p.stats.totalPublic;
+						s.totalRejected = p.stats.totalRejected;
+						s.totalAssigned   = p.stats.totalAssigned;
+						s.totalUnassigned = p.stats.totalUnassigned;
+						refreshFilterArrays();
+						return CommentModel.getProponentCommentsForPeriod (s.period._id);
+					})
+					.then(function(result) {
+						_.each(result.data, function (item) {
+							var publishedCount = 0;
+							_.each(item.documents, function (doc) {
+								if (doc.eaoStatus === 'Published') {
+									publishedCount++;
 								}
-								params.total(orderedData.length);
-								$scope.filteredCount = orderedData.length;
-								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
-								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-							}
+							});
+							item.publishedDocumentCount = publishedCount;
+							item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
 						});
-					s.dataset = result.data;
-					refreshFilterArrays(result.data);
-					$scope.$apply ();
-				});
+						// filters find classified in unclassified by default, just create a numeric field for filtering...
+						_.forEach(result.data, function(o) { o.proponentFilter = o.proponentStatus === 'Unclassified' ? 0 : 1; });
+						s.tableParams   = new NgTableParams (
+							{	count:50,
+								filter:currentFilter,
+								sorting: {dateAdded: 'desc'}},
+							{
+								debugMode: false,
+								total: result.data.length,
+								getData: function($defer, params) {
+									var orderedData = params.sorting() ? $filter('orderBy')(result.data, params.orderBy()) : result.data;
+									var authorCommentFilterValue = params.filter().authorCommentFilter;
+									params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
+									orderedData	= $filter('filter')(orderedData, params.filter());
+									if (authorCommentFilterValue) {
+										// now we apply the authorComment filter...
+										orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
+									}
+									params.total(orderedData.length);
+									$scope.filteredCount = orderedData.length;
+									params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
+									$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+								}
+							});
+						s.dataset = result.data;
+						$scope.$apply ();
+					});
 			};
 			// -------------------------------------------------------------------------
 			//
