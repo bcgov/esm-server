@@ -328,11 +328,10 @@ function OtherDocs() {
 	console.log("INPUT", this.INPUT);
 	console.log("OUTPUT", this.OUTPUT);
 
-	this.csvExpectedColumns = [ "agency","project","title","heading","documentType"
-		,"date","filename","link"
-		,"related_doc","related_doc_date","related_doc_filename","related_doc_link" ];
+	var x = ["Agency","Project","Heading","Main Document Name","Document Type","Document Date","Filename","Document URL (Source)","Related Document(s) Name","Related Document(s) Date","Related Document(s) Filename","Related Document(s) URL (Source)"];
+	this.csvExpectedColumns = x;
 
-	this.columnNames = ["agencyCode","projectName","documentName","heading","documentType"
+	this.columnNames = ["agencyCode","projectName","heading", "documentName","documentType"
 		,"date","documentFileName","documentURL",
 		"relatedDocNames","relatedDocDates","relatedDocLongNames","relatedDocUrls" ];
 	this.transform = function (jsonData) {
