@@ -6,6 +6,10 @@ angular.module('otherdocuments').factory ('OtherDocumentModel', function (ModelB
 
 		forProject: function(projectId) {
 			return this.get('/api/otherdocs/project/' + projectId);
+		},
+
+		forProjectCode: function(projectCode) {
+			return this.get('/api/otherdocs/project/projectCode/' + projectCode);
 		}
 
 	});

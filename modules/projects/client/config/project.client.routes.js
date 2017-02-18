@@ -14,7 +14,7 @@ angular.module('project').config (
 					return ProjectModel.byCode($stateParams.projectid);
 				},
 				otherDocuments: function($stateParams, project, OtherDocumentModel) {
-					return OtherDocumentModel.forProject(project._id);
+					return OtherDocumentModel.forProjectCode(project.projectCode);
 				}
 			},
 			controller: function ($rootScope, $scope, $stateParams, project, otherDocuments, _) {

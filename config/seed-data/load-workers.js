@@ -7,6 +7,7 @@ var Organization = mongoose.model('Organization');
 var Project = mongoose.model('Project');
 var Inspection = mongoose.model('Inspection');
 var Authorization = mongoose.model('Authorization');
+var OtherDocument = mongoose.model('OtherDocument');
 
 var LoadWorker = require('./load-base');
 var base = new LoadWorker();
@@ -28,6 +29,9 @@ module.exports = function() {
 		})
 		.then(function(results) {
 			return  loadAuthorizations(didProjectsUpdateHack);
+		})
+		.then(function(results) {
+			return  loadOtherDocument(didProjectsUpdateHack);
 		})
 		.catch(function(reason){
 			console.error(reason);
@@ -51,6 +55,10 @@ function loadInspections(forceUpdate) {
 function loadAuthorizations(forceUpdate) {
 	var fPath = path.resolve(__dirname, 'load-authorizations-data.js');
 	return base.loader(fPath, Authorization, createAuthorization, forceUpdate);
+}
+function loadOtherDocument(forceUpdate) {
+	var fPath = path.resolve(__dirname, 'load-otherDocs-data.js');
+	return base.loader(fPath, OtherDocument, createOtherDocument, forceUpdate);
 }
 
 function createOrganization(base, pItem) {
@@ -121,3 +129,25 @@ function createAuthorization(base, pItem) {
 	});
 }
 
+
+function createOtherDocument(base, pItem) {
+	return new Promise(function (resolve, reject) {
+		delete pItem.agencies;
+		var queryFor = pItem.projectName;
+		return base.findProject(queryFor)
+			.then(function (project) {
+				if (!project) {
+					resolve();
+				}
+				pItem.project = project._id;
+				pItem.projectCode = project.code;
+				var a = new OtherDocument(pItem);
+				a.save(function (err, doc, numAffected) {
+					if (err) {
+						reject(err);
+					}
+					resolve(a);
+				});
+			});
+	});
+}

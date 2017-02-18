@@ -3,6 +3,7 @@ var _ = require('lodash');
 var CSVParse = require('csv-parse');
 var fs = require('fs');
 var path = require('path');
+var moment = require('moment');
 
 /*
 Run this script on any new inspections or authorizations CSV content.  It parses the CSV, does some checks on the data
@@ -14,8 +15,9 @@ server is started.
 
 run();
 function run() {
-	preProcess(new Inspections());
-	preProcess(new Authorization());
+	// preProcess(new Inspections());
+	// preProcess(new Authorization());
+	preProcess(new OtherDocs());
 }
 
 const agencyMap = {
@@ -28,10 +30,30 @@ function ImporterBase() {
 	this.dateValidate = function (val) {
 		var s = Date.parse(val);
 		if (isNaN(s)) {
+			var m = moment(val,"YY-MM-DD");
+			if(!m.isValid()) {
+				console.log("Invalidate Date %j", val);
+				throw "Invalid date " + val;
+			} else {
+				s = m.toDate();
+			}
+		}
+		return s;
+	};
+
+	this.dateValidateMoment = function(val) {
+		var s;
+		var m = moment(val, ["YYYY-MM-DD", "YY-MM-DD"]);
+		if (!m.isValid()) {
 			console.log("Invalidate Date %j", val);
 			throw "Invalid date " + val;
+		} else {
+			s = m.format("YYYY-MM-DD");
+			s = new Date(s);
 		}
-	};
+		return s;
+	}
+
 
 	this.getAgency = function (code) {
 		var agency = agencyMap[code];
@@ -44,6 +66,26 @@ function ImporterBase() {
 			});
 		}
 		return agency;
+	};
+
+	this.getAgencyList = function (list) {
+		var parts = list.split(',');
+		var agencyList=[];
+		for(var i=0; i< parts.length; i++) {
+			var code = parts[i].trim();
+			var agency = agencyMap[code];
+			if (!agency) {
+				_.forEach(agencyMap, function (ag, index) {
+					if(ag.name === code) {
+						agency = ag;
+						return;
+					}
+				});
+			}
+			if(agency)
+				agencyList.push(agency);
+		}
+		return agencyList;
 	};
 
 	this.processRelated = function (json) {
@@ -68,6 +110,62 @@ function ImporterBase() {
 		delete json.ru2;
 		delete json.ru3;
 		delete json.ru4;
+		return followUpDocuments;
+	}
+
+	this.processSemiSeparatedRelated = function (json, index) {
+		var followUpDocuments = [];
+		if(json.documentName && json.documentURL) {
+			var related = {name: json.documentName,
+				ref: json.documentURL,
+				fileName: json.documentFileName,
+				date: json.date
+			};
+			followUpDocuments.push(related);
+		}
+		var names = json.relatedDocNames.trim();
+		var urls = json.relatedDocUrls.trim();
+		var dates = json.relatedDocDates.trim()
+		var fileNames = json.relatedDocLongNames.trim();
+
+		if(names.length > 0 && urls.length > 0 && dates.length > 0) {
+			var re = /\s*;\s*/;
+			names = names.split(re);
+			var cnt = names.length;
+			var urls = urls.split(re);
+			var dates = dates.split(re);
+			var fileNames = fileNames.split(re);
+			if (cnt !== urls.length) {
+				console.log("Row %j, Related docs have mismatched number of urls ", index);
+				return;
+			}
+			if (cnt !== dates.length) {
+				console.log("Row %j, Related docs have mismatched number of dates ", index);
+				return;
+			}
+			if (cnt !== fileNames.length) {
+				console.log("Row %j, Related docs have mismatched number of longNames ", index);
+				return;
+			}
+			console.log("Row %j, process %j related docs", cnt, names, dates, index);
+			for (var i = 0; i < cnt; i++) {
+				var e = {name: names[i], ref: urls[i]}
+				var d = dates[i];
+				if(d.length>0) {
+					d = this.dateValidateMoment(d);
+					e.date = d;
+				}
+				var l = fileNames[i];
+				if(l.length > 0) {
+					e.fileName = l;
+				}
+				followUpDocuments.push(e);
+			}
+		}
+		delete json.relatedDocNames;
+		delete json.relatedDocUrls;
+		delete json.relatedDocDates;
+		delete json.relatedDocLongNames;
 		return followUpDocuments;
 	}
 }
@@ -217,6 +315,57 @@ function Inspections() {
 }
 Inspections.prototype = Object.create(ImporterBase.prototype);
 Inspections.prototype.constructor = Inspections;
+
+
+
+
+function OtherDocs() {
+	ImporterBase.call(this);
+	this.INPUT = path.resolve(__dirname, 'load-otherDocs-data.csv');
+	this.OUTPUT = path.resolve(__dirname, '..', 'config', 'seed-data', 'load-otherDocs-data.js');
+	// this.OUTPUT = path.resolve(__dirname, '..', '..', 'load-otherDocs-data.js');
+	this.getName = function() {return 'OtherDocument';}
+	console.log("INPUT", this.INPUT);
+	console.log("OUTPUT", this.OUTPUT);
+
+	this.csvExpectedColumns = [ "agency","project","title","heading","documentType"
+		,"date","filename","link"
+		,"related_doc","related_doc_date","related_doc_filename","related_doc_link" ];
+
+	this.columnNames = ["agencyCode","projectName","documentName","heading","documentType"
+		,"date","documentFileName","documentURL",
+		"relatedDocNames","relatedDocDates","relatedDocLongNames","relatedDocUrls" ];
+	this.transform = function (jsonData) {
+		var _this = this;
+		_.forEach(jsonData, function (json, index) {
+			if(!json.projectName || json.projectName.length ==0) {
+				console.log("Row is missing project. Skipping this data:", index);
+				return;
+			}
+			json.projectName = json.projectName.trim();
+			var agencyList = _this.getAgencyList(json.agencyCode);
+			if(agencyList.length === 0) {
+				console.log("Row is missing agency. Skipping this data:", index);
+				return;
+			}
+			delete json.agencyCode;
+			json.date = _this.dateValidate(json.date);
+			json.agencies = agencyList;
+			json.source = "SEED";
+			json.documentType = json.documentType;
+			json.heading = json.heading;
+			json.index = index;
+			json.documents = _this.processSemiSeparatedRelated(json, index);
+			delete json.undefined;
+		});
+		return jsonData;
+	}
+}
+OtherDocs.prototype = Object.create(ImporterBase.prototype);
+OtherDocs.prototype.constructor = OtherDocs;
+
+
+
 
 function loadCSV(importer) {
 	return new Promise(function (resolve, reject) {
