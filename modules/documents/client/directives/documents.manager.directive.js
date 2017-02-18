@@ -574,9 +574,19 @@ angular.module('documents')
 							$scope.project.directoryStructure = directoryStructure;
 							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
 							AlertService.success(folder.model.name + ' folder successfully un-published.');
-						}, function () {
+						}, function (docs) {
+							var theDocs = [];
+							var msg = "";
+							if (docs.message && docs.message[0] && docs.message[0].documentFileName) {
+								_.each(docs.message, function (d) {
+									theDocs.push(d.documentFileName);
+								});
+								msg = 'This action cannot be completed as the following documents are published: ' + theDocs + '.  Please unpublish each document and attempt your action again.';
+							} else {
+								msg = "Could complete operation.";
+							}
 							self.busy = false;
-							AlertService.error('The selected folder could not be un-published.');
+							AlertService.error(msg);
 						});
 				};
 

@@ -466,10 +466,8 @@ module.exports = DBModel.extend ({
 				}
 			}).then(function (p) {
 				if (p) {
-					console.log("back end publishing.");
 					resolve(root.model);
 				} else {
-					console.log("back end REJECT.");
 					reject(root.model);
 				}
 			});
@@ -501,11 +499,29 @@ module.exports = DBModel.extend ({
 					return ('' + n.model.id) === directoryId;
 				});
 				if (node) {
-					// set it to unpublished.
-					node.model.published = false;
-					project.directoryStructure = {};
-					project.directoryStructure = root.model;
-					return self.saveAndReturn(project);
+					// Check if it contains published items first.
+					var pnode = node.walk(function (w) {
+						if (w.model.published === true) return false;
+					});
+					if (pnode && pnode.model.published) {
+						return null;
+					}
+					// See if any documents are published.
+					// console.log("finding:", {directoryID: parseInt(directoryId), isPublished: true})
+					return DocumentModel.find({directoryID: parseInt(directoryId), isPublished: true})
+					.then( function (doc) {
+						// console.log("doc:", doc);
+						if (doc.length !== 0) {
+							// bail - this folder contains published files.
+							reject(doc);
+							return;
+						}
+						// set it to unpublished.
+						node.model.published = false;
+						project.directoryStructure = {};
+						project.directoryStructure = root.model;
+						return self.saveAndReturn(project);
+					});
 				} else {
 					// console.log("couldn't find requested node.");
 					return null;
