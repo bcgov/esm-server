@@ -413,7 +413,7 @@ module.exports = DBModel.extend ({
 				var tree = new TreeModel();
 				if (!project.directoryStructure) {
 					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1, published: true};
-					return project.directoryStructure;
+					//return project.directoryStructure;
 				}
 				var root = tree.parse(project.directoryStructure);
 				root.all(function (node) {
