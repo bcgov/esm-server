@@ -15,9 +15,9 @@ server is started.
 
 run();
 function run() {
-	// preProcess(new Inspections());
+	preProcess(new Inspections());
 	// preProcess(new Authorization());
-	preProcess(new OtherDocs());
+	// preProcess(new OtherDocs());
 }
 
 const agencyMap = {
