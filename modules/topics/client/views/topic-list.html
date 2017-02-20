@@ -21,10 +21,23 @@
 				<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           		>{{o.name}}</td>
 				<td data-title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
 				<td data-title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         		>{{o.parent}}</td>
-				<td class="actions-col action-x1" header-class="'actions-col action-x1'">
+				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
 					<a ng-if="application.userCan.createValuedComponent" class="btn btn-link btn-sm" title="Edit Valued Component" ng-click="$event.stopPropagation()" ui-sref="admin.topic.edit({topicId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
+					<button class="btn btn-default btn-sm"
+						ng-if="application.userCan.createValuedComponent"
+						title="Delete Valued Component"
+						ng-click="$event.stopPropagation();"
+						x-confirm-dialog
+						x-title-text="'Delete Valued Component'"
+						x-ok-text="'Yes'"
+						x-cancel-text="'No'"
+						x-confirm-text="s.confirmText(o)"
+						x-on-ok="s.deleteValuedComponent"
+						x-ok-args="o">
+						<span class="glyphicon glyphicon-trash"></span>
+					</button>
 				</td>
 				<tr ng-show="!$data || !$data.length" class="text-center">
 					<td colspan="5">No records found.</td>
