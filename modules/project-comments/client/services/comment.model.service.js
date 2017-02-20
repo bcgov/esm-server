@@ -32,12 +32,25 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		getProponentCommentsForPeriod: function (periodId) {
 			return this.get ('/api/proponentcomments/period/'+periodId);
 		},
-		getCommentsForPeriod: function(periodId, start, limit, filterBy, filterByFields, orderBy, reverse) {
+		getCommentsForPeriod: function( periodId, eaoStatus, proponentStatus, isPublished,
+									    commentId, authorComment, location, pillar, topic,
+										start, limit, orderBy, reverse) {
+
 			var obj = {
+				// primary query...
+				periodId: periodId,
+				eaoStatus: eaoStatus,
+				proponentStatus: proponentStatus,
+				isPublished: isPublished,
+				// filter fields...
+				commentId: commentId,
+				authorComment: authorComment,
+				location: location,
+				pillar: pillar,
+				topic: topic,
+				// pagination
 				start: start,
 				limit: limit,
-				filterBy: filterBy,
-				filterByFields: filterByFields,
 				orderBy: orderBy,
 				reverse: reverse
 			};
