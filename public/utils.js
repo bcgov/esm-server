@@ -12,6 +12,12 @@ function scroll_style() {
             $("#header").removeClass("dark");
         }
     }
+
+    if (window_top > 100) {
+        $(".scroll-top-btn").addClass("visible");
+    } else {
+        $(".scroll-top-btn").removeClass("visible");
+    }
 }
 
 $(function() {

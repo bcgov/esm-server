@@ -14,6 +14,12 @@ footer {
         margin-bottom: 2rem;
         padding-bottom: 2rem;
         border-bottom: 1px solid #5475a7;
+
+        &.last {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
     }
 
     h4 {
@@ -66,28 +72,36 @@ footer {
     }
 }
 
-.connect-links {
-    margin-top: -0.5rem;
-    margin-bottom: 0;
+@media (min-width: 560px) {
+    footer {
+        text-align: left;
+    }
+}
 
-    li {
-        margin: 0.25rem;
-        display: inline-block;
+@media (min-width: 768px) {
+    footer {
+        section {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
 
-        img {
-            width: 2rem;
-            height: 2rem;
+        h4 {
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid #5475a7;
         }
     }
 }
 
 .footer-admin {
-    margin-top: 3rem;
+    margin-top: 2rem;
     padding-top: 1.5rem;
     border-top: 1px solid #5475a7;
+    text-align: center;
 
     .gov-links {
-        margin: 0;
+        margin-top: 0;
+        margin-bottom: 1rem;
         padding: 0;
 
         li {
@@ -111,26 +125,43 @@ footer {
             }
         }
     }
-}
 
+    .connect-links {
+        margin-top: -0.5rem;
+        margin-bottom: 0;
 
-@media (min-width: 560px) {
-    footer {
-        text-align: left;
+        li {
+            margin: 0.25rem;
+            display: inline-block;
+
+            img {
+                width: 2rem;
+                height: 2rem;
+            }
+        }
     }
 }
 
-@media (min-width: 768px) {
-    footer {
-        section {
+@media (min-width: 760px) {
+    .footer-admin {
+        margin-top: 3rem;
+
+        .gov-links {
+            float: left;
             margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
         }
 
-        h4 {
-            padding-bottom: 1.25rem;
-            border-bottom: 1px solid #5475a7;
+        .connect-links {
+            margin-right: 3.5rem;
+            float: right;
+        }
+    }   
+}
+
+@media (min-width: 1200px) {
+    .footer-admin {
+        .connect-links {
+            margin-right: 0;
         }
     }
 }

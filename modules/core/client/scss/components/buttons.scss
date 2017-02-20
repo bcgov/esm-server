@@ -124,8 +124,7 @@ main {
 
 .content-btn {
     padding: 0.5rem;
-    border: 2px solid #1a5a96;
-    background: transparent;
+    background: #EEE;
     color: #1a5a96;
     font-size: 0.9375rem;
     font-weight: 600;
@@ -137,8 +136,25 @@ main {
     }
 }
 
+// Scroll Top Button 
+.scroll-top-btn {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.5rem;
+    opacity: 0;
+    border-color: $gold;
+    background: $gold;
+    transform: translateY(1rem);
+    transition: all ease-out 0.2s;
 
-// Submit Button {
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Submit Button
 .submit-btn {
     border-color: $gold;
     background: $gold;

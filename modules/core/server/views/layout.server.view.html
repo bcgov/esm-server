@@ -32,7 +32,7 @@
 	{% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
 </head>
 
-<body ng-cloak x-scroll ng-class="{'map-active': isMapActive}">
+<body id="top" ng-cloak x-scroll ng-class="{'map-active': isMapActive}">
 	
 	<!-- Load Facebook SDK for JavaScript -->
 	<div id="fb-root"></div>
@@ -49,6 +49,8 @@
 	<tmpl-header class="header-container" ng-if="!isMapActive"></tmpl-header>
 	{% block content %}{% endblock %}
 	<tmpl-footer class="footer-container" ng-if="!isMapActive"></tmpl-footer>
+
+	<a class="btn scroll-top-btn" href="#top" du-smooth-scroll><i class="material-icons">arrow_upward</i></a>
 
   	<!--Embedding The User Object-->
 	<script type="text/javascript">
