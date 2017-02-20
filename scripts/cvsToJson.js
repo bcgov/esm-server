@@ -4,34 +4,118 @@ var CSVParse = require('csv-parse');
 var fs = require('fs');
 var path = require('path');
 var moment = require('moment');
+const crypto = require('crypto');
+const HASH_STORE_FILENAME = path.resolve(__dirname, "content-hash.json");
+
+// const TARGET_DIR = path.resolve(__dirname, '..', 'config', 'seed-data');
+const TARGET_DIR = path.resolve(__dirname);
+
 
 /*
-Run this script on any new inspections or authorizations CSV content.  It parses the CSV, does some checks on the data
-and generates a file for the config/seed-data folder that will automatically update the database the next time the
-server is started.
+ Run this script on any new inspections or authorizations CSV content.  It parses the CSV, does some checks on the data
+ and generates a file for the config/seed-data folder that will automatically update the database the next time the
+ server is started.
  */
-
-
 
 run();
 function run() {
-	preProcess(new Inspections());
-	// preProcess(new Authorization());
-	// preProcess(new OtherDocs());
+	var hashData = {};
+	readFile(HASH_STORE_FILENAME)
+		.then(function (data) {
+			hashData = {};
+			if (data) {
+				hashData = JSON.parse(data);
+			}
+		})
+		.then(function () {
+			var all = [];
+			all.push(preProcess(new Inspections(), hashData));
+			all.push(preProcess(new Authorization(), hashData));
+			all.push(preProcess(new OtherDocs(), hashData));
+			return Promise.all(all);
+		})
+		.then(function (results) {
+			var json = JSON.stringify(hashData);
+			// console.log("save hash '", json, "'");
+			console.log("Done");
+			return writeFile(HASH_STORE_FILENAME, json);
+		})
+		.catch(function (err) {
+			console.error(err);
+			resolve(err);
+		});
 }
 
+
+function preProcess(importer, hashData) {
+	var obj = {};
+	return new Promise(function (resolve, reject) {
+		// console.log('Pre Process Inspections start');
+		Promise.resolve()
+			.then(function () {
+				return readFile(importer.INPUT);
+			})
+			.then(function (data) {
+				if (!data) {
+					return Promise.reject("Could not locate input file ", importer.INPUT);
+				}
+				obj.inputData = data;
+			})
+			.then(function (data) {
+				// console.log("Hash data ", data);
+				var md5sum = crypto.createHash('md5');
+				md5sum.update(obj.inputData);
+				var d1 = md5sum.digest('hex');
+				var d2 = hashData[importer.INPUT];
+				//console.log("Compare hashes", d1, d2);
+				if (d2) {
+					if (d1 === d2) {
+						return Promise.reject("No need to do anything with " + importer.INPUT);
+					}
+				}
+				hashData[importer.INPUT] = d1;
+			})
+			.then(function () {
+				// console.log("load csv");
+				return loadCSV(importer, obj.inputData)
+			})
+			.then(function (results) {
+				return importer.transform(results);
+			})
+			.then(function (results) {
+				var output = {
+					name: importer.getName(),
+					date: (new Date).toISOString(),
+					data: results
+				}
+					var json = "'use strict';\nmodule.exports = " + JSON.stringify(output, null, 2) + ";";
+					fs.writeFile(importer.OUTPUT, json, {encoding: 'utf8'}, function (err, data) {
+						if (err) reject(err);
+						// console.log("JSON saved to file ", importer.OUTPUT);
+						return resolve("JSON saved to file "+ importer.OUTPUT);
+					});
+			})
+			.catch(function (err) {
+				console.error(err);
+				resolve(err);
+			});
+	});
+}
+
+
 const agencyMap = {
-	'ENV': {agencyCode:'ENV', name: 'Ministry of Environment', act: "Environmental Management Act"},
-	'MEM': {agencyCode:'MEM', name: 'Ministry of Energy and Mines', act: "Mines Act"},
-	'EAO': {agencyCode:'EAO', name: "Environmental Assessment Office", act: "Environmental Assessment Act"}
+	'ENV': {agencyCode: 'ENV', name: 'Ministry of Environment', act: "Environmental Management Act"},
+	'MEM': {agencyCode: 'MEM', name: 'Ministry of Energy and Mines', act: "Mines Act"},
+	'EAO': {agencyCode: 'EAO', name: "Environmental Assessment Office", act: "Environmental Assessment Act"}
 };
 
 function ImporterBase() {
+
 	this.dateValidate = function (val) {
 		var s = Date.parse(val);
 		if (isNaN(s)) {
-			var m = moment(val,"YY-MM-DD");
-			if(!m.isValid()) {
+			var m = moment(val, "YY-MM-DD");
+			if (!m.isValid()) {
 				console.log("Invalidate Date %j", val);
 				throw "Invalid date " + val;
 			} else {
@@ -41,7 +125,7 @@ function ImporterBase() {
 		return s;
 	};
 
-	this.dateValidateMoment = function(val) {
+	this.dateValidateMoment = function (val) {
 		var s;
 		var m = moment(val, ["YYYY-MM-DD", "YY-MM-DD"]);
 		if (!m.isValid()) {
@@ -59,7 +143,7 @@ function ImporterBase() {
 		var agency = agencyMap[code];
 		if (!agency) {
 			_.forEach(agencyMap, function (ag, index) {
-				if(ag.name === code) {
+				if (ag.name === code) {
 					agency = ag;
 					return;
 				}
@@ -70,19 +154,19 @@ function ImporterBase() {
 
 	this.getAgencyList = function (list) {
 		var parts = list.split(',');
-		var agencyList=[];
-		for(var i=0; i< parts.length; i++) {
+		var agencyList = [];
+		for (var i = 0; i < parts.length; i++) {
 			var code = parts[i].trim();
 			var agency = agencyMap[code];
 			if (!agency) {
 				_.forEach(agencyMap, function (ag, index) {
-					if(ag.name === code) {
+					if (ag.name === code) {
 						agency = ag;
 						return;
 					}
 				});
 			}
-			if(agency)
+			if (agency)
 				agencyList.push(agency);
 		}
 		return agencyList;
@@ -90,14 +174,14 @@ function ImporterBase() {
 
 	this.processRelated = function (json) {
 		var followUpDocuments = [];
-		if(json.documentName && json.documentURL) {
+		if (json.documentName && json.documentURL) {
 			var related = {name: json.documentName, ref: json.documentURL};
 			followUpDocuments.push(related);
 		}
-		for(var i=1;i<5;i++){
-			var n = json['rn'+i];
-			var u = json['ru'+i];
-			if(n && u) {
+		for (var i = 1; i < 5; i++) {
+			var n = json['rn' + i];
+			var u = json['ru' + i];
+			if (n && u) {
 				var e = {name: n, ref: u};
 				followUpDocuments.push(e);
 			}
@@ -115,8 +199,9 @@ function ImporterBase() {
 
 	this.processSemiSeparatedRelated = function (json, index) {
 		var followUpDocuments = [];
-		if(json.documentName && json.documentURL) {
-			var related = {name: json.documentName,
+		if (json.documentName && json.documentURL) {
+			var related = {
+				name: json.documentName,
 				ref: json.documentURL,
 				fileName: json.documentFileName,
 				date: json.date
@@ -128,7 +213,7 @@ function ImporterBase() {
 		var dates = json.relatedDocDates.trim()
 		var fileNames = json.relatedDocLongNames.trim();
 
-		if(names.length > 0 && urls.length > 0 && dates.length > 0) {
+		if (names.length > 0 && urls.length > 0 && dates.length > 0) {
 			var re = /\s*;\s*/;
 			names = names.split(re);
 			var cnt = names.length;
@@ -136,27 +221,27 @@ function ImporterBase() {
 			var dates = dates.split(re);
 			var fileNames = fileNames.split(re);
 			if (cnt !== urls.length) {
-				console.log("Row %j, Related docs have mismatched number of urls ", index);
+				console.log("%j Row %j, Related docs have mismatched number of urls ", this.getName(), index);
 				return;
 			}
 			if (cnt !== dates.length) {
-				console.log("Row %j, Related docs have mismatched number of dates ", index);
+				console.log("%j Row %j, Related docs have mismatched number of dates ", this.getName(), index);
 				return;
 			}
 			if (cnt !== fileNames.length) {
-				console.log("Row %j, Related docs have mismatched number of longNames ", index);
+				console.log("%j Row %j, Related docs have mismatched number of longNames ", this.getName(), index);
 				return;
 			}
-			console.log("Row %j, process %j related docs", cnt, names, dates, index);
+			// console.log("%j Row %j, process %j related docs", this.getName(),cnt, names, dates, index);
 			for (var i = 0; i < cnt; i++) {
 				var e = {name: names[i], ref: urls[i]}
 				var d = dates[i];
-				if(d.length>0) {
+				if (d.length > 0) {
 					d = this.dateValidateMoment(d);
 					e.date = d;
 				}
 				var l = fileNames[i];
-				if(l.length > 0) {
+				if (l.length > 0) {
 					e.fileName = l;
 				}
 				followUpDocuments.push(e);
@@ -173,13 +258,16 @@ function ImporterBase() {
 
 function Authorization() {
 	ImporterBase.call(this);
+
 	this.INPUT = path.resolve(__dirname, 'load-authorizations-data.csv');
-	this.OUTPUT = path.resolve(__dirname, '..', 'config', 'seed-data', 'load-authorizations-data.js');
-	this.getName = function() {return 'Authorizations';}
+	this.OUTPUT = path.resolve(TARGET_DIR, 'load-authorizations-data.js');
+	this.getName = function () {
+		return 'Authorizations';
+	}
 	console.log("INPUT", this.INPUT);
 	console.log("OUTPUT", this.OUTPUT);
 
-	this.csvExpectedColumns = [ 'agency',
+	this.csvExpectedColumns = ['agency',
 		'projectCode',
 		'authorizationId',
 		'Authorization name (Title)',
@@ -196,7 +284,7 @@ function Authorization() {
 		'relatedDocName',
 		'relatedDocUrl',
 		'relatedDocName',
-		'relatedDocUrl' ];
+		'relatedDocUrl'];
 
 	this.columnNames = [
 		"agencyCode",
@@ -219,13 +307,13 @@ function Authorization() {
 	this.transform = function (jsonData) {
 		var _this = this;
 		_.forEach(jsonData, function (json, index) {
-			if(!json.projectName || json.projectName.length ==0) {
+			if (!json.projectName || json.projectName.length == 0) {
 				console.log("Row is missing project. Skipping this data:", index);
 				return;
 			}
 			json.projectName = json.projectName.trim();
 			var agency = _this.getAgency(json.agencyCode);
-			if(!agency) {
+			if (!agency) {
 				console.log("Row is missing agency. Skipping this data:", index);
 				return;
 			}
@@ -245,13 +333,15 @@ Authorization.prototype.constructor = Authorization;
 //see model = require('../../modules/inspections/server/models/inspections.model');
 function Inspections() {
 	ImporterBase.call(this);
-	this.getName = function() {return 'Inspections';}
+	this.getName = function () {
+		return 'Inspections';
+	}
 	this.INPUT = path.resolve(__dirname, 'load-inspections-data.csv');
-	this.OUTPUT = path.resolve(__dirname, '..', 'config', 'seed-data', 'load-inspections-data.js');
+	this.OUTPUT = path.resolve(TARGET_DIR, 'load-inspections-data.js');
 
 	console.log("INPUT", this.INPUT);
 	console.log("OUTPUT", this.OUTPUT);
-	this.csvExpectedColumns = [ 'ProjectCode',
+	this.csvExpectedColumns = ['ProjectCode',
 		'OrgCode',
 		'InspectionId',
 		'InspectionDate',
@@ -291,12 +381,12 @@ function Inspections() {
 	this.transform = function (jsonData) {
 		var _this = this;
 		_.forEach(jsonData, function (json, index) {
-			if(!json.projectName || json.projectName.length ==0) {
+			if (!json.projectName || json.projectName.length == 0) {
 				console.log("Row is missing project. Skipping this data:", index);
 				return;
 			}
 			var agency = _this.getAgency(json.agencyCode);
-			if(!agency) {
+			if (!agency) {
 				console.log("Row is missing agency. Skipping this data:", index);
 				return;
 			}
@@ -317,33 +407,33 @@ Inspections.prototype = Object.create(ImporterBase.prototype);
 Inspections.prototype.constructor = Inspections;
 
 
-
-
 function OtherDocs() {
 	ImporterBase.call(this);
 	this.INPUT = path.resolve(__dirname, 'load-otherDocs-data.csv');
-	this.OUTPUT = path.resolve(__dirname, '..', 'config', 'seed-data', 'load-otherDocs-data.js');
+	this.OUTPUT = path.resolve(TARGET_DIR, 'load-otherDocs-data.js');
 	// this.OUTPUT = path.resolve(__dirname, '..', '..', 'load-otherDocs-data.js');
-	this.getName = function() {return 'OtherDocument';}
+	this.getName = function () {
+		return 'OtherDocument';
+	}
 	console.log("INPUT", this.INPUT);
 	console.log("OUTPUT", this.OUTPUT);
 
-	var x = ["Agency","Project","Heading","Main Document Name","Document Type","Document Date","Filename","Document URL (Source)","Related Document(s) Name","Related Document(s) Date","Related Document(s) Filename","Related Document(s) URL (Source)"];
+	var x = ["Agency", "Project", "Heading", "Main Document Name", "Document Type", "Document Date", "Filename", "Document URL (Source)", "Related Document(s) Name", "Related Document(s) Date", "Related Document(s) Filename", "Related Document(s) URL (Source)"];
 	this.csvExpectedColumns = x;
 
-	this.columnNames = ["agencyCode","projectName","heading", "documentName","documentType"
-		,"date","documentFileName","documentURL",
-		"relatedDocNames","relatedDocDates","relatedDocLongNames","relatedDocUrls" ];
+	this.columnNames = ["agencyCode", "projectName", "heading", "documentName", "documentType"
+		, "date", "documentFileName", "documentURL",
+		"relatedDocNames", "relatedDocDates", "relatedDocLongNames", "relatedDocUrls"];
 	this.transform = function (jsonData) {
 		var _this = this;
 		_.forEach(jsonData, function (json, index) {
-			if(!json.projectName || json.projectName.length ==0) {
+			if (!json.projectName || json.projectName.length == 0) {
 				console.log("Row is missing project. Skipping this data:", index);
 				return;
 			}
 			json.projectName = json.projectName.trim();
 			var agencyList = _this.getAgencyList(json.agencyCode);
-			if(agencyList.length === 0) {
+			if (agencyList.length === 0) {
 				console.log("Row is missing agency. Skipping this data:", index);
 				return;
 			}
@@ -364,63 +454,47 @@ OtherDocs.prototype = Object.create(ImporterBase.prototype);
 OtherDocs.prototype.constructor = OtherDocs;
 
 
+/* *************************************************************************************
+ working helpers ...
+ */
 
-
-function loadCSV(importer) {
+function loadCSV(importer, data) {
 	return new Promise(function (resolve, reject) {
-		// Now parse and go through the csv file.
-		fs.readFile(importer.INPUT, 'utf8', function (err, data) {
-			if (err) {
-				console.log("Load CSV error:", err);
-				reject(err);
-				return;
-			}
-			var options = {delimiter: ',', columns: function(firstRow) {
-				if(firstRow.length !== importer.csvExpectedColumns.length) {
-					console.error("Mismatch in expected columns Actual/Expected/AsFound", firstRow.length,  importer.csvExpectedColumns.length, firstRow);
-
+		var options = {
+			delimiter: ',', columns: function (firstRow) {
+				if (firstRow.length !== importer.csvExpectedColumns.length) {
+					console.error("Mismatch in expected columns Actual/Expected/AsFound", firstRow.length, importer.csvExpectedColumns.length, firstRow);
+					return reject("Column count mismatch");
 				}
 				return importer.columnNames;
 			}
-			};
-			var parse = new CSVParse(data, options, function (err, output) {
-				// remove the title row
-				//output.shift();
-				// console.log(output);
-				resolve(output);
-				return;
-			});
+		};
+		var parse = new CSVParse(data, options, function (err, output) {
+			return resolve(output);
 		});
 	});
 }
 
-function preProcess(importer) {
-	return new Promise(function (resolve, reject) {
-		console.log('Pre Process Inspections start');
-		loadCSV(importer)
-			.then(function (results) {
-				return importer.transform(results);
-			})
-			.then(function (results) {
-				var output ={
-					name: importer.getName(),
-					date: (new Date).toISOString(),
-					data: results
-				}
-				return new Promise(function (resolve, reject) {
-					var	json = "'use strict';\nmodule.exports = " + JSON.stringify(output, null, 2) + ";";
-					fs.writeFile(importer.OUTPUT, json, {encoding: 'utf8'}, function (err, data) {
-						if (err) reject(err);
-						console.log("JSON saved to file ", importer.OUTPUT);
-						resolve();
-					});
-				})
 
-			})
-			.catch(function (err) {
-				console.error('ERROR: end err = ', err);
-				reject(err);
-			});
+function readFile(fName) {
+	return new Promise(function (resolve, reject) {
+		fs.readFile(fName, 'utf8', function (err, data) {
+			if (err) {
+				return resolve(undefined);
+			}
+			return resolve(data);
+		});
+	});
+}
+
+
+function writeFile(fName, data) {
+	return new Promise(function (resolve, reject) {
+		fs.writeFile(fName, data, {encoding: 'utf8'}, function (err, x) {
+			if (err) reject("Write file error: ", err);
+			// console.log("Data saved to file ", fName, data);
+			resolve();
+		});
 	});
 }
 

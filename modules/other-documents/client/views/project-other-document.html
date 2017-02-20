@@ -3,7 +3,6 @@
     <h3>{{h.name}}</h3>
     <div class="mmti-accord auth-list" role="tablist" aria-multiselectable="false">
       <div class="mmti-accord-item" ng-repeat="c in h.list">
-        <!-- c is OtherDocument model element -->
         <div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
           <div>
             <a data-ng-if="c.documents" class="toggle collapsed"
@@ -13,9 +12,7 @@
               <i class="material-icons close-icon">remove</i>
             </a>
             <span class="ah-col name">{{c.documentName}}</span>
-            <span class="ah-col date">
-              <span>{{c.date | date:'MMM dd, yyyy'}}</span>
-            </span>
+            <span class="ah-col date">{{c.date | date:'MMM dd, yyyy'}}</span>
           </div>
         </div>
         <div class="collapse" role="tabpanel" id="collapse-{{c._id}}" aria-labelledby="heading-{{c._id}}">
@@ -23,7 +20,7 @@
             <div class="doc-list-container" ng-if="c.documents.length > 0">
               <div class="mmti-list-header">Related Documents</div>
               <ul class="mmti-list nd-pair" ng-repeat="r in c.documents">
-                <li class="nv-pair">
+                <li>
                   <span class="name"><a href="{{r.ref}}" target="_blank">{{r.name}}</a></span>
                   <span class="date">{{r.date | date:'MMM dd, yyyy'}}</span>
                 </li>
