@@ -113,6 +113,136 @@ module.exports = DBModel.extend ({
 	// get all comment periods for a project
 	//
 	// -------------------------------------------------------------------------
+	getStats: function(period) {
+		var self    = this;
+		var Comment = this.mongoose.model('Comment');
+
+		var result = JSON.parse(JSON.stringify(period));
+		result.topics = [];
+		result.pillars = [];
+		result.stats = {
+			totalPending  : 0,
+			totalDeferred : 0,
+			totalPublic   : 0,
+			totalRejected : 0,
+			totalAssigned : 0,
+			totalUnassigned : 0,
+			totalPublicAssigned: 0
+		};
+
+		var topics = new Promise(function(res, rej) {
+			Comment.aggregate([
+				{
+					$match: { period: period._id }
+				},
+				{
+					$project: { _id: 1, 'topics': 1 }
+				},
+				{
+					$unwind: '$topics'
+				},
+				{
+					$group: {
+						_id: '$topics',
+						count: { $sum: 1 }
+					}
+				},
+				{
+					$sort : { 'count': -1}
+				}
+			], function (err, data) {
+				if (err) {
+					rej(err);
+				} else {
+					if (data) {
+						result.topics = data;
+						res();
+					}
+				}
+			});
+		});
+		var pillars = new Promise(function(res, rej) {
+			Comment.aggregate([
+				{
+					$match: { period: period._id }
+				},
+				{
+					$project: { _id: 1, 'pillars': 1 }
+				},
+				{
+					$unwind: '$pillars'
+				},
+				{
+					$group: {
+						_id: '$pillars',
+						count: { $sum: 1 }
+					}
+				},
+				{
+					$sort : { 'count': -1}
+				}
+			], function (err, data) {
+				if (err) {
+					rej(err);
+				} else {
+					if (data) {
+						result.pillars = data;
+						res();
+					}
+				}
+			});
+		});
+		var stats = new Promise(function(res,rej) {
+			Comment.aggregate([
+				{
+					$match: { period: period._id }
+				},
+				{
+					$group: {
+						_id: null,
+						total: {$sum: 1},
+						totalPublished: { $sum: { $cond: [ {$eq: ['$isPublished', true]}, 1, 0 ] } },
+						totalPending: { $sum: { $cond: [ {$eq: ['$eaoStatus', 'Unvetted']}, 1, 0 ] } },
+						totalDeferred: { $sum: { $cond: [ {$eq: ['$eaoStatus','Deferred']}, 1, 0 ] } },
+						totalPublic: { $sum: { $cond: [ {$eq: ['$eaoStatus','Published']}, 1, 0 ] } },
+						totalRejected: { $sum: { $cond: [ {$eq: ['$eaoStatus','Rejected']}, 1, 0 ] } },
+						totalAssigned: { $sum: { $cond: [ {$and: [{$eq: ['$proponentStatus','Classified']}, {$eq: ['$isPublished',true]}] }, 1, 0 ] } },
+						totalUnassigned: { $sum: { $cond: [ {$and: [{$ne: ['$proponentStatus','Classified']}, {$eq: ['$isPublished',true]}] }, 1, 0 ] } },
+						totalPublicAssigned: { $sum: { $cond: [ {$and: [{$eq: ['$proponentStatus','Classified']}, {$eq: ['$eaoStatus','Published']}] }, 1, 0 ] } }
+					}
+				}
+			], function (err, data) {
+				if (err) {
+					rej(err);
+				} else {
+					if (data && _.size(data) === 1) {
+						result.stats.total = data[0].total;
+						result.stats.totalPublished = data[0].totalPublished;
+						result.stats.totalPending = data[0].totalPending;
+						result.stats.totalDeferred = data[0].totalDeferred;
+						result.stats.totalPublic = data[0].totalPublic;
+						result.stats.totalRejected = data[0].totalRejected;
+						result.stats.totalAssigned = data[0].totalAssigned;
+						result.stats.totalUnassigned = data[0].totalUnassigned;
+						result.stats.totalPublicAssigned = data[0].totalPublicAssigned;
+						result.stats.totalPublished = data[0].totalPublished;
+					}
+					res(result);
+				}
+			});
+		});
+
+		return new Promise(function(res, rej) {
+			topics
+				.then(function() {
+					return pillars;
+				})
+				.then(function() {
+					return stats;
+				})
+				.then(res, rej);
+		});
+	},
 	getForPublic: function(id) {
 		var self = this;
 		var docs = new DocumentClass(self.opts);
@@ -125,7 +255,10 @@ module.exports = DBModel.extend ({
 				})
 				.then(function(rd) {
 					period.relatedDocuments = rd;
-					resolve(period);
+					return self.getStats(period);
+				})
+				.then(function(data) {
+					resolve(data);
 				});
 		});
 	},
@@ -155,57 +288,16 @@ module.exports = DBModel.extend ({
 	},
 	getForProjectWithStats: function (projectId) {
 		var self    = this;
-		var Comment = this.mongoose.model('Comment');
 		return new Promise (function (resolve, reject) {
 			self.getForProject(projectId)
-			.then(function(res) {
-				//console.log('periods = ' + JSON.stringify(res));
-				return new Promise(function (resolve, reject) {
-					Comment
-					.find ({period: {$in: _.map(res, '_id') }})
-					.exec()
-					.then(function(docs) {
-						resolve({periods: res, comments: docs});
-					});
+			.then (function (periods) {
+				var a = _.map(periods, function(period) {
+					return self.getStats(period);
 				});
+				return Promise.all(a);
 			})
-			.then (function (data) {
-				//console.log('data = ' +  JSON.stringify(data, null, 4));
-				// get stats for each period.
-				var periodsWithStats = [];
-				_.forEach(data.periods, function(period) {
-					var mycomments = _.filter(data.comments, function(o) { return o.period.toString() === period._id.toString(); });
-					//console.log('period = ' + period._id + ' comments = ' + mycomments.length);
-					//console.log('period = ', JSON.stringify(period));
-					var periodWithStat = JSON.parse(JSON.stringify(period));
-					periodWithStat.stats = {
-						totalPending  : 0,
-						totalDeferred : 0,
-						totalPublic   : 0,
-						totalRejected : 0,
-						totalAssigned : 0,
-						totalUnassigned : 0,
-						totalPublicAssigned: 0
-					};
-					//console.log('periodWithStat = ',JSON.stringify(periodWithStat, null, 4));
-					mycomments.reduce (function (prev, next) {
-						periodWithStat.stats.totalPending  += (next.eaoStatus === 'Unvetted' ? 1 : 0);
-						periodWithStat.stats.totalDeferred += (next.eaoStatus === 'Deferred' ? 1 : 0);
-						periodWithStat.stats.totalPublic   += (next.eaoStatus === 'Published' ? 1 : 0);
-						periodWithStat.stats.totalRejected += (next.eaoStatus === 'Rejected' ? 1 : 0);
-						periodWithStat.stats.totalAssigned += (next.proponentStatus === 'Classified' ? 1 : 0);
-						periodWithStat.stats.totalUnassigned += (next.proponentStatus !== 'Classified' ? 1 : 0);
-						periodWithStat.stats.totalPublicAssigned   += (next.proponentStatus === 'Classified' && next.eaoStatus === 'Published' ? 1 : 0);
-					}, periodWithStat.stats);
-					//console.log('periodWithStat.stats = ',JSON.stringify(periodWithStat.stats));
-					//console.log('periodWithStat = ',JSON.stringify(periodWithStat, null, 4));
-					periodsWithStats.push(periodWithStat);
-				});
-				return periodsWithStats;
-			})
-			.then(function(res) {
-				//console.log('periodWithStats = ',JSON.stringify(res, null, 4));
-				return res;
+			.then(function(data) {
+				return data;
 			})
 			.then (resolve, reject);
 		});

@@ -1018,6 +1018,64 @@ _.extend (DBModel.prototype, {
 			console.log('dbmodel.'+funct+': '+err.message);
 			reject (new Error ('dbmodel.'+funct+': '+err.message));
 		};
+	},
+
+	paginate: function(query, filter, skip, limit, fields, population, sortby, userCan) {
+		// console.log ('paginate(query=', query, ', filter=', filter, ', skip=', skip, ', limit=', limit, ', fields=', fields, ', population=', population, ', sortby=', sortby, ', userCan=', userCan, ')');
+		var sort = sortby || this.sort;
+		var populate = population || this.populate;
+		var decoratePermissions = this.decorateCollection;
+		var and = filter || {};
+
+		this.decorateCollection = userCan ? true : false;
+
+		var self = this;
+		query = query || {};
+
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			var q = _.extend ({}, self.baseQ, query);
+			console.log ('paginate.q = ' + JSON.stringify(q, null, 4));
+			console.log ('paginate.and = ' + JSON.stringify(and, null, 4));
+			console.log ('paginate.sort = ' + JSON.stringify(sort, null, 4));
+			console.log ('paginate.skip = ' + skip);
+			console.log ('paginate.limit = ' + limit);
+			console.log ('paginate.populate = ' + JSON.stringify(populate, null, 4));
+			console.log ('paginate.fields = ' + JSON.stringify(fields, null, 4));
+			console.log ('paginate.decorateCollection = ' + self.decorateCollection);
+
+			self.model.find(q)
+				//.and(and)
+				.sort(sort)
+				.skip(skip)
+				.limit(limit)
+				.populate(populate)
+				.select(fields)
+				.exec(function(error, data) {
+					if (!error) {
+						console.log('search.completed, get total count');
+						self.model.count(q, function(e,c) {
+							if (e) {
+								console.log('search.count.error = ' + JSON.stringify(e));
+								self.complete(reject, 'search');
+							} else {
+								console.log('search.count.completed. total = ', c);
+								resolve({data: data, count: c});
+							}
+						});
+					} else {
+						// console.log('search.error = ' + JSON.stringify(error));
+						self.complete(reject, 'search');
+					}
+				});
+
+			if (self.resetAccess) {
+				self.resetAccess = false;
+				self.setAccess ('read');
+			}
+
+			self.decorateCollection = decoratePermissions;
+		});
 	}
 });
 

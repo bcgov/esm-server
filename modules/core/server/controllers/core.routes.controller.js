@@ -323,9 +323,9 @@ exports.resetSessionContext = resetSessionContext;
 // -------------------------------------------------------------------------
 exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policymap) {
 	var r = {};
-	which = which || ['getall', 'get', 'post', 'put', 'delete', 'new', 'query'];
+	which = which || ['getall', 'get', 'post', 'put', 'delete', 'new', 'query', 'paginate'];
 	which.map (function (p) { r[p]=true; });
-	policymap = policymap || {all:'user',get:'guest'};
+	policymap = policymap || {all:'user',get:'guest',paginate:'guest'};
 	//
 	// middleware to auto-fetch parameter
 	//
@@ -349,6 +349,54 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 	//
 	// collection routes
 	//
+	if (r.paginate) app.route('/api/paginate/'+basename)
+		.all(policy(policymap))
+		.put (setAndRun (DBClass, function (model, req) {
+			var query = {};
+			var filter = {};
+			var skip = 0;
+			var limit = 100;
+			var sortby = {};
+
+			// fields, populate, and userCan aren't specific to table params
+			var fields = null;
+			var populate = null;
+			var userCan = false;
+
+			if (req.body) {
+				if (req.body.filterBy) {
+					query = req.body.filterBy;
+				}
+				if (req.body.filterByFields) {
+					for (var key in req.body.filterByFields) {
+						if (req.body.filterByFields.hasOwnProperty(key)) {
+							filter[key] = req.body.filterByFields[key];
+							console.log(filter);
+						}
+					}
+				}
+				try {
+					limit = parseInt(req.body.limit);
+					skip = parseInt(req.body.start);
+				} catch(e) {
+
+				}
+				if (req.body.orderBy) {
+					sortby[req.body.orderBy] = req.body.reverse ? -1 : 1;
+				}
+				if (req.body.fields) {
+					fields = req.body.fields;
+				}
+				if (req.body.populate) {
+					populate = req.body.populate;
+				}
+				if (req.body.userCan) {
+					userCan = req.body.userCan;
+				}
+			}
+			//query, skip, limit, fields, population, sortby, userCan
+			return model.paginate (query, filter, skip, limit, fields, populate, sortby, userCan);
+		}));
 	if (r.query) app.route ('/api/query/'+basename)
 		.all (policy (policymap))
 		.put (setAndRun (DBClass, function (model, req) {

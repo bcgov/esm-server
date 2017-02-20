@@ -32,6 +32,18 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		getProponentCommentsForPeriod: function (periodId) {
 			return this.get ('/api/proponentcomments/period/'+periodId);
 		},
+		getCommentsForPeriod: function(periodId, start, limit, filterBy, filterByFields, orderBy, reverse) {
+			var obj = {
+				start: start,
+				limit: limit,
+				filterBy: filterBy,
+				filterByFields: filterByFields,
+				orderBy: orderBy,
+				reverse: reverse
+			};
+
+			return this.put ('/api/comments/period/' + periodId + '/paginate', obj);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// pass in the target type (Project Description, Document, AIR, etc)
