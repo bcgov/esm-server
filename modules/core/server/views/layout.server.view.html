@@ -13,19 +13,13 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-	<!-- Facebook META -->
+	<!-- Social META -->
 	<meta property="og:site_name" content="{{title}}">
 	<meta property="og:title" content="{{title}}">
 	<meta property="og:description" content="{{description}}">
 	<meta property="og:url" content="{{url}}">
 	<meta property="og:image" content="{{url}}{{logo}}">
 	<meta property="og:type" content="website">
-
-	<!-- Twitter META -->
-	<meta name="twitter:title" content="{{title}}">
-	<meta name="twitter:description" content="{{description}}">
-	<meta name="twitter:url" content="{{url}}">
-	<meta name="twitter:image" content="{{url}}modules/core/img/brand/logo.png">
 
 	<!-- Fav Icon -->
 	<link href="{{favicon}}" rel="shortcut icon" type="image/x-icon">
@@ -51,7 +45,7 @@
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
 
-
+	<!-- Site Containers -->
 	<tmpl-header class="header-container" ng-if="!isMapActive"></tmpl-header>
 	{% block content %}{% endblock %}
 	<tmpl-footer class="footer-container" ng-if="!isMapActive"></tmpl-footer>
@@ -66,11 +60,13 @@
 
   	<!-- Application JavaScript Files (Library) -->
   	{% for jsFile in jsLibFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
+
   	<!-- Application JavaScript Files -->
   	{% for jsFile in jsAppFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %}
 
   	<script type="text/javascript" src="/dist/conf.js"> </script>
 
+	<!-- JQuery / Bootstrap -->
 	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
@@ -85,6 +81,7 @@
 	<script type="text/javascript" src="{{host}}:35729/livereload.js"></script>
 	{% endif %}
 
+	<script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 
 </html>
