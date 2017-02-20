@@ -32,6 +32,15 @@ angular.module('core').config (
 		}
 	})
 
+	// Connect With Us
+	.state('connect-with-us', {
+		url: '/connect-with-us',
+		templateUrl: 'modules/connect/client/views/connect-with-us.html',
+		data: {
+			roles: ['admin']
+		}
+	})
+
 	// Legislation
 	.state('legislation', {
 		url: '/legislation',
