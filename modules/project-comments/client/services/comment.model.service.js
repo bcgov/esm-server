@@ -157,6 +157,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				var data = "";
 				var header = [
+				'id',
 				'comment',
 				'date added',
 				'author',
@@ -169,6 +170,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 				data += '"' + header.join ('","') + '"' + "\r\n";
 				_.each (tableParams, function (row) {
 					var a = [];
+					a.push(row.commentId);
 					var comment = row.comment
 					.replace (/\•/g, '-')
 					.replace (/\’/g, "'")

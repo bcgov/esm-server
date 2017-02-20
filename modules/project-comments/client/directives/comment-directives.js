@@ -238,7 +238,10 @@ angular.module ('comment')
 				CommentPeriodModel.getForPublic(s.period._id)
 					.then(function(p) {
 						refreshFilterArrays(p);
-						return CommentModel.getCommentsForPeriod(s.period._id, 0, s.total, s.currentFilterBy, null, null, false, null, null, false);
+						return CommentModel.getCommentsForPeriod(
+							filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
+							filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic,
+							0, s.total, 'commentId', true);
 					})
 					.then(function(result) {
 						CommentModel.prepareCSV(result.data)
