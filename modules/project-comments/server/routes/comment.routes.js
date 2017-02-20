@@ -10,7 +10,7 @@ var routes = require ('../../../core/server/controllers/core.routes.controller')
 var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
-	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, {all:'guest',get:'guest'});
+	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, { all:'guest', get:'guest', paginate:'guest' });
 	routes.setCRUDRoutes (app, 'commentperiod', CommentPeriod, policy);
 	// =========================================================================
 	//
@@ -73,6 +73,40 @@ module.exports = function (app) {
 	app.route ('/api/proponentcomments/period/:periodId').all(policy ('user'))
 		.get (routes.setAndRun (CommentModel, function (model, req) {
 			return model.getProponentCommentsForPeriod (req.params.periodId);
+		}));
+
+	app.route ('/api/comments/period/:periodId/paginate').all(policy ('guest'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+			var query = {};
+			var filter = {};
+			var skip = 0;
+			var limit = 100;
+			var sortby = {};
+
+			if (req.body) {
+				if (req.body.filterBy) {
+					query = req.body.filterBy;
+				}
+				if (req.body.filterByFields) {
+					for (var key in req.body.filterByFields) {
+						if (req.body.filterByFields.hasOwnProperty(key)) {
+							filter[key] = req.body.filterByFields[key];
+							//console.log(filter);
+						}
+					}
+				}
+				try {
+					limit = parseInt(req.body.limit);
+					skip = parseInt(req.body.start);
+				} catch(e) {
+
+				}
+				if (req.body.orderBy) {
+					sortby[req.body.orderBy] = req.body.reverse ? -1 : 1;
+				}
+			}
+			//query, skip, limit, fields, population, sortby, userCan
+			return model.getCommentsForPeriod (query, filter, skip, limit, sortby);
 		}));
 
 	// =========================================================================

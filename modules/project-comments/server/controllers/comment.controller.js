@@ -251,6 +251,33 @@ module.exports = DBModel.extend ({
 			.catch (reject);
 		});
 	},
+	getCommentsForPeriod: function(query, filter, skip, limit, sortby) {
+		var self = this;
+		var filterByFieldsQuery = [];
+		// the incoming filter will be a property = value, we need to alter this.
+		if (filter.commentId) {
+			filterByFieldsQuery.push({commentId: filter.commentId});
+		}
+		if (filter && filter.authorComment) {
+			filterByFieldsQuery.push([ { $or: [{author: new RegExp('^' + filter.authorComment, "i")}, {comment: new RegExp('^' + filter.authorComment, "i")}] } ]);
+		}
+		if (filter && filter.location) {
+			filterByFieldsQuery.push({location: new RegExp('^' + filter.location, "i")});
+		}
+		if (filter && filter.pillars) {
+			filterByFieldsQuery.push({pillars: {$in: [filter.pillars] }});
+		}
+		if (filter && filter.topics) {
+			filterByFieldsQuery.push({topics: {$in: [filter.topics] }});
+		}
+
+
+		var fields = null;
+		var populate = null;
+		var userCan = false;
+
+		return self.paginate(query, filterByFieldsQuery, skip, limit, fields, populate, sortby, userCan);
+	},
 	// -------------------------------------------------------------------------
 	//
 	// pass in the target type (Project Description, Document, AIR, etc)

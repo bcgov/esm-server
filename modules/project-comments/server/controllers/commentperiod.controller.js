@@ -201,12 +201,13 @@ module.exports = DBModel.extend ({
 					$group: {
 						_id: null,
 						total: {$sum: 1},
+						totalPublished: { $sum: { $cond: [ {$eq: ['$isPublished', true]}, 1, 0 ] } },
 						totalPending: { $sum: { $cond: [ {$eq: ['$eaoStatus', 'Unvetted']}, 1, 0 ] } },
 						totalDeferred: { $sum: { $cond: [ {$eq: ['$eaoStatus','Deferred']}, 1, 0 ] } },
 						totalPublic: { $sum: { $cond: [ {$eq: ['$eaoStatus','Published']}, 1, 0 ] } },
 						totalRejected: { $sum: { $cond: [ {$eq: ['$eaoStatus','Rejected']}, 1, 0 ] } },
-						totalAssigned: { $sum: { $cond: [ {$eq: ['$proponentStatus','Classified']}, 1, 0 ] } },
-						totalUnassigned: { $sum: { $cond: [ {$ne: ['$proponentStatus','Classified']}, 1, 0 ] } },
+						totalAssigned: { $sum: { $cond: [ {$and: [{$eq: ['$proponentStatus','Classified']}, {$eq: ['$isPublished',true]}] }, 1, 0 ] } },
+						totalUnassigned: { $sum: { $cond: [ {$and: [{$ne: ['$proponentStatus','Classified']}, {$eq: ['$isPublished',true]}] }, 1, 0 ] } },
 						totalPublicAssigned: { $sum: { $cond: [ {$and: [{$eq: ['$proponentStatus','Classified']}, {$eq: ['$eaoStatus','Published']}] }, 1, 0 ] } }
 					}
 				}
@@ -216,6 +217,7 @@ module.exports = DBModel.extend ({
 				} else {
 					if (data && _.size(data) === 1) {
 						result.stats.total = data[0].total;
+						result.stats.totalPublished = data[0].totalPublished;
 						result.stats.totalPending = data[0].totalPending;
 						result.stats.totalDeferred = data[0].totalDeferred;
 						result.stats.totalPublic = data[0].totalPublic;
@@ -223,6 +225,7 @@ module.exports = DBModel.extend ({
 						result.stats.totalAssigned = data[0].totalAssigned;
 						result.stats.totalUnassigned = data[0].totalUnassigned;
 						result.stats.totalPublicAssigned = data[0].totalPublicAssigned;
+						result.stats.totalPublished = data[0].totalPublished;
 					}
 					res(result);
 				}

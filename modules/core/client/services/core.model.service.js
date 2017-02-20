@@ -185,6 +185,21 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 		query : function (obj) {
 			return this.put (this.urlquery, obj);
 		},
+		paginate: function(start, limit, filterBy, filterByFields, orderBy, reverse, fields, populate, userCan) {
+			var obj = {
+				start: start,
+				limit: limit,
+				filterBy: filterBy,
+				filterByFields: filterByFields,
+				orderBy: orderBy,
+				reverse: reverse,
+				fields: fields,
+				populate: populate,
+				userCan: userCan
+			};
+
+			return this.put ('/api/paginate/'+this.urlName, obj);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// basic
