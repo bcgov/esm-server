@@ -19,6 +19,10 @@ module.exports = DBModel.extend ({
 		return this.list ({project: projectid});
 	},
 
+	getForProjectCode : function (projectCode) {
+		return this.list ({projectCode: projectCode});
+	},
+
 	getForAgency : function (agencyid) {
 		return this.list ({agencies: { $in: [agencyid] } });
 	}

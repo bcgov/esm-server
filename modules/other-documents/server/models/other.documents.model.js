@@ -12,7 +12,14 @@ module.exports = require('../../../core/server/controllers/core.schema.controlle
 	filename: {type: String, default: ''},
 	date: {type: Date},
 
+	heading: {type: String, default: ''},
+	documentName: {type: String, default: ''},
+	documentFileName: {type: String, default: ''},
 	agencies : [{ type:'ObjectId', ref:'Organization', default:null}],
-	project : { type:'ObjectId', ref:'Project', default:null, index:true }
+	project : { type:'ObjectId', ref:'Project', default:null, index:true },
+	projectName: {type: String, default: ''},
+	projectCode: {type: String, default: ''},
+
+	documents: [{name: String, ref: String, fileName: String, date: Date}]
 
 });
