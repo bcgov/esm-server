@@ -46,7 +46,7 @@ module.exports = DBModel.extend ({
 	},
 
 	getForProject: function (id) {
-		return this.list({project: id});
+		return this.list({project: id},{},{dateSent:-1});
 	},
 
 	getForGroup: function (id) {
