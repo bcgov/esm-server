@@ -5,6 +5,8 @@
     height: 23rem;
     border-bottom: 4px solid $gold;
     background-color: rgba($header-bg, 0.85);
+    background-size: 240%;
+    background-position: -150px center;
 
     .container {
         display: table;
@@ -83,7 +85,7 @@
     }
 
     p {
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         font-size: 0.9375rem;
         line-height: 1.5rem;
     }
@@ -140,11 +142,12 @@
 .hb-btns {
     text-align: center;
 
-    label {
-        margin-bottom: 0.75rem;
+    strong {
+        margin-bottom: 0.5rem;
         display: block;
-        font-size: 0.9375rem;
-        font-weight: 400;
+        color: $gold;
+        font-size: 1rem;
+        font-weight: 700;
     }
 
     .btn {
