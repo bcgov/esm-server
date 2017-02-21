@@ -15,7 +15,7 @@
     <div class="container" id="anchor-point">
         <div class="row">
             <main class="col-lg-8">
-                <section>
+                <section class="mb-0">
                     <h2>Major Mines in British Columbia</h2>
                     <p class="tab-intro">Use the list below to navigate to information on individual mine sites. Click on any mine to go directly to its profile page, or click the ‘+’ sign to expand the list item to see basic information (e.g., operator, ownership, commodity/ies produced) about that mine. You can also use our <a ui-sref="maps">interactive map</a> to navigate to information on individual mines across British Columbia.</p>
 
@@ -73,7 +73,7 @@
                                                     <span class="name">Number of Tailings Impoundments</span>
                                                     <span class="value">{{p.tailingsImpoundments}}</span>
                                                 </li>
-                                                <li>
+                                                <li class="mine-list-btns">
                                                     <a class="btn content-btn slide-l-btn" ui-sref="project({projectid: p.code})"><i class="material-icons">info_outline</i><span>Go to Mine Details</span></a>
                                                     <a class="btn content-btn slide-l-btn" ui-sref="maps({project: p})"><i class="material-icons">location_on</i><span>Show on Map</span></a> 
                                                 </li>
