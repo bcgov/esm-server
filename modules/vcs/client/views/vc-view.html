@@ -40,7 +40,7 @@
 				<div class="col-sm-12 detail-row" ng-if="vclist.length > 0">
 					<label>Associated Valued & Pathway Components</label>
 					<div class="anchor-list">
-						<a ng-repeat="o in vclist" ui-sref="p.vc.detail({vcId:o._id})">{{o.title}}{{$last ? '' : ', '}}</a>
+						<a ng-repeat="o in vclist" ui-sref="p.vc.detail({vcId:o._id})" class="clickable">{{o.title}}{{$last ? '' : ', '}}</a>
 					</div>
 				</div>
 			</div>

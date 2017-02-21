@@ -14,7 +14,7 @@
 	</div>
 	<div class="panel panel-default">
 		<table ng-table="tableParams" show-filter="true" class="table table-hover vc-table">
-			<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
+			<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})" class="clickable">
 				<td data-title="'Title'"
 					filter="{'title':'text'}"
 					sortable="'title'">

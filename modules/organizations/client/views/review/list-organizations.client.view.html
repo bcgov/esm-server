@@ -24,7 +24,7 @@
               <th>Registered In</th>
             </tr>
             </thead>
-            <tr ng-repeat="org in listOrganizations.pagedItems" ui-sref="organization.view({organizationId: org._id})">
+            <tr ng-repeat="org in listOrganizations.pagedItems" ui-sref="organization.view({organizationId: org._id})" class="clickable">
               <td ng-bind="org.company"></td>
               <td ng-bind="org.companyLegal"></td>
               <td ng-bind="listOrganizations.provs[org.registeredIn]"></td>

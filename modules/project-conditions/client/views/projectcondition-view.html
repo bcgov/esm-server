@@ -44,7 +44,7 @@
 				<div class="detail-row col-md-12">
 					<label for="shortDesc">Associated Valued Components</label>
 					<div class="anchor-list">
-						<a ng-repeat="o in condition.vcs" ui-sref="p.vc.detail({vcId:o._id})">{{o.name}}{{$last ? '' : ', '}}</a>
+						<a ng-repeat="o in condition.vcs" ui-sref="p.vc.detail({vcId:o._id})" class="clickable">{{o.name}}{{$last ? '' : ', '}}</a>
 					</div>
 				</div>
 			</div>
