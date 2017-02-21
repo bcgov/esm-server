@@ -1,4 +1,6 @@
 
+<form class="view-form" name="vcAddForm"  novalidate>
+
 <div class="view-title-container flex-row">
 	<h1><span ng-show="project.name">Edit Valued Component &nbsp;&rsaquo;&nbsp; {{vc.title}} <span class="placeholder-value" ng-if="!vc.title">{{vc.name}}</span></h1>
 	<div class="actions">
@@ -8,7 +10,7 @@
             ng-if="canDelete"
             ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
 		<button class="btn btn-primary btn-sm"
-			ng-click="save()">Save</button>
+			ng-click="save(vcAddForm.$valid)">Save</button>
 		<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#publishNotify"
 			ng-if="canUnpublish"
 			ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>
@@ -27,11 +29,11 @@
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 form-group">
 					<label for="title" class="control-label">Name</label>
-					<input id="title" type="text" class="form-control" ng-model="vc.name" disabled="disabled">
+					<input id="name" type="text" class="form-control" ng-model="vc.name" disabled="disabled">
 				</div>
-				<div class="col-sm-6 col-lg-3 form-group">
+				<div class="col-sm-6 col-lg-3 form-group" x-show-errors>
 					<label for="title" class="control-label">Title</label>
-					<input id="title" type="text" class="form-control" ng-model="vc.title">
+					<input id="title" type="text" name="title" class="form-control" ng-model="vc.title" required>
 				</div>
 				<div class="col-sm-6 col-lg-3 form-group">
 					<label for="pillar" class="control-label">Pillar</label>
@@ -122,3 +124,4 @@
 
 </div><!-- / VIEW BODY CONTAINER -->
 
+</form>
