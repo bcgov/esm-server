@@ -127,7 +127,8 @@ angular.element(document).ready(function () {
 		m.parentNode.insertBefore(a, m);
 	})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-	window.ga('create', 'UA-92166912-1', 'auto');
+	// Key for ESM/EPIC UA-92287050-1
+	window.ga('create', 'UA-92287050-1', 'auto');
 	window.ga('set', 'anonymizeIp', true);
 	window.ga('set', 'hostname', window.location.hostname);
 	window.ga('send', 'pageview');

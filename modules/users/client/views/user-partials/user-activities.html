@@ -22,7 +22,7 @@
                 <table class="projects-table table table-hover"
                     ng-table="projectParams"
                     x-show-filter="true">
-                    <tr ng-repeat="o in $data" ui-sref="p.detail({projectid: o.code})">
+                    <tr ng-repeat="o in $data" ui-sref="p.detail({projectid: o.code})" class="clickable">
                         <td data-title="'Name'"
                             filter="{'name':'text'}"
                             sortable="'name'">{{o.name}}

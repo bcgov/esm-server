@@ -48,7 +48,7 @@
 				<div class="col-sm-12 detail-row" ng-if="ir.conditions.length > 0">
 					<label>Conditions</label>
 					<ul class="anchor-list">
-						<li ng-repeat="o in ir.conditions" ui-sref="p.projectcondition.detail({conditionId:o._id})">
+						<li ng-repeat="o in ir.conditions" ui-sref="p.projectcondition.detail({conditionId:o._id})" class="clickable">
 							<a class="title">{{o.name}}</a>
 						</li>
 					</ul>

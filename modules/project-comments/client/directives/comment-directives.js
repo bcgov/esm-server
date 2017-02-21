@@ -120,6 +120,22 @@ angular.module ('comment')
 			s.colspan = ($scope.authentication.user) ? 7 : 6;
 			s.pageSize = 50;
 
+			// filterByFields
+			// used for binding...
+			var filterBy = {
+				period: s.period._id,
+				eaoStatus: undefined,
+				proponentStatus: undefined,
+				isPublished: true};
+
+			// mostly this is so the value in the drop down lists displays what is in the tableState.search.predicateObject
+			var filterByFields = {
+				commentId: undefined,
+				authorComment: undefined,
+				location: undefined,
+				pillar: undefined,
+				topic: undefined};
+
 			s.changePageSize = function(value) {
 				s.pageSize = value;
 				$scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
@@ -142,27 +158,37 @@ angular.module ('comment')
 				var limit = pagination.number || s.pageSize;  // Number of entries showed per page.
 
 				// set the primary query
-				var filterBy = {period: s.period._id, isPublished: true};
+				var filterBy = {period: s.period._id, eaoStatus: undefined, proponentStatus: undefined, isPublished: true};
 				if (s.period.userCan.vetComments ) {
-					filterBy = {period: s.period._id, eaoStatus: s.eaoStatus};
+					filterBy = {period: s.period._id, eaoStatus: s.eaoStatus, proponentStatus: undefined, isPublished: undefined};
 				}
 				if (s.period.userCan.classifyComments && !s.period.userCan.vetComments) {
 					if (s.proponentStatus === 'Classified') {
-						filterBy = {period: s.period._id, isPublished: true, proponentStatus: 'Classified'};
+						filterBy = {period: s.period._id, eaoStatus: undefined, proponentStatus: 'Classified', isPublished: true};
 					} else {
-						filterBy = {period: s.period._id, isPublished: true, proponentStatus: {'$ne': 'Classified'}};
+						filterBy = {period: s.period._id, eaoStatus: undefined, proponentStatus: 'Unclassified', isPublished: true};
 					}
 				}
 				if (JSON.stringify(s.currentFilterBy) !== JSON.stringify(filterBy)) {
 					s.currentFilterBy = angular.copy(filterBy);
 					start = 0;
 				}
-				var filterByFields = tableState.search.predicateObject ? tableState.search.predicateObject : {};
+
+				if (tableState.search.predicateObject) {
+					filterByFields.commentId = tableState.search.predicateObject.commentId;
+					filterByFields.authorComment = tableState.search.predicateObject.authorComment;
+					filterByFields.location = tableState.search.predicateObject.location;
+					filterByFields.pillar = tableState.search.predicateObject.pillar;
+					filterByFields.topic = tableState.search.predicateObject.topic;
+				}
 
 				CommentPeriodModel.getForPublic(s.period._id)
 					.then(function(p) {
 						refreshFilterArrays(p);
-						return CommentModel.getCommentsForPeriod(s.period._id, start, limit, filterBy, filterByFields, sort.predicate, sort.reverse, null, null, false);
+						return CommentModel.getCommentsForPeriod(
+							filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
+							filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic,
+							start, limit, sort.predicate, sort.reverse);
 					})
 					.then(function(result) {
 						_.each(result.data, function (item) {
@@ -212,7 +238,10 @@ angular.module ('comment')
 				CommentPeriodModel.getForPublic(s.period._id)
 					.then(function(p) {
 						refreshFilterArrays(p);
-						return CommentModel.getCommentsForPeriod(s.period._id, 0, s.total, s.currentFilterBy, null, null, false, null, null, false);
+						return CommentModel.getCommentsForPeriod(
+							filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
+							filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic,
+							0, s.total, 'commentId', true);
 					})
 					.then(function(result) {
 						CommentModel.prepareCSV(result.data)
