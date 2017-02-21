@@ -12,7 +12,7 @@
 	</div>
 	<section class="panel panel-default">
 		<table ng-table="tableParams" show-filter="true" class="table table-hover table-striped">
-			<tr ng-repeat="o in $data" ui-sref="p.complaint.detail({complaintId:o._id})">
+			<tr ng-repeat="o in $data" ui-sref="p.complaint.detail({complaintId:o._id})" class="clickable">
 				<td data-title="'Complainant'"	title:'Complainant'		filter="{'complainant':'text'}"	sortable="'complainant'"    >{{o.complainant}}</td>
 				<td data-title="'Stage'"		title:'Stage'			filter="{'stage':'select'}"		sortable="'stage'"   filter-data="data.stypes">{{o.stage}}</td>
 				<td class="actions-col action-x2" header-class="'action-col action-x2'">
