@@ -120,3 +120,12 @@ hr {
     margin-bottom: 1.75rem;
     border-width: 2px;
 }
+
+
+/* Modal Positioning Fix */
+.modal-open {
+    footer {
+        margin-right: -17px;
+        padding-right: 17px;
+    }
+}
