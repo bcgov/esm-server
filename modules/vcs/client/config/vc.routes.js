@@ -369,7 +369,14 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 					});
 				};
 
-			$scope.save = function () {
+			$scope.save = function (isValid) {
+				console.log("vc edit save", isValid);
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'vcAddForm');
+					return false;
+				}
+
+
 				vc.artifact.document = vc.artifact.maindocument[0];
 				if (_.isEmpty (vc.artifact.document)) vc.artifact.document = null;
 				ArtifactModel.save($scope.vc.artifact)
