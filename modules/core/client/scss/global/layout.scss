@@ -85,6 +85,10 @@ main {
     section {
         margin-bottom: 2rem;
 
+        &.last {
+            margin-bottom: 0;
+        }
+
         h3 {
             margin-bottom: 1.5rem;
         }
@@ -109,4 +113,9 @@ main {
     ul.content-external-links {
         margin-bottom: 2rem;
     }
+}
+
+hr {
+    margin-top: 2rem;
+    margin-bottom: 1.75rem;
 }

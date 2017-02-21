@@ -53,15 +53,25 @@
 .map-header {
     padding: 0.5rem;
     background: $header-bg;
+}
 
-    .close-btn {
-        margin-top: 4px;
-        margin-right: 3px;
+.map-header-btns {
+    margin-top: 4px;
+    margin-right: 3px;
+
+    .btn {
+        margin-left: 0.5rem;
         padding: 0;
         width: 2rem;
         height: 2rem;
         line-height: 1rem;
         color: #FFF;
+    }
+
+    a.btn {
+        i {
+            margin-top: 3px;
+        }
     }
 }
 
