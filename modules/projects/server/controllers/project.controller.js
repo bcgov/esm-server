@@ -500,10 +500,10 @@ module.exports = DBModel.extend ({
 				});
 				if (node) {
 					// Check if it contains published items first.
-					var pnode = node.walk(function (w) {
-						if (w.model.published === true) return false;
+					var pnode = node.first(function (w) {
+						if (node.model.id !== w.model.id && w.model.published === true) return true;
 					});
-					if (pnode && pnode.model.published) {
+					if (pnode) {
 						return null;
 					}
 					// See if any documents are published.
