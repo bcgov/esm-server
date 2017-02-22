@@ -40,3 +40,17 @@ form {
         width: 100%;
     }
 }
+
+
+/* Temp Fix for Modals */
+.modal-backdrop.fade {
+    opacity: 0.5 !important;
+}
+
+.modal.fade {
+    opacity: 1 !important;
+
+    .modal-dialog {
+        transform: none !important;
+    }
+}

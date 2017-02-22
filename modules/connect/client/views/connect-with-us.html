@@ -39,7 +39,9 @@
                         <span>Submit Feedback</span> <i class="material-icons">send</i>
                     </button>
                 </div>
-                <div ng-if="busy"><span>Sending</span></div>
+                <div ng-if="busy">
+                    <button ng-disabled="busy" class="btn submit-btn"><span>Submitting...</span> <i class="material-icons">send</i></button>
+                </div>
             </form>
         </main>
         <aside class="col-lg-4">
