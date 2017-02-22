@@ -10,6 +10,7 @@ angular.module('connect')
 			.state('connect-with-us', {
 				url: '/connect-with-us',
 				templateUrl: 'modules/connect/client/views/connect-with-us.html',
+				controllerAs: 'connect',
 				// data: {
 				// 	roles: ['admin']
 				// },
@@ -18,10 +19,10 @@ angular.module('connect')
 						return CommentModel.getNew();
 					}
 				},
-				controller: function ($scope, $state, CommentModel, comment) {
-					var s = this;
+				controller: function ($scope, $state, $uibModal, CommentModel) {
 					$scope.busy = false;
-					$scope.save = function (isValid) {
+					$scope.save = save;
+					function save(isValid) {
 						if (!isValid) {
 							$scope.$broadcast('show-errors-check-validity', 'commentForm');
 							return false;
@@ -29,18 +30,39 @@ angular.module('connect')
 						$scope.busy = true;
 						var p = CommentModel.add($scope.comment);
 						p.then(function (model) {
-							$('#thanksModal').modal();
+							showSuccess($uibModal);
 						})
 							.catch(function (err) {
 								console.error(err);
 							});
-					};
-					$scope.userConfirmed = function () {
+					}
+					function showSuccess($uibModal) {
+						var modalDocView = $uibModal.open({
+							//animation: true,
+							size: 'md',
+							templateUrl: 'modules/connect/client/views/connect-with-us-success.html',
+							controller: function ($scope, $modalInstance) {
+								var self = this;
+								console.log("Show modal");
+								$scope.ok = function () {
+									$modalInstance.close();
+								};
+							}
+							// windowClass: 'modal-alert',
+							// backdropClass: 'modal-alert-backdrop'
+						});
+						// do not care how this modal is closed, just go to the desired location...
+						modalDocView.result.then(function (res) {
+							transition();
+						}, function (err) {
+							transition();
+						});
+					}
+					function transition() {
 						$state.transitionTo('home', {}, {
 							reload: true, inherit: false, notify: true
 						});
 					}
-				},
-				controllerAs: 'connect'
+				}
 			});
 	}]);
