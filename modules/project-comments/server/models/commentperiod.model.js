@@ -24,8 +24,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	__tracking       : true, // start and stop dates
 
 	// storing two UI selections to provide means to edit a PCP with choices made on create
-	rangeType        : { type:String, default:null, enum:['start', 'end', 'custom']},
-	rangeOption      : { type:String, default:null, enum:['30', '45', '60', '75', 'custom']},
+	rangeType        : { type:String, enum:['start', 'end', 'custom']},
+	rangeOption      : { type:String, enum:['30', '45', '60', '75', 'custom']},
 
 	periodType       : { type:String, default:'Public', enum:['Working Group', 'Public']},
 	//
