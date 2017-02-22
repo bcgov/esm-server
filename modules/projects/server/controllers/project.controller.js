@@ -795,7 +795,7 @@ module.exports = DBModel.extend ({
 		var openPCPs = new Promise(function(resolve, reject) {
 			CommentPeriod
 				.aggregate([
-					{$match: {"dateStarted": {'$lte': new Date(date)}, "dateCompleted": {'$gte': new Date(date)}}},
+					{$match: {"isPublished" : true, "dateStarted": {'$lte': new Date(date)}, "dateCompleted": {'$gte': new Date(date)}}},
 					{$group: {_id: '$project', count: {$sum: 1}}}
 				], function(err, recs) {
 					if (err) {
