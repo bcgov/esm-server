@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Inspections",
-  "date": "2017-02-19T04:36:37.846Z",
+  "date": "2017-02-22T00:46:18.195Z",
   "data": [
     {
       "projectName": "Mount Milligan",
@@ -717,6 +717,27 @@ module.exports = {
         {
           "name": "Mine Manager's Response to Inspection Report 69936",
           "ref": "https://mines.empr.gov.bc.ca/api/document/58a612f487567d001d188a63/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "Copper Mountain",
+      "agencyCode": "MEM",
+      "inspectionNum": "61636",
+      "inspectionDate": "2/1/2016",
+      "inspectorInitials": "SGR",
+      "inspectionSummary": "On February 1, 2016, Inspector of Mines Stephen Rothman visited the Copper Mountain mine site in response to a phone call from the mine manager reporting a mud slide. ",
+      "recentFollowUp": "",
+      "documentName": "MEM Inspection Report 61636",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58ac958a387c34001e56906f/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "61636-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 61636",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58ac958a387c34001e56906f/fetch"
         }
       ]
     },
@@ -2462,12 +2483,12 @@ module.exports = {
       "projectName": "Brule",
       "agencyCode": "ENV",
       "inspectionNum": "31131",
-      "inspectionDate": "10/19/2016",
+      "inspectionDate": "10/25/2016",
       "inspectorInitials": "LA",
       "inspectionSummary": "On October 25, 2016, Liz Archibald, Environmental Protection Officer, conducted a data review of Brule's 2015 annual report. The scope of the data review was to identify any non-compliances with the effluent discharge permit during the 2015 monitoring period.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 31131",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/589bb98d87567d001d18817a/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58accff5387c34001e5690a9/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -2475,7 +2496,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 31131",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/589bb98d87567d001d18817a/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58accff5387c34001e5690a9/fetch"
         }
       ]
     },
@@ -2819,12 +2840,12 @@ module.exports = {
       "projectName": "Elkview Operations",
       "agencyCode": "ENV",
       "inspectionNum": "31156",
-      "inspectionDate": "10/28/2016",
+      "inspectionDate": "9/1/2016",
       "inspectorInitials": "RB",
-      "inspectionSummary": "On September 01, 2016, Ross Blake, Environmental Protection Officer, conducted an on-site inspection at the Elkview mine in response to a fugitive dust complaint.",
+      "inspectionSummary": "On September 1, 2016, Ross Blake, Environmental Protection Officer, conducted an on-site inspection at the Elkview mine in response to a fugitive dust complaint.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 31156",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/589bb7cf87567d001d18809b/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58accfb0387c34001e56909c/fetch ",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -2832,7 +2853,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 31156",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/589bb7cf87567d001d18809b/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58accfb0387c34001e56909c/fetch "
         }
       ]
     },

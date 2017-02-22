@@ -7,8 +7,8 @@ var moment = require('moment');
 const crypto = require('crypto');
 const HASH_STORE_FILENAME = path.resolve(__dirname, "content-hash.json");
 
-// const TARGET_DIR = path.resolve(__dirname, '..', 'config', 'seed-data');
-const TARGET_DIR = path.resolve(__dirname);
+const TARGET_DIR = path.resolve(__dirname, '..', 'config', 'seed-data');
+// const TARGET_DIR = path.resolve(__dirname);
 
 
 /*
