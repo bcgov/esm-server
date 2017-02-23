@@ -145,8 +145,8 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 			$scope.canUnpublish = vc.userCan.unPublish && vc.isPublished;
 			// disable the delete button if user doesn't have permission to delete, or the vc is published, or it has related data...
 			$scope.canDelete = vc.userCan.delete && !vc.isPublished && canDeleteVc.canDelete;
-			
-			$scope.vclist = vclist;
+
+			$scope.vclist = _.sortByOrder(vclist, "name", "asc");
 			$scope.vcs = vcs;
 			$scope.vc.artifact = art;
 			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
@@ -431,10 +431,10 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 				return VcModel.getVCsInList(vc.subComponents);
 			}
 		},
-		controller: function ($scope, vc, project, art, vclist, canSeeInternalDocuments) {
+		controller: function ($scope, _, vc, project, art, vclist, canSeeInternalDocuments) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
-			$scope.vclist = vclist;
+			$scope.vclist = _.sortByOrder(vclist, "name", "asc");
 			$scope.vc.artifact = art;
 			$scope.project = project;
 			$scope.vc.artifact.document = ($scope.vc.artifact.document) ? $scope.vc.artifact.document : {};
