@@ -15,7 +15,7 @@ module.exports = DBModel.extend ({
 	name: 'Communication',
 	plural: 'communications',
 	sort: {dateUpdated:-1},
-	populate: 'documents',
+	populate: [{ path: 'documents'}, { path: 'emailTemplate', select: '_id name' }],
 
 
 	preprocessAdd : function (model) {
