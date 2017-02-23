@@ -36,15 +36,16 @@
 		<!-- DETAILS TAB CONTENT -->
 		<div class="tab-pane" ng-show="form.curTab === 'pcpDetails'">
 			<div class="row">
-				<div class="col-sm-3 col-lg-3 form-group">
+				<div class="col-md-6 form-group">
 					<label class="control-label">Comment Period Type</label>
 					<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
 						<option ng-selected="selected">Public</option>
-						<!-- <option>Working Group</option> -->
 					</select>
 				</div>
-				<div class="col-sm-2 col-lg-2 form-group">
-					<label class="control-label">&nbsp;</label>
+			</div>
+			<div class="form-group row">
+				<div class="col-md-3">
+					<label class="control-label">Set Date Range by</label>
 					<select class="form-control"
 						ng-change="typeChange()"
 						ng-model="rType"
@@ -52,8 +53,8 @@
 						ng-selected="t === rType">
 					</select>
 				</div>
-				<div class="col-sm-2 col-lg-2 form-group">
-					<label class="control-label">Range</label>
+				<div class="col-md-3">
+					<label class="control-label">Date Range</label>
 					<select class="form-control"
 						ng-disabled="!rangePickerEnabled"
 						ng-change="periodChange()"
@@ -62,7 +63,7 @@
 						ng-selected="p === rOption">
 					</select>
 				</div>
-				<div class="col-md-2 col-lg-2 form-group">
+				<div class="col-md-3">
 					<label class="control-label">Start Date</label>
 					<div class="form-control date-picker"
 						ng-disabled="!startPickerEnabled"
@@ -73,7 +74,7 @@
 						<span class="glyphicon glyphicon-calendar"></span>
 					</div>
 				</div>
-				<div class="col-sm-2 col-lg-2 form-group">
+				<div class="col-md-3">
 					<label class="control-label">End Date</label>
 					<div class="form-control date-picker"
 						ng-disabled="!endPickerEnabled"

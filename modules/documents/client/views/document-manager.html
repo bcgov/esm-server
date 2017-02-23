@@ -162,7 +162,7 @@
 								</span>
 								<div class="row-actions">
 
-									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
+									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 										</button>
@@ -255,7 +255,7 @@
 								<span class="col status-col last-col" ng-if="authentication.user">
 									<span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
 								</span>
-								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
+								<div class="row-actions">
 
 									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
