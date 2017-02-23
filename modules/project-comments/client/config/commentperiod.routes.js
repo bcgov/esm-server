@@ -232,6 +232,10 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
 			createEditCommonSetup($timeout, $scope, period, project, CodeLists);
 
+			// ESM-761: for edit - don't show project-system-admin roles for vet and classify..
+			period.vettingRoles = _.without(period.vettingRoles, 'project-system-admin');
+			period.classificationRoles = _.without(period.classificationRoles, 'project-system-admin');
+
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
 
