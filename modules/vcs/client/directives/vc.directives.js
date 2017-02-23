@@ -73,8 +73,8 @@ angular.module ('vcs')
 					windowClass: 'vc-chooser-view',
 					controller: function ($scope, $modalInstance) {
 						var s = this;
-						s.selected = scope.vclist;
-						s.vcs = scope.vcs; // The list of all current vcs on the project
+						s.selected = angular.copy(scope.vclist);
+						s.vcs = angular.copy(scope.vcs); // The list of all current vcs on the project
 						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
 						s.findById = function (id) {
 							for (var i = 0; i < s.selected.length; i++) {
@@ -86,6 +86,7 @@ angular.module ('vcs')
 						};
 						s.ok = function () {
 							// finish up and test.. maybe remove/create new directive
+							s.selected = _.sortByOrder(s.selected, "name", "asc");
 							scope.vc.subComponents = s.selected;
 							$modalInstance.close (s.selected);
 						};
@@ -102,6 +103,7 @@ angular.module ('vcs')
 				})
 				.result.then (function (data) {
 					// console.log ('selected = ', data);
+					scope.vclist = data;
 				})
 				.catch (function (err) {});
 			});
