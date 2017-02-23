@@ -3590,100 +3590,10 @@ section {
 	}
 }
 
-.pcp-alert {
-	padding: 2.25rem 2rem;
-	background: #2b5580;
-	color: #FFF;
-
-	h2 {
-		margin-top: 0;
-		margin-bottom: 0;
-		font-size: 2.8rem;
-	}
-
-	.pcp-dates {
-		font-size: 1.8rem;
-	}
-
-	.pcp-about {
-		margin-top: 2rem;
-		padding-top: 1.25rem;
-		border-top: 2px solid rgba(255,255,255,0.2);
-
-		p {
-			margin: 0;
-			font-size: 1.5rem;
-			line-height: 2.2rem;
-		}
-	}
-
-	.submit-comment-btn {
-		width: 100%;
-		margin-top: 2rem;
-		margin-bottom: 0.5rem;
-		padding: 1.5rem 2rem;
-		font-size: 1.6rem;
-		color: #FFF;
-		background: #5091cd;
-		&:hover { 
-			background: #5f9bd1;
-		}
-	}
-
-	.toggle {
-		margin-top: 1rem;
-		padding-top: 1rem;
-		font-size: 1.2rem;
-		text-transform: uppercase;
-		border-top: 1px solid #FFF;
-		clear: both;
-	}
-}
-
-@media (min-width: 1024px) {
-	.pcp-alert {
-		.submit-comment-btn {
-			position: absolute;
-			top: 2.25rem;
-			right: 2rem;
-			margin: 0;
-			width: auto;
-		}
-	}
-}
-
-.pcp-details {
-	padding: 2.5rem 2rem;
-	background-color: #FFF;
-}
-
-.pcp-package-links {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-}
-
 .pcp-comment-count-label {
 	display: inline-block;
 	margin-top: 0.8rem;
 	font-weight: bold;
-}
-
-.pcp-open-house {
-	margin-top: 2rem;
-
-	ul {
-		margin: 0;
-		padding-left: 2rem;
-
-		li {
-			margin-bottom: 1rem;
-
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
-	}
 }
 
 .pcp-pillar-vc-list {
@@ -3746,39 +3656,11 @@ section {
 			margin-top: 0.5rem;
 		}
 	}
-
-	.comment-title {
-		margin: 0;
-		font-size: 1.6rem;
-		font-weight: bold;
-	}
 	
 	.comment-row {
 		background: #FFF;
 	}
 	
-	.comment-row:first-child {
-		border-top: 1px solid #DDD;
-	}
-	
-	.comment {
-		margin-top: 0.7rem;
-		margin-bottom: 0;
-	}
-	
-	.attachment-col {
-		width: 4rem;
-		text-align: center;
-	}
-		
-	td.status-col {
-		width: 12rem;
-		
-		.label {
-			width: 100%;
-		}
-	}
-
 	.tab-pane {
 		position: relative;
 	}
@@ -3793,144 +3675,11 @@ section {
 	}
 }
 
-@media (max-width: 480px) {
-	.public-comment-period-view {
-		.table {
-			th {
-				width: 50%;
-				text-align: center;
-			}
-			
-			td.date-col {
-				padding-bottom: 0;
-			}
-		}
-	}
-}
-
-@media (min-width: 480px) and (max-width: 1200px) {
-	.public-comment-period-view {
-		td.attachment-col {
-			position: absolute;
-			top: 0.6rem;
-			right: 14.5rem;
-		}
-		
-		td.date-col {
-			position: absolute;
-			top: 1.4rem;
-			right: 2rem;
-			padding: 0;
-			font-size: 1.2rem;
-			font-weight: bold;
-		}
-		
-		td.status-col {
-			position: absolute;
-			top: 1.4rem;
-			right: 2rem;
-			padding: 0;
-		}
-		
-		.eao-comment-table {
-			background: transparent;
-
-			td.attachment-col {
-				right: 14.5rem;
-			}
-			
-			td.date-col {
-				right: 2rem;
-			}
-		}
-		
-	}
-}
-
-
 @media (max-width: 1200px) {
 	.public-comment-period-view {
 		.tab-pane {
 			.pcp-button-bar {
 				top: -5.5rem;
-			}
-		}
-		
-		.table {
-			table-layout: inherit;
-			
-			.no-mobile {
-				display: none;
-			}
-			
-			thead {
-				border: none;
-				
-				tr {
-					padding: 0;
-					border: none;
-				}
-			
-				th {
-					margin-top: 0.5rem;
-					margin-bottom: 0.5rem;
-					margin-left: 0.5rem;
-					padding: 0.6rem 0.6rem 0.6rem 1rem;
-					display: block;
-					float: left;
-					text-align: center;
-					background: #FFF;
-					border: 1px solid #c8c8c8 !important;
-					border-radius: 3px;
-				}
-			}
-			
-			tr {
-				position: relative;
-				display: block;
-				padding: 1.5rem 0.5rem;
-				border-top: 1px solid #DDD;
-			}
-					
-			thead tr:last-child {
-				display: none;
-			}
-			
-			> tbody > tr > td {
-				display: block;
-				border-top: none;
-			}
-			
-			td.comment-col {
-				padding-top: 0;
-				padding-bottom: 0.5rem;
-				padding-left: 1rem;
-			}
-		
-			td.pillar-col,
-			td.vc-col {
-				padding-top: 0;
-				padding-bottom: 0;
-				padding-left: 1rem;
-				font-size: 1.2rem;
-				color: #888;
-			}
-			
-			span.pillar:before,
-			span.vc:before {
-				margin-top: 0.5rem;
-				display: block;
-				font-size: 1.2rem;
-				font-weight: bold;
-				color: #000;
-			}
-			
-			span.pillar:before {
-				content: "Pillars";
-			}
-			
-			span.vc:before {
-				content: "Valued Components";
 			}
 		}
 	}
@@ -3944,55 +3693,6 @@ section {
 				top: -5.5rem;
 				right: 0;
 			}
-		}
-
-		.table {
-			table-layout: fixed;
-			width: 100%;
-			max-width: 100%;
-			
-			> thead > tr > th {
-				padding-left: 0.5rem;
-				padding-right: 0.5rem;
-			}
-			
-			> tbody > tr > td {
-				padding: 2rem 0.5rem;
-			}
-
-			> tbody > tr.no-records > td {
-				padding: 1rem 1.5rem;
-			}
-			
-			thead > tr > th:first-child,
-			tbody > tr > td:first-child {
-				padding-left: 1.5rem;
-			}
-			
-			thead > tr > th:last-child,
-			tbody > tr > td:last-child {
-				padding-right: 1.5rem;
-			}
-		}
-
-		.id-col {
-			width: 6rem;
-		}
-
-		.comment-col {
-			width: 35%;
-		}
-		
-		.vc-col {
-			width: 20rem;
-		}
-		
-		.date-col {
-			width: 12rem;
-		}
-		
-		.status-col {
-			width: 13rem;
 		}
 	}
 }
@@ -5446,9 +5146,12 @@ tmpl-template-render {
 @import "modules/core/client/styles/components.scss";
 @import "modules/core/client/styles/spinner.scss";
 @import "modules/core/client/styles/tabs.scss";
+@import "modules/core/client/scss/components/table.scss";
 
 /* GLOBAL */
 @import "modules/core/client/scss/global/footer.scss";
-
 @import "modules/documents/client/styles/file-browser.scss";
 @import "modules/documents/client/styles/pdf-viewer.scss";
+
+/* MODULES */
+@import "modules/project-comments/client/scss/project-comments.scss";

@@ -1,0 +1,256 @@
+
+.pcp-alert-container {
+    margin-bottom: 2rem;
+}
+
+/* Public Comment Period Alert Banner */
+.pcp-alert {
+    @include flexbox();
+    flex-direction: column;
+    padding: 2.25rem 2rem;
+	background: #2b5580;
+	color: #FFF;
+
+    .pcp-alert-info {
+        @include flex(1 1 auto);
+
+        h2 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .pcp-dates {
+            display: block;
+            margin-top: 0.25rem;
+            font-size: 1.6rem;
+        }
+    }
+
+    .pcp-alert-btn {
+        @include flex(0 0 auto);
+
+        .btn {
+            margin-top: 1.5rem;
+            padding: 1.25rem 1.75rem;
+            width: 100%;
+            height: 100%;
+            background-color: #5091cd;
+		    color: #FFF;
+            font-size: 1.6rem;
+            font-weight: normal;
+
+            &:hover { 
+                background: #5f9bd1;
+            } 
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .pcp-alert {
+        flex-direction: row;
+
+        .pcp-alert-info {
+            margin-right: 1rem;
+
+            h2 {
+                font-size: 2.4rem;
+            }
+        }
+
+        .pcp-alert-btn {
+            .btn {
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+@media (min-width: 1020px) {
+    .pcp-alert {
+        .pcp-alert-info {
+            h2 {
+                font-size: 2.6rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .pcp-alert {
+        .pcp-alert-info {
+            h2 {
+                font-size: 2.8rem;
+            }
+        }
+    }
+}
+
+/* Public Comment Period Details */
+.pcp-details {
+	padding: 2.5rem 2rem;
+	background-color: #FFF;
+
+    .pcp-about {
+		p {
+			margin: 0;
+			font-size: 1.4rem;
+			line-height: 2.2rem;
+		}
+	}
+
+    .pcp-open-house {
+        margin-top: 2rem;
+
+        ul {
+            margin: 0;
+            padding-left: 2rem;
+
+            li {
+                margin-bottom: 0.5rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+}
+
+
+/* List of Public Comment Periods */
+.pcp-table {
+    td, th {
+        &:first-child {
+            padding-left: 1.25rem;
+        }
+    }
+
+    .status-col {
+        width: 7.5rem;
+
+        .glyphicon {
+            margin-top: 1.4rem;
+            font-size: 1.8rem;
+        }
+    }
+
+    td.status-col {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+
+/* Comment Table */
+.comment-table {
+    .id-col {
+        width: 5rem;
+        text-align: center;
+    }
+
+    .author-col {
+        .author-name {
+            display: block;
+            padding-right: 15rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: bold;
+        }
+    }  
+
+    .date-col {
+        width: 16rem; 
+        text-align: right;
+    }
+
+    .attachment-icon {
+        margin-top: -0.4rem;
+        margin-right: 1rem;
+        vertical-align: middle;
+    }
+
+    .comment {
+        display: block;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 460px) {
+    .comment-table {
+        id-col {
+            width: 5rem;
+        }
+    }
+}
+
+@media (max-width: 1199px) {
+    .comment-table {
+        display: block;
+
+        thead, tfoot {
+            display: table;
+            width: 100%;
+
+            tr {
+                display: table-row;
+            }
+        }
+
+        tbody {
+            display: block;
+
+            tr {
+                position: relative;
+                display: block;
+            }
+        } 
+
+        .location-col,
+        .pillar-col,
+        .vc-col {
+            display: none;
+        }
+
+        td.date-col {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            .date {
+                margin-top: 1px;
+                font-size: 1.1rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .comment-table {
+        .id-col {
+            width: 8rem;
+        }
+
+        .date-col {
+            width: 20rem;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .comment-table { 
+        .location-col {
+            width: 12rem;
+        }
+
+        .pillar-col {
+            width: 11rem;
+        }
+
+        .vc-col {
+            width: 15rem;
+        }
+    }
+}
