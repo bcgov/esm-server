@@ -166,8 +166,8 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel) {
-			createEditCommonSetup($timeout, $scope, period, project);
+		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel, CodeLists) {
+			createEditCommonSetup($timeout, $scope, period, project, CodeLists);
 
 			$scope.hasErrors = false;
 			//$scope.errorMessage = '';
@@ -225,12 +225,12 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				$state.go('forbidden');
 			}
 		},
-		controller: function ($timeout, $scope, $state,  period, project, CommentPeriodModel, CommentModel) {
+		controller: function ($timeout, $scope, $state,  period, project, CommentPeriodModel, CommentModel, CodeLists) {
 			// only public comments for now...
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
-			createEditCommonSetup($timeout, $scope, period, project);
+			createEditCommonSetup($timeout, $scope, period, project, CodeLists);
 
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
@@ -364,7 +364,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
 	;
 
-	function createEditCommonSetup($timeout, $scope, period, project) {
+	function createEditCommonSetup($timeout, $scope, period, project, CodeLists) {
 		$scope.period = period;
 		$scope.project = project;
 		$scope.changeType = function () {
@@ -395,7 +395,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				PROJECT_NAME = project.name;
 			}
 
-			var doctypes = _.map(_.filter(period.relatedDocuments, function(d) { return !_.isEmpty(d.documentType); }), function(r) { return r.documentType; });
+			var doctypes = _.map(_.filter(period.relatedDocuments, function(d) { return !_.isEmpty(d.documentType); }), function(r) { return CodeLists.documentTypes.display(r.documentType); });
 			doctypes = _.uniq(doctypes);
 			if (_.size(doctypes) > 0) {
 				DOCUMENT_TYPES = doctypes.join(", ");

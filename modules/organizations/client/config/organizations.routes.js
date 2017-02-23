@@ -32,11 +32,12 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
     .state('admin.organization.list', {
         url: '/list',
         templateUrl: 'modules/organizations/client/views/organization-list.html',
-        controller: function ($scope, NgTableParams, Application, Authentication, orgs) {
+        controller: function ($scope, NgTableParams, Application, Authentication, orgs, CodeLists) {
             $scope.authentication = Authentication;
             $scope.application = Application;
             $scope.orgs = orgs;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: orgs});
+            $scope.organizationTypes = CodeLists.organizationTypes;
         },
     })
     // -------------------------------------------------------------------------
@@ -54,10 +55,12 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return OrganizationModel.getNew ();
             }
         },
-        controller: function ($scope, $state, org, OrganizationModel, $filter) {
+        controller: function ($scope, $state, org, OrganizationModel, CodeLists, $filter) {
             $scope.org = org;
             var which = 'add';
-            $scope.save = function (isValid) {
+			$scope.types = CodeLists.organizationTypes.active;
+			$scope.registeredIns = CodeLists.organizationRegisteredIns.active;
+			$scope.save = function (isValid) {
                 if (!isValid) {
                     $scope.$broadcast('show-errors-check-validity', 'organizationForm');
                     return false;
@@ -93,10 +96,12 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return OrganizationModel.getUsers (org._id);
             }
         },
-        controller: function ($scope, $state, NgTableParams, org, users, OrganizationModel, $filter, $modal, _, UserModel) {
+        controller: function ($scope, $state, NgTableParams, org, users, OrganizationModel, CodeLists, $filter, $modal, _, UserModel) {
             $scope.org = org;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
-            var which = 'edit';
+			$scope.types = CodeLists.organizationTypes.active;
+			$scope.registeredIns = CodeLists.organizationRegisteredIns.active;
+			var which = 'edit';
 
 			$scope.showSuccess = function(msg, transitionCallback, title) {
 				var modalDocView = $modal.open({
@@ -241,10 +246,12 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
                 return OrganizationModel.getUsers (org._id);
             }
         },
-        controller: function ($scope, NgTableParams, org, users, UserModel, OrganizationModel) {
+        controller: function ($scope, NgTableParams, org, users, UserModel, OrganizationModel, CodeLists) {
             $scope.org = org;
             $scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
-            $scope.removeUserFromOrg = function (userId) {
+			$scope.organizationTypes = CodeLists.organizationTypes;
+			$scope.organizationRegisteredIns = CodeLists.organizationRegisteredIns;
+			$scope.removeUserFromOrg = function (userId) {
                 console.log("Removing ", userId, " from org ", $scope.org);
                 UserModel.lookup(userId)
                 .then( function (user) {

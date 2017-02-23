@@ -18,7 +18,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 		$httpProvider.defaults.headers.get['If-Modified-Since'] = '0';
 
 		uiGmapGoogleMapApiProvider.configure({
-			key: 'AIzaSyCTbJdM2XHNQ6ybqPzyaT-242tIAgIbk8w',
+			key: 'AIzaSyAsD4ZGEYz4GCYMCEz-p86Ggxdb7k4eG6U',
 			v: '3.25',
 			// libraries: 'weather,geometry,visualization'
 		});
@@ -134,5 +134,24 @@ angular.element(document).ready(function () {
 	window.ga('send', 'pageview');
 
 	//Then init the app
-	angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+	fetchInitData()
+		.then(bootstrapApplication);
+
+	function fetchInitData() {
+		var initInjector = angular.injector(["ng"]);
+		var $http = initInjector.get("$http");
+
+		// Get the stored Code Lists
+		// make them available to the CodeList service (which can parse / refresh as necessary)
+		return $http.get('api/codelists?date=' + new Date().getTime()).then(function(response) {
+			angular.module(ApplicationConfiguration.applicationModuleName).constant("INIT_DATA.CODE_LISTS", response.data);
+		}, function(errorResponse) {
+			console.log('Error ', errorResponse);
+		});
+	}
+
+	function bootstrapApplication() {
+		angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+	}
+
 });

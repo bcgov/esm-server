@@ -471,7 +471,7 @@
 								</li>
 								<li ng-if="documentMgr.infoPanel.data.documentType">
 									<span class="name">Document Type:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.documentType }}</span>
+									<span class="value">{{ documentTypes.display(documentMgr.infoPanel.data.documentType) }}</span>
 								</li>
 								<li ng-if="documentMgr.infoPanel.data.documentType ==='Inspection Report' && documentMgr.infoPanel.data.inspectionReport">
 									<span class="name">Inspector Initials:</span>
