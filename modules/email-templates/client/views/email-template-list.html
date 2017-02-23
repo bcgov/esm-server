@@ -18,7 +18,7 @@
 		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 			<tr ng-repeat="o in $data" ui-sref="admin.emailtemplate.detail({emailtemplateId:o._id})" class="clickable">
 				<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
-				<td data-title="'Group'"  filter="{'group':'text'}"   sortable="'group'">{{o.group}}</td>
+				<td data-title="'Group'"  filter="{'group':'text'}"   sortable="'group'">{{emailTemplateGroups.display(o.group)}}</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
 					<a ng-if="application.userCan.createEmailTemplate" class="btn btn-link btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.emailtemplate.edit({emailtemplateId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>

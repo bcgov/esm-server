@@ -207,6 +207,10 @@ var seedingAsync = function() {
 	checkIntegration('folders-20170216.12').then(function () {
 		require('../seed-data/folders')();
 	});
+	checkIntegration('codelists-2017023.1').then(function () {
+		require('../seed-data/codelist')();
+	});
+
 };
 
 // =========================================================================
