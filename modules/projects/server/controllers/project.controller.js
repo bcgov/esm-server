@@ -500,10 +500,10 @@ module.exports = DBModel.extend ({
 				});
 				if (node) {
 					// Check if it contains published items first.
-					var pnode = node.walk(function (w) {
-						if (w.model.published === true) return false;
+					var pnode = node.first(function (w) {
+						if (node.model.id !== w.model.id && w.model.published === true) return true;
 					});
-					if (pnode && pnode.model.published) {
+					if (pnode) {
 						return null;
 					}
 					// See if any documents are published.
@@ -795,7 +795,7 @@ module.exports = DBModel.extend ({
 		var openPCPs = new Promise(function(resolve, reject) {
 			CommentPeriod
 				.aggregate([
-					{$match: {"dateStarted": {'$lte': new Date(date)}, "dateCompleted": {'$gte': new Date(date)}}},
+					{$match: {"isPublished" : true, "dateStarted": {'$lte': new Date(date)}, "dateCompleted": {'$gte': new Date(date)}}},
 					{$group: {_id: '$project', count: {$sum: 1}}}
 				], function(err, recs) {
 					if (err) {

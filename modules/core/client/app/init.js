@@ -127,11 +127,31 @@ angular.element(document).ready(function () {
 		m.parentNode.insertBefore(a, m);
 	})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-	window.ga('create', 'UA-92166912-1', 'auto');
+	// Key for ESM/EPIC UA-92287050-1
+	window.ga('create', 'UA-92287050-1', 'auto');
 	window.ga('set', 'anonymizeIp', true);
 	window.ga('set', 'hostname', window.location.hostname);
 	window.ga('send', 'pageview');
 
 	//Then init the app
-	angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+	fetchInitData()
+		.then(bootstrapApplication);
+
+	function fetchInitData() {
+		var initInjector = angular.injector(["ng"]);
+		var $http = initInjector.get("$http");
+
+		// Get the stored Code Lists
+		// make them available to the CodeList service (which can parse / refresh as necessary)
+		return $http.get('api/codelists?date=' + new Date().getTime()).then(function(response) {
+			angular.module(ApplicationConfiguration.applicationModuleName).constant("INIT_DATA.CODE_LISTS", response.data);
+		}, function(errorResponse) {
+			console.log('Error ', errorResponse);
+		});
+	}
+
+	function bootstrapApplication() {
+		angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+	}
+
 });

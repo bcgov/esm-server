@@ -7,7 +7,7 @@
 				<div class="form-group">
 					<label for="salutation" class="control-label">Salutation<em>(Optional)</em></label>
 					<p ng-show="readonly" class="form-control-static">{{ user.salutation }}</p>
-					<select id="salutation" class="form-control" ng-model="user.salutation" ng-options="sal as sal for sal in salutations" ng-hide="readonly"></select>
+					<select id="salutation" class="form-control" ng-model="user.salutation" ng-options="item.value as item.display for item in salutations" ng-hide="readonly"></select>
 				</div>
 			</div>
 			<div class="col-sm-6 col-md-3">

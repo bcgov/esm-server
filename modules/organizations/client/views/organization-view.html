@@ -56,8 +56,8 @@
 						</div>
 						<div class="col-sm-3">
 							<div class="form-group">
-								<label for="companyType" class="control-label">Company Type</label>
-								<p class="form-control-static">{{ org.companyType }}</p>
+								<label for="companyType" class="control-label">Organization Type</label>
+								<p class="form-control-static">{{ organizationTypes.display(org.companyType) }}</p>
 							</div>
 						</div>
 					</div>
@@ -65,7 +65,7 @@
 						<div class="col-sm-3">
 							<div class="form-group">
 								<label for="registeredIn" class="control-label">Registered In</label>
-								<p class="form-control-static">{{ org.registeredIn }}</p>
+								<p class="form-control-static">{{ organizationRegisteredIns.display(org.registeredIn) }}</p>
 							</div>
 						</div>
 						<div class="col-sm-3">

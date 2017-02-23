@@ -14,7 +14,7 @@
     </div>
     <div class="panel panel-default">
         <table ng-table="tableParams" show-filter="true" class="communications-table table table-hover vc-table">
-            <tr ng-repeat="o in $data" ui-sref="p.communication.detail({communicationId:o._id})">
+            <tr ng-repeat="o in $data" ui-sref="p.communication.detail({communicationId:o._id})" class="clickable">
                 <td class="name-col" header-class="'name-col'"
                     data-title="'Name'"
                     filter="{'name':'text'}"

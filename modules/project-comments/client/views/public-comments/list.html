@@ -58,25 +58,25 @@
 				<th class="'attachment-col no-mobile'"></th>
 				<th class="'attachment-col no-mobile'" st-sort="dateAdded">Date Posted</th>
 			</tr>
-			<!-- tr>
-				<th ng-if="authentication.user"><input st-search="commentId"/></th>
-				<th><input class="input-sm form-control" st-search="authorComment"/></th>
-				<th><input class="input-sm form-control" st-search="location"/></th>
+			<tr>
+				<th ng-if="authentication.user"><input class="input-sm form-control" st-search="commentId" ng-model="s.filterByFields.commentId"/></th>
+				<th><input class="input-sm form-control" st-search="authorComment" ng-model="s.filterByFields.authorComment"/></th>
+				<th><input class="input-sm form-control" st-search="location" ng-model="s.filterByFields.location"/></th>
 				<th>
-					<select class="input-sm form-control" st-input-event="change" st-search="pillars">
+					<select class="input-sm form-control" st-input-event="change" st-search="pillar" ng-model="s.filterByFields.pillar">
 						<option value=""></option>
 						<option ng-repeat="option in s.pillarsArray" value="{{option.id}}">{{option.name}}</option>
 					</select>
 				</th>
 				<th>
-					<select class="input-sm form-control" st-input-event="change" st-search="topics">
+					<select class="input-sm form-control" st-input-event="change" st-search="topic" ng-model="s.filterByFields.topic">
 						<option value=""></option>
 						<option ng-repeat="option in s.topicsArray" value="{{option.id}}">{{option.name}}</option>
 					</select>
 				</th>
 				<th></th>
 				<th></th>
-			</tr -->
+			</tr>
 			</thead>
 
 			<tbody ng-show="!s.isLoading">

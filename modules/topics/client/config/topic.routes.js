@@ -40,7 +40,8 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 	.state('admin.topic.list', {
 		url: '/list',
 		templateUrl: 'modules/topics/client/views/topic-list.html',
-		controller: function ($scope, NgTableParams, topics, pillars, types) {
+		controller: function ($scope, $state, NgTableParams, AlertService, TopicModel, topics, pillars, types) {
+			var s = this;
 			$scope.types = types; //Doesn't hold any values
 			$scope.pillars = pillars;
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: topics});
@@ -49,7 +50,24 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 				//Hardcoding these values as done on the edit screen
 				return [{ id: 'Valued Component', title: 'Valued Component'}, { id: 'Pathway Component', title: 'Pathway Component'}];
 			};
-		}
+			s.confirmText = function(vc) {
+				return 'Are you sure you would like to permanently delete ' + vc.name + ' ' + vc.pillar + '?';
+			};
+			s.deleteValuedComponent = function (vc) {
+				console.log("Delete value component", vc);
+				return TopicModel.deleteId(vc._id)
+					.then(
+						function (result) {
+							$state.reload();
+							AlertService.success('Value Component '+ vc.name + ' ' + vc.pillar + ' was deleted!');
+						},
+						function (error) {
+							$state.reload();
+							AlertService.error('Value Component '+ vc.name + ' ' + vc.pillar + ' could not be deleted!');
+						});
+			};
+		},
+		controllerAs : 's'
 	})
 	// -------------------------------------------------------------------------
 	//

@@ -14,7 +14,7 @@
 	</div>
 	<div class="panel panel-default">
 		<table ng-table="tableParams" show-filter="true" class="table table-hover">
-			<tr ng-repeat="o in $data" ui-sref="p.group.detail({groupId:o._id})">
+			<tr ng-repeat="o in $data" ui-sref="p.group.detail({groupId:o._id})" class="clickable">
 				<td class="name-col"
 					header-class="'name-col'"
 					data-title="'Name'"
@@ -25,7 +25,7 @@
 					header-class="'artifacts-col'"
 					data-title="'Type'"
 					filter="{'type':'text'}"
-					sortable="'type'">{{o.type}}</td>
+					sortable="'type'">{{projectGroupTypes.display(o.type)}}</td>
 				<td class="members-col"
 					header-class="'members-col'"
 					data-title="'Members'"

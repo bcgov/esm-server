@@ -262,7 +262,8 @@ angular
 						return CommunicationModel.sendInvitation(saveRes);
 					})
 					.then(function(sendRes) {
-						$scope.showSuccess('"'+ communication.name +'"' + ' was sent successfully.', reloadEdit, 'Send Success');
+						$scope.allowTransition = true;
+						$scope.showSuccess('"'+ communication.name +'"' + ' was sent successfully.', goToList, 'Send Success');
 					})
 					.catch(function(errRes) {
 						$scope.showError('"'+ communication.name +'"' + ' was not sent.', [], reloadEdit, 'Send Error');

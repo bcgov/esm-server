@@ -251,32 +251,53 @@ module.exports = DBModel.extend ({
 			.catch (reject);
 		});
 	},
-	getCommentsForPeriod: function(query, filter, skip, limit, sortby) {
+	getCommentsForPeriod: function(periodId, eaoStatus, proponentStatus, isPublished,
+								   commentId, authorComment, location, pillar, topic,
+								   start, limit, sortby) {
 		var self = this;
-		var filterByFieldsQuery = [];
-		// the incoming filter will be a property = value, we need to alter this.
-		if (filter.commentId) {
-			filterByFieldsQuery.push({commentId: filter.commentId});
+
+		var query = {period: periodId};
+		var filterByFields = {};
+
+		// base query...
+		if (isPublished !== undefined) {
+			query = _.extend({}, query, {isPublished: isPublished});
 		}
-		if (filter && filter.authorComment) {
-			filterByFieldsQuery.push([ { $or: [{author: new RegExp('^' + filter.authorComment, "i")}, {comment: new RegExp('^' + filter.authorComment, "i")}] } ]);
+		if (eaoStatus !== undefined) {
+			query = _.extend({}, query, {eaoStatus: eaoStatus});
 		}
-		if (filter && filter.location) {
-			filterByFieldsQuery.push({location: new RegExp('^' + filter.location, "i")});
-		}
-		if (filter && filter.pillars) {
-			filterByFieldsQuery.push({pillars: {$in: [filter.pillars] }});
-		}
-		if (filter && filter.topics) {
-			filterByFieldsQuery.push({topics: {$in: [filter.topics] }});
+		if (proponentStatus !== undefined) {
+			if ('Classified' === proponentStatus) {
+				query = _.extend({}, query, {proponentStatus: 'Classified'});
+			} else {
+				query = _.extend({}, query, {proponentStatus: {$ne: 'Classified'} });
+			}
 		}
 
+		// filer by fields...
+		if (commentId !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {commentId: commentId});
+		}
+		if (authorComment !== undefined) {
+			var authorCommentRe = new RegExp(authorComment, "i");
+			filterByFields = _.extend({}, filterByFields, { $or: [{author: authorCommentRe}, {comment: authorCommentRe}] } );
+		}
+		if (location !== undefined) {
+			var locationRe = new RegExp(location, "i");
+			filterByFields = _.extend({}, filterByFields, {location: locationRe});
+		}
+		if (pillar !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {pillars: {$in: [pillar] }});
+		}
+		if (topic !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {topics: {$in: [topic] }});
+		}
 
 		var fields = null;
 		var populate = null;
 		var userCan = false;
 
-		return self.paginate(query, filterByFieldsQuery, skip, limit, fields, populate, sortby, userCan);
+		return self.paginate(query, filterByFields, start, limit, fields, populate, sortby, userCan);
 	},
 	// -------------------------------------------------------------------------
 	//

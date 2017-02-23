@@ -1045,7 +1045,7 @@ _.extend (DBModel.prototype, {
 			console.log ('paginate.decorateCollection = ' + self.decorateCollection);
 
 			self.model.find(q)
-				//.and(and)
+				.and(and)
 				.sort(sort)
 				.skip(skip)
 				.limit(limit)
@@ -1054,7 +1054,7 @@ _.extend (DBModel.prototype, {
 				.exec(function(error, data) {
 					if (!error) {
 						console.log('search.completed, get total count');
-						self.model.count(q, function(e,c) {
+						self.model.find(q).and(and).count(function(e,c) {
 							if (e) {
 								console.log('search.count.error = ' + JSON.stringify(e));
 								self.complete(reject, 'search');
