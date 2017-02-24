@@ -93,7 +93,40 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	classifiedPercent : { type:Number, default:0.0 },
 	indexes__ : [{
 		commenterRoles: 1
-	}]
+	}],
+	virtuals__ : [
+		{name:'openState', get: calculateOpenState}
+	]
 });
+
+function calculateOpenState() {
+	var model = this;
+	var openState = 'Invalid';
+	if (model.isPublished) {
+		var today = new Date();
+		var start = new Date(model.dateStarted);
+		var end = new Date(model.dateCompleted);
+		var isOpen = start <= today && today <= end;
+		if (isOpen) {
+			openState = 'Open';
+		} else {
+			if (today < start) {
+				openState = 'Pending';
+			} else if (today > end) {
+				openState = 'Completed';
+			}
+		}
+	} else {
+		openState = 'Unpublished';
+	}
+	return openState;
+}
+
+// 	process.on('unhandledRejection', function (error, promise) {
+// 		console.error("UNHANDLED REJECTION", error, error.stack);
+// 	});
+// 	process.on('uncaughtException', function(error){
+// 		console.error("UNCAUGHT EXCEPTION", error, error.stack);
+// });
 
 
