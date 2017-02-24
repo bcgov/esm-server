@@ -1,7 +1,7 @@
 'use strict';
 
 // Setting up route
-angular.module('users.admin.routes').config(['$stateProvider', function ($stateProvider) {
+angular.module('users.admin.routes').config(['$stateProvider', '_', function ($stateProvider, _) {
 	$stateProvider
 	.state('admin.user', {
 		data: {permissions: ['listContacts']},
@@ -23,9 +23,10 @@ angular.module('users.admin.routes').config(['$stateProvider', function ($stateP
 				return UserModel.getCollection();
 			}
 		},
-		controller: function ($scope, NgTableParams, users) {
-			$scope.$data = users;
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
+		controller: function ($scope, _, NgTableParams, users) {
+			var sorted = _.sortByOrder(users, ['lastName', 'firstName']);
+			$scope.$data = sorted;
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: sorted});
 		}
 	})
 	// -------------------------------------------------------------------------
