@@ -26,7 +26,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 					window.location = "http://www.eao.gov.bc.ca/pcp/forms/aurora_digby_form.html";
 					return null;
 				} else if (project.code === 'kemess-underground') {
-					window.location = "http://www.eao.gov.bc.ca/pcp/forms/kemess_form.html";
+					window.location = "http://www.eao.gov.bc.ca/pcp/comments/kemess_underground_comments.html";
 					return null;
 				}
 
