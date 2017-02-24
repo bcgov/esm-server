@@ -44,20 +44,16 @@
 				<td title="'End Date'" sortable="'dateCompleted'">
 					{{ p.dateCompleted | date : format : timezone }}
 				</td>
+				<td title="'Open State'" sortable="'openState'">
+					{{ p.openState.state}}
+				</td>
 				<td class="documents-col" header-class="'documents-col'" title="'Documents'" sortable="'relatedDocuments.length'">
 					{{p.relatedDocuments.length}}
-				</td>
-				<td class="assigned-col" header-class="'assigned-col'" title="'Assigned'">
-					<i ng-if="p.isVetted" class="glyphicon glyphicon-ok"></i>{{p.stats.totalPublicAssigned}}
 				</td>
 				<td class="total-col" header-class="'total-col'" title="'Comments'">
 					{{p.stats.totalPublic}}
 				</td>
-				<td class="status-col" header-class="'status-col'" title="'Status'" sortable="'isPublished'" 
-					ng-if="project.userCan.createCommentPeriod">
-					<span ng-if="p.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
-				</td>
-				<td class="table-row-actions" header-class="'table-row-actions'" 
+				<td class="table-row-actions" header-class="'table-row-actions'"
 					ng-if="project.userCan.createCommentPeriod">
 					<div class="btn-group">
 						<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

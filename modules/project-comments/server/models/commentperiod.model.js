@@ -1,9 +1,55 @@
 'use strict';
+var _                   = require ('lodash');
 // =========================================================================
 //
 // Model for comments
 //
 // =========================================================================
+const STATES = ['','Invalid', 'Unpublished',  'Completed', 'Pending','Open'];
+
+var newStatics = {};
+newStatics.MaxOpenState = function (pcpList) {
+	var max = 0;
+	_.each(pcpList, function (period) {
+		var rank = period.openState.rank;
+		max = rank > max ? rank : max;
+	});
+	return STATES[max];
+};
+
+function calculateOpenState() {
+	var model = this;
+	var k = 0;
+	const EMPTY = k++;
+	const INV = k++;
+	const UNP = k++;
+	const PEND = k++;
+	const COMP = k++;
+	const OPEN=k++;
+	var rank = EMPTY;
+	if (model.isPublished) {
+		var today = new Date();
+		var start = new Date(model.dateStarted);
+		var end = new Date(model.dateCompleted);
+		var isOpen = start <= today && today <= end;
+		if (isOpen) {
+			rank=OPEN;
+		} else {
+			if (today < start) {
+				rank = PEND;
+			} else if (today > end) {
+				rank = COMP;
+			} else {
+				rank = INV;
+			}
+		}
+	} else {
+		rank = UNP;
+	}
+	return {state: STATES[rank], rank: rank };
+}
+
+
 module.exports = require ('../../../core/server/controllers/core.schema.controller')
 ('CommentPeriod', {
 	//
@@ -93,7 +139,19 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	classifiedPercent : { type:Number, default:0.0 },
 	indexes__ : [{
 		commenterRoles: 1
-	}]
+	}],
+	virtuals__ : [
+		{name:'openState', get: calculateOpenState}
+	],
+	statics__               : newStatics
+});
+
+
+	process.on('unhandledRejection', function (error, promise) {
+		console.error("UNHANDLED REJECTION", error, error.stack);
+	});
+	process.on('uncaughtException', function(error){
+		console.error("UNCAUGHT EXCEPTION", error, error.stack);
 });
 
 

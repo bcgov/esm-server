@@ -33,7 +33,7 @@
 			data-title="'Comment Period'" 
 			filter="{openCommentPeriod:'select'}" 
 			filter-data="projectList.openPCPArray" 
-			sortable="'openCommentPeriod'">{{o.openCommentPeriod ? 'Open' : ''}}</td>
+			sortable="'openCommentPeriod'">{{o.openCommentPeriod}}</td>
 	</tr>
 	<tr class="no-records" ng-show="!$data || !$data.length">
 		<td ng-if="environment === 'EAO'" colspan="4">No results match your search.</td>
