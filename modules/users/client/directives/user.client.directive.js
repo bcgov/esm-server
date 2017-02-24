@@ -27,6 +27,7 @@ function directiveUserEntry(_) {
 			srefReturn: '='
 		},
 		controller: function ($scope, $attrs, $state, $filter, $modal, _, Authentication, CodeLists, UserModel) {
+			$scope.CodeLists = CodeLists;
 			$scope.salutations = $scope.readonly === true ? CodeLists.salutations.all : CodeLists.salutations.active;
 			$scope.internalControl = $scope.control || {};
 

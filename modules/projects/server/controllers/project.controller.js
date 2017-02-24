@@ -949,7 +949,67 @@ module.exports = DBModel.extend ({
 				return _.sortBy(allprojects, function(o) { return o.name; });
 			});
 	},
+	forProponent: function (id) {
+		// show this list for an org in the system/management screens.
+		// mimic the resuts found on front screen, except for an org and don't care about being published
+		var self = this;
+		var date = new Date(); // date we want to find open PCPs for... TODAY.
 
+		var orgProjects = new Promise(function(resolve, reject) {
+			self.model.find ({ proponent: id }, {_id: 1, code: 1, name: 1, region: 1, status: 1, eacDecision: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, memPermitID: 1, isPublished: 1})
+				.sort ({ name: 1 })
+				.populate ( 'currentPhase', 'name' )
+				.exec(function(err, recs) {
+					if (err) {
+						reject(new Error(err));
+					} else {
+						resolve(recs);
+					}
+				});
+		});
+
+		var openPCPs = new Promise(function(resolve, reject) {
+			CommentPeriod
+				.aggregate([
+					{$match: {"isPublished" : true, "dateStarted": {'$lte': new Date(date)}, "dateCompleted": {'$gte': new Date(date)}}},
+					{$group: {_id: '$project', count: {$sum: 1}}}
+				], function(err, recs) {
+					if (err) {
+						reject(new Error(err));
+					} else {
+						resolve(recs);
+					}
+				});
+		});
+
+
+		return new Promise(function(resolve, reject) {
+			var projects, pcps;
+			orgProjects.then(function(data) {
+				projects = data;
+				//console.log('projects = ' + JSON.stringify(projects, null, 4));
+				return openPCPs;
+			})
+				.then(function(data) {
+					pcps = data;
+					//console.log('pcps = ' + JSON.stringify(pcps, null, 4));
+					var results = [];
+					_.forEach(projects, function(p) {
+						var proj = JSON.parse(JSON.stringify(p));
+
+						var pcp = _.find(pcps, function(o) { return o._id.toString() === p._id.toString();  });
+						proj.openCommentPeriod = pcp ? pcp.count > 0 : false;
+
+						results.push(proj);
+					});
+					return results;
+				})
+				.then(function(data) {
+					//console.log('data = ' + JSON.stringify(data, null, 4));
+					resolve(data);
+				});
+		});
+	},
 	initDefaultRoles : function(project) {
 		console.log('initDefaultRoles(' + project.code + ')');
 		var defaultRoles = [];

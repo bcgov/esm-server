@@ -121,6 +121,11 @@ module.exports = function (app) {
 			return model.mine ({}, "-directoryStructure");
 		}));
 
+	app.route ('/api/projects/proponent/:id')
+		.get (routes.setAndRun (Project, function (model, req) {
+			return model.forProponent (req.params.id);
+		}));
+
 
 	app.route ('/api/projects/lookup')
 		.all (policy ('guest'))
