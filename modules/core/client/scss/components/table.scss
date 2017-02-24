@@ -118,7 +118,8 @@ $table-pagination-bg: #fff;
     text-align: right;
 
     .btn-group {
-        margin-top: 0.6rem;
+        display: none;
+        margin-top: 0.8rem;
     }
 
     .btn {
@@ -142,6 +143,28 @@ $table-pagination-bg: #fff;
 
         a {
             display: inline-block;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .table-container {
+        tbody {
+            tr {
+                &:hover {
+                    .table-row-actions {
+                        .btn-group {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    .table-row-actions {
+        .btn-group {
+            display: none;
         }
     }
 }
