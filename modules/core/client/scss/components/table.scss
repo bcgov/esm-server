@@ -62,16 +62,16 @@ $table-pagination-bg: #fff;
             &.st-sort-ascent {
                 .sort-icon {
                     display: inline-block;
-                    border-width: 5px 5px 0 5px;
-                    border-color: #494949 transparent transparent transparent;
+                    border-width: 0 5px 5px 5px;
+                    border-color: transparent transparent #494949 transparent;
                 }
             }
 
             &.st-sort-descent {
                 .sort-icon {
                     display: inline-block;
-                    border-width: 0 5px 5px 5px;
-                    border-color: transparent transparent #494949 transparent;
+                    border-width: 5px 5px 0 5px;
+                    border-color: #494949 transparent transparent transparent;
                 }
             }
         }
