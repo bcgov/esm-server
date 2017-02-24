@@ -26,7 +26,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 					window.location = "http://www.eao.gov.bc.ca/pcp/forms/aurora_digby_form.html";
 					return null;
 				} else if (project.code === 'kemess-underground') {
-					window.location = "http://www.eao.gov.bc.ca/pcp/forms/kemess_form.html";
+					window.location = "http://www.eao.gov.bc.ca/pcp/comments/kemess_underground_comments.html";
 					return null;
 				}
 
@@ -231,6 +231,10 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			period.commenterRoles = ['public'];
 
 			createEditCommonSetup($timeout, $scope, period, project, CodeLists);
+
+			// ESM-761: for edit - don't show project-system-admin roles for vet and classify..
+			period.vettingRoles = _.without(period.vettingRoles, 'project-system-admin');
+			period.classificationRoles = _.without(period.classificationRoles, 'project-system-admin');
 
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';

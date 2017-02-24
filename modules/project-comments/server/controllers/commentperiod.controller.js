@@ -73,6 +73,21 @@ module.exports = DBModel.extend ({
 		 'unPublish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 
 		 */
+
+
+		// ESM-761: we are limiting vet and classify roles, so ensure it happens at this level too..
+		// Note, project-system-admin will not be added in the UI / Client, but we always want them to have the power...
+		// Changes here need should be synced with the UI, don't want them selecting from a different set of roles than they can save.
+
+		var defaultWriteDeleteRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']; // this is what is in the _defaults table... retain those...
+		var allowedVettingRoles = ['assessment-lead', 'assessment-team', 'project-epd'];
+		var allowedClassificationRoles = ['assessment-lead', 'assessment-team', 'proponent-lead', 'proponent-team'];
+
+		period.vettingRoles = _.intersection(period.vettingRoles, allowedVettingRoles);
+		period.classificationRoles = _.intersection(period.classificationRoles, allowedClassificationRoles);
+		period.vettingRoles = _.uniq(_.concat(period.vettingRoles, ['project-system-admin']));
+		period.classificationRoles = _.uniq(_.concat(period.classificationRoles, ['project-system-admin']));
+
 		var allroles = _.uniq(period.commenterRoles.concat (
 			period.classificationRoles,
 			period.vettingRoles,
@@ -84,21 +99,10 @@ module.exports = DBModel.extend ({
 			vetComments      : period.vettingRoles,
 			classifyComments : period.classificationRoles,
 			listComments     : period.commenterRoles,
-			addComment       : _.uniq(_.concat(period.commenterRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'])),
+			addComment       : _.uniq(_.concat(period.commenterRoles, defaultWriteDeleteRoles)),
 			read             : allroles,
-			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'])),
-			delete           : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-			// return Access.setObjectPermissionRoles ({
-			// resource: period,
-			// permissions: {
-			// 	vetComments      : period.vettingRoles,
-			// 	classifyComments : period.classificationRoles,
-			// 	listComments     : period.commenterRoles,
-			// 	addComment       : period.commenterRoles,
-			// 	read             : allroles,
-			// 	write            : ['eao-admin'],
-			// 	delete           : ['eao-admin'],
-			// }
+			write            : _.uniq(_.concat(period.vettingRoles, period.classificationRoles, defaultWriteDeleteRoles)),
+			delete           : defaultWriteDeleteRoles,
 		};
 		//console.log('commentperiod.setRolesPermissions - setting model permissions period = ' + JSON.stringify(period, null, 4));
 		//console.log('commentperiod.setRolesPermissions - setting model permissions data = ' + JSON.stringify(dataObj, null, 4));

@@ -65,7 +65,18 @@ var lists = [
 			{ value: 'Notification', display: 'Notification', order: 7 },
 			{ value: 'Order', display: 'Order', order: 8 },
 			{ value: 'Project Information', display: 'Project Information', order: 9 },
-			{ value: '', display: '', order: 999 }
+			{ value: '', display: '', order: 999 },
+			// MMTI values
+			{ value: 'Inspection Report', display: 'Inspection Report', order: 10 },
+			{ value: 'Certificate', display: 'Certificate', order: 11 },
+			{ value: 'Certificate Amendment', display: 'Certificate Amendment', order: 12 },
+			{ value: 'Permit', display: 'Permit', order: 13 },
+			{ value: 'Permit Amendment', display: 'Permit Amendment', order: 14 },
+			{ value: 'Mine Manager Response', display: 'Mine Manager Response', order: 15 },
+			{ value: 'Annual Report', display: 'Annual Report', order: 16 },
+			{ value: 'Annual Reclamation Report', display: 'Annual Reclamation Report', order: 17 },
+			{ value: 'Dam Safety Inspection', display: 'Dam Safety Inspection', order: 18 }
+
 		]
 	},
 	{
