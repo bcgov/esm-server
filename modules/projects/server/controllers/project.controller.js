@@ -792,12 +792,9 @@ module.exports = DBModel.extend ({
 				});
 		});
 
-		var openPCPs = new Promise(function(resolve, reject) {
-			CommentPeriod
-				.aggregate([
-					{$match: {"isPublished" : true, "dateStarted": {'$lte': new Date(date)}, "dateCompleted": {'$gte': new Date(date)}}},
-					{$group: {_id: '$project', count: {$sum: 1}}}
-				], function(err, recs) {
+		var getPCPs = new Promise(function(resolve, reject) {
+			CommentPeriod.find ()
+				.exec(function(err, recs) {
 					if (err) {
 						reject(new Error(err));
 					} else {
@@ -812,7 +809,7 @@ module.exports = DBModel.extend ({
 			publishedProjects.then(function(data) {
 				projects = data;
 				//console.log('projects = ' + JSON.stringify(projects, null, 4));
-				return openPCPs;
+				return getPCPs;
 			})
 				.then(function(data) {
 					pcps = data;
@@ -821,8 +818,11 @@ module.exports = DBModel.extend ({
 					_.forEach(projects, function(p) {
 						var proj = JSON.parse(JSON.stringify(p));
 
-						var pcp = _.find(pcps, function(o) { return o._id.toString() === p._id.toString();  });
-						proj.openCommentPeriod = pcp ? pcp.count > 0 : false;
+						var pcp = _.filter(pcps, function(o) {
+							//console.log("filter", o.project, p._id.toString());
+							return o.project.toString() === p._id.toString();
+						});
+						proj.openCommentPeriod = CommentPeriod.MaxOpenState(pcp);
 
 						results.push(proj);
 					});

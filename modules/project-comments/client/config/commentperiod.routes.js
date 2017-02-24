@@ -53,21 +53,15 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				// The following code is copied from project.client.routes.js
 				return CommentPeriodModel.forProject (project._id)
 					.then( function (periods) {
-						var today	= new Date ();
 						var openPeriod = null;
 						_.each(periods, function (period) {
-							console.log("Comment period rout looking at period", period);
-							var start 	= new Date (period.dateStarted);
-							var end		= new Date (period.dateCompleted);
-							var isopen 	= start < today && today < end;
-							var isPublished = period.isPublished;
-							if (isopen && isPublished) {
+							if (period.openState.state === CommentPeriodModel.OpenStateEnum.open) {
 								openPeriod = period;
 								return false;
 							}
 						});
 						if (openPeriod) {
-							console.log("Found open period:", openPeriod);
+							// console.log("Found open period:", openPeriod);
 							return openPeriod;
 						} else {
 							return null;
@@ -86,7 +80,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				$scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
 			}
 			var ps = _.map(periods, function(p) {
-				var openForComment = moment(moment.now()).isBetween(p.dateStarted, p.dateCompleted);
+				var openForComment = p.openState.state === CommentPeriodModel.OpenStateEnum.open;
 				return _.extend(p, {openForComment: openForComment});
 			});
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: ps});
