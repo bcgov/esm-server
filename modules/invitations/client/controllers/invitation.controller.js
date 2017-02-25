@@ -16,7 +16,7 @@ angular
 		self.communication.personalized = true;
 		self.communication.artifacts = [];
 
-		$scope.emailTemplate = self.communication.emailTemplate;
+		$scope.emailTemplate = null;
 		$scope.recipients = angular.copy(self.communication.recipients);
 		$scope.existingRecipients = [];
 		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
