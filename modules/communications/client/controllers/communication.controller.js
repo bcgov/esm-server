@@ -12,7 +12,7 @@ angular
 		var self = this;
 		self.communication = communication;
 
-		$scope.emailTemplate = self.communication.emailTemplate;
+		$scope.emailTemplate = null;
 		$scope.recipients = angular.copy(self.communication.recipients);
 		$scope.adhocRecipient = undefined;
 		$scope.existingRecipients = [];
