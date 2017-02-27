@@ -25,9 +25,7 @@ function otherDocumentsListController($scope, _, OtherDocumentModel) {
 	console.log("Look for docs for ", code);
 	OtherDocumentModel.forProjectCode(code)
 		.then(function (data) {
-			var sortedList = _.sortBy(data, function(doc) {
-				return doc.heading;
-			});
+			var sortedList = _.sortByOrder(data, ['heading', 'date'],['asc', 'desc']);
 			// console.log("sortedList",sortedList);
 			var headings = new Set();
 			_.forEach(data, function(a) {
