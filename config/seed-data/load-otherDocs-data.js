@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "OtherDocument",
-  "date": "2017-02-27T21:11:39.255Z",
+  "date": "2017-02-27T21:42:07.006Z",
   "data": [
     {
       "projectName": "Brule",
@@ -489,10 +489,6 @@ module.exports = {
       "date": "2016-03-31T15:00:00.000Z",
       "documentFileName": "M-11_HVC_2016-03-31_DSI_Bethlehem_TSF_2015",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/588bdade87567d001d1874b5/fetch",
-      "relatedDocNames": "Highland Tailings Storage Facility – 2015 Annual Dam Safety Inspection; Highland Tailings Storage Facility – 2015 Annual Dam Safety Inspection; Highmont Tailings Storage Facility – 2015 Annual Dam Safety Inspection; Trojan Dam Tailings Storage Facility – 2015 Annual Dam Safety Inspection",
-      "relatedDocDates": "2016-03-31; 2016-03-31; 2016-03-31",
-      "relatedDocLongNames": "M-11_HVC_2016-03-31_DSI_Highland_TSF_2015; M-11_HVC_2016-03-31_DSI_Report_Highmont_TSF_2015; M-11_HVC_2016-03-31_DSI_TrojanDam_TSF_2015",
-      "relatedDocUrls": "https://mines.empr.gov.bc.ca/api/document/588bdb0587567d001d1874c2/fetch; https://mines.empr.gov.bc.ca/api/document/588bdad487567d001d18749b/fetch; https://mines.empr.gov.bc.ca/api/document/588bdad987567d001d1874a8/fetch",
       "agencies": [
         {
           "agencyCode": "MEM",
@@ -501,7 +497,33 @@ module.exports = {
         }
       ],
       "source": "SEED",
-      "index": 17
+      "index": 17,
+      "documents": [
+        {
+          "name": "Bethlehem No. 1 Tailings Storage Facility – 2015 Annual Dam Safety Inspection",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/588bdade87567d001d1874b5/fetch",
+          "fileName": "M-11_HVC_2016-03-31_DSI_Bethlehem_TSF_2015",
+          "date": "2016-03-31T15:00:00.000Z"
+        },
+        {
+          "name": "Highland Tailings Storage Facility – 2015 Annual Dam Safety Inspection",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/588bdb0587567d001d1874c2/fetch",
+          "date": "2016-03-31T15:00:00.000Z",
+          "fileName": "M-11_HVC_2016-03-31_DSI_Highland_TSF_2015"
+        },
+        {
+          "name": "Highmont Tailings Storage Facility – 2015 Annual Dam Safety Inspection",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/588bdad487567d001d18749b/fetch",
+          "date": "2016-03-31T15:00:00.000Z",
+          "fileName": "M-11_HVC_2016-03-31_DSI_Report_Highmont_TSF_2015"
+        },
+        {
+          "name": "Trojan Dam Tailings Storage Facility – 2015 Annual Dam Safety Inspection",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/588bdad987567d001d1874a8/fetch",
+          "date": "2016-03-31T15:00:00.000Z",
+          "fileName": "M-11_HVC_2016-03-31_DSI_TrojanDam_TSF_2015"
+        }
+      ]
     },
     {
       "projectName": "Mount Milligan",
