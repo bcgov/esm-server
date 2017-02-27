@@ -5,7 +5,7 @@ var _                   = require ('lodash');
 // Model for comments
 //
 // =========================================================================
-const STATES = ['','Invalid', 'Unpublished',  'Completed', 'Pending','Open'];
+var STATES = ['','Invalid', 'Unpublished',  'Completed', 'Pending','Open'];
 
 var newStatics = {};
 newStatics.MaxOpenState = function (pcpList) {
@@ -20,12 +20,12 @@ newStatics.MaxOpenState = function (pcpList) {
 function calculateOpenState() {
 	var model = this;
 	var k = 0;
-	const EMPTY = k++;
-	const INV = k++;
-	const UNP = k++;
-	const PEND = k++;
-	const COMP = k++;
-	const OPEN=k++;
+	var EMPTY = k++;
+	var INV = k++;
+	var UNP = k++;
+	var PEND = k++;
+	var COMP = k++;
+	var OPEN=k++;
 	var rank = EMPTY;
 	if (model.isPublished) {
 		var today = new Date();
