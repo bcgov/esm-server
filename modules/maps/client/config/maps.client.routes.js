@@ -12,9 +12,6 @@ angular.module('maps').config (
             params: {
                 project: null
             },
-            data: {
-                roles: ['admin']
-            },
             controller: 'controllerMap',
             controllerAs: 'projectsList'
         });
