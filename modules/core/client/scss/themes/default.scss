@@ -10,12 +10,12 @@ $header-bg:                     $primary;
 $mn-font-size: 0.875rem; //14px
 $mn-dropdown-menu-size: 0.875rem; //13px
 
-$mn-color:           #FFF;
-$mn-border-color:    #5f79a2;   
-$mn-hover-bg:        #2b4777;
-$mn-hover-color:     $gold;
-$mn-toggle-color:    $gold;
-$mn-dropdown-bg:     #2b4777;
+$mn-color:                      #FFF;
+$mn-border-color:               #5f79a2;   
+$mn-hover-bg:                   #2b4777;
+$mn-hover-color:                $gold;
+$mn-toggle-color:               $gold;
+$mn-dropdown-bg:                #2b4777;
 
 // Footer 
 $footer-bg:                     $primary;
@@ -31,3 +31,6 @@ $link-color:                    #1a5a96;
 $aside-title-bg:                #1a5a96;
 $aside-title-color:             #FFF;
 $aside-body-bg:                 #f1f1f1;
+
+// Modal
+$modal-bg:                      #FFF;

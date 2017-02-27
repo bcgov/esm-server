@@ -14,17 +14,27 @@
             font-weight: 400;
         }
     }
-}
 
-.mmti-doc-list {
-    &.nv-pair {
-        span {
-            &.name {
-                margin: 0;
-                width: 25%;
+    .mmti-list {
+        li {
+            @include flex-box();
+
+            i {
+                margin-top: 0.25rem;
+                margin-right: 0.75rem;
+                color: $link-color;
+                //font-size: 1.3rem;
             }
-            &.value {
-                width: 75%;
+
+            .name {
+                @include flex(1 1 auto);
+            }
+
+            .date {
+                @include flex(0 0 auto);
+                width: 7rem;
+                text-align: right;
+                white-space: nowrap;
             }
         }
     }

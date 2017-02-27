@@ -1,16 +1,6 @@
 <div class="hero-banner landing-pg-banner">
 	<div class="container">
 		<div class="container-inner">
-			<div ng-if="!seenOnce" class="welcome-alert alert alert-success alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h2>BC Mine Information</h2>
-				<p>Welcome to the new BC Mine Information website. This site builds upon and will eventually replace www.mines.empr.gov.bc.ca.
-<br><br>
-This new website is being launched as a “beta”—a fully functional starting point upon which to build continuous improvements. As such, we’re seeking your feedback on how to make it better. Going forward, additional information will be added on an ongoing basis, and the design will be refined based on user feedback.</p>
-				<div class="clearfix">
-					<button class="btn btn-success pull-right" data-dismiss="alert" aria-label="Close">Close</button>
-				</div>
-			</div>
 			<div class="hb-txt">
 				<h1>British Columbia <span>Mine Information</span><span class="badge" id="alpha" title="What is this?">BETA</span></h1>
 				<p>Mining is one of British Columbia’s oldest and most dynamic industries. The Province of British Columbia is committed to continuing to provide effective oversight of this important sector.</p>
@@ -54,12 +44,14 @@ This new website is being launched as a “beta”—a fully functional starting
 									<span class="metric-desc">2016 Industry Mineral Exploration Spending [British Columbia Geological Survey]</span>
 								</div>
 							</li>
+							<!--
 							<li class="col-xs-12 col-sm-6 col-lg-12">
 								<div>
 									<span class="metric">14</span>
 									<span class="metric-desc">Number of Operating Metal &amp; Coal Mines in British Columbia</span>
 								</div>
 							</li>
+							-->
 							<li class=" col-xs-12 col-sm-6 col-lg-12">
 								<div>
 									<span class="metric">6</span>
@@ -131,5 +123,21 @@ This new website is being launched as a “beta”—a fully functional starting
 			</div>
 		</section>
 	</div>
-
 </main>
+
+<div class="welcome-alert-container alert alert-dismissable" role="alert" ng-if="!seenOnce">
+	<div class="notify-dialog">
+		<div class="notify-header">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><i class="material-icons">close</i></button>
+		<h2>BC Mine Information</h2>
+		</div>
+		<div class="notify-body">
+			<p>Welcome to the new BC Mine Information website. This site builds upon and will eventually replace www.mines.empr.gov.bc.ca.</p>
+			<p class="mb-0">This new website is being launched as a “beta”—a fully functional starting point upon which to build continuous improvements. As such, we’re seeking your <a ui-sref="connect-with-us">feedback</a> on how to make it better. Going forward, additional information will be added on an ongoing basis, and the design will be refined based on user feedback.</p>
+		</div>
+		<div class="notify-footer">
+			<button class="ok-btn btn submit-btn slide-r-btn" data-dismiss="alert" aria-label="Close"><span>Continue to site</span> <i class="material-icons">arrow_forward</i></button>
+		</div>
+	</div>
+	<div class="backdrop"></div>
+</div>
