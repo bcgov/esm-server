@@ -80,6 +80,9 @@ function preProcess(importer, hashData) {
 				return loadCSV(importer, obj.inputData)
 			})
 			.then(function (results) {
+				return importer.cleanData(results);
+			})
+			.then(function (results) {
 				return importer.transform(results);
 			})
 			.then(function (results) {
@@ -111,34 +114,35 @@ const agencyMap = {
 
 function ImporterBase() {
 
-	this.dateValidate = function (val) {
-		var s = Date.parse(val);
-		if (isNaN(s)) {
-			var m = moment(val, "YY-MM-DD");
-			if (!m.isValid()) {
-				console.log("Invalidate Date %j", val);
-				throw "Invalid date " + val;
-			} else {
-				s = m.toDate();
-			}
-		}
-		return s;
-	};
-
 	this.dateValidateMoment = function (val) {
 		var s;
-		var m = moment(val, ["YYYY-MM-DD", "YY-MM-DD"]);
+		var m = moment.utc(val, ["YYYY-MM-DD", "MM-DD-YYYY"]);
 		if (!m.isValid()) {
 			console.log("Invalidate Date %j", val);
 			throw "Invalid date " + val;
 		} else {
-			s = m.format("YYYY-MM-DD");
+			m.add(8,'hours');
+			s = m.format("YYYY-MM-DD HH:mm");
 			s = new Date(s);
+			//console.log("date validate", val, s);
 		}
 		return s;
 	}
 
-
+this.cleanData = function(jsonResults) {
+	var _this = this;
+	_.forEach(jsonResults, function (json, index) {
+		var keys = Object.keys(json);
+		_.forEach(keys, function(key){
+			var val = json[key];
+			if(_.isString(val)) {
+				val = val.trim().replace(/\n/g,' ');
+			}
+			json[key] = val;
+		})
+	});
+	return jsonResults;
+}
 	this.getAgency = function (code) {
 		var agency = agencyMap[code];
 		if (!agency) {
@@ -195,10 +199,11 @@ function ImporterBase() {
 		delete json.ru3;
 		delete json.ru4;
 		return followUpDocuments;
-	}
+	};
 
 	this.processSemiSeparatedRelated = function (json, index) {
 		var followUpDocuments = [];
+		var rowNum = index + 2;
 		if (json.documentName && json.documentURL) {
 			var related = {
 				name: json.documentName,
@@ -210,7 +215,7 @@ function ImporterBase() {
 		}
 		var names = json.relatedDocNames.trim();
 		var urls = json.relatedDocUrls.trim();
-		var dates = json.relatedDocDates.trim()
+		var dates = json.relatedDocDates.trim();
 		var fileNames = json.relatedDocLongNames.trim();
 
 		if (names.length > 0 && urls.length > 0 && dates.length > 0) {
@@ -221,15 +226,15 @@ function ImporterBase() {
 			var dates = dates.split(re);
 			var fileNames = fileNames.split(re);
 			if (cnt !== urls.length) {
-				console.log("%j Row %j, Related docs have mismatched number of urls ", this.getName(), index);
+				console.log("%j Row %j, Related docs have mismatched number of urls %j expected %j.  %j", this.getName(), rowNum, urls.length, cnt, names);
 				return;
 			}
 			if (cnt !== dates.length) {
-				console.log("%j Row %j, Related docs have mismatched number of dates ", this.getName(), index);
+				console.log("%j Row %j, Related docs have mismatched number of dates ", this.getName(), rowNum);
 				return;
 			}
 			if (cnt !== fileNames.length) {
-				console.log("%j Row %j, Related docs have mismatched number of longNames ", this.getName(), index);
+				console.log("%j Row %j, Related docs have mismatched number of longNames ", this.getName(), rowNum);
 				return;
 			}
 			// console.log("%j Row %j, process %j related docs", this.getName(),cnt, names, dates, index);
@@ -321,7 +326,7 @@ function Authorization() {
 			json.agencyName = agency.name;
 			json.actName = agency.act;
 			json.followUpDocuments = _this.processRelated(json);
-			_this.dateValidate(json.authorizationDate);
+			json.authorizationDate = _this.dateValidateMoment(json.authorizationDate);
 			delete json.undefined;
 		});
 		return jsonData;
@@ -398,7 +403,7 @@ function Inspections() {
 			delete json.junk1;
 			delete json.InspectionDocumentFilename;
 			delete json.undefined;
-			_this.dateValidate(json.inspectionDate);
+			json.inspectionDate = _this.dateValidateMoment(json.inspectionDate);
 		});
 		return jsonData;
 	}
@@ -418,10 +423,10 @@ function OtherDocs() {
 	console.log("INPUT", this.INPUT);
 	console.log("OUTPUT", this.OUTPUT);
 
-	var x = ["Agency", "Project", "Heading", "Main Document Name", "Document Type", "Document Date", "Filename", "Document URL (Source)", "Related Document(s) Name", "Related Document(s) Date", "Related Document(s) Filename", "Related Document(s) URL (Source)"];
+	var x = ["Agency", "Project",  "Heading", "TITLE", "Main Document Name", "Document Type", "Document Date", "Filename", "Document URL (Source)", "Related Document(s) Name", "Related Document(s) Date", "Related Document(s) Filename", "Related Document(s) URL (Source)"];
 	this.csvExpectedColumns = x;
 
-	this.columnNames = ["agencyCode", "projectName", "heading", "documentName", "documentType"
+	this.columnNames = ["agencyCode", "projectName",  "heading", "title", "documentName", "documentType"
 		, "date", "documentFileName", "documentURL",
 		"relatedDocNames", "relatedDocDates", "relatedDocLongNames", "relatedDocUrls"];
 	this.transform = function (jsonData) {
@@ -438,7 +443,9 @@ function OtherDocs() {
 				return;
 			}
 			delete json.agencyCode;
-			json.date = _this.dateValidate(json.date);
+			// TODO ... use Title as display name for main document.   For now, remove so the model is not touched.
+			delete json.title;
+			json.date = _this.dateValidateMoment(json.date);
 			json.agencies = agencyList;
 			json.source = "SEED";
 			json.documentType = json.documentType;
