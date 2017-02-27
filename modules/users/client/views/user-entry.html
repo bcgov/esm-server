@@ -6,7 +6,7 @@
 			<div class="col-sm-6 col-md-3">
 				<div class="form-group">
 					<label for="salutation" class="control-label">Salutation<em>(Optional)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.salutation }}</p>
+					<p ng-show="readonly" class="form-control-static">{{ CodeLists.salutations.display(user.salutation) }}</p>
 					<select id="salutation" class="form-control" ng-model="user.salutation" ng-options="item.value as item.display for item in salutations" ng-hide="readonly"></select>
 				</div>
 			</div>

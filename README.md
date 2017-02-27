@@ -24,10 +24,11 @@ The features provided by the web-based ESM application include:
 ## Getting Help or Reporting an Issue
 
 ## How to Contribute
+Do pull requests onto master
 
 ## License
 
-    Copyright 2015 Province of British Columbia
+    Copyright 2017 Province of British Columbia
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

@@ -16,7 +16,7 @@ module.exports = DBModel.extend ({
 	name : 'Vc',
 	plural : 'vcs',
 	getForProject: function (projectId) {
-		return this.list ({project:projectId});
+		return this.list ({project:projectId},{},{name:1});
 	},
 	// -------------------------------------------------------------------------
 	//

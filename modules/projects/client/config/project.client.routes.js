@@ -58,19 +58,15 @@ angular.module('project').config (
 				return ProjectModel.byCode ($stateParams.projectid);
 			},
 			activeperiod: function ($stateParams, CommentPeriodModel, project) {
+				if (!project) { return null; }
 				// Go through the periods on the project, surface the active one and enable commenting
 				// right from here.
 				// The following code is duplicated in commentperiod.routes.js
 				return CommentPeriodModel.forProject (project._id)
 				.then( function (periods) {
-					var today	= new Date ();
 					var openPeriod = null;
 					_.each(periods, function (period) {
-						var start 	= new Date (period.dateStarted);
-						var end		= new Date (period.dateCompleted);
-						var isopen 	= start < today && today < end;
-						var isPublished = period.isPublished;
-						if (isopen && isPublished) {
+						if (period.openState.state === CommentPeriodModel.OpenStateEnum.open) {
 							openPeriod = period;
 							return false;
 						}
