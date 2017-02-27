@@ -10,6 +10,16 @@ angular.module('projects').config (
 			templateUrl: 'modules/home/client/views/home.html',
 			data: {
 				roles: ['admin']
+			},
+			controller: function ($cookies, $scope) {
+				$scope.seenOnce = $cookies.get('seenOnce');
+				if (!$scope.seenOnce) {
+					// console.log("Haven't seen you before.");
+					var now = new Date();
+					$cookies.put('seenOnce', true, {expires: new Date(now.getFullYear()+1, now.getMonth(), now.getDate())});
+				} else {
+					// console.log("Welcome back.");
+				}
 			}
 		});
 	}]);
