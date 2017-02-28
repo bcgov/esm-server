@@ -12,6 +12,7 @@ angular.module('maps').config (
             params: {
                 project: null
             },
+            data: {},
             controller: 'controllerMap',
             controllerAs: 'projectsList'
         });

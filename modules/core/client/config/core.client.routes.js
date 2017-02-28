@@ -17,60 +17,72 @@ angular.module('core').config (
 	// Authorizations
 	.state('authorizations', {
 		url: '/authorizations',
-		templateUrl: 'modules/authorizations/client/views/authorizations.html'
+		templateUrl: 'modules/authorizations/client/views/authorizations.html',
+		data: {}
 	})
 
 	// Compliance Oversight
 	.state('compliance-oversight', {
 		url: '/compliance-oversight',
-		templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html'
+		templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html',
+		data: {}
 	})
 
 	// Legislation
 	.state('legislation', {
 		url: '/legislation',
-		templateUrl: 'modules/legislation/client/views/legislation.html'
+		templateUrl: 'modules/legislation/client/views/legislation.html',
+		data: {}
 	})
 
 	// Mining Lifecycle
 	.state('mining-lifecycle', {
 		url: '/lifecycle',
-		templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html'
+		templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html',
+		data: {}
 	})
 
 	// Topics
 	.state('topics', {
 		url: '/topics-of-interest',
-		templateUrl: 'modules/topics/client/views/topics-of-interest.html'
+		templateUrl: 'modules/topics/client/views/topics-of-interest.html',
+		data: {}
 	})
 	.state('reclamation-and-securities', {
 		url: '/reclamation-and-securities',
-		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html'
+		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html',
+		data: {}
 	})
 	.state('tailings-management', {
 		url: '/tailings-management',
-		templateUrl: 'modules/topics/client/views/tailings-management.html'
+		templateUrl: 'modules/topics/client/views/tailings-management.html',
+		data: {}
 	})
 	.state('water-quality', {
 		url: '/water-quality',
-		templateUrl: 'modules/topics/client/views/water-quality.html'
+		templateUrl: 'modules/topics/client/views/water-quality.html',
+		data: {}
 	})
 	
 	.state('configuration', {
 		url: '/configuration',
-		template: '<tmpl-configuration></tmpl-configuration>'
+		template: '<tmpl-configuration></tmpl-configuration>',
+		data: {}
 	})
 	.state('login', {
 		url: '/login',
 		template: '<tmpl-login></tmpl-login>'
+		data: {}
 	})
 	.state('register', {
 		url: '/register',
-		template: '<tmpl-register></tmpl-register>'
+		template: '<tmpl-register></tmpl-register>',
+		data: {}
 	})
 	.state('recover', {
 		url: '/recover',
-		template: '<tmpl-recover></tmpl-recover>'
+		template: '<tmpl-recover></tmpl-recover>',
+		data: {}
 	})
 
 	// Home state routing

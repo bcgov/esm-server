@@ -8,6 +8,7 @@ angular.module('projects').config (
 		.state('home', {
 			url: '/',
 			templateUrl: 'modules/home/client/views/home.html',
+			data: {},
 			controller: function ($cookies, $scope) {
 				$scope.seenOnce = $cookies.get('seenOnce');
 				if (!$scope.seenOnce) {
