@@ -20,12 +20,18 @@ newStatics.MaxOpenState = function (pcpList) {
 function calculateOpenState() {
 	var model = this;
 	var k = 0;
-	var EMPTY = k++;
-	var INV = k++;
-	var UNP = k++;
-	var PEND = k++;
-	var COMP = k++;
-	var OPEN=k++;
+	/*
+	 The order below must match the order in the STATEs array. This order
+	 establishes the ranking of the states. This is used to determine the state
+	 of the overall project. For a project with N PCPs the project state is determined
+	 by the PCP with the highest ranked OpenState.
+	 */
+	const EMPTY = k++;
+	const INV = k++;
+	const UNP = k++;
+	const COMP = k++;
+	const PEND = k++;
+	const OPEN=k++;
 	var rank = EMPTY;
 	if (model.isPublished) {
 		var today = new Date();
