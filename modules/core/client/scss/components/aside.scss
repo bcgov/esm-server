@@ -33,8 +33,9 @@ aside {
             padding: 0.5rem 1rem;
             background-color: rgba(0, 51, 102, 0.80);
             color: #FFF;
-            font-size: 0.9375rem;
-            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            font-weight: 700;
         }
 
         .btn {
@@ -67,5 +68,9 @@ aside {
 @media (min-width: 760px) {
     aside {
         margin-top: 0;
+
+        section {
+            margin-bottom: 1.5rem;
+        }
     }
 }
