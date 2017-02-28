@@ -2,10 +2,11 @@
 // Banner
 .hero-banner {
     position: relative;
-    //height: 23rem;
+    height: 23rem;
     border-bottom: 4px solid $gold;
     background-color: rgba($header-bg, 0.85);
-    background-position: center center;
+    background-size: 280%;
+    background-position: -8rem 0;
 
     .container {
         display: table;
@@ -20,23 +21,27 @@
 }
 
 .hero-btn {
-    padding: 0.65rem 1rem;
+    padding: 0.4rem 0.5rem;
     font-size: 0.9375rem;
     font-weight: 600;
 }
 
 @media (min-width: 400px) {
     .hero-banner {
-        background-size: 240%;
+        background-size: 230%;
         background-position: -150px center;
+    }
+
+    .hero-btn {
+        padding: 0.65rem 1rem;
     }
 }
 
 @media (min-width: 760px) {
     .hero-banner {
         height: 30rem;
-        background-position: center;
-        background-size: 150%;
+        background-position: -6rem -3rem;
+        background-size: 180%;
 
         .container {
             padding-left: 2rem;
@@ -49,6 +54,13 @@
     .hero-banner {
         height: 40rem;
         background-size: 120%;
+    }
+}
+
+@media (min-width: 1020px) {
+    .hero-banner {
+        background-position: center -1rem;
+        background-size: 130%;
     }
 }
 
@@ -76,14 +88,15 @@
 
 // Banner Text
 .hb-txt {
-    padding: 2rem 1.5rem;
+    padding: 0 1.5rem;
     //background-color: rgba(#003366, 0.75); 
     color: #FFF;
 
     h1 {
+        margin-top: -0.25rem;
         margin-bottom: 1.5rem;
         font-size: 2rem;
-        line-height: 2.25rem;
+        line-height: 2rem;
 
         span {
             display: inline-block;
@@ -151,8 +164,6 @@
 
 // Banner Buttons
 .hb-btns {
-    text-align: center;
-
     strong {
         margin-bottom: 0.5rem;
         display: block;
@@ -162,11 +173,9 @@
     }
 
     .btn {
-        width: 100%;
-
         + span {
-            display: block;
-            margin: 0.25rem 0;
+            display: inline-block;
+            margin: 0.25rem;
         }
     }
 }
