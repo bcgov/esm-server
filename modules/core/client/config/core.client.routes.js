@@ -17,48 +17,48 @@ angular.module('core').config (
 	// Authorizations
 	.state('authorizations', {
 		url: '/authorizations',
-		templateUrl: 'modules/authorizations/client/views/authorizations.html',
+		templateUrl: 'modules/authorizations/client/views/authorizations.html'
 	})
 
 	// Compliance Oversight
 	.state('compliance-oversight', {
 		url: '/compliance-oversight',
-		templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html',
+		templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html'
 	})
 
 	// Legislation
 	.state('legislation', {
 		url: '/legislation',
-		templateUrl: 'modules/legislation/client/views/legislation.html',
+		templateUrl: 'modules/legislation/client/views/legislation.html'
 	})
 
 	// Mining Lifecycle
 	.state('mining-lifecycle', {
 		url: '/lifecycle',
-		templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html',
+		templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html'
 	})
 
 	// Topics
 	.state('topics', {
 		url: '/topics-of-interest',
-		templateUrl: 'modules/topics/client/views/topics-of-interest.html',
+		templateUrl: 'modules/topics/client/views/topics-of-interest.html'
 	})
 	.state('reclamation-and-securities', {
 		url: '/reclamation-and-securities',
-		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html',
+		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html'
 	})
 	.state('tailings-management', {
 		url: '/tailings-management',
-		templateUrl: 'modules/topics/client/views/tailings-management.html',
+		templateUrl: 'modules/topics/client/views/tailings-management.html'
 	})
 	.state('water-quality', {
 		url: '/water-quality',
-		templateUrl: 'modules/topics/client/views/water-quality.html',
+		templateUrl: 'modules/topics/client/views/water-quality.html'
 	})
 	
 	.state('configuration', {
 		url: '/configuration',
-		template: '<tmpl-configuration></tmpl-configuration>',
+		template: '<tmpl-configuration></tmpl-configuration>'
 	})
 	.state('login', {
 		url: '/login',
@@ -66,11 +66,11 @@ angular.module('core').config (
 	})
 	.state('register', {
 		url: '/register',
-		template: '<tmpl-register></tmpl-register>',
+		template: '<tmpl-register></tmpl-register>'
 	})
 	.state('recover', {
 		url: '/recover',
-		template: '<tmpl-recover></tmpl-recover>',
+		template: '<tmpl-recover></tmpl-recover>'
 	})
 
 	// Home state routing
