@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Inspections",
-  "date": "2017-02-27T21:11:39.207Z",
+  "date": "2017-02-28T03:02:07.316Z",
   "data": [
     {
       "projectName": "Mount Milligan",
@@ -335,7 +335,7 @@ module.exports = {
       "inspectionDate": "2016-06-08T15:00:00.000Z",
       "inspectorInitials": "BRB",
       "inspectionSummary": "On June 8, 2016, Brenda Bailey, Senior Environmental Geoscientist and Liz Murphy, Reclamation Inspector, visited the Red Chris mine site to conduct an inspection on reclamation conditions.",
-      "recentFollowUp": "Inspection Complete",
+      "recentFollowUp": "Response",
       "documentName": "MEM Inspection Report 64760",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/5822931c6d6ad30017ce0475/fetch",
       "authorizationID": "",
@@ -346,6 +346,10 @@ module.exports = {
         {
           "name": "MEM Inspection Report 64760",
           "ref": "https://mines.empr.gov.bc.ca/api/document/5822931c6d6ad30017ce0475/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 64760",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4ac3a53dc26001d3b47d4/fetch"
         }
       ]
     },
@@ -769,7 +773,7 @@ module.exports = {
       "inspectionDate": "2016-04-25T15:00:00.000Z",
       "inspectorInitials": "RCC",
       "inspectionSummary": "On March 25, 2016, Rory Cumming, Inspector of Mines, Electrical, visited the Copper Mountain mine to conduct an electrical inspection.",
-      "recentFollowUp": "Inspection Complete",
+      "recentFollowUp": "Mine Manager's Response",
       "documentName": "MEM Inspection Report 63579",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/5849bca89dcf6000197cc795/fetch",
       "authorizationID": "",
@@ -780,6 +784,10 @@ module.exports = {
         {
           "name": "MEM Inspection Report 63579",
           "ref": "https://mines.empr.gov.bc.ca/api/document/5849bca89dcf6000197cc795/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 63579",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4a01553dc26001d3b47c1/fetch"
         }
       ]
     },
@@ -805,6 +813,31 @@ module.exports = {
         {
           "name": "Mine Manager's Response to Inspection Report 64276",
           "ref": "https://mines.empr.gov.bc.ca/api/document/582293e46d6ad30017ce0a66/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "Copper Mountain",
+      "agencyCode": "MEM",
+      "inspectionNum": "160721",
+      "inspectionDate": "2016-07-21T15:00:00.000Z",
+      "inspectorInitials": "PH",
+      "inspectionSummary": "A geotechnical inspection of the Copper Mountain mine was conducted on July 21 & 22, 2016 by Paul Hughes, contracted Inspector of Mines, Geotechnical; Victor Marques, Senior Inspector of Mines, Geotechnical; Blythe Golobic, Inspector of Mines, Health & Safety; and Stephen Rothman, Senior Inspector of Mines, Health & Safety.",
+      "recentFollowUp": "Mine Manager's Response",
+      "documentName": "MEM Inspection Report 160721",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4615b53dc26001d3b4795/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "160721-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 160721",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4615b53dc26001d3b4795/fetch"
+        },
+        {
+          "name": "Mine Manager's Response to Inspection Report 160721",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4615a53dc26001d3b4788/fetch"
         }
       ]
     },
@@ -959,7 +992,7 @@ module.exports = {
       "inspectionSummary": "On September 23, 2016, Sean Shaw, Senior Inspector of Mines, Environmental Geosciene and Sonia Meili, Inspector of Mines, Reclamation, conducted an inspection of the Highland Valley Copper mine.",
       "recentFollowUp": "Senior Environmental Coordinator's Response",
       "documentName": "MEM Inspection Report 71618",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6274b87567d001d188c07/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4ddc2c6b42e001dbf2f27/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -967,11 +1000,11 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 71618",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6274b87567d001d188c07/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4ddc2c6b42e001dbf2f27/fetch"
         },
         {
           "name": "Senior Environmental Coordinator's Response to Inspection Report 71618",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a638c387567d001d188ccc/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4e325c6b42e001dbf2f60/fetch"
         }
       ]
     },
@@ -1181,7 +1214,7 @@ module.exports = {
       "inspectionNum": "68682",
       "inspectionDate": "2016-09-13T15:00:00.000Z",
       "inspectorInitials": "LM",
-      "inspectionSummary": "Senior Inspector of Mines Laurie Meade conducted a general health & safety inspection of Elkview Operations on September 9, 2013.",
+      "inspectionSummary": "Senior Inspector of Mines Laurie Meade conducted a general health & safety inspection of Elkview Operations on September 13, 2016.",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 68682",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a5078187567d001d1885c3/fetch",
@@ -1698,7 +1731,7 @@ module.exports = {
       "inspectionSummary": "On December 14, 2016, Inspector of Mines Aaron Unger visited Line Creek Operations to conduct an ergonomics inspection. He was accompanied by Jerrold Jewsbury, Inspector of Mines, Health & Safety.",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 71516",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6051387567d001d188939/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a62c0787567d001d188c79/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -1706,7 +1739,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 71516",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6051387567d001d188939/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a62c0787567d001d188c79/fetch"
         }
       ]
     },
@@ -2207,7 +2240,7 @@ module.exports = {
         },
         {
           "name": "Mine Manager's Response to Inspection Report 64158",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/5898d56787567d001d187854/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/5822940b6d6ad30017ce0b50/fetch"
         }
       ]
     },
@@ -2232,7 +2265,7 @@ module.exports = {
         },
         {
           "name": "Mine Manager's Response to Inspection Report 63676",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/5898d34287567d001d187847/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/582294116d6ad30017ce0b91/fetch"
         }
       ]
     },
@@ -3319,7 +3352,7 @@ module.exports = {
       "inspectionSummary": "On June 16, 2016, Environmental Protection Officer Jack Green conducted an on-site inspection at the Highland Valley Copper (HVC) mine. He was accompanied by 2 other Environmental Protection Officers and several mine employees. The inspector assessed HVC's compliance with requirements of its effluent discharge permit issued under the Environmental Management Act. In addition to the site visit, HVC’s 2015 annual report was reviewed as part of this inspection.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 28993",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/589bb50087567d001d187fc0/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4da4d53dc26001d3b4876/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3327,7 +3360,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 28993",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/589bb50087567d001d187fc0/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4da4d53dc26001d3b4876/fetch"
         }
       ]
     },
@@ -3340,7 +3373,7 @@ module.exports = {
       "inspectionSummary": "On June 16, 2016, Environmental Protection Officer Jack Green conducted an on-site inspection at the Highland Valley Copper (HVC) mine. He was accompanied by 2 other Environmental Protection Officers and several mine employees. The inspector assessed HVC's compliance with requirements of its air discharge permit issued under the Environmental Management Act. In addition to the site visit, HVC’s 2015 annual report was reviewed as part of this inspection.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 29667",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/589bb4ff87567d001d187fb1/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4da4d53dc26001d3b489d/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3348,7 +3381,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 29667",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/589bb4ff87567d001d187fb1/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4da4d53dc26001d3b489d/fetch"
         }
       ]
     },
@@ -3361,7 +3394,7 @@ module.exports = {
       "inspectionSummary": "On June 16, 2016, Environmental Protection Officer Jack Green conducted an on-site inspection at the Highland Valley Copper (HVC) mine. He was accompanied by 2 other Environmental Protection Officers and several mine employees. The inspector assessed HVC's compliance with requirements of its refuse discharge permit issued under the Environmental Management Act. In addition to the site visit, HVC’s 2015 annual report was reviewed as part of this inspection.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 29687",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/589bb4ff87567d001d187fb2/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4da4d53dc26001d3b4895/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3369,7 +3402,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 29687",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/589bb4ff87567d001d187fb2/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4da4d53dc26001d3b4895/fetch"
         }
       ]
     },
@@ -3382,7 +3415,7 @@ module.exports = {
       "inspectionSummary": "On June 16, 2016, Environmental Protection Officer Jack Green conducted an on-site inspection at the Highland Valley Copper (HVC) mine. He was accompanied by 2 other Environmental Protection Officers and several mine employees. The inspector assessed HVC's compliance with requirements of its biosolids discharge permit issued under the Environmental Management Act. In addition to the site visit, HVC’s 2015 annual report was reviewed as part of this inspection.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 29676",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/589bb4ff87567d001d187fb3/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4da4d53dc26001d3b4875/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3390,7 +3423,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 29676",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/589bb4ff87567d001d187fb3/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4da4d53dc26001d3b4875/fetch"
         }
       ]
     },
@@ -3403,7 +3436,7 @@ module.exports = {
       "inspectionSummary": "On June 16, 2016, Environmental Protection Officer Jack Green conducted an on-site inspection at the Highland Valley Copper (HVC) mine. He was accompanied by 2 other Environmental Protection Officers and several mine employees. The inspector assessed compliance of the waste storage facilities against the requirements of the Hazardous Waste Regulation and the Environmental Management Act.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 29707",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7781887567d001d188d81/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4e12b53dc26001d3b4913/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3411,7 +3444,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 29707",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7781887567d001d188d81/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4e12b53dc26001d3b4913/fetch"
         }
       ]
     },
@@ -3802,7 +3835,7 @@ module.exports = {
       "inspectionSummary": "On June 14, 2016, Environmental Protection Officer Jack Green conducted an on-site inspection at the Mount Polley mine against the requirements of the Hazardous Waste Regulation under the Environmental Management Act. The inspector toured the hazardous waste storage facilities and a review of the associated paperwork.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 29007",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7785387567d001d188ddd/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3810,7 +3843,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 29007",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7785387567d001d188ddd/fetch"
         }
       ]
     },
@@ -3844,7 +3877,7 @@ module.exports = {
       "inspectionSummary": "On October 13, 2016, Environmental Protection Officer Jack Green conducted an office review of information provided by the Mount Polley Mining Corporation regarding the management of hazardous waste on site. The purpose of the inspection was to assess compliance with the Environmental Management Act.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 30610",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7785387567d001d188ddc/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3852,7 +3885,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 30610",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7785387567d001d188ddc/fetch"
         }
       ]
     },
@@ -3907,7 +3940,7 @@ module.exports = {
       "inspectionSummary": "On April 7, 2016, Jack Green, Environmental Protection Officer, and Jason Bourgeois, MOE Compliance Section Head, conducted an on-site inspection at the New Afton mine to determine compliance with the Hazardous Waste Regulation. The inspection involved a tour of hazardous waste storage facilities and a review of associated and required paperwork. The inspectors were accompanied by Luke Holdstock, New Gold Environmental Coordinator.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 27252",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7786987567d001d188df6/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3915,7 +3948,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 27252",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7786987567d001d188df6/fetch"
         }
       ]
     },
@@ -4020,7 +4053,7 @@ module.exports = {
       "inspectionSummary": "On July 19, 2016, Matthew Corbett (Conservation Officer Service) Alex McLean (Environmental Assessment Office) and Chris Parks (Environmental Assessment Office) conducted an on-site inspection at the Red Chris mine to assess compliance with the Hazardous Waste Regulation under the Environmental Management Act and the mine's environmental assessment certificate.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 28787",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7787c87567d001d188e03/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -4028,7 +4061,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 28787",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7787c87567d001d188e03/fetch"
         }
       ]
     },
@@ -4062,7 +4095,7 @@ module.exports = {
       "inspectionSummary": "On August 3, 2016, Neil Bailey, Senior Environmental Protection Officer, conducted an on-site inspection at the Red Chris mine. The purpose of the inspection was to determine compliance with its Storage and Distribution Facilities Storm Water Regulation Registration under the Environmental Management Act.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 27155",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7787c87567d001d188e05/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -4070,7 +4103,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 27155",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7787c87567d001d188e05/fetch"
         }
       ]
     },
