@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Authorizations",
-  "date": "2017-02-27T21:11:39.243Z",
+  "date": "2017-02-28T02:59:05.315Z",
   "data": [
     {
       "agencyCode": "EAO",
@@ -224,7 +224,7 @@ module.exports = {
       "projectName": "Line Creek Operations",
       "authorizationID": "M13-02",
       "documentName": "Environmental Assessment Certificate",
-      "authorizationDate": "2019-09-13T15:00:00.000Z",
+      "authorizationDate": "2013-09-25T15:00:00.000Z",
       "documentType": "Certificate",
       "documentStatus": "Issued",
       "documentURL": "https://projects.eao.gov.bc.ca/api/document/5888e5cf817b85ae43cf7c77/fetch",
@@ -450,6 +450,24 @@ module.exports = {
         {
           "name": "Amendment #2 to Environmental Assessment Certificate",
           "ref": "https://projects.eao.gov.bc.ca/api/document/5886b3d9a4acd4014b81ff37/fetch"
+        }
+      ]
+    },
+    {
+      "agencyCode": "EAO",
+      "projectName": "Fording River Operations",
+      "authorizationID": "M15-02",
+      "documentName": "Environmental Assessment Certificate",
+      "authorizationDate": "2015-09-10T15:00:00.000Z",
+      "documentType": "Certificate",
+      "documentStatus": "Issued",
+      "documentURL": "https://projects.eao.gov.bc.ca/p/fording-river-operations-swift/docs?folder=71",
+      "agencyName": "Environmental Assessment Office",
+      "actName": "Environmental Assessment Act",
+      "followUpDocuments": [
+        {
+          "name": "Environmental Assessment Certificate",
+          "ref": "https://projects.eao.gov.bc.ca/p/fording-river-operations-swift/docs?folder=71"
         }
       ]
     },
