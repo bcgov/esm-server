@@ -71,7 +71,7 @@ angular.module('core').config (
 	})
 	.state('login', {
 		url: '/login',
-		template: '<tmpl-login></tmpl-login>'
+		template: '<tmpl-login></tmpl-login>',
 		data: {}
 	})
 	.state('register', {
