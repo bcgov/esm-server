@@ -18,92 +18,71 @@ angular.module('core').config (
 	.state('authorizations', {
 		url: '/authorizations',
 		templateUrl: 'modules/authorizations/client/views/authorizations.html',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 
 	// Compliance Oversight
 	.state('compliance-oversight', {
 		url: '/compliance-oversight',
 		templateUrl: 'modules/compliance-oversight/client/views/compliance-oversight.html',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 
 	// Legislation
 	.state('legislation', {
 		url: '/legislation',
 		templateUrl: 'modules/legislation/client/views/legislation.html',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 
 	// Mining Lifecycle
 	.state('mining-lifecycle', {
 		url: '/lifecycle',
 		templateUrl: 'modules/lifecycle/client/views/mining-lifecycle.html',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 
 	// Topics
 	.state('topics', {
 		url: '/topics-of-interest',
 		templateUrl: 'modules/topics/client/views/topics-of-interest.html',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 	.state('reclamation-and-securities', {
 		url: '/reclamation-and-securities',
 		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 	.state('tailings-management', {
 		url: '/tailings-management',
 		templateUrl: 'modules/topics/client/views/tailings-management.html',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 	.state('water-quality', {
 		url: '/water-quality',
 		templateUrl: 'modules/topics/client/views/water-quality.html',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 	
 	.state('configuration', {
 		url: '/configuration',
 		template: '<tmpl-configuration></tmpl-configuration>',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 	.state('login', {
 		url: '/login',
-		template: '<tmpl-login></tmpl-login>'
+		template: '<tmpl-login></tmpl-login>',
+		data: {}
 	})
 	.state('register', {
 		url: '/register',
 		template: '<tmpl-register></tmpl-register>',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 	.state('recover', {
 		url: '/recover',
 		template: '<tmpl-recover></tmpl-recover>',
-		data: {
-			roles: ['admin']
-		}
+		data: {}
 	})
 
 	// Home state routing

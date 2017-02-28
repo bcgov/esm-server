@@ -20,7 +20,7 @@ function directiveProjectAuthorizationOversight() {
 	return directive;
 }
 
-const agencyMap = {
+var agencyMap = {
 	'ENV': {name: 'Ministry of Environment', act: "Environmental Management Act"},
 	'MEM': {name: 'Ministry of Energy and Mines', act: "Mines Act"},
 	'EAO': {name: "Environmental Assessment Office", act: "Environmental Assessment Act"}

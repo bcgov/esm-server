@@ -9,9 +9,7 @@ angular.module('projects').config (
 		.state('projects', {
 			url: '/find-mines-in-british-columbia',
 			templateUrl: 'modules/projects/client/views/mines.list.html',
-			data: {
-				roles: ['admin']
-			},
+			data: {},
 			resolve: {
 				projects: function ($stateParams, ProjectModel) {
 					// if we need to filter, use ProjectModel.query({blah});

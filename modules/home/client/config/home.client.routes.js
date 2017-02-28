@@ -8,10 +8,9 @@ angular.module('projects').config (
 		.state('home', {
 			url: '/',
 			templateUrl: 'modules/home/client/views/home.html',
-			data: {
-				roles: ['admin']
-			},
+			data: {},
 			controller: function ($cookies, $scope) {
+				console.log("Loading...");
 				$scope.seenOnce = $cookies.get('seenOnce');
 				if (!$scope.seenOnce) {
 					// console.log("Haven't seen you before.");
@@ -20,6 +19,7 @@ angular.module('projects').config (
 				} else {
 					// console.log("Welcome back.");
 				}
+				console.log("Done.");
 			}
 		});
 	}]);
