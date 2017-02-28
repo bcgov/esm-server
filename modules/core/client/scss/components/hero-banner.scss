@@ -2,11 +2,10 @@
 // Banner
 .hero-banner {
     position: relative;
-    height: 23rem;
+    //height: 23rem;
     border-bottom: 4px solid $gold;
     background-color: rgba($header-bg, 0.85);
-    background-size: 240%;
-    background-position: -150px center;
+    background-position: center center;
 
     .container {
         display: table;
@@ -24,6 +23,13 @@
     padding: 0.65rem 1rem;
     font-size: 0.9375rem;
     font-weight: 600;
+}
+
+@media (min-width: 400px) {
+    .hero-banner {
+        background-size: 240%;
+        background-position: -150px center;
+    }
 }
 
 @media (min-width: 760px) {
