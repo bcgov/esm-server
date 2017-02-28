@@ -23,6 +23,7 @@ function directiveUserEntry(_) {
 			enableEdit: '=',
 			org: '=',
 			user: '=',
+			groupsAndRoles: '=',
 			control: '=',
 			srefReturn: '='
 		},
@@ -185,6 +186,11 @@ function directiveUserEntry(_) {
 			$scope.internalControl.saveUser = function (isValid) {
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'userForm');
+					$scope.$broadcast('show-errors-check-validity', 'detailsForm');
+					$scope.$broadcast('show-errors-check-validity', 'orgForm');
+					$scope.$broadcast('show-errors-check-validity', 'signatureForm');
+					$scope.$broadcast('show-errors-check-validity', 'notesForm');
+					$scope.$broadcast('show-errors-check-validity', 'projectsForm');
 					return false;
 				}
 				var p = (which === 'add') ? UserModel.add($scope.user) : UserModel.save($scope.user);
@@ -234,10 +240,14 @@ function directiveEditMyProfile($modal, _) {
 					resolve: {
 						user: function(UserModel, Authentication) {
 							return UserModel.lookup(Authentication.user._id);
+						},
+						groupsAndRoles: function(UserModel, Authentication) {
+							return UserModel.groupsAndRoles(Authentication.user._id);
 						}
 					},
-					controller: function($scope, $filter, $modalInstance, user) {
+					controller: function($scope, $filter, $modalInstance, user, groupsAndRoles) {
 						$scope.user = user;
+						$scope.groupsAndRoles = groupsAndRoles;
 						$scope.mode = 'edit';
 						$scope.readonly = false;
 						$scope.enableDelete = false;

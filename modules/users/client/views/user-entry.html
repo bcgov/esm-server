@@ -1,213 +1,343 @@
 <div>
-	<!-- USER PROFILE -->
-	<fieldset>
-		<legend>Contact Details</legend>
-		<div class="row">
-			<div class="col-sm-6 col-md-3">
+
+	<ul class="nav nav-tabs">
+		<li role="presentation" class="form-group active" x-show-errors>
+			<a href="#contactDetails" aria-controls="home" role="tab" data-toggle="tab" name="detailsForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Contact Details</a>
+		</li>
+		<li role="presentation" class="form-group" x-show-errors>
+			<a href="#contactOrg" aria-controls="home" role="tab" data-toggle="tab" name="orgForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Organization</a>
+		</li>
+		<li role="presentation" class="form-group" x-show-errors>
+			<a href="#contactNotes" aria-controls="home" role="tab" data-toggle="tab" name="notesForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Notes</a>
+		</li>
+		<li ng-show="enableSignature" role="presentation" class="form-group" x-show-errors>
+			<a href="#contactSignature" aria-controls="projects" role="tab" data-toggle="tab" name="signatureForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Signature</a>
+		</li>
+		<li ng-hide="mode === 'add'" role="presentation" class="form-group" x-show-errors>
+			<a href="#contactProjects" aria-controls="projects" role="tab" data-toggle="tab" name="projectsForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Projects</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+		<!-- DETAILS TAB CONTENT -->
+		<div class="tab-pane active" id="contactDetails" role="tabpanel" ng-form="detailsForm">
+			<fieldset>
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="salutation" class="control-label">Salutation<em>(Optional)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ CodeLists.salutations.display(user.salutation) }}</p>
+							<select id="salutation" class="form-control" ng-model="user.salutation" ng-options="item.value as item.display for item in salutations" ng-hide="readonly"></select>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group" x-show-errors>
+							<label for="firstName" class="control-label">First Name<em>(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.firstName }}</p>
+							<input class="form-control" id="firstName" name="firstName" ng-change="internalControl.calculateName()" type="text" ng-model="user.firstName" required ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label class="control-label" for="middleName">Middle Name<em>(Optional)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.middleName }}</p>
+							<input class="form-control" id="middleName" ng-change="internalControl.calculateName()" type="text" ng-model="user.middleName" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group" x-show-errors>
+							<label for="lastName" class="control-label">Last Name<em>(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.lastName }}</p>
+							<input class="form-control" id="lastName" name="lastName" ng-change="internalControl.calculateName()" type="text" ng-model="user.lastName" required ng-hide="readonly">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label class="control-label" for="displayName">Displayed Name</label>
+							<p ng-show="readonly" class="form-control-static">{{ user.displayName }}</p>
+							<input class="form-control" id="displayName" disabled=true type="text" ng-model="user.displayName" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3" ng-show="mode === 'edit'">
+						<div class="form-group">
+							<label class="control-label">Username</label>
+							<p class="form-control-static">{{ user.username }}</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Preferences -->
 				<div class="form-group">
-					<label for="salutation" class="control-label">Salutation<em>(Optional)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ CodeLists.salutations.display(user.salutation) }}</p>
-					<select id="salutation" class="form-control" ng-model="user.salutation" ng-options="item.value as item.display for item in salutations" ng-hide="readonly"></select>
+					<label class="control-label">Preferred Contact Method</label>
+					<div class="checkbox-row">
+						<div class="checkbox-inline">
+							<label class="control-label" for="viaEmail">
+								<input type="radio" ng-model="user.viaEmail" ng-value="true" ng-checked="user.viaEmail" ng-click="setPreferredContactMethod('viaEmail')" id="viaEmail" name="viaEmail" ng-disabled="readonly"/>
+								&nbsp;By Email
+							</label>
+						</div>
+						<div class="checkbox-inline">
+							<label class="control-label" for="viaMail">
+								<input type="radio" ng-model="user.viaMail" ng-value="true" ng-checked="user.viaMail" ng-click="setPreferredContactMethod('viaMail')" id="viaMail" name="viaMail"  ng-disabled="readonly"/>
+								&nbsp;By Mail
+							</label>
+						</div>
+					</div>
+				</div><!--/ CONTACT PREFERENCES -->
+
+				<!-- Email, Phone, Mobile, Fax -->
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group" x-show-errors>
+							<label class="control-label" for="email">Email<em ng-if="user.viaEmail">(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.email }}</p>
+							<input class="form-control" placeholder="myname@example.com" id="email" name="email" type="email" ng-model="user.email" ng-required="user.viaEmail" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group" x-show-errors>
+							<label for="phoneNumber" class="control-label">Phone</label>
+							<p ng-show="readonly" class="form-control-static">{{ user.phoneNumber }}</p>
+							<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" name="phoneNumber" type="text" ng-model="user.phoneNumber" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="cellPhoneNumber" class="control-label">Mobile</label>
+							<p ng-show="readonly" class="form-control-static">{{ user.cellPhoneNumber }}</p>
+							<input class="form-control" placeholder="eg: 123-456-7890"  id="cellPhoneNumber" type="text" ng-model="user.cellPhoneNumber" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="faxNumber" class="control-label">Fax</label>
+							<p ng-show="readonly" class="form-control-static">{{ user.faxNumber }}</p>
+							<input class="form-control" placeholder="eg: 123-456-7890" id="faxNumber" type="text" ng-model="user.faxNumber" ng-hide="readonly">
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group" x-show-errors>
-					<label for="firstName" class="control-label">First Name<em>(Required)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.firstName }}</p>
-					<input class="form-control" id="firstName" name="firstName" ng-change="internalControl.calculateName()" type="text" ng-model="user.firstName" required ng-hide="readonly">
+
+				<!-- Street Address -->
+				<div class="row">
+					<div class="col-sm-12 col-md-6">
+						<div class="form-group" x-show-errors>
+							<label for="address1" class="control-label">Street Address 1<em ng-if="user.viaMail">(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.address1 }}</p>
+							<input class="form-control" id="address1" name="address1" type="text" ng-model="user.address1" ng-required="user.viaMail" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-6">
+						<div class="form-group">
+							<label for="address1" class="control-label">Street Address 2</label>
+							<p ng-show="readonly" class="form-control-static">{{ user.address2 }}</p>
+							<input class="form-control" id="address2" type="text" ng-model="user.address2" ng-hide="readonly">
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label class="control-label" for="middleName">Middle Name<em>(Optional)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.middleName }}</p>
-					<input class="form-control" id="middleName" ng-change="internalControl.calculateName()" type="text" ng-model="user.middleName" ng-hide="readonly">
+
+				<!-- City, Province, Country, Postal Code -->
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group"x-show-errors>
+							<label for="city" class="control-label">City<em ng-if="user.viaMail">(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.city }}</p>
+							<input class="form-control" id="city" name="city" type="text" ng-model="user.city" ng-required="user.viaMail" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group" x-show-errors>
+							<label for="province" class="control-label">Province/State<em ng-if="user.viaMail">(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.province }}</p>
+							<input class="form-control" id="province" name="province" type="text" ng-model="user.province" ng-required="user.viaMail" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group" x-show-errors>
+							<label for="country" class="control-label">Country<em ng-if="user.viaMail">(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.country }}</p>
+							<input class="form-control" id="country" name="country" type="text" ng-model="user.country" ng-required="user.viaMail" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group" x-show-errors>
+							<label for="postalCode" class="control-label">Postal/Zip Code<em ng-if="user.viaMail">(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.postalCode }}</p>
+							<input class="form-control" placeholder="eg: A1A 1A1" id="postalCode" name="postalCode" type="text" ng-model="user.postalCode" ng-required="user.viaMail" ng-hide="readonly">
+						</div>
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group" x-show-errors>
-					<label for="lastName" class="control-label">Last Name<em>(Required)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.lastName }}</p>
-					<input class="form-control" id="lastName" name="lastName" ng-change="internalControl.calculateName()" type="text" ng-model="user.lastName" required ng-hide="readonly">
-				</div>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label class="control-label" for="displayName">Displayed Name</label>
-					<p ng-show="readonly" class="form-control-static">{{ user.displayName }}</p>
-					<input class="form-control" id="displayName" disabled=true type="text" ng-model="user.displayName" ng-hide="readonly">
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3" ng-show="mode === 'edit'">
-				<div class="form-group">
-					<label class="control-label">Username</label>
-					<p class="form-control-static">{{ user.username }}</p>
-				</div>
-			</div>
+			</fieldset><!-- / CONTACT INFO -->
 		</div>
 
-		<!-- Preferences -->
-		<div class="form-group">
-			<label class="control-label">Preferred Contact Method</label>
-			<div class="checkbox-row">
-				<div class="checkbox-inline">
-					<label class="control-label" for="viaEmail">
-						<input type="radio" ng-model="user.viaEmail" ng-value="true" ng-checked="user.viaEmail" ng-click="setPreferredContactMethod('viaEmail')" id="viaEmail" name="viaEmail" ng-disabled="readonly"/>
-						&nbsp;By Email
-					</label>
+		<div class="tab-pane" id="contactOrg" role="tabpanel" ng-form="orgForm">
+			<fieldset>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group" x-show-errors>
+							<label for="orgName" class="control-label">Name<em>(Required)</em></label>
+							<input class="form-control" id="orgName" name="orgName" type="text" ng-model="user.org.name" required disabled>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="department" class="control-label">Department<em>(Optional)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.department }}</p>
+							<input class="form-control" id="department" type="text" ng-model="user.department" ng-hide="readonly">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="title" class="control-label">Title<em>(Optional)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ user.title }}</p>
+							<input class="form-control" id="title" type="text" ng-model="user.title" ng-hide="readonly">
+						</div>
+					</div>
 				</div>
-				<div class="checkbox-inline">
-					<label class="control-label" for="viaMail">
-						<input type="radio" ng-model="user.viaMail" ng-value="true" ng-checked="user.viaMail" ng-click="setPreferredContactMethod('viaMail')" id="viaMail" name="viaMail"  ng-disabled="readonly"/>
-						&nbsp;By Mail
-					</label>
+				<div class="row" ng-hide="readonly">
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="control-label">&nbsp;</label>
+							<button class="btn btn-default btn-sm" type="button"
+									x-org-search-chooser
+									x-title="'Set Organization'"
+									x-destination="user.org">Set Organization</button>
+							<button class="btn btn-default btn-sm" type="button" onclick="internalControl.clearOrganization()" ng-click="internalControl.clearOrganization()">Clear Organization</button>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div><!--/ CONTACT PREFERENCES -->
-
-		<!-- Email, Phone, Mobile, Fax -->
-		<div class="row">
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group" x-show-errors>
-					<label class="control-label" for="email">Email<em ng-if="user.viaEmail">(Required)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.email }}</p>
-					<input class="form-control" placeholder="myname@example.com" id="email" name="email" type="email" ng-model="user.email" ng-required="user.viaEmail" ng-hide="readonly">
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group" x-show-errors>
-					<label for="phoneNumber" class="control-label">Phone</label>
-					<p ng-show="readonly" class="form-control-static">{{ user.phoneNumber }}</p>
-					<input class="form-control" placeholder="eg: 123-456-7890" id="phoneNumber" name="phoneNumber" type="text" ng-model="user.phoneNumber" ng-hide="readonly">
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label for="cellPhoneNumber" class="control-label">Mobile</label>
-					<p ng-show="readonly" class="form-control-static">{{ user.cellPhoneNumber }}</p>
-					<input class="form-control" placeholder="eg: 123-456-7890"  id="cellPhoneNumber" type="text" ng-model="user.cellPhoneNumber" ng-hide="readonly">
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label for="faxNumber" class="control-label">Fax</label>
-					<p ng-show="readonly" class="form-control-static">{{ user.faxNumber }}</p>
-					<input class="form-control" placeholder="eg: 123-456-7890" id="faxNumber" type="text" ng-model="user.faxNumber" ng-hide="readonly">
-				</div>
-			</div>
+			</fieldset><!-- / ORGANIZATIONAL INFO -->
 		</div>
 
-		<!-- Street Address -->
-		<div class="row">
-			<div class="col-sm-12 col-md-6">
-				<div class="form-group" x-show-errors>
-					<label for="address1" class="control-label">Street Address 1<em ng-if="user.viaMail">(Required)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.address1 }}</p>
-					<input class="form-control" id="address1" name="address1" type="text" ng-model="user.address1" ng-required="user.viaMail" ng-hide="readonly">
+		<div class="tab-pane" id="contactNotes" role="tabpanel" ng-form="notesForm">
+			<fieldset>
+				<div class="row">
+					<div class="col-sm-12 form-group">
+						<label for="notes" class="control-label">Additional Notes<em>(Optional)</em></label>
+						<textarea class="form-control" id="notes" rows="2" ng-model="user.notes" ng-disabled="readonly"></textarea>
+					</div>
 				</div>
-			</div>
-			<div class="col-sm-12 col-md-6">
-				<div class="form-group">
-					<label for="address1" class="control-label">Street Address 2</label>
-					<p ng-show="readonly" class="form-control-static">{{ user.address2 }}</p>
-					<input class="form-control" id="address2" type="text" ng-model="user.address2" ng-hide="readonly">
-				</div>
-			</div>
+			</fieldset>
 		</div>
 
-		<!-- City, Province, Country, Postal Code -->
-		<div class="row">
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group"x-show-errors>
-					<label for="city" class="control-label">City<em ng-if="user.viaMail">(Required)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.city }}</p>
-					<input class="form-control" id="city" name="city" type="text" ng-model="user.city" ng-required="user.viaMail" ng-hide="readonly">
+		<div class="tab-pane" id="contactSignature" role="tabpanel" ng-form="signatureForm">
+			<fieldset>
+				<div class="form-group no-margin">
+					<label class="control-label">Signature</label>
+					<div class="signature-preview form-control">
+						<img ng-if="user.signature" src="{{internalControl.signatureHREF}}" id="sig" name="sig"/>
+					</div>
+					<a class="btn btn-default btn-sm" ng-hide="readonly" x-modal-set-signature>
+						<span class="glyphicon glyphicon-open"></span><span>Upload Signature</span>
+					</a>
 				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group" x-show-errors>
-					<label for="province" class="control-label">Province/State<em ng-if="user.viaMail">(Required)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.province }}</p>
-					<input class="form-control" id="province" name="province" type="text" ng-model="user.province" ng-required="user.viaMail" ng-hide="readonly">
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group" x-show-errors>
-					<label for="country" class="control-label">Country<em ng-if="user.viaMail">(Required)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.country }}</p>
-					<input class="form-control" id="country" name="country" type="text" ng-model="user.country" ng-required="user.viaMail" ng-hide="readonly">
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group" x-show-errors>
-					<label for="postalCode" class="control-label">Postal/Zip Code<em ng-if="user.viaMail">(Required)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.postalCode }}</p>
-					<input class="form-control" placeholder="eg: A1A 1A1" id="postalCode" name="postalCode" type="text" ng-model="user.postalCode" ng-required="user.viaMail" ng-hide="readonly">
-				</div>
-			</div>
+			</fieldset>
 		</div>
-	</fieldset><!-- / CONTACT INFO -->
 
-	<!-- ORGANIZATIONAL INFO -->
-	<fieldset>
-		<legend>Organization Details</legend>
-		<div class="row">
-			<div class="col-md-4">
-				<div class="form-group" x-show-errors>
-					<label for="orgName" class="control-label">Name<em>(Required)</em></label>
-					<input class="form-control" id="orgName" name="orgName" type="text" ng-model="user.org.name" required disabled>
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label for="department" class="control-label">Department<em>(Optional)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.department }}</p>
-					<input class="form-control" id="department" type="text" ng-model="user.department" ng-hide="readonly">
-				</div>
-			</div>
-			<div class="col-sm-6 col-md-3">
-				<div class="form-group">
-					<label for="title" class="control-label">Title<em>(Optional)</em></label>
-					<p ng-show="readonly" class="form-control-static">{{ user.title }}</p>
-					<input class="form-control" id="title" type="text" ng-model="user.title" ng-hide="readonly">
-				</div>
-			</div>
-		</div>
-		<div class="row" ng-hide="readonly">
-			<div class="col-md-4">
-				<div class="form-group">
-					<label class="control-label">&nbsp;</label>
-					<button class="btn btn-default btn-sm" type="button"
-							x-org-search-chooser
-							x-title="'Set Organization'"
-							x-destination="user.org">Set Organization</button>
-					<button class="btn btn-default btn-sm" type="button" onclick="internalControl.clearOrganization()" ng-click="internalControl.clearOrganization()">Clear Organization</button>
-				</div>
-			</div>
-		</div>
-		<div class="form-group no-margin">
-		</div>
-		<div class="row">
-			<div class="col-sm-12 form-group">
-				<label for="notes" class="control-label">Additional Notes<em>(Optional)</em></label>
-				<textarea class="form-control" id="notes" rows="2" ng-model="user.notes" ng-disabled="readonly"></textarea>
-			</div>
-		</div>
-	</fieldset><!-- / ORGANIZATIONAL INFO -->
+		<div class="tab-pane" id="contactProjects" role="tabpanel" ng-form="projectsForm">
+			<div class="view-body-container project-schedule-view">
 
-	<fieldset ng-show="enableSignature">
-		<legend>Signature</legend>
-		<div class="form-group no-margin">
-			<label class="control-label">Signature</label>
-			<div class="signature-preview form-control">
-				<img ng-if="user.signature" src="{{internalControl.signatureHREF}}" id="sig" name="sig"/>
+				<div class="panel-group" id="contactProjectList" role="tablist" aria-multiselectable="true">
+
+					<div class="panel panel-default accordion" id="systemRolesGroup" ng-show="groupsAndRoles.systemRoles.length > 0">
+						<div class="panel-heading flex-row" role="tab" ng-show="groupsAndRoles.systemRoles.length > 0">
+							<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#systemRoles" aria-expanded="false" aria-controls="systemRoles">
+								<span class="pull-left">
+									<span class="glyphicon glyphicon-triangle-right pull-left"></span>
+									<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
+									<span>System Roles</span>
+								</span>
+								<span class="pull-right">
+									<span>Roles ({{groupsAndRoles.systemRoles.length}})</span>
+									<span>&nbsp;</span>
+									<span>Groups (0)</span>
+								</span>
+							</a>
+						</div>
+						<div id="systemRoles" class="panel-collapse collapse" role="tabpanel" aria-labelledby="systemRoles" aria-expanded="false" >
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-8 col-lg-4 detail-row">
+										<label>Roles</label>
+										<ul>
+											<li ng-repeat="role in groupsAndRoles.systemRoles">{{role}}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-default accordion" id="globalProjectRolesGroup" ng-show="groupsAndRoles.globalProjectRoles.length > 0">
+						<div class="panel-heading flex-row" role="tab">
+							<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#globalProjectRoles" aria-expanded="false" aria-controls="globalProjectRoles">
+								<span class="pull-left">
+									<span class="glyphicon glyphicon-triangle-right pull-left"></span>
+									<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
+									<span>Global Project Roles</span>
+								</span>
+								<span class="pull-right">
+									<span>Roles ({{groupsAndRoles.globalProjectRoles.length}})</span>
+									<span>&nbsp;</span>
+									<span>Groups (0)</span>
+								</span>
+							</a>
+						</div>
+						<div id="globalProjectRoles" class="panel-collapse collapse" role="tabpanel" aria-labelledby="globalProjectRoles" aria-expanded="false">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-8 col-lg-4 detail-row">
+										<label>Roles</label>
+										<ul>
+											<li ng-repeat="role in groupsAndRoles.globalProjectRoles">{{role}}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- BEGIN: Contact Project List CONTAINER -->
+					<div class="panel panel-default accordion" id="projectGroup" ng-repeat="project in groupsAndRoles.projects">
+						<div class="panel-heading flex-row" role="tab">
+							<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#{{project.code}}" aria-expanded="false" aria-controls="{{project.code}}">
+								<span class="pull-left">
+									<span class="glyphicon glyphicon-triangle-right pull-left"></span>
+									<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
+									<span>{{project.name}}</span>
+								</span>
+								<span class="pull-right">
+									<span>Roles ({{project.roles.length}})</span>
+									<span>&nbsp;</span>
+									<span>Groups ({{project.groups.length}})</span>
+								</span>
+							</a>
+						</div>
+						<div id="{{project.code}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{project.code}}" aria-expanded="false">
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-8 col-lg-4 detail-row">
+										<label>Roles</label>
+										<ul>
+											<li ng-repeat="role in project.roles">{{role.role}}</li>
+										</ul>
+									</div>
+									<div class="col-sm-8 col-lg-4 detail-row">
+										<label>Groups</label>
+										<ul>
+											<li ng-repeat="group in project.groups">{{group.name}}</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- END: PROJECT PHASE CONTAINER -->
+				</div>
 			</div>
-			<a class="btn btn-default btn-sm" ng-hide="readonly"
-			   x-modal-set-signature>
-				<span class="glyphicon glyphicon-open"></span><span>Upload Signature</span>
-			</a>
+
 		</div>
-	</fieldset>
+
+	</div>
 </div>
