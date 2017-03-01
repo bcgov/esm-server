@@ -21,6 +21,7 @@
     }
 
     .btn {
+        padding: 0.65rem;
         font-size: 0.875rem;
         font-weight: 600;
     }
@@ -58,6 +59,10 @@
 
         p {
             margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
         }
     }
 }

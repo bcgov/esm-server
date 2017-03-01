@@ -61,6 +61,16 @@ main {
         height: 98px;
         margin:-98px 0 0;
     }
+
+    .main-footer {
+        padding: 1.5rem;
+        background-color: rgba(0, 51, 102, 0.8);
+        color: #FFF;
+
+        a {
+            color: #FFf;
+        }
+    }
 }
 
 @media (min-width: 760px) {

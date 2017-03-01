@@ -3,7 +3,7 @@
 .hero-banner {
     position: relative;
     height: 23rem;
-    border-bottom: 4px solid $gold;
+    //border-bottom: 4px solid $gold;
     background-color: rgba($header-bg, 0.85);
     background-size: 280%;
     background-position: -8rem 0;
@@ -40,8 +40,8 @@
 @media (min-width: 760px) {
     .hero-banner {
         height: 30rem;
-        background-position: -6rem -3rem;
-        background-size: 180%;
+        background-position: center -1rem;
+        background-size: 160%;
 
         .container {
             padding-left: 2rem;

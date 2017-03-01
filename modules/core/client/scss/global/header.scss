@@ -2,6 +2,7 @@
 header {
     @include clearfix;
     padding: 0.5rem;
+    border-bottom: 4px solid $gold;
     background: $header-bg;
     color: $header-font-color;
 }

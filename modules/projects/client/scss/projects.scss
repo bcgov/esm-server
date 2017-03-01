@@ -89,7 +89,14 @@
         span {
             float: left;
             display: block;
-            width: 50%;
+
+            &.name {
+                width: 25%;
+            }
+
+            &.value {
+                width: 75%;
+            }
         }
     }
 }
@@ -124,6 +131,19 @@
     }
 }
 
+@media (min-width: 1020px) {
+    .mine-details-list {
+        li {
+            span {
+                &.name,
+                &.value {
+                    width: 50%;
+                }
+            }
+        }
+    }
+}
+
 .map-section {
     margin-bottom: 0;
     display: table;
@@ -136,6 +156,7 @@
 
         img {
             width: 100%;
+            min-height: 200px;
         }
     }
 }
