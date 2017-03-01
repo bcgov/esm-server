@@ -1,15 +1,15 @@
 # EAO Project Information & Collaboration System (EPIC)
 
-EPIC is a new web-based project information and collaboration system, aimed at improving the efficiency and transparency of the provincial environmental assessment process by providing citizens and stakeholders with more intuitive access to project data and information.
+EPIC is the BC Environmental Assessment Office's web-based project information and collaboration system, a tool to improve the efficiency and transparency of the provincial environmental assessment process by providing citizens and stakeholders with more intuitive access to project data and information.
 
-This application is a tool to support the work of EAO staff, project proponents, and other stakeholders as environmental assessments are conducted.
+Built through the Office's EAO Systems Modernization Project (ESM), in alignment with and as a pathfinding project of the BCDevExhange collaboration between the Office of the Chief Information Officer and Government Communication and Public Engagement's Government Digital Experience teams, this application is a tool to support the work of EAO staff, project proponents, and other stakeholders as environmental assessments are conducted.
 
 ## Features
 
-The features provided by the web-based ESM application include:
+The features provided by the web-based EPIC application include:
 
-* Public participation in the Environmental Assessment (EA) process
-* Provides detailed project details, status, important dates, contact information and other relevant information
+* Greater transparency, understanding and public participation in the Environmental Assessment (EA) process
+* Comprehensive project details, status, important dates, contact information and other relevant information
 * Public-facing view of documents related to proposed and ongoing development projects
 * Maps showing exactly where projects are located within the province
 
@@ -54,13 +54,13 @@ After this you may open up a browser of your choice and navigte to http://localh
 
 ## Project Status
 
-The project has been released to the public, and work is ongoing to enhance the web application.  Feedback is greatly appreciated!  If you have any comments, please send us an email at epicsupport.eao@gov.bc.ca or click https://projects.eao.gov.bc.ca/contact to learn more.
+The project was released in February 2017 as a public beta, with continuing engagement, co-design and development proceeding to enhance the web application through future releases.  Feedback, involvement and contribution are greatly appreciated!  If you have any comments, please send us an email at epicsupport.eao@gov.bc.ca or click https://projects.eao.gov.bc.ca/contact to learn more.
 
 ## How to Contribute
 
 Feel free to create pull requests from the default "develop" branch, click here to create one automatically: https://github.com/bcgov/esm-server/pull/new/develop.
 
-## License
+## Licence
 
     Copyright 2017 Province of British Columbia
 
