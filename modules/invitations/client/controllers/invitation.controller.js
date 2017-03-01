@@ -18,8 +18,6 @@ angular
 
 		$scope.emailTemplate = null;
 		$scope.recipients = angular.copy(self.communication.recipients);
-		$scope.existingRecipients = [];
-		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 
 
 		var transformTemplate = function() {
@@ -154,38 +152,6 @@ angular
 				}
 			}
 		);
-
-		$scope.$watch(function(scope) { return scope.existingRecipients; },
-			function(data) {
-				if (data && data.length > 0) {
-					//
-					_.forEach(data, function(user) {
-						var item =  _.find($scope.recipients, function(o) { return o.email === user.email; });
-						if (!item) {
-							var viaEmail = user.viaEmail;
-							var viaMail = user.viaMail;
-							var emailAddress = user.email;
-
-							if (_.startsWith(user.email, "none@specified.com") || _.isEmpty(user.email)) {
-								viaEmail = false;
-								emailAddress = '';
-							}
-							$scope.recipients.push({displayName: user.displayName, email: emailAddress, viaEmail: viaEmail, viaMail: viaMail, userId: user._id, org: user.orgName});
-						}
-					});
-					$scope.existingRecipients = [];
-					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
-				}
-			}
-		);
-
-		$scope.removeRecipient = function(email) {
-			var item =  _.find($scope.recipients, function(o) { return o.email === email; });
-			if (item) {
-				_.remove($scope.recipients, function(o) { return o.email === email; });
-				$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
-			}
-		};
 
 		$scope.showError = function(msg, errorList, transitionCallback, title) {
 			var modalDocView = $modal.open({
@@ -355,6 +321,10 @@ angular
 
 		$scope.cancel = function() {
 			goToList();
+		};
+
+		$scope.hasMailRecipients = function() {
+			return _.some($scope.recipients, 'viaMail', true);
 		};
 
 	}]);
