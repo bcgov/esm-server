@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Inspections",
-  "date": "2017-02-28T03:02:07.316Z",
+  "date": "2017-03-01T19:40:03.822Z",
   "data": [
     {
       "projectName": "Mount Milligan",
@@ -299,7 +299,7 @@ module.exports = {
         },
         {
           "name": "Mine Manager's Response to Inspection Report 63637",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a695b987567d001d188d06/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a695b887567d001d188cf9/fetch"
         }
       ]
     },
@@ -461,7 +461,7 @@ module.exports = {
       "inspectorInitials": "KC",
       "inspectionSummary": "Inspectors of Mines Aaron Unger, Katelynn Coutts and Andrew Sinstadt conducted a site inspection of the Red Chris mine on September 2, 2016.",
       "recentFollowUp": "Mine Manager's Response",
-      "documentName": "MEM Inspection Report 68156",
+      "documentName": "MEM Inspection Report 69156",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a61b3387567d001d188b16/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
@@ -469,12 +469,12 @@ module.exports = {
       "inspectionName": "69156-undefined (Ministry of Energy and Mines)",
       "followUpDocuments": [
         {
-          "name": "MEM Inspection Report 68156",
+          "name": "MEM Inspection Report 69156",
           "ref": "https://mines.empr.gov.bc.ca/api/document/58a61b3387567d001d188b16/fetch"
         },
         {
           "name": "Mine Manager's Response to Inspection Report 69156",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a61b3687567d001d188b57/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a61b3587567d001d188b4a/fetch"
         }
       ]
     },
@@ -553,7 +553,7 @@ module.exports = {
       "projectName": "Red Chris",
       "agencyCode": "MEM",
       "inspectionNum": "70477",
-      "inspectionDate": "2016-11-04T15:00:00.000Z",
+      "inspectionDate": "2016-11-03T15:00:00.000Z",
       "inspectorInitials": "EBM",
       "inspectionSummary": "Inspector of Mines Liz Murphy conducted a reclamation inspection of the Red Chris mine site on November 3 & 4, 2016.",
       "recentFollowUp": "Responses",
@@ -667,6 +667,27 @@ module.exports = {
         {
           "name": "Mine Manager's Response to Inspection Report 64617",
           "ref": "https://mines.empr.gov.bc.ca/api/document/58753beb45b180001b296b4f/fetch"
+        }
+      ]
+    },
+    {
+      "projectName": "Mount Polley",
+      "agencyCode": "MEM",
+      "inspectionNum": "67556",
+      "inspectionDate": "2016-06-06T15:00:00.000Z",
+      "inspectorInitials": "SM",
+      "inspectionSummary": "An inspection of the Mount Polley mine was conducted on June 6, 2016 by Sean Shaw (Senior Inspector of Mines, Environmental Geoscience), Jennifer McConnachie (Senior Inspector of Mines, Reclamation), Sonia Meili (Inspector of Mines, Reclamation) and Blythe Golobic (Inspector of Mines, Health & Safety).",
+      "recentFollowUp": "",
+      "documentName": "MEM Inspection Report 67556",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4d21953dc26001d3b481e/fetch",
+      "authorizationID": "",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "inspectionName": "67556-undefined (Ministry of Energy and Mines)",
+      "followUpDocuments": [
+        {
+          "name": "MEM Inspection Report 67556",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4d21953dc26001d3b481e/fetch"
         }
       ]
     },
@@ -900,7 +921,7 @@ module.exports = {
       "inspectionSummary": "On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the booster pump house.On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the booster pump house.On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the booster pump house.On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the booster pump house.On January 26, 2016, Inspector of Mines Stephen Rothman visited the Highland Valley Copper mine to look at the reclaim water leak between the reservoir and the booster pump house.",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 61503",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58227e216d6ad30017cdcbe3/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4dc3753dc26001d3b48da/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -908,7 +929,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 61503",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58227e216d6ad30017cdcbe3/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4dc3753dc26001d3b48da/fetch"
         }
       ]
     },
@@ -921,7 +942,7 @@ module.exports = {
       "inspectionSummary": "On April 26, 2016, Inspector of Mines Rory Cumming visited the Highland Valley Copper mine site to conduct an electrical inspection.",
       "recentFollowUp": "Mine Manager's Response",
       "documentName": "MEM Inspection Report 63580",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/5875433d195c6e001b3e1915/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b7046953dc26001d3b4972/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -929,11 +950,11 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 63580",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/5875433d195c6e001b3e1915/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b7046953dc26001d3b4972/fetch"
         },
         {
           "name": "Mine Manager's Response to Inspection Report 63580",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/582293df6d6ad30017ce0a3f/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4de36c6b42e001dbf2f4d/fetch"
         }
       ]
     },
@@ -946,7 +967,7 @@ module.exports = {
       "inspectionSummary": "On July 7, 2016, Stephen Rothman, Inspector of Mines, Health & Safety, conducted a general inspection of the Highland Valley Copper mine site.",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 65597",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6277c87567d001d188c2d/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b4dd39c6b42e001dbf2f01/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -954,7 +975,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 65597",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6277c87567d001d188c2d/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b4dd39c6b42e001dbf2f01/fetch"
         }
       ]
     },
@@ -967,7 +988,7 @@ module.exports = {
       "inspectionSummary": "On July 18, 2016, Blythe Golobic, Inspector of Mines, Health & Safety, visited the Highland Valley Copper mine to conduct a general inspection.",
       "recentFollowUp": "Mine Manager's Response",
       "documentName": "MEM Inspection Report 66257",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6277d87567d001d188c3a/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b700e953dc26001d3b494c/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -975,11 +996,11 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 66257",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6277d87567d001d188c3a/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b700e953dc26001d3b494c/fetch"
         },
         {
           "name": "Mine Manager's Response to Inspection Report 66257",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6277d87567d001d188c47/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b700ed53dc26001d3b4959/fetch"
         }
       ]
     },
@@ -1174,7 +1195,7 @@ module.exports = {
           "ref": "https://mines.empr.gov.bc.ca/api/document/5898fe4887567d001d187978/fetch"
         },
         {
-          "name": "Mine Manager's Response to Inspection Report 66096",
+          "name": "Response to Inspection Report 66096",
           "ref": "https://mines.empr.gov.bc.ca/api/document/5898fe4887567d001d18796b/fetch"
         },
         {
@@ -1217,7 +1238,7 @@ module.exports = {
       "inspectionSummary": "Senior Inspector of Mines Laurie Meade conducted a general health & safety inspection of Elkview Operations on September 13, 2016.",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 68682",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a5078187567d001d1885c3/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a5078187567d001d1885c4/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -1225,11 +1246,11 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 68682",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a5078187567d001d1885c3/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a5078187567d001d1885c4/fetch"
         },
         {
           "name": "Mine Manager's Response to Inspection Report 68682",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a5078187567d001d1885c4/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a5078187567d001d1885c3/fetch"
         }
       ]
     },
@@ -2036,7 +2057,7 @@ module.exports = {
       "inspectionSummary": "A geotechnical inspection of the Silvertip mine site was conducted on September 12 & 13, 2016 by Michael Cullen, who was accompanied by Inspector of Mines Jennifer McConnachie, who submitted a separate inspection report (70143).",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 68897",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a6170487567d001d188ad5/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a5ec4687567d001d188725/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -2044,11 +2065,11 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 68897",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6170487567d001d188ad5/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a5ec4687567d001d188725/fetch"
         },
         {
           "name": "Mine Manager's Response to Inspection Report 68897",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a6170487567d001d188ae2/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a5ec4787567d001d188732/fetch"
         }
       ]
     },
@@ -2215,7 +2236,7 @@ module.exports = {
         },
         {
           "name": "Mine Manager's Response to Inspection Report 62677",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/5898d06a87567d001d187834/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/582294106d6ad30017ce0b84/fetch"
         }
       ]
     },
@@ -2717,7 +2738,7 @@ module.exports = {
       "projectName": "Coal Mountain Operations",
       "agencyCode": "ENV",
       "inspectionNum": "30707",
-      "inspectionDate": "2016-01-19T16:00:00.000Z",
+      "inspectionDate": "2016-10-19T15:00:00.000Z",
       "inspectorInitials": "SP",
       "inspectionSummary": "On October 19, 2016, Stewart Paterson, Environmental Protection Technician, conducted a desktop inspection of the Coal Mountain mine. The inspector reviewed the 2015 fourth-quarter report to determine compliance with the effluent discharge permit issued to the mine under the Environmental Management Act.",
       "recentFollowUp": "",
@@ -3667,7 +3688,7 @@ module.exports = {
       "inspectionSummary": "On November 3, 2016, Environmental Protection Officer Devan Oldfield conducted an inspection at Teck's Line Creek Operations to assess compliance with its authorization under the Environmental Management Act. The inspector was accompanied by Line Creek operations staff.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 46246",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7783687567d001d188d90/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -3675,7 +3696,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 46246",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7783687567d001d188d90/fetch"
         }
       ]
     },
@@ -4074,7 +4095,7 @@ module.exports = {
       "inspectionSummary": "From August 2–4, 2016, Neil Bailey, Senior Environmental Protection Officer, conducted an on-site inspection at the Red Chris mine. He was accompanied by two other MOE staff members and Red Chris Development Company representatives. The purpose of the inspection was to determine compliance with its Municipal Wastewater Regulation Registration under the Environmental Management Act.",
       "recentFollowUp": "",
       "documentName": "ENV Inspection Report 27154",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a7787c87567d001d188e04/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Environment",
       "actName": "Environmental Management Act",
@@ -4082,7 +4103,7 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "ENV Inspection Report 27154",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7783787567d001d188dcf/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58a7787c87567d001d188e04/fetch"
         }
       ]
     },
