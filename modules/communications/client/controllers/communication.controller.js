@@ -14,10 +14,7 @@ angular
 
 		$scope.emailTemplate = null;
 		$scope.recipients = angular.copy(self.communication.recipients);
-		$scope.adhocRecipient = undefined;
-		$scope.existingRecipients = [];
 		$scope.documents = angular.copy(self.communication.documents);
-		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 
 		self.downloadAddressList = function () {
 			var getBrowser = function() {
@@ -29,7 +26,7 @@ angular
 					}
 				}
 			};
-			CommunicationModel.prepareAddressCSV($scope.tableParams.data)
+			CommunicationModel.prepareAddressCSV($scope.recipients)
 				.then( function (data) {
 					var blob = new Blob([ data ], { type : 'octet/stream' });
 					var url = (window.URL || window.webkitURL).createObjectURL( blob );
@@ -193,45 +190,6 @@ angular
 			}
 		);
 
-		$scope.$watch(function(scope) { return scope.existingRecipients; },
-			function(data) {
-				if (data && data.length > 0) {
-					//
-					_.forEach(data, function(user) {
-						var item =  _.find($scope.recipients, function(o) { return o._id === user._id; });
-						if (!item) {
-							if (_.startsWith(user.email, "none@specified.com") || _.isEmpty(user.email)) {
-								user.viaEmail = false;
-								user.email = '';
-							}
-							user.org = user.orgName;
-							user.userId = user._id;
-							$scope.recipients.push(user);
-						}
-					});
-
-					$scope.adhocRecipient = undefined;
-					$scope.existingRecipients = [];
-
-					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
-				}
-			}
-		);
-		$scope.$watch(function(scope) { return scope.adhocRecipient; },
-			function(data) {
-				if (data && data.email !== undefined) {
-					// need to add to the recipients list....
-					var item =  _.find($scope.recipients, function(o) { return o.email === data.email; });
-					if (!item) {
-						$scope.recipients.push({displayName: data.name, email: data.email, viaEmail: true, viaMail: false, userId: undefined, org: undefined});
-					}
-					$scope.adhocRecipient = undefined;
-					$scope.existingRecipients = [];
-					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
-				}
-			}
-		);
-
 		$scope.removeDocument = function(id) {
 			var item =  _.find($scope.documents, function(o) { return o._id === id; });
 			if (item) {
@@ -251,14 +209,6 @@ angular
 						$scope.documents.push(d);
 					}
 				});
-			}
-		};
-
-		$scope.removeRecipient = function(email) {
-			var item =  _.find($scope.recipients, function(o) { return o.email === email; });
-			if (item) {
-				_.remove($scope.recipients, function(o) { return o.email === email; });
-				$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
 			}
 		};
 
@@ -438,6 +388,11 @@ angular
 		$scope.cancel = function() {
 			goToList();
 		};
+
+		$scope.hasMailRecipients = function() {
+			return _.some($scope.recipients, 'viaMail', true);
+		};
+
 
 	}]);
 
