@@ -1,5 +1,8 @@
 
-$ff-metric-bg: #002663;
+$ff-metric-bg-1: #002663;
+$ff-metric-bg-2: #f7f7f7;
+$ff-metric-color-1: #FFF;
+$ff-metric-color-2: #494949;
 
 .fast-facts {
     h4 {
@@ -91,8 +94,8 @@ $ff-metric-bg: #002663;
     padding-left: 0.25rem;
     width: 4.75rem;
     height: 4.5rem;
-    background: $ff-metric-bg;
-    color: #FFF;
+    background: $ff-metric-bg-1;
+    color: $ff-metric-color-1;
     font-family: "Arial Black", "Arial Bold", Gadget, sans-serif;
     font-size: 1rem;
     font-weight: 600;
@@ -111,7 +114,8 @@ $ff-metric-bg: #002663;
     font-size: 0.75rem;
     font-style: italic;
     line-height: 1rem;
-    background-color: #f7f7f7;
+    background-color: $ff-metric-bg-2;
+    color: $ff-metric-color-2;
 }
 
 @media (min-width: 1200px) {
