@@ -273,7 +273,7 @@ module.exports = DBModel.extend({
 
 		var getUserSystemRoles = function (username, systemRoles) {
 			return new Promise(function (fulfill, reject) {
-				Role.find({ user: username, context: {$ne: 'application'}, role: {$in: systemRoles} })
+				Role.find({ user: username, context: 'application' })
 					.select ({context: 1, role: 1})
 					.sort('role')
 					.exec(function (error, data) {
