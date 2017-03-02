@@ -137,6 +137,7 @@ angular.module('documents')
 						if (_.isEmpty(f.displayName)) {
 							f.displayName = f.documentFileName || f.internalOriginalName;
 						}
+						f.order = f.order || 0;
 
 						if (self.sorting.column === 'name') {
 							return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
@@ -164,6 +165,7 @@ angular.module('documents')
 						if (_.isEmpty(d.model.name)) {
 							return null;
 						}
+						d.model.order = d.model.order || 0;
 						return d.model.name.toLowerCase();
 					}).sortBy(function (d) {
 						return d.model.order;
