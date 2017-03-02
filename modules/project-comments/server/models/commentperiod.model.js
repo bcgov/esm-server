@@ -8,6 +8,10 @@ var _                   = require ('lodash');
 var STATES = ['','Invalid', 'Unpublished',  'Completed', 'Pending','Open'];
 
 var newStatics = {};
+
+/*
+For a project's list of PCP determine the highest ranking OpenState.
+ */
 newStatics.MaxOpenState = function (pcpList) {
 	var max = 0;
 	_.each(pcpList, function (period) {
@@ -17,15 +21,17 @@ newStatics.MaxOpenState = function (pcpList) {
 	return STATES[max];
 };
 
+/*
+For a given instance of CommentPeriod provide the calculated OpenState property
+ */
 function calculateOpenState() {
 	var model = this;
-	var k = 0;
-	var EMPTY = k++;
-	var INV = k++;
-	var UNP = k++;
-	var PEND = k++;
-	var COMP = k++;
-	var OPEN=k++;
+	var EMPTY = 0;
+	var INV = STATES.indexOf('Invalid');
+	var UNP = STATES.indexOf('Unpublished');
+	var COMP = STATES.indexOf('Completed');
+	var PEND = STATES.indexOf('Pending');
+	var OPEN = STATES.indexOf('Open');
 	var rank = EMPTY;
 	if (model.isPublished) {
 		var today = new Date();
@@ -146,12 +152,5 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	statics__               : newStatics
 });
 
-
-	process.on('unhandledRejection', function (error, promise) {
-		console.error("UNHANDLED REJECTION", error, error.stack);
-	});
-	process.on('uncaughtException', function(error){
-		console.error("UNCAUGHT EXCEPTION", error, error.stack);
-});
 
 

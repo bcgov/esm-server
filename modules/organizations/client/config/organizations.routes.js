@@ -249,6 +249,9 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
 				$scope.enableSignature = false;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = false;
+				$scope.showUsername = false;
 				//$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;
@@ -291,7 +294,10 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				$scope.enableDelete = true;
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
-				$scope.enableSignature = false;
+				$scope.enableSignature = true;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = true;
+				$scope.showUsername = true;
 				//$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;
@@ -336,7 +342,10 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				$scope.enableDelete = false;
 				$scope.enableSave = false;
 				$scope.enableEdit = true;
-				$scope.enableSignature = false;
+				$scope.enableSignature = true;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = true;
+				$scope.showUsername = true;
 				//$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;
