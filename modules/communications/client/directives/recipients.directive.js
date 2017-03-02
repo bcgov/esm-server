@@ -12,8 +12,7 @@ angular.module('communications')
 				enableAddExisting: '=',
 				enableCc: '=',
 				enableBcc: '=',
-				showMail: '=',
-				showTypeCol: '='
+				showMail: '='
 			},
 			templateUrl: 'modules/communications/client/views/recipients-manager.html',
 			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, AlertService, ConfirmService, CodeLists, ProjectModel, CommunicationModel, UserModel) {
@@ -83,7 +82,11 @@ angular.module('communications')
 					$scope.existingBcc = [];
 
 					// reset the table with ALL the recipients...
-					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
+					//$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
+					$scope.tableParamsTo = new NgTableParams ({count:10}, {dataset: $scope.recipientsTo});
+					$scope.tableParamsCc = new NgTableParams ({count:10}, {dataset: $scope.recipientsCc});
+					$scope.tableParamsBcc = new NgTableParams ({count:10}, {dataset: $scope.recipientsBcc});
+					$scope.tableParamsMail = new NgTableParams ({count:10}, {dataset: $scope.recipientsMail});
 				};
 
 				var addExisting = function(data, type) {
