@@ -14,12 +14,11 @@
 			<a href="#contactSignature" aria-controls="projects" role="tab" data-toggle="tab" name="signatureForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Signature</a>
 		</li>
 		<li ng-hide="mode === 'add'" role="presentation" class="form-group" x-show-errors>
-			<a href="#contactProjects" aria-controls="projects" role="tab" data-toggle="tab" name="projectsForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Projects</a>
+			<a href="#contactProjects" aria-controls="projects" role="tab" data-toggle="tab" name="projectsForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Roles &amp; Groups</a>
 		</li>
 	</ul>
 
 	<div class="tab-content">
-		<!-- DETAILS TAB CONTENT -->
 		<div class="tab-pane active" id="contactDetails" role="tabpanel" ng-form="detailsForm">
 			<fieldset>
 				<div class="row">
@@ -235,109 +234,53 @@
 			</fieldset>
 		</div>
 
+		<!-- User Roles & Groups Tab -->
 		<div class="tab-pane" id="contactProjects" role="tabpanel" ng-form="projectsForm">
-			<div class="view-body-container project-schedule-view">
 
-				<div class="panel-group" id="contactProjectList" role="tablist" aria-multiselectable="true">
-
-					<div class="panel panel-default accordion" id="systemRolesGroup" ng-show="groupsAndRoles.systemRoles.length > 0">
-						<div class="panel-heading flex-row" role="tab" ng-show="groupsAndRoles.systemRoles.length > 0">
-							<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#systemRoles" aria-expanded="false" aria-controls="systemRoles">
-								<span class="pull-left">
-									<span class="glyphicon glyphicon-triangle-right pull-left"></span>
-									<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
-									<span>System Roles</span>
-								</span>
-								<span class="pull-right">
-									<span>Roles ({{groupsAndRoles.systemRoles.length}})</span>
-									<span>&nbsp;</span>
-									<span>Groups (0)</span>
-								</span>
-							</a>
-						</div>
-						<div id="systemRoles" class="panel-collapse collapse" role="tabpanel" aria-labelledby="systemRoles" aria-expanded="false" >
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-8 col-lg-4 detail-row">
-										<label>Roles</label>
-										<ul>
-											<li ng-repeat="role in groupsAndRoles.systemRoles">{{role}}</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
+			<!-- User Entry Permisions -->
+			<div class="user-entry-permissions">
+				<section>
+					<h2>System Roles</h2>
+					<div class="section-body">
+						<section>
+							<h3><span class="label label-default" ng-class="{'label-primary': groupsAndRoles.systemRoles.length > 0}">{{groupsAndRoles.systemRoles.length}}</span> Roles</h3>
+							<ul ng-if="groupsAndRoles.systemRoles.length > 0">
+								<li ng-repeat="role in groupsAndRoles.systemRoles">{{role}}</li>
+							</ul>
+						</section>
 					</div>
-
-					<div class="panel panel-default accordion" id="globalProjectRolesGroup" ng-show="groupsAndRoles.globalProjectRoles.length > 0">
-						<div class="panel-heading flex-row" role="tab">
-							<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#globalProjectRoles" aria-expanded="false" aria-controls="globalProjectRoles">
-								<span class="pull-left">
-									<span class="glyphicon glyphicon-triangle-right pull-left"></span>
-									<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
-									<span>Global Project Roles</span>
-								</span>
-								<span class="pull-right">
-									<span>Roles ({{groupsAndRoles.globalProjectRoles.length}})</span>
-									<span>&nbsp;</span>
-									<span>Groups (0)</span>
-								</span>
-							</a>
-						</div>
-						<div id="globalProjectRoles" class="panel-collapse collapse" role="tabpanel" aria-labelledby="globalProjectRoles" aria-expanded="false">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-8 col-lg-4 detail-row">
-										<label>Roles</label>
-										<ul>
-											<li ng-repeat="role in groupsAndRoles.globalProjectRoles">{{role}}</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
+				</section>
+				<section>
+					<h2>Global Project Roles</h2>
+					<div class="section-body">
+						<section>
+							<h3><span class="label label-default" ng-class="{'label-primary': groupsAndRoles.globalProjectRoles.length > 0}">{{groupsAndRoles.globalProjectRoles.length}}</span> Roles</h3>
+							<ul ng-show="groupsAndRoles.globalProjectRoles.length > 0">
+								<li ng-repeat="role in groupsAndRoles.globalProjectRoles">{{role}}</li>
+							</ul>
+						</section>
 					</div>
-
-					<!-- BEGIN: Contact Project List CONTAINER -->
-					<div class="panel panel-default accordion" id="projectGroup" ng-repeat="project in groupsAndRoles.projects">
-						<div class="panel-heading flex-row" role="tab">
-							<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#{{project.code}}" aria-expanded="false" aria-controls="{{project.code}}">
-								<span class="pull-left">
-									<span class="glyphicon glyphicon-triangle-right pull-left"></span>
-									<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
-									<span>{{project.name}}</span>
-								</span>
-								<span class="pull-right">
-									<span>Roles ({{project.roles.length}})</span>
-									<span>&nbsp;</span>
-									<span>Groups ({{project.groups.length}})</span>
-								</span>
-							</a>
-						</div>
-						<div id="{{project.code}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="{{project.code}}" aria-expanded="false">
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-sm-8 col-lg-4 detail-row">
-										<label>Roles</label>
-										<ul>
-											<li ng-repeat="role in project.roles">{{role.role}}</li>
-										</ul>
-									</div>
-									<div class="col-sm-8 col-lg-4 detail-row">
-										<label>Groups</label>
-										<ul>
-											<li ng-repeat="group in project.groups">{{group.name}}</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</div>
+				</section>
+				<section ng-repeat="project in groupsAndRoles.projects">
+					<h2>{{project.name}}</h2>
+					<div class="section-body">
+						<section>
+							<h3><span class="label label-default" ng-class="{'label-primary': project.roles.length > 0}">{{project.roles.length}}</span> Roles</h3>
+							<ul ng-if="project.roles.length > 0">
+								<li ng-repeat="role in project.roles">{{role.role}}</li>
+							</ul>
+						</section>
+						<section>
+							<h3><span class="label label-default" ng-class="{'label-primary': project.groups.length > 0}">{{project.groups.length}}</span> Groups</h3>
+							<ul ng-if="projects.groups.length > 0">
+								<li ng-repeat="group in project.groups">{{group.name}}</li>
+							</ul>
+						</section>
 					</div>
-					<!-- END: PROJECT PHASE CONTAINER -->
-				</div>
-			</div>
+				</section>
+			</div><!-- / User Entry Permisions -->
 
-		</div>
+		</div><!-- / User Roles & Groups Tab -->
 
 	</div>
 </div>
