@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Inspections",
-  "date": "2017-03-01T19:40:03.822Z",
+  "date": "2017-03-02T18:11:26.166Z",
   "data": [
     {
       "projectName": "Mount Milligan",
@@ -3683,7 +3683,7 @@ module.exports = {
       "projectName": "Line Creek Operations",
       "agencyCode": "ENV",
       "inspectionNum": "46246",
-      "inspectionDate": "2016-12-19T16:00:00.000Z",
+      "inspectionDate": "2016-11-03T15:00:00.000Z",
       "inspectorInitials": "DO",
       "inspectionSummary": "On November 3, 2016, Environmental Protection Officer Devan Oldfield conducted an inspection at Teck's Line Creek Operations to assess compliance with its authorization under the Environmental Management Act. The inspector was accompanied by Line Creek operations staff.",
       "recentFollowUp": "",
