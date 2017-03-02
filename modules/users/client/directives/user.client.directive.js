@@ -17,10 +17,13 @@ function directiveUserEntry(_) {
 		scope: {
 			readonly: '=',
 			mode: '=',
+			enableNotes: '=',
 			enableSignature: '=',
 			enableDelete: '=',
 			enableSave: '=',
 			enableEdit: '=',
+			showDisplayName: '=',
+			showUsername: '=',
 			org: '=',
 			user: '=',
 			groupsAndRoles: '=',
@@ -31,7 +34,6 @@ function directiveUserEntry(_) {
 			$scope.CodeLists = CodeLists;
 			$scope.salutations = $scope.readonly === true ? CodeLists.salutations.all : CodeLists.salutations.active;
 			$scope.internalControl = $scope.control || {};
-
 
 			var which = $scope.mode;
 
@@ -63,6 +65,10 @@ function directiveUserEntry(_) {
 
 			$scope.internalControl.clearOrganization = function () {
 				$scope.user.org = null;
+			};
+
+			$scope.internalControl.clearSignature = function () {
+				$scope.user.signature = null;
 			};
 
 			$scope.setPreferredContactMethod = function(value) {
@@ -253,7 +259,10 @@ function directiveEditMyProfile($modal, _) {
 						$scope.enableDelete = false;
 						$scope.enableSave = true;
 						$scope.enableEdit = false;
-						$scope.enableSignature = true;
+						$scope.enableSignature = false;
+						$scope.enableNotes = false;
+						$scope.showDisplayName = false;
+						$scope.showUsername = false;
 						//$scope.srefReturn = undefined;
 
 						var userEditControl = this;

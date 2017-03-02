@@ -57,6 +57,9 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
 				$scope.enableSignature = false;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = false;
+				$scope.showUsername = false;
 				$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;
@@ -96,7 +99,10 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				$scope.enableDelete = true;
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
-				$scope.enableSignature = false;
+				$scope.enableSignature = true;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = true;
+				$scope.showUsername = true;
 				$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;
@@ -131,12 +137,15 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 			controller: function ($scope, $state, $filter, $modal, Authentication, user, groupsAndRoles) {
 				$scope.user = user;
 				$scope.groupsAndRoles = groupsAndRoles;
-				$scope.mode = 'edit';
+				$scope.mode = 'view';
 				$scope.readonly = true;
 				$scope.enableDelete = false;
 				$scope.enableSave = false;
 				$scope.enableEdit = true;
-				$scope.enableSignature = false;
+				$scope.enableSignature = true;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = true;
+				$scope.showUsername = true;
 				$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;

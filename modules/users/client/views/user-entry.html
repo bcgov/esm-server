@@ -7,7 +7,7 @@
 		<li role="presentation" class="form-group" x-show-errors>
 			<a href="#contactOrg" aria-controls="home" role="tab" data-toggle="tab" name="orgForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Organization</a>
 		</li>
-		<li role="presentation" class="form-group" x-show-errors>
+		<li ng-show="enableNotes"role="presentation" class="form-group" x-show-errors>
 			<a href="#contactNotes" aria-controls="home" role="tab" data-toggle="tab" name="notesForm"><span class="glyphicon glyphicon-exclamation-sign"></span>Notes</a>
 		</li>
 		<li ng-show="enableSignature" role="presentation" class="form-group" x-show-errors>
@@ -53,14 +53,14 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-6 col-md-3">
-						<div class="form-group">
+						<div ng-show="showDisplayName" class="form-group">
 							<label class="control-label" for="displayName">Displayed Name</label>
 							<p ng-show="readonly" class="form-control-static">{{ user.displayName }}</p>
 							<input class="form-control" id="displayName" disabled=true type="text" ng-model="user.displayName" ng-hide="readonly">
 						</div>
 					</div>
-					<div class="col-sm-6 col-md-3" ng-show="mode === 'edit'">
-						<div class="form-group">
+					<div class="col-sm-6 col-md-3">
+						<div ng-show="showUsername" class="form-group">
 							<label class="control-label">Username</label>
 							<p class="form-control-static">{{ user.username }}</p>
 						</div>
@@ -227,9 +227,12 @@
 					<div class="signature-preview form-control">
 						<img ng-if="user.signature" src="{{internalControl.signatureHREF}}" id="sig" name="sig"/>
 					</div>
-					<a class="btn btn-default btn-sm" ng-hide="readonly" x-modal-set-signature>
-						<span class="glyphicon glyphicon-open"></span><span>Upload Signature</span>
-					</a>
+					<div>
+						<button ng-hide="readonly" class="btn btn-default btn-sm" type="button" x-modal-set-signature>
+							<span class="glyphicon glyphicon-open"></span><span>Upload Signature</span>
+						</button>
+						<button ng-hide="readonly" class="btn btn-default btn-sm" type="button" onclick="internalControl.clearSignature()" ng-click="internalControl.clearSignature()">Clear Signature</button>
+					</div>
 				</div>
 			</fieldset>
 		</div>
