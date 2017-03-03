@@ -482,7 +482,7 @@ module.exports = DBModel.extend ({
 			var f = new FolderClass (self.opts);
 			return f.list({project: projectId})
 			.then(function (foldersViewable) {
-				// console.log("Folders viewable:", foldersViewable);
+				console.log("Folders viewable:", foldersViewable);
 				folders = foldersViewable;
 				return self.findById(projectId);
 			})
@@ -497,15 +497,15 @@ module.exports = DBModel.extend ({
 				    return true;
 				    // return node.model.published !== true;
 				}).forEach( function (n) {
-					// console.log("n:", n.model.id);
+					console.log("n:", n.model.id);
 					var found = folders.find(function (el) {
 						// console.log("el:", el.directoryID);
 						return el.directoryID === parseInt(n.model.id);
 					});
 					// Make sure we could have read that folder, otherwise consider it dropped.
-					// console.log("FOUND:", found);
+					console.log("FOUND:", found);
 					if (!found) {
-						// console.log("dropping node:", n);
+						console.log("dropping node:", n);
 						n.drop();
 					}
 				});
