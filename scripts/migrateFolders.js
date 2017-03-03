@@ -11,13 +11,14 @@ var host                    = "";
 console.log("Starting migration.");
 
 var args = process.argv.slice(2);
-if (args.length !== 3) {
+if (args.length !== 4) {
     console.log("Using default localhost connection:", defaultConnectionString);
 } else {
     username = args[0];
     password = args[1];
     host = args[2];
-    defaultConnectionString = "mongodb://" + username + ":" + password + "@" + host + ":27017/mean-dev";
+    db = args[3];
+    defaultConnectionString = "mongodb://" + username + ":" + password + "@" + host + ":27017/" + db;
 }
 
 MongoClient.connect(defaultConnectionString, function (err, db) {
