@@ -105,5 +105,15 @@ $milestone-panel-heading-bg: #EEE;
             padding: 0.7rem;
         }
     }
+
+    .milestone-table {
+        td {
+            vertical-align: top;
+
+            &.actions-col {
+                padding-top: 0.4rem;
+            }
+        }
+    }
 }
 
