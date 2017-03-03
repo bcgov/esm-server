@@ -25,6 +25,7 @@ angular
 
 		$scope.members = angular.copy(self.group.members) || [];
 		$scope.existingRecipients = [];
+		$scope.members = _.sortByOrder($scope.members, ['lastName', 'firstName']);
 		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.members});
 
 		var populateGroup = function() {
@@ -121,6 +122,7 @@ angular
 						}
 					});
 					$scope.existingRecipients = [];
+					$scope.members = _.sortByOrder($scope.members, ['lastName', 'firstName']);
 					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.members});
 				}
 			}
@@ -130,6 +132,7 @@ angular
 			var item =  _.find($scope.members, function(o) { return o.email === email; });
 			if (item) {
 				_.remove($scope.members, function(o) { return o.email === email; });
+				$scope.members = _.sortByOrder($scope.members, ['lastName', 'firstName']);
 				$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.members});
 			}
 		};
