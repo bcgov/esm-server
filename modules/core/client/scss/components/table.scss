@@ -79,10 +79,6 @@ $table-pagination-bg: #fff;
         tbody {
             tr {
                 border-bottom: $table-row-border;
-
-                &:hover {
-                    background-color: $table-row-hover-bg;
-                }
             }
         }
 
@@ -106,6 +102,21 @@ $table-pagination-bg: #fff;
         }
     }
 
+    table.table-hover {
+        tr {
+            cursor: pointer;
+
+            &:hover {
+                background-color: $table-row-hover-bg;
+            }
+
+            &.no-records:hover {
+                cursor: default;
+                background-color: $table-bg;   
+            }
+        }
+    }
+
     .no-records {
         padding: 1.5rem;
         border-bottom: $table-row-border;
@@ -118,7 +129,6 @@ $table-pagination-bg: #fff;
     text-align: right;
 
     .btn-group {
-        display: none;
         margin-top: 0.8rem;
     }
 
@@ -131,8 +141,8 @@ $table-pagination-bg: #fff;
     }
 
     .dropdown-menu {
-        top: -3px;
-        right: -1px;
+        top: -0.5rem;
+        right: -2px;
         min-width: 0;
         padding: 0.2rem;
         white-space: nowrap;
@@ -151,6 +161,12 @@ $table-pagination-bg: #fff;
     .table-container {
         tbody {
             tr {
+                .table-row-actions {
+                    .btn-group {
+                        display: none;
+                    }
+                }
+
                 &:hover {
                     .table-row-actions {
                         .btn-group {
@@ -159,12 +175,6 @@ $table-pagination-bg: #fff;
                     }
                 }
             }
-        }
-    }
-    
-    .table-row-actions {
-        .btn-group {
-            display: none;
         }
     }
 }
