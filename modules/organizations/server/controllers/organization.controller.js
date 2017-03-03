@@ -11,6 +11,7 @@ var _                   = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'Organization',
 	plural : 'organizations',
+	sort: 'name',
 	preprocessAdd: function (org) {
 		if (!org.name && !org.company) {
 			org.name = org.company = 'No Name';

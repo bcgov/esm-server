@@ -19,7 +19,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
         template: '<ui-view></ui-view>',
         resolve: {
             orgs: function ($stateParams, OrganizationModel) {
-                return OrganizationModel.getCollection ();
+                return OrganizationModel.getSorted ("name");
             }
         }
     })
