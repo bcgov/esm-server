@@ -20,13 +20,12 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 		templateUrl: 'modules/users/client/views/admin/user-list.html',
 		resolve: {
 			users: function(UserModel) {
-				return UserModel.getCollection();
+				return UserModel.getSorted('lastName firstName');
 			}
 		},
 		controller: function ($scope, _, NgTableParams, users) {
-			var sorted = _.sortByOrder(users, ['lastName', 'firstName']);
-			$scope.$data = sorted;
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: sorted});
+			$scope.$data = users;
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -44,7 +43,7 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 					return UserModel.getNew ();
 				},
 				orgs: function(OrganizationModel) {
-					return OrganizationModel.getCollection();
+					return OrganizationModel.getSorted('name');
 				}
 			},
 			controllerAs: 'userEditControl',

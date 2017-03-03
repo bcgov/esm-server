@@ -32,7 +32,7 @@ angular.module('emailtemplate').config(['$stateProvider', function ($stateProvid
 		templateUrl: 'modules/email-templates/client/views/email-template-list.html',
 		resolve: {
 			emailtemplate: function ($stateParams, EmailTemplateModel) {
-				return EmailTemplateModel.getCollection();
+				return EmailTemplateModel.getSorted("group name");
 			}
 		},
 		controller: function ($scope, $state, AlertService, NgTableParams, emailtemplate, EmailTemplateModel, CodeLists) {

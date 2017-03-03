@@ -12,5 +12,6 @@ var Model       = mongoose.model ('EmailTemplate');
 
 module.exports = DBModel.extend ({
 	name : 'EmailTemplate',
-	plural : 'emailtemplates'
+	plural : 'emailtemplates',
+	sort: 'group name'
 });

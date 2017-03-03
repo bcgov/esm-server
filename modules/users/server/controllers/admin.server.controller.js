@@ -14,6 +14,7 @@ module.exports = DBModel.extend ({
 	name : 'User',
 	plural : 'users',
 	populate: 'org',
+	sort: 'lastName firstName',
 
 	guaranteeUniqueUsername : function (code) {
 		var self = this;
