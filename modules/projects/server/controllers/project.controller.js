@@ -511,6 +511,10 @@ module.exports = DBModel.extend ({
 				});
 
 				resolve(root.model);
+			})
+			.catch(function (err) {
+				console.log("Err:", err);
+				resolve({id: 1, name: 'ROOT', lastId: 1, published: true});
 			});
 		});
 	},
