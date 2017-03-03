@@ -395,10 +395,21 @@ angular.module('documents')
 							$scope.$broadcast('documentMgrRefreshNode', {directoryStructure: result.data});
 							self.busy = false;
 							AlertService.success('The selected folder was deleted.');
-						}, function(error) {
-							$log.error('DocumentMgrService.removeDirectory error: ', JSON.stringify(error));
+						}, function(docs) {
+							var msg = "";
+							var theDocs = [];
+							if (docs.data.message && docs.data.message[0] && docs.data.message[0].documentFileName) {
+								_.each(docs.data.message, function (d) {
+									theDocs.push(d.documentFileName);
+								});
+								msg = 'This action cannot be completed as the following documents are in the folder: ' + theDocs + '.';
+							} else {
+								msg = "Could not delete folder, there are still files in the folder.";
+							}
+
+							$log.error('DocumentMgrService.removeDirectory error: ', msg);
 							self.busy = false;
-							AlertService.error('The selected folder could not be deleted.');
+							AlertService.error(msg);
 						});
 				};
 
