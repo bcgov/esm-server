@@ -204,7 +204,7 @@ var seedingAsync = function() {
 		require('../seed-data/application')();
 	});
 
-	checkIntegration('folders-20170216.12').then(function () {
+	checkIntegration('folders-20170216.21').then(function () {
 		require('../seed-data/folders')();
 	});
 	checkIntegration('codelists-2017023.2').then(function () {
@@ -219,7 +219,7 @@ var seedingAsync = function() {
 //
 // =========================================================================
 
-checkIntegration ('defaults13')
+checkIntegration ('defaults14')
 	.then(function(){
 		require('../seed-data/defaults')()
 			.then(seedingAsync);

@@ -30,8 +30,8 @@ Write access to this repository
 
 EPIC has been built using MongoDB, Express, AngularJS and NodeJS.  See http://mean.io/ for more information on the project's development stack. Basic globally install requirements for Win32, OSX, or Linux are as follows:
 
-* node@ >= 0.10.40
-* npm@ >=- 2.14.13
+* node@ >= 4.4.2
+* npm@ >=- 2.15.1
 * mongodb-server@ >= 2.6.x
 * grunt@ >= 0.4.5
 * git
