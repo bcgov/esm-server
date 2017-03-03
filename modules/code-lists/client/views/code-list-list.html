@@ -3,7 +3,7 @@
 	<h1>Manage Fields</h1>
 	<div class="actions" ng-if="application.userCan.manageCodeLists">
 		<select class="form-control"
-						ng-change="vm.changeFieldType(obj)"
+						ng-change="vm.changeFieldType()"
 						ng-model="vm.currentField"
 						ng-options="t.displayName for t in vm.codelists"
 						ng-selected="t.name === vm.currentField.name">
@@ -11,32 +11,31 @@
 	</div>
 </div>
 
-
 <div class="view-body-container" ng-if="application.userCan.manageCodeLists">
 	<div class="button-bar clearfix">
-		<a class="btn btn-default btn-sm pull-left" ui-sref="admin.codelist.create()">
-			<span class="glyphicon glyphicon-plus"></span>
-			<span>Add {{vm.currentField.displayName}}</span>
-		</a>
-		<div class="pull-right">
-			<show-filter x-toggle-filter="toggleFilter"></show-filter>
-		</div>
+		<button	class="btn btn-default btn-sm ng-scope"
+						ng-click="vm.openAddEdit();$event.stopPropagation();">
+			<span class="glyphicon glyphicon-plus"></span><span>Add {{vm.currentField.displayName}}</span>
+		</button>
 	</div>
 
 	<section class="panel panel-default">
-		<table ng-table="vm.tableParams" x-show-filter="toggleFilter" class="table table-hover table-striped">
+		<table ng-table="vm.tableParams" class="table table-hover table-striped">
 			<tr ng-repeat="o in $data" ui-sref="admin.codelist.detail({value:o.value})" class="clickable">
-				<td data-title="'Name'"   sortable="'display'" >{{o.display}}</td>
-				<td data-title="'Order'"  sortable="'displayPriority'"  >
-					<span  ng-if="o.displayPriority" class="glyphicon glyphicon-ok"></span>
+				<td data-title="'Name'"
+						sortable="'display'">{{o.display}}</td>
+				<td data-title="'Sort Priority'"
+						sortable="'displayPriority'">
+					<span  ng-if="o.displayPriority" class="glyphicon glyphicon-arrow-up"></span>
 				</td>
-				<td data-title="'Active'"  sortable="'active'"   >
+				<td data-title="'Active'"
+						sortable="'active'">
 					<span  ng-if="o.active" class="glyphicon glyphicon-ok"></span>
 				</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-					<a class="btn btn-link btn-sm" title="Edit" ng-click="$event.stopPropagation()" ui-sref="admin.codelist.edit({value:o.value})">
+					<button	class="btn btn-sm" ng-click="vm.openAddEdit(o);$event.stopPropagation();">
 						<span class="glyphicon glyphicon-pencil"></span>
-					</a>
+					</button>
 				</td>
 			</tr>
 		</table>
