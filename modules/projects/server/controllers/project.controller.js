@@ -499,7 +499,7 @@ module.exports = DBModel.extend ({
 				}).forEach( function (n) {
 					console.log("n:", n.model.id);
 					var found = folders.find(function (el) {
-						// console.log("el:", el.directoryID);
+						console.log("el:", el.directoryID);
 						return el.directoryID === parseInt(n.model.id);
 					});
 					// Make sure we could have read that folder, otherwise consider it dropped.
