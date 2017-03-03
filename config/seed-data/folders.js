@@ -38,30 +38,32 @@ module.exports = function () {
 							console.log("Node does not have published property:", node.model.id);
 						}
 
-						var parentNodeID = 1;
-						var thePath = node.getPath();
-						if (thePath.length > 1) {
-							parentNodeID = thePath[thePath.length-2].model.id;
-						}
+						// TODO: This needs to run separately on the host as it is a long running
+						// process for large datasets.
+						// var parentNodeID = 1;
+						// var thePath = node.getPath();
+						// if (thePath.length > 1) {
+						// 	parentNodeID = thePath[thePath.length-2].model.id;
+						// }
 
-						Folder.create({
-							read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-							write : ['assessment-admin', 'project-system-admin'],
-							delete : ['assessment-admin', 'project-system-admin'],
-							displayName: node.model.name,
-							directoryID: node.model.id,
-							parentID: parentNodeID,
-							project: p})
-						.then(function (f) {
-							console.log("created:", f._id);
-							if (node.model.published === true || node.model.published === undefined) {
-								f.publish();
-								f.save()
-								.then(function (s) {
-									console.log("saved:", s._id);
-								});
-							}
-						});
+						// Folder.create({
+						// 	read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+						// 	write : ['assessment-admin', 'project-system-admin'],
+						// 	delete : ['assessment-admin', 'project-system-admin'],
+						// 	displayName: node.model.name,
+						// 	directoryID: node.model.id,
+						// 	parentID: parentNodeID,
+						// 	project: p})
+						// .then(function (f) {
+						// 	console.log("created:", f._id);
+						// 	if (node.model.published === true || node.model.published === undefined) {
+						// 		f.publish();
+						// 		f.save()
+						// 		.then(function (s) {
+						// 			console.log("saved:", s._id);
+						// 		});
+						// 	}
+						// });
 
 						return (node.model.published === undefined);
 					});
