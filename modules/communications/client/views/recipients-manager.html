@@ -1,0 +1,207 @@
+
+<div class="recipient-manager">
+<section class="panel panel-default">
+	<div class="panel-heading">
+		<h2>TO ({{recipientsTo.length}})</h2>
+		<div class="actions">
+			<button ng-show="enableAddNew"
+				type="button"
+				x-add-new-recipient
+				x-project="project"
+				x-current="adhocTo"
+				class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-plus"></span><span>Add New</span></button>
+			<button ng-show="enableAddExisting"
+				type="button"
+				x-user-search-chooser
+				x-title="'Add Existing'"
+				x-project="project"
+				x-destination="existingTo"
+				class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
+		</div>
+	</div>
+	<div class="table-container" ng-show="enableAddNew">
+		<table class="table" ng-class="{'table-hover': mode === 'edit'}" ng-table="tableParamsTo" show-filter="true">
+			<tr ng-repeat="o in $data">
+				<td data-title="'Name'" filter="{'displayName':'text'}" sortable="'displayName'">{{o.displayName}}</td>
+				<td data-title="'Email'" filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
+				<td class="has-actions" data-title="'Organization'" filter="{'org':'text'}" sortable="'org'">{{o.org}}
+					<div class="btn-group">
+						<button class="btn icon-btn" ng-show="mode === 'edit'" type="button" ng-click="removeRecipient(o.email)">
+							<span class="glyphicon glyphicon-trash"></span>&nbsp;
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="3">No Recipients Found</td>
+			</tr>
+		</table>
+	</div>
+	<div class="table-container" ng-hide="enableAddNew">
+		<table class="table" ng-class="{'table-hover': mode === 'edit'}" ng-table="tableParamsTo" show-filter="true">
+			<tr ng-repeat="o in $data">
+				<td data-title="'Last Name'" filter="{'lastName':'text'}" sortable="'lastName'">{{o.lastName}}</td>
+				<td data-title="'First Name'" filter="{'firstName':'text'}" sortable="'firstName'">{{o.firstName}}</td>
+				<td data-title="'Email'" filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
+				<td class="has-actions" data-title="'Organization'" filter="{'org':'text'}" sortable="'org'">{{o.org}}
+					<div class="btn-group">
+						<button class="btn icon-btn" ng-show="mode === 'edit'" type="button" ng-click="removeRecipient(o.email)">
+							<span class="glyphicon glyphicon-trash"></span>&nbsp;
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="4">No Recipients Found</td>
+			</tr>
+		</table>
+	</div>
+</section>
+
+<section class="panel panel-default" ng-show="enableCc">
+	<div class="panel-heading">
+		<h2>CC ({{recipientsCc.length}})</h2>
+		<div class="actions">
+			<button ng-show="enableAddNew"
+				type="button"
+				x-add-new-recipient
+				x-project="project"
+				x-current="adhocCc"
+				class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-plus"></span><span>Add New</span></button>
+			<button ng-show="enableAddExisting"
+				type="button"
+				x-user-search-chooser
+				x-title="'Add Existing'"
+				x-project="project"
+				x-destination="existingCc"
+				class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
+		</div>
+	</div>
+	<div class="table-container" ng-show="enableAddNew">
+		<table class="table" ng-class="{'table-hover': mode === 'edit'}" ng-table="tableParamsCc" show-filter="true">
+			<tr ng-repeat="o in $data">
+				<td data-title="'Name'" filter="{'displayName':'text'}" sortable="'displayName'">{{o.displayName}}</td>
+				<td data-title="'Email'" filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
+				<td class="has-actions" data-title="'Organization'" filter="{'org':'text'}" sortable="'org'">{{o.org}}
+					<div class="btn-group">
+						<button class="btn icon-btn" ng-show="mode === 'edit'" type="button" ng-click="removeRecipient(o.email)">
+							<span class="glyphicon glyphicon-trash"></span>&nbsp;
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="3">No CC Recipients found</td>
+			</tr>
+		</table>
+	</div>
+	<div class="table-container" ng-hide="enableAddNew">
+		<table class="table" ng-class="{'table-hover': mode === 'edit'}" ng-table="tableParamsCc" show-filter="true">
+			<tr ng-repeat="o in $data">
+				<td data-title="'Last Name'" filter="{'lastName':'text'}" sortable="'lastName'">{{o.lastName}}</td>
+				<td data-title="'First Name'" filter="{'firstName':'text'}" sortable="'firstName'">{{o.firstName}}</td>
+				<td data-title="'Email'" filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
+				<td class="has-actions" data-title="'Organization'" filter="{'org':'text'}" sortable="'org'">{{o.org}}
+					<div class="btn-group">
+						<button class="btn icon-btn" ng-show="mode === 'edit'" type="button" ng-click="removeRecipient(o.email)">
+							<span class="glyphicon glyphicon-trash"></span>&nbsp;
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="4">No CC Recipients found</td>
+			</tr>
+		</table>
+	</div>
+</section>
+
+<section class="panel panel-default" ng-show="enableBcc">
+	<div class="panel-heading">
+		<h2>BCC ({{recipientsBcc.length}})</h2>
+		<div class="actions">
+			<button ng-show="enableAddNew"
+				type="button"
+				x-add-new-recipient
+				x-project="project"
+				x-current="adhocBcc"
+				class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-plus"></span><span>Add New</span></button>
+			<button ng-show="enableAddExisting"
+				type="button"
+				x-user-search-chooser
+				x-title="'Add Existing'"
+				x-project="project"
+				x-destination="existingBcc"
+				class="btn btn-default btn-sm">
+				<span class="glyphicon glyphicon-plus"></span><span>Add Existing</span></button>
+		</div>
+	</div>
+	<div class="table-container" ng-show="enableAddNew">
+		<table class="table" ng-class="{'table-hover': mode === 'edit'}" ng-table="tableParamsBcc" show-filter="true">
+			<tr ng-repeat="o in $data">
+				<td data-title="'Name'" filter="{'displayName':'text'}" sortable="'displayName'">{{o.displayName}}</td>
+				<td data-title="'Email'" filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
+				<td class="has-actions" data-title="'Organization'" filter="{'org':'text'}" sortable="'org'">{{o.org}}
+					<div class="btn-group">
+						<button class="btn icon-btn" ng-show="mode === 'edit'" type="button" ng-click="removeRecipient(o.email)">
+							<span class="glyphicon glyphicon-trash"></span>&nbsp;
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="3">No BCC Recipients found</td>
+			</tr>
+		</table>
+	</div>
+	<div class="table-container" ng-hide="enableAddNew">
+		<table class="table" ng-class="{'table-hover': mode === 'edit'}" ng-table="tableParamsBcc" show-filter="true">
+			<tr ng-repeat="o in $data">
+				<td data-title="'Last Name'" filter="{'lastName':'text'}" sortable="'lastName'">{{o.lastName}}</td>
+				<td data-title="'First Name'" filter="{'firstName':'text'}" sortable="'firstName'">{{o.firstName}}</td>
+				<td data-title="'Email'" filter="{'email':'text'}" sortable="'email'">{{o.email}}</td>
+				<td class="has-actions" data-title="'Organization'" filter="{'org':'text'}" sortable="'org'">{{o.org}}
+					<div class="btn-group">
+						<button class="btn icon-btn" ng-show="mode === 'edit'" type="button" ng-click="removeRecipient(o.email)">
+							<span class="glyphicon glyphicon-trash"></span>&nbsp;
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="4">No BCC Recipients found</td>
+			</tr>
+		</table>
+	</div>
+</section>
+
+<section class="panel panel-default" ng-show="showMail && recipientsMail.length > 0">
+	<div class="panel-heading">
+		<h2>Via Mail ({{recipientsMail.length}})</h2>
+	</div>
+	<div class="table-container">
+		<table class="table" ng-class="{'table-hover': mode === 'edit'}" ng-table="tableParamsMail" show-filter="true">
+			<tr ng-repeat="o in $data">
+				<td data-title="'Last Name'" filter="{'lastName':'text'}" sortable="'lastName'">{{o.lastName}}</td>
+				<td data-title="'First Name'" filter="{'firstName':'text'}" sortable="'firstName'">{{o.firstName}}</td>
+				<td class="has-actions" data-title="''">
+					<div class="btn-group">
+						<button class="btn icon-btn" ng-show="mode === 'edit'" type="button" ng-click="removeRecipient(o.email)">
+							<span class="glyphicon glyphicon-trash"></span>&nbsp;
+						</button>
+					</div>
+				</td>
+			</tr>
+			<tr class="no-records" ng-if="!$data || $data.length === 0">
+				<td colspan="3">No Mail Recipients found.</td>
+			</tr>
+		</table>
+	</div>
+</section>
+
+</div>

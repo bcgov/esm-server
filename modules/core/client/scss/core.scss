@@ -997,10 +997,6 @@ h3.activity-title {
 // MODALS...
 // -------------------------
 
-.table-modal {
-	margin-bottom: 0
-}
-
 .modal-header input.form-control {
 	background-color: rgba(255,255,255,0.3);
 	color: #fff;
@@ -1076,26 +1072,6 @@ h2.page-title {
 }
 .navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
 
-.doc-detail-col {
-	border-right: 1px solid $border-grey;
-	overflow: hidden;
-	padding-right: 0;
-}
-
-.doc-action-col {
-	text-align: center;
-	font-size: 2rem;
-	padding-top: 5px;
-	padding-left: 0;
-}
-
-.doc-action-col a {
-	display: block;
-	text-align: center;
-	overflow: hidden;
-	white-space: nowrap;
-}
-
 .well hr {
 	border-top: 1px solid $border-grey;
 	margin-top: 5px;
@@ -1153,39 +1129,6 @@ h2.page-title {
     	transform: scale(1) rotate(360deg);
     }
 }
-
-/*
-//-------------------
-// Schedule D3 Styles
-// -------------------
-*/
-
-.schedule-control-cell {
-	padding: 0 !important;
-	position: relative;
-}
-.svg-div-root {
-	position: absolute;
-	top:0;left:0;bottom:0;right:0;
-	overflow: hidden;
-}
-
-.svg-element{
-	position: relative;
-	width: 100%;
-}
-
-.svg-background{
-	fill: lightyellow;
-	fill-opacity: 0.3;
-}
-
-.projectToday-line {
-	stroke: darkorange;
-	stroke-width: .5;
-	fill: none;
-}
-
 
 /*
 // -------------------
@@ -2148,57 +2091,6 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 }
 
 
-/* ACCORDION CONTROL
------------------------------ */
-.panel-default.accordion > .panel-heading {
-	padding: 0;
-}
-
-.accordion {
-	.panel-heading {
-		a {
-			display: block;
-			padding: 1rem 1.5rem;
-			font-size: 1.6rem;
-			font-weight: bold;
-			color: $app-base-color;
-			
-			h2 {
-				margin-top: 1px;
-			}
-			
-			.glyphicon {
-				margin-top: 0.4rem;
-				margin-right: 1rem;
-				margin-left: -0.2rem;
-				font-size: 1.2rem;
-			}
-			
-			.glyphicon-triangle-right {
-				display: none;
-			}
-			
-			.glyphicon-triangle-bottom {
-				display: inline-block;
-			}
-
-			&:hover,
-			&:focus {
-				text-decoration: none;
-			}
-		}
-		
-		a.collapsed {
-			.glyphicon-triangle-right {
-				display: inline-block;
-			}
-			
-			.glyphicon-triangle-bottom {
-				display: none;
-			}
-		}
-	}
-}
 
 .breadcrumbs {
 	padding: 1.5rem 2.5rem;
@@ -3048,18 +2940,6 @@ form {
 		.actions {
 			-webkit-flex: 1 1 auto;
 			flex: 0 0 auto;
-
-			.btn {
-				margin-top: 0.6rem;
-				margin-right: 0.6rem;
-				margin-left: -0.25rem;
-
-				&:hover,
-				&:focus {
-					background: $btn-focus-bg-color;
-					border-color: $btn-focus-border-color;
-				}
-			}
 		}
 	}
 }
@@ -3198,7 +3078,7 @@ section {
 }
 
 .tab-pane {
-	padding-top: 2rem;
+	padding-top: 2.5rem;
 }
 
 
@@ -3231,73 +3111,6 @@ section {
 }
 
 .table {
-	margin: 0;
-	table-layout: fixed;
-	background: $table-bg;
-
-	thead {
-		> tr {
-			> th {
-				@extend .table-th;
-
-				&:first-child {
-					@extend .first-col;
-				}
-
-				&:last-child {
-					@extend .last-col;
-				}
-			}
-		}
-	}
-
-	tbody {
-		> tr {
-			> td {
-				@extend .table-td;
-
-				&:first-child {
-					@extend .first-col;
-				}
-
-				&:first-child.select {
-					padding-left: 4rem;
-				}
-
-				&:last-child {
-					@extend .last-col;
-				}
-			}
-		}
-	}
-
-	&.table-striped {
-		> tbody > tr:nth-of-type(odd) {
-			background-color: #f7f8fa;
-		}	
-	}
-
-	&.table-hover {
-		> tbody {
-			> tr {
-				&.active {
-					td {
-						color: #FFF;
-						background: $table-row-active-bg;
-					}
-				}
-			}
-		}
-
-		> tbody > tr:hover {
-			background-color: $table-row-hover-bg;
-		}
-
-		.no-records:hover {
-			background: none;
-		}
-	}
-	
 	td.actions-col {
 		padding-top: 0;
 		padding-right: 0.5rem;
@@ -4467,122 +4280,6 @@ section.project-info {
 }
 
 
-/* PROJECT SCHEDULE VIEW
------------------------------- */
-.project-schedule-view {	
-	td {
-		padding: 1rem;
-	}
-
-	.table {
-		table-layout: fixed;
-	}
-	
-	.phase-info {
-		margin-bottom: 1.5rem;
-
-		.date-label {
-			margin-bottom: 0.5rem;
-		}
-
-		.btn-primary {
-			width: 9rem;
-		}
-	}
-
-	.date-col {
-		width: 14rem;
-	}
-
-	.phase-dates {
-		.schedule-dates {
-			margin-right: 3rem;
-		}
-	}
-
-	.phase-action-col {
-		width: 10rem;
-		padding-right: 0;
-		text-align: left;
-
-		.label, .btn {
-			width: 100%;
-			height: 2.1rem;
-			font-weight: normal;
-		}
-	}
-
-	.schedule-dates {
-		font-size: 1.2rem;
-
-		label {
-			margin: 0;
-			min-width: 4rem;
-			display: inline-block;
-		}
-
-		span {
-			min-width: 7rem;
-			display: inline-block;
-			font-weight: normal;
-			text-align: right;
-		}
-	}
-
-	.status-col {
-		width: 10rem;
-
-		.label, .btn {
-			width: 100%;
-		}
-	}
-
-	.phase-milestones {
-		.panel-heading {
-			border-bottom: 1px solid #DDD;
-
-			h3 {
-				@include flex(1 1 auto);
-				margin: 0;
-				padding: 1.25rem 1rem;
-				font-size: 1.4rem;
-				font-weight: bold;
-			}
-
-			.actions {
-				@include flex(0 0 auto);
-
-				.btn {
-					margin-top: 0.45rem;
-					margin-right: 0.45rem;
-				}
-			}
-		}
-
-		.milestone-table {
-			th:first-child,
-			td:first-child {
-				padding-left: 1rem;
-			}
-		}
-	}
-}
-
-@media (min-width: 1200px) {
-	.project-schedule-view {
-		.date-col {
-			width: 18rem;
-		}
-	}
-}
-
-.panel-heading {
-	.collapse-control {
-		@include flex(1 1 auto);
-	}
-}
-
-
 /* PUBLIC HOMEPAGE VIEW
 ------------------------------ */
 .home-view {
@@ -5146,7 +4843,12 @@ tmpl-template-render {
 @import "modules/core/client/styles/components.scss";
 @import "modules/core/client/styles/spinner.scss";
 @import "modules/core/client/styles/tabs.scss";
+
+@import "modules/core/client/scss/components/accordion.scss";
+@import "modules/core/client/scss/components/panel.scss";
+@import "modules/core/client/scss/components/recipient-manager.scss";
 @import "modules/core/client/scss/components/table.scss";
+@import "modules/core/client/scss/components/ng-table-overrides.scss";
 
 /* GLOBAL */
 @import "modules/core/client/scss/global/footer.scss";
@@ -5154,4 +4856,8 @@ tmpl-template-render {
 @import "modules/documents/client/styles/pdf-viewer.scss";
 
 /* MODULES */
+@import "modules/communications/client/scss/communications.scss";
+@import "modules/invitations/client/scss/invitations.scss";
+@import "modules/projects/client/scss/project-schedule.scss";
 @import "modules/project-comments/client/scss/project-comments.scss";
+@import "modules/users/client/scss/user-entry.scss";

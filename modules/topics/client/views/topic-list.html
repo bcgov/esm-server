@@ -17,8 +17,8 @@
 	<section class="panel panel-default">
 		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-hover table-striped">
 			<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})" class="clickable">
-				<td data-title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" 		>{{o.pillar}}</td>
 				<td data-title="'Name'"    sortable="'name'"    filter="{'name':'text'}"                           		>{{o.name}}</td>
+				<td data-title="'Pillar'"  sortable="'pillar'"  filter="{'pillar':'select'}" filter-data="pillars" 		>{{o.pillar}}</td>
 				<td data-title="'Type'"    sortable="'type'"    filter="{'type':'select'}"   filter-data="getTypes()"   >{{o.type}}</td>
 				<td data-title="'Parent'"  sortable="'parent'"  filter="{'parent':'text'}"                         		>{{o.parent}}</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">

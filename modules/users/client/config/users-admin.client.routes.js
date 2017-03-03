@@ -20,13 +20,12 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 		templateUrl: 'modules/users/client/views/admin/user-list.html',
 		resolve: {
 			users: function(UserModel) {
-				return UserModel.getCollection();
+				return UserModel.getSorted('lastName firstName');
 			}
 		},
 		controller: function ($scope, _, NgTableParams, users) {
-			var sorted = _.sortByOrder(users, ['lastName', 'firstName']);
-			$scope.$data = sorted;
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: sorted});
+			$scope.$data = users;
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: users});
 		}
 	})
 	// -------------------------------------------------------------------------
@@ -44,7 +43,7 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 					return UserModel.getNew ();
 				},
 				orgs: function(OrganizationModel) {
-					return OrganizationModel.getCollection();
+					return OrganizationModel.getSorted('name');
 				}
 			},
 			controllerAs: 'userEditControl',
@@ -57,6 +56,9 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
 				$scope.enableSignature = false;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = false;
+				$scope.showUsername = false;
 				$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;
@@ -96,7 +98,10 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				$scope.enableDelete = true;
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
-				$scope.enableSignature = false;
+				$scope.enableSignature = true;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = true;
+				$scope.showUsername = true;
 				$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;
@@ -131,12 +136,15 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 			controller: function ($scope, $state, $filter, $modal, Authentication, user, groupsAndRoles) {
 				$scope.user = user;
 				$scope.groupsAndRoles = groupsAndRoles;
-				$scope.mode = 'edit';
+				$scope.mode = 'view';
 				$scope.readonly = true;
 				$scope.enableDelete = false;
 				$scope.enableSave = false;
 				$scope.enableEdit = true;
-				$scope.enableSignature = false;
+				$scope.enableSignature = true;
+				$scope.enableNotes = true;
+				$scope.showDisplayName = true;
+				$scope.showUsername = true;
 				$scope.srefReturn = 'admin.user.list';
 
 				var userEditControl = this;

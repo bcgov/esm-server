@@ -416,6 +416,17 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 		.get  (setAndRun (DBClass, function (model, req) {
 			return model.listwrite ();
 		}));
+	if (r.getall) app.route ('/api/sorted/'+basename)
+		.all (policy (policymap))
+		.put (setAndRun (DBClass, function (model, req) {
+			var sort = !_.isEmpty(req.body) ? req.body.sort : {};
+			return model.list ({}, "-directoryStructure", sort);
+		}))
+		.get  (setAndRun (DBClass, function (model, req) {
+			var s = JSON.parse(JSON.stringify(req.query));
+			var sort = s.sort || '';
+			return model.list ({}, "-directoryStructure", sort);
+		}));
 	if (r.post) app.route ('/api/'+basename)
 		.all (policy (policymap))
 		.post (setAndRun (DBClass, function (model, req) {

@@ -15,6 +15,7 @@ var CommentModel = mongoose.model('Comment');
 module.exports = DBModel.extend ({
 	name : 'Vc',
 	plural : 'vcs',
+	sort: 'name title',
 	getForProject: function (projectId) {
 		return this.list ({project:projectId},{},{name:1});
 	},

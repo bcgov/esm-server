@@ -707,13 +707,11 @@ angular.module('project').config (
 						"code": "project-withdrawn"
 					});
 				}
-				// Always add free-text version
-				options.push(					{
-						"name": "Custom Milestone",
-						"code": "custom-milestone"
-					});
 
-				return options;
+				var sortedOptions = _.sortBy(options, "name");
+
+				// Always add free-text version, always first (ESM-745)
+				return [{ "name": "Custom Milestone", "code": "custom-milestone" }].concat(sortedOptions);
 			}
 		}
 	});

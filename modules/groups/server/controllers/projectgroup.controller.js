@@ -9,6 +9,7 @@ module.exports = DBModel.extend ({
 	name: 'ProjectGroup',
 	plural: 'projectgroups',
 	populate: 'members members.org',
+	sort: 'type name',
 
 	getForProject: function (id) {
 		return this.list({project: id});

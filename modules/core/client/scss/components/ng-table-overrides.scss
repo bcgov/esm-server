@@ -1,0 +1,82 @@
+
+$table-bg: #fff;
+$table-header-bg: #f7f8fa;
+$table-row-border: 1px solid #EEE;
+$table-row-hover-bg: #f7f8fa;
+$table-pagination-bg: #fff;
+
+.table {
+    margin-bottom: 0;
+    background-color: $table-bg;
+
+    thead {
+        > tr {
+            > th {
+                padding: 1rem 0.5rem;
+                border-top: none;
+                border-bottom: $table-row-border;
+                //background-color: transparent;
+            }
+        }
+    }
+
+    tbody {
+        > tr {
+            > td {
+                padding: 1.25rem 0.5rem;
+                border-top: none;
+                border-bottom: $table-row-border;
+                vertical-align: middle;
+            }
+        }
+    }
+}
+
+.ng-table-sort-header {
+    th {
+        padding: 1rem 0.5rem;
+        background-color: $table-header-bg;
+
+        &:hover {
+            background-color: #eee;
+        }
+    }
+}
+
+.ng-table-filters {
+    th {
+        background-color: $table-header-bg;
+    }
+}
+
+.ng-table-pager {
+    border-top: none;
+    background-color: $table-pagination-bg;
+}
+
+.has-actions {
+    position: relative;
+    padding-right: 4rem;
+
+    .btn-group {
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .has-actions {
+        .btn-group {
+            display: none;
+        }
+    }
+
+    tr:hover {
+        .has-actions {
+            .btn-group {
+                display: block;
+            }
+        }
+    }
+}
