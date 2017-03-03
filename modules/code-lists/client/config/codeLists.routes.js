@@ -34,7 +34,7 @@
 				url: '/:codelistName',
 				templateUrl: 'modules/code-lists/client/views/code-list-list.html',
 				controllerAs: 'vm',
-				controller: function ($scope, $state, $stateParams, $modal, NgTableParams, AlertService, CodeListModel, codelists) {
+				controller: function ($scope, $state, $stateParams, $modal, _, NgTableParams, AlertService, CodeListModel, codelists) {
 					var vm = this;
 
 					// UI selects which code list to work with. Reload the table:
@@ -123,13 +123,14 @@
 
 				$scope.$watch('vm.display',function(newVal, oldVal) {
 					vm.validate(newVal);
-				})
+				});
 
 				vm.validate = function (newVal) {
 					var existing = _.find(vm.otherItems, {value: newVal});
 					vm.validationMessage = existing ? newVal + " already exists" : "";
 					vm.isValid = vm.validationMessage.length === 0;
-				}
+				};
+
 				vm.ok = function () {
 					onSuccess(item, vm.display, vm.displayPriority, vm.active);
 					$modalInstance.close();//{resource: s.object._id, data: s.permissionRoleIndex});
