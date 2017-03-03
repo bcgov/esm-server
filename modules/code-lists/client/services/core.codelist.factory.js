@@ -26,7 +26,8 @@ angular.module('core')
 			var list = _.find(data, function(l) { return name.toLowerCase() === l.name.toLowerCase(); });
 			if (list) {
 				var items = list.items || [];
-				return _.sortBy(items, 'order');
+				return _.sortByOrder(items, ['active', 'displayPriority', 'display'], ['desc', 'desc', 'asc']);
+				//return _.sortBy(items, 'order');
 			}
 			return [];
 		};
