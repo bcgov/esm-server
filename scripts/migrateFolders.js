@@ -8,6 +8,54 @@ var username                = "";
 var password                = "";
 var host                    = "";
 
+var defaultPerms = {
+    unPublish : [
+        "assessment-admin",
+        "assessment-lead",
+        "assessment-team",
+        "project-epd",
+        "project-system-admin"
+    ],
+    publish : [
+        "assessment-admin",
+        "assessment-lead",
+        "assessment-team",
+        "project-epd",
+        "project-system-admin"
+    ],
+    delete : [
+        "assessment-admin",
+        "project-intake",
+        "assessment-lead",
+        "assessment-team",
+        "project-epd",
+        "project-system-admin"
+    ],
+    write : [
+        "assessment-admin",
+        "project-intake",
+        "assessment-lead",
+        "assessment-team",
+        "project-epd",
+        "project-system-admin",
+        "public"
+    ],
+    read : [
+        "assessment-admin",
+        "project-intake",
+        "assessment-lead",
+        "assessment-team",
+        "assistant-dm",
+        "project-epd",
+        "assistant-dmo",
+        "associate-dm",
+        "associate-dmo",
+        "compliance-lead",
+        "compliance-officer",
+        "project-system-admin"
+    ]
+};
+
 console.log("Starting migration.");
 
 var args = process.argv.slice(2);
@@ -21,6 +69,22 @@ if (args.length !== 4) {
     defaultConnectionString = "mongodb://" + username + ":" + password + "@" + host + ":27017/" + db;
 }
 
+var permissionList = function(dflt, resource, isPublished) {
+    var permissions = _.keys(dflt.defaults.permissions);
+    //console.log('permissions ', JSON.stringify(permissions, null, 4));
+    var result = [];
+    _.each(permissions, function(p) {
+        _.each(dflt.defaults.permissions[p], function(r) {
+            result.push({resource: resource, permission: p, role: r});
+        });
+    });
+    if (isPublished) {
+        result.push({resource: resource, permission: 'read', role: 'public'});
+    }
+    //console.log('permissionList ', JSON.stringify(result, null, 4));
+    return result;
+};
+
 MongoClient.connect(defaultConnectionString, function (err, db) {
     if (err) {
         console.error(err);
@@ -29,6 +93,7 @@ MongoClient.connect(defaultConnectionString, function (err, db) {
 
     var collection = db.collection('projects');
     var c_folders = db.collection('folders');
+    var _perms = db.collection('_permissions');
 
     collection.find({},{}).toArray(function (err, projects) {
         console.log("found", projects.length, "projects.");
@@ -118,9 +183,27 @@ MongoClient.connect(defaultConnectionString, function (err, db) {
                             project: p._id
                         };
                     }
-                    c_folders.insertOne(obj, function (o) {
-                        console.log("Inserted:", o);
-                    });
+                    c_folders.insertOne(obj)
+                    .then(function (o) {
+                        // console.log("Inserted:", o.ops[0]._id);
+                        var entries = [];
+                        var result = [];
+                        _.each(defaultPerms, function (p) {
+                            _.each(defaultPerms[p], function (r) {
+                                result.push({resource: o.insertedId.toString(), permission: p, role: r});
+                            });
+                        });
+                        if (o.ops[0].isPublished) {
+                            console.log("published.");
+                            result.push({resource: o.insertedId.toString(), permission: 'read', role: 'public'});
+                        }
+                        _.each(result, function (item) {
+                            _perms.insertOne(item)
+                            .then(function (z) {
+                                console.log("Perm Inserted:", z.insertedId);
+                            });
+                        });
+                    })
                 });
             });
         }

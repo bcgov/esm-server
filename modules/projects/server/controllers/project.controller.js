@@ -227,7 +227,7 @@ module.exports = DBModel.extend ({
 					// Check if this already exists.
 					var bFound = theNode.first(function (node) {
 						// NB: Exclude myself
-					    return (node.model.name === folderName) && (node.model.id !== theNode.model.id);
+						return (node.model.name === folderName) && (node.model.id !== theNode.model.id);
 					});
 
 					// If found, return error in creating.
@@ -237,7 +237,10 @@ module.exports = DBModel.extend ({
 
 					root.model.lastId += 1;
 					// Need to add order property to the folder item to apply alternate sorting
-					var node = theNode.addChild(tree.parse({id: root.model.lastId, name: folderName, order: 0, published: false}));
+					var node = theNode.addChild(tree.parse({id: root.model.lastId,
+															name: folderName,
+															order: 0,
+															published: false}));
 					newNodeId = node.model.id;
 				} else {
 					// If we didn't find the node, this is an error.
@@ -482,7 +485,12 @@ module.exports = DBModel.extend ({
 			var f = new FolderClass (self.opts);
 			return f.list({project: projectId})
 			.then(function (foldersViewable) {
-				console.log("Folders viewable:", foldersViewable);
+				// if (foldersViewable && foldersViewable.length > 0) {
+				// 	_.each(foldersViewable, function (e) {
+				// 		console.log("data:", e);
+				// 	});
+				// }
+				// console.log("Folders viewable:", foldersViewable);
 				folders = foldersViewable;
 				return self.findById(projectId);
 			})
@@ -494,19 +502,25 @@ module.exports = DBModel.extend ({
 				}
 				var root = tree.parse(project.directoryStructure);
 				root.all(function (node) {
-				    return true;
-				    // return node.model.published !== true;
+					return true;
+					// return node.model.published !== true;
 				}).forEach( function (n) {
-					console.log("n:", n.model.id);
+					// console.log("n:", n.model.id);
 					var found = folders.find(function (el) {
-						console.log("el:", el.directoryID);
+						// console.log("el:", el.directoryID);
 						return el.directoryID === parseInt(n.model.id);
 					});
 					// Make sure we could have read that folder, otherwise consider it dropped.
-					console.log("FOUND:", found);
+					// console.log("FOUND:", found);
 					if (!found) {
-						console.log("dropping node:", n);
+						// console.log("dropping node:", n);
 						n.drop();
+					} else {
+						// Apply the userCan data for the UI - in prep for realizing this for all API calls
+						var userCan = _.result(_.find(folders, function(i) {
+							return i.directoryID === n.model.id;
+						}), 'userCan');
+						n.model.userCan = userCan;
 					}
 				});
 
