@@ -368,6 +368,7 @@ module.exports = function () {
 				'createValuedComponent': ['sysadmin'],
 				'createContact': ['sysadmin'],
 				'manageRoles': ['sysadmin'],
+				'manageCodeLists': ['sysadmin', 'eao'],
 				'managePermissions': ['sysadmin'],
 				'addUsersToContext': ['sysadmin']
 			}
@@ -393,6 +394,7 @@ module.exports = function () {
 		'createContact',
 		'createProject',
 		'manageRoles',
+		'manageCodeLists',
 		'managePermissions',
 		'addUsersToContext'
 	];

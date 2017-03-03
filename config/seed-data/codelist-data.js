@@ -1,9 +1,11 @@
 var lists = [
 	{
 		name: 'salutations',
+		displayName: 'Salutations',
+		whereUsed: 'Contacts',
 		items: [
-			{ value: 'Mr', display: 'Mr', order: 1 },
-			{ value: 'Mrs', display: 'Mrs', order: 2 },
+			{ value: 'Mr', display: 'Mr', order: 1, displayPriority: true },
+			{ value: 'Mrs', display: 'Mrs', order: 2, displayPriority: true },
 			{ value: 'Miss', display: 'Miss', order: 3 },
 			{ value: 'Chief', display: 'Chief', order: 4 , active: false},
 			{ value: 'Councillor', display: 'Councillor', order: 5, active: false },
@@ -18,6 +20,8 @@ var lists = [
 	},
 	{
 		name: 'organizationTypes',
+		displayName: 'Organization Types',
+		whereUsed: 'Organizations',
 		items: [
 			{ value: 'Aboriginal Group', display: 'Aboriginal Group', order: 1 },
 			{ value: 'Association/NGO', display: 'Association/NGO', order: 2 },
@@ -35,6 +39,8 @@ var lists = [
 	},
 	{
 		name: 'emailTemplateGroups',
+		displayName: 'Email Template Group',
+		whereUsed: 'Email Templates',
 		items: [
 			{ value: 'Invitation', display: 'Invitation', order: 1 },
 			{ value: 'Notification', display: 'Notification', order: 2 },
@@ -45,8 +51,10 @@ var lists = [
 	},
 	{
 		name: 'organizationRegisteredIns',
+		displayName: 'Organization Registered In',
+		whereUsed: 'Organizations',
 		items: [
-			{ value: 'British Columbia', display: 'British Columbia', order: 1 },
+			{ value: 'British Columbia', display: 'British Columbia', order: 1, displayPriority: true },
 			{ value: 'Canada', display: 'Canada', order: 2 },
 			{ value: 'United States', display: 'United States', order: 3 },
 			{ value: 'Other', display: 'Other', order: 4 },
@@ -55,6 +63,8 @@ var lists = [
 	},
 	{
 		name: 'documentTypes',
+		displayName: 'Document Types',
+		whereUsed: 'Documents',
 		items: [
 			{ value: 'Assessment', display: 'Assessment', order: 1 },
 			{ value: 'Certificate Information', display: 'Certificate Information', order: 2 },
@@ -81,8 +91,10 @@ var lists = [
 	},
 	{
 		name: 'projectGroupTypes',
+		displayName: 'Project Group Types',
+		whereUsed: 'Project',
 		items: [
-			{ value: 'Proponent', display: 'Proponent', order: 1 },
+			{ value: 'Proponent', display: 'Proponent', order: 1, displayPriority: true },
 			{ value: 'Aboriginal Group', display: 'Aboriginal Group', order: 2 },
 			{ value: 'Working Group', display: 'Working Group', order: 3 },
 			{ value: 'Technical Working Group', display: 'Technical Working Group', order: 4 },
@@ -95,6 +107,8 @@ var lists = [
 	},
 	{
 		name: 'inspectionReportFollowUpTypes',
+		displayName: 'Inspection Report Follow Up Types',
+		whereUsed: 'TBD',
 		items: [
 			{ value: 'Inspection Complete', display: 'Inspection Complete', order: 1 },
 			{ value: 'Mine Manager Response', display: 'Mine Manager Response', order: 2 },
