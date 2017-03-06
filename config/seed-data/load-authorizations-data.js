@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Authorizations",
-  "date": "2017-02-28T02:59:05.315Z",
+  "date": "2017-03-06T23:57:22.686Z",
   "data": [
     {
       "agencyCode": "EAO",
@@ -2708,6 +2708,24 @@ module.exports = {
         {
           "name": "Approving Increase in Mill Throughput",
           "ref": "https://mines.empr.gov.bc.ca/api/document/5822597f6d6ad30017cd6dbd/fetch"
+        }
+      ]
+    },
+    {
+      "agencyCode": "MEM",
+      "projectName": "Red Chris",
+      "authorizationID": "M-240",
+      "documentName": "Permit Approving Mine Plan and Reclamation Program",
+      "authorizationDate": "2017-02-28T16:00:00.000Z",
+      "documentType": "Permit",
+      "documentStatus": "Issued",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58bdada853dc26001d3b49b8/fetch",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "followUpDocuments": [
+        {
+          "name": "Permit Approving Mine Plan and Reclamation Program",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58bdada853dc26001d3b49b8/fetch"
         }
       ]
     },

@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Inspections",
-  "date": "2017-03-02T18:11:26.166Z",
+  "date": "2017-03-06T23:57:22.648Z",
   "data": [
     {
       "projectName": "Mount Milligan",
@@ -4028,7 +4028,7 @@ module.exports = {
       "inspectionSummary": "On October 19 & 20, 2016, Inspector of Mines Aaron Unger conducted an ergonomics inspection of the New Afton mine. He was accompanied by Inspectors of Mines Katelynn Coutts and Andrew Sinstadt. Inspector Coutts submitted a separate occupational health inspection report (69976) for this visit.",
       "recentFollowUp": "",
       "documentName": "MEM Inspection Report 69816",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58a60e7587567d001d1889b3/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58b9ff1453dc26001d3b4985/fetch",
       "authorizationID": "",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
@@ -4036,11 +4036,11 @@ module.exports = {
       "followUpDocuments": [
         {
           "name": "MEM Inspection Report 69816",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a60e7587567d001d1889b3/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b9ff1453dc26001d3b4985/fetch"
         },
         {
           "name": "Mine Manager's Response to Inspection Report 69816",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58a60e7587567d001d1889c5/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58b9ff1453dc26001d3b4986/fetch"
         }
       ]
     },
