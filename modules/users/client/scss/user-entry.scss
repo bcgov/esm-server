@@ -2,30 +2,21 @@ $section-border: 1px dotted #999;
 $section-header-bg: #fff;
 
 .user-entry-permissions {
-    section {
+    .permission-list-container {
+        @include flexbox();
         margin-bottom: 0;
-        padding: 0;
-        border-bottom: 0;
+        padding: 2rem 1.5rem;
 
-        .section-body {
-            @include flexbox();
-            margin-bottom: 0;
-            padding: 2rem 1.5rem;
-
-            section {
-                @include flex(0 0 auto);
-                margin: 0;
-                padding: 0;
-                width: 50%;
-            }
-        }
-
-        h2 {
+        section {
+            @include flex(0 0 auto);
             margin: 0;
-            padding: 1.5rem;
-            background-color: $section-header-bg;
-            font-size: 1.8rem;
+            padding: 0;
+            width: 50%;
         }
+    }
+
+    section {
+        border: none;
 
         h3 {
             margin: 0;

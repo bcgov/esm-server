@@ -1,3 +1,5 @@
+$accordion-panel-border: 1px solid #EEE;
+
 
 .panel-default.accordion > .panel-heading {
 	padding: 0;
@@ -39,6 +41,12 @@
 			
 			.glyphicon-triangle-bottom {
 				display: none;
+			}
+		}
+
+		+ .panel-collapse {
+			> .panel-body {
+				border-top: $accordion-panel-border;
 			}
 		}
 	}
