@@ -3084,61 +3084,7 @@ section {
 
 /* TABLES
 ------------------------------ */
-.table-th {
-	padding: 0.8rem 0.5rem;
-	overflow: hidden;
-	font-size: 1.2rem;
-	text-align: left;
-	text-overflow: ellipsis;
-	background: $table-head-bg;
-	border-bottom: none;
-	vertical-align: top;
-	white-space: nowrap;
-}
-
-.table-td {
-	padding: 0.8rem 0.5rem;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.first-col {
-	padding-left: 1rem;
-}
-
-.last-col {
-	padding-right: 1rem;
-}
-
 .table {
-	td.actions-col {
-		padding-top: 0;
-		padding-right: 0.5rem;
-		padding-bottom: 0;
-		text-align: right;
-		
-		.btn {
-			margin-top: 0.35rem;
-			padding-left: 0.8rem;
-			padding-right: 0.8rem;
-			background: transparent;
-			border-color: transparent;
-
-			&:hover,
-			&:focus {
-				background: $btn-focus-bg-color;
-				border-color: $btn-focus-border-color;
-			}
-		}
-	}
-
-	.no-records {
-		td {
-			padding: 1rem 1.5rem;
-			border: none;
-		}
-	}
-	
 	.action-x1 {
 		width: 4.5rem;
 	}
@@ -3168,26 +3114,6 @@ section {
 		padding-right: 0.5rem;
 		text-align: right;
 		vertical-align: middle;
-	}
-}
-
-.ng-table-sort-header {
-	th {
-		@extend .table-th;
-	}
-}
-
-.ng-table-filters {
-	background: $table-filter-bg;
-
-	th {
-		border-bottom: none;
-		font-size: 1.4rem;
-		font-weight: normal;
-	}
-
-	.input-sm {
-		font-size: 1.4rem;
 	}
 }
 

@@ -11,22 +11,23 @@
         </button>
     </div>
     <div class="table-container">
-        <table class="project-updates-table table table-hover" ng-table="tableParams" show-filter="true">
-            <tr class="has-actions" ng-repeat="o in $data" ui-sref="p.communication.detail({communicationId:o._id})" class="clickable">
+        <table class="project-updates-table table" ng-class="{'table-hover': o.userCan.write}" ng-table="tableParams" show-filter="true">
+            <tr ng-repeat="o in $data" ui-sref="p.communication.detail({communicationId:o._id})" class="clickable">
                 <td data-title="'Name'" filter="{'name':'text'}" sortable="'name'">{{o.name}}</td>
                 <td data-title="'Type'" filter="{'emailTemplate.name':'text'}" sortable="'emailTemplate.name'">{{o.emailTemplate.name}}</td>
-                <td class="count-col" header-class="'count-col'" data-title="'Recipients'" sortable="'recipients'">{{o.recipients ? o.recipients.length : 0}}</td>
-                <td class="sent-col has-actions" header-class="'sent-col'" data-title="'Sent on'" sortable="'sent'">{{ o.dateSent | date : format : timezone }}
-                    <div class="btn-group">
+                <td header-class="'count-col'" data-title="'Recipients'" sortable="'recipients'">{{o.recipients ? o.recipients.length : 0}}</td>
+                <td header-class="'sent-col'" data-title="'Sent on'" sortable="'sent'">{{ o.dateSent | date : format : timezone }}</td>
+                <td class="actions-col" header-class="'actions-col x1'">
+                    <div class="btns">
                         <a class="btn icon-btn" title="Edit Project Update" ng-if="o.userCan.write" ng-click="$event.stopPropagation()"
                             ui-sref="p.communication.edit({communicationId:o._id})">
-                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     </div>
                 </td>
             </tr>
             <tr class="no-records" ng-if="!$data || $data.length === 0">
-                <td colspan="4">
+                <td colspan="5">
                     No records found.
                 </td>
             </tr>
