@@ -45,6 +45,18 @@
             } 
         }
     }
+    .pcp-details-btn {
+        .btn {
+            background-color: #5091cd;
+            color: #FFF;
+            font-size: 1.6rem;
+            font-weight: normal;
+
+            &:hover {
+                background: #5f9bd1;
+            }
+        }
+    }
 }
 
 @media (min-width: 760px) {
