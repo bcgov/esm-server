@@ -5,44 +5,37 @@
 </div>
 
 <div class="view-body-container">
-	<div class="button-bar clearfix">
-		<div class="pull-left">
-			<button ng-if="project.userCan.createProjectGroup" class="btn btn-default btn-sm" ui-sref="p.group.create">
-        <span class="glyphicon glyphicon-plus"></span><span>Add Project Group</span>
-      </button>
-		</div>
+	<div class="button-bar">
+		<button class="btn btn-default btn-sm" ng-if="project.userCan.createProjectGroup" ui-sref="p.group.create">
+			<span class="glyphicon glyphicon-plus"></span><span>Add Project Group</span>
+		</button>
 	</div>
-	<div class="panel panel-default">
-		<table ng-table="tableParams" show-filter="true" class="table table-hover">
-			<tr ng-repeat="o in $data" ui-sref="p.group.detail({groupId:o._id})" class="clickable">
-				<td class="name-col"
-					header-class="'name-col'"
-					data-title="'Name'"
+	<div class="table-container">
+		<table class="table" ng-class="{'table-hover': o.userCan.write}" ng-table="tableParams" show-filter="true">
+			<tr ng-repeat="o in $data" ui-sref="p.group.detail({groupId:o._id})">
+				<td data-title="'Name'"
 					filter="{'name':'text'}"
 					sortable="'name'">
 					<a ui-sref="p.group.detail({groupId:o._id})">{{o.name}}</a></td>
-				<td class="artifacts-col"
-					header-class="'artifacts-col'"
-					data-title="'Type'"
+				<td data-title="'Type'"
 					filter="{'type':'text'}"
 					sortable="'type'">{{projectGroupTypes.display(o.type)}}</td>
-				<td class="members-col"
-					header-class="'members-col'"
-					data-title="'Members'"
+				<td data-title="'Members'"
 					filter="{'members':'text'}"
 					sortable="'members'">{{o.members ? o.members.length : 0}}</td>
-				<td class="actions-col action-x2"
-					header-class="'actions-col action-x2'">
-					<a class="btn btn-default btn-sm" title="Edit Project Group"
-						ng-if="o.userCan.write"
-						ng-click="$event.stopPropagation()"
-						ui-sref="p.group.edit({groupId:o._id})">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</a>
+				<td class="actions-col" header-class="'actions-col x2'">
+					<div class="btns">
+						<a class="btn icon-btn" title="Edit Project Group"
+							ng-if="o.userCan.write"
+							ng-click="$event.stopPropagation()"
+							ui-sref="p.group.edit({groupId:o._id})">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</a>
+					</div>
 				</td>
 			</tr>
 			<tr class="no-records" ng-if="!$data || $data.length === 0">
-				<td colspan="4">No Project Groups found.</td>
+				<td colspan="4">No Project Groups found</td>
 			</tr>
 		</table>
 	</div>

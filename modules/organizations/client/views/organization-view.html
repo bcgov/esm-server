@@ -134,19 +134,21 @@
 						<show-filter x-toggle-filter="toggleFilter"></show-filter>
 					</div>
 				</div>
-				<div class="panel panel-default">
+				<div class="table-container">
 					<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
 						<tr ng-repeat="o in $data" class='clickable' ui-sref="admin.organization.user.detail({orgId: org._id, userId: o._id})">
 							<td data-title="'Name'" filter="{'displayName':'text'}" sortable="'displayName'">{{o.displayName}}</td>
 							<td data-title="'Username'" filter="{'username':'text'}" sortable="'username'">{{o.username}}</td>
 							<td data-title="'Email'" filter="{'email':'text'}" sortable="'email'" >{{o.email}}</td>
-							<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-								<a  class="btn btn-default btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.organization.user.edit({orgId: org._id, userId: o._id})">
-									<span class="glyphicon glyphicon-pencil"></span>
-								</a>
-								<a class="btn btn-default btn-sm" title="Remvoe User from Organization" ng-click="$event.stopPropagation();removeUserFromOrg(o._id)">
-									<span class="glyphicon glyphicon-trash"></span>
-								</a>
+							<td class="actions-col" header-class="'actions-col x2'">
+								<div class="btns">
+									<a class="btn icon-btn" ng-click="$event.stopPropagation()" ui-sref="admin.organization.user.edit({orgId: org._id, userId: o._id})">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</a>
+									<a class="btn icon-btn" title="Remvoe User from Organization" ng-click="$event.stopPropagation();removeUserFromOrg(o._id)">
+										<span class="glyphicon glyphicon-trash"></span>
+									</a>
+								</div>
 							</td>
 						</tr>
 						<tr class="no-records" ng-show="!$data || !$data.length" class="text-center">

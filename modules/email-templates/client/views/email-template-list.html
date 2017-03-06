@@ -1,7 +1,6 @@
 
 <div class="view-title-container">
 	<h1>Email Templates</h1>
-	<!-- <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
 </div>
 
 <div class="view-body-container">
@@ -10,40 +9,37 @@
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Email Template</span>
 		</a>
-		<div class="pull-right">
-			<show-filter x-toggle-filter="toggleFilter"></show-filter>
-		</div>
 	</div>
-	<section class="panel panel-default">
-		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-striped table-hover">
+	<div class="table-container">
+		<table class="table table-hover" ng-table="tableParams" x-show-filter="true">
 			<tr ng-repeat="o in $data" ui-sref="admin.emailtemplate.detail({emailtemplateId:o._id})" class="clickable">
-				<td data-title="'Name'"  filter="{'name':'text'}"   sortable="'name'">{{o.name}}</td>
-				<td data-title="'Group'"  filter="{'group':'text'}"   sortable="'group'">{{emailTemplateGroups.display(o.group)}}</td>
-				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-					<a ng-if="application.userCan.createEmailTemplate" class="btn btn-link btn-sm" ng-click="$event.stopPropagation()" ui-sref="admin.emailtemplate.edit({emailtemplateId:o._id})">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</a>
-					<button class="btn btn-default btn-sm"
-						ng-if="application.userCan.createEmailTemplate"
-						title="Delete Email Template"
-						ng-click="$event.stopPropagation();"
-						x-confirm-dialog
-						x-title-text="'Delete Email Template'"
-						x-ok-text="'Yes'"
-						x-cancel-text="'No'"
-						x-confirm-text="s.confirmText(o)"
-						x-on-ok="s.deleteEmailTemplate"
-						x-ok-args="o">
-						<span class="glyphicon glyphicon-trash"></span>
-					</button>
+				<td data-title="'Name'" filter="{'name':'text'}" sortable="'name'">{{o.name}}</td>
+				<td data-title="'Group'" filter="{'group':'text'}" sortable="'group'">{{emailTemplateGroups.display(o.group)}}</td>
+				<td class="actions-col" header-class="'actions-col x2'">
+					<div class="btns">
+						<a class="btn icon-btn" ng-if="application.userCan.createEmailTemplate" ng-click="$event.stopPropagation()" ui-sref="admin.emailtemplate.edit({emailtemplateId:o._id})">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</a>
+						<button class="btn icon-btn"
+							ng-if="application.userCan.createEmailTemplate"
+							title="Delete Email Template"
+							ng-click="$event.stopPropagation();"
+							x-confirm-dialog
+							x-title-text="'Delete Email Template'"
+							x-ok-text="'Yes'"
+							x-cancel-text="'No'"
+							x-confirm-text="s.confirmText(o)"
+							x-on-ok="s.deleteEmailTemplate"
+							x-ok-args="o">
+							<span class="glyphicon glyphicon-trash"></span>
+						</button>
+					</div>
 				</td>
 			</tr>
 			<tr ng-if="!$data || $data.length === 0">
-				<td colspan="3">
-					No records found.
-				</td>
+				<td colspan="3">No records found.</td>
 			</tr>
 		</table>
-	</section>
+	</div>
 </div>
 
