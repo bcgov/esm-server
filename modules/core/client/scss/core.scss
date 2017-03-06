@@ -4514,20 +4514,6 @@ tmpl-template-render {
 	padding-bottom: 0;
 }
 
-.vc-table {
-	.status-col {
-		width: 11.25rem;
-
-		.label {
-			width: 100%;
-
-			&.unpublished {
-				background: #CCC;
-			}
-		}
-	}
-}
-
 .vc-rtf-editor {
 	.mce-tinymce {
 		border: 1px solid #FFF;
@@ -4787,3 +4773,4 @@ tmpl-template-render {
 @import "modules/projects/client/scss/project-schedule.scss";
 @import "modules/project-comments/client/scss/project-comments.scss";
 @import "modules/users/client/scss/user-entry.scss";
+@import "modules/vcs/client/scss/vc-list.scss";
