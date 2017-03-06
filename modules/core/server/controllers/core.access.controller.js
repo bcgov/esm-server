@@ -148,6 +148,19 @@ var findProjectById = function(context) {
 		Project.findOne({_id: context}).then (resolve, complete (reject, 'findProjectById'));
 	});
 };
+var findProject = function(context) {
+	return new Promise (function (resolve, reject) {
+		Project.findOne({code: context})
+			.then(function(result) {
+				if (!result) {
+					return Project.findOne({_id: context});
+				} else {
+					return result;
+				}
+			})
+			.then (resolve, complete (reject, 'findProject'));
+	});
+};
 // -------------------------------------------------------------------------
 //
 // pass in a new thing and then make it and save it
@@ -895,11 +908,7 @@ var getAllUserRoles = function (p) {
 			.then (pluckAppRoles)
 			.then (function (a) {
 				appRoles = a;
-				if (ObjectID.isValid(p.context)) {
-					return findProjectById(p.context);
-				} else {
-					return findProjectByCode(p.context);
-				}
+				return findProject(p.context);
 			})
 			.then(function(proj) {
 				// console.log('proj = ' + JSON.stringify(proj));

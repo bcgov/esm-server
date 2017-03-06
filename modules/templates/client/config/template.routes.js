@@ -167,6 +167,7 @@ angular.module('templates').config(['$stateProvider', function ($stateProvider) 
 	//
 	// -------------------------------------------------------------------------
 	.state('admin.template.detail', {
+		data: {permissions: ['listTemplates']},
 		url: '/:templateId',
 		templateUrl: 'modules/templates/client/views/template-view.html',
 		resolve: {

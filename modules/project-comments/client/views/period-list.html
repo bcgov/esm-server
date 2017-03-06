@@ -13,6 +13,9 @@
 			<div class="pcp-alert-info">
 				<h2>Public Comment Period is Now Open.</h2>
 				<span class="pcp-dates">{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
+				<span class="pcp-details-btn">
+					<a  class="btn" title="Details"  ui-sref="p.commentperiod.detail({periodId:activeperiod._id})" >Details</a>
+				</span>
 			</div>
 			<div class="pcp-alert-btn">
 				<button class="btn" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
