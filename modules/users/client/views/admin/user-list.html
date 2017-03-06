@@ -12,10 +12,6 @@
 	<div class="table-container">
 		<table class="table table-hover" ng-table="tableParams" x-show-filter="true">
 			<tr ng-repeat="o in $data" ui-sref="admin.user.detail({userId:o._id})">
-				<td data-title="'Username'"
-					filter="{'username':'text'}"
-					filter-data="ptypes"
-					sortable="'username'">{{o.username}}</td>
 				<td data-title="'Last Name'"
 					filter="{'lastName':'text'}"
 					filter-data="ptypes"
@@ -24,6 +20,10 @@
 					filter="{'firstName':'text'}"
 					filter-data="ptypes"
 					sortable="'firstName'">{{o.firstName}}</td>
+				<td data-title="'Username'"
+					filter="{'username':'text'}"
+					filter-data="ptypes"
+					sortable="'username'">{{o.username}}</td>
 				<td data-title="'Organization'"
 					filter="{'orgName':'text'}"
 					sortable="'orgName'">{{o.org.name}}</td>
