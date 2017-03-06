@@ -22,21 +22,23 @@
                     data-title="'Type'"
                     filter="{'emailTemplate.name':'text'}"
                     sortable="'emailTemplate.name'">{{o.emailTemplate.name}}</td>
-                 <td class="count-col" header-class="'count-col'"
+                <td class="count-col" header-class="'count-col'"
                     data-title="'Recipients'"
                     sortable="'recipients'">{{o.recipients ? o.recipients.length : 0}}</td>
-                 <td class="sent-col has-actions" header-class="'sent-col'"
+                <td class="sent-col has-actions" header-class="'sent-col'"
                     data-title="'Sent on'"
                     sortable="'sent'">{{ o.dateSent | date : format : timezone }}
-                    <div class="btn-group" ng-if="o.userCan.write">
+                </td>
+                <td class="actions-col" header-class="'actions-col x1'">
+                     <div class="btn-group" ng-if="o.userCan.write">
                         <a class="btn icon-btn" title="Edit Project Invitation" ng-click="$event.stopPropagation()" ui-sref="p.invitation.edit({communicationId:o._id})">
-                            <span class="glyphicon glyphicon-edit"></span>
+                            <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     </div>
                 </td>
             </tr>
             <tr class="no-records hidden" ng-if="!$data || $data.length === 0">
-                <td colspan="2">No records found.</td>
+                <td colspan="4">No records found.</td>
             </tr>
         </table>
     </div>

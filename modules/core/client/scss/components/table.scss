@@ -121,6 +121,10 @@ $table-pagination-bg: #fff;
         padding: 1.5rem;
         border-bottom: $table-row-border;
         background-color: $table-bg;
+
+        td {
+            border: none;
+        }
     }
 }
 
@@ -138,22 +142,6 @@ $table-pagination-bg: #fff;
         height: 3.4rem;
         text-align: center;
         color: inherit;
-    }
-
-    .dropdown-menu {
-        top: -0.5rem;
-        right: -2px;
-        min-width: 0;
-        padding: 0.2rem;
-        white-space: nowrap;
-
-        li {
-            display: inline-block;
-        }
-
-        a {
-            display: inline-block;
-        }
     }
 }
 

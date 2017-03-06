@@ -11,8 +11,8 @@
 			<span>Add Organization</span>
 		</a>
 	</div>
-	<section class="panel panel-default">
-		<table ng-table="tableParams" x-show-filter="true" class="table table-striped table-hover">
+	<div class="table-container">
+		<table class="table table-hover" ng-table="tableParams" x-show-filter="true">
 			<tr ng-repeat="o in $data" ui-sref="admin.organization.detail({orgId:o._id})" class="clickable">
 				<td data-title="'Name'"
 					filter="{'name':'text'}"
@@ -26,10 +26,12 @@
 				<td data-title="'Company Legal'"
 					filter="{'companyLegal':'text'}"
 					sortable="'companyLegal'">{{o.companyLegal}}</td>
-				<td class="actions-col action-x1" header-class="'actions-col action-x1'">
-					<a class="btn btn-default btn-sm" title="Edit Organization" ng-if="application.userCan.createOrganization" ng-click="$event.stopPropagation()" ui-sref="admin.organization.edit({orgId:o._id})">
-						<span class="glyphicon glyphicon-pencil"></span>
-					</a>
+				<td class="actions-col" header-class="'actions-col x1'">
+					<div class="btn-group">
+						<a class="btn icon-btn" title="Edit Organization" ng-if="application.userCan.createOrganization" ng-click="$event.stopPropagation()" ui-sref="admin.organization.edit({orgId:o._id})">
+							<span class="glyphicon glyphicon-pencil"></span>
+						</a>
+					</div>
 				</td>
 			</tr>
 			<tr ng-if="!$data || $data.length === 0">
@@ -38,5 +40,5 @@
 				</td>
 			</tr>
 		</table>
-	</section>
+	</div>
 </div>
