@@ -151,14 +151,24 @@ var findProjectById = function(context) {
 var findProject = function(context) {
 	return new Promise (function (resolve, reject) {
 		Project.findOne({code: context})
-			.then(function(result) {
-				if (!result) {
-					return Project.findOne({_id: context});
-				} else {
-					return result;
-				}
+			.then(function(project) {
+				if (project)
+					return project;
+				// console.log('Project not found with code = ', context);
+				return Project.findOne({_id: context});
 			})
-			.then (resolve, complete (reject, 'findProject'));
+			.then(function(project) {
+				if (!project) {
+					// console.log('Project not found for id/code = ', JSON.stringify(context));
+					resolve();
+				} else {
+					resolve(project);
+				}
+			}, function(err) {
+				// console.log('Project not found.  err = ', JSON.stringify(err));
+				// console.log('Project not found with id = ', context);
+				resolve();
+			});
 	});
 };
 // -------------------------------------------------------------------------

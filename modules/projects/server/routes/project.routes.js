@@ -101,9 +101,19 @@ module.exports = function (app) {
 		}));
 	app.route ('/api/project/bycode/:projectcode')
 		.all (policy ('guest'))
-		.get (routes.setAndRun(Project, function (model, req) {
-			return model.one ({code:req.params.projectcode}, "-directoryStructure");
-		}));
+		.get (function (req, res) {
+			routes.setSessionContext(req)
+				.then( function (opts) {
+					var ctrl = new Project(opts);
+					return ctrl.one ({code:req.params.projectcode}, "-directoryStructure");
+				})
+				.then(function(proj) {
+					if (!proj)  {
+						return res.status(404).send ({message: 'Project Not Found'});
+					}
+					return res.json (proj);
+				});
+		});
 	// app.route ('/api/')
 	// 	.all (policy ('user'))
 	// 	.get (function (req, res) {
