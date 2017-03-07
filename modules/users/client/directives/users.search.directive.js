@@ -117,6 +117,10 @@ angular.module('users')
 								}
 							};
 
+							$scope.isChecked = function (item) {
+								return ($scope.checkboxes.items[item._id]);
+							};
+
 							s.cancel = function () {
 								$modalInstance.dismiss('cancel');
 							};
