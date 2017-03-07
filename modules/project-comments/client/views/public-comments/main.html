@@ -25,20 +25,13 @@
 				<p ng-if="!period.instructions">No Description Available.</p>
 				<p ng-if="period.instructions">{{ period.instructions }}</p>
 			</section>
-			<section class="pcp-open-house" ng-if="period.openHouses.length > 0">
-				<h4>Open House Dates</h4>
-				<ul>
-					<li ng-repeat="h in period.openHouses">
-						<strong>{{ h.eventDate | amDateFormat:'MMMM Do YYYY' }}</strong><span class="desc"> - {{ h.description }}</span>
-					</li>
-				</ul>
-			</section>
 		</div>
 	</div>
 
     <ul class="nav nav-tabs" role="tablist">
         <li class="active" role="presentation"><a href="#pcpComments" aria-controls="pcpComments" role="tab" data-toggle="tab">Comments</a></li>
         <li role="presentation"><a href="#pcpDocuments" aria-controls="pcpDocuments" role="tab" data-toggle="tab">Related Documents</a></li>
+			<li role="presentation"><a href="#pcpOpenHouse" aria-controls="pcpOpenHouse" role="tab" data-toggle="tab">Open House Dates</a></li>
     </ul>
 
     <div class="pcp-tab-content tab-content">
@@ -110,6 +103,13 @@
         <div class="tab-pane active" role="tab-panel" id="pcpComments">
             <tmpl-public-comment-list x-period="period" x-project="project"></tmpl-public-comment-list>
         </div>
+			<div class="tab-pane active" role="tab-panel" id="pcpOpenHouse">
+				<ul class="list-unstyled" >
+					<li ng-repeat="h in period.openHouses">
+						<strong>{{ h.eventDate | amDateFormat:'MMMM Do YYYY' }}</strong><span class="desc"> - {{ h.description }}</span>
+					</li>
+				</ul>
+			</div>
     </div>
 
 </div>
