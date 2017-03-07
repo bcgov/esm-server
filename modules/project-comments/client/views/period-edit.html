@@ -186,25 +186,38 @@
 					<span class="glyphicon glyphicon-plus"></span><span>Add Open House</span>
 				</button>
 			</div>
-			<ul class="list-group">
-				<li class="list-group-item flex-row" ng-if="period.openHouses.length == 0">
-					<span class="title">No Open Houses for this Comment Period.</span>
-				</li>
-				<li class="list-group-item flex-row" ng-repeat="h in period.openHouses">
-					<div class="title">
-						<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
-						<pre class="open-house-desc">{{ h.description }}</pre>
-					</div>
-					<div class="actions">
-						<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</button>
-						<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
-							<span class="glyphicon glyphicon-trash"></span>
-						</button>
-					</div>
-				</li>
-			</ul>
+			<div class="table-container">
+				<table class="open-house-table table">
+					<thead>
+						<th class="date-col">Date</th>
+						<th>Details</th>
+						<th class="actions-col x2"></th>
+					</thead>
+					<tbody>
+						<tr ng-if="period.openHouses.length == 0">
+							<td colspan="2">No Open Houses for this Comment Period.</td>
+						</tr>
+						<tr ng-repeat="h in period.openHouses">
+							<td class="date-col">
+								{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}
+							</td>
+							<td class="desc-col">
+								{{ h.description }}
+							</td>
+							<td class="actions-col">
+								<div class="btns">
+									<button class="btn icon-btn" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</button>
+									<button class="btn icon-btn" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<!-- / OPEN HOUSE TAB CONTENT -->
 

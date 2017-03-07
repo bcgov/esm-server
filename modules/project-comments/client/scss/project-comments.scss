@@ -1,4 +1,6 @@
 
+$pcp-alert-bg: #003366;
+$pcp-alert-color: #fff;
 $pcp-btn-border: 1px solid #fcba19;
 $pcp-btn-bg: #fcba19;
 $pcp-btn-hover-bg: gold;
@@ -10,13 +12,13 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
     margin-bottom: 2rem;
 }
 
-/* Public Comment Period Alert Banner */
+// Public Comment Period Alert Banner
 .pcp-alert {
     @include flexbox();
     flex-direction: column;
     padding: 2rem;
-	background: #003366;
-	color: #FFF;
+	background: $pcp-alert-bg;
+	color: $pcp-alert-color;
     text-align: center;
 
     .pcp-alert-info {
@@ -175,7 +177,7 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
     }
 }
 
-/* Public Comment Period Details */
+// Public Comment Period Details
 .pcp-details {
 	padding: 2.5rem 2rem;
 	background-color: #FFF;
@@ -187,27 +189,10 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
 			line-height: 2.2rem;
 		}
 	}
-
-    .pcp-open-house {
-        margin-top: 2rem;
-
-        ul {
-            margin: 0;
-            padding-left: 2rem;
-
-            li {
-                margin-bottom: 0.5rem;
-
-                &:last-child {
-                    margin-bottom: 0;
-                }
-            }
-        }
-    }
 }
 
 
-/* List of Public Comment Periods */
+// List of Public Comment Periods
 .pcp-table {
     td, th {
         &:first-child {
@@ -231,7 +216,7 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
 }
 
 
-/* Comment Table */
+// Comments Table
 .comment-table {
     .id-col {
         width: 5rem;
@@ -345,4 +330,29 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
 
 .pcp-date {
     max-width: 100%;
+}
+
+// Open House Dates
+.open-house-table {
+    thead {
+        > tr {
+            > th {
+                padding-left: 1.5rem !important;
+            }
+        }
+    }
+
+    tbody {
+        > tr {
+            > td {
+                vertical-align: top;
+                padding-left: 1.5rem !important;
+            }
+        }
+    }
+
+    .date-col {
+        width: 18rem;
+        font-weight: 700;
+    }
 }
