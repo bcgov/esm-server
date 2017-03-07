@@ -26,6 +26,7 @@ module.exports = require('../controllers/core.schema.controller')('Application',
 		'createContact',
 		'createProject',
 		'manageRoles',
+		'manageCodeLists',
 		'managePermissions',
 		'addUsersToContext'
 	]

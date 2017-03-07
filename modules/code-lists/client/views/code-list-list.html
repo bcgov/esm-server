@@ -1,0 +1,44 @@
+
+<div class="view-title-container flex-row">
+	<h1>Manage Fields</h1>
+	<div class="actions" ng-if="application.userCan.manageCodeLists">
+		<select class="form-control"
+						ng-change="vm.changeFieldType()"
+						ng-model="vm.currentField"
+						ng-options="t.displayName for t in vm.codelists"
+						ng-selected="t.name === vm.currentField.name">
+		</select>
+	</div>
+</div>
+
+<div class="view-body-container" ng-if="application.userCan.manageCodeLists">
+	<div class="button-bar clearfix">
+		<button	class="btn btn-default btn-sm ng-scope"
+						ng-click="vm.openAddEdit();$event.stopPropagation();">
+			<span class="glyphicon glyphicon-plus"></span><span>Add {{vm.currentField.displayName}}</span>
+		</button>
+	</div>
+
+	<section class="panel panel-default">
+		<table ng-table="vm.tableParams" class="table table-hover table-striped">
+			<tr ng-repeat="o in $data" ui-sref="admin.codelist.detail({value:o.value})" class="clickable">
+				<td data-title="'Name'"
+						sortable="'display'">{{o.display}}</td>
+				<td data-title="'Sort Priority'"
+						sortable="'displayPriority'">
+					<span  ng-if="o.displayPriority" class="glyphicon glyphicon-arrow-up"></span>
+				</td>
+				<td data-title="'Active'"
+						sortable="'active'">
+					<span  ng-if="o.active" class="glyphicon glyphicon-ok"></span>
+				</td>
+				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
+					<button	class="btn btn-sm" ng-click="vm.openAddEdit(o);$event.stopPropagation();">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+				</td>
+			</tr>
+		</table>
+	</section>
+</div>
+
