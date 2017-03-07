@@ -1,11 +1,11 @@
 
 $pcp-alert-bg: #003366;
 $pcp-alert-color: #fff;
-$pcp-btn-border: 1px solid #fcba19;
-$pcp-btn-bg: #fcba19;
-$pcp-btn-hover-bg: gold;
-$pcp-btn-color: #002336;
-$pcp-btn-text-shadow: 1px 1px 0 gold;
+$pcp-btn-border: 1px solid #5091cd;
+$pcp-btn-bg: #5091cd;
+$pcp-btn-hover-bg: #96c0e6;
+$pcp-btn-color: #fff;
+$pcp-btn-text-shadow: 1px 1px 0 #3c85c7;
 $pcp-text-shadow: 1px 1px 1px #3478b6;
 
 .pcp-alert-container {
@@ -33,7 +33,7 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
         .pcp-dates {
             margin-top: 1rem;
             display: block;
-            color: $pcp-btn-bg;
+            color: $pcp-btn-color;
             font-size: 1.2rem;
         }
     }

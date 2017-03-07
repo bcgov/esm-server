@@ -17,7 +17,6 @@
     position: relative;
     width: 100%;
 
-
     .left-panel {
         position: absolute;
         z-index: 5;
@@ -62,6 +61,12 @@
         left: 0;
         overflow-y: auto;
     }
+}
+
+.mobile-nav-btn {
+    margin-top: -0.2rem;
+    margin-right: 0.75rem;
+    margin-left: -0.75rem;
 }
 
 @media (min-width: 1020px) {
