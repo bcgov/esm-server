@@ -4727,12 +4727,6 @@ tmpl-template-render {
 	}
 }
 
-.user-table {
-	tbody {
-		max-height: 30rem;
-	}
-}
-
 .form-footer {
 	.btn {
 		min-width: 8rem;
@@ -4764,4 +4758,5 @@ tmpl-template-render {
 @import "modules/projects/client/scss/project-schedule.scss";
 @import "modules/project-comments/client/scss/project-comments.scss";
 @import "modules/users/client/scss/user-entry.scss";
+@import "modules/users/client/scss/user-search-chooser.scss";
 @import "modules/vcs/client/scss/vc-list.scss";

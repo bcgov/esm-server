@@ -670,8 +670,7 @@ span.avatar {
         opacity: 0;
         z-index: 2;
 
-        &:hover,
-        &:focus {
+        &:hover {
             + label {
                 background: #EEE;
 
