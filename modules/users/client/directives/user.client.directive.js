@@ -22,6 +22,7 @@ function directiveUserEntry(_) {
 			enableDelete: '=',
 			enableSave: '=',
 			enableEdit: '=',
+			enableSetOrganization: '=',
 			showDisplayName: '=',
 			showUsername: '=',
 			org: '=',
@@ -259,6 +260,7 @@ function directiveEditMyProfile($modal, _) {
 						$scope.enableDelete = false;
 						$scope.enableSave = true;
 						$scope.enableEdit = false;
+						$scope.enableSetOrganization = false;
 						$scope.enableSignature = false;
 						$scope.enableNotes = false;
 						$scope.showDisplayName = false;

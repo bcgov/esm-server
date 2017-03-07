@@ -55,6 +55,7 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				$scope.enableDelete = false;
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
+				$scope.enableSetOrganization = true;
 				$scope.enableSignature = false;
 				$scope.enableNotes = true;
 				$scope.showDisplayName = false;
@@ -98,6 +99,7 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				$scope.enableDelete = true;
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
+				$scope.enableSetOrganization = true;
 				$scope.enableSignature = true;
 				$scope.enableNotes = true;
 				$scope.showDisplayName = true;
@@ -141,6 +143,7 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				$scope.enableDelete = false;
 				$scope.enableSave = false;
 				$scope.enableEdit = true;
+				$scope.enableSetOrganization = false;
 				$scope.enableSignature = true;
 				$scope.enableNotes = true;
 				$scope.showDisplayName = true;

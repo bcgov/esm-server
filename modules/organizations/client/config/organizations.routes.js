@@ -248,6 +248,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				$scope.enableDelete = false;
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
+				$scope.enableSetOrganization = false;
 				$scope.enableSignature = false;
 				$scope.enableNotes = true;
 				$scope.showDisplayName = false;
@@ -294,6 +295,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				$scope.enableDelete = true;
 				$scope.enableSave = true;
 				$scope.enableEdit = false;
+				$scope.enableSetOrganization = false;
 				$scope.enableSignature = true;
 				$scope.enableNotes = true;
 				$scope.showDisplayName = true;
@@ -342,6 +344,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				$scope.enableDelete = false;
 				$scope.enableSave = false;
 				$scope.enableEdit = true;
+				$scope.enableSetOrganization = false;
 				$scope.enableSignature = true;
 				$scope.enableNotes = true;
 				$scope.showDisplayName = true;
