@@ -11,15 +11,16 @@
 	<div class="pcp-alert-container" ng-if="activeperiod">
 		<div class="pcp-alert clearfix">
 			<div class="pcp-alert-info">
-				<h2>Public Comment Period is Now Open.</h2>
+				<h2>Public Comment Period is Now Open</h2>
 				<span class="pcp-dates">{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
-				<span class="pcp-details-btn">
-					<a  class="btn" title="Details"  ui-sref="p.commentperiod.detail({periodId:activeperiod._id})" >Details</a>
-				</span>
 			</div>
-			<div class="pcp-alert-btn">
-				<button class="btn" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
-					Click Here to Submit a Comment
+			<div class="pcp-alert-btns">
+				<a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
+					<span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
+				</a>
+				<span class="pcp-btn-spacer">or</span>
+				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
+					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
 				</button>
 			</div>
 		</div>

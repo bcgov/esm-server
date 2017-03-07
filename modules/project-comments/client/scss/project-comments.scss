@@ -1,4 +1,11 @@
 
+$pcp-btn-border: 1px solid #fcba19;
+$pcp-btn-bg: #fcba19;
+$pcp-btn-hover-bg: gold;
+$pcp-btn-color: #002336;
+$pcp-btn-text-shadow: 1px 1px 0 gold;
+$pcp-text-shadow: 1px 1px 1px #3478b6;
+
 .pcp-alert-container {
     margin-bottom: 2rem;
 }
@@ -7,53 +14,120 @@
 .pcp-alert {
     @include flexbox();
     flex-direction: column;
-    padding: 2.25rem 2rem;
-	background: #2b5580;
+    padding: 2rem;
+	background: #003366;
 	color: #FFF;
+    text-align: center;
 
     .pcp-alert-info {
         @include flex(1 1 auto);
 
         h2 {
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: bold;
         }
 
         .pcp-dates {
+            margin-top: 1rem;
             display: block;
-            margin-top: 0.25rem;
-            font-size: 1.6rem;
+            color: $pcp-btn-bg;
+            font-size: 1.2rem;
         }
     }
 
-    .pcp-alert-btn {
+    .pcp-alert-btns {
+        @include flexbox();
         @include flex(0 0 auto);
+        margin-top: 1.5rem;
+        flex-direction: column;
+        text-align: center;
 
         .btn {
-            margin-top: 1.5rem;
-            padding: 1.25rem 1.75rem;
-            width: 100%;
-            height: 100%;
-            background-color: #5091cd;
-		    color: #FFF;
-            font-size: 1.6rem;
+            @include flex(1 1 auto);
+            padding: 1rem;
+            border: $pcp-btn-border;
+            background-color: $pcp-btn-bg;
+            color: $pcp-btn-color;
+            text-shadow: $pcp-btn-text-shadow;
+            font-size: 1.25rem;
             font-weight: normal;
+            transition: background ease-out 0.2s;
 
+            
             &:hover { 
-                background: #5f9bd1;
+                background: $pcp-btn-hover-bg;
             } 
+            
+            .glyphicon {
+                margin-top: -0.5rem;
+                margin-right: 0.2rem;
+                margin-left: -0.1rem;
+                vertical-align: middle;
+                font-size: 1.2rem;
+            }
+        }
+
+        .pcp-btn-spacer {
+            @include flex(1 1 auto); 
+            margin: 0.25rem;
+            text-align: center;
         }
     }
-    .pcp-details-btn {
-        .btn {
-            background-color: #5091cd;
-            color: #FFF;
-            font-size: 1.6rem;
-            font-weight: normal;
+}
 
-            &:hover {
-                background: #5f9bd1;
+@media (min-width: 410px) {
+    .pcp-alert {
+        .pcp-alert-info {
+            h2 {
+                font-size: 2rem;
+            }
+
+            .pcp-dates {
+                margin-top: 0.25rem;
+            }
+        }
+
+        .pcp-alert-btns {
+            flex-direction: row;
+            text-align: center;
+
+            .pcp-btn-spacer {
+                margin-top: 1.1rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 700px) {
+    .pcp-alert {
+        flex-direction: row;
+        text-align: left;
+
+        .pcp-alert-info {
+            margin-right: 1rem;
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .pcp-dates {
+                margin-top: 0;
+                font-size: 1.6rem;
+            }
+        }
+
+        .pcp-alert-btns {
+            display: block;
+            margin-top: 0;
+
+            .btn {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .pcp-btn-spacer {
+                margin-right: 0.5rem;
+                margin-left: 0.5rem;
             }
         }
     }
@@ -61,29 +135,9 @@
 
 @media (min-width: 760px) {
     .pcp-alert {
-        flex-direction: row;
-
-        .pcp-alert-info {
-            margin-right: 1rem;
-
-            h2 {
-                font-size: 2.4rem;
-            }
-        }
-
-        .pcp-alert-btn {
-            .btn {
-                margin-top: 0;
-            }
-        }
-    }
-}
-
-@media (min-width: 1020px) {
-    .pcp-alert {
         .pcp-alert-info {
             h2 {
-                font-size: 2.6rem;
+                font-size: 2.1rem;
             }
         }
     }
@@ -94,6 +148,28 @@
         .pcp-alert-info {
             h2 {
                 font-size: 2.8rem;
+            }
+        }
+
+        .pcp-alert-btns {
+            @include flex(0 0 auto);
+            margin-top: 0;
+
+            .btn {
+                padding: 1.3rem 1.75rem;
+                font-size: 1.55rem;
+
+                .glyphicon {
+                    margin-top: -0.4rem;
+                    margin-right: 0.2rem;
+                    margin-left: -0.1rem;
+                    vertical-align: middle;
+                    font-size: 1.5rem;
+                }
+            }
+
+            .pcp-btn-spacer {
+                margin: 0 0.5rem;
             }
         }
     }

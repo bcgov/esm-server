@@ -6,16 +6,14 @@
 
 <div class="view-body-container">
 
-	<!-- This page shows the details of a PCP -->
 	<div class="pcp-alert-container">
 		<div class="pcp-alert">
 			<div class="pcp-alert-info">
-				<h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span>.</h2>
-				<span class="pcp-dates">{{ period.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ period.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
-			</div>
-			<div class="pcp-alert-btn">
-				<button class="btn" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="period">
-					Click Here to Submit a Comment
+				<h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span></h2>
+				<span class="pcp-dates">{{ period.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ period.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span></div>
+			<div class="pcp-alert-btns">
+				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="period">
+					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
 				</button>
 			</div>
 		</div>
