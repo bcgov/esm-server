@@ -298,6 +298,7 @@ angular
 			'redirectHomepageToGeorgeMassey': false
 		}
 	)
+	.constant('EAO_COMPLIANCE_EMAIL', 'eao.compliance@gov.bc.ca')
 	.factory ('codeFromTitle', function () {
 		return function (title) {
 			if (title) {
