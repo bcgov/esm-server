@@ -24,6 +24,7 @@ angular.module('users')
 			scope: {
 				project: '=',
 				destination: '=',
+				orgid: '=',
 				title: '=',
 				singleselectmode: '=',
 				searchmode: '='
@@ -69,7 +70,7 @@ angular.module('users')
 							// search params...
 							s.name = undefined;
 							s.email = undefined;
-							s.org = undefined;
+							s.org = scope.orgid;
 							s.groupId = undefined;
 
 							$scope.userList = [];
@@ -162,7 +163,10 @@ angular.module('users')
 
 						}
 					}).result.then(function (data) {
-						if (_.isArray(scope.destination)) {
+						var isFunction = typeof(scope.destination) === 'function';
+						if(isFunction) {
+							scope.destination(data);
+						} else if (_.isArray(scope.destination)) {
 							scope.destination = data;
 						} else {
 							scope.destination = data[0];
