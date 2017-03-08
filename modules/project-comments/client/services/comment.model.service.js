@@ -132,6 +132,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 			return new Promise (function (resolve, reject) {
 				var data = "";
 				var header = [
+				'id',
 				'comment',
 				'date added',
 				'author',
@@ -156,6 +157,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 						console.log ('comment > 32000');
 						comment = comment.substr (0,32000) + ' --- TRUNCATED FOR IMPORT TO EXCEL --- ';
 					}
+					a.push (row.commentId);
 					a.push (comment);
 					a.push (row.dateAdded);
 					a.push ((!row.isAnonymous) ? row.author : '');
