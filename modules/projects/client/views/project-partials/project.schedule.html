@@ -107,7 +107,7 @@
 											<th class="date-col">Estimate Dates</th>
 											<th class="date-col">Actual Dates</th>
 											<th class="phase-action-col"></th>
-											<th class="actions-col action-x2"></th>
+											<th class="actions-col x2"></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -129,21 +129,23 @@
 											<td class="phase-action-col">
 												<span class="label label-success" ng-if="milestone.status === 'Complete'">Completed</span>
 												<div ng-if="project.userCan.editSchedule">
-													<button class="btn btn-primary btn-xs"
+													<button class="btn btn-primary btn-xs" title="Start Milestone"
 															ng-if="milestone.status === 'Not Started'"
 															ng-click="startMilestone(milestone)">Start Milestone</button>
-													<button class="btn btn-primary btn-xs"
+													<button class="btn btn-primary btn-xs" title="Mark Milestone Complete"
 															ng-if="milestone.status === 'In Progress'"
 															ng-click="completeMilestone(milestone)">Mark Complete</button>
 												</div>
 											</td>
-											<td class="actions-col action-x2" ng-if="project.userCan.editSchedule">
-												<button class="btn btn-default btn-sm" ng-click="openEditMilestone(milestone)">
-													<span class="glyphicon glyphicon-pencil"></span>
-												</button>
-												<button class="btn btn-default btn-sm" ng-click="openDeleteMilestone(milestone)">
-													<span class="glyphicon glyphicon-remove"></span>
-												</button>
+											<td class="actions-col" ng-if="project.userCan.editSchedule">
+												<div class="btns">
+													<button class="btn icon-btn" title="Edit Milestone" ng-click="openEditMilestone(milestone)">
+														<span class="glyphicon glyphicon-pencil"></span>
+													</button>
+													<button class="btn icon-btn" title="Remove Milestone" ng-click="openDeleteMilestone(milestone)">
+														<span class="glyphicon glyphicon-trash"></span>
+													</button>
+												</div>
 											</td>
 										</tr>
 										<tr ng-if="phase.milestones.length == 0">
