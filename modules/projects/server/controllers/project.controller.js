@@ -271,16 +271,22 @@ module.exports = DBModel.extend ({
 			var f = new FolderClass (self.opts);
 			// First find any documents that have this id as a parent.
 			return DocumentModel.find({directoryID: parseInt(folderId), project: projectId})
-			.then( function (doc) {
+			.then(function (doc) {
 				// console.log("doc:", doc);
 				if (doc.length !== 0) {
 					// bail - this folder contains published files.
 					return Promise.reject(doc);
 				}
-				return null;
+				return self.findById(projectId);
 			})
-			.then(function (err) {
-				return f.findOne({directoryID: folderId, project: projectId});
+			.then(function (project) {
+				// check for manageFolders permission
+				if (!project.userCan.manageFolders) {
+					return Promise.reject(project);
+					//reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+				} else {
+					return f.findOne({directoryID: folderId, project: projectId});
+				}
 			})
 			.then(function (dir) {
 				// console.log("dir:");
@@ -291,15 +297,6 @@ module.exports = DBModel.extend ({
 				.then(function () {
 					return self.findById(projectId);
 				});
-			})
-			.then(function (project) {
-				// check for manageFolders permission
-				if (!project.userCan.manageFolders) {
-					return Promise.reject(project);
-					//reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
-				} else {
-					return project;
-				}
 			})
 			.then(function (project) {
 				// console.log("current structure:", project.directoryStructure);
@@ -355,7 +352,7 @@ module.exports = DBModel.extend ({
 				.then(function (project) {
 					// check for manageFolders permission
 					if (!project.userCan.manageFolders) {
-						reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+						return Promise.reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
 					} else {
 						return project;
 					}
@@ -429,7 +426,7 @@ module.exports = DBModel.extend ({
 				.then(function (project) {
 					// check for manageFolders permission
 					if (!project.userCan.manageFolders) {
-						reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+						return Promise.reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
 					} else {
 						return project;
 					}
@@ -482,7 +479,7 @@ module.exports = DBModel.extend ({
 			var f = new FolderClass (self.opts);
 			return f.list({project: projectId})
 			.then(function (foldersViewable) {
-				console.log("Folders viewable:", foldersViewable);
+				// console.log("Folders viewable:", foldersViewable);
 				folders = foldersViewable;
 				return self.findById(projectId);
 			})
@@ -490,22 +487,21 @@ module.exports = DBModel.extend ({
 				var tree = new TreeModel();
 				if (!project.directoryStructure) {
 					project.directoryStructure = {id: 1, name: 'ROOT', lastId: 1, published: true};
-					//return project.directoryStructure;
 				}
 				var root = tree.parse(project.directoryStructure);
 				root.all(function (node) {
 				    return true;
 				    // return node.model.published !== true;
 				}).forEach( function (n) {
-					console.log("n:", n.model.id);
+					// console.log("n:", n.model.id);
 					var found = folders.find(function (el) {
 						// console.log("el:", el.directoryID);
 						return el.directoryID === parseInt(n.model.id);
 					});
 					// Make sure we could have read that folder, otherwise consider it dropped.
-					console.log("FOUND:", found);
+					// console.log("FOUND:", found);
 					if (!found) {
-						console.log("dropping node:", n);
+						// console.log("dropping node:", n);
 						n.drop();
 					}
 				});
