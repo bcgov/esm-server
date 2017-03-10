@@ -1,7 +1,7 @@
 'use strict';
 angular.module('communications')
 
-	.directive('recipientsMgr', ['_', 'moment', 'NgTableParams', 'Authentication', 'AlertService', 'ConfirmService', 'CodeLists', 'ProjectModel', 'CommunicationModel', 'UserModel', function (_, moment, NgTableParams, Authentication, AlertService, ConfirmService, CodeLists, ProjectModel, CommunicationModel, UserModel) {
+	.directive('recipientsMgr', ['_', 'moment', 'NgTableParams', 'Authentication', 'AlertService', 'ConfirmService', 'ProjectModel', 'CommunicationModel', 'UserModel', function (_, moment, NgTableParams, Authentication, AlertService, ConfirmService, ProjectModel, CommunicationModel, UserModel) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -15,7 +15,7 @@ angular.module('communications')
 				showMail: '='
 			},
 			templateUrl: 'modules/communications/client/views/recipients-manager.html',
-			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, AlertService, ConfirmService, CodeLists, ProjectModel, CommunicationModel, UserModel) {
+			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, AlertService, ConfirmService, ProjectModel, CommunicationModel, UserModel) {
 
 				// targets for adding new or existing recipients...
 				$scope.adhocTo = undefined;
