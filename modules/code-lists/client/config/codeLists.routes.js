@@ -102,7 +102,7 @@
 			controller: function ($scope, $modalInstance, _) {
 				var vm = this;
 				vm.title = item ? "Edit" : "Add";
-				vm.okText = item ? "Submit" : "Add";
+				vm.okText = item ? "Save" : "Add";
 				vm.name = item ? item.value : '';
 				vm.display = item ? item.display : '';
 				vm.displayPriority = item ? item.displayPriority : false;
