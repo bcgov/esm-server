@@ -112,6 +112,7 @@
 				vm.active = item ? item.active : true;
 				vm.editMode = !!item;
 				vm.validationMessage = '';
+				// create list of all items except the one being edited. Don't include the empty element.
 				vm.otherItems = _.filter(currentField.items, function (o) {
 					if (vm.editMode) {
 						return o.value !== '' && o.value !== item.value;
@@ -128,9 +129,18 @@
 				});
 
 				vm.validate = function (newVal) {
-					var existing = _.find(vm.otherItems, {value: newVal});
-					vm.validationMessage = existing ? newVal + " already exists" : "";
-					vm.isValid = vm.validationMessage.length === 0;
+					vm.validationMessage = '';
+					if (!newVal) {
+						vm.isValid = false;
+					} else {
+						// case insensitive check for uniqueness.
+						newVal = newVal.toLowerCase();
+						var existing = _.find(vm.otherItems, function (o) {
+							return o.value.toLowerCase() === newVal;
+						});
+						vm.validationMessage = (existing ? newVal + " already exists" : "");
+						vm.isValid = vm.validationMessage.length === 0;
+					}
 				};
 
 				vm.ok = function () {

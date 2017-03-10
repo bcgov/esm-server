@@ -16,7 +16,7 @@
 					ng-selected="t.name === vm.currentField.name">
 				</select>
 				<span class="input-group-btn">
-					<button	class="btn btn-default" title="Add New Value"
+					<button	class="btn btn-default" title="Add new {{vm.currentField.displayName}}"
 						ng-click="vm.openAddEdit();$event.stopPropagation();">
 						<span class="glyphicon glyphicon-plus"></span>
 					</button>
