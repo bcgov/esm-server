@@ -55,7 +55,7 @@ module.exports = function (app) {
 	app.route('/api/project/byEpicProjectID/:epicprojectid')
 		.all(policy ('guest'))
 		.get(routes.setAndRun(Project, function (model, req) {
-			return model.one({epicProjectID: req.params.epicprojectid}, "-directoryStructure");
+			return model.one({epicProjectID: req.params.epicprojectid});
 		}));
 	//
 	// get all projects in certain statuses
@@ -102,7 +102,7 @@ module.exports = function (app) {
 	app.route ('/api/project/bycode/:projectcode')
 		.all (policy ('guest'))
 		.get (routes.setAndRun(Project, function (model, req) {
-			return model.one ({code:req.params.projectcode}, "-directoryStructure");
+			return model.one ({code:req.params.projectcode});
 		}));
 	// app.route ('/api/')
 	// 	.all (policy ('user'))
@@ -118,7 +118,7 @@ module.exports = function (app) {
 
 	app.route ('/api/projects/mine')
 		.get (routes.setAndRun (Project, function (model, req) {
-			return model.mine ({}, "-directoryStructure");
+			return model.mine ();
 		}));
 
 
@@ -207,16 +207,6 @@ module.exports = function (app) {
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
 			return model.moveDirectory (req.Project, req.params.folderid, req.params.newparentid);
-		}));
-	app.route ('/api/project/:project/directory/publish/:folderid')
-		.all (policy ('user'))
-		.put (routes.setAndRun (Project, function (model, req) {
-			return model.publishDirectory (req.Project, req.params.folderid);
-		}));
-	app.route ('/api/project/:project/directory/unpublish/:folderid')
-		.all (policy ('user'))
-		.put (routes.setAndRun (Project, function (model, req) {
-			return model.unPublishDirectory (req.Project, req.params.folderid);
 		}));
 	app.route ('/api/project/:project/directory/list')
 		.all (policy ('guest'))

@@ -361,7 +361,7 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 	if (r.getall) app.route ('/api/'+basename)
 		.all (policy (policymap))
 		.get  (setAndRun (DBClass, function (model, req) {
-			return model.list ({}, "-directoryStructure");
+			return model.list ();
 		}));
 	if (r.getall) app.route ('/api/write/'+basename)
 		.all (policy ({all:'user'}))
