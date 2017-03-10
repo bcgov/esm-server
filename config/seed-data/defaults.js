@@ -183,22 +183,6 @@ module.exports = function () {
 		}
 	}));
 
-	defaultsArray.push(new Defaults({
-		context: 'project',
-		resource: 'folder',
-		level: 'global',
-		type: 'default-permissions',
-		defaults: {
-			roles: defaultRoles,
-			permissions: {
-				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'write' : ['assessment-admin', 'project-system-admin'],
-				'delete' : ['assessment-admin', 'project-system-admin'],
-				'publish' : ['assessment-admin', 'project-system-admin'],
-				'unPublish' : ['assessment-admin', 'project-system-admin']
-			}
-		}
-	}));
 
 	defaultsArray.push(new Defaults({
 		context: 'project',
