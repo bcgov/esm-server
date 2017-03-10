@@ -100,7 +100,12 @@ angular
 			var theDocuments = _.forEach($scope.documents, function(o) { return o._id; });
 			self.communication.documents = angular.copy(theDocuments);
 			// create a recipient list...
-			self.communication.recipients = angular.copy($scope.recipients);
+			self.communication.recipients = [];
+			_.each($scope.recipients, function(r) {
+				// recipients mgr may have added some extra fields we don't store...
+				var arrr = _.omit(angular.copy(r), ['firstName', 'lastName']);
+				self.communication.recipients.push(arrr);
+			});
 
 			var xformEmail = transformTemplate();
 			self.communication.subject = xformEmail.subject;
