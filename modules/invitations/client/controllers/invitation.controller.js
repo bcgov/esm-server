@@ -61,7 +61,12 @@ angular
 
 			//(use angular copy to remove $$hashKey)...
 			// create a recipient list...
-			self.communication.recipients = angular.copy($scope.recipients);
+			self.communication.recipients = [];
+			_.each($scope.recipients, function(r) {
+				// recipients mgr may have added some extra fields we don't store...
+				var arrr = _.omit(angular.copy(r), ['firstName', 'lastName']);
+				self.communication.recipients.push(arrr);
+			});
 
 		};
 
