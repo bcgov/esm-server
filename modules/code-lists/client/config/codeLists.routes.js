@@ -34,7 +34,7 @@
 			url: '/:codelistName',
 			templateUrl: 'modules/code-lists/client/views/code-list-list.html',
 			controllerAs: 'vm',
-			controller: function ($scope, $state, $stateParams, $modal, _, NgTableParams, AlertService, CodeListModel, codelists) {
+			controller: function ($scope, $state, $stateParams, $modal, _, NgTableParams, AlertService, CodeListModel, codelists, CodeLists) {
 				var vm = this;
 
 				// UI selects which code list to work with. Reload the table:
@@ -76,6 +76,9 @@
 					var newSorted = _.sortByOrder(others, ['active', 'displayPriority', 'display'], ['desc', 'desc', 'asc']);
 					vm.currentField.items = newSorted;
 					CodeListModel.save(vm.currentField)
+					.then(function() {
+						CodeLists.refresh();
+					})
 					.then(function () {
 						transition();
 					})
