@@ -5,7 +5,7 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
+angular.module('comment').factory ('CommentModel', function (ModelBase, moment, _) {
 	//
 	// build the model by extending the base model. the base model will
 	// have all the basic crud stuff built in
@@ -31,6 +31,31 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 		},
 		getProponentCommentsForPeriod: function (periodId) {
 			return this.get ('/api/proponentcomments/period/'+periodId);
+		},
+		getCommentsForPeriod: function( periodId, eaoStatus, proponentStatus, isPublished,
+									    commentId, authorComment, location, pillar, topic,
+										start, limit, orderBy, reverse) {
+
+			var obj = {
+				// primary query...
+				periodId: periodId,
+				eaoStatus: eaoStatus,
+				proponentStatus: proponentStatus,
+				isPublished: isPublished,
+				// filter fields...
+				commentId: commentId,
+				authorComment: authorComment,
+				location: location,
+				pillar: pillar,
+				topic: topic,
+				// pagination
+				start: start,
+				limit: limit,
+				orderBy: orderBy,
+				reverse: reverse
+			};
+
+			return this.put ('/api/comments/period/' + periodId + '/paginate', obj);
 		},
 		// -------------------------------------------------------------------------
 		//
@@ -145,6 +170,7 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 				data += '"' + header.join ('","') + '"' + "\r\n";
 				_.each (tableParams, function (row) {
 					var a = [];
+					a.push(row.commentId);
 					var comment = row.comment
 					.replace (/\•/g, '-')
 					.replace (/\’/g, "'")
@@ -153,25 +179,30 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, _) {
 					.replace (/\“/g, '"')
 					.replace (/\”/g, '"')
 					.replace (/"/g, '""');
-					if (comment.length > 30000) {
-						console.log ('comment > 32000');
-						comment = comment.substr (0,32000) + ' --- TRUNCATED FOR IMPORT TO EXCEL --- ';
+					// https://support.office.com/en-us/article/Excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3
+					// actual max is 32,767
+					var MAX = 32000;
+					if (comment.length > MAX) {
+						console.log ('comment > '+ MAX);
+						comment = comment.substr (0,MAX) + ' --- TRUNCATED FOR IMPORT TO EXCEL --- ';
 					}
-					a.push (row.commentId);
 					a.push (comment);
-					a.push (row.dateAdded);
+					var ts = moment(row.dateAdded);
+					var tsStr = ts.format('YYYY-MM-DDThh:mm:ssZZ');
+					a.push (tsStr);
 					a.push ((!row.isAnonymous) ? row.author : '');
 					a.push (row.location);
+					var arrayJoinChar = '; ';
 					a.push (row.pillars.map (function (v) {
 						return v.replace (/"/g, '""');
-					}).join (', '));
+					}).join (arrayJoinChar));
 					a.push (row.topics.map (function (v) {
 						return v.replace (/"/g, '""');
-					}).join (', '));
+					}).join (arrayJoinChar));
 					a.push (row.eaoStatus);
 					a.push (row.documents.map (function (v) {
 						return '""' + window.location.protocol + '//' + window.location.host + '/api/document/'+v._id+'/fetch""';
-					}).join (', '));
+					}).join (arrayJoinChar));
 
 					data += '"' + a.join ('","') + '"' + "\r\n";
 				});

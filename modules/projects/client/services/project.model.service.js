@@ -43,6 +43,9 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		mine: function () {
 			return this.get ('/api/projects/mine');
 		},
+		forProponent: function(id) {
+			return this.get ('/api/projects/proponent/' + id);
+		},
 		getProjectDirectory: function (project) {
 			return this.get ('/api/project/' + project._id + '/directory/list');
 		},

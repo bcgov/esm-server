@@ -11,7 +11,7 @@
 		<div class="form-inline">
 			<div class="form-control date-picker" x-modal-date-picker x-selected-date="s.openHouse.eventDate">
 				<span ng-if="!s.openHouse.eventDate">Select Date</span>
-				{{ s.openHouse.eventDate | amDateFormat:'MMM Do YYYY' }}
+				{{ s.openHouse.eventDate | amDateFormat:'MMM Do, YYYY' }}
 				<span class="glyphicon glyphicon-calendar"></span>
 			</div>
 		</div>

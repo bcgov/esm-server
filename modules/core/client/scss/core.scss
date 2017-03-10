@@ -326,10 +326,6 @@ pre.value {
 	padding-top: 0;
 }
 
-.well > h3,.panel-body h3:first-child {
-	margin-top: 0;
-	margin-bottom: 20px;
-}
 .well > h5,.panel-body h5:first-child {
 	margin-top: 0;
 	margin-bottom: 20px;
@@ -997,10 +993,6 @@ h3.activity-title {
 // MODALS...
 // -------------------------
 
-.table-modal {
-	margin-bottom: 0
-}
-
 .modal-header input.form-control {
 	background-color: rgba(255,255,255,0.3);
 	color: #fff;
@@ -1076,26 +1068,6 @@ h2.page-title {
 }
 .navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
 
-.doc-detail-col {
-	border-right: 1px solid $border-grey;
-	overflow: hidden;
-	padding-right: 0;
-}
-
-.doc-action-col {
-	text-align: center;
-	font-size: 2rem;
-	padding-top: 5px;
-	padding-left: 0;
-}
-
-.doc-action-col a {
-	display: block;
-	text-align: center;
-	overflow: hidden;
-	white-space: nowrap;
-}
-
 .well hr {
 	border-top: 1px solid $border-grey;
 	margin-top: 5px;
@@ -1153,39 +1125,6 @@ h2.page-title {
     	transform: scale(1) rotate(360deg);
     }
 }
-
-/*
-//-------------------
-// Schedule D3 Styles
-// -------------------
-*/
-
-.schedule-control-cell {
-	padding: 0 !important;
-	position: relative;
-}
-.svg-div-root {
-	position: absolute;
-	top:0;left:0;bottom:0;right:0;
-	overflow: hidden;
-}
-
-.svg-element{
-	position: relative;
-	width: 100%;
-}
-
-.svg-background{
-	fill: lightyellow;
-	fill-opacity: 0.3;
-}
-
-.projectToday-line {
-	stroke: darkorange;
-	stroke-width: .5;
-	fill: none;
-}
-
 
 /*
 // -------------------
@@ -1609,11 +1548,6 @@ ui-view {
 	border-bottom: 1px solid #EEE;
 	background: #FFF;
 	min-width: 0;
-
-	.mobile-nav-btn {
-		margin-top: -0.2rem;
-		margin-right: 0.75rem;
-	}
 
     h1 {
         margin: 0;
@@ -2148,57 +2082,6 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 }
 
 
-/* ACCORDION CONTROL
------------------------------ */
-.panel-default.accordion > .panel-heading {
-	padding: 0;
-}
-
-.accordion {
-	.panel-heading {
-		a {
-			display: block;
-			padding: 1rem 1.5rem;
-			font-size: 1.6rem;
-			font-weight: bold;
-			color: $app-base-color;
-			
-			h2 {
-				margin-top: 1px;
-			}
-			
-			.glyphicon {
-				margin-top: 0.4rem;
-				margin-right: 1rem;
-				margin-left: -0.2rem;
-				font-size: 1.2rem;
-			}
-			
-			.glyphicon-triangle-right {
-				display: none;
-			}
-			
-			.glyphicon-triangle-bottom {
-				display: inline-block;
-			}
-
-			&:hover,
-			&:focus {
-				text-decoration: none;
-			}
-		}
-		
-		a.collapsed {
-			.glyphicon-triangle-right {
-				display: inline-block;
-			}
-			
-			.glyphicon-triangle-bottom {
-				display: none;
-			}
-		}
-	}
-}
 
 .breadcrumbs {
 	padding: 1.5rem 2.5rem;
@@ -3048,18 +2931,6 @@ form {
 		.actions {
 			-webkit-flex: 1 1 auto;
 			flex: 0 0 auto;
-
-			.btn {
-				margin-top: 0.6rem;
-				margin-right: 0.6rem;
-				margin-left: -0.25rem;
-
-				&:hover,
-				&:focus {
-					background: $btn-focus-bg-color;
-					border-color: $btn-focus-border-color;
-				}
-			}
 		}
 	}
 }
@@ -3198,140 +3069,23 @@ section {
 }
 
 .tab-pane {
-	padding-top: 2rem;
+	padding-top: 2.5rem;
 }
 
 
 /* TABLES
 ------------------------------ */
-.table-th {
-	padding: 0.8rem 0.5rem;
-	overflow: hidden;
-	font-size: 1.2rem;
-	text-align: left;
-	text-overflow: ellipsis;
-	background: $table-head-bg;
-	border-bottom: none;
-	vertical-align: top;
-	white-space: nowrap;
-}
-
-.table-td {
-	padding: 0.8rem 0.5rem;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.first-col {
-	padding-left: 1rem;
-}
-
-.last-col {
-	padding-right: 1rem;
-}
-
 .table {
-	margin: 0;
-	table-layout: fixed;
-	background: $table-bg;
-
-	thead {
-		> tr {
-			> th {
-				@extend .table-th;
-
-				&:first-child {
-					@extend .first-col;
-				}
-
-				&:last-child {
-					@extend .last-col;
-				}
-			}
-		}
-	}
-
-	tbody {
-		> tr {
-			> td {
-				@extend .table-td;
-
-				&:first-child {
-					@extend .first-col;
-				}
-
-				&:first-child.select {
-					padding-left: 4rem;
-				}
-
-				&:last-child {
-					@extend .last-col;
-				}
-			}
-		}
-	}
-
-	&.table-striped {
-		> tbody > tr:nth-of-type(odd) {
-			background-color: #f7f8fa;
-		}	
-	}
-
-	&.table-hover {
-		> tbody {
-			> tr {
-				&.active {
-					td {
-						color: #FFF;
-						background: $table-row-active-bg;
-					}
-				}
-			}
-		}
-
-		> tbody > tr:hover {
-			background-color: $table-row-hover-bg;
-		}
-
-		.no-records:hover {
-			background: none;
-		}
-	}
-	
-	td.actions-col {
-		padding-top: 0;
-		padding-right: 0.5rem;
-		padding-bottom: 0;
-		text-align: right;
-		
-		.btn {
-			margin-top: 0.35rem;
-			padding-left: 0.8rem;
-			padding-right: 0.8rem;
-			background: transparent;
-			border-color: transparent;
-
-			&:hover,
-			&:focus {
-				background: $btn-focus-bg-color;
-				border-color: $btn-focus-border-color;
-			}
-		}
-	}
-
-	.no-records {
-		td {
-			padding: 1rem 1.5rem;
-			border: none;
-		}
-	}
-	
 	.action-x1 {
 		width: 4.5rem;
 	}
 	
 	.action-x2 {
 		width: 8.5rem;
+	}
+
+	.action-x3 {
+		width: 11.5rem;
 	}
 
 	.select-col {
@@ -3351,26 +3105,6 @@ section {
 		padding-right: 0.5rem;
 		text-align: right;
 		vertical-align: middle;
-	}
-}
-
-.ng-table-sort-header {
-	th {
-		@extend .table-th;
-	}
-}
-
-.ng-table-filters {
-	background: $table-filter-bg;
-
-	th {
-		border-bottom: none;
-		font-size: 1.4rem;
-		font-weight: normal;
-	}
-
-	.input-sm {
-		font-size: 1.4rem;
 	}
 }
 
@@ -3586,100 +3320,10 @@ section {
 	}
 }
 
-.pcp-alert {
-	padding: 2.25rem 2rem;
-	background: #2b5580;
-	color: #FFF;
-
-	h2 {
-		margin-top: 0;
-		margin-bottom: 0;
-		font-size: 2.8rem;
-	}
-
-	.pcp-dates {
-		font-size: 1.8rem;
-	}
-
-	.pcp-about {
-		margin-top: 2rem;
-		padding-top: 1.25rem;
-		border-top: 2px solid rgba(255,255,255,0.2);
-
-		p {
-			margin: 0;
-			font-size: 1.5rem;
-			line-height: 2.2rem;
-		}
-	}
-
-	.submit-comment-btn {
-		width: 100%;
-		margin-top: 2rem;
-		margin-bottom: 0.5rem;
-		padding: 1.5rem 2rem;
-		font-size: 1.6rem;
-		color: #FFF;
-		background: #5091cd;
-		&:hover { 
-			background: #5f9bd1;
-		}
-	}
-
-	.toggle {
-		margin-top: 1rem;
-		padding-top: 1rem;
-		font-size: 1.2rem;
-		text-transform: uppercase;
-		border-top: 1px solid #FFF;
-		clear: both;
-	}
-}
-
-@media (min-width: 1024px) {
-	.pcp-alert {
-		.submit-comment-btn {
-			position: absolute;
-			top: 2.25rem;
-			right: 2rem;
-			margin: 0;
-			width: auto;
-		}
-	}
-}
-
-.pcp-details {
-	padding: 2.5rem 2rem;
-	background-color: #FFF;
-}
-
-.pcp-package-links {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-}
-
 .pcp-comment-count-label {
 	display: inline-block;
 	margin-top: 0.8rem;
 	font-weight: bold;
-}
-
-.pcp-open-house {
-	margin-top: 2rem;
-
-	ul {
-		margin: 0;
-		padding-left: 2rem;
-
-		li {
-			margin-bottom: 1rem;
-
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
-	}
 }
 
 .pcp-pillar-vc-list {
@@ -3742,39 +3386,11 @@ section {
 			margin-top: 0.5rem;
 		}
 	}
-
-	.comment-title {
-		margin: 0;
-		font-size: 1.6rem;
-		font-weight: bold;
-	}
 	
 	.comment-row {
 		background: #FFF;
 	}
 	
-	.comment-row:first-child {
-		border-top: 1px solid #DDD;
-	}
-	
-	.comment {
-		margin-top: 0.7rem;
-		margin-bottom: 0;
-	}
-	
-	.attachment-col {
-		width: 4rem;
-		text-align: center;
-	}
-		
-	td.status-col {
-		width: 12rem;
-		
-		.label {
-			width: 100%;
-		}
-	}
-
 	.tab-pane {
 		position: relative;
 	}
@@ -3789,144 +3405,11 @@ section {
 	}
 }
 
-@media (max-width: 480px) {
-	.public-comment-period-view {
-		.table {
-			th {
-				width: 50%;
-				text-align: center;
-			}
-			
-			td.date-col {
-				padding-bottom: 0;
-			}
-		}
-	}
-}
-
-@media (min-width: 480px) and (max-width: 1200px) {
-	.public-comment-period-view {
-		td.attachment-col {
-			position: absolute;
-			top: 0.6rem;
-			right: 14.5rem;
-		}
-		
-		td.date-col {
-			position: absolute;
-			top: 1.4rem;
-			right: 2rem;
-			padding: 0;
-			font-size: 1.2rem;
-			font-weight: bold;
-		}
-		
-		td.status-col {
-			position: absolute;
-			top: 1.4rem;
-			right: 2rem;
-			padding: 0;
-		}
-		
-		.eao-comment-table {
-			background: transparent;
-
-			td.attachment-col {
-				right: 14.5rem;
-			}
-			
-			td.date-col {
-				right: 2rem;
-			}
-		}
-		
-	}
-}
-
-
 @media (max-width: 1200px) {
 	.public-comment-period-view {
 		.tab-pane {
 			.pcp-button-bar {
 				top: -5.5rem;
-			}
-		}
-		
-		.table {
-			table-layout: inherit;
-			
-			.no-mobile {
-				display: none;
-			}
-			
-			thead {
-				border: none;
-				
-				tr {
-					padding: 0;
-					border: none;
-				}
-			
-				th {
-					margin-top: 0.5rem;
-					margin-bottom: 0.5rem;
-					margin-left: 0.5rem;
-					padding: 0.6rem 0.6rem 0.6rem 1rem;
-					display: block;
-					float: left;
-					text-align: center;
-					background: #FFF;
-					border: 1px solid #c8c8c8 !important;
-					border-radius: 3px;
-				}
-			}
-			
-			tr {
-				position: relative;
-				display: block;
-				padding: 1.5rem 0.5rem;
-				border-top: 1px solid #DDD;
-			}
-					
-			thead tr:last-child {
-				display: none;
-			}
-			
-			> tbody > tr > td {
-				display: block;
-				border-top: none;
-			}
-			
-			td.comment-col {
-				padding-top: 0;
-				padding-bottom: 0.5rem;
-				padding-left: 1rem;
-			}
-		
-			td.pillar-col,
-			td.vc-col {
-				padding-top: 0;
-				padding-bottom: 0;
-				padding-left: 1rem;
-				font-size: 1.2rem;
-				color: #888;
-			}
-			
-			span.pillar:before,
-			span.vc:before {
-				margin-top: 0.5rem;
-				display: block;
-				font-size: 1.2rem;
-				font-weight: bold;
-				color: #000;
-			}
-			
-			span.pillar:before {
-				content: "Pillars";
-			}
-			
-			span.vc:before {
-				content: "Valued Components";
 			}
 		}
 	}
@@ -3940,55 +3423,6 @@ section {
 				top: -5.5rem;
 				right: 0;
 			}
-		}
-
-		.table {
-			table-layout: fixed;
-			width: 100%;
-			max-width: 100%;
-			
-			> thead > tr > th {
-				padding-left: 0.5rem;
-				padding-right: 0.5rem;
-			}
-			
-			> tbody > tr > td {
-				padding: 2rem 0.5rem;
-			}
-
-			> tbody > tr.no-records > td {
-				padding: 1rem 1.5rem;
-			}
-			
-			thead > tr > th:first-child,
-			tbody > tr > td:first-child {
-				padding-left: 1.5rem;
-			}
-			
-			thead > tr > th:last-child,
-			tbody > tr > td:last-child {
-				padding-right: 1.5rem;
-			}
-		}
-
-		.id-col {
-			width: 6rem;
-		}
-
-		.comment-col {
-			width: 35%;
-		}
-		
-		.vc-col {
-			width: 20rem;
-		}
-		
-		.date-col {
-			width: 12rem;
-		}
-		
-		.status-col {
-			width: 13rem;
 		}
 	}
 }
@@ -4763,122 +4197,6 @@ section.project-info {
 }
 
 
-/* PROJECT SCHEDULE VIEW
------------------------------- */
-.project-schedule-view {	
-	td {
-		padding: 1rem;
-	}
-
-	.table {
-		table-layout: fixed;
-	}
-	
-	.phase-info {
-		margin-bottom: 1.5rem;
-
-		.date-label {
-			margin-bottom: 0.5rem;
-		}
-
-		.btn-primary {
-			width: 9rem;
-		}
-	}
-
-	.date-col {
-		width: 14rem;
-	}
-
-	.phase-dates {
-		.schedule-dates {
-			margin-right: 3rem;
-		}
-	}
-
-	.phase-action-col {
-		width: 10rem;
-		padding-right: 0;
-		text-align: left;
-
-		.label, .btn {
-			width: 100%;
-			height: 2.1rem;
-			font-weight: normal;
-		}
-	}
-
-	.schedule-dates {
-		font-size: 1.2rem;
-
-		label {
-			margin: 0;
-			min-width: 4rem;
-			display: inline-block;
-		}
-
-		span {
-			min-width: 7rem;
-			display: inline-block;
-			font-weight: normal;
-			text-align: right;
-		}
-	}
-
-	.status-col {
-		width: 10rem;
-
-		.label, .btn {
-			width: 100%;
-		}
-	}
-
-	.phase-milestones {
-		.panel-heading {
-			border-bottom: 1px solid #DDD;
-
-			h3 {
-				@include flex(1 1 auto);
-				margin: 0;
-				padding: 1.25rem 1rem;
-				font-size: 1.4rem;
-				font-weight: bold;
-			}
-
-			.actions {
-				@include flex(0 0 auto);
-
-				.btn {
-					margin-top: 0.45rem;
-					margin-right: 0.45rem;
-				}
-			}
-		}
-
-		.milestone-table {
-			th:first-child,
-			td:first-child {
-				padding-left: 1rem;
-			}
-		}
-	}
-}
-
-@media (min-width: 1200px) {
-	.project-schedule-view {
-		.date-col {
-			width: 18rem;
-		}
-	}
-}
-
-.panel-heading {
-	.collapse-control {
-		@include flex(1 1 auto);
-	}
-}
-
-
 /* PUBLIC HOMEPAGE VIEW
 ------------------------------ */
 .home-view {
@@ -5187,20 +4505,6 @@ tmpl-template-render {
 	padding-bottom: 0;
 }
 
-.vc-table {
-	.status-col {
-		width: 11.25rem;
-
-		.label {
-			width: 100%;
-
-			&.unpublished {
-				background: #CCC;
-			}
-		}
-	}
-}
-
 .vc-rtf-editor {
 	.mce-tinymce {
 		border: 1px solid #FFF;
@@ -5423,12 +4727,6 @@ tmpl-template-render {
 	}
 }
 
-.user-table {
-	tbody {
-		max-height: 30rem;
-	}
-}
-
 .form-footer {
 	.btn {
 		min-width: 8rem;
@@ -5443,8 +4741,22 @@ tmpl-template-render {
 @import "modules/core/client/styles/spinner.scss";
 @import "modules/core/client/styles/tabs.scss";
 
+@import "modules/core/client/scss/components/accordion.scss";
+@import "modules/core/client/scss/components/panel.scss";
+@import "modules/core/client/scss/components/recipient-manager.scss";
+@import "modules/core/client/scss/components/table.scss";
+@import "modules/core/client/scss/components/ng-table-overrides.scss";
+
 /* GLOBAL */
 @import "modules/core/client/scss/global/footer.scss";
-
 @import "modules/documents/client/styles/file-browser.scss";
 @import "modules/documents/client/styles/pdf-viewer.scss";
+
+/* MODULES */
+@import "modules/communications/client/scss/communications.scss";
+@import "modules/invitations/client/scss/invitations.scss";
+@import "modules/projects/client/scss/project-schedule.scss";
+@import "modules/project-comments/client/scss/project-comments.scss";
+@import "modules/users/client/scss/user-entry.scss";
+@import "modules/users/client/scss/user-search-chooser.scss";
+@import "modules/vcs/client/scss/vc-list.scss";

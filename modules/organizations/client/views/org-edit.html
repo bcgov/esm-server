@@ -1,0 +1,30 @@
+<form class="view-form" name="organizationForm" novalidate>
+
+	<div class="view-title-container flex-row">
+		<h1>{{orgEditControl.title}}<span ng-show="org.name"> &nbsp;&rsaquo;&nbsp; {{org.name}}</span></h1>
+		<div class="actions">
+			<button class="btn btn-default btn-sm" ng-click="orgEditControl.cancel()" type="button">Cancel</button>
+			<button class="btn btn-danger btn-sm" ng-click="orgEditControl.edit()" type="button" ng-show="enableEdit"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></button>
+			<button class="btn btn-danger btn-sm" ng-click="orgEntryControl.deleteOrg()" type="button" ng-show="enableDelete"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+			<button class="btn btn-primary btn-sm" ng-click="orgEntryControl.saveOrg(organizationForm.$valid)" type="button" ng-show="enableSave">Save</button>
+		</div>
+	</div>
+
+	<div class="view-body-container">
+		<x-org-entry
+			x-readonly="readonly"
+			x-org="org"
+			x-users="users"
+			x-projects="projects"
+			x-mode="mode"
+			x-enable-delete="enableDelete"
+			x-enable-save="enableSave"
+			x-enable-edit="enableEdit"
+			x-enable-add-contact="enableAddContact"
+			x-enable-edit-contact="enableEditContact"
+			x-enable-remove-contact="enableRemoveContact"
+			x-sref-return="srefReturn"
+			x-control="orgEntryControl">
+	</div>
+
+</form>

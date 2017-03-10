@@ -1,5 +1,6 @@
 
 <form class="view-form" name="organizationForm" novalidate>
+
 	<div class="view-title-container flex-row">
 		<h1>Add/Edit Organization <span ng-if="org.name">&nbsp; &rsaquo; &nbsp;{{ org.name }}</span></h1>
 		<div class="actions">
@@ -33,8 +34,8 @@
 				</div>
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
-						<label for="companyType" class="control-label">Company Type</label>
-						<input class="form-control" id="companyType" type="text" ng-model="org.companyType">
+						<label for="companyType" class="control-label">Organization Type</label>
+						<select id="companyType" name="companyType" class="form-control input-sm" ng-model="org.companyType" ng-options="item.value as item.display for item in types"></select>
 					</div>
 				</div>
 			</div>
@@ -42,7 +43,7 @@
 				<div class="col-sm-6 col-md-3">
 					<div class="form-group">
 						<label for="registeredIn" class="control-label">Registered In</label>
-						<input class="form-control" id="registeredIn" type="text" ng-model="org.registeredIn">
+						<select id="registeredIn" name="registeredIn" class="form-control input-sm" ng-model="org.registeredIn" ng-options="item.value as item.display for item in registeredIns"></select>
 					</div>
 				</div>
 				<div class="col-sm-6 col-md-3">
@@ -106,5 +107,5 @@
 			</div>
 		</div>
 
-	</div><!-- / VIEW BODY CONTAINER -->
+	</div>
 </form>

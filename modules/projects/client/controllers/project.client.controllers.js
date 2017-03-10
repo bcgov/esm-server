@@ -177,9 +177,13 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES', 'PROJECT_SUB_TYPES', 'CEAA_TYPES', 'EAC_DECISIONS', '_', 'UserModel', 'ProjectModel', 'OrganizationModel', 'Authentication', 'codeFromTitle'];
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES',
+	'PROJECT_SUB_TYPES', 'CEAA_TYPES', 'EAC_DECISIONS', '_', 'UserModel', 'ProjectModel', 'OrganizationModel',
+	'Authentication', 'codeFromTitle', 'EAO_COMPLIANCE_EMAIL'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES, PROJECT_SUB_TYPES, CEAA_TYPES, EAC_DECISIONS, _, UserModel, ProjectModel, OrganizationModel, Authentication, codeFromTitle) {
+function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES,
+	PROJECT_SUB_TYPES, CEAA_TYPES, EAC_DECISIONS, _, UserModel, ProjectModel, OrganizationModel,
+	Authentication, codeFromTitle, EAO_COMPLIANCE_EMAIL) {
 
 	ProjectModel.setModel ($scope.project);
 
@@ -202,7 +206,6 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 		ProjectModel.modelIsNew = true;
 	}
 
-
 	$scope.project = project;
 	$scope.questions = ProjectModel.getProjectIntakeQuestions();
 	$scope.regions = REGIONS;
@@ -217,20 +220,20 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 
 	$scope.saveEPD = function(users) {
 		var user = _.isArray(users) ? users[0] : users;
-		$scope.project.responsibleEPD = user.firstName;
+		$scope.project.responsibleEPD = user.displayName;
 		$scope.project.responsibleEPDEmail = user.email;
 		$scope.project.responsibleEPDPhone = user.phoneNumber;
 	};
 	$scope.saveProjectLead = function(users) {
 		var user = _.isArray(users) ? users[0] : users;
-		$scope.project.projectLead = user.firstName;
+		$scope.project.projectLead = user.displayName;
 		$scope.project.projectLeadEmail = user.email;
 		$scope.project.projectLeadPhone = user.phoneNumber;
 	};
 	$scope.saveCELead = function(users) {
 		var user = _.isArray(users) ? users[0] : users;
-		$scope.project.CELead = user.firstName;
-		$scope.project.CELeadEmail = user.email;
+		$scope.project.CELead = user.displayName;
+		$scope.project.CELeadEmail = EAO_COMPLIANCE_EMAIL;
 		$scope.project.CELeadPhone = user.phoneNumber;
 	};
 

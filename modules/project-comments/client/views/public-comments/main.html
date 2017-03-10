@@ -6,37 +6,40 @@
 
 <div class="view-body-container">
 
-    <div class="panel panel-default">
-        <div class="pcp-alert clearfix">
-            <h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span>.</h2>
-            <span class="pcp-dates">{{ period.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ period.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
-            <button class="btn submit-comment-btn" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="period">
-                Click Here to Submit a Comment
-            </button>
-        </div>
-        <div class="pcp-details">
-            <section class="pcp-about">
-                <h4 class="m-t-0">About this Comment Period...</h4>
-                <p ng-if="!period.instructions">No Description Available.</p>
-                <p ng-if="period.instructions">{{ period.instructions }}</p>
-            </section>
-            <section class="pcp-open-house" ng-if="period.openHouses.length > 0">
-                <h4>Open House Dates</h4>
-                    <ul>
-                        <li ng-repeat="h in period.openHouses">
-                            <strong>{{ h.eventDate | amDateFormat:'MMMM Do YYYY' }}</strong><span class="desc"> - {{ h.description }}</span>
-                        </li>
-                    </ul>
-            </section>
-        </div>
-    </div>
+	<div class="pcp-alert-container">
+		<div class="pcp-alert">
+			<div class="pcp-alert-info">
+				<h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span></h2>
+				<span class="pcp-dates">{{ period.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ period.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span></div>
+			<div class="pcp-alert-btns">
+				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="period">
+					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
+				</button>
+			</div>
+		</div>
+		<div class="pcp-details">
+			<section class="pcp-about">
+				<h4 class="m-t-0">About this Comment Period...</h4>
+				<p ng-if="!period.instructions">No Description Available.</p>
+				<p ng-if="period.instructions">{{ period.instructions }}</p>
+			</section>
+		</div>
+	</div>
 
     <ul class="nav nav-tabs" role="tablist">
         <li class="active" role="presentation"><a href="#pcpComments" aria-controls="pcpComments" role="tab" data-toggle="tab">Comments</a></li>
         <li role="presentation"><a href="#pcpDocuments" aria-controls="pcpDocuments" role="tab" data-toggle="tab">Related Documents</a></li>
+		<li role="presentation"><a href="#pcpOpenHouse" aria-controls="pcpOpenHouse" role="tab" data-toggle="tab">Open Houses</a></li>
     </ul>
 
     <div class="pcp-tab-content tab-content">
+
+		<!-- Comments -->
+        <div class="tab-pane active" role="tab-panel" id="pcpComments">
+            <tmpl-public-comment-list x-period="period" x-project="project"></tmpl-public-comment-list>
+        </div><!-- / Comments Tab -->
+
+		<!-- Documents -->
         <div class="tab-pane" id="pcpDocuments">
             <div class="fb-body">
 				<div class="fb-list">
@@ -101,10 +104,30 @@
 					</ul>
 				</div>
 			</div>
-        </div>
-        <div class="tab-pane active" role="tab-panel" id="pcpComments">
-            <tmpl-public-comment-list x-period="period" x-project="project"></tmpl-public-comment-list>
-        </div>
+        </div><!-- / Documents Tab -->
+
+		<!-- Open House Dates -->
+		<div class="tab-pane active" role="tab-panel" id="pcpOpenHouse">
+			<div class="table-container">
+				<table class="open-house-table table">
+					<thead>
+						<tr>
+							<th class="date-col">Date</th>
+							<th>Details</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-if="period.openHouses.length == 0">
+							<td colspan="2">No Open Houses scheduled for this comment period.</td>
+						</tr>
+						<tr ng-repeat="h in period.openHouses">
+							<td class="date-col">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</td>
+							<td>{{ h.description }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div><!-- / Open House Dates -->
     </div>
 
 </div>
