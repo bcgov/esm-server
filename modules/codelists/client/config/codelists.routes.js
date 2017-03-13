@@ -32,7 +32,7 @@
 		// -------------------------------------------------------------------------
 		.state('admin.codelist.list', {
 			url: '/:codelistName',
-			templateUrl: 'modules/code-lists/client/views/code-list-list.html',
+			templateUrl: 'modules/codelists/client/views/codelist-list.html',
 			controllerAs: 'vm',
 			controller: function ($scope, $state, $stateParams, $modal, _, NgTableParams, AlertService, CodeListModel, codelists, CodeLists) {
 				var vm = this;
@@ -100,7 +100,7 @@
 	function addEditModal($scope, $modal, currentField, item, onSuccess) {
 		$modal.open({
 			animation: true,
-			templateUrl: 'modules/code-lists/client/views/codelist-add-edit-modal.html',
+			templateUrl: 'modules/codelists/client/views/codelist-add-edit-modal.html',
 			controllerAs: 'vm',
 			controller: function ($scope, $modalInstance, _) {
 				var vm = this;
