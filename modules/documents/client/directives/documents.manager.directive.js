@@ -26,11 +26,28 @@ angular.module('documents')
 				}
 
 				$scope.authentication = Authentication;
-				$scope.project.directoryStructure = $scope.project.directoryStructure || {
+
+				ProjectModel.getProjectDirectory($scope.project)
+				.then( function (dir) {
+					$scope.project.directoryStructure = dir || {
 						id: 1,
 						lastId: 1,
-						name: 'ROOT'
+						name: 'ROOT',
+						published: true
 					};
+
+					self.rootNode = tree.parse($scope.project.directoryStructure);
+
+
+					if (self.opendir) {
+						console.log("Going to directory:", self.opendir);
+						self.selectNode(self.opendir);
+					} else {
+						self.selectNode(self.rootNode);
+					}
+
+					$scope.$apply();
+				});
 
 				// default sort is by name ascending...
 				self.sorting = {
@@ -38,7 +55,7 @@ angular.module('documents')
 					ascending: true
 				};
 
-				self.rootNode = tree.parse($scope.project.directoryStructure);
+				// self.rootNode = tree.parse($scope.project.directoryStructure);
 				self.selectedNode = undefined;
 				self.currentNode = undefined;
 				self.currentPath = undefined;
@@ -114,7 +131,7 @@ angular.module('documents')
 
 				self.applySort = function() {
 					// sort ascending first...
-					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
+					self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
 						// more making sure that the displayName is set...
 						if (_.isEmpty(f.displayName)) {
 							f.displayName = f.documentFileName || f.internalOriginalName;
@@ -137,15 +154,19 @@ angular.module('documents')
 						}
 						// by name if none specified... or we incorrectly identified...
 						return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-					});
+					}).sortBy(function (f) {
+						return f.order;
+					}).value();
 
 					// directories always/only sorted by name
-					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
+					self.currentDirs = _(self.unsortedDirs).chain().sortBy(function (d) {
 						if (_.isEmpty(d.model.name)) {
 							return null;
 						}
 						return d.model.name.toLowerCase();
-					});
+					}).sortBy(function (d) {
+						return d.model.order;
+					}).value();
 
 					if (!self.sorting.ascending) {
 						// and if we are not supposed to be ascending... then reverse it!
@@ -369,14 +390,26 @@ angular.module('documents')
 				self.deleteDir = function(doc) {
 					self.busy = true;
 					return DocumentMgrService.removeDirectory($scope.project, doc)
-						.then(function(result) {
+						.then(function (result) {
 							$scope.project.directoryStructure = result.data;
+							$scope.$broadcast('documentMgrRefreshNode', {directoryStructure: result.data});
 							self.busy = false;
 							AlertService.success('The selected folder was deleted.');
-						}, function(error) {
-							$log.error('DocumentMgrService.removeDirectory error: ', JSON.stringify(error));
+						}, function(docs) {
+							var msg = "";
+							var theDocs = [];
+							if (docs.data.message && docs.data.message[0] && docs.data.message[0].documentFileName) {
+								_.each(docs.data.message, function (d) {
+									theDocs.push(d.documentFileName);
+								});
+								msg = 'This action cannot be completed as the following documents are in the folder: ' + theDocs + '.';
+							} else {
+								msg = "Could not delete folder, there are still files in the folder.";
+							}
+
+							$log.error('DocumentMgrService.removeDirectory error: ', msg);
 							self.busy = false;
-							AlertService.error('The selected folder could not be deleted.');
+							AlertService.error(msg);
 						});
 				};
 
@@ -439,6 +472,7 @@ angular.module('documents')
 									if (directoryStructure) {
 										//$log.debug('Setting the new directory structure...');
 										$scope.project.directoryStructure = directoryStructure;
+										$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
 									}
 									//$log.debug('Refreshing current directory...');
 									self.selectNode(self.currentNode.model.id);
@@ -531,6 +565,42 @@ angular.module('documents')
 						});
 				};
 
+				self.publishFolder = function(folder) {
+					self.busy = true;
+					return ProjectModel.publishDirectory($scope.project, folder.model.id)
+						.then(function (directoryStructure) {
+							$scope.project.directoryStructure = directoryStructure;
+							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+							AlertService.success(folder.model.name + ' folder successfully published.');
+						}, function () {
+							self.busy = false;
+							AlertService.error('The selected folder could not be published.');
+						});
+				};
+
+				self.unpublishFolder = function(folder) {
+					self.busy = true;
+					return ProjectModel.unpublishDirectory($scope.project, folder.model.id)
+						.then(function (directoryStructure) {
+							$scope.project.directoryStructure = directoryStructure;
+							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+							AlertService.success(folder.model.name + ' folder successfully un-published.');
+						}, function (docs) {
+							var theDocs = [];
+							var msg = "";
+							if (docs.message && docs.message[0] && docs.message[0].documentFileName) {
+								_.each(docs.message, function (d) {
+									theDocs.push(d.documentFileName);
+								});
+								msg = 'This action cannot be completed as the following documents are published: ' + theDocs + '.  Please unpublish each document and attempt your action again.';
+							} else {
+								msg = "Could complete operation.";
+							}
+							self.busy = false;
+							AlertService.error(msg);
+						});
+				};
+
 				self.publishFile = function(file) {
 					return self.publishFiles([file]);
 				};
@@ -618,6 +688,7 @@ angular.module('documents')
 										if (directoryStructure) {
 											//$log.debug('Setting the new directory structure...');
 											$scope.project.directoryStructure = directoryStructure;
+											$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
 										}
 										//$log.debug('select and refresh destination directory...');
 										self.selectNode(destination.model.id);
@@ -683,28 +754,16 @@ angular.module('documents')
 					self.selectNode(self.currentNode.model.id);
 				};
 
-				$scope.$on('documentMgrRefreshNode', function(event, args) {
-					//console.log('documentMgrRefreshNode...');
-					self.selectNode(self.currentNode.model.id);
-				});
-
-				// set it up at the root...
-				$scope.$watch(function (scope) {
-						return scope.project.directoryStructure;
-					},
-					function (data) {
-						//console.log('$watch directoryStructure...');
-						var node = self.currentNode || self.rootNode;
-						self.rootNode = tree.parse(data);
-						self.selectNode(node.model.id);
+				$scope.$on('documentMgrRefreshNode', function (event, args) {
+					console.log('documentMgrRefreshNode...', args.directoryStructure);
+					if (args.nodeId) {
+						// Refresh the node
+						self.selectNode(args.nodeId);
+					} else {
+						self.rootNode = tree.parse(args.directoryStructure);
+						self.selectNode(self.currentNode.model.id);
 					}
-				);
-
-				if (self.opendir) {
-					console.log("Going to directory:", self.opendir);
-					self.selectNode(self.opendir);
-				}
-
+				});
 			},
 			controllerAs: 'documentMgr'
 		};
@@ -754,12 +813,11 @@ angular.module('documents')
 
 						}
 					}).result.then(function (data) {
-						scope.project.directoryStructure = data;
-						$rootScope.$broadcast('DOCUMENT_MGR_FOLDER_ADDED', {directoryStructure: data});
+						$rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
 					})
-						.catch(function (err) {
-							//$log.error(err);
-						});
+					.catch(function (err) {
+						//$log.error(err);
+					});
 				});
 			}
 		};
@@ -811,12 +869,12 @@ angular.module('documents')
 
 						}
 					}).result.then(function (data) {
-						scope.project.directoryStructure = data;
-						$rootScope.$broadcast('DOCUMENT_MGR_FOLDER_RENAMED', {directoryStructure: data});
+						console.log("deleted data:", data);
+						$rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
 					})
-						.catch(function (err) {
-							//$log.error(err);
-						});
+					.catch(function (err) {
+						//$log.error(err);
+					});
 				});
 			}
 		};
@@ -1091,7 +1149,8 @@ angular.module('documents')
 				$scope.project.directoryStructure = $scope.project.directoryStructure || {
 						id: 1,
 						lastId: 1,
-						name: 'ROOT'
+						name: 'ROOT',
+						published: true
 					};
 
 				// default sort is by name ascending...
@@ -1135,7 +1194,7 @@ angular.module('documents')
 
 				self.applySort = function() {
 					// sort ascending first...
-					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
+					self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
 						// more making sure that the displayName is set...
 						if (_.isEmpty(f.displayName)) {
 							f.displayName = f.documentFileName || f.internalOriginalName;
@@ -1158,15 +1217,19 @@ angular.module('documents')
 						}
 						// by name if none specified... or we incorrectly identified...
 						return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-					});
+					}).sortBy(function (f) {
+						return f.order;
+					}).value();
 
 					// directories always/only sorted by name
-					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
+					self.currentDirs = _(self.unsortedDirs).chain().sortBy(function (d) {
 						if (_.isEmpty(d.model.name)) {
 							return null;
 						}
 						return d.model.name.toLowerCase();
-					});
+					}).sortBy(function (d) {
+						return d.model.order;
+					}).value();
 
 					if (!self.sorting.ascending) {
 						// and if we are not supposed to be ascending... then reverse it!
@@ -1413,7 +1476,7 @@ angular.module('documents')
 
 							self.applySort = function () {
 								// sort ascending first...
-								self.currentFiles = _.sortBy(self.unsortedFiles, function (f) {
+								self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
 									// more making sure that the displayName is set...
 									if (_.isEmpty(f.displayName)) {
 										f.displayName = f.documentFileName || f.internalOriginalName;
@@ -1436,15 +1499,19 @@ angular.module('documents')
 									}
 									// by name if none specified... or we incorrectly identified...
 									return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-								});
+								}).sortBy(function (f) {
+									return f.order;
+								}).value();
 
 								// directories always/only sorted by name
-								self.currentDirs = _.sortBy(self.unsortedDirs, function (d) {
+								self.currentDirs = _(self.unsortedDirs).chain().sortBy(function (d) {
 									if (_.isEmpty(d.model.name)) {
 										return null;
 									}
 									return d.model.name.toLowerCase();
-								});
+								}).sortBy(function (d) {
+									return d.model.order;
+								}).value();
 
 								if (!self.sorting.ascending) {
 									// and if we are not supposed to be ascending... then reverse it!
