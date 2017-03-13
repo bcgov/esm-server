@@ -23,7 +23,7 @@ var ApplicationConfiguration = (function () {
     'duScroll',
     'ngPDFViewer',
     'ngCookies',
-	   'smart-table'
+		'smart-table'
   ];
 
 

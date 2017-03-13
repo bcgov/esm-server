@@ -54,11 +54,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	// 	state: 'admin.roles.list',
 	// 	permissions: ['application.listRoles']
 	// });
-	// Menus.addMenuItem('systemMenu', {
-	// 	title: 'Templates',
-	// 	state: 'admin.template.list',
-	// 	permissions: ['application.listTemplates']
-	// });
+	Menus.addMenuItem('systemMenu', {
+		title: 'Templates',
+		state: 'admin.template.list',
+		permissions: ['application.listTemplates']
+	});
 	Menus.addMenuItem('systemMenu', {
 		title: 'Valued Components',
 		state: 'admin.topic.list',
