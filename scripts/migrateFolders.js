@@ -7,6 +7,7 @@ var defaultConnectionString = "mongodb://localhost:27017/mean-dev";
 var username                = "";
 var password                = "";
 var host                    = "";
+var db                      = "";
 
 console.log("Starting migration.");
 
