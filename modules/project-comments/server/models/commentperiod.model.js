@@ -105,8 +105,11 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	//
 	// -------------------------------------------------------------------------
 	//
-	// instructions to the commenters
+	// instructions to the commenters. PCP editors can edit the additionalText and informationLabel fields.
+	// These are combined with the date to compose the read only informationLabel.
 	//
+	informationLabel : { type:String, default: '' },
+	additionalText	 : { type:String, default: '' },
 	instructions     : { type:String, default: '' },
 	//
 	// is this entire comment period considered resolved, this is a calculated
