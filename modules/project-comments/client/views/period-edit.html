@@ -87,12 +87,12 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label">Additional Text</label>
-				<textarea rows="3" ng-model="period.additionalText" class="form-control" spellcheck="false"></textarea>
+				<label class="control-label">Description</label>
+				<textarea class="form-control" disabled ng-bind-html="period.instructions"></textarea>
 			</div>
 			<div class="form-group">
-				<label class="control-label">Description</label>
-				<div ng-bind-html="period.instructions"></div>
+				<label class="control-label">Additional Text</label>
+				<input class="form-control" type="input" ng-model="period.additionalText" spellcheck="false"></input>
 			</div>
 		</div>
 		<!-- / DETAILS TAB CONTENT -->
@@ -101,7 +101,7 @@
 		<div class="tab-pane" ng-show="form.curTab === 'pcpRelatedDocs'">
 			<div class="form-group">
 				<label class="control-label">Information Being Commented On</label>
-				<textarea rows="3" ng-model="period.informationLabel" class="form-control" spellcheck="false"></textarea>
+				<input class="form-control" type="text" ng-model="period.informationLabel" spellcheck="false"></input>
 			</div>
 			<div class="button-bar">
 				<button class="btn btn-sm btn-default" title="Link Documents"
