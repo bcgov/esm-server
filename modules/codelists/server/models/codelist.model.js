@@ -1,5 +1,6 @@
 'use strict';
-module.exports = require('../../../core/server/controllers/core.schema.controller')
+var path		= require('path');
+module.exports	= require(path.resolve('./modules/core/server/controllers/core.schema.controller'))
 ('CodeList', {
 	name: {type: String, index: true, required: true},
 	displayName: {type: String},
