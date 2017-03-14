@@ -579,6 +579,52 @@ angular.module ('comment')
 	};
 })
 
+/*
+	Validate the PCP before publishing.
+*/
+.directive('pcpvalidationDialog', ['ConfirmService','AlertService', function (ConfirmService, AlertService) {
+	return {
+		restrict: 'A',
+		scope: {
+			titleText: '=',
+			confirmText: '=',
+			confirmItems: '=',
+			okText: '=',
+			cancelText: '=',
+			onOk: '=',
+			onCancel: '=',
+			period: '='
+		},
+		link: function (scope, element, attrs) {
+			element.on('click', function () {
+				//getting start date and end dates
+				var period = scope.period;
+				var startdate = period.dateStarted;
+				var end_date = period.dateCompleted;
+				if (!period.informationLabel){
+				 AlertService.error('Related documents information is empty');
+				}
+				else if (startdate > end_date){
+					 AlertService.error('Start Date is greater than End Date. Please correct the Start Date');
+				}
+				else if (!startdate){
+					 AlertService.error('Start Date is empty. Please choose Start Date');
+				}
+				else if (!end_date){
+					 AlertService.error('End Date is empty. Please choose End Date');
+				}
+				else {
+					/*
+					 It is assumed the scope has been set up for the confirm dialog service. We just need to populate the okArg
+					 */
+					 scope.okArgs = scope.period;
+					 ConfirmService.confirmDialog(scope);
+				}
+				});
+			}
+		};
+	}
+])
 ;
 //
 // CC: pretty sure these are not used anymore
