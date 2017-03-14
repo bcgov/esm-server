@@ -2,7 +2,7 @@
 
 angular
 	.module('invitations', [])
-	.controller('EditInvitationController', ['$scope', '$state', '$modal', 'Authentication', 'NgTableParams',  '_', 'CommunicationModel', 'project', 'communication', 'mode', function EditInvitationController($scope, $state, $modal, Authentication, NgTableParams,  _, CommunicationModel, project, communication, mode) {
+	.controller('EditInvitationController', ['$scope', '$state', '$modal', 'AlertService', 'Authentication', 'NgTableParams',  '_', 'CommunicationModel', 'project', 'communication', 'mode', function EditInvitationController($scope, $state, $modal, AlertService, Authentication, NgTableParams,  _, CommunicationModel, project, communication, mode) {
 		$scope.project = project;
 		$scope.authentication = Authentication;
 		$scope.mode = mode;
@@ -210,6 +210,10 @@ angular
 		};
 
 		var doSend = function(communication) {
+			if (communication.recipients.length === 0) {
+				AlertService.error('Must have at least one recipient to send.');
+				return;
+			}
 			var modalDocView = $modal.open({
 				animation: true,
 				templateUrl: 'modules/invitations/client/views/confirm-send.html',
