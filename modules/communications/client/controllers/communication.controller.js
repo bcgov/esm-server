@@ -324,7 +324,10 @@ angular
 			if (mode === 'create') {
 				CommunicationModel.add(self.communication)
 					.then (function (res) {
-						$scope.showSuccess('"'+ self.communication.name +'"' + ' was saved successfully', goToEdit(res), 'Save Successful');
+						function editWithResult() {
+							goToEdit(res);
+						}
+						$scope.showSuccess('"'+ self.communication.name +'"' + ' was saved successfully', editWithResult, 'Save Successful');
 					})
 					.catch (function (err) {
 						$scope.showError('"'+ self.communication.name +'"' + ' was not saved.', [], goNowhere, 'Save Error');
