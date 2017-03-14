@@ -161,7 +161,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			}
 		},
 		controller: function ($timeout, $scope, $state, project, period, CommentPeriodModel, CodeLists) {
-			createEditCommonSetup($timeout, $scope, period, project, CodeLists);
+			createEditCommonSetup($timeout, $scope, period, project, CodeLists, CommentPeriodModel);
 
 			$scope.hasErrors = false;
 			//$scope.errorMessage = '';
@@ -175,8 +175,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 					
 					period.phase = project.currentPhase;
 					period.phaseName = project.currentPhase.name;
-
-					$scope.instructionsSubstitution();
 
 					CommentPeriodModel.add($scope.period)
 					.then(function (model) {
@@ -238,7 +236,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 					$scope.hasErrors = true;
 					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
 				} else {
-					$scope.instructionsSubstitution();
+
 					CommentPeriodModel.save($scope.period)
 					.then(function (model) {
 						// console.log ('period was saved',model);
@@ -362,7 +360,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
 	;
 
-	function createEditCommonSetup($timeout, $scope, period, project, CodeLists) {
+	function createEditCommonSetup($timeout, $scope, period, project, CodeLists, CommentPeriodModel) {
 		$scope.period = period;
 		$scope.project = project;
 		$scope.changeType = function () {
@@ -371,45 +369,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			} else {
 				period.commenterRoles = [];
 			}
-		};
-
-		//ESM-813 - generic instructions text...
-		// we will analyze on save and substitute...
-		if (_.isEmpty(period.instructions)) {
-			period.instructions = "The public comment period regarding the Proponent's [INSERT DOCUMENT TYPE] for the proposed %PROJECT_NAME% Project is open from %DATE_RANGE%.";
-		}
-
-		$scope.instructionsSubstitution = function () {
-			// check to see if we can make substitutions to the instructions...
-			var PERIOD_TYPE = '%PERIOD_TYPE%';
-			var PROJECT_NAME = '%PROJECT_NAME%';
-			var DOCUMENT_TYPES = '%DOCUMENT_TYPES%';
-			var DATE_RANGE = '%DATE_RANGE%';
-
-			if (!_.isEmpty(period.periodType)) {
-				PERIOD_TYPE = period.periodType;
-			}
-			if (!_.isEmpty(project.name)) {
-				PROJECT_NAME = project.name;
-			}
-
-			var doctypes = _.map(_.filter(period.relatedDocuments, function(d) { return !_.isEmpty(d.documentType); }), function(r) { return CodeLists.documentTypes.display(r.documentType); });
-			doctypes = _.uniq(doctypes);
-			if (_.size(doctypes) > 0) {
-				DOCUMENT_TYPES = doctypes.join(", ");
-				if (_.size(doctypes) > 1) {
-					DOCUMENT_TYPES = DOCUMENT_TYPES + ' documents';
-				}
-			}
-
-			if (period.dateStarted && period.dateCompleted) {
-				DATE_RANGE = moment(period.dateStarted).format("MMMM Do YYYY") + ' to ' + moment(period.dateCompleted).format("MMMM Do YYYY");
-			}
-
-			period.instructions = period.instructions.replace('%PERIOD_TYPE%', PERIOD_TYPE);
-			period.instructions = period.instructions.replace('%PROJECT_NAME%', PROJECT_NAME);
-			period.instructions = period.instructions.replace('%DOCUMENT_TYPES%', DOCUMENT_TYPES);
-			period.instructions = period.instructions.replace('%DATE_RANGE%', DATE_RANGE);
 		};
 
 		_.each($scope.period.relatedDocuments, function(d) {
@@ -435,6 +394,44 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 		$scope.$on('modalDatePicker.onChange', function () {
 			periodChange($scope);
 		});
+
+		$scope.$watchGroup(['period.dateStarted', 'period.dateCompleted','period.additionalText','period.informationLabel'], function() {
+			instructions(project, period, CommentPeriodModel);
+		});
+	}
+
+	function instructions(project, period, CommentPeriodModel) {
+		var template = "Comment Period on the %INFORMATION_LABEL% for the %PROJECT_NAME% Project. This comment period %DATE_RANGE%";
+
+		var PROJECT_NAME = project.name || '%PROJECT_NAME%';
+		var INFORMATION_LABEL = period.informationLabel || '%INFORMATION_LABEL%';
+		var DATE_RANGE = '%DATE_RANGE%';
+
+		if (period.dateStarted && period.dateCompleted) {
+			var today = new Date();
+			var start = new Date(period.dateStarted);
+			var end = new Date(period.dateCompleted);
+			var isOpen = start <= today && today <= end;
+			if (isOpen) {
+				DATE_RANGE = "is open from ";
+			} else {
+				if (today < start) {
+					DATE_RANGE = "will open on ";
+				} else if (today > end) {
+					DATE_RANGE = "was open from ";
+				}
+			}
+			DATE_RANGE += moment(period.dateStarted).format("MMMM Do YYYY") +
+				' to ' + moment(period.dateCompleted).format("MMMM Do YYYY");
+		}
+
+		period.instructions = template.replace('%PROJECT_NAME%', PROJECT_NAME)
+			.replace('%INFORMATION_LABEL%', INFORMATION_LABEL)
+			.replace('%DATE_RANGE%', DATE_RANGE);
+		if (period.additionalText) {
+			period.instructions += "\n" + period.additionalText;
+		}
+		period.instructions = period.instructions.replace(/\n/g, "<br>");
 	}
 
 	function defineDocumentMgr($scope) {

@@ -87,14 +87,22 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="control-label">Additional Text</label>
+				<textarea rows="3" ng-model="period.additionalText" class="form-control" spellcheck="false"></textarea>
+			</div>
+			<div class="form-group">
 				<label class="control-label">Description</label>
-				<textarea rows="6" ng-model="period.instructions" class="form-control" spellcheck="false"></textarea>
+				<div ng-bind-html="period.instructions"></div>
 			</div>
 		</div>
 		<!-- / DETAILS TAB CONTENT -->
 
 		<!-- RELATED DOCUMENTS -->
 		<div class="tab-pane" ng-show="form.curTab === 'pcpRelatedDocs'">
+			<div class="form-group">
+				<label class="control-label">Information Being Commented On</label>
+				<textarea rows="3" ng-model="period.informationLabel" class="form-control" spellcheck="false"></textarea>
+			</div>
 			<div class="button-bar">
 				<button class="btn btn-sm btn-default" title="Link Documents"
 						ng-if="project.userCan.createCommentPeriod"

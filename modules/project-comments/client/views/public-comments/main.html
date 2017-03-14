@@ -21,7 +21,7 @@
 			<section class="pcp-about">
 				<h4 class="m-t-0">About this Comment Period...</h4>
 				<p ng-if="!period.instructions">No Description Available.</p>
-				<p ng-if="period.instructions">{{ period.instructions }}</p>
+				<p ng-if="period.instructions" ng-bind-html="period.instructions"></p>
 			</section>
 		</div>
 	</div>
