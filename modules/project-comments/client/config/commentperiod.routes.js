@@ -397,7 +397,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
 		$scope.$watchGroup(['period.dateStarted', 'period.dateCompleted','period.additionalText','period.informationLabel'], function() {
 			instructions(project, period, CommentPeriodModel);
-		})
+		});
 	}
 
 	function instructions(project, period, CommentPeriodModel) {
