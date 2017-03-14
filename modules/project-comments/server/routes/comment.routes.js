@@ -8,9 +8,10 @@ var CommentModel  = require ('../controllers/comment.controller');
 var CommentPeriod  = require ('../controllers/commentperiod.controller');
 var routes = require ('../../../core/server/controllers/core.routes.controller');
 var policy = require ('../../../core/server/controllers/core.policy.controller');
+var _ = require ('lodash');
 
 module.exports = function (app) {
-	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, {all:'guest',get:'guest'});
+	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, { all:'guest', get:'guest', paginate:'guest' });
 	routes.setCRUDRoutes (app, 'commentperiod', CommentPeriod, policy);
 	// =========================================================================
 	//
@@ -75,6 +76,79 @@ module.exports = function (app) {
 			return model.getProponentCommentsForPeriod (req.params.periodId);
 		}));
 
+	app.route ('/api/comments/period/:periodId/paginate').all(policy ('guest'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+
+			// base query / filter
+			var periodId;
+			var eaoStatus;
+			var proponentStatus;
+			var isPublished;
+
+			// filter By Fields...
+			var commentId;
+			var authorComment;
+			var location;
+			var pillar;
+			var topic;
+
+			// pagination stuff
+			var skip = 0;
+			var limit = 50;
+			var sortby = {};
+
+			if (req.body) {
+
+				// base query / filter
+				if (!_.isEmpty(req.body.periodId)) {
+					periodId = req.body.periodId;
+				}
+				if (!_.isEmpty(req.body.eaoStatus)) {
+					eaoStatus = req.body.eaoStatus;
+				}
+				if (!_.isEmpty(req.body.proponentStatus)) {
+					proponentStatus = req.body.proponentStatus;
+				}
+				if (req.body.isPublished !== undefined) {
+					isPublished = Boolean(req.body.isPublished);
+				}
+
+				// filter By Fields...
+				if (!_.isEmpty(req.body.commentId)) {
+					try {
+						commentId = parseInt(req.body.commentId);
+					} catch(e) {
+
+					}
+				}
+				if (!_.isEmpty(req.body.authorComment)) {
+					authorComment = req.body.authorComment;
+				}
+				if (!_.isEmpty(req.body.location)) {
+					location = req.body.location;
+				}
+				if (!_.isEmpty(req.body.pillar)) {
+					pillar = req.body.pillar;
+				}
+				if (!_.isEmpty(req.body.topic)) {
+					topic = req.body.topic;
+				}
+
+				// pagination stuff
+				try {
+					skip = parseInt(req.body.start);
+					limit = parseInt(req.body.limit);
+				} catch(e) {
+
+				}
+				if (req.body.orderBy) {
+					sortby[req.body.orderBy] = req.body.reverse ? -1 : 1;
+				}
+			}
+
+			return model.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby);
+		}));
+
 	// =========================================================================
 	//
 	// special routes for comment periods
@@ -85,11 +159,11 @@ module.exports = function (app) {
 	//
 	app.route ('/api/publish/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
-			return model.publishCommentPeriod (req.CommentPeriod.ancestor, true);
+			return model.publishCommentPeriod (req.CommentPeriod, true);
 		}));
 	app.route ('/api/unpublish/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
-			return model.publishCommentPeriod (req.CommentPeriod.ancestor, false);
+			return model.publishCommentPeriod (req.CommentPeriod, false);
 		}));
 	app.route ('/api/resolve/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {

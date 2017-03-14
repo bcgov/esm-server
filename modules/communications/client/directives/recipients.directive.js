@@ -37,56 +37,86 @@ angular.module('communications')
 
 				var refresh = function() {
 
-					$scope.recipientsTo = [];
-					$scope.recipientsCc = [];
-					$scope.recipientsBcc = [];
-					$scope.recipientsMail = [];
+					var users = [];
+					Promise.resolve()
+						.then(function() {
+							if ($scope.enableAddNew) {
+								return [];
+							} else {
+								return UserModel.allUsers();
+							}
+						})
+						.then(function(data) {
+							users = data;
 
-					_.each($scope.recipients, function(r) {
-						if (r.type === 'bcc' && !$scope.enableBcc) {
-							r.type = 'cc';
-						}
-						if (r.type === 'cc' && !$scope.enableCc) {
-							r.type = 'to';
-						}
-						switch(r.type) {
-							case 'bcc':
-								$scope.recipientsBcc.push(r);
-								break;
-							case 'cc':
-								$scope.recipientsCc.push(r);
-								break;
-							default:
-								$scope.recipientsTo.push(r);
-								break;
-						}
-						if (r.viaMail) {
-							$scope.recipientsMail.push(r);
-						}
-					});
+							$scope.recipientsTo = [];
+							$scope.recipientsCc = [];
+							$scope.recipientsBcc = [];
+							$scope.recipientsMail = [];
 
-					$scope.recipientsTo = _.sortByOrder($scope.recipientsTo, function(o) { return o.email.toLowerCase(); }, "asc");
-					$scope.recipientsCc = _.sortByOrder($scope.recipientsCc, function(o) { return o.email.toLowerCase(); }, "asc");
-					$scope.recipientsBcc = _.sortByOrder($scope.recipientsBcc, function(o) { return o.email.toLowerCase(); }, "asc");
-					$scope.recipientsMail = _.uniq(_.sortByOrder($scope.recipientsMail, function(o) { return o.email.toLowerCase(); }, "asc"));
-					$scope.recipients = _.sortByOrder($scope.recipients, function(o) { return o.email.toLowerCase(); }, "asc");
+							// sort recipients list...
+							if ($scope.enableAddNew) {
+								$scope.recipients = _.sortByOrder($scope.recipients, function(o) { return o.email.toLowerCase(); }, "asc");
+							} else {
+								// ugly.
+								// recipients aren't users - they can be adhoc, so we don't have the lastName/firstName
+								// in this situation, we are only dealing with a communication to contacts/users, so flesh them out.
+								if (_.size(users) > 0) {
+									_.each($scope.recipients, function(o) {
+										var user = _.find(users, function(u) { return u._id.toString() === o.userId; });
+										if (user) {
+											o.lastName = user.lastName;
+											o.firstName = user.firstName;
+										}
+									});
+								}
+								// and sort...
+								$scope.recipients = _.sortByOrder($scope.recipients, ['lastName', 'firstName']);
+							}
 
-					// clear out the targets so we can watch when they are changed.
-					$scope.adhocTo = undefined;
-					$scope.existingTo = [];
+							_.each($scope.recipients, function(r) {
+								if (r.type === 'bcc' && !$scope.enableBcc) {
+									r.type = 'cc';
+								}
+								if (r.type === 'cc' && !$scope.enableCc) {
+									r.type = 'to';
+								}
+								switch(r.type) {
+									case 'bcc':
+										$scope.recipientsBcc.push(r);
+										break;
+									case 'cc':
+										$scope.recipientsCc.push(r);
+										break;
+									default:
+										$scope.recipientsTo.push(r);
+										break;
+								}
+								if (r.viaMail) {
+									$scope.recipientsMail.push(r);
+								}
+							});
+							$scope.recipientsMail = _.uniq($scope.recipientsMail);
 
-					$scope.adhocCc = undefined;
-					$scope.existingCc = [];
+							// clear out the targets so we can watch when they are changed.
+							$scope.adhocTo = undefined;
+							$scope.existingTo = [];
 
-					$scope.adhocBcc = undefined;
-					$scope.existingBcc = [];
+							$scope.adhocCc = undefined;
+							$scope.existingCc = [];
 
-					// reset the table with ALL the recipients...
-					//$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
-					$scope.tableParamsTo = new NgTableParams ({count:10}, {dataset: $scope.recipientsTo});
-					$scope.tableParamsCc = new NgTableParams ({count:10}, {dataset: $scope.recipientsCc});
-					$scope.tableParamsBcc = new NgTableParams ({count:10}, {dataset: $scope.recipientsBcc});
-					$scope.tableParamsMail = new NgTableParams ({count:10}, {dataset: $scope.recipientsMail});
+							$scope.adhocBcc = undefined;
+							$scope.existingBcc = [];
+
+							// reset the table with ALL the recipients...
+							//$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.recipients});
+							$scope.tableParamsTo = new NgTableParams ({count:10}, {dataset: $scope.recipientsTo});
+							$scope.tableParamsCc = new NgTableParams ({count:10}, {dataset: $scope.recipientsCc});
+							$scope.tableParamsBcc = new NgTableParams ({count:10}, {dataset: $scope.recipientsBcc});
+							$scope.tableParamsMail = new NgTableParams ({count:10}, {dataset: $scope.recipientsMail});
+						});
+
+
 				};
 
 				var addExisting = function(data, type) {

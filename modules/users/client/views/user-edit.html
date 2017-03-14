@@ -4,9 +4,9 @@
 		<h1>{{userEditControl.title}}<span ng-show="user.username"> &nbsp;&rsaquo;&nbsp; {{user.username}}</span></h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" ng-click="userEditControl.cancel()" type="button">Cancel</button>
-			<button class="btn btn-danger btn-sm" ng-click="userEditControl.edit()" type="button" ng-show="enableEdit"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></a>
-				<button class="btn btn-danger btn-sm" ng-click="userEntryControl.deleteUser()" type="button" ng-show="enableDelete"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
-				<button class="btn btn-primary btn-sm" ng-click="userEntryControl.saveUser(userForm.$valid)" type="button" ng-show="enableSave">Save</button>
+			<button class="btn btn-danger btn-sm" ng-click="userEditControl.edit()" type="button" ng-show="enableEdit"><span class="glyphicon glyphicon-pencil"></span><span>Edit</span></button>
+			<button class="btn btn-danger btn-sm" ng-click="userEntryControl.deleteUser()" type="button" ng-show="enableDelete"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
+			<button class="btn btn-primary btn-sm" ng-click="userEntryControl.saveUser(userForm.$valid)" type="button" ng-show="enableSave">Save</button>
 		</div>
 	</div>
 
@@ -14,12 +14,17 @@
 		<x-user-entry
 			x-readonly="readonly"
 			x-user="user"
+			x-groups-and-roles="groupsAndRoles"
 			x-org="org"
 			x-mode="mode"
+			x-enable-notes="enableNotes"
 			x-enable-signature="enableSignature"
 			x-enable-delete="enableDelete"
 			x-enable-save="enableSave"
 			x-enable-edit="enableEdit"
+			x-enable-set-organization="enableSetOrganization"
+			x-show-display-name="showDisplayName"
+			x-show-username="showUsername"
 			x-sref-return="srefReturn"
 			x-control="userEntryControl">
 	</div>

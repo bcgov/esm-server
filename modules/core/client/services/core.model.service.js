@@ -24,6 +24,7 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 		// -------------------------------------------------------------------------
 		_init : function (o) {
 			this.urlall  = '/api/'+this.urlName;
+			this.urlallsorts = '/api/sorted/'+this.urlName;
 			this.urlbase = '/api/'+this.urlName+'/';
 			this.urlnew  = '/api/new/'+this.urlName;
 			this.urlquery  = '/api/query/'+this.urlName;
@@ -42,6 +43,17 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 			// console.log ('getting collection');
 			return new Promise (function (resolve, reject) {
 				self.all ().then (function (res) {
+					self.collection = res;
+					resolve (res);
+				}).catch (reject);
+			});
+		},
+		getSorted: function (s) {
+			var self = this;
+			// console.log ('getting collection');
+			var sort = !_.isEmpty(s) ? {sort: s} : {};
+			return new Promise (function (resolve, reject) {
+				self.allsorts (sort).then (function (res) {
 					self.collection = res;
 					resolve (res);
 				}).catch (reject);
@@ -169,6 +181,9 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 		all : function () {
 			return this.get (this.urlall);
 		},
+		allsorts : function (s) {
+			return this.put (this.urlallsorts, s);
+		},
 		deleteId : function (id) {
 			return this.delete (this.urlbase+id);
 		},
@@ -184,6 +199,21 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 		},
 		query : function (obj) {
 			return this.put (this.urlquery, obj);
+		},
+		paginate: function(start, limit, filterBy, filterByFields, orderBy, reverse, fields, populate, userCan) {
+			var obj = {
+				start: start,
+				limit: limit,
+				filterBy: filterBy,
+				filterByFields: filterByFields,
+				orderBy: orderBy,
+				reverse: reverse,
+				fields: fields,
+				populate: populate,
+				userCan: userCan
+			};
+
+			return this.put ('/api/paginate/'+this.urlName, obj);
 		},
 		// -------------------------------------------------------------------------
 		//

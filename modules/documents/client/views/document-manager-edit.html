@@ -23,7 +23,7 @@
 			<label class="control-label" for="documentType">Document Type</label>
 			<select class="form-control" title="Document Type" id="documentType" name="documentType"
 				ng-model="doc.documentType"
-				ng-options="type for type in types"
+				ng-options="item.value as item.display for item in types"
 				ng-change="validate()"></select>
 		</div>
 
@@ -37,7 +37,7 @@
 				<label for="followup" class="control-label">Follow Up</label>
 				<select class="form-control" title="Document Type" id="followup" name="followup"
 						ng-model="doc.inspectionReport.followup"
-						ng-options="type for type in inspectionReportFollowupTypes"
+						ng-options="item.value as item.display for item in inspectionReportFollowupTypes"
 						ng-change="validate()"></select>
 			</div>
 		</div>

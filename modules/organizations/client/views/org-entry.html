@@ -1,0 +1,190 @@
+<div>
+
+	<ul class="nav nav-tabs">
+		<li role="presentation" class="active">
+			<a href="#orgDetails" aria-controls="home" role="tab" data-toggle="tab">Organization Details</a>
+		</li>
+		<li ng-hide="mode === 'add'" role="presentation">
+			<a href="#orgUsers" aria-controls="profile" role="tab" data-toggle="tab">Contacts</a>
+		</li>
+		<li ng-hide="mode === 'add'" role="presentation">
+			<a href="#orgProjects" aria-controls="profile" role="tab" data-toggle="tab">Projects</a>
+		</li>
+	</ul>
+
+	<div class="tab-content">
+
+		<!-- DETAILS TAB CONTENT -->
+		<div class="tab-pane active" id="orgDetails" role="tabpanel">
+
+			<fieldset>
+				<legend>General Info</legend>
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group" x-show-errors>
+							<label for="name" class="control-label">Organization Name<em class="required">(Required)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ org.name }}</p>
+							<input ng-hide="readonly" class="form-control" id="name" name="name" type="text" ng-model="org.name" required>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="company" class="control-label">Display Name<em>(Doing Business As)</em></label>
+							<p ng-show="readonly" class="form-control-static">{{ org.company }}</p>
+							<input ng-hide="readonly" class="form-control" id="company" type="text" ng-model="org.company">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="companyLegal" class="control-label">Company Legal</label>
+							<p ng-show="readonly" class="form-control-static">{{ org.company }}</p>
+							<input ng-hide="readonly" class="form-control" id="companyLegal" type="text" ng-model="org.companyLegal">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="companyType" class="control-label">Organization Type</label>
+							<p ng-show="readonly" class="form-control-static">{{ organizationTypes.display(org.companyType) }}</p>
+							<select ng-hide="readonly" id="companyType" name="companyType" class="form-control input-sm" ng-model="org.companyType" ng-options="item.value as item.display for item in types"></select>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="registeredIn" class="control-label">Registered In</label>
+							<p ng-show="readonly" class="form-control-static">{{ organizationRegisteredIns.display(org.registeredIn) }}</p>
+							<select ng-hide="readonly" id="registeredIn" name="registeredIn" class="form-control input-sm" ng-model="org.registeredIn" ng-options="item.value as item.display for item in registeredIns"></select>
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="website" class="control-label">Website</label>
+							<p ng-show="readonly" class="form-control-static">{{ org.website }}</p>
+							<input ng-hide="readonly" class="form-control" id="website" type="text" ng-model="org.website">
+						</div>
+					</div>
+				</div>
+			</fieldset>
+
+			<fieldset>
+				<legend>Mailing Address</legend>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="address1" class="control-label">Street Address 1</label>
+							<p ng-show="readonly" class="form-control-static">{{ org.address1 }}</p>
+							<input ng-hide="readonly" class="form-control" id="address1" type="text" ng-model="org.address1">
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label for="address2" class="control-label">Street Address 2</label>
+							<p ng-show="readonly" class="form-control-static">{{ org.address2 }}</p>
+							<input ng-hide="readonly" class="form-control" id="address2" type="text" ng-model="org.address2">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="city" class="control-label">City</label>
+							<p ng-show="readonly" class="form-control-static">{{ org.city }}</p>
+							<input ng-hide="readonly" class="form-control" id="city" type="text" ng-model="org.city">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="province" class="control-label">Province/State</label>
+							<p ng-show="readonly" class="form-control-static">{{ org.province }}</p>
+							<input ng-hide="readonly" class="form-control" id="province" type="text" ng-model="org.province">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="country" class="control-label">Country</label>
+							<p ng-show="readonly" class="form-control-static">{{ org.country }}</p>
+							<input ng-hide="readonly" class="form-control" id="country" type="text" ng-model="org.country">
+						</div>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<div class="form-group">
+							<label for="postal" class="control-label">Postal/Zip Code</label>
+							<p ng-show="readonly" class="form-control-static">{{ org.postal }}</p>
+							<input ng-hide="readonly" class="form-control" id="postal" type="text" ng-model="org.postal">
+						</div>
+					</div>
+				</div>
+			</fieldset>
+
+		</div><!-- / DETAILS TAB CONTENT -->
+
+		<!-- USERS TAB CONTENT -->
+		<div class="tab-pane" id="orgUsers" role="tabpanel">
+			<div class="button-bar">
+				<a ng-show="enableAddContact" class="btn btn-default btn-sm" ui-sref="admin.organization.user.create({orgId: org._id})">
+					<span class="glyphicon glyphicon-plus"></span><span>Add Contact</span>
+				</a>
+			</div>
+			<div class="table-container">
+				<table class="table table-hover" ng-table="userTableParams" x-show-filter="true">
+					<tr ng-repeat="o in $data" class='clickable' ui-sref="admin.organization.user.detail({orgId: org._id, userId: o._id})">
+						<td data-title="'Last Name'" filter="{'lastName':'text'}" sortable="'lastName'">{{o.lastName}}</td>
+						<td data-title="'First Name'" filter="{'firstName':'text'}" sortable="'firstName'">{{o.firstName}}</td>
+						<td data-title="'Email'" filter="{'email':'text'}" sortable="'email'" >{{o.email}}</td>
+						<td class="actions-col" header-class="'actions-col x2'">
+							<div class="btns">
+								<a class="btn icon-btn" title="Edit User" ng-show="enableEditContact" ng-click="$event.stopPropagation()" ui-sref="admin.organization.user.edit({orgId: org._id, userId: o._id})">
+									<span class="glyphicon glyphicon-pencil"></span>
+								</a>
+								<a class="btn icon-btn" title="Remove User from Organization" ng-show="enableRemoveContact" ng-click="$event.stopPropagation();removeUserFromOrg(o._id)">
+									<span class="glyphicon glyphicon-trash"></span>
+								</a>
+							</div>
+						</td>
+					</tr>
+					<tr class="no-records" ng-show="!$data || !$data.length" class="text-center">
+						<td colspan="4">No records found.</td>
+					</tr>
+				</table>
+			</div>
+		</div><!-- / USERS TAB CONTENT -->
+
+		<!-- project TAB CONTENT -->
+		<div class="tab-pane" id="orgProjects" role="tabpanel">
+			<div class="table-container">
+				<table ng-table="projectTableParams" x-show-filter="true" class="table table-striped table-hover">
+					<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
+						<td header-class="'name-col'"
+							data-title="'Name'"
+							filter="{'name':'text'}"
+							sortable="'name'">{{o.name}}</td>
+						<td header-class="'type-col'"
+							data-title="'Type'"
+							filter="{'type':'text'}"
+							sortable="'type'">{{o.type}}</td>
+						<td header-class="'region-col'"
+							data-title="'Region'"
+							filter="{'region':'text'}"
+							sortable="'region'">{{o.region | regionName}}</td>
+						<td header-class="'phase-col'"
+							data-title="'Phase'"
+							filter="{'currentPhase.name':'text'}"
+							sortable="'currentPhase.name'">{{o.currentPhase.name}}</td>
+						<td header-class="'decision-col'"
+							data-title="'Decision'"
+							filter="{'eacDecision':'text'}"
+							sortable="'eacDecision'">{{o.eacDecision}}</td>
+						<td header-class="'comment-col'"
+							data-title="'Comment Period'"
+							sortable="'openCommentPeriod'">{{o.openCommentPeriod ? 'Open' : ''}}</td>
+					</tr>
+					<tr class="no-records" ng-show="!$data || !$data.length">
+						<td colspan="6">No records found.</td>
+					</tr>
+				</table>
+			</div>
+		</div><!-- / Project TAB CONTENT -->
+	</div>
+
+</div>

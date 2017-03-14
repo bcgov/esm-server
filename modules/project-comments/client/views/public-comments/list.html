@@ -32,7 +32,7 @@
 				<li role="presentation"><a href role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
 			</ul>
 		</div>
-		<span class="pcp-comment-count-label" ng-if="!s.period.userCan.classifyComments && !s.period.userCan.vetComments">Total Comments ( )</span>
+		<span class="pcp-comment-count-label" ng-if="!s.period.userCan.classifyComments && !s.period.userCan.vetComments">Total Comments ({{s.totalPublished}})</span>
 	</div>
 	<div class="actions pull-right">
 		<button class="btn btn-default btn-sm" ng-if="s.showTopicCloud === false"
@@ -46,40 +46,105 @@
 
 <div class="tab-pane">
 
-	<div class="public-comment-panel panel panel-default">
-		<table ng-table="s.tableParams" show-filter="true" class="eao-comment-table table table-hover">
-			<tr class="comment-row clickable" ng-repeat="o in $data" ng-click="s.detail(o)">
-				<td class="id-col no-mobile" header-class="'id-col no-mobile'" ng-if="authentication.user" data-title="'ID'" sortable="'commentId'">
-					{{ ::o.commentId }}
-				</td>
-				<td class="comment-col" header-class="'comment-col no-mobile'" data-title="'Posted by / Comment'" filter="{'authorCommentFilter':'text'}" sortable="'comment'">
-					<h2 ng-if="::o.isAnonymous" class="comment-title">Anonymous</h2>
-					<h2 ng-if="::!o.isAnonymous" class="comment-title">{{ ::o.author }}</h2>
-					<div ng-if="o.comment" ng-init="toggleProject.desc = (false)">
-						<p class="comment">{{ ::o.comment | maxWords: 20 }}</p>
-					</div>
-				</td>
-				<td class="location-col no-mobile" header-class="'location-col no-mobile'" data-title="'Location'" filter="{'location':'text'}" sortable="'location'">
-					{{ ::o.location }}
-				</td>
-				<td class="pillar-col" header-class="'pillar-col no-mobile'" data-title="'Pillars'" filter="{pillars:'select'}" filter-data="s.pillarsArray" sortable="'pillars'">
-					<span class="tag-list">{{o.pillars.join (', ')}}</span>
-					<!-- <ul><li ng-repeat="pillar in o.pillars">{{::pillar}}</li></ul> -->
-				</td>
-				<td class="vc-col" header-class="'pillar-col'" data-title="'Valued Components'" filter="{topics:'select'}" filter-data="s.topicsArray" sortable="'topics'">
-					<span class="tag-list">{{o.topics.join (', ')}}</span>
-					<!-- <ul><li ng-repeat="vc in o.topics">{{::vc}}</li></ul> -->
-				</td>
-				<td class="attachment-col" header-class="'attachment-col no-mobile'">
-					<span class="glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
-				</td>
-				<td class="date-col" header-class="'date-col'" data-title="'Date Posted'" sortable="'dateAdded'">
-					{{o.dateAdded | date:'MMM dd, yyyy @ h:mm a'}}
-				</td>
-			</tr>
-			<tr class="no-records" ng-if="!$data || $data.length === 0">
-				<td colspan="4">No records found.</td>
-			</tr>
+	<div class="table-container">
+
+		<div class="spinner-container" ng-show="s.isLoading">
+			<div class="spinner-new rotating"></div>
+		</div>
+
+		<table class="comment-table" st-pipe="s.callServer" st-table="s.displayed">
+			<thead>
+				<tr class="sort-row">
+					<th class="id-col" ng-if="authentication.user" st-sort="commentId" st-sort-default="reverse">ID <span class="sort-icon"></th>
+					<th class="author-col" st-sort="comment">Posted By <span class="sort-icon"></th>
+					<th class="location-col no-mobile" st-sort="location">Location <span class="sort-icon"></th>
+					<th class="pillar-col no-mobile" st-sort="pillars">Pillars <span class="sort-icon"></th>
+					<th class="vc-col no-mobile" st-sort="topics">Valued Components <span class="sort-icon"></th>
+					<th class="date-col" st-sort="dateAdded">Date Posted <span class="sort-icon"></th>
+				</tr>
+
+				<tr class="filter-row">
+					<th class="id-col" ng-if="authentication.user">
+						<input class="form-control" st-search="commentId" ng-model="s.filterByFields.commentId"/>
+					</th>
+					<th class="author-col">
+						<input class="form-control" st-search="authorComment" ng-model="s.filterByFields.authorComment"/>
+					</th>
+					<th class="location-col">
+						<input class="form-control" st-search="location" ng-model="s.filterByFields.location"/>
+					</th>
+					<th class="pillar-col">
+						<select class="form-control" st-input-event="change" st-search="pillar" ng-model="s.filterByFields.pillar">
+							<option value=""></option>
+							<option ng-repeat="option in s.pillarsArray" value="{{option.id}}">{{option.name}}</option>
+						</select>
+					</th>
+					<th class="vc-col">
+						<select class="form-control" st-input-event="change" st-search="topic" ng-model="s.filterByFields.topic">
+							<option value=""></option>
+							<option ng-repeat="option in s.topicsArray" value="{{option.id}}">{{option.name}}</option>
+						</select>
+					</th>
+					<th class="date-col">
+						
+					</th>
+				</tr>
+
+			</thead>
+
+			<tbody>
+				<tr class="comment-row clickable"  ng-repeat="o in s.displayed" ng-click="s.detail(o)">
+					<td class="id-col no-mobile" ng-if="authentication.user">
+						{{ ::o.commentId }}
+					</td>
+					<td class="author-col">
+						<span class="author-name">
+							<span ng-if="::o.isAnonymous">Anonymous</span>
+							<span ng-if="::!o.isAnonymous">{{ ::o.author }}</span>
+						</span>
+						<div ng-if="o.comment" ng-init="toggleProject.desc = (false)">
+							<span class="comment">{{ ::o.comment | maxWords: 20 }}</span>
+						</div>
+					</td>
+					<td class="location-col">
+						{{ ::o.location }}
+					</td>
+					<td class="pillar-col">
+						<span class="tag-list">{{o.pillars.join (', ')}}</span>
+					</td>
+					<td class="vc-col">
+						<span class="tag-list">{{o.topics.join (', ')}}</span>
+					</td>
+					<td class="date-col">
+						<span class="attachment-icon glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
+						<span class="date">{{o.dateAdded | date:'MMM dd, yyyy @ h:mm a'}}</span>
+					</td>
+				</tr>
+				<tr ng-if="!s.displayed || s.displayed.length === 0">
+					<td colspan="{{s.colspan -1}}">No records found.</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="pagination-container clearfix" colspan="{{s.colspan -1}}">
+						<div class="pull-left" st-pagination="" st-items-by-page="s.pageSize" st-template="modules/core/client/views/st-template.html"></div>
+						<ul class="pull-right pagination">
+							<li ng-class="{active: s.pageSize==10}">
+								<a ng-click="s.changePageSize(10)">10</a>
+							</li>
+							<li ng-class="{active: s.pageSize==20}">
+								<a ng-click="s.changePageSize(20)">20</a>
+							</li>
+							<li ng-class="{active: s.pageSize==50}">
+								<a ng-click="s.changePageSize(50)">50</a>
+							</li>
+							<li ng-class="{active: s.pageSize==100}">
+								<a ng-click="s.changePageSize(100)">100</a>
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
 	</div>
 </div>

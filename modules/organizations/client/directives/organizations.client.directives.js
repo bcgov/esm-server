@@ -65,6 +65,7 @@ angular.module('organizations')
 	})
 
 	.directive('tmplOrganizationsDisplayEdit', directiveOrganizationsDisplayEdit)
+	.directive('orgEntry', directiveOrgEntry)
 	//.directive('tmplOrganizationsUsersByOrg', directiveOrganizationsUsersByOrg)
 ;
 // -----------------------------------------------------------------------------------
@@ -87,143 +88,205 @@ function directiveOrganizationsDisplayEdit() {
 	};
 	return directive;
 }
-/*
-function directiveOrganizationsUsersByOrg() {
+
+directiveOrgEntry.$inject = ['_'];
+function directiveOrgEntry(_) {
 	var directive = {
 		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/organizations/client/views/organizations-partials/organization-user-list.html',
-		controller: 'controllerOrganizationUsersByOrg',
-		controllerAs: 'usersByOrg',
+		templateUrl: 'modules/organizations/client/views/org-entry.html',
 		scope: {
-			organizationId: '@',
-			mode: '@'
-		}
-	};
-	return directive;
-}
-*/
+			readonly: '=',
+			mode: '=',
+			enableDelete: '=',
+			enableSave: '=',
+			enableEdit: '=',
+			enableAddContact: '=',
+			enableEditContact: '=',
+			enableRemoveContact: '=',
+			org: '=',
+			users: '=',
+			projects: '=',
+			control: '=',
+			srefReturn: '='
+		},
+		controller: function ($scope, $attrs, $state, $filter, $modal, _, NgTableParams, Authentication, CodeLists, OrganizationModel, UserModel, ProjectModel) {
+
+			$scope.CodeLists = CodeLists;
+			$scope.organizationTypes = CodeLists.organizationTypes;
+			$scope.organizationRegisteredIns = CodeLists.organizationRegisteredIns;
+			$scope.types = $scope.readonly === true ? CodeLists.organizationTypes.all : CodeLists.organizationTypes.active;
+			$scope.registeredIns = $scope.readonly === true ? CodeLists.organizationRegisteredIns.all : CodeLists.organizationRegisteredIns.active;
+
+			$scope.users = _.sortByOrder($scope.users, ['lastName', 'firstName']);
+			$scope.userTableParams = new NgTableParams ({count:10}, {dataset: $scope.users});
+			$scope.projectTableParams = new NgTableParams ({count:10}, {dataset: $scope.projects});
+
+			$scope.internalControl = $scope.control || {};
 
 
-	/*
-	.directive('tmplOrganizations', directiveOrganizations)
-	.directive('tmplOrganizationsList', directiveOrganizationsList)
-	.directive('tmplOrganizationsSchedule', directiveOrganizationsSchedule)
-	// .directive('tmplOrganizationsPanels', directiveOrganizationsPanels)
-	.directive('tmplOrganizationsMap', directiveOrganizationsMap);
-	// .directive('tmplOrganizationsFilterBar', directiveOrganizationsFilterBar);
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Public Organizations Main
-//
-// -----------------------------------------------------------------------------------
-directiveOrganizations.$inject = [];
-// @ngInject
-function directiveOrganizations() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/organizations/client/views/organizations.html',
-		controller: 'controllerOrganizations',
-		controllerAs: 'organizations'
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Organizations List
-//
-// -----------------------------------------------------------------------------------
-// @ngInject
-function directiveOrganizationsList() {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/organizations/client/views/organizations-partials/organizations-list.html',
-		controller: 'controllerOrganizationsList',
-		controllerAs: 'organizationList',
-		scope: {
-			organizations: '='
+			var which = $scope.mode;
+
+
+			$scope.validate = function () {
+			};
+
+			$scope.showSuccess = function (msg, transitionCallback, title) {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-success.html',
+					controller: function ($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.title = title || 'Success';
+						self.msg = msg;
+						self.ok = function () {
+							$modalInstance.close($scope.org);
+						};
+						self.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
+				});
+				// do not care how this modal is closed, just go to the desired location...
+				modalDocView.result.then(function (res) {
+					transitionCallback();
+				}, function (err) {
+					transitionCallback();
+				});
+			};
+
+			$scope.showError = function (msg, errorList, transitionCallback, title) {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-error.html',
+					controller: function ($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.title = title || 'An error has occurred';
+						self.msg = msg;
+						self.ok = function () {
+							$modalInstance.close($scope.user);
+						};
+						self.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md',
+					windowClass: 'modal-alert',
+					backdropClass: 'modal-alert-backdrop'
+				});
+				// do not care how this modal is closed, just go to the desired location...
+				modalDocView.result.then(function (res) {
+					transitionCallback();
+				}, function (err) {
+					transitionCallback();
+				});
+			};
+
+			var goToList = function () {
+				$state.transitionTo($scope.srefReturn, {}, {reload: true, inherit: false, notify: true});
+			};
+
+			var reloadEdit = function () {
+				// want to reload this screen, do not catch unsaved changes (we are probably in the middle of saving).
+				$scope.allowTransition = true;
+				$state.reload();
+			};
+
+			if (!$scope.internalControl.onSave) {
+				$scope.internalControl.onSave = goToList;
+			}
+			if (!$scope.internalControl.onDelete) {
+				$scope.internalControl.onDelete = goToList;
+			}
+			if (!$scope.internalControl.onCancel) {
+				$scope.internalControl.onCancel = goToList;
+			}
+
+			$scope.internalControl.deleteOrg = function () {
+				var modalDocView = $modal.open({
+					animation: true,
+					templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
+					controller: function ($scope, $state, $modalInstance, _) {
+						var self = this;
+						self.dialogTitle = "Delete Organization";
+						self.name = $scope.org.name;
+						self.ok = function () {
+							$modalInstance.close($scope.user);
+						};
+						self.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+					},
+					controllerAs: 'self',
+					scope: $scope,
+					size: 'md'
+				});
+				modalDocView.result.then(function (res) {
+					OrganizationModel.deleteId($scope.org._id)
+						.then(function (res) {
+							_.each($scope.users, function (u) {
+								// These users no longer belong to an org
+								u.org = null;
+								u.orgName = "";
+								UserModel.save(u)
+									.then( function (a) {
+										console.log("changed:", a);
+									});
+							});
+							// deleted show the message, and go to list...
+							$scope.showSuccess('"'+ $scope.org.name +'"' + ' was deleted successfully.', goToList, 'Delete Success');
+						})
+						.catch(function (res) {
+							console.log("res:", res);
+							// could have errors from a delete check...
+							var failure = _.has(res, 'message') ? res.message : undefined;
+							$scope.showError('"'+ $scope.org.name +'"' + ' was not deleted.', [], reloadEdit, 'Delete Error');
+						});
+				}, function () {
+					//console.log('delete modalDocView error');
+				});
+			};
+
+			$scope.internalControl.saveOrg = function (isValid) {
+				if (!isValid) {
+					$scope.$broadcast('show-errors-check-validity', 'organizationForm');
+					return false;
+				}
+				$scope.org.code = $filter('kebab')($scope.org.name);
+				var p = (which === 'add') ? OrganizationModel.add($scope.org) : OrganizationModel.save($scope.org);
+				p.then(function (model) {
+					$scope.showSuccess('"' + $scope.org.name + '"' + ' was saved successfully.', $scope.internalControl.onSave, 'Save Success');
+				}).catch(function (err) {
+					console.error(err);
+					// alert (err.message);
+				});
+			};
+
+
+			$scope.removeUserFromOrg = function (userId) {
+				console.log("Removing ", userId, " from org ", $scope.org);
+				UserModel.lookup(userId)
+					.then( function (user) {
+						user.org = null;
+						user.orgName = "";
+						return UserModel.save(user);
+					})
+					.then( function () {
+						return OrganizationModel.getUsers ($scope.org._id);
+					})
+					.then ( function (users) {
+						$scope.users = _.sortByOrder(users, ['lastName', 'firstName']);
+						$scope.userTableParams = new NgTableParams ({count:10}, {dataset: $scope.users});
+						$scope.$apply();
+					});
+			};
 		}
 	};
 	return directive;
 }
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Organizations Schedule
-//
-// -----------------------------------------------------------------------------------
-directiveOrganizationsSchedule.$inject = [];
-// @ngInject
-function directiveOrganizationsSchedule() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/organizations/client/views/organizations-partials/organizations-schedule.html',
-		controller: 'controllerOrganizationsList',
-		controllerAs: 'organizationList',
-		scope: {
-			organizations: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Organizations Panels
-//
-// -----------------------------------------------------------------------------------
-// directiveOrganizationsPanels.$inject = [];
-// // @ngInject
-// function directiveOrganizationsPanels() {
-// 	var directive = {
-// 		restrict: 'E',
-// 		templateUrl: 'modules/organizations/client/views/organizations-partials/organizations-panels.html',
-// 		controller: 'controllerOrganizationsList',
-// 		controllerAs: 'organizationList',
-// 		scope: {
-// 			organizations: '='
-// 		}
-// 	};
-// 	return directive;
-// }
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Organizations Map
-//
-// -----------------------------------------------------------------------------------
-directiveOrganizationsMap.$inject = ['google'];
-// @ngInject
-function directiveOrganizationsMap(google) {
-	var directive = {
-		restrict: 'E',
-		replace: true,
-		templateUrl: 'modules/organizations/client/views/organizations-partials/organizations-map.html',
-		controller: 'controllerOrganizationsList',
-		controllerAs: 'organizationList',
-		scope: {
-			organizations: '='
-		}
-	};
-	return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Organizations Filter Bar
-//
-// -----------------------------------------------------------------------------------
-// directiveOrganizationsFilterBar.$inject = [];
-// // @ngInject
-// function directiveOrganizationsFilterBar() {
-// 	var directive = {
-// 		restrict: 'E',
-// 		replace: true,
-// 		scope: {
-// 			data: '='
-// 		},
-// 		templateUrl: 'modules/organizations/client/views/organizations-partials/organizations-filter-bar.html',
-// 		controller: 'controllerOrganizationsFilterBar',
-// 		controllerAs: 'fbc'
-// 	};
-// 	return directive;
-// }
-		*/
