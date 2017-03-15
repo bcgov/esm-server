@@ -297,6 +297,8 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			$scope.isClosed = (end < today);
 			$scope.period   = period;
 			$scope.project  = project;
+			// convert instructions to displayable HTML
+			$scope.aboutThisPeriod = period.instructions.replace(/\n/g,"<br>");
 			// anyone with vetting comments can add a comment at any time
 			// all others with add comment permission must wait until the period is open
 			$scope.allowCommentSubmit = (isopen && period.userCan.addComment) || period.userCan.vetComments;
@@ -429,7 +431,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			.replace('%INFORMATION_LABEL%', INFORMATION_LABEL)
 			.replace('%DATE_RANGE%', DATE_RANGE);
 		if (period.additionalText) {
-			period.instructions += " " + period.additionalText;
+			period.instructions += "\n" + period.additionalText;
 		}
 	}
 
@@ -548,7 +550,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 		}
 		if(!period.dateCompleted) {
 			// console.log("Creating end date",period.dateCompleted,period);
-			period.dateCompleted = moment().set({'hour':23, 'minute':59, 'second': 0, 'millisecond': 0}).toDate();
+			period.dateCompleted = moment().set({'hour':23, 'minute':59, 'second': 59, 'millisecond': 0}).toDate();
 		}
 
 		// UI elements .. set to match model values
