@@ -44,6 +44,26 @@
         }
 	</script>
 
+  <!-- Prototype Search Widget -->
+  <script type="text/javascript">
+        function expandSearchWidget() {
+          $('.search-widget').removeClass('collapsed');
+          $('.search-widget').addClass('expanded');
+        }
+        function collapseSearchWidget() {
+          $('.search-widget').removeClass('expanded');
+          $('.search-widget').addClass('collapsed');
+          $('.sw-input').val('');
+          document.getElementById('swForm').reset();
+        }
+        function searchDocs() {
+          $('.search-widget').removeClass('expanded');
+          $('.search-widget').addClass('collapsed');
+          $('.sw-resize-container').removeClass('open');
+          $('.sw-input').val('');
+        }
+	</script>
+
 </head>
 
 <body class="ng-cloak" x-scroll>

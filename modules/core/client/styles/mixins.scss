@@ -1,4 +1,5 @@
 
+// Flexbox
 @mixin flexbox() {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -8,11 +9,11 @@
 
 @mixin flex($values) {
 	-webkit-box-flex: $values;
-  	   -moz-box-flex: $values;
-		-ms-box-flex: $values;
-  	    -webkit-flex: $values;
-  	        -ms-flex: $values;
-  		        flex: $values; 
+  -moz-box-flex: $values;
+	-ms-box-flex: $values;
+  -webkit-flex: $values;
+  -ms-flex: $values;
+  flex: $values; 
 }
 
 @mixin flexdirection($values) {

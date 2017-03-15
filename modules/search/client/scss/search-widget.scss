@@ -1,0 +1,176 @@
+$search-widget-input-bg: #fff;
+$search-widget-color: #494949;
+$search-widget-focus-color: #5091cd;
+$search-widget-btn-offset: 0.1rem;
+
+.search-widget {
+    text-align: right;
+
+    .sw-resize-container {
+        position: relative;
+        display: inline-block;
+        transition: all ease-out 0.2s;
+
+        .icon-btn {
+            position: absolute;
+            z-index: 3;
+            width: 3.4rem;
+            height: 3.4rem;
+            background: none;
+
+            i {
+                font-size: 1.8rem;
+            }
+
+            &:focus {
+                border: 1px solid $search-widget-focus-color;
+                outline: none;
+            }
+        }
+
+        .sw-expand-btn {
+            top: $search-widget-btn-offset;
+            left: 0;
+        }
+
+        .sw-collapse-btn,
+        .sw-toggle-btn {
+            top: $search-widget-btn-offset;
+        }
+
+        .sw-collapse-btn {
+            right: $search-widget-btn-offset;
+            font-size: 2rem;
+        }
+
+        .sw-toggle-btn {
+            right: 3.65rem;
+
+            i {
+                font-size: 1.4rem;
+            }
+        }
+
+        .sw-input {
+            position: relative;
+            z-index: 2;
+            display: inline-block;
+            width: 100%;
+            height: 3.6rem;
+            background-color: $search-widget-input-bg;
+            color: $search-widget-color;
+            font-size: 1.3rem;
+        }
+    }
+
+    &.collapsed {
+        .sw-resize-container {
+            width: 3.4rem;
+
+            .sw-collapse-btn,
+            .sw-toggle-btn {
+                visibility: hidden;
+            }
+
+            .sw-input {
+                padding-right: 0;
+                padding-left: 0;
+                opacity: 0;
+                transition: 0.2s opacity ease-out 0.2s;
+            }
+        }
+    }
+
+    &.expanded {
+        right: 1.5rem;
+        left: 1.5rem;
+
+        .sw-resize-container {
+            width: 100%;
+
+            .sw-expand-btn {
+                display: none;
+            }
+
+            .sw-collapse-btn,
+            .dropdown-toggle {
+                visibility: visible;
+            }
+
+            .sw-input {
+                padding-right: 7.2rem;
+                opacity: 1;
+                transition: all ease-out 0.2s;
+            }
+        }
+    }
+
+    .dropdown-menu {
+        padding: 1.5rem;
+        width: 100%;
+        border-radius: 0;
+    }
+}
+
+@media (min-width: 760px) {
+    .search-widget {
+        &.collapsed,
+        &.expanded {
+            .sw-resize-container {
+                width: auto;
+
+                .sw-expand-btn {
+                    left: 0.2rem;
+                    pointer-events: none;
+                }
+
+                .sw-input {
+                    padding-right: 7.2rem;
+                    padding-left: 3.5rem;
+                    width: 30rem;
+                    opacity: 1;
+                    transition: all ease-out 0.2s;
+
+                    &:focus {
+                        width: 35rem;
+                    }
+                }
+
+                .sw-collapse-btn,
+                .dropdown-toggle {
+                    visibility: visible;
+                }
+
+                &.open {
+                    .sw-input {
+                        width: 35rem;
+                    }
+                }
+            }
+        }  
+    }
+}
+
+
+// Search Widget Form
+.sw-form {
+    label {
+        margin-bottom: 0.25rem;
+        font-size: 1.3rem;
+    }
+
+    .btn {
+        padding: 0.65rem 1.2rem;
+        text-transform: uppercase;
+        font-size: 1.3rem;
+    }
+}
+
+// Position the control inside the View Title Container
+.view-title-container {
+    .search-widget {
+        position: absolute;
+        top: 1.2rem;
+        right: 5.25rem;
+    }
+}
