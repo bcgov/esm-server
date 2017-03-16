@@ -1,5 +1,4 @@
 $search-widget-input-bg: #fff;
-$search-widget-color: #494949;
 $search-widget-focus-color: #5091cd;
 $search-widget-btn-offset: 0.1rem;
 
@@ -30,7 +29,8 @@ $search-widget-btn-offset: 0.1rem;
 
         .sw-expand-btn {
             top: $search-widget-btn-offset;
-            left: 0;
+            left: $search-widget-btn-offset;
+            background: $search-widget-input-bg;
         }
 
         .sw-collapse-btn,
@@ -58,14 +58,13 @@ $search-widget-btn-offset: 0.1rem;
             width: 100%;
             height: 3.6rem;
             background-color: $search-widget-input-bg;
-            color: $search-widget-color;
             font-size: 1.3rem;
         }
     }
 
     &.collapsed {
         .sw-resize-container {
-            width: 3.4rem;
+            width: 3.6rem;
 
             .sw-collapse-btn,
             .sw-toggle-btn {
@@ -82,9 +81,6 @@ $search-widget-btn-offset: 0.1rem;
     }
 
     &.expanded {
-        right: 1.5rem;
-        left: 1.5rem;
-
         .sw-resize-container {
             width: 100%;
 
@@ -93,7 +89,7 @@ $search-widget-btn-offset: 0.1rem;
             }
 
             .sw-collapse-btn,
-            .dropdown-toggle {
+            .sw-toggle-btn {
                 visibility: visible;
             }
 
@@ -121,11 +117,12 @@ $search-widget-btn-offset: 0.1rem;
 
                 .sw-expand-btn {
                     left: 0.2rem;
+                    background-color: transparent;
                     pointer-events: none;
                 }
 
                 .sw-input {
-                    padding-right: 7.2rem;
+                    padding-right: 3.5rem;
                     padding-left: 3.5rem;
                     width: 30rem;
                     opacity: 1;
@@ -136,8 +133,8 @@ $search-widget-btn-offset: 0.1rem;
                     }
                 }
 
-                .sw-collapse-btn,
-                .dropdown-toggle {
+                .sw-toggle-btn {
+                    right: $search-widget-btn-offset;
                     visibility: visible;
                 }
 
@@ -151,7 +148,6 @@ $search-widget-btn-offset: 0.1rem;
     }
 }
 
-
 // Search Widget Form
 .sw-form {
     label {
@@ -159,10 +155,14 @@ $search-widget-btn-offset: 0.1rem;
         font-size: 1.3rem;
     }
 
-    .btn {
-        padding: 0.65rem 1.2rem;
-        text-transform: uppercase;
-        font-size: 1.3rem;
+    .sw-form-btns {
+        text-align: right;
+
+        .btn {
+            padding: 0.65rem 1.2rem;
+            text-transform: uppercase;
+            font-size: 1.3rem;
+        }
     }
 }
 
@@ -170,7 +170,20 @@ $search-widget-btn-offset: 0.1rem;
 .view-title-container {
     .search-widget {
         position: absolute;
-        top: 1.2rem;
-        right: 5.25rem;
+        top: 1.3rem;
+        right: 5.5rem;
+
+        &.expanded {
+            right: 1.5rem;
+            left: 1.5rem;
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .view-title-container {
+        .search-widget {
+            right: 5.5rem;
+        }
     }
 }

@@ -5,7 +5,6 @@ $view-title-container-bg: #fff;
 .view-title-container {
 	@include flexbox();
 	@include flex(0 0 auto);
-	z-index: 5;
 	padding: 1.4rem 1.5rem;
 	border-bottom: $view-container-border;
 	background-color: $view-title-container-bg;
@@ -13,7 +12,7 @@ $view-title-container-bg: #fff;
 	h1 {
 		@include flex(1 1 auto);
 		margin: 0;
-		padding-top: 0.75rem;
+		padding-top: 0.7rem;
 		font-size: 2rem;
 		font-weight: bold;
 		white-space: nowrap;
@@ -40,7 +39,7 @@ $view-title-container-bg: #fff;
 @media (min-width: 1020px) {
 	.view-title-container {
 		h1 {
-			padding-top: 0.6rem;
+			padding-top: 0.5rem;
 			font-size: 2.2rem;
 		}
 

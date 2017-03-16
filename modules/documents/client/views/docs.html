@@ -4,7 +4,7 @@
 	<h1>Documents</h1>
 	
 	<div class="search-widget collapsed">
-		<div class="sw-resize-container">
+		<form id="swForm" class="sw-resize-container sw-form">
 			
 			<button class="sw-expand-btn btn icon-btn" onclick="expandSearchWidget();"><i class="glyphicon glyphicon-search"></i></button>
 			
@@ -20,21 +20,20 @@
 			</button>
 
 			<div class="dropdown-menu" id="swAdvanced" ng-click="$event.stopPropagation()">
-				<form id="swForm" class="sw-form">
-					<div class="form-group">
-						<label>Name</label>
-						<input class="form-control" type="text" id="swName" />
-					</div>
-					<div class="form-group">
-						<label>Keywords</label>
-						<input class="form-control" type="text" id="swKeywords" />
-					</div>
-					<div class="sw-form-btns">
-						<button class="btn btn-primary" onclick="searchDocs();">Search</button>
-					</div>
-				</form>
+				<div class="form-group">
+					<label>Name</label>
+					<input class="form-control" type="text" id="swName" />
+				</div>
+				<div class="form-group">
+					<label>Keywords</label>
+					<input class="form-control" type="text" id="swKeywords" />
+				</div>
+				<div class="sw-form-btns">
+					<button class="btn btn-default" onclick="resetSwForm();">Clear</button>
+					<button class="btn btn-primary" onclick="searchDocs();">Search</button>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 
 	<div class="actions">
