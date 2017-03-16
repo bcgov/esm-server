@@ -175,6 +175,21 @@ module.exports = function (app) {
 		return model.getCommentDocuments(req.params.commentId);
 	}));
 
+	app.route ('/api/comments/period/:periodId/permissions/sync').all(policy ('user'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.syncCommentPermissionsAll(req.params.periodId);
+		}));
+
+	app.route ('/api/comments/period/:periodId/permissions/sync/:stage').all(policy ('user'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.syncCommentPermissionsAll(req.params.periodId, undefined, req.params.stage);
+		}));
+
+	app.route ('/api/comments/:commentId/permissions/sync').all(policy ('user'))
+		.get (routes.setAndRun (CommentModel, function (model, req) {
+			return model.syncCommentPermissions(req.params.commentId);
+		}));
+
 	// special delete method
 	app.route ('/api/commentperiod/:commentperiod/remove')
 		.all (policy ('user'))

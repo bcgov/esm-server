@@ -20,6 +20,41 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, moment, 
 		// get all the comments for a comment period
 		//
 		// -------------------------------------------------------------------------
+		commentPeriodPermissionsSync: function (periodId, commentLength) {
+			// if we change vetting/classification roles on a Period, we need to adjust all children permissions
+			// so all comments and their documents need to have there permissions reset (and some proponent/eaoStatus work too).
+			// makes sure publish flags and statuses are in sync etc.
+			if (commentLength && commentLength <= 1000) {
+				// let's arbitrarily pick 1000 as a limit on doing all comments/docs permission sync in a single call...
+				return this.get ('/api/comments/period/'+periodId+'/permissions/sync');
+			} else {
+				// other wise, break out into stages
+				// there are 4 discrete chunks of work done to get the comments and docs set up correctly.
+				var self = this;
+				return new Promise(function(resolve, reject) {
+					self.get ('/api/comments/period/'+periodId+'/permissions/sync/' + 1)
+						.then(function() {
+							return self.get ('/api/comments/period/'+periodId+'/permissions/sync/' + 2);
+						})
+						.then(function() {
+							return self.get ('/api/comments/period/'+periodId+'/permissions/sync/' + 3);
+						})
+						.then(function() {
+							return self.get ('/api/comments/period/'+periodId+'/permissions/sync/' + 4);
+						})
+						.then(function() {
+							resolve();
+						}, function(err) {
+							console.log('Error comment Period perimissions sync: ', JSON.stringify(err));
+							reject(err);
+						});
+				});
+			}
+		},
+		commentPermissionsSync: function (commentId) {
+			// same logic as above, but limit to a single comment...
+			return this.get ('/api/comments/' + commentId + '/permissions/sync');
+		},
 		getAllCommentsForPeriod: function (periodId) {
 			return this.get ('/api/comments/period/'+periodId+'/all');
 		},

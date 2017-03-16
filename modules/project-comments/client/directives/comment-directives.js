@@ -370,6 +370,9 @@ angular.module ('comment')
 					.then(function(result) {
 						return CommentModel.save (data);
 					})
+					.then(function(comment) {
+						return CommentModel.commentPermissionsSync(comment._id);
+					})
 					.then (function (result) {
 						// TODO reload data
 						$scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
@@ -455,7 +458,10 @@ angular.module ('comment')
 								// We don't need to do anything but add the comment.
 								// console.log("s.comment:", s.comment);
 								 CommentModel.add (s.comment)
-								.then (function (comment) {
+								 .then(function(comment) {
+									 return CommentModel.commentPermissionsSync(comment._id);
+								 })
+								 .then (function (comment) {
 									s.step = 3;
 									$scope.$apply ();
 									$rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {comment: comment});
@@ -485,6 +491,9 @@ angular.module ('comment')
 													s.comment.documents.push(d);
 												});
 												CommentModel.add (s.comment)
+												.then(function(comment) {
+													return CommentModel.commentPermissionsSync(comment._id);
+												})
 												.then (function (comment) {
 													s.step = 3;
 													$scope.$apply ();
