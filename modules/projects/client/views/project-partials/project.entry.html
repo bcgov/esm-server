@@ -111,7 +111,7 @@
 							ng-options="d for d in eacDecisions">
 					</select>
 				</div>
-          </div>
+
 			</fieldset>
 			<!-- PROJECT INFORMATION -->
 
@@ -286,6 +286,7 @@
 							x-project="project">Set Executive Project Director</button>
 				</div>
 			</fieldset>
+			<hr/>
 			<fieldset>
 				<legend>Project Lead</legend>
 				<div class="row">
@@ -315,6 +316,7 @@
 							x-project="project">Set Project Lead</button>
 				</div>
 			</fieldset>
+			<hr/>
 			<fieldset>
 				<legend>Compliance and Enforcement Lead</legend>
 				<div class="row">
@@ -333,7 +335,8 @@
 						<input class="form-control"  name="cephone"
 							ng-model="project.CELeadPhone" ng-disabled="!project.CELead" />
 					</div>
-					<div class="form-group no-margin">
+				</div>
+				<div class="form-group no-margin">
 						<button class="btn btn-default btn-sm" type="button"
 								x-user-search-chooser
 								x-title="'Set Compliance and Enforcement Lead'"
@@ -342,8 +345,8 @@
 								x-singleselectmode="true"
 								x-project="project">Set Compliance and Enforcement Lead</button>
 					</div>
-				</div>
 			</fieldset>
+			<hr/>
 			<fieldset>
 				<legend>Support Team</legend>
 				<div class="row">
