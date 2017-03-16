@@ -106,7 +106,7 @@ $search-widget-btn-offset: 0.1rem;
     }
 
     .dropdown-menu {
-        padding: 1.5rem;
+        padding: 0;
         width: 100%;
         border-radius: 0;
     }
@@ -121,7 +121,24 @@ $search-widget-btn-offset: 0.1rem;
             bottom: 0;
             left: 0;
             margin: 0;
-            border: none;
+            border-right: none;
+            border-bottom: none;
+            border-left: none;
+        }
+
+        .sw-form-container {
+            @include flexbox();
+            @include flexdirection(column);
+            height: 100%;
+
+            .sw-form-items {
+                @include flex(1 1 auto);
+                overflow-y: scroll;
+            }
+
+            .sw-form-btns {
+                @include flex(0 0 auto);
+            }
         }
     }
 }
@@ -161,19 +178,52 @@ $search-widget-btn-offset: 0.1rem;
                         width: 35rem;
                     }
                 }
+                
+                .dropdown-menu {
+                    width: 35rem;
+                }
             }
         }  
     }
 }
 
 // Search Widget Form
-.sw-form {
-    label {
+$sw-form-font-size: 1.3rem;
+
+.sw-form-container {
+    .sw-form-items {
+        padding: 1.5rem;
+
+        .form-group {
+            &:last-child {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+
+    .control-label {
         margin-bottom: 0.25rem;
-        font-size: 1.3rem;
+        font-size: $sw-form-font-size;
+    }
+
+    .checkbox {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        padding-left: 0.25rem;
+        font-size: $sw-form-font-size;
+
+        +.checkbox {
+            margin-top: 1rem;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 
     .sw-form-btns {
+        padding: 1.5rem;
+        border-top: 1px solid #ccc;
         text-align: right;
 
         .btn {

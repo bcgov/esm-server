@@ -7,9 +7,7 @@
 		<form id="swForm" class="sw-resize-container sw-form">
 			
 			<button class="sw-expand-btn btn icon-btn" onclick="expandSearchWidget();"><i class="glyphicon glyphicon-search"></i></button>
-			
 			<input class="form-control sw-input" type="text" placeholder="Search" />
-			
 			<button class="sw-toggle-btn dropdown-toggle btn icon-btn"
 				data-toggle="dropdown"
 				data-target="swAdvanced">
@@ -20,17 +18,69 @@
 			</button>
 
 			<div class="dropdown-menu" id="swAdvanced" ng-click="$event.stopPropagation()">
-				<div class="form-group">
-					<label>Name</label>
-					<input class="form-control" type="text" id="swName" />
-				</div>
-				<div class="form-group">
-					<label>Keywords</label>
-					<input class="form-control" type="text" id="swKeywords" />
-				</div>
-				<div class="sw-form-btns">
-					<button class="btn btn-default" onclick="resetSwForm();">Clear</button>
-					<button class="btn btn-primary" onclick="searchDocs();">Search</button>
+				<div class="sw-form-container">
+					<div class="sw-form-items">
+						<div class="form-group">
+							<label class="control-label">File Name</label>
+							<input class="form-control" type="text" id="swName" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Keywords</label>
+							<input class="form-control" type="text" id="swKeywords" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Includes the words</label>
+							<input class="form-control" type="text" id="swKeywords" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Project Phase</label>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="checkbox">
+										<label for="projectPhase1">
+											<input type="checkbox" id="projectPhase1"/>Intake
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase2">
+											<input type="checkbox" id="projectPhase2"/>Determination
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase3">
+											<input type="checkbox" id="projectPhase3"/>Scope
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase4">
+											<input type="checkbox" id="projectPhase4"/>Evaluation
+										</label>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="checkbox">
+										<label for="projectPhase5">
+											<input type="checkbox" id="projectPhase5"/>Review
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase6">
+											<input type="checkbox" id="projectPhase6"/>Decision
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase7">
+											<input type="checkbox" id="projectPhase7"/>Post-Certification
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="sw-form-btns">
+						<button class="btn btn-default" onclick="resetSwForm();">Reset</button>
+						<button class="btn btn-primary" onclick="searchDocs();">Search</button>
+					</div>
 				</div>
 			</div>
 		</form>
