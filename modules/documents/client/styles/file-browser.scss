@@ -474,7 +474,6 @@ a.icon-btn {
         }
 
         .row-actions {
-            display: none;
             position: absolute;
             top: 0.6rem;
             right: 2.5rem;
@@ -574,6 +573,24 @@ a.icon-btn {
     }
 }
 
+@media (min-width: 1200px) {
+    .fb-list {
+        .fb-col-group {
+            .row-actions {
+                visibility: hidden;
+            }
+        }
+    }
+
+    .fb-list-item:hover {
+        .fb-col-group {
+            .row-actions {
+                visibility: visible;
+            }
+        }
+    }
+}
+
 /* COLUMNS */
 span.avatar {
     @include flex(0 0 3rem);
@@ -653,8 +670,7 @@ span.avatar {
         opacity: 0;
         z-index: 2;
 
-        &:hover,
-        &:focus {
+        &:hover {
             + label {
                 background: #EEE;
 

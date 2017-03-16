@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -9,7 +9,7 @@ angular.module('documents')
 				opendir: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
-			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
+			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
@@ -26,6 +26,7 @@ angular.module('documents')
 				}
 
 				$scope.authentication = Authentication;
+				$scope.documentTypes = CodeLists.documentTypes;
 
 				ProjectModel.getProjectDirectory($scope.project)
 				.then( function (dir) {
@@ -136,6 +137,7 @@ angular.module('documents')
 						if (_.isEmpty(f.displayName)) {
 							f.displayName = f.documentFileName || f.internalOriginalName;
 						}
+						f.order = f.order || 0;
 
 						if (self.sorting.column === 'name') {
 							return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
@@ -163,6 +165,7 @@ angular.module('documents')
 						if (_.isEmpty(d.model.name)) {
 							return null;
 						}
+						d.model.order = d.model.order || 0;
 						return d.model.name.toLowerCase();
 					}).sortBy(function (d) {
 						return d.model.order;
@@ -991,7 +994,7 @@ angular.module('documents')
 			controllerAs: 'documentMgrUpload'
 		};
 	}])
-	.directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'DOCUMENT_TYPES', 'INSPECTION_REPORT_FOLLOWUP_TYPES', function ($rootScope, $modal, $log, _, moment, DocumentMgrService, TreeModel, DOCUMENT_TYPES, INSPECTION_REPORT_FOLLOWUP_TYPES) {
+	.directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'CodeLists', function ($rootScope, $modal, $log, _, moment, DocumentMgrService, TreeModel, CodeLists) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -1010,13 +1013,13 @@ angular.module('documents')
 							}
 						},
 						controllerAs: 'editFileProperties',
-						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, file) {
+						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, file, CodeLists) {
 							var self = this;
 							self.busy = true;
 
 							$scope.project = scope.project;
-							$scope.types = DOCUMENT_TYPES;
-							$scope.inspectionReportFollowupTypes = INSPECTION_REPORT_FOLLOWUP_TYPES;
+							$scope.types = CodeLists.documentTypes.active;
+							$scope.inspectionReportFollowupTypes = CodeLists.inspectionReportFollowUpTypes.active;
 
 							$scope.dateOptions = {
 								showWeeks: false

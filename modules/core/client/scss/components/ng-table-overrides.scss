@@ -1,0 +1,156 @@
+
+$table-bg: #fff;
+$table-header-bg: #f7f8fa;
+$table-header-hover-bg: #EEE;
+$table-row-border: 1px solid #EEE;
+$table-row-hover-bg: #f7f8fa;
+$table-pagination-bg: #fff;
+
+.table {
+    margin-bottom: 0;
+    background-color: $table-bg;
+
+    thead {
+        > tr {
+            > th {
+                padding: 1rem 0.5rem;
+                border-top: none;
+                border-bottom: $table-row-border;
+                text-align: left;
+
+                &.actions-col {
+                    &.x1 {
+                        width: 5rem;
+                    }
+
+                    &.x2 {
+                        width: 9rem;
+                    }
+
+                    &.x3 {
+                        width: 14rem;
+                    }
+
+                    &:hover {
+                        background-color: $table-header-bg;
+                        cursor: default;
+                    }
+                }
+            }
+        }
+    }
+
+    tbody {
+        > tr {
+            > td {
+                padding: 1.25rem 0.5rem;
+                border-top: none;
+                border-bottom: $table-row-border;
+                vertical-align: middle;
+
+                &.actions-col {
+                    padding: 0.5rem 1rem;
+                    text-align: right;
+                }
+            }
+        }
+    }
+}
+
+.ng-table-sort-header {
+    th {
+        padding: 1rem 0.5rem;
+        background-color: $table-header-bg;
+
+        &:hover {
+            background-color: $table-header-hover-bg;
+        }
+    }
+}
+
+.ng-table-filters {
+    th {
+        background-color: $table-header-bg;
+    }
+}
+
+.ng-table-pager {
+    border-top: none;
+    background-color: $table-pagination-bg;
+}
+
+td.actions-col,
+td.has-actions {
+    position: relative;
+    padding-right: 4rem;
+
+    .btns,
+    .btn-group {
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+    }
+
+    .dropdown-menu {
+        top: -0.5rem;
+        right: -2px;
+        min-width: 0;
+        padding: 0.2rem;
+        white-space: nowrap;
+
+        li {
+            display: inline-block;
+        }
+
+        a {
+            display: inline-block;
+            padding: 0;
+            width: 3.4rem;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .actions-col,
+    .has-actions {
+        .btns,
+        .btn-group {
+            opacity: 0;
+            transition: all ease-out 0.2s;
+        }
+    }
+
+    tr:hover {
+        .actions-col,
+        .has-actions {
+            .btns,
+            .btn-group {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+// Need to remove once we get around to refactoring this global button
+.actions-col {
+    .permission-btn {
+        button {
+            width: 3.4rem;
+            height: 3.4rem;
+            padding-right: 0;
+            padding-left: 0;
+            border-color: transparent;
+            background-color: transparent;
+            text-align: center;
+
+            &:hover {
+                border-color: #CCC;
+                background-color: #EEE;
+            }
+
+            .glyphicon {
+                font-size: 1.8rem;
+            }
+        }
+    }
+}

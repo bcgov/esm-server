@@ -20,6 +20,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		'application.listNews',
 		'application.listTemplates',
 		'application.listValuedComponents',
+		'application.manageCodeLists',
 		'application.listContacts'
 		]
 	});
@@ -53,11 +54,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	// 	state: 'admin.roles.list',
 	// 	permissions: ['application.listRoles']
 	// });
-	Menus.addMenuItem('systemMenu', {
-		title: 'Templates',
-		state: 'admin.template.list',
-		permissions: ['application.listTemplates']
-	});
+	// Menus.addMenuItem('systemMenu', {
+	// 	title: 'Templates',
+	// 	state: 'admin.template.list',
+	// 	permissions: ['application.listTemplates']
+	// });
 	Menus.addMenuItem('systemMenu', {
 		title: 'Valued Components',
 		state: 'admin.topic.list',
@@ -67,6 +68,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		title: 'Contacts',
 		state: 'admin.user.list',
 		permissions: ['application.listContacts']
+	});
+	Menus.addMenuItem('systemMenu', {
+		title: 'Field Management',
+		state: 'admin.codelist.list',
+		permissions: ['application.manageCodeLists']
 	});
 	// -------------------------------------------------------------------------
 	//

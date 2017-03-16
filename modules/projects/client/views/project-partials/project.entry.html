@@ -6,16 +6,16 @@
 			<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
 			<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
 			<button class="btn btn-primary btn-sm"
-					ng-click="saveProject(projectForm.$valid)"
-					ng-if="project.status !== 'Initiated'"
-					type="submit">Save</button>
+				ng-click="saveProject(projectForm.$valid)"
+				ng-if="project.status !== 'Initiated'"
+				type="submit">Save</button>
 			<button class="btn btn-danger btn-sm"
               	ng-click="deleteProject()"
               	ng-if="!isNew && !project.isPublished && project.userCan.delete">
 				<span class="glyphicon glyphicon-trash"></span><span>Delete Project</span></button>
 			<button class="btn btn-success btn-sm"
-					ng-click="submitProject(projectForm.$valid)"
-					ng-if="project.status === 'Initiated'">Submit Project</button>
+				ng-click="submitProject(projectForm.$valid)"
+				ng-if="project.status === 'Initiated'">Submit Project</button>
 		</div>
 	</div>
 
@@ -36,6 +36,7 @@
 		</ul>
 
 		<div class="edit-project-form tab-pane active" ng-show="form.curTab === 'Project Details'" ng-form="detailsForm">
+			
 			<!-- PROJECT INFORMATION -->
 			<fieldset>
 				<legend>General Info</legend>
@@ -72,11 +73,11 @@
 				<div class="form-group" x-show-errors>
 					<label class="control-label" for="shortDesc">Project Description<em class="required">(Required)</em></label>
 					<textarea title="Project Description"
-								class="form-control"
-								rows="5"
-								id="shortDesc"
-								name="projectdesc"
-								ng-model="project.description" required></textarea>
+						class="form-control"
+						rows="5"
+						id="shortDesc"
+						name="projectdesc"
+						ng-model="project.description" required></textarea>
 				</div>
 				<div class="row">
 					<div class="col-md-4 form-group" x-show-errors>
@@ -107,11 +108,11 @@
 				<div class="col-md-4 form-group">
 					<label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
 					<select class="form-control" name="eacDecision" id="eacDecision"
-							ng-model="project.eacDecision"
-							ng-options="d for d in eacDecisions">
+						ng-model="project.eacDecision"
+						ng-options="d for d in eacDecisions">
 					</select>
 				</div>
-          </div>
+
 			</fieldset>
 			<!-- PROJECT INFORMATION -->
 
@@ -214,46 +215,6 @@
 			</fieldset>
 			<!-- / ELECTORAL DISTRICTS -->
 
-			<!-- MEM ONLY INFORORMATION -->
-			<div class="row" ng-if="environment === 'MEM'">
-				<div class="col-sm-3">
-					<div class="form-group" x-show-errors>
-						<label for="permitid" class="control-label">Permit Number</label>
-						<input id="permitid" name="permitid" type="text" class="form-control input-sm" ng-model="project.memPermitID">
-							<div ng-messages="projectForm.permitid.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Permit Number is required.</p>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group" x-show-errors>
-						<label for="commodity" class="control-label">Commodity/ies</label>
-						<input id="commodity" name="commodity" type="text" class="form-control input-sm" ng-model="project.commodity">
-							<div ng-messages="projectForm.commodity.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Commodity is required.</p>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group" x-show-errors>
-						<label for="ownership" class="control-label">Ownership</label>
-						<input id="ownership" name="ownership" type="text" class="form-control input-sm" ng-model="project.ownership">
-							<div ng-messages="projectForm.ownership.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Ownership is required.</p>
-							</div>
-					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="form-group" x-show-errors>
-						<label for="tailingsImpoundments" class="control-label">Tailings Impoundments</label>
-						<input id="tailingsImpoundments" name="tailingsImpoundments" type="text" class="form-control input-sm" ng-model="project.tailingsImpoundments">
-							<div ng-messages="projectForm.tailingsImpoundments.$error" role="alert">
-								<p class="help-block error-text" ng-message="required">Tailings Impoundments is required.</p>
-							</div>
-					</div>
-				</div>
-			</div>
-			<!-- / MEM ONLY INFORMATION -->
 		</div>
 
 		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Project Contacts'" ng-form="contactsForm">
@@ -263,60 +224,90 @@
 					<div class="col-md-4 form-group">
 						<label class="control-label" for="projectdirector">Name<em class="required">(Required)</em></label>
 						<input class="form-control" name="projectdirector" id="projectdirector"
-							ng-model="project.responsibleEPD" />
+							placeholder="{{ project.responsibleEPD }}" disabled />
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectdirectormmail">Email<em class="required">(Required)</em></label>
-						<input class="form-control" placeholder="example@domain.com" name="projectdirectormmail" id="projectdirectormmail"
-							ng-model="project.responsibleEPDEmail"  />
+						<input class="form-control" name="projectdirectormmail" id="projectdirectormmail"
+							ng-model="project.responsibleEPDEmail" ng-disabled="!project.responsibleEPD" />
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectdirectorphone">Phone<em class="required">(Required)</em></label>
-						<input class="form-control" placeholder="e.g. (555) 555-5555" name="projectdirectorphone" id="projectdirectorphone"
-							ng-model="project.responsibleEPDPhone" />
+						<input class="form-control" name="projectdirectorphone" id="projectdirectorphone"
+							ng-model="project.responsibleEPDPhone" ng-disabled="!project.responsibleEPD" />
 					</div>
 				</div>
+				<div class="form-group no-margin">
+					<button class="btn btn-default btn-sm" type="button"
+						x-user-search-chooser
+						x-title="'Set Executive Project Director'"
+						x-destination="saveEPD"
+						x-orgId="'Environmental Assessment Office'"
+						x-singleselectmode="true"
+						x-project="project">Set Executive Project Director</button>
+				</div>
 			</fieldset>
+			<hr/>
 			<fieldset>
 				<legend>Project Lead</legend>
 				<div class="row">
 					<div class="col-md-4 form-group">
 						<label class="control-label" for="projectleadname">Name<em class="required">(Required)</em></label>
 						<input class="form-control" name="projectleadname" id="projectleadname"
-							ng-model="project.projectLead" />
+							placeholder="{{ project.projectLead }}"  disabled />
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectleademail">Email<em class="required">(Required)</em></label>
-						<input class="form-control" placeholder="example@domain.com" name="projectleademail" id="projectleademail"
-							ng-model="project.projectLeadEmail" />
+						<input class="form-control"  name="projectleademail" id="projectleademail"
+							ng-model="project.projectLeadEmail" ng-disabled="!project.projectLead" />
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="projectleadphone">Phone<em class="required">(Required)</em></label>
-						<input class="form-control" placeholder="e.g. (555) 555-5555" name="projectleadphone" id="projectleadphone"
-							ng-model="project.projectLeadPhone" />
+						<input class="form-control" name="projectleadphone" id="projectleadphone"
+							ng-model="project.projectLeadPhone" ng-disabled="!project.projectLead" />
 					</div>
 				</div>
+				<div class="form-group no-margin">
+					<button class="btn btn-default btn-sm" type="button"
+						x-user-search-chooser
+						x-title="'Set Project Lead'"
+						x-destination="saveProjectLead"
+						x-singleselectmode="true"
+						x-orgid="'Environmental Assessment Office'"
+						x-project="project">Set Project Lead</button>
+				</div>
 			</fieldset>
+			<hr/>
 			<fieldset>
 				<legend>Compliance and Enforcement Lead</legend>
 				<div class="row">
 					<div class="col-md-4 form-group">
 						<label class="control-label" for="celead">Name<em class="required">(Required)</em></label>
 						<input class="form-control" name="celead" id="celead"
-							ng-model="project.CELead" />
+							placeholder="{{ project.CELead }}"  disabled />
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label" for="celeademail">Email<em class="required">(Required)</em></label>
-						<input class="form-control" placeholder="example@domain.com" name="celeademail" id="celeademail"
-							ng-model="project.CELeadEmail" />
+						<input class="form-control" name="celeademail" id="celeademail"
+							ng-model="project.CELeadEmail" disabled/>
 					</div>
 					<div class="col-sm-6 col-md-4 form-group">
 						<label class="control-label">Phone<em class="required">(Required)</em></label>
-						<input class="form-control" placeholder="e.g. (555) 555-5555" name="cephone"
-							ng-model="project.CELeadPhone"/>
+						<input class="form-control"  name="cephone"
+							ng-model="project.CELeadPhone" ng-disabled="!project.CELead" />
 					</div>
 				</div>
+				<div class="form-group no-margin">
+						<button class="btn btn-default btn-sm" type="button"
+							x-user-search-chooser
+							x-title="'Set Compliance and Enforcement Lead'"
+							x-destination="saveCELead"
+							x-orgId="'Environmental Assessment Office'"
+							x-singleselectmode="true"
+							x-project="project">Set Compliance and Enforcement Lead</button>
+					</div>
 			</fieldset>
+			<hr/>
 			<fieldset>
 				<legend>Support Team</legend>
 				<div class="row">
@@ -390,7 +381,6 @@
 		</div>
 
 		<div class="edit-project-form tab-pane" ng-show="form.curTab === 'Proponent Info'">
-
 			<fieldset>
 				<legend>Organization</legend>
 				<div class="row">
@@ -411,9 +401,7 @@
 						x-project="project">Set Organization</button>
 				</div>
 			</fieldset>
-
 			<hr/>
-
 			<fieldset>
 				<legend>Primary Contact</legend>
 				<div class="row">
@@ -467,32 +455,27 @@
 				<button class="btn btn-default btn-sm" ng-if="!isNew" ui-sref="p.detail">Cancel</button>
 				<button class="btn btn-default btn-sm" ng-if="isNew" ui-sref="projects">Cancel</button>
 				<button class="btn btn-primary btn-sm"
-						ng-click="saveProject(projectForm.$valid)"
-						ng-if="project.status !== 'Initiated'"
-						type="submit">Save</button>
+					ng-click="saveProject(projectForm.$valid)"
+					ng-if="project.status !== 'Initiated'"
+					type="submit">Save</button>
 				<button class="btn btn-success btn-sm"
-						ng-click="submitProject(projectForm.$valid)"
-						ng-if="project.status === 'Initiated'">Submit Project</button>
+					ng-click="submitProject(projectForm.$valid)"
+					ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>
 		</div>
 
 	</div>
 
-<div class="edit-project-details-view hidden">
-
-		<!-- VIEW BODY CONTAINER -->
+	<div class="edit-project-details-view hidden">
 		<div class="view-body-container">
-
 			<div ng-if="form.curTab === 'Accepted'">
 				<h3>Project Submission Accepted</h3>
 				<p>Thank you.</p>
 				<p>Your project submission has been sent to EAO and is waiting to be received.</p>
 				<p>You will be contacted shortly regarding the next steps.</p>
 			</div>
-
-		</div><!-- / VIEW BODY CONTAINER -->
-
-</div>
-
+		</div>
+	</div>
+	
 </form>
 

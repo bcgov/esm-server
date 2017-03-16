@@ -17,15 +17,19 @@
 <div class="view-body-container project-details">
 
 	<!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
-	<div ng-if="activeperiod" class="panel panel-default">
+	<div class="pcp-alert-container" ng-if="activeperiod">
 		<div class="pcp-alert clearfix">
-			<div class="pull-left">
-				<h2>Public Comment Period is Now Open.</h2>
+			<div class="pcp-alert-info">
+				<h2>Public Comment Period is Now Open</h2>
 				<span class="pcp-dates">{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
 			</div>
-			<div class="pcp-comment-btn-container">
-				<button class="btn submit-comment-btn" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
-					Click Here to Submit a Comment
+			<div class="pcp-alert-btns">
+				<a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
+					<span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
+				</a>
+				<span class="pcp-btn-spacer">or</span>
+				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
+					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
 				</button>
 			</div>
 		</div>

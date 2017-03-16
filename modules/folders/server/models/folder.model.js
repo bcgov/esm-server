@@ -3,7 +3,8 @@
 //
 // Folder Model
 //
-module.exports = require ('../../../core/server/controllers/core.schema.controller')
+var path     = require('path');
+module.exports = require (path.resolve('./modules/core/server/controllers/core.schema.controller'))
 ('Folder', {
 	__audit 	: true,  // who what when
 	__access 	: ['publish', 'unPublish'],

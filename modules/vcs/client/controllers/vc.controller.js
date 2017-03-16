@@ -66,7 +66,7 @@ angular.module ('vcs')
 		self.cancelDisabled = false;
 
 		// Show all VC types, either pathway or valued components
-		TopicModel.getCollection().then( function (data) {
+		TopicModel.getSorted('name').then( function (data) {
 			self.tableParams = new NgTableParams ({},{dataset: data});
 			$scope.$apply();
 		});

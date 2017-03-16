@@ -1,0 +1,34 @@
+<ul class="pagination">
+
+	<li ng-class="{disabled: currentPage == 1}">
+		<a ng-click="selectPage(currentPage-1)" aria-label="Previous">
+			<span class="glyphicon glyphicon-backward"></span>
+		</a>
+	</li>
+
+	<li ng-show="pages.indexOf(1) == -1"><a
+			ng-click="selectPage(1)">1</a>
+	</li>
+
+	<li ng-show="pages.indexOf(2) == -1"><a
+			ng-click="selectPage(pages[0])"><span class="glyphicon glyphicon-chevron-left"></a>
+	</li>
+
+	<li ng-repeat="page in pages" ng-class="{active: page==currentPage}"><a
+			ng-click="selectPage(page)">{{page}}</a>
+	</li>
+
+	<li ng-show="pages.indexOf(numPages -1) == -1"><a
+			ng-click="selectPage(pages[pages.length - 1])"><span class="glyphicon glyphicon-chevron-right"></a>
+	</li>
+
+	<li ng-show="pages.indexOf(numPages) == -1"><a
+			ng-click="selectPage(numPages)">{{numPages}}</a>
+	</li>
+
+	<li ng-class="{disabled: currentPage == numPages}">
+		<a ng-click="selectPage(currentPage+1)" aria-label="Next">
+			<span class="glyphicon glyphicon-forward"></span>
+		</a>
+	</li>
+</ul>

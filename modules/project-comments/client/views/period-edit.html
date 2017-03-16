@@ -36,47 +36,50 @@
 		<!-- DETAILS TAB CONTENT -->
 		<div class="tab-pane" ng-show="form.curTab === 'pcpDetails'">
 			<div class="row">
-				<div class="col-sm-3 col-lg-3 form-group">
+				<div class="col-md-6 form-group">
 					<label class="control-label">Comment Period Type</label>
 					<select ng-change="changeType()" ng-model="period.periodType" class="form-control">
 						<option ng-selected="selected">Public</option>
-						<!-- <option>Working Group</option> -->
 					</select>
 				</div>
-				<div class="col-sm-2 col-lg-2 form-group">
-					<label class="control-label">&nbsp;</label>
+			</div>
+			<div class="form-group row">
+				<div class="col-md-3">
+					<label class="control-label">Set Date Range by</label>
 					<select class="form-control"
 						ng-change="typeChange()"
-						ng-model="pType"
-						ng-options="t.displayName for t in pTypes"
-						ng-selected="t === pType">
+						ng-model="rType"
+						ng-options="t.displayName for t in rangeTypes"
+						ng-selected="t === rType">
 					</select>
 				</div>
-				<div class="col-sm-2 col-lg-2 form-group">
-					<label class="control-label">Range</label>
+				<div class="col-md-3">
+					<label class="control-label">Date Range</label>
 					<select class="form-control"
 						ng-disabled="!rangePickerEnabled"
 						ng-change="periodChange()"
-						ng-model="pOption"
-						ng-options="p.displayName for p in pOptions"
-						ng-selected="p === pOption">
+						ng-model="rOption"
+						ng-options="p.displayName for p in rangeOptions"
+						ng-selected="p === rOption">
 					</select>
 				</div>
-				<div class="col-md-2 col-lg-2 form-group">
+				<div class="col-md-3">
 					<label class="control-label">Start Date</label>
-					<div class="form-control date-picker"
+					<div class="form-control pcp-date date-picker"
 						ng-disabled="!startPickerEnabled"
-						x-modal-date-picker x-selected-date="period.dateStarted">
+						x-modal-date-picker x-selected-date="period.dateStarted" x-picker-enabled="startPickerEnabled"
+					 	title="{{ period.dateStarted | amDateFormat:'HH:mm:ss' }}">
 						<span ng-if="!period.dateStarted">Start Date</span>
 						{{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
 						<span class="glyphicon glyphicon-calendar"></span>
 					</div>
 				</div>
-				<div class="col-sm-2 col-lg-2 form-group">
+				<div class="col-md-3">
 					<label class="control-label">End Date</label>
-					<div class="form-control date-picker"
+					<div class="form-control pcp-date date-picker"
 						ng-disabled="!endPickerEnabled"
-						x-modal-date-picker x-selected-date="period.dateCompleted">
+						x-modal-date-picker x-selected-date="period.dateCompleted" x-picker-enabled="endPickerEnabled"
+					 	title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}">
 						<span ng-if="!period.dateCompleted">End Date</span>
 						{{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
 						<span class="glyphicon glyphicon-calendar"></span>
@@ -85,13 +88,21 @@
 			</div>
 			<div class="form-group">
 				<label class="control-label">Description</label>
-				<textarea rows="6" ng-model="period.instructions" class="form-control" spellcheck="false"></textarea>
+				<textarea class="form-control" disabled ng-bind-html="period.instructions"></textarea>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Additional Text</label>
+				<input class="form-control" type="input" ng-model="period.additionalText" spellcheck="false"></input>
 			</div>
 		</div>
 		<!-- / DETAILS TAB CONTENT -->
 
 		<!-- RELATED DOCUMENTS -->
 		<div class="tab-pane" ng-show="form.curTab === 'pcpRelatedDocs'">
+			<div class="form-group">
+				<label class="control-label">Information Being Commented On</label>
+				<input class="form-control" type="text" ng-model="period.informationLabel" spellcheck="false"></input>
+			</div>
 			<div class="button-bar">
 				<button class="btn btn-sm btn-default" title="Link Documents"
 						ng-if="project.userCan.createCommentPeriod"
@@ -183,25 +194,38 @@
 					<span class="glyphicon glyphicon-plus"></span><span>Add Open House</span>
 				</button>
 			</div>
-			<ul class="list-group">
-				<li class="list-group-item flex-row" ng-if="period.openHouses.length == 0">
-					<span class="title">No Open Houses for this Comment Period.</span>
-				</li>
-				<li class="list-group-item flex-row" ng-repeat="h in period.openHouses">
-					<div class="title">
-						<strong class="open-house-date">{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}</strong>
-						<pre class="open-house-desc">{{ h.description }}</pre>
-					</div>
-					<div class="actions">
-						<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</button>
-						<button class="btn btn-default btn-sm" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
-							<span class="glyphicon glyphicon-trash"></span>
-						</button>
-					</div>
-				</li>
-			</ul>
+			<div class="table-container">
+				<table class="open-house-table table">
+					<thead>
+						<th class="date-col">Date</th>
+						<th>Details</th>
+						<th class="actions-col x2"></th>
+					</thead>
+					<tbody>
+						<tr ng-if="period.openHouses.length == 0">
+							<td colspan="2">No Open Houses for this Comment Period.</td>
+						</tr>
+						<tr ng-repeat="h in period.openHouses">
+							<td class="date-col">
+								{{ h.eventDate | amDateFormat:'MMMM Do, YYYY' }}
+							</td>
+							<td class="desc-col">
+								{{ h.description }}
+							</td>
+							<td class="actions-col">
+								<div class="btns">
+									<button class="btn icon-btn" x-edit-open-house x-period="period" x-mode="edit" x-openhouse="h">
+										<span class="glyphicon glyphicon-pencil"></span>
+									</button>
+									<button class="btn icon-btn" x-edit-open-house x-period="period" x-mode="delete" x-index="$index">
+										<span class="glyphicon glyphicon-trash"></span>
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<!-- / OPEN HOUSE TAB CONTENT -->
 
@@ -213,7 +237,8 @@
 				<a class="pull-right btn btn-link btn-xs" ng-if="period.periodType !== 'Public'"
 					x-role-chooser
 					x-context="project"
-					x-current="period.commenterRoles" x-public="true"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.commenterRoles"
+				    x-public="true"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">
@@ -226,7 +251,9 @@
 				<a class="pull-right btn btn-link btn-xs"
 					x-role-chooser
 					x-context="project"
-					x-current="period.vettingRoles" x-public="false"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.vettingRoles"
+				    x-public="false"
+				    x-allowed-roles="'assessment-lead,assessment-team,project-epd'"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">
@@ -239,7 +266,9 @@
 				<a class=" pull-right btn btn-link btn-xs"
 					x-role-chooser
 					x-context="project"
-					x-current="period.classificationRoles" x-public="false"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+					x-current="period.classificationRoles"
+				    x-public="false"
+				    x-allowed-roles="'assessment-lead,assessment-team,proponent-lead,proponent-team'"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 				</a>
 			</div>
 			<ul class="list-group">

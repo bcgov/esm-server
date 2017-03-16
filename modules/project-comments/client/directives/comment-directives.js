@@ -19,63 +19,54 @@ angular.module ('comment')
 		restrict: 'E',
 		templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
 		controllerAs: 's',
-		controller: function ($rootScope, $scope, $filter, NgTableParams, Authentication, CommentModel, UserModel, _) {
+		controller: function ($rootScope, $scope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, _) {
 			var s       = this;
 			var project = s.project = $scope.project;
 			var period  = s.period  = $scope.period;
 
-			var currentFilter;
 			s.topicsArray = [];
 			s.pillarsArray = [];
 			s.showTopicCloud = false;
 
-			var refreshFilterArrays = function(data) {
+			var refreshFilterArrays = function(p) {
+				s.period = p;
 
-				var allTopics = [];
-				var allPillars = [];
+				s.total         = p.stats.total;
+				s.totalPublished = p.stats.totalPublished;
+				s.totalPending  = p.stats.totalPending;
+				s.totalDeferred = p.stats.totalDeferred;
+				s.totalPublic   = p.stats.totalPublic;
+				s.totalRejected = p.stats.totalRejected;
+				s.totalAssigned   = p.stats.totalAssigned;
+				s.totalUnassigned = p.stats.totalUnassigned;
 
-				var topicList = [];
-				var pillarList = [];
+				var sortedTopics = _.sortBy(s.period.topics, '_id');
+				var sortedPillars = _.sortBy(s.period.pillars, '_id');
 
-				_.forEach(data, function(item) {
-					allTopics = allTopics.concat(item.topics);
-					allPillars = allPillars.concat(item.pillars);
-				});
+				var allTopics = _.pluck(sortedTopics, '_id');
+				var allPillars = _.pluck(sortedPillars, '_id');
 
-				_.forEach(_.uniq(allTopics), function(item) {
-					var o = {id: item, title: item};
-					if (!_.includes(topicList, o))
-						topicList.push(o);
-				});
+				var topicList = _.transform(allTopics, function(result, t) {
+					result.push({id: t, name: t});
+				}, []);
+
+				var pillarList = _.transform(allPillars, function(result, p) {
+					result.push({id: p, name: p});
+				}, []);
+
 				// jsherman - 20160804: need an empty one for chrome, so we can de-select the filter...
 				// adds a bogus one to safari and IE though:( so put at the bottom.
-				topicList.push({id: '', title: ''});
+				topicList.push({id: '', name: ''});
 				angular.copy(topicList, s.topicsArray);
-
-				_.forEach(_.uniq(allPillars), function(item) {
-					var o = {id: item, title: item};
-					if (!_.includes(pillarList, o))
-						pillarList.push(o);
-				});
 				// as above...
-				pillarList.push({id: '', title: ''});
+				pillarList.push({id: '', name: ''});
 				angular.copy(pillarList, s.pillarsArray);
 
-				var topicCloud = [];
-				//  Grab the topics and insert them into the tag cloud.
-				_.each(allTopics, function (topic) {
-					// console.log("checking for topic:", topic);
-					var index = _.indexOf(_.pluck(topicCloud, 'name'), topic);
-					var count = 1;
-					if (index !== -1) {
-						count = topicCloud[index].size +1;
-						_.remove(topicCloud, {
-							name: topic
-						});
-					}
-					// Add the new value in.
-					topicCloud.push( {name: topic, size: count});
-				});
+
+				var topicCloud = _.transform(sortedTopics, function(result, t) {
+					result.push({name: t._id, size: t.count});
+				}, []);
+
 				s.refreshVisualization = 1;
 				// This is an example of what the tag cloud expects
 				// s.commentsByTopicVis = { name: 'byTopic', children:[
@@ -94,7 +85,7 @@ angular.module ('comment')
 
 				// We shouldn't do this if we're public.
 				if (period.userCan.vetComments) {
-					s.refreshEao ();
+					//selectPage(currentPage);
 				}
 			});
 
@@ -103,62 +94,122 @@ angular.module ('comment')
 			// these toggle things (the tab groups and filters)
 			//
 			// -------------------------------------------------------------------------
+			$scope.smartTableCtrl = {};
+
+			s.eaoStatus = null;
+			s.proponentStatus = null;
+			if (s.period.userCan.vetComments) {
+				s.eaoStatus ='Unvetted';
+			}
+			if (s.period.userCan.classifyComments && !s.period.userCan.vetComments) {
+				s.proponentStatus = 'Unclassified';
+			}
+
+			//s.period.userCan.classifyComments && !s.period.userCan.vetComments
 			s.toggle = function (v) {
-				currentFilter = {eaoStatus:v};
-				if (v === 'Classified' || v === 'Unclassified') currentFilter = {proponentFilter: (v === 'Unclassified' ? 0 : 1)};
-				angular.extend(s.tableParams.filter(), currentFilter);
+				s.eaoStatus = v;
+				$scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
 			};
 			s.toggleP = function (v) {
-				var filter = v === 'Unclassified' ? 0 : 1;
-				currentFilter = {proponentFilter: filter};
-				angular.extend(s.tableParams.filter(), currentFilter);
+				s.proponentStatus = v;
+				$scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
 			};
-			// -------------------------------------------------------------------------
-			//
-			// refresh eao data, this is pretty much everything
-			//
-			// -------------------------------------------------------------------------
-			s.refreshEao = function () {
-				CommentModel.getEAOCommentsForPeriod ($scope.period._id).then (function (result) {
-					_.each(result.data, function (item) {
-						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
-						item.publishedDocumentCount = item.documents.length;
-					});
 
-					s.totalPending  = result.totalPending;
-					s.totalDeferred = result.totalDeferred;
-					s.totalPublic   = result.totalPublic;
-					s.totalRejected = result.totalRejected;
-					s.totalAssigned   = result.totalAssigned;
-					s.totalUnassigned = result.totalUnassigned;
+			s.displayed = [];
+			s.isLoading = false;
+			s.colspan = ($scope.authentication.user) ? 7 : 6;
+			s.pageSize = 50;
 
-					s.tableParams   = new NgTableParams (
-						{	count:10,
-							filter:currentFilter,
-							sorting: {dateAdded: 'desc'}},
-						{
-							debugMode: false,
-							total: result.data.length,
-							getData: function($defer, params) {
-								var orderedData = params.sorting() ? $filter('orderBy')(result.data, params.orderBy()) : result.data;
+			// filterByFields
+			// used for binding...
+			var filterBy = {
+				period: s.period._id,
+				eaoStatus: undefined,
+				proponentStatus: undefined,
+				isPublished: true};
 
-								var authorCommentFilterValue = params.filter().authorCommentFilter;
-								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
-								orderedData	= $filter('filter')(orderedData, params.filter());
-								if (authorCommentFilterValue) {
-									// now we apply the authorComment filter...
-									orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
-								}
-								params.total(orderedData.length);
-								$scope.filteredCount = orderedData.length;
-								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
-								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-							}
+			// mostly this is so the value in the drop down lists displays what is in the tableState.search.predicateObject
+			var filterByFields = {
+				commentId: undefined,
+				authorComment: undefined,
+				location: undefined,
+				pillar: undefined,
+				topic: undefined};
+
+			s.changePageSize = function(value) {
+				s.pageSize = value;
+				$scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
+			};
+
+			s.currentFilterBy = {}; // store the base query/filter, when it changes, go back to first page.
+
+			s.callServer = function(tableState, ctrl) {
+
+				if ($scope.smartTableCtrl !== ctrl) {
+					$scope.smartTableCtrl = ctrl;
+				}
+
+				s.isLoading = true;
+
+				var pagination = tableState.pagination;
+				var sort = tableState.sort;
+
+				var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+				var limit = pagination.number || s.pageSize;  // Number of entries showed per page.
+
+				// set the primary query
+				var filterBy = {period: s.period._id, eaoStatus: undefined, proponentStatus: undefined, isPublished: true};
+				if (s.period.userCan.vetComments ) {
+					filterBy = {period: s.period._id, eaoStatus: s.eaoStatus, proponentStatus: undefined, isPublished: undefined};
+				}
+				if (s.period.userCan.classifyComments && !s.period.userCan.vetComments) {
+					if (s.proponentStatus === 'Classified') {
+						filterBy = {period: s.period._id, eaoStatus: undefined, proponentStatus: 'Classified', isPublished: true};
+					} else {
+						filterBy = {period: s.period._id, eaoStatus: undefined, proponentStatus: 'Unclassified', isPublished: true};
+					}
+				}
+				if (JSON.stringify(s.currentFilterBy) !== JSON.stringify(filterBy)) {
+					s.currentFilterBy = angular.copy(filterBy);
+					start = 0;
+				}
+
+				if (tableState.search.predicateObject) {
+					filterByFields.commentId = tableState.search.predicateObject.commentId;
+					filterByFields.authorComment = tableState.search.predicateObject.authorComment;
+					filterByFields.location = tableState.search.predicateObject.location;
+					filterByFields.pillar = tableState.search.predicateObject.pillar;
+					filterByFields.topic = tableState.search.predicateObject.topic;
+				}
+
+				CommentPeriodModel.getForPublic(s.period._id)
+					.then(function(p) {
+						refreshFilterArrays(p);
+						return CommentModel.getCommentsForPeriod(
+							filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
+							filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic,
+							start, limit, sort.predicate, sort.reverse);
+					})
+					.then(function(result) {
+						_.each(result.data, function (item) {
+							var publishedCount = function(item) {
+								_.each(item.documents, function (doc) {
+									if (doc.eaoStatus === 'Published') {
+										publishedCount++;
+									}
+								});
+							};
+							item.publishedDocumentCount = period.userCan.vetComments ? item.documents.length : publishedCount(item);
+							item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
 						});
-					s.dataset = result.data;
-					refreshFilterArrays(result.data);
-					$scope.$apply ();
-				});
+
+						s.displayed = result.data;
+						tableState.pagination.start = start;
+						tableState.pagination.totalItemCount = result.count;
+						tableState.pagination.numberOfPages = Math.ceil(result.count / limit); //set the number of pages so the pagination can update
+						s.isLoading = false;
+						$scope.$apply();
+					});
 			};
 
 			s.downloadCommentData = function () {
@@ -184,132 +235,51 @@ angular.module ('comment')
 					}
 				};
 				// console.log("data:", s.tableParams.data);
-				CommentModel.prepareCSV(s.dataset)
-				.then( function (data) {
-					var blob = new Blob([ data ], { type : 'octet/stream' });
-					var filename = (currentFilter) ? currentFilter.eaoStatus + ".csv" : 'tableData.csv';
-					var browse = getBrowser();
-					if (browse === 'firefox') {
-						var ff = angular.element('<a/>');
-						ff.css({display: 'none'});
-						angular.element(document.body).append(ff);
-						ff.attr({
-							href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
-							target: '_blank',
-							download: filename
-						})[0].click();
-						ff.remove();
-					} else if (browse === 'ie') {
-						window.navigator.msSaveBlob(blob, filename);
-					} else if (browse === 'safari') {
-						var safariBlob = new Blob([ data ], { type : 'text/csv;base64' });
-						var safariUrl = window.webkitURL.createObjectURL( safariBlob );
-						var safariAnchor = document.createElement("a");
-						safariAnchor.href = safariUrl;
-						safariAnchor.click();
-						window.webkitURL.revokeObjectURL(safariUrl);
-					} else {
-						var url = (window.URL || window.webkitURL).createObjectURL( blob );
-						var anchor = document.createElement("a");
-						anchor.download = filename;
-						anchor.href = url;
-						anchor.click();
-						window.URL.revokeObjectURL(url);
-					}
-				});
-			};
-			// -------------------------------------------------------------------------
-			//
-			// refresh only public data
-			//
-			// -------------------------------------------------------------------------
-			s.refreshPublic = function () {
-				CommentModel.getPublishedCommentsForPeriod ($scope.period._id)
-				.then (function (collection) {
-					_.each(collection, function (item) {
-						var publishedCount = 0;
-						_.each(item.documents, function (doc) {
-							if (doc.eaoStatus === 'Published') {
-								publishedCount++;
-							}
-						});
-						item.publishedDocumentCount = publishedCount;
-						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
-					});
-					s.tableParams   = new NgTableParams (
-						{	count:50,
-							sorting: {dateAdded: 'desc'}},
-						{
-							debugMode: false,
-							total: collection.length,
-							getData: function($defer, params) {
-								var orderedData = params.sorting() ? $filter('orderBy')(collection, params.orderBy()) : collection;
-								var authorCommentFilterValue = params.filter().authorCommentFilter;
-								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
-								orderedData	= $filter('filter')(orderedData, params.filter());
-								if (authorCommentFilterValue) {
-									// now we apply the authorComment filter...
-									orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
+				CommentPeriodModel.getForPublic(s.period._id)
+					.then(function(p) {
+						refreshFilterArrays(p);
+						return CommentModel.getCommentsForPeriod(
+							filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
+							filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic,
+							0, s.total, 'commentId', true);
+					})
+					.then(function(result) {
+						CommentModel.prepareCSV(result.data)
+							.then( function (data) {
+								var blob = new Blob([ data ], { type : 'octet/stream' });
+								var filename = (s.eaoStatus) ? s.eaoStatus + ".csv" : 'tableData.csv';
+								var browse = getBrowser();
+								if (browse === 'firefox') {
+									var ff = angular.element('<a/>');
+									ff.css({display: 'none'});
+									angular.element(document.body).append(ff);
+									ff.attr({
+										href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+										target: '_blank',
+										download: filename
+									})[0].click();
+									ff.remove();
+								} else if (browse === 'ie') {
+									window.navigator.msSaveBlob(blob, filename);
+								} else if (browse === 'safari') {
+									var safariBlob = new Blob([ data ], { type : 'text/csv;base64' });
+									var safariUrl = window.webkitURL.createObjectURL( safariBlob );
+									var safariAnchor = document.createElement("a");
+									safariAnchor.href = safariUrl;
+									safariAnchor.click();
+									window.webkitURL.revokeObjectURL(safariUrl);
+								} else {
+									var url = (window.URL || window.webkitURL).createObjectURL( blob );
+									var anchor = document.createElement("a");
+									anchor.download = filename;
+									anchor.href = url;
+									anchor.click();
+									window.URL.revokeObjectURL(url);
 								}
-								params.total(orderedData.length);
-								$scope.filteredCount = orderedData.length;
-								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
-								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-							}
-						});
-					s.dataset = collection;
-					refreshFilterArrays(collection);
-					$scope.$apply ();
-				});
-			};
-			// -------------------------------------------------------------------------
-			//
-			// refresh only classification data
-			//
-			// -------------------------------------------------------------------------
-			s.refreshProponent = function () {
-				CommentModel.getProponentCommentsForPeriod ($scope.period._id).then (function (result) {
-					_.each(result.data, function (item) {
-						var publishedCount = 0;
-						_.each(item.documents, function (doc) {
-							if (doc.eaoStatus === 'Published') {
-								publishedCount++;
-							}
-						});
-						item.publishedDocumentCount = publishedCount;
-						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
+							});
 					});
-					// filters find classified in unclassified by default, just create a numeric field for filtering...
-					_.forEach(result.data, function(o) { o.proponentFilter = o.proponentStatus === 'Unclassified' ? 0 : 1; });
-					s.totalAssigned   = result.totalAssigned;
-					s.totalUnassigned = result.totalUnassigned;
-					s.tableParams   = new NgTableParams (
-						{	count:50,
-							filter:currentFilter,
-							sorting: {dateAdded: 'desc'}},
-						{
-							debugMode: false,
-							total: result.data.length,
-							getData: function($defer, params) {
-								var orderedData = params.sorting() ? $filter('orderBy')(result.data, params.orderBy()) : result.data;
-								var authorCommentFilterValue = params.filter().authorCommentFilter;
-								params.filter().authorCommentFilter = undefined; // ok, we need to remove the authorComment filter value, so that the default filtering will work...
-								orderedData	= $filter('filter')(orderedData, params.filter());
-								if (authorCommentFilterValue) {
-									// now we apply the authorComment filter...
-									orderedData	= $filter('authorCommentFilter')(orderedData, authorCommentFilterValue);
-								}
-								params.total(orderedData.length);
-								$scope.filteredCount = orderedData.length;
-								params.filter().authorCommentFilter = authorCommentFilterValue; // put the value back in place...
-								$defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-							}
-						});
-					s.dataset = result.data;
-					refreshFilterArrays(result.data);
-					$scope.$apply ();
-				});
 			};
+
 			// -------------------------------------------------------------------------
 			//
 			// if the user clicks a row, open the detail modal
@@ -401,27 +371,12 @@ angular.module ('comment')
 						return CommentModel.save (data);
 					})
 					.then (function (result) {
-						if (period.userCan.vetComments) {
-							s.refreshEao ();
-						}
-						else if (period.userCan.classifyComments) {
-							s.refreshProponent ();
-						}
+						// TODO reload data
+						$scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
 					});
 				})
 				.catch (function (err) {});
 			};
-			if (period.userCan.vetComments) {
-				currentFilter = {eaoStatus:'Unvetted'};
-				s.refreshEao ();
-			}
-			else if (period.userCan.classifyComments) {
-				currentFilter = {proponentFilter: 0}; //Unclassified
-				s.refreshProponent ();
-			}
-			else {
-				s.refreshPublic ();
-			}
 		}
 	};
 })
@@ -624,6 +579,52 @@ angular.module ('comment')
 	};
 })
 
+/*
+	Validate the PCP before publishing.
+*/
+.directive('pcpvalidationDialog', ['ConfirmService','AlertService', function (ConfirmService, AlertService) {
+	return {
+		restrict: 'A',
+		scope: {
+			titleText: '=',
+			confirmText: '=',
+			confirmItems: '=',
+			okText: '=',
+			cancelText: '=',
+			onOk: '=',
+			onCancel: '=',
+			period: '='
+		},
+		link: function (scope, element, attrs) {
+			element.on('click', function () {
+				//getting start date and end dates
+				var period = scope.period;
+				var startdate = period.dateStarted;
+				var end_date = period.dateCompleted;
+				if (!period.informationLabel){
+				 AlertService.error('Related documents information is empty');
+				}
+				else if (startdate > end_date){
+					 AlertService.error('Start Date is greater than End Date. Please correct the Start Date');
+				}
+				else if (!startdate){
+					 AlertService.error('Start Date is empty. Please choose Start Date');
+				}
+				else if (!end_date){
+					 AlertService.error('End Date is empty. Please choose End Date');
+				}
+				else {
+					/*
+					 It is assumed the scope has been set up for the confirm dialog service. We just need to populate the okArg
+					 */
+					 scope.okArgs = scope.period;
+					 ConfirmService.confirmDialog(scope);
+				}
+				});
+			}
+		};
+	}
+])
 ;
 //
 // CC: pretty sure these are not used anymore

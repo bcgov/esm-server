@@ -251,6 +251,54 @@ module.exports = DBModel.extend ({
 			.catch (reject);
 		});
 	},
+	getCommentsForPeriod: function(periodId, eaoStatus, proponentStatus, isPublished,
+								   commentId, authorComment, location, pillar, topic,
+								   start, limit, sortby) {
+		var self = this;
+
+		var query = {period: periodId};
+		var filterByFields = {};
+
+		// base query...
+		if (isPublished !== undefined) {
+			query = _.extend({}, query, {isPublished: isPublished});
+		}
+		if (eaoStatus !== undefined) {
+			query = _.extend({}, query, {eaoStatus: eaoStatus});
+		}
+		if (proponentStatus !== undefined) {
+			if ('Classified' === proponentStatus) {
+				query = _.extend({}, query, {proponentStatus: 'Classified'});
+			} else {
+				query = _.extend({}, query, {proponentStatus: {$ne: 'Classified'} });
+			}
+		}
+
+		// filer by fields...
+		if (commentId !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {commentId: commentId});
+		}
+		if (authorComment !== undefined) {
+			var authorCommentRe = new RegExp(authorComment, "i");
+			filterByFields = _.extend({}, filterByFields, { $or: [{author: authorCommentRe}, {comment: authorCommentRe}] } );
+		}
+		if (location !== undefined) {
+			var locationRe = new RegExp(location, "i");
+			filterByFields = _.extend({}, filterByFields, {location: locationRe});
+		}
+		if (pillar !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {pillars: {$in: [pillar] }});
+		}
+		if (topic !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {topics: {$in: [topic] }});
+		}
+
+		var fields = null;
+		var populate = null;
+		var userCan = false;
+
+		return self.paginate(query, filterByFields, start, limit, fields, populate, sortby, userCan);
+	},
 	// -------------------------------------------------------------------------
 	//
 	// pass in the target type (Project Description, Document, AIR, etc)

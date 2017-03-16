@@ -1,0 +1,119 @@
+$milestone-panel-border: 1px solid #EEE;
+$milestone-panel-heading-bg: #EEE;
+
+.project-schedule-view {	
+	td {
+		padding: 1rem;
+	}
+	
+	.phase-info {
+		margin-bottom: 1.5rem;
+
+		.date-label {
+			margin-bottom: 0.5rem;
+		}
+
+		.btn-primary {
+			width: 9rem;
+		}
+	}
+
+	.date-col {
+		width: 14rem;
+	}
+
+	.phase-dates {
+		.schedule-dates {
+			margin-right: 3rem;
+		}
+	}
+
+	.phase-action-col {
+		width: 10rem;
+		padding-right: 0;
+		text-align: left;
+
+		.label, .btn {
+			width: 100%;
+			height: 2.1rem;
+			font-weight: normal;
+		}
+	}
+
+	.schedule-dates {
+		font-size: 1.2rem;
+
+		label {
+			margin: 0;
+			min-width: 4rem;
+			display: inline-block;
+		}
+
+		span {
+			min-width: 7rem;
+			display: inline-block;
+			font-weight: normal;
+			text-align: right;
+		}
+	}
+
+	.status-col {
+		width: 10rem;
+
+		.label, .btn {
+			width: 100%;
+		}
+	}
+}
+
+@media (min-width: 1200px) {
+	.project-schedule-view {
+		.date-col {
+			width: 18rem;
+		}
+	}
+}
+
+.panel-heading {
+	.collapse-control {
+		@include flex(1 1 auto);
+	}
+}
+
+.phase-milestones {
+    .panel {
+        border: $milestone-panel-border;
+        box-shadow: none;
+    }
+
+    .panel-heading {
+        @include flexbox();
+        padding: 0;
+        border-bottom: $milestone-panel-border;
+        background-color: $milestone-panel-heading-bg;
+
+        h3 {
+            @include flex(1 1 auto);
+            margin: 0;
+            padding: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .actions {
+            @include flex(0 0 auto);
+            padding: 0.7rem;
+        }
+    }
+
+    .milestone-table {
+        td {
+            vertical-align: top;
+
+            &.actions-col {
+                padding-top: 0.4rem;
+            }
+        }
+    }
+}
+
