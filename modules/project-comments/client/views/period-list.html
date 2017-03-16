@@ -71,13 +71,13 @@
 								<button class="btn icon-btn"
 									title="Publish Comment"
 									ng-click="$event.stopPropagation();"
-									x-confirm-dialog
+									x-pcpvalidation-dialog
 									x-title-text="'Publish Comment Period'"
 									x-ok-text="'Yes'"
 									x-cancel-text="'No'"
 									x-confirm-text="'Are you sure you want to publish this comment period?'"
 									x-on-ok="s.publishCommentPeriod"
-									x-ok-args="p">
+									x-period="p">
 									<span class="glyphicon glyphicon-ok-circle"></span>
 								</button>
 							</li>

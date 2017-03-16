@@ -424,7 +424,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 	}
 
 	function instructions(project, period, CommentPeriodModel) {
-		var template = "Comment Period on the %INFORMATION_LABEL% for the %PROJECT_NAME% Project. This comment period %DATE_RANGE%";
+		var template = "Comment Period on the %INFORMATION_LABEL% for the %PROJECT_NAME% Project. This comment period %DATE_RANGE%.";
 
 		var PROJECT_NAME = project.name || '%PROJECT_NAME%';
 		var INFORMATION_LABEL = period.informationLabel || '%INFORMATION_LABEL%';
@@ -452,9 +452,8 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			.replace('%INFORMATION_LABEL%', INFORMATION_LABEL)
 			.replace('%DATE_RANGE%', DATE_RANGE);
 		if (period.additionalText) {
-			period.instructions += "\n" + period.additionalText;
+			period.instructions += " " + period.additionalText;
 		}
-		period.instructions = period.instructions.replace(/\n/g, "<br>");
 	}
 
 	function defineDocumentMgr($scope) {
