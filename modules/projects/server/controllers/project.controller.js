@@ -618,7 +618,7 @@ module.exports = DBModel.extend ({
 					}
 					// See if any documents are published.
 					// console.log("finding:", {directoryID: parseInt(directoryId), isPublished: true})
-					return DocumentModel.find({directoryID: parseInt(directoryId), isPublished: true})
+					return DocumentModel.find({project: projectId, directoryID: parseInt(directoryId), isPublished: true})
 					.then( function (doc) {
 						// console.log("doc:", doc);
 						if (doc.length !== 0) {
