@@ -1,0 +1,11 @@
+<div class="view-title-container flex-row">
+	<button class="btn icon-btn mobile-nav-btn" onclick="toggleSideNav();"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+	<h1>Documents</h1>
+	<div class="actions">
+		<button class="btn btn-default btn-sm" x-modal-document-instructions><span class="glyphicon glyphicon-info-sign"></span><span>Instructions</span></button>
+	</div>
+</div>
+
+<div class="view-body-container file-browser-container">
+	<x-document-mgr x-project="project" x-opendir="opendir"/>
+</div>

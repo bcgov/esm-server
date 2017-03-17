@@ -1,0 +1,30 @@
+<div>
+	<div class="modal-header">
+		<button type="button" class="btn btn-default close" ng-click="instruct.continue()">
+      		<span aria-hidden="true">&times;</span>
+    	</button>
+		<h3 class="modal-title">Instructions for using the Documents Page</h3>
+	</div>
+
+	<form>
+		<div class="modal-body">
+			<p>Double-click a <strong>Folder</strong> to access the contents of that folder.</p>
+			<p>Double-click a <strong>File</strong> to open the file in the Viewer (PDF) or download the file (non-PDF).</p>
+			<p>Single-click a <strong>File</strong> (highlighting it blue) to access the File Menu <span class="glyphicon glyphicon glyphicon-option-vertical"></span>				at the far right.
+				<br> Clicking the File Menu will bring up the following options (from left to right) </p>
+			<ul>
+				<li>Download the File <span class="glyphicon glyphicon-download-alt"></span></li>
+				<li>View the File <span class="glyphicon glyphicon-eye-open"></span></li>
+				<li>View the File Details <span class="glyphicon glyphicon-info-sign"></span></li>
+			</ul>
+			<p>
+				Click the Link Button <span class="glyphicon glyphicon-link"></span> at the top to paste the URL of the <strong>Folder you are currently accessing</strong>				into the Address Bar of your browser. You can also right-click the Link Button and select “Copy Link Address” or “Copy
+				Shortcut” to paste the URL of the <strong>Folder</strong> into a document.
+			</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" ng-click="instruct.continue()">OK</button>
+		</div>
+	</form>
+	
+</div>
