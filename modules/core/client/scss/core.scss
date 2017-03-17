@@ -202,91 +202,6 @@ button.close {
 	font-weight: normal;
 }
 
-.no-margin {
-	margin: 0;
-}
-
-/* Margin Helpers */
-.m-b-0 {
-	margin-bottom: 0 !important;
-}
-
-.m-b-1 { 
-	margin-bottom: 1rem !important;
-}
-
-.m-b-2 {
-	margin-bottom: 2rem !important;
-}
-
-.m-t-0 {
-	margin-top: 0 !important;
-}
-
-.m-t-1 {
-	margin-top: 1rem !important;
-}
-
-.m-t-2 {
-	margin-top: 2rem !important;
-}
-
-/* MIXINS */
-@mixin flexbox() {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
-
-@mixin flex($values) {
-	-webkit-box-flex: $values;
-  	   -moz-box-flex: $values;
-		-ms-box-flex: $values;
-  	    -webkit-flex: $values;
-  	        -ms-flex: $values;
-  		        flex: $values; 
-}
-
-@mixin flexdirection($values) {
-  -webkit-flex-direction: $values;
-  -ms-flex-direction: $values;
-  flex-direction: $values;
-}
-
-@mixin display-flex {
-	display: -webkit-flex;
-	display: flex;
-}
-
-.flex-row {
-	@include display-flex;
-	-ms-flex-flow: row nowrap;
-	flex-flow: row nowrap;
-}
-
-.flex-column {
-	@include display-flex;
-	-ms-flex-flow: column nowrap;
-	flex-flow: column nowrap;
-}
-
-.flex-title {
-	@extend .flex-row;
-
-	h2 {
-		@include flex(1 1 auto);
-		margin: 0;
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-		font-size: 2rem;
-		font-weight: bold;
-	}
-
-	.actions {
-		@include flex(0 0 auto);
-	}
-}
 
 [ng\:cloak],
 [ng-cloak], 
@@ -4196,35 +4111,6 @@ section.project-info {
 	}
 }
 
-
-/* PUBLIC HOMEPAGE VIEW
------------------------------- */
-.home-view {
-	padding: 2rem;
-	overflow-y: auto;
-
-	.angular-google-map-container {
-		height: 400px;
-	}
-
-	.news-feed {
-		@extend .flex-column;
-		margin-right: -1rem;
-		height: 445px;
-
-		.panel-heading,
-		.panel-footer {
-			@include flex(0 0 auto);
-		}
-
-		.panel-body {
-			@include flex(1 1 auto);
-			overflow-y: scroll;
-			overflow-x: hidden;
-		}
-	}
-}
-
 /* Portrait */
 @media only screen 
 	and (min-device-width: 768px)
@@ -4538,120 +4424,6 @@ tmpl-template-render {
 	}
 }
 
-.project-timeline-container {
-	padding: 1px;
-
-	.phase {
-		position: relative;
-		color: #888;
-		background: #EEE;
-
-		.phase-info {
-			position: relative;
-			height: 100%;
-			padding: 1rem;
-			border: 1px solid #FFF;
-
-			.phase-badge {
-				margin-bottom: 1rem;
-
-				.label {
-					padding-top: 0.4rem;
-					padding-bottom: 0.3rem;
-				}
-
-				.label-info,
-				.label-success {
-					border: 2px solid #FFF;
-				}
-
-				.label-default {
-					background: #bbb;
-					border: 2px solid #bbb;
-				}
-			}
-
-			.phase-name {
-				@include flex(1 1 auto);
-				display: block;
-				margin-bottom: 1rem;
-				font-size: 1.6rem;
-				font-weight: bold;
-				line-height: 1.8rem;
-			}
-
-			.phase-status {
-				@include flex(0 0 auto);
-				font-size: 1.2rem;
-				line-height: 1.4rem;
-			}
-		}
-
-		&.complete {
-			color: #FFF;
-			background: $success-bg;
-		}
-
-		&.active {
-			color: #FFF;
-			background: $info-bg;
-
-			+ .active {
-				display: none;
-			}
-		}
-	}
-}
-
-@media (min-width: 768px)
-	and (max-device-width: 768px) {
-	.project-timeline-container {
-		@include flexdirection(column);
-
-		.phase {
-			.phase-info {
-				@include flexbox();
-				padding: 1rem 1.5rem;
-
-				.phase-name {
-					margin-top: 0.5rem;
-					margin-bottom: 0.5rem;
-				}
-			}
-		}
-
-		.phase-status {
-			text-align: right;
-		}
-	}
-}
-
-@media (min-width: 1024px) {
-	.project-timeline-container {
-		@include flexbox();
-
-		.phase {
-			-webkit-flex: 1 1 auto;
-			flex: 1 1 auto;
-			-ms-flex: 1 1 1px; /* IE needs a value for flex-basis or the flex grow/shrink properties won't obey */
-
-			.phase-info {
-				flex-flow: column nowrap;
-
-				.phase-badge {
-					text-align: left;
-				}
-
-				.phase-status {
-					.status-name {
-						display: block;
-					}
-				}
-			}
-		}
-	}
-}
-
 
 .modal.img-view-modal {
 	padding-left: 0 !important;
@@ -4685,75 +4457,30 @@ tmpl-template-render {
 }
 
 
-
-
-/* CUSTOM 
------------------------------ */
-.custom-select-list {
-	li {
-		display: inline-block;
-		margin-right: 0.4rem;
-		padding-top: 0;
-
-		.btn {
-			padding: 0.3rem 1rem;
-			font-size: 1.2rem;
-			font-weight: normal;
-		}
-	}
-}
-
-.inline-search-panel {
-	@extend .flex-row;
-	align-items: center;
-
-	.btn {
-		@include flex(0 0 auto);
-		margin-left: 0.5rem;
-		width: 7rem;
-		height: 3.4rem;
-	}
-}
-
-.inline-search-fields {
-	@include flex(1 1 auto);
-	margin: 0 -0.2rem;
-
-	.form-group:nth-last-child(4),
-	.form-group:nth-last-child(4) ~ .form-group {
-		padding: 0 0.2rem;
-		width: 25%;
-		float: left;
-	}
-}
-
-.form-footer {
-	.btn {
-		min-width: 8rem;
-	}
-}
-
 // GLOBAL
 @import "modules/core/client/scss/global/mixins.scss";
+@import "modules/core/client/scss/global/helpers.scss";
 @import "modules/core/client/scss/global/footer.scss";
 @import "modules/core/client/scss/global/layout.scss";
 
 // COMPONENTS
 @import "modules/core/client/scss/components/accordion.scss";
+@import "modules/core/client/scss/components/file-browser.scss";
 @import "modules/core/client/scss/components/misc.scss";
 @import "modules/core/client/scss/components/panel.scss";
+@import "modules/core/client/scss/components/pdf-viewer.scss";
 @import "modules/core/client/scss/components/spinner.scss";
 @import "modules/core/client/scss/components/table.scss";
 @import "modules/core/client/scss/components/ng-table-overrides.scss";
 
-/* MODULES */
-@import "modules/documents/client/styles/file-browser.scss";
-@import "modules/documents/client/styles/pdf-viewer.scss";
+// MODULES
+@import "modules/project-conditions/client/scss/project-conditions.scss";
+@import "modules/projects/client/scss/project-timeline.scss";
+@import "modules/projects/client/scss/projects-abstract.scss";
 
 //@import "modules/codelists/client/scss/codelist.scss";
 //@import "modules/communications/client/scss/communications.scss";
 //@import "modules/invitations/client/scss/invitations.scss";
-//@import "modules/projects/client/scss/project-schedule.scss";
 //@import "modules/project-comments/client/scss/project-comments.scss";
 //@import "modules/users/client/scss/user-entry.scss";
 //@import "modules/users/client/scss/user-search-chooser.scss";

@@ -1,0 +1,26 @@
+
+.home-view {
+	padding: 2rem;
+	overflow-y: auto;
+
+	.angular-google-map-container {
+		height: 400px;
+	}
+
+	.news-feed {
+		@extend .flex-column;
+		margin-right: -1rem;
+		height: 445px;
+
+		.panel-heading,
+		.panel-footer {
+			@include flex(0 0 auto);
+		}
+
+		.panel-body {
+			@include flex(1 1 auto);
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+	}
+}
