@@ -3,17 +3,18 @@
 	<button class="btn icon-btn mobile-nav-btn" onclick="toggleSideNav();"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
 	<h1>Documents</h1>
 	
+	<!-- SW Prototype -->
 	<div class="search-widget collapsed">
 		<form id="swForm" class="sw-resize-container sw-form">
 			
-			<button class="sw-expand-btn btn icon-btn" onclick="expandSearchWidget();"><i class="glyphicon glyphicon-search"></i></button>
+			<button class="sw-expand-btn btn icon-btn" onclick="swMenuShow();"><i class="glyphicon glyphicon-search"></i></button>
 			<input class="form-control sw-input" type="text" placeholder="Search" />
 			<button class="sw-toggle-btn dropdown-toggle btn icon-btn"
 				data-toggle="dropdown"
 				data-target="swAdvanced">
 				<i class="glyphicon glyphicon-triangle-bottom"></i>
 			</button>
-			<button class="sw-collapse-btn btn icon-btn" onclick="collapseSearchWidget();">
+			<button class="sw-collapse-btn btn icon-btn" onclick="swMenuHide();">
 				<span aria-hidden="true">&times;</span>
 			</button>
 
@@ -78,22 +79,47 @@
 						</div>
 					</div>
 					<div class="sw-form-btns">
-						<button class="btn btn-default" onclick="resetSwForm();">Reset</button>
-						<button class="btn btn-primary" onclick="searchDocs();">Search</button>
+						<button class="btn btn-default" onclick="swSearchReset();">Reset</button>
+						<button class="btn btn-primary" onclick="swSearch();">Search</button>
 					</div>
 				</div>
 			</div>
 		</form>
-	</div>
+	</div><!-- / SW Prototype -->
 
 	<div class="actions">
 		<button class="btn icon-btn" x-modal-document-instructions>
-			<i class="glyphicon glyphicon-info-sign"></i>
+			<i class="glyphicon glyphicon-question-sign"></i>
 		</button>
 	</div>
 
 </div>
 
 <div class="view-body-container file-browser-container">
+
+	<!-- SW Results Prototype -->
+	<div class="sw-fb-prototype file-browser">
+
+		<div class="spinner-container">
+			<div class="spinner-new rotating"></div>
+		</div>
+
+		<div class="fb-header">
+			<span class="sw-results-label" onclick="swClearResults();">
+				Search Results
+			</span>
+			<div class="file-batch-actions">
+				<button class="btn icon-btn">
+					<i class="glyphicon glyphicon-info-sign"></i>
+				</button>
+			</div>
+		</div>
+
+		<div class="fb-body">
+			<!-- Search results go here -->
+		</div>
+
+	</div><!-- / SW Results Prototype -->
+
 	<x-document-mgr x-project="project" x-opendir="opendir"/>
 </div>

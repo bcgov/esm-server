@@ -46,25 +46,36 @@
 
   <!-- Prototype Search Widget -->
   <script type="text/javascript">
-        function expandSearchWidget() {
+
+        // Show the dropdown menu
+        function swMenuShow() {
           $('.search-widget').removeClass('collapsed');
           $('.search-widget').addClass('expanded');
         }
-        function collapseSearchWidget() {
+
+        // Hide the dropdown menu
+        function swMenuHide() {
           $('.search-widget').removeClass('expanded');
           $('.search-widget').addClass('collapsed');
           $('.sw-input').val('');
           document.getElementById('swForm').reset();
         }
-        function resetSwForm() {
+
+        // Reset the search form
+        function swSearchReset() {
           document.getElementById('swForm').reset();
+		  $('.sw-fb-prototype').removeClass('visible');
         }
-        function searchDocs() {
+
+        // Perform search
+        function swSearch() {
           $('.search-widget').removeClass('expanded');
           $('.search-widget').addClass('collapsed');
           $('.sw-resize-container').removeClass('open');
           $('.sw-input').val('');
+          $('.sw-fb-prototype').addClass('visible');
         }
+
 	</script>
 
 </head>
