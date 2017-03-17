@@ -14,9 +14,12 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 		getDocumentsInList: function (documentList) {
 			return this.put('/api/documentlist', documentList);
 		},
-		getDocument: function (id) {
-			return this.get('/api/document/'+id);
+		getDocumentByProjectFolderURL: function (projectFolderURL){
+			return this.put('/api/getDocumentByEpicURL', {url: projectFolderURL});
 		},
+		getDocument: function (id) {
+            return this.get('/api/document/'+id);
+        },
 		getArtifactLocations: function () {
 			return [
 			{
@@ -48,7 +51,7 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 			},
 			{
 				"code":"p",
-				"name":"Pre-Application",
+				"name":"Scope",
 			},
 			{
 				"code":"w",
@@ -177,17 +180,17 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 			return this.get('/api/documents/types/' + projectId, {'reviewDocsOnly': reviewDocsOnly});
 		},
 		getProjectDocumentMEMType: function(projectId, reviewDocsOnly) {
-			return new Promise (function (resolve, reject) {
-				var obj = [	"Permits & Applications",
-							"Inspection Reports",
-							"Geotechnical Information",
-							"Site Monitoring & Activities (including Reclamation)"];
-				resolve(obj);
-			});
-		},
-		getProjectDocumentSubTypes: function(projectId, reviewDocsOnly) {
-			return this.get('/api/documents/subtypes/' + projectId, {'reviewDocsOnly': reviewDocsOnly});
-		},
+	        return new Promise (function (resolve, reject) {
+	            var obj = {data: ["Permits & Applications",
+	                              "Inspection Reports",
+	                              "Geotechnical Reports",
+	                              "Site Monitoring & Activities (including Reclamation)"]};
+	            resolve(obj);
+	        });
+	    },
+	    getProjectDocumentSubTypes: function(projectId, reviewDocsOnly) {
+	        return this.get('/api/documents/subtypes/' + projectId, {'reviewDocsOnly': reviewDocsOnly});
+	    },
 		getProjectDocumentFolderNames: function(projectId) {
 			return this.get('/api/documents/folderNames/' + projectId);
 		},
@@ -202,6 +205,12 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 		},
 		makeLatestVersion: function (document) {
 			return this.put('/api/document/makeLatest/' + document);
+		},
+		publish: function (document) {
+			return this.put('/api/publish/document/' + document._id);
+		},
+		unpublish: function (document) {
+			return this.put('/api/unpublish/document/' + document._id);
 		}
 	});
 	return new Class();
