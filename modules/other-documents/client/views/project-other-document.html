@@ -1,29 +1,32 @@
-
-<section class="doc-section" ng-repeat="h in headings" ng-if="h.list.length > 0">
+<section class="doc-section" ng-repeat="h in vm.groupings" >
 	<h3>{{h.name}}</h3>
 	<div class="mmti-accord mmti-doc-list" role="tablist" aria-multiselectable="false">
-		<div class="mmti-accord-item" ng-repeat="c in h.list">
-			<!-- c is OtherDocument model element -->
-			<div class="mmti-accord-header" role="tab" id="heading-{{c._id}}">
+		<div class="mmti-accord-item" ng-repeat="doc in h.list">
+			<div class="mmti-accord-header" role="tab" id="heading-{{doc._id}}">
 				<div>
-					<a data-ng-if="c.documents" class="toggle collapsed" data-toggle="collapse" href="#collapse-{{c._id}}" aria-expanded="true" aria-controls="collapseOne">
+					<a class="toggle collapsed"
+						 data-ng-if="doc.documents"
+						 data-toggle="collapse"
+						 href="#collapse-{{doc._id}}"
+						 aria-expanded="true"
+						 aria-controls="collapseOne">
 						<i class="material-icons open-icon">add</i>
 						<i class="material-icons close-icon">remove</i>
 					</a>
-					<span class="ah-col name">{{c.documentName}}</span>
+					<span class="ah-col name">{{doc.documentName}}</span>
 					<span class="ah-col date">
-						<span>{{c.date | date:'MMM dd, yyyy'}}</span>
+						<span>{{doc.date | date:'MMM dd, yyyy'}}</span>
 					</span>
 				</div>
 			</div>
-			<div class="collapse" role="tabpanel" id="collapse-{{c._id}}" aria-labelledby="heading-{{c._id}}">
+			<div class="collapse" role="tabpanel" id="collapse-{{doc._id}}" aria-labelledby="heading-{{doc._id}}">
 				<div class="mmti-accord-body">
 					<div class="doc-list-container" ng-if="c.documents.length > 0">
 						<div class="mmti-list-header">Related Documents</div>
-						<ul class="mmti-list nd-pair" ng-repeat="r in c.documents">
+						<ul class="mmti-list nd-pair" ng-repeat="related in doc.documents">
 							<li class="nv-pair">
-								<span class="name"><a href="{{r.ref}}" target="_blank">{{r.name}}</a></span>
-								<span class="date">{{r.date | date:'MMM dd, yyyy'}}</span>
+								<span class="name"><a href="{{related.ref}}" target="_blank">{{related.name}}</a></span>
+								<span class="date">{{related.date | date:'MMM dd, yyyy'}}</span>
 							</li>
 						</ul>
 					</div>

@@ -1,5 +1,5 @@
 
-<div class="hero-banner">
+<div class="hero-banner hero-banner-project">
     <div class="container">
         <div class="container-inner">
             <div class="hb-txt">
@@ -17,76 +17,21 @@
                 <section class="mb-0">
                     <h2 ng-bind-html="content(project, 'SUBTITLE', 'DETAILS')"></h2>
                     <ul class="nav nav-pills" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#overview" ng-click="page('DETAILS')">Mine Summary</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#authorizations" ng-click="page('AUTHORIZATION')">Authorizations</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#compliance" ng-click="page('COMPLIANCE')">Compliance Oversight</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#docs" ng-click="page('DOCS')">Other Documents</a>
+                        <li class="nav-item" ng-repeat="t in tabs">
+                            <a class="nav-link" ng-class="{active:t.active}" href="" ui-sref="{{t.route}}" >{{t.heading}}</a>
                         </li>
                     </ul>
-
-                    <div class="tab-content">
-
-                        <!-- Overview -->
-                        <div class="overview tab-pane active"
-                             id="overview"
-                             role="tabpanel"
-                             ng-bind-html="content(project, 'INTRO_TEXT', 'DETAILS')">
-                        </div><!-- / Overview -->
-                        
-                        <!-- Authorizations -->
-                        <div class="authorizations tab-pane" id="authorizations" role="tabpanel">    
-                            <p class="tab-intro">Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in British Columbia. Below you will find a list of authorizations associated with each of these three acts. <span>Learn more about Authorizations <a ui-sref="authorizations">here</a>.</span></p>
-
-                            <tmpl-project-authorizations project="project" agency="EAO"></tmpl-project-authorizations>
-                            <tmpl-project-authorizations project="project" agency="ENV"></tmpl-project-authorizations>
-                            <tmpl-project-authorizations project="project" agency="MEM"></tmpl-project-authorizations>
-
-                            <div class="main-footer">
-                                <h3>Can't find what you are looking for?</h3>
-                                <p>Mines Act permits issued for {{project.name}} prior to 2013 can be accessed at <a href="https://mines.empr.gov.bc.ca" target="_blank">mines.empr.gov.bc.ca</a>. These records will be moved to the new BC Mine Information website in the coming months.</p>
-                                <a class="btn inverted slide-r-btn" href="https://mines.empr.gov.bc.ca" target="_blank"><span>Visit mines.empr.gov.bc.ca</span><i class="material-icons">open_in_new</i></a>
-                            </div>
-                            
-                        </div><!-- / Authorizations -->
-
-                        <!-- Compliance Oversight -->
-                        <div class="compliance tab-pane" id="compliance" role="tabpanel">
-                            <!-- Putting generic content back in until we have content. -->
-                            <!--
-                            <p class="tab-intro"
-                               ng-bind-html="content(project, 'INTRO_TEXT', 'COMPLIANCE')"></p>
-                            -->
-                            <p class="tab-intro">Compliance and enforcement (C&E) activities begin after a claim is staked and continue through exploration and the life of a mine. The Ministry of Energy and Mines (MEM), Ministry of Environment (ENV) and Environmental Assessment Office (EAO) work together to provide integrated oversight of British Columbia’s mining sector. Records of inspections conducted during the 2016 calendar year can be found below. To learn more about compliance oversight of major mines in general, <a ui-sref="compliance-oversight">click here</a>.</span></p>
-                            
-                            <tmpl-project-compliance project="project"></tmpl-project-compliance>
-
-                            <div class="main-footer">
-                                <h3>Can't find what you are looking for?</h3>
-                                <p>Ministry of Energy and Mines inspection reports for {{project.name}} from 2013 through to 2015 can be accessed at <a href="https://mines.empr.gov.bc.ca" target="_blank">mines.empr.gov.bc.ca</a>. These records will be moved to the new BC Mine Information website in the coming months.</p>
-                                <a class="btn inverted slide-r-btn" href="https://mines.empr.gov.bc.ca" target="_blank"><span>Visit mines.empr.gov.bc.ca</span><i class="material-icons">open_in_new</i></a>
-                            </div>
-                        </div>
-
-                        <!-- Other Documents -->
-                        <div class="documents tab-pane" id="docs" role="tabpanel">
-                            <p class="tab-intro">Below you’ll find recent annual reports (including annual reclamation reports, annual dam safety inspection reports and related documents) as well as other select documents of interest. More documents will be added here on an ongoing basis.</p>
-                            <other-documents-list project="project"></other-documents-list>
-                        </div>
-                    </div>
-
+                    <div ui-view class="view"></div>
                 </section>
             </main>
             <aside class="col-lg-4">
                 <section>
                     <h4>Project Details</h4>
-                    <div class="map-section"><div class="map-thumb"><a href ui-sref="maps({project: project})"><img src="{{project.staticMap}}"/></div></a></div>
+                    <div class="map-section">
+                        <div class="map-thumb">
+                            <a href ui-sref="maps({project: project})"><img src="{{project.staticMap}}"/></a>
+                        </div>
+                    </div>
                     <ul class="mmti-side-list mine-details-list">
                         <li>
                             <span class="name">Operator</span>
@@ -111,7 +56,7 @@
                     <ul class="sa-list">
                         <li ng-repeat="act in project.activities | orderBy : act.order" class="{{statusClass(act)}}" ng-class="{'na': !act.status}">
                             <span class="sa-name">{{act.name}}</span>
-                            <span class="sa-status">{{act.status}}<span ng-if="!act.status">---</span>
+                            <span class="sa-status">{{act.status}}<span ng-if="!act.status">---</span></span>
                         </li>
                     </ul>
                 </section>

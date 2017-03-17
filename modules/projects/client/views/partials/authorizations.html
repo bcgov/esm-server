@@ -1,0 +1,15 @@
+<!-- Authorizations -->
+<div class="authorizations tab-pane" id="authorizations" role="tabpanel">
+  <p class="tab-intro">Environmental assessment certificates and permits issued under the Mines Act and the Environmental Management Act (EMA) are the primary provincial authorizations for major mine projects in British Columbia. Below you will find a list of authorizations associated with each of these three acts. <span>Learn more about Authorizations <a ui-sref="authorizations">here</a>.</span></p>
+
+  <tmpl-project-authorizations project="project" agency="EAO"></tmpl-project-authorizations>
+  <tmpl-project-authorizations project="project" agency="ENV"></tmpl-project-authorizations>
+  <tmpl-project-authorizations project="project" agency="MEM"></tmpl-project-authorizations>
+
+  <div class="main-footer">
+    <h3>Can't find what you are looking for?</h3>
+    <p>Mines Act permits issued for {{project.name}} prior to 2013 can be accessed at <a href="https://mines.empr.gov.bc.ca" target="_blank">mines.empr.gov.bc.ca</a>. These records will be moved to the new BC Mine Information website in the coming months.</p>
+    <a class="btn inverted slide-r-btn" href="https://mines.empr.gov.bc.ca" target="_blank"><span>Visit mines.empr.gov.bc.ca</span><i class="material-icons">open_in_new</i></a>
+  </div>
+
+</div><!-- / Authorizations -->
