@@ -2501,52 +2501,6 @@ form {
 }
 
 
-/* PANELS
------------------------------- */ 
-.panel-default {
-	> .panel-heading {
-		position: relative;
-		padding: 1.25rem 1.5rem;
-		color: $panel-heading-color;
-		border-color: $panel-border-color;
-		background-image: none;
-		background-color: $panel-heading-bg;
-
-		h2 {
-			margin: 0;
-			display: block;
-			overflow: hidden;
-			font-size: 1.6rem;
-			font-weight: bold;
-			text-overflow: ellipsis;
-		}
-	}
-}
-
-.panel-heading {
-	&.flex-row {
-		display: -webkit-flex;
-		display: flex;
-		padding: 0;
-		
-		h2 {
-			-webkit-flex: 1 1 auto;
-			flex: 1 1 auto;
-			padding: 1.25rem 1.5rem;
-		}
-
-		.actions {
-			-webkit-flex: 1 1 auto;
-			flex: 0 0 auto;
-		}
-	}
-}
-
-.panel-footer {
-	background: $panel-footer-bg;
-}
-
-
 /* PICK LIST
 ------------------------------ */
 $pick-list-active-item-bg: #5cb85c;
@@ -3321,123 +3275,8 @@ section.project-info {
 }
 
 
-/* NEWS FEED VIEW
------------------------------- */
-.news-feed {
-	.panel-body {
-		padding: 0;
-	}
-	
-	.panel-footer {
-		padding: 0;
-	}
-	
-	.show-all-news-link {
-		display: block;
-		padding: 1rem;
-		font-weight: bold;
-	}
-}
-
-.news-feed-item {
-	padding: 1.5rem;
-	border-top: 1px solid #DDD;
-	
-	.news-title {
-		margin-top: 0;
-		margin-bottom: 0.75rem;
-		font-size: 1.6rem;
-		font-weight: bold;
-	}
-	
-	.news-date-type {
-		margin-bottom: 0.75rem;
-		font-size: 1.2rem;
-		color: #999;
-	}
-	
-	.news-content {
-		margin: 0;
-	}
-	
-	.show-more {
-		margin-top: 1rem;
-		font-size: 1.2rem;
-		font-weight: bold;
-	}
-}
-
-.news-feed-item:first-child {
-	border-top: none;
-}
-
-
-/* NEWS PAGE VIEW
------------------------------- */
-.news-admin-view,
-.news-public-view {
-	.panel {
-		margin-bottom: 0;
-	}
-
-	.table {
-		table-layout: fixed;
-		
-		td {
-			padding: 1.5rem 0.5rem;
-		}
-
-		.date-col {
-			width: 11rem;
-		}
-		
-		.type-col {
-			width: 14rem;
-		}
-		
-		.actions-col {
-			padding-top: 0.3rem;
-
-			.btn {
-				margin-top: 0.6rem;
-			}
-		}
-	}
-	
-	.news-title {
-		margin-top: 0;
-		margin-bottom: 0.75rem;
-		font-size: 1.6rem;
-		font-weight: bold;
-		color: $app-base-color;
-	}
-	
-	.news-content {
-		max-width: 70rem;
-		margin: 0;
-	}
-	
-	.show-more {
-		margin-top: 1rem;
-		font-size: 1.2rem;
-		font-weight: bold;
-	}
-}
-
-@media (min-width: 769px) {
-	.news-admin-view,
-	.news-public-view {
-		.type-col {
-			width: 25%;
-		}
-	}
-}
-
-
 /* MAP
 ------------------------------ */
-
-
 .map-popup {
 	max-width: 30rem;
 	font-family: $font-family-sans-serif;
@@ -3541,50 +3380,6 @@ section.project-info {
 		margin-bottom: -0.4rem;
 	}
 }
-
-/* Portrait */
-@media only screen 
-	and (min-device-width: 768px)
-	and (max-device-width: 1024px)
-	and (orientation: portrait)
-	and (-webkit-min-device-pixel-ratio: 1) {
-
-	.home-view {
-		.angular-google-map-container {
-			height: 500px;
-		}
-
-		.news-feed {
-			height: 545px;
-		}
-	}
-
-	.project-table {
-		th {
-			font-size: 1.1rem;
-		}
-
-		.comment-col {
-			width: 12rem;
-		}
-
-		.decision-col,
-		.phase-col,
-		.region-col,
-		.type-col {
-			width: 10rem;
-		}
-	}
-}
-
-@media (min-width: 1024px) {
-	.project-table {
-		.name-col {
-			width: 32rem;
-		}
-	}
-}
-
 
 
 /* PROJECT INVITATIONS 
@@ -3888,6 +3683,7 @@ tmpl-template-render {
 @import "modules/project-conditions/client/scss/project-conditions.scss";
 @import "modules/projects/client/scss/project-timeline.scss";
 @import "modules/projects/client/scss/projects-abstract.scss";
+@import "modules/recent-activity/client/scss/recent-activity.scss";
 
 //@import "modules/codelists/client/scss/codelist.scss";
 //@import "modules/communications/client/scss/communications.scss";

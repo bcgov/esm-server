@@ -24,6 +24,8 @@
 	<!-- END: MEM DESCRIPTION PANEL -->
 
 	<div class="row">
+		
+		<!-- News & Announcements -->
 		<div class="col-sm-4 col-md-4 col-lg-3">
 			<div class="news-feed panel panel-default" ng-init="form.expandnews = false">
 				<div class="panel-heading"><h2>News & Announcements</h2></div>
@@ -36,14 +38,14 @@
 			</div>
 		</div>
 
+		<!-- Map Container -->
 		<div class="col-sm-8 col-md-8 col-lg-9">
-			<div class="panel panel-default">
-				<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
-			</div>
+			<tmpl-projects-map id="anchor-map" x-projects='projects'></tmpl-projects-map>
 		</div>
 
 	</div>
 
+	<!-- Mine List -->
 	<div class="panel panel-default no-margin">
 		<div class="panel-heading"><h2>Mining Projects</h2></div>
 		<tmpl-projects-list2 id="anchor-list" x-projects="projects"></tmpl-projects-list2>
