@@ -1,0 +1,28 @@
+
+<form class="confirm-dialog" ng-submit="confirmDlg.ok()">
+	<div class="modal-header">
+		<button class="btn btn-default close" type="button" ng-click="confirmDlg.cancel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h3 class="modal-title">{{confirmDlg.titleText}}</h3>
+	</div>
+
+	<div ng-show="confirmDlg.errorMsg">{{confirmDlg.errorMsg}}</div>
+	
+	<div class="modal-body">
+		{{confirmDlg.confirmText}}		
+		<ul class="confirm-list">
+			<li ng-repeat="t in confirmDlg.confirmItems">{{t.value}}</li>
+		</ul>
+	</div>
+
+	<div class="modal-footer">
+
+		<!-- Cancel and close Modal -->
+		<button class="btn btn-default" type="button" ng-click="confirmDlg.cancel()">{{confirmDlg.cancelText}}</button>
+
+		<!-- Disabled until something is entered into the input field -->
+		<button class="btn btn-primary" type="submit" ng-disabled="confirmDlg.errorMsg">{{confirmDlg.okText}}</button>
+
+	</div>
+</form>
