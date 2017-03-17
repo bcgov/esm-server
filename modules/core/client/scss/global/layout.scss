@@ -1,6 +1,12 @@
 $view-panel-bg: #FFF;
 $view-panel-border: 1px solid #EEE;
 
+tmpl-header,
+tmpl-footer {
+	display: block;
+	flex: 0 0 auto;
+}
+
 // Application
 .app-container {
     @include flexbox();

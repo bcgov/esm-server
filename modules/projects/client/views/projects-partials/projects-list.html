@@ -1,37 +1,37 @@
 
-<table class="project-table table" x-show-filter="true" ng-table="projectList.tableParams">
-	<tr ng-repeat="o in $data" class='clickable' ui-sref="p.detail({projectid: o.code})">
-		<td header-class="'name-col'" 
-			data-title="'Name'" 
-			filter="{'name':'text'}" 
-			sortable="'name'"><a ui-sref="p.detail({projectid: o.code})">{{o.name}}</a></td>
-		<td ng-if="environment === 'MEM'" data-title="'Permit'" filter="{'memPermitID':'text'}" sortable="'memPermitID'">
-			{{o.memPermitID}}
-		</td>
-		<td header-class="'type-col'" 
-			data-title="'Type'" 
-			filter="{type:'select'}" 
-			filter-data="projectList.typeArray" 
-			sortable="'type'">{{o.type}}</td>
-		<td header-class="'region-col'" 
-			data-title="'Region'" 
-			filter="{region:'select'}" 
-			filter-data="projectList.regionArray" 
-			sortable="'region'">{{o.region | regionName}}</td>
-		<td header-class="'phase-col'"
-			data-title="'Phase'"
-			filter="{'currentPhase.name':'select'}"
-			filter-data="projectList.phaseArray"
-			sortable="'currentPhase.name'">{{o.currentPhase.name}}</td>
-		<td header-class="'decision-col'"
-			ng-if="environment === 'EAO'"
-			data-title="'Decision'"
-			filter="{eacDecision:'select'}"
-			filter-data="projectList.eacDecisionArray"
-			sortable="'eacDecision'">{{o.eacDecision}}</td>
-	</tr>
-	<tr class="no-records" ng-show="!$data || !$data.length">
-		<td ng-if="environment === 'EAO'" colspan="4">No results match your search.</td>
-		<td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
-	</tr>
-</table>
+<div class="table-container">
+	<table class="project-table table table-hover" x-show-filter="true" ng-table="projectList.tableParams">
+		<tr ng-repeat="o in $data" ui-sref="p.detail({projectid: o.code})">
+			<td header-class="'name-col'" 
+				data-title="'Name'" 
+				filter="{'name':'text'}" 
+				sortable="'name'"><a ui-sref="p.detail({projectid: o.code})">{{o.name}}</a>
+			</td>
+			<td data-title="'Permit'" 
+				filter="{'memPermitID':'text'}" 
+				sortable="'memPermitID'">{{o.memPermitID}}
+			</td>
+			<td header-class="'type-col'" 
+				data-title="'Type'" 
+				filter="{type:'select'}" 
+				filter-data="projectList.typeArray" 
+				sortable="'type'">{{o.type}}
+			</td>
+			<td header-class="'region-col'" 
+				data-title="'Region'" 
+				filter="{region:'select'}" 
+				filter-data="projectList.regionArray" 
+				sortable="'region'">{{o.region | regionName}}
+			</td>
+			<td header-class="'phase-col'"
+				data-title="'Phase'"
+				filter="{'currentPhase.name':'select'}"
+				filter-data="projectList.phaseArray"
+				sortable="'currentPhase.name'">{{o.currentPhase.name}}
+			</td>
+		</tr>
+		<tr class="no-records" ng-show="!$data || !$data.length">
+			<td colspan="5">No Projects found</td>
+		</tr>
+	</table>
+</div>

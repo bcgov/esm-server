@@ -1,4 +1,13 @@
 
+.project-conditions-view {
+	.table {
+		th:last-child {
+			width: 6rem;
+			text-align: right;
+		}
+	}
+}
+
 .custom-select-list {
 	li {
 		display: inline-block;
