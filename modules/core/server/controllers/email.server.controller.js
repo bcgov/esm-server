@@ -49,7 +49,7 @@ var sendAll = function(subject, text, html, to, cc, bcc) {
 			to: to,
 			cc: cc,
 			bcc: bcc,
-			replyTo: 'jason.sherman@gmail.com',
+			//replyTo: 'looks like we can put an address here',
 			from: config.mailer.from,
 			subject: subject,
 			text: text,
