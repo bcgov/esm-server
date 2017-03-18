@@ -61,6 +61,7 @@ module.exports = function () {
 				'delete' : ['sysadmin', 'project-lead'],
 				'publish' : ['sysadmin', 'project-lead'],
 				'unPublish' : ['sysadmin'],
+				'manageFolders' : ['project-system-admin']
 			}
 		}
 	}));

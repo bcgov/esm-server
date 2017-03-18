@@ -40,7 +40,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		//'createProjectUpdate',
 		//'createProjectGroup',
 		'publish',
-		'unPublish'
+		'unPublish',
+		'manageFolders'
 	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],

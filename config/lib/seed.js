@@ -81,6 +81,10 @@ var seedingAsync = function() {
 		require('../seed-data/load-mem')();
 	});
 
+	checkIntegration('loadfolders').then(function () {
+		require('../seed-data/load-folders')();
+	});
+
 	 require('../seed-data/load-prototypeuser')();
 	 require('../seed-data/load-prototypedata')();
 
