@@ -268,7 +268,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 						} else {
 							console.log ('period was saved, roles changed');
 							// save the comments so that we pick up the (potential) changes to the period permissions...
-							return CommentModel.commentPeriodPermissionsSync(model._id, period.stats.total);
+							return CommentModel.commentPeriodCommentsSync(model._id, period.stats.total);
 						}
 					})
 					.then(function () {

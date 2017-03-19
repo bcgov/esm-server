@@ -149,6 +149,57 @@ module.exports = function (app) {
 			return model.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby);
 		}));
 
+	app.route ('/api/comments/period/:periodId/perms/sync').all(policy ('guest'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+
+			// base query / filter
+			var periodId;
+			var eaoStatus;
+			var proponentStatus;
+			var isPublished;
+
+			// filter By Fields...
+			var commentId;
+			var authorComment;
+			var location;
+			var pillar;
+			var topic;
+
+			// pagination stuff
+			var skip = 0;
+			var limit = 50;
+			var sortby = {};
+
+			if (req.body) {
+
+				// base query / filter
+				if (!_.isEmpty(req.body.periodId)) {
+					periodId = req.body.periodId;
+				}
+
+				// pagination stuff
+				try {
+					skip = parseInt(req.body.start);
+					limit = parseInt(req.body.limit);
+				} catch(e) {
+
+				}
+			}
+
+			return new Promise(function(resolve, reject) {
+				//console.log('start = ', skip, ' limit = ', limit);
+				model.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby)
+					.then(function(results) {
+						//console.log('start = ', skip, ' limit = ', limit, ' results = ', results.data.length);
+						var a = _.map(results.data, function(d) {
+							return model.update(d, d);
+						});
+						return Promise.all(a);
+					})
+					.then(resolve, reject);
+			});
+		}));
+
 	// =========================================================================
 	//
 	// special routes for comment periods

@@ -20,6 +20,38 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, moment, 
 		// get all the comments for a comment period
 		//
 		// -------------------------------------------------------------------------
+		commentPeriodCommentsSync: function (periodId, commentLength) {
+			var self = this;
+			var start = 0, limit = 100;
+			var promises = [];
+			var res = [];
+
+			do {
+				var obj = {
+					// primary query...
+					periodId: periodId,
+					start: start,
+					limit: limit
+				};
+				promises.push(
+					self.put ('/api/comments/period/' + periodId + '/perms/sync', obj).then(
+						function(data){
+							res.push({res: '/api/comments/period/' + periodId + '/perms/sync', data : obj, result: data});
+						})
+				);
+				start = start + limit;
+			}
+			while (start < commentLength);
+
+			return new Promise(function(resolve, reject) {
+				Promise.all(promises)
+					.then(function () {
+						resolve(res);
+					}, function(err) {
+						reject(err);
+					});
+				});
+		},
 		commentPeriodPermissionsSync: function (periodId, commentLength) {
 			// if we change vetting/classification roles on a Period, we need to adjust all children permissions
 			// so all comments and their documents need to have there permissions reset (and some proponent/eaoStatus work too).

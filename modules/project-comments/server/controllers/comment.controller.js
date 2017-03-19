@@ -105,7 +105,91 @@ module.exports = DBModel.extend ({
 				.then(resolve, reject);
 		});
 	},
+	preprocessUpdate: function (comment) {
+		//console.log('comment.preprocessUpdate  comment = ' + JSON.stringify(comment, null, 4));
+		var self = this;
+		var commentPeriod = new Period (this.opts);
+		var documentClass = new DocumentClass(this.opts);
 
+		var thePeriod;
+
+		if (comment.valuedComponents.length === 0) {
+			comment.proponentStatus = 'Unclassified';
+		}
+		if (_.isEmpty(comment.proponentStatus)) {
+			comment.proponentStatus = 'Unclassified';
+		}
+		return new Promise (function (resolve, reject) {
+			//
+			// get the period
+			//
+			commentPeriod.findById (comment.period)
+			//
+			// set published or unpublished with correct roles
+			//
+			.then (function (period) {
+				thePeriod = period;
+				if (comment.eaoStatus === 'Published') {
+					//
+					// ROLES, public read
+					//
+					comment.publish ();
+					return self.setModelPermissions (comment, {
+						read  : _.uniq(_.concat(thePeriod.read, 'public')),
+						write: thePeriod.write,
+						delete: thePeriod.delete
+					});
+				} else {
+					//
+					// ROLES, only vetting can read
+					//
+					comment.unpublish ();
+					return self.setModelPermissions (comment, {
+						read: thePeriod.vettingRoles,
+						write: thePeriod.write,
+						delete: thePeriod.delete
+					});
+					// console.log ('unpublished comment: ', JSON.stringify (comment, null, 4));
+					// return Access.setObjectPermissionRoles ({
+					// 	resource: comment,
+					// 	permissions: {
+					// 		read             : period.vettingRoles
+					// 	}
+					// });
+				}
+			})
+			.then(function(commentPermissions) {
+				// get all the associated documents and update their publish permissions as required.
+				return new Promise(function(resolve, reject) {
+					documentClass.getList(comment.documents)
+						.then(function (data) {
+							resolve({commentPermissions: commentPermissions, docs: data});
+						});
+				});
+			})
+			.then(function(data) {
+				var commentPermissions = data.commentPermissions;
+				var docs = data.docs;
+				return docs.reduce(function (current, doc, index) {
+					if ('Rejected' === comment.eaoStatus) {
+						// just ensure that all documents are rejected if the comment is rejected...
+						doc.eaoStatus = 'Rejected';
+					}
+
+					if ('Published' !== doc.eaoStatus) {
+						// if the comment is published, but this document has been rejected, we don't want this document set to public read
+						commentPermissions.read = thePeriod.vettingRoles;
+					}
+					// publish or unpublish the doc, and set the doc's permissions...
+					return documentClass.publishForComment(doc, ('Published' === comment.eaoStatus && 'Published' === doc.eaoStatus), commentPermissions);
+				}, Promise.resolve())	;
+			})
+			.then (function () {
+				return comment;
+			})
+			.then (resolve, reject);
+		});
+	},
 	getPublishedCommentsForPeriod : function (periodId) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
