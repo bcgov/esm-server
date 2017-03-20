@@ -1,4 +1,6 @@
 $news-feed-item-border: 1px solid #ddd;
+$news-feed-panel-footer-bg: #fff;
+$news-feed-date-color: #999;
 
 .news-feed {
     @include flexbox();
@@ -18,7 +20,7 @@ $news-feed-item-border: 1px solid #ddd;
 	
 	.panel-footer {
 		padding: 0;
-        background: #fff;
+        background: $news-feed-panel-footer-bg;
 	}
 	
 	.show-all-news-link {
@@ -42,7 +44,7 @@ $news-feed-item-border: 1px solid #ddd;
 	.news-date-type {
 		margin-bottom: 0.75rem;
 		font-size: 1.2rem;
-		color: #999;
+		color: $news-feed-date-color;
 	}
 	
 	.news-content {
@@ -60,37 +62,18 @@ $news-feed-item-border: 1px solid #ddd;
     }
 }
 
-// Recent Activity Page
-.news-admin-view,
-.news-public-view {
-	.panel {
-		margin-bottom: 0;
-	}
-
-	.table {
-		table-layout: fixed;
-		
-		td {
-			padding: 1.5rem 0.5rem;
-		}
-
-		.date-col {
-			width: 11rem;
-		}
-		
-		.type-col {
-			width: 14rem;
-		}
-		
-		.actions-col {
-			padding-top: 0.3rem;
-
-			.btn {
-				margin-top: 0.6rem;
+// News & Announcements Table
+.recent-activity-table,
+.recent-activity-admin-table {
+	tbody {
+		> tr {
+			> td {
+				padding: 1.5rem 0.5rem;
+				vertical-align: top;
 			}
 		}
 	}
-	
+
 	.news-title {
 		margin-top: 0;
 		margin-bottom: 0.75rem;
@@ -111,11 +94,29 @@ $news-feed-item-border: 1px solid #ddd;
 	}
 }
 
-@media (min-width: 769px) {
-	.news-admin-view,
-	.news-public-view {
+@media (min-width: 560px) {
+	.recent-activity-table {
+		.date-col,
 		.type-col {
-			width: 25%;
+			width: 12rem;
 		}
+	}
+}
+
+@media (min-width: 760px) {
+	.recent-activity-table {
+		.date-col,
+		.type-col {
+			width: 20%;
+		}
+	}
+}
+
+.recent-activity-admin-table {
+	.active-col,
+	.date-col,
+	.priority-col,
+	.type-col {
+		width: 12rem;
 	}
 }

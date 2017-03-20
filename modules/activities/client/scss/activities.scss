@@ -1,0 +1,59 @@
+
+.activities-container {
+    .nav-tabs {
+        > li {
+            width: 33.3333%;
+            padding: 0;
+            background: #EEE;
+
+            > a {
+                margin: 0;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                text-align: center;
+                white-space: nowrap;
+                font-size: 1.2rem;
+                border: none;
+                border-radius: 0;
+            }
+        }
+
+        > li.active {
+            > a,
+            > a:hover,
+            > a:focus {
+                border: none;
+            }
+        }
+    }
+}
+
+.activities-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+        padding: 1.5rem;
+        border-bottom: 1px solid #CCC;
+    }
+
+    li:last-child {
+        border-bottom: none;
+    }
+
+    h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.6rem;
+    }
+
+    .activity-info {
+        margin-bottom: 1.25rem;
+
+        small {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+    }
+}
