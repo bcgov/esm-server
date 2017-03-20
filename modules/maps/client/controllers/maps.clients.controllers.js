@@ -13,7 +13,13 @@ controllerMap.$inject = ['$scope', 'Authentication', 'uiGmapGoogleMapApi', '$fil
 function controllerMap($scope, Authentication, uiGmapGoogleMapApi, $filter, _, ArtifactModel, Document) {
 	var mpl = this;
 	$scope.showPoint = false;
-	mpl.center = {latitude: 54.726668, longitude: -127.647621};
+
+	if ($scope.project) {
+		mpl.center = {latitude: $scope.project.lat, longitude: $scope.project.lon};
+	} else {
+		mpl.center = {latitude: 54.726668, longitude: -127.647621};
+	}
+	
 	mpl.layers = {};
 	mpl.markers = [];
 	mpl.KMLLayers = [];

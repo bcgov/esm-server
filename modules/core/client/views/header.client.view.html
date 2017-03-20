@@ -1,24 +1,12 @@
-
 <div class="app-header">
+	
 	<nav class="navbar">
 		<div class="navbar-header">
 			<div class="navbar-brand">
-				<a ui-sref="projects" href>
-					<img class="app-brand-img" src="{{logo}}" alt="Government of B.C." title="Government of B.C.">
-				</a>
+				<a ui-sref="projects">BC Mine Information</a>
 			</div>
 		</div>
-		<span ng-if="false">
-		<!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-		NAVBAR MENU RENDER
-
-		This is where the navigation navbar renders, this is mostly application context content
-		and things that are present throughout a session like user profile, logout, admin functions
-		and that sort of thing
-
-		\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
-		</span>
 		<ul class="custom-nav">
 			<li class="custom-nav-item">
 				<a href ui-sref="projects">
@@ -26,48 +14,59 @@
 					<span>HOME</span>
 				</a>
 			</li>
-
 			<li class="custom-nav-item" ng-show="authentication.user">
 				<a href ui-sref="activities">
 					<span class="glyphicon glyphicon-dashboard"></span>
 					<span>DASHBOARD</span>
 				</a>
 			</li>
-
 			<li class="custom-nav-item dropdown" ng-if="'true' === ADMIN_FEATURES.enableSystemMenu && systemMenu.shouldRender(authentication.user)">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="System Configuration">
+				<a class="dropdown-toggle" title="System Configuration"
+					id="dropdownSystemMenu"  
+					ng-click="$event.preventDefault();"
+					data-toggle="dropdown" 
+					aria-haspopup="true"
+				 	aria-expanded="true">
 					<span class="glyphicon glyphicon-cog"></span>
 					<span>SYSTEM</span>
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
-					<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+					<li class="{{item.class}}" ng-class="{ active: $state.includes(item.state) }" 
+						ng-repeat="item in systemMenu.items | orderBy: 'position'" 
+						ng-if="item.shouldRender(authentication.user);">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
 					</li>
 					<li ng-if="application.userCan.manageRoles">
 						<a href x-role-users-modal x-context="application">Edit System Roles</a>
 					</li>
 					<li ng-if="application.userCan.managePermissions">
-						<a href x-role-permissions-modal x-context="application" x-object="application" >Edit System Permissions</a>
+						<a href x-role-permissions-modal x-context="application" x-object="application">Edit System Permissions</a>
 					</li>
-        </ul>
+				</ul>
 			</li>
-      <!--
-		  this is meant to be a temporary option, strictly limited to the admin role, apis are locked to admin role.
-		  once project is loaded and running, this option can be removed.
-	    -->
-      <li class="custom-nav-item dropdown" ng-if="'true' === ADMIN_FEATURES.enableImportMenu && (authentication.user && authentication.user.roles.indexOf ('admin') !== -1)">
-        <a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="Administration">
-          <span class="glyphicon glyphicon-cog"></span>
-          <span>ADMIN</span>
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
-          <li>
-            <a href x-modal-project-import x-project="import">Import</a>
-          </li>
-        </ul>
-      </li>
+			<!--
+			this is meant to be a temporary option, strictly limited to the admin role, apis are locked to admin role.
+			once project is loaded and running, this option can be removed.
+			-->
+			<li class="custom-nav-item dropdown" 
+				ng-if="'true' === ADMIN_FEATURES.enableImportMenu && (authentication.user && authentication.user.roles.indexOf ('admin') !== -1)">
+				<a class="dropdown-toggle" title="Administration"
+					ng-click="$event.preventDefault();" 
+					id="dropdownSystemMenu" 
+					data-toggle="dropdown" 
+					aria-haspopup="true"
+					aria-expanded="true">
+					<span class="glyphicon glyphicon-cog"></span>
+					<span>ADMIN</span>
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
+					<li>
+						<a href x-modal-project-import x-project="import">Import</a>
+					</li>
+				</ul>
+			</li>
 
 			<li class="custom-nav-item user-menu" ng-show="!authentication.user">
 				<a ui-sref="authentication.signin">
@@ -77,7 +76,12 @@
 			</li>
 
 			<li class="custom-nav-item user-menu dropdown" ng-show="authentication.user">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<a class="dropdown-toggle" 
+					ng-click="$event.preventDefault();" 
+					id="userMenu" 
+					data-toggle="dropdown" 
+					aria-haspopup="true"
+				 	aria-expanded="true">
 					<span class="glyphicon glyphicon-user"></span>
 					<span>{{ authentication.user.displayName }}</span>
 					<span class="caret"></span>
