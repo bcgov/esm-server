@@ -1,11 +1,12 @@
 'use strict';
-// =========================================================================
+
+//=========================================================================
 //
 // this is the data model (service). This is how all data
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('comment').factory ('CommentModel', function (ModelBase, moment, _) {
+angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment', '_', function ($q, ModelBase, moment, _) {
 	//
 	// build the model by extending the base model. the base model will
 	// have all the basic crud stuff built in
@@ -23,34 +24,64 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, moment, 
 		commentPeriodCommentsSync: function (periodId, commentLength) {
 			var self = this;
 			var start = 0, limit = 100;
-			var promises = [];
-			var res = [];
+			var requests = [];
 
+			// build up however many requests we need to save all comments...
 			do {
-				var obj = {
+				requests.push({
 					// primary query...
 					periodId: periodId,
 					start: start,
 					limit: limit
-				};
-				promises.push(
-					self.put ('/api/comments/period/' + periodId + '/perms/sync', obj).then(
-						function(data){
-							res.push({res: '/api/comments/period/' + periodId + '/perms/sync', data : obj, result: data});
-						})
-				);
+				});
 				start = start + limit;
 			}
 			while (start < commentLength);
 
+			// sequential loop, one request at a time, wait until each step completes.
+			function sequential(items, callback) {
+				var i = 0, d = $q.defer();
+				next();
+				return d.promise;
+
+				function next() {
+					if( i < items.length ) {
+						callback(items[i], i, items).then(
+							function() {
+								i++;
+								next();
+							},
+							onError
+						);
+					}
+					else {
+						d.resolve();
+					}
+				}
+				function onError(reason) {
+					d.reject(reason);
+				}
+			}
+
+			// make the actual http request, return a promise..
+			function makeRequest(item, index, list) {
+				//console.log('pcp comments sync request ', (index+1), ' of ', list.length);
+				return self.put ('/api/comments/period/' + item.periodId + '/perms/sync', item);
+			}
+
+
 			return new Promise(function(resolve, reject) {
-				Promise.all(promises)
-					.then(function () {
-						resolve(res);
-					}, function(err) {
+				sequential(requests, makeRequest)
+					.then(function() {
+						//console.log('pcp comments sync done.');
+						resolve();
+					})
+					.catch(function(err) {
+						console.log('pcp comments sync error... reject ', JSON.stringify(err));
 						reject(err);
 					});
-				});
+			});
+
 		},
 		commentPeriodPermissionsSync: function (periodId, commentLength) {
 			// if we change vetting/classification roles on a Period, we need to adjust all children permissions
@@ -278,6 +309,6 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, moment, 
 		}
 	});
 	return new Class ();
-});
+}]);
 
 
