@@ -1,0 +1,80 @@
+
+<div class="fb-upload-container">
+	
+	<!-- UPLOAD TARGET -->
+	<div class="fb-upload-target-container">
+
+		<!-- UPLOAD TARGET -->
+		<div class="fb-upload-target" 
+			ngf-drop 
+			ngf-select
+			ng-model="files"
+			ngf-drag-over-class="fb-upload-target-hover"
+			ngf-multiple="true"
+			ngf-allow-dir="true">
+			<div class="fb-upload-target-content">
+				<span class="glyphicon glyphicon-open icon-default"></span>
+				<span class="fb-upload-target-msg"><b>Drag &amp; Drop</b> or <b>browse files</b> to upload.</span>
+			</div>
+			<div class="fb-upload-target-border"></div>
+		</div>
+
+		<!-- UPLOAD STATUS -->
+		<div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed"></div>
+	</div>
+
+	<!-- FILE BROWSER -->
+	<div class="file-browser" ng-if="uploadService.fileList != 0">
+		<div class="fb-body">
+			
+			<!-- FILE BROWSER LIST -->
+			<div class="fb-list">
+
+				<div class="column-header">
+					<div class="col name-col first-col">
+						<span>Name</span>
+					</div>
+					<div class="col file-size-progress-col">
+						<span>File Size</span>
+					</div>
+				</div>
+				
+				<ul>
+					<li class="fb-list-item" ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
+						<span class="fb-col-group">							
+							<span class="col name-col first-col">
+								<span class="avatar">
+									<span class="fb-success glyphicon glyphicon-ok" ng-if="f.uploaded"></span>
+									<span class="fb-error glyphicon glyphicon-alert" ng-if="f.failed"></span>
+									<span class="fb-error glyphicon glyphicon-warning-sign" ng-if="f.cancelled"></span>
+									<span class="fb-file glyphicon glyphicon-file" ng-if="!f.uploaded && !f.failed"></span>
+								</span>
+								{{f.name}}
+							</span>
+							<span class="col file-size-progress-col last-col">
+								<div class="progress-container">
+									<div class="progress-msg">
+										<span ng-if="f.progress && f.progress < 100">{{f.progress}}% of </span> 
+										<span>{{f.size | bytes:2}}</span>
+										<span ng-if="f.progress == 100"> - {{f.status}}</span>
+									</div>
+									<div class="progress">
+										<div class="progress-bar" ng-style="{'width' : f.progress + '%'}" title="{{f.progress}}%" role="progressbar"></div>
+									</div>
+								</div>
+								<button class="btn icon-btn"
+									ng-click="uploadService.removeFile(f)"
+									ng-disabled="uploadService.actions.busy || uploadService.actions.completed">
+									<span class="glyphicon glyphicon-trash"></span>
+								</button>
+							</span>
+						</span>
+					</li>
+				</ul>
+
+			</div><!-- / FILE BROWSER LIST -->
+
+		</div>
+	</div><!-- / FILE BROWSER BODY -->
+
+</div>

@@ -47,7 +47,8 @@ module.exports = {
         'public/lib/ng-pdfviewer/ng-pdfviewer.js',
         'public/lib/ng-pdfviewer/pdf.js',
         'public/lib/ng-pdfviewer/compatibility.js',
-	'public/readable-range.js'
+	'public/readable-range.js',
+        'public/lib/tree-model-bower/dist/TreeModel-min.js',
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
@@ -58,7 +59,7 @@ module.exports = {
       'modules/*/client/less/*.less'
     ],
     sass: [
-      'modules/*/client/scss/*.scss'
+      'modules/core/client/scss/*.scss'
     ],
     js: [
       'modules/core/client/app/config.js',

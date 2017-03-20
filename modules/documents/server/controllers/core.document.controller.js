@@ -15,6 +15,7 @@ var DocumentModel 	= mongoose.model ('Document');
 module.exports = DBModel.extend ({
 	name : 'Document',
 	plural : 'documents',
+	populate: [{ path: 'addedBy', select: '_id displayName username email orgName' }, { path: 'updatedBy', select: '_id displayName username email orgName' }],
 	// -------------------------------------------------------------------------
 	//
 	// this is what happens before hte new document is saved, any last minute
@@ -55,6 +56,113 @@ module.exports = DBModel.extend ({
 			}
 			return doc;
 		});
+	},
+	preprocessUpdate: function(doc) {
+		// logic here if we set specific document types...
+		switch(doc.documentType) {
+			case 'Inspection Report':
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Certificate':
+				doc.inspectionReport = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Certificate Amendment':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Permit':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Permit Amendment':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Mine Manager Response':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Annual Report':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Annual Reclamation Report' :
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.damSafetyInspection = null;
+				break;
+			case 'Dam Safety Inspection':
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				break;
+			default:
+				doc.inspectionReport = null;
+				doc.certificate = null;
+				doc.certificateAmendment = null;
+				doc.permit = null;
+				doc.permitAmendment = null;
+				doc.mineManagerResponse  = null;
+				doc.annualReport = null;
+				doc.annualReclamationReport = null;
+				doc.damSafetyInspection = null;
+				break;
+		}
+		return doc;
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -246,6 +354,20 @@ module.exports = DBModel.extend ({
 			internalOriginalName : doc.internalOriginalName
 		});
 	},
+	getEpicProjectFolderURL: function (data) {
+		// console.log("looking for projectFolderURL:", data.url);
+		return new Promise (function (resolve, reject) {
+			DocumentModel.findOne ({projectFolderURL: data.url}, function (err, result) {
+				if (result !== null) {
+					// console.log("found the document:", result._id);
+					resolve(result);
+				} else {
+					// console.log("Document not found");
+					resolve(null);
+				}
+			});
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// get all documents from a supplied list
@@ -357,7 +479,8 @@ module.exports = DBModel.extend ({
 																			  ARCS_ORCS_FILE_NUMBER: row.ARCS_ORCS_FILE_NUMBER,
 																			  WHEN_CREATED: row.WHEN_CREATED,
 																			  WHO_UPDATED: row.WHO_UPDATED,
-																			  WHEN_UPDATED: row.WHEN_UPDATED})
+																			  WHEN_UPDATED: row.WHEN_UPDATED}),
+									displayName : row.FILE_NAME
 								};
 								// console.log("pushing:", newObj);
 								promises.push(newObj);

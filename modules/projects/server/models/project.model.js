@@ -40,7 +40,9 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 		//'createProjectUpdate',
 		//'createProjectGroup',
 		'publish',
-		'unPublish'
+		'unPublish',
+		'manageFolders',
+		'manageDocumentPermissions'
 	],
 	__tracking            : true,
 	__status              : ['Initiated', 'Submitted', 'In Progress', 'Certified', 'Not Certified', 'Decommissioned'],
@@ -141,5 +143,6 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	memPermitID          : { type:String, default: '', index:true},  // Used to relate mem permitID on import
 	commodity            : { type: String, default: '' },
 	tailingsImpoundments : { type: String, default: '' },
-	epicStream 			 : { type: String, default: '' }
+	epicStream 			 : { type: String, default: '' },
+	directoryStructure   : { type: Object, default: null }
 });

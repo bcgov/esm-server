@@ -119,41 +119,18 @@
 		<div class="panel-heading flex-row">
 			<h2>Documents</h2>
 			<div class="actions">
-				<a href class="btn btn-default btn-sm"
-					x-modal-document-upload-classify
-					x-project="docBrowser.project"
-           			x-artifact="docBrowser.artifact"
-           			x-doc-location-code="docBrowser.docLocationCode"
-					ng-if="docBrowser.project.userCan.createDocument && environment === 'EAO'"><span class="glyphicon glyphicon-open"></span><span>Upload Documents</span></a>
-				<a href class="btn btn-default btn-sm"
-					x-modal-document-upload-classify-mem
-					x-project="docBrowser.project"
-           			x-artifact="docBrowser.artifact"
-           			x-doc-location-code="docBrowser.docLocationCode"
-					ng-if="(docBrowser.authentication.user) && environment === 'MEM'"><span class="glyphicon glyphicon-open"></span><span>Upload Documents</span></a>
 			</div>
 		</div>
 		<div class="file-browser clearfix">
 
 			<!-- FOLDER HIERARCHY -->
 			<div class="col-sm-6 col-md-4 file-browser-list">
-				<ul ng-if="environment === 'EAO'">
-					<li class="file-browser-category clickable"
+				<ul>
+					<li class="row-folder clickable row-folder-depth-{{ row.depth }}"
 						ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}"
 						ng-click="docBrowser.filterList(row)"
-						ng-hide="row.label === 'Not Specified'"
-						ng-repeat="row in docBrowser.docTypes"
-						ng-if="row.label === 'ARTIFACT'">
-						Recent Documents
-					</li>
-				</ul>
-				<div class="file-browser-category" ng-if="environment === 'EAO'">Documents</div>
-				<ul>
-					<li class="row-folder clickable row-folder-depth-{{ row.depth }}" ng-class="{'active btn-primary': docBrowser.filterDocsSelected(row)}"
-						ng-click="docBrowser.filterList(row)"
 						ng-hide="row.label === 'Not Specified' || !row.render"
-						ng-repeat="row in docBrowser.docTypes"
-						ng-if="row.label != 'ARTIFACT'">
+						ng-repeat="row in docBrowser.docTypes">
 						<span class="glyphicon glyphicon-folder-{{row.state}}"></span>
 						{{ row.label }}
 					</li>
@@ -163,7 +140,8 @@
 			<!-- DOCUMENT LIST -->
 			<div class="col-sm-6 col-md-4 file-browser-list">
 				<ul>
-					<li class="row-document clickable" ng-class="{'active btn-primary': filterSummary._id === doc._id}"
+					<li class="row-document clickable"
+						ng-class="{'active btn-primary': filterSummary._id === doc._id}"
 						ng-click="docBrowser.filterSummary(doc)"
 						ng-hide="doc.documentSource === 'COMMENT'"
 						ng-repeat="doc in docBrowser.documentFiles | filter:filterLinage:true">
@@ -249,7 +227,7 @@
 							x-modal-pdf-viewer
 							x-pdfobject="filterSummary"
 							title="Open Document">
-							<span class="glyphicon glyphicon-eye-open"></span></div>
+							<span class="glyphicon glyphicon-new-window"></span></div>
 						<a class="btn btn-default btn-sm" href="/api/document/{{ filterSummary._id }}/fetch" target="_self" title="Download Document">
 							<span class="glyphicon glyphicon-download-alt"></span></a>
 						<a class="btn btn-default btn-sm" href ng-click="docBrowser.deleteDocument(filterSummary._id)" ng-if="(filterSummary.userCan.delete)" title="Delete Document">

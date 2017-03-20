@@ -12,7 +12,8 @@ angular.module('documents')
 	.directive('modalDocumentLink', directiveModalDocumentLink)
 	.directive('modalPdfViewer', directiveModalPdfViewer)
 	.directive('modalDocumentUploadClassifyMem', directiveModalDocumentUploadClassifyMem)
-	.directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify);
+	.directive('modalDocumentUploadClassify', directiveModalDocumentUploadClassify)
+	.directive('modalDocumentInstructions', directiveModalDocumentInstructions);
 
 	// .directive('modalDocumentViewer', directiveModalDocumentViewer)
 	// .directive('modalDocumentBuckets', directiveModalDocumentBuckets);
@@ -56,7 +57,8 @@ function directiveDocumentsLink() {
 			type: '@',  //project or comment
 			current: '=',
 			parentId: '=',
-			docLocationCode: '='
+			docLocationCode: '=',
+			documentsControl: '='
 		},
 		controller: 'controllerDocumentLinkGlobal',
 		controllerAs: 'docLink'
@@ -105,7 +107,8 @@ function directiveDocumentsUploadClassify() {
 			type: '@',  //project or comment
 			hideUploadButton: '=',
 			parentId: '=',
-			docLocationCode: '='
+			docLocationCode: '=',
+			documentsControl: '='
 		},
 		controller: 'controllerDocumentUploadGlobal',
 		controllerAs: 'docUpload'
@@ -178,7 +181,8 @@ function directiveDocumentsBrowser() {
 			artifact: '=',
 			allowLink: '@',
 			approvals: '@',
-			docLocationCode: '@'
+			docLocationCode: '@',
+			documentsControl: '='
 		}
 	};
 
@@ -248,7 +252,8 @@ function directiveModalDocumentLink($modal, $rootScope) {
 			project: '=',
 			artifact: '=',
 			current: '=',
-			docLocationCode: '='
+			docLocationCode: '=',
+			documentsControl: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -267,6 +272,9 @@ function directiveModalDocumentLink($modal, $rootScope) {
 						rCurrent: function() { return scope.current; },
 						rDocLocationCode: function() { 
 							return scope.docLocationCode; 
+						},
+						rDocumentsControl: function() {
+							return scope.documentsControl;
 						}
 					}
 				});
@@ -291,7 +299,8 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 		scope: {
 			project: '=',
 			artifact: '=',
-			docLocationCode: '='
+			docLocationCode: '=',
+			documentsControl: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -308,6 +317,9 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 						},
 						rDocLocationCode: function() {
 							return scope.docLocationCode;
+						},
+						rDocumentsControl: function() {
+							return scope.documentsControl;
 						}
 					}
 				});
@@ -330,9 +342,7 @@ function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope: {
-			project: '=',
-			artifact: '=',
-			docLocationCode: '='
+			project: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -343,14 +353,7 @@ function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
 					controllerAs: 'docUploadModal',
 					size: 'lg',
 					resolve: {
-						rProject: function() {
-							return scope.project;
-						},
-						rArtifact: function() {
-							return scope.artifact;
-						},rDocLocationCode: function() {
-							return scope.docLocationCode;
-						}
+						rProject: function() { return scope.project; }
 					}
 				});
 				modalDocUpload.result.then(function (data) {
@@ -429,3 +432,36 @@ function directiveModalDocumentUploadReview($modal, $rootScope) {
 //     };
 //     return directive;
 // }
+
+
+
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Display instructions for user
+//
+// -----------------------------------------------------------------------------------
+directiveModalDocumentInstructions.$inject = ['$modal'];
+/* @ngInject */
+function directiveModalDocumentInstructions($modal) {
+	var directive = {
+		restrict:'A',
+		scope: {
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			element.on('click', function() {
+				var modalDocInstructions = $modal.open({
+					animation: true,
+					templateUrl: 'modules/documents/client/views/partials/modal-document-instructions.html',
+					controller: 'controllerModalDocumentInstructions',
+					controllerAs: 'instruct',
+					size: 'lg'
+				});
+				modalDocInstructions.result.then(function (data) {
+					// do nothing
+				}, function () {});
+			});
+		}
+	};
+	return directive;
+}

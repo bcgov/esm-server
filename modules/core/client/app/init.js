@@ -239,6 +239,24 @@ angular.element(document).ready(function () {
 	  (window.location.port ? ':' + window.location.port : '');
   }
 
-	//Then init the app
-	angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+	function fetchInitData() {
+		var initInjector = angular.injector(["ng"]);
+		var $http = initInjector.get("$http");
+
+		// Get the stored Code Lists
+		// make them available to the CodeList service (which can parse / refresh as necessary)
+		return $http.get('api/codelists?date=' + new Date().getTime()).then(function(response) {
+			angular.module(ApplicationConfiguration.applicationModuleName).constant("INIT_DATA.CODE_LISTS", response.data);
+		}, function(errorResponse) {
+			console.log('Error ', errorResponse);
+		});
+	}
+
+	function bootstrapApplication() {
+		angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+	}
+
+	fetchInitData()
+	.then(bootstrapApplication);
+
 });

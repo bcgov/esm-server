@@ -14,7 +14,7 @@ module.exports = function (app) {
 	//
 	// get put new delete
 	//
-	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete'], {all:'guest',get:'guest'});
+	routes.setCRUDRoutes (app, 'document', DocumentClass, policy, ['get','put','new', 'delete', 'query'], {all:'guest',get:'guest'});
 	// Import via CSV
 	app.route ('/api/documents/import')
 		.all (policy ('guest'))
@@ -110,13 +110,11 @@ module.exports = function (app) {
 				if (req.Document.documentFileFormat && !req.Document.internalOriginalName.endsWith(req.Document.documentFileFormat)) {
 					name = req.Document.internalOriginalName + "." + req.Document.documentFileFormat;
 				}
-				var obj = {
+				routes.streamFile (res, {
 					file : req.Document.internalURL,
 					name : name,
 					mime : req.Document.internalMime
-				};
-				console.log("obj:", obj);
-				routes.streamFile (res, obj);
+				});
 			}
 		});
 	//
@@ -137,20 +135,20 @@ module.exports = function (app) {
 							// See the document.model.js for descriptions of the parameters to supply.
 							project                 : req.Project,
 							//projectID             : req.Project._id,
-							projectFolderType       : req.headers.documenttype,//req.headers.projectfoldertype,
-							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
-							projectFolderName       : req.headers.documentfoldername,
-							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
-							projectFolderDatePosted : Date.now(),//req.headers.projectfolderdateposted,
+							projectFolderType       : req.body.documenttype,//req.body.projectfoldertype,
+							projectFolderSubType    : req.body.documentsubtype,//req.body.projectfoldersubtype,
+							projectFolderName       : req.body.documentfoldername,
+							projectFolderURL        : newFilePath,
+							projectFolderDatePosted : Date.now(),
 							// NB                   : In EPIC, projectFolders have authors, not the actual documents.
-							projectFolderAuthor     : req.headers.projectfolderauthor,
+							projectFolderAuthor     : req.body.projectfolderauthor,
 							// These are the data as it was shown on the EPIC website.
-							documentAuthor          : req.headers.documentauthor,
-							documentFileName        : req.headers.documentfilename,
-							documentFileURL         : req.headers.documentfileurl,
-							documentFileSize        : req.headers.documentfilesize,
-							documentFileFormat      : req.headers.documentfileformat,
-							documentIsInReview      : req.headers.documentisinreview,
+							documentAuthor          : req.body.documentauthor,
+							documentFileName        : req.body.documentfilename,
+							documentFileURL         : req.body.documentfileurl,
+							documentFileSize        : req.body.documentfilesize,
+							documentFileFormat      : req.body.documentfileformat,
+							documentIsInReview      : req.body.documentisinreview,
 							documentVersion         : 0,
 							documentSource			: 'COMMENT',
 							// These are automatic as it actually is when it comes into our system
@@ -160,7 +158,8 @@ module.exports = function (app) {
 							internalMime            : file.mimetype,
 							internalExt             : file.extension,
 							internalSize            : file.size,
-							internalEncoding        : file.encoding
+							internalEncoding        : file.encoding,
+							directoryID             : req.body.directoryid || 0
 						});
 					})
 					.then (resolve, reject);
@@ -176,36 +175,56 @@ module.exports = function (app) {
 	app.route ('/api/document/:project/upload').all (policy ('guest'))
 		.post (routes.setAndRun (DocumentClass, function (model, req) {
 			return new Promise (function (resolve, reject) {
-				var publishAfterUpload = req.headers.publishafterupload;
+				console.log("incoming upload");
 				var file = req.files.file;
-				if (file) {
+				if (file && file.originalname === 'this-is-a-file-that-we-want-to-fail.xxx') {
+					reject('Fail uploading this file.');
+				} else if (file) {
 					var opts = { oldPath: file.path, projectCode: req.Project.code};
+					console.log("moving:", opts);
 					routes.moveFile (opts)
 					.then (function (newFilePath) {
+						console.log("moving complete");
 						var readPermissions = null;
 						if (req.headers.internaldocument) {
 							// Force read array to be this:
-							readPermissions = ['sysadmin', 'team', 'project-lead'];
+							readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
 						}
+						var datePosted, dateReceived = Date.now();
+						console.log("new Date(req.headers.datereceived)", new Date(req.headers.datereceived));
+						// Allow override of date posting/received
+						if (req.headers.dateposted) {
+							datePosted = new Date(req.headers.dateposted);
+						}
+						if (req.headers.datereceived) {
+							dateReceived = new Date(req.headers.datereceived);
+						}
+						console.log("creating model");
 						return model.create ({
 							// Metadata related to this specific document that has been uploaded.
 							// See the document.model.js for descriptions of the parameters to supply.
 							project                 : req.Project,
 							//projectID             : req.Project._id,
-							projectFolderType       : req.headers.documenttype,//req.headers.projectfoldertype,
-							projectFolderSubType    : req.headers.documentsubtype,//req.headers.projectfoldersubtype,
-							projectFolderName       : req.headers.documentfoldername,
-							projectFolderURL        : newFilePath,//req.headers.projectfolderurl,
-							projectFolderDatePosted : Date.now(),//req.headers.projectfolderdateposted,
+							projectFolderType       : req.body.documenttype,//req.body.projectfoldertype,
+							projectFolderSubType    : req.body.documentsubtype,//req.body.projectfoldersubtype,
+							projectFolderName       : req.body.documentfoldername,
+							projectFolderURL        : newFilePath,
+							datePosted 				: datePosted,
+							dateReceived 			: dateReceived,
+							
+							// Migrated from old EPIC
+							oldData            		: req.body.olddata,
+
 							// NB                   : In EPIC, projectFolders have authors, not the actual documents.
-							projectFolderAuthor     : req.headers.projectfolderauthor,
+							projectFolderAuthor     : req.body.projectfolderauthor,
 							// These are the data as it was shown on the EPIC website.
-							documentAuthor          : req.headers.documentauthor,
-							documentFileName        : req.headers.documentfilename,
-							documentFileURL         : req.headers.documentfileurl,
-							documentFileSize        : req.headers.documentfilesize,
-							documentFileFormat      : req.headers.documentfileformat,
-							documentIsInReview      : req.headers.documentisinreview,
+							documentEPICProjectId 	: req.body.documentepicprojectid,
+							documentAuthor          : req.body.documentauthor,
+							documentFileName        : req.body.documentfilename,
+							documentFileURL         : req.body.documentfileurl,
+							documentFileSize        : req.body.documentfilesize,
+							documentFileFormat      : req.body.documentfileformat,
+							documentIsInReview      : req.body.documentisinreview,
 							documentVersion         : 0,
 							// These are automatic as it actually is when it comes into our system
 							internalURL             : newFilePath,
@@ -214,16 +233,18 @@ module.exports = function (app) {
 							internalMime            : file.mimetype,
 							internalExt             : file.extension,
 							internalSize            : file.size,
-							internalEncoding        : file.encoding
-						}, req.headers.inheritmodelpermissionid, readPermissions)
-						.then (function (doc) {
-							if (publishAfterUpload) {
-								console.log("publishing document automatically");
-								return model.publish(doc);
-							} else {
-								return doc;
-							}
-						});
+							internalEncoding        : file.encoding,
+							directoryID             : req.body.directoryid || 0,
+							displayName             : req.body.displayname || req.body.documentfilename || file.originalname,
+							dateUploaded            : req.body.dateuploaded
+						}, req.headers.inheritmodelpermissionid, readPermissions);
+					})
+					.then(function (d) {
+						if (req.headers.publishafterupload === 'true') {
+							return model.publish(d);
+						} else {
+							return d;
+						}
 					})
 					.then (resolve, reject);
 				}
@@ -232,5 +253,19 @@ module.exports = function (app) {
 				}
 			});
 		}));
+
+	app.route('/api/publish/document/:document').all(policy('user'))
+		.put(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.publish(req.Document);
+		}));
+	app.route('/api/unpublish/document/:document').all(policy('user'))
+		.put(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.unpublish(req.Document);
+		}));
+	app.route('/api/getDocumentByEpicURL').all(policy('guest'))
+		.put(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.getEpicProjectFolderURL(req.body);
+		}));
+
 };
 

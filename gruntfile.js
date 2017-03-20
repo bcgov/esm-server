@@ -11,18 +11,8 @@ var _ = require('lodash'),
 
 module.exports = function (grunt) {
 	// Project Configuration
-	var LOGO = "";
-	if (process.env.ENVIRONMENT === 'MEM') {
-			LOGO = 'modules/core/client/img/brand/mem-logo-inverted.png'; // EAO Logo
-	} else {
-			LOGO = 'modules/core/client/img/brand/bc_logo_transparent.png'; // BC Logo
-	}
-	var ENV = "";
-	if (process.env.ENVIRONMENT) {
-		ENV = process.env.ENVIRONMENT;
-	} else {
-		ENV = "EAO";
-	}
+	var LOGO = 'modules/core/client/img/brand/bc_logo_transparent.png'; // BC Logo
+	var ENV = "MEM";
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -37,28 +27,28 @@ module.exports = function (grunt) {
 					'ENV': ENV,
 					'LOGO': LOGO,
 					'ADMIN_FEATURES': {
-						enableImportMenu: process.env.ADMIN_ENABLE_IMPORT_MENU,
-						enableSystemMenu: process.env.ADMIN_ENABLE_SYSTEM_MENU,
-						enableEmailTemplates: process.env.ADMIN_ENABLE_EMAIL_TEMPLATES,
-						enableOrganizations: process.env.ADMIN_ENABLE_ORGANIZATIONS,
-						enableNews: process.env.ADMIN_ENABLE_NEWS,
-						enableTemplates: process.env.ADMIN_ENABLE_TEMPLATES,
-						enableVcs: process.env.ADMIN_ENABLE_VCS,
-						enableContacts: process.env.ADMIN_ENABLE_CONTACTS,
-						enablePrototype: process.env.ADMIN_ENABLE_PROTOTYPE
+						enableImportMenu: 'true',
+						enableSystemMenu: 'true',
+						enableEmailTemplates: 'true',
+						enableOrganizations: 'true',
+						enableNews: 'true',
+						enableTemplates: 'true',
+						enableVcs: 'true',
+						enableContacts: 'true',
+						enablePrototype: 'false'
 					},
 					'FEATURES': {
-						enableTimeline: process.env.PROJECT_ENABLE_TIMELINE,
-						enableDocuments: process.env.PROJECT_ENABLE_DOCUMENTS,
-						enableInvitations: process.env.PROJECT_ENABLE_INVITATIONS,
-						enableGroups: process.env.PROJECT_ENABLE_GROUPS,
-						enableUpdates: process.env.PROJECT_ENABLE_UPDATES,
-						enableComplaints: process.env.PROJECT_ENABLE_COMPLAINTS,
-						enableConditions: process.env.PROJECT_ENABLE_CONDITIONS,
-						enableCompliance: process.env.PROJECT_ENABLE_COMPLIANCE,
-						enableVcs: process.env.PROJECT_ENABLE_VCS,
-						enableSchedule: process.env.PROJECT_ENABLE_SCHEDULE,
-						enablePcp: process.env.PROJECT_ENABLE_PCP
+						enableTimeline: 'true',
+						enableDocuments: 'true',
+						enableInvitations: 'true',
+						enableGroups: 'true',
+						enableUpdates: 'true',
+						enableComplaints: 'true',
+						enableConditions: 'true',
+						enableCompliance: 'true',
+						enableVcs: 'true',
+						enableSchedule: 'true',
+						enablePcp: 'true'
 					}
 				}
 			}

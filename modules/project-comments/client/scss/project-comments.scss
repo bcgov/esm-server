@@ -1,0 +1,358 @@
+
+$pcp-alert-bg: #003366;
+$pcp-alert-color: #fff;
+$pcp-btn-border: 1px solid #5091cd;
+$pcp-btn-bg: #5091cd;
+$pcp-btn-hover-bg: #96c0e6;
+$pcp-btn-color: #fff;
+$pcp-btn-text-shadow: 1px 1px 0 #3c85c7;
+$pcp-text-shadow: 1px 1px 1px #3478b6;
+
+.pcp-alert-container {
+    margin-bottom: 2rem;
+}
+
+// Public Comment Period Alert Banner
+.pcp-alert {
+    @include flexbox();
+    flex-direction: column;
+    padding: 2rem;
+	background: $pcp-alert-bg;
+	color: $pcp-alert-color;
+    text-align: center;
+
+    .pcp-alert-info {
+        @include flex(1 1 auto);
+
+        h2 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .pcp-dates {
+            margin-top: 1rem;
+            display: block;
+            color: $pcp-btn-color;
+            font-size: 1.2rem;
+        }
+    }
+
+    .pcp-alert-btns {
+        @include flexbox();
+        @include flex(0 0 auto);
+        margin-top: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+
+        .btn {
+            @include flex(1 1 auto);
+            padding: 1rem;
+            border: $pcp-btn-border;
+            background-color: $pcp-btn-bg;
+            color: $pcp-btn-color;
+            text-shadow: $pcp-btn-text-shadow;
+            font-size: 1.25rem;
+            font-weight: normal;
+            transition: background ease-out 0.2s;
+
+            
+            &:hover { 
+                background: $pcp-btn-hover-bg;
+            } 
+            
+            .glyphicon {
+                margin-top: -0.5rem;
+                margin-right: 0.2rem;
+                margin-left: -0.1rem;
+                vertical-align: middle;
+                font-size: 1.2rem;
+            }
+        }
+
+        .pcp-btn-spacer {
+            @include flex(1 1 auto); 
+            margin: 0.25rem;
+            text-align: center;
+        }
+    }
+}
+
+@media (min-width: 410px) {
+    .pcp-alert {
+        .pcp-alert-info {
+            h2 {
+                font-size: 2rem;
+            }
+
+            .pcp-dates {
+                margin-top: 0.25rem;
+            }
+        }
+
+        .pcp-alert-btns {
+            flex-direction: row;
+            text-align: center;
+
+            .pcp-btn-spacer {
+                margin-top: 1.1rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 700px) {
+    .pcp-alert {
+        flex-direction: row;
+        text-align: left;
+
+        .pcp-alert-info {
+            margin-right: 1rem;
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .pcp-dates {
+                margin-top: 0;
+                font-size: 1.6rem;
+            }
+        }
+
+        .pcp-alert-btns {
+            display: block;
+            margin-top: 0;
+
+            .btn {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .pcp-btn-spacer {
+                margin-right: 0.5rem;
+                margin-left: 0.5rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .pcp-alert {
+        .pcp-alert-info {
+            h2 {
+                font-size: 2.1rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .pcp-alert {
+        .pcp-alert-info {
+            h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        .pcp-alert-btns {
+            @include flex(0 0 auto);
+            margin-top: 0;
+
+            .btn {
+                padding: 1.3rem 1.75rem;
+                font-size: 1.55rem;
+
+                .glyphicon {
+                    margin-top: -0.4rem;
+                    margin-right: 0.2rem;
+                    margin-left: -0.1rem;
+                    vertical-align: middle;
+                    font-size: 1.5rem;
+                }
+            }
+
+            .pcp-btn-spacer {
+                margin: 0 0.5rem;
+            }
+        }
+    }
+}
+
+// Public Comment Period Details
+.pcp-details {
+	padding: 2.5rem 2rem;
+	background-color: #FFF;
+
+    .pcp-about {
+		p {
+			margin: 0;
+			font-size: 1.4rem;
+			line-height: 2.2rem;
+		}
+	}
+}
+
+
+// List of Public Comment Periods
+.pcp-table {
+    td, th {
+        &:first-child {
+            padding-left: 1.25rem;
+        }
+    }
+
+    .status-col {
+        width: 7.5rem;
+
+        .glyphicon {
+            margin-top: 1.4rem;
+            font-size: 1.8rem;
+        }
+    }
+
+    td.status-col {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+
+
+// Comments Table
+.comment-table {
+    .id-col {
+        width: 5rem;
+        text-align: center;
+    }
+
+    .author-col {
+        .author-name {
+            display: block;
+            padding-right: 15rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: bold;
+        }
+    }  
+
+    .date-col {
+        width: 16rem; 
+        text-align: right;
+    }
+
+    .attachment-icon {
+        margin-top: -0.4rem;
+        margin-right: 1rem;
+        vertical-align: middle;
+    }
+
+    .comment {
+        display: block;
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 460px) {
+    .comment-table {
+        id-col {
+            width: 5rem;
+        }
+    }
+}
+
+@media (max-width: 1199px) {
+    .comment-table {
+        display: block;
+
+        thead, tfoot {
+            display: table;
+            width: 100%;
+
+            tr {
+                display: table-row;
+            }
+        }
+
+        tbody {
+            display: block;
+
+            tr {
+                position: relative;
+                display: block;
+            }
+        } 
+
+        .location-col,
+        .pillar-col,
+        .vc-col {
+            display: none;
+        }
+
+        td.date-col {
+            position: absolute;
+            top: 0;
+            right: 0;
+
+            .date {
+                margin-top: 1px;
+                font-size: 1.1rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 760px) {
+    .comment-table {
+        .id-col {
+            width: 8rem;
+        }
+
+        .date-col {
+            width: 20rem;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .comment-table { 
+        .location-col {
+            width: 12rem;
+        }
+
+        .pillar-col {
+            width: 11rem;
+        }
+
+        .vc-col {
+            width: 15rem;
+        }
+    }
+}
+
+.pcp-date {
+    max-width: 100%;
+}
+
+// Open House Dates
+.open-house-table {
+    thead {
+        > tr {
+            > th {
+                padding-left: 1.5rem !important;
+            }
+        }
+    }
+
+    tbody {
+        > tr {
+            > td {
+                vertical-align: top;
+                padding-left: 1.5rem !important;
+            }
+        }
+    }
+
+    .date-col {
+        width: 18rem;
+        font-weight: 700;
+    }
+}

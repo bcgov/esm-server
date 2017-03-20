@@ -1,0 +1,15 @@
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" ng-click="linkModal.cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">{{linkModal.title}}</h3>
+</div>
+
+<div class="modal-body">
+	<x-document-mgr-link x-project="project" x-linked-files="linkModal.linkedFiles" x-published-only="linkModal.publishedOnly">
+</div>
+
+<div class="modal-footer clearfix">
+	<button class="btn btn-default" type="button" ng-click="linkModal.cancel()">Cancel</button>
+	<button class="btn btn-primary" type="button" ng-click="linkModal.ok()">OK</button>
+</div>

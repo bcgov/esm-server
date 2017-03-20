@@ -1,0 +1,152 @@
+
+<section class="fb-link-select-files">
+    <div class="file-browser">
+        <label>Select one or more files to link to this content</label>
+        <div class="fb-header">
+            <ul class="fb-breadcrumbs">
+                <li ng-repeat="node in documentMgr.currentPath">
+                    <button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
+                        <span class="root-icon glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+                        <span class="back-icon glyphicon glyphicon-menu-left"></span>
+                        <span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+                    </button>
+                </li>
+            </ul>
+            <div class="file-batch-actions">
+            </div>
+        </div>
+
+        <div id="fbBody" class="fb-body" ng-class="{'panel-open': documentMgr.infoPanel.open}">
+
+            <div class="fb-list">
+
+                <!-- Load the File/Folder Directory -->
+                <!-- TODO: Remove 'hidden' selector when complete -->
+                <div class="spinner-container" ng-show="documentMgr.busy">
+			        <div class="spinner-new rotating"></div>
+                </div>
+                
+                <!-- Column Header -->
+                <div class="column-header">
+                    <span class="col checkbox-col" ng-if="authentication.user">
+                        <input id="select-all" type="checkbox" title="Select All / None" ng-model="documentMgr.allChecked" ng-click="documentMgr.linkAll()"/>
+                        <label for="select-all">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </label>
+                    </span>
+
+                    <div class="fb-col-group">
+                        <div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
+                            <span>Name</span>
+                            <span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
+                        </div>
+                        <div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
+                            <span>Type</span>
+                            <span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
+                        </div>
+                        <div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
+                            <span>Size</span>
+                            <span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
+                        </div>
+
+                        <div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user && publishedOnly !== 'true'">
+                            <span>Status</span>
+                            <span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
+                        </div>
+                    </div>
+                </div><!-- / Column Header -->
+
+                <div class="scroll-container">
+                    <div class="scroll-container-inner">
+                        <div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
+                        <ul>
+                            <li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentDirs">
+                                <span class="col checkbox-col" ng-if="authentication.user">
+
+                                </span>
+                                <span class="fb-col-group"
+                                        ng-click="$event.originalEvent.dropdown || documentMgr.selectDir(doc)"
+                                        ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)" title="{{doc.model.name}}">
+                                    <span class="col name-col first-col">
+                                        <span class="avatar">
+                                            <span class="fb-folder glyphicon glyphicon-folder-close"></span>
+                                        </span>
+                                        <span class="name">
+                                            {{ doc.model.name }}
+                                        </span>
+                                    </span>
+                                    <span class="col type-col">---</span>
+                                    <span class="col size-col">---</span>
+                                    <span class="col status-col last-col" ng-if="authentication.user && publishedOnly !== 'true'">---</span>
+                                    <div class="row-actions"></div>
+                                </span>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentFiles">
+                                <span class="col checkbox-col" ng-if="authentication.user">
+                                    <input id="{{doc._id}}" type="checkbox" ng-model="doc.selected" ng-click="documentMgr.linkFile(doc)"/>
+                                    <label for="{{doc._id}}" title="Select row">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </label>
+                                </span>
+                                <span class="fb-col-group"
+                                        ng-click="$event.originalEvent.dropdown || documentMgr.selectFile(doc)">
+                                    <span class="col name-col first-col" title="{{ doc.displayName | removeExtension }}">
+                                        <span class="avatar">
+                                            <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+                                            <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+                                        </span>
+                                        <span class="name">
+                                            {{ doc.displayName | removeExtension }}
+                                        </span>
+                                    </span>
+                                    <span class="col type-col">{{ doc.internalExt}}</span>
+                                    <span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
+                                    <span class="col status-col last-col" ng-if="authentication.user && publishedOnly !== 'true'">
+                                        <span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Linked Files Section -->
+<section>
+    <label>Linked Files ({{linkedFiles.length}})</label>
+    <div class="fb-body">
+        <div class="fb-list">
+            <ul>
+                <li class="fb-list-item" ng-if="linkedFiles.length == 0">
+                    <span class="col first-col">
+                        No Documents linked.
+                    </span>
+                </li>
+                <li class="fb-list-item" ng-repeat="doc in linkedFiles">
+                    <span class="fb-col-group">
+                        <span class="col name-col first-col">
+                            <span class="avatar">
+                                <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+                                <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+                            </span>
+                            {{doc.displayName}}
+                        </span>
+                        <div class="row-actions visible">
+                            <button class="btn icon-btn"
+                                ng-click="documentMgr.unlinkFile(doc)">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </div>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section><!-- / Linked Files Section -->

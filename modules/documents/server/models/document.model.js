@@ -98,14 +98,20 @@ module.exports = genSchema ('Document', {
 	__audit                 : true,  // who what when
 	__access                : ['publish', 'unPublish'],
 	project                 : { type:'ObjectId', ref:'Project', default:null },
+	directoryID             : { type:Number, default: 0 },
+
+	displayName             : { type: String, default: ''},
+	description             : { type:String, default:'' },
+	documentDate            : { type: Date, default: null },
+
 	dateAdded               : { type: Date, default: Date.now },
 	dateUpdated             : { type: Date, default: Date.now },
+	dateUploaded            : { type: Date, default: null },
+	datePosted 				: { type: Date, default: Date.now },
+	dateReceived			: { type: Date, default: Date.now },
+
 	updatedBy               : { type:'ObjectId', ref:'User', default:null },
-	projectFolderType       : { type:String, default:'' }, // r=/p=/w=/t=/a=/k=
-	projectFolderSubType    : { type:String, default:'' }, // abo/amd/etc.
-	projectFolderName       : { type:String, default:'' }, // Title of the folder that's within the Folder Type+SubType
 	projectFolderURL        : { type:String, default:'' }, // The specific DirectoryID instance of a collection of documents
-	projectFolderDatePosted : { type: Date, default: Date.now }, // We'll want to convert any incoming date to this fmt.
 	projectFolderAuthor     : { type:String, default:'' },
 	documentEPICId          : { type:Number, default:0, index:true },
 	documentEPICProjectId   : { type:Number, default:0, index:true },
@@ -120,7 +126,7 @@ module.exports = genSchema ('Document', {
 	// decide what is the latest based on approval of such
 	documentIsInReview      : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
 	documentAuthor          : { type:String, default:'' },  // NB: We should add a document author in addition to the folderAuthor.
-	documentType            : { type:String, default:'' },
+	documentType            : { type:String, default: null },
 	internalURL             : { type:String, default:'' },
 	internalOriginalName    : { type:String, default:'' },
 	internalName            : { type:String, default:'' },
@@ -130,6 +136,20 @@ module.exports = genSchema ('Document', {
 	internalEncoding        : { type:String, default:'' },
 	oldData                 : { type:String, default:'' },
 	order                   : { type: Number, default: 0}, // this will be used to sort supporting documents in artifacts, the order will be arbitrary and determined by the user.
-	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] } // for use with Public Comment Attachments...
-	
+	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] },// for use with Public Comment Attachments...
+
+	relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],
+	keywords                : [ { type:'String'} ],
+	documentId              : { type:'String', default: null }, // will be used as an id into other systems (ex MEM, MMTI, to be entered manually)
+
+	// supporting data for various document Types
+	inspectionReport        : { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} } , default: null },
+	certificate             : { type: {}, default: null },
+	certificateAmendment    : { type: {}, default: null },
+	permit                  : { type: {}, default: null },
+	permitAmendment         : { type: {}, default: null },
+	mineManagerResponse     : { type: {}, default: null },
+	annualReport            : { type: {}, default: null },
+	annualReclamationReport : { type: {}, default: null },
+	damSafetyInspection     : { type: {}, default: null }
 });

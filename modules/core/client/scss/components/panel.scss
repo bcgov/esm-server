@@ -1,0 +1,37 @@
+$panel-border: 1px solid #eee;
+$panel-border-radius: 0.5rem;
+$panel-header-bg: #fff;
+
+.panel {
+    box-shadow: none;
+    border: none;
+    border-radius: $panel-border-radius;
+}
+
+.panel-default {
+    > .panel-heading {
+        @include flexbox();
+        padding: 0;
+        border-bottom: $panel-border;
+        border-top-left-radius: $panel-border-radius;
+        border-top-right-radius: $panel-border-radius;
+        background-color: $panel-header-bg;
+
+        h2 {
+            @include flex(1 1 auto);
+            margin: 0;
+            padding: 1.5rem;
+            letter-spacing: -0.03rem;
+            font-size: 1.8rem;
+        }
+
+        .actions {
+            @include flex(0 0 auto);
+            padding: 1rem;
+        }
+    }
+
+    > .panel-footer {
+        border-top: $panel-border;
+    }
+}

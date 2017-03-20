@@ -79,6 +79,15 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		submit: function (project) {
 			return this.put ('/api/project/' + project._id + '/submit', {});
 		},
+		getProjectDirectory: function (project) {
+			return this.get ('/api/project/' + project._id + '/directory/list');
+		},
+		publishDirectory: function (project, directoryId) {
+			return this.put ('/api/project/' + project._id + '/directory/publish/' + directoryId);
+		},
+		unpublishDirectory: function (project, directoryId) {
+			return this.put ('/api/project/' + project._id + '/directory/unpublish/' + directoryId);
+		},
 		// -------------------------------------------------------------------------
 		//
 		// intake questions
