@@ -48,9 +48,9 @@ module.exports = function () {
 						node.model.published = true;
 
 						Folder.create({
-							read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-							write : ['assessment-admin', 'project-system-admin'],
-							delete : ['assessment-admin', 'project-system-admin'],
+							read : ['sysadmin'],
+							write : ['sysadmin'],
+							delete : ['sysadmin'],
 							displayName: node.model.name,
 							directoryID: node.model.id,
 							parentID: parentNodeID,
