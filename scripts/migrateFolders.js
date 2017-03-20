@@ -38,8 +38,7 @@ var defaultPerms = {
         "assessment-lead",
         "assessment-team",
         "project-epd",
-        "project-system-admin",
-        "public"
+        "project-system-admin"
     ],
     read : [
         "assessment-admin",
