@@ -23,7 +23,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 		// -------------------------------------------------------------------------
 		commentPeriodCommentsSync: function (periodId, commentLength) {
 			var self = this;
-			var start = 0, limit = 100;
+			var start = 0, limit = 10;
 			var requests = [];
 
 			// build up however many requests we need to save all comments...
