@@ -28,7 +28,8 @@
     "angular-google-maps": "latest",
     "angular-resizable": "latest",
     "pdfjs-dist": "latest",
-    "ng-pdfviewer": "^0.2.1"
+    "ng-pdfviewer": "^0.2.1",
+    "tree-model-bower" : "git://github.com/BCDevOps/tree-model-bower"
   },
   "resolutions": {
     "angular": "^1.5.9",
