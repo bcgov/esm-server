@@ -61,7 +61,24 @@ module.exports = function () {
 				'delete' : ['sysadmin', 'project-lead'],
 				'publish' : ['sysadmin', 'project-lead'],
 				'unPublish' : ['sysadmin'],
-				'manageFolders' : ['project-system-admin']
+				'manageFolders' : ['sysadmin']
+			}
+		}
+	}));
+
+	defaultsArray.push(new Defaults({
+		context: 'project',
+		resource: 'folder',
+		level: 'global',
+		type: 'default-permissions',
+		defaults: {
+			roles: defaultRoles,
+			permissions: {
+				'read' : ['sysadmin', 'team', 'proponent-lead', 'project-lead'],
+				'write' : ['sysadmin'],
+				'delete' : ['sysadmin'],
+				'publish' : ['sysadmin'],
+				'unPublish' : ['sysadmin']
 			}
 		}
 	}));
