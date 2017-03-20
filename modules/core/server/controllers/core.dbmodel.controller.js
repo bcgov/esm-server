@@ -1035,14 +1035,14 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('paginate.q = ' + JSON.stringify(q, null, 4));
-			console.log ('paginate.and = ' + JSON.stringify(and, null, 4));
-			console.log ('paginate.sort = ' + JSON.stringify(sort, null, 4));
-			console.log ('paginate.skip = ' + skip);
-			console.log ('paginate.limit = ' + limit);
-			console.log ('paginate.populate = ' + JSON.stringify(populate, null, 4));
-			console.log ('paginate.fields = ' + JSON.stringify(fields, null, 4));
-			console.log ('paginate.decorateCollection = ' + self.decorateCollection);
+			// console.log ('paginate.q = ' + JSON.stringify(q, null, 4));
+			// console.log ('paginate.and = ' + JSON.stringify(and, null, 4));
+			// console.log ('paginate.sort = ' + JSON.stringify(sort, null, 4));
+			// console.log ('paginate.skip = ' + skip);
+			// console.log ('paginate.limit = ' + limit);
+			// console.log ('paginate.populate = ' + JSON.stringify(populate, null, 4));
+			// console.log ('paginate.fields = ' + JSON.stringify(fields, null, 4));
+			// console.log ('paginate.decorateCollection = ' + self.decorateCollection);
 
 			self.model.find(q)
 				.and(and)
@@ -1053,13 +1053,13 @@ _.extend (DBModel.prototype, {
 				.select(fields)
 				.exec(function(error, data) {
 					if (!error) {
-						console.log('search.completed, get total count');
+						// console.log('search.completed, get total count');
 						self.model.find(q).and(and).count(function(e,c) {
 							if (e) {
 								console.log('search.count.error = ' + JSON.stringify(e));
 								self.complete(reject, 'search');
 							} else {
-								console.log('search.count.completed. total = ', c);
+								// console.log('search.count.completed. total = ', c);
 								resolve({data: data, count: c});
 							}
 						});

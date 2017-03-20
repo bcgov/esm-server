@@ -115,6 +115,9 @@ module.exports = DBModel.extend ({
 		if (comment.valuedComponents.length === 0) {
 			comment.proponentStatus = 'Unclassified';
 		}
+		if (_.isEmpty(comment.proponentStatus)) {
+			comment.proponentStatus = 'Unclassified';
+		}
 		return new Promise (function (resolve, reject) {
 			//
 			// get the period
