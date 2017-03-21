@@ -149,26 +149,17 @@ module.exports = function (app) {
 			return model.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby);
 		}));
 
-	app.route ('/api/comments/period/:periodId/perms/sync').all(policy ('guest'))
+	app.route ('/api/comments/period/:periodId/perms/sync').all(policy ('user'))
 		.put (routes.setAndRun (CommentModel, function (model, req) {
 
 			// base query / filter
 			var periodId;
-			var eaoStatus;
-			var proponentStatus;
-			var isPublished;
-
-			// filter By Fields...
-			var commentId;
-			var authorComment;
-			var location;
-			var pillar;
-			var topic;
 
 			// pagination stuff
 			var skip = 0;
 			var limit = 50;
-			var sortby = {};
+
+			var projectId; // will need this to check for createCommentPeriod permission
 
 			if (req.body) {
 
@@ -182,22 +173,15 @@ module.exports = function (app) {
 					skip = parseInt(req.body.start);
 					limit = parseInt(req.body.limit);
 				} catch(e) {
-
+					console.log('Invalid skip/start or limit value passed in (skip/start =',  req.body.start, ', limit = ', req.body.limit, '); using defaults: skip/start = ', skip, ', limit =', limit);
 				}
-			}
 
-			return new Promise(function(resolve, reject) {
-				//console.log('start = ', skip, ' limit = ', limit);
-				model.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby)
-					.then(function(results) {
-						//console.log('start = ', skip, ' limit = ', limit, ' results = ', results.data.length);
-						var a = _.map(results.data, function(d) {
-							return model.update(d, d);
-						});
-						return Promise.all(a);
-					})
-					.then(resolve, reject);
-			});
+				if (!_.isEmpty(req.body.projectId)) {
+					projectId = req.body.projectId;
+				}
+
+			}
+			return model.updatePermissionBatch(projectId, periodId, skip, limit);
 		}));
 
 	// =========================================================================

@@ -20,7 +20,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 		// get all the comments for a comment period
 		//
 		// -------------------------------------------------------------------------
-		commentPeriodCommentsSync: function (periodId, commentLength) {
+		commentPeriodCommentsSync: function (projectId, periodId, commentLength) {
 			var self = this;
 			// setting batch size (limit) to 10 because DEV was performing poorly.  adjust this to try on different envs.
 			var start = 0, limit = 10;
@@ -32,7 +32,8 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 					// primary query...
 					periodId: periodId,
 					start: start,
-					limit: limit
+					limit: limit,
+					projectId: projectId
 				});
 				start = start + limit;
 			}

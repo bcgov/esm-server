@@ -264,11 +264,11 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 					CommentPeriodModel.save($scope.period)
 					.then(function (model) {
 						if (!rolesChanged(model)) {
-							return [];
+							return;
 						} else {
 							// console.log ('period was saved, roles changed');
 							// save the comments so that we pick up the (potential) changes to the period permissions...
-							return CommentModel.commentPeriodCommentsSync(model._id, period.stats.total);
+							return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
 						}
 					}).then(function () {
 						$scope.busy = false;

@@ -11,6 +11,7 @@ var DBModel   = require (path.resolve ('./modules/core/server/controllers/core.d
 var _         = require ('lodash');
 // var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
+var ProjectController  = require (path.resolve('./modules/projects/server/controllers/project.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Comment',
@@ -384,6 +385,33 @@ module.exports = DBModel.extend ({
 					return doc.getList(c.documents);
 				})
 				.then (resolve, reject);
+		});
+	},
+	updatePermissionBatch: function(projectId, periodId, skip, limit) {
+		var self = this;
+		var projectCtrl = new ProjectController(this.opts);
+
+		return new Promise(function (resolve, reject) {
+			projectCtrl.findById(projectId)
+				.then(function(project) {
+					if (project && project.userCan.createCommentPeriod) {
+						// ok, let them find all the comments and update them... make them act like admin...
+						self.isAdmin = true;
+						self.user.roles.push('admin'); // need this so the documents controller in preprocessUpdate will act as admin
+						return self.getCommentsForPeriod(periodId, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, skip, limit, undefined);
+					} else {
+						// can't createCommentPeriod, so don't allow them to do this comment/document processing...
+						return [];
+					}
+				})
+				.then(function (results) {
+					var a = _.map(results.data, function (d) {
+						// update which will call preprocessUpdate where the logic really is...
+						return self.update(d, d);
+					});
+					return Promise.all(a);
+				})
+				.then(resolve, reject);
 		});
 	}
 });
