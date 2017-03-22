@@ -1,0 +1,11 @@
+<div class="search-widget collapsed">
+  <form id="swForm" class="sw-resize-container sw-form">
+
+    <button class="sw-expand-btn btn icon-btn">
+      <i class="glyphicon glyphicon-search"></i>
+    </button>
+    <input class="form-control sw-input" type="text" placeholder="Search"
+           ng-model="vm.searchText"
+           ng-keypress="vm.searchTextKeyPress($event)"/>
+  </form>
+</div>

@@ -197,7 +197,7 @@ module.exports = DBModel.extend ({
 
 		_.forEach(phrases,function(v){
 			searchTerms.push(v.replace(/\"/g,''));
-		})
+		});
 		// searchTerms = [ 'pear orange', 'rosemary and wine' ]
 		// console.log(searchTerms);
 
@@ -211,7 +211,7 @@ module.exports = DBModel.extend ({
 		var parts = remainder.split(' ');
 		_.forEach(parts,function(v){
 			searchTerms.push(v);
-		})
+		});
 		// searchTerms = [ 'pear orange', 'rosemary and wine', 'apple', 'fig' ]
 		// console.log(searchTerms);
 
@@ -222,7 +222,7 @@ module.exports = DBModel.extend ({
 		// build query
 		var query = { project: projectId };
 		if (searchTerms.length === 1) {
-			var re = new RegExp('.*' + searchTerms[0] + '.*');
+			re = new RegExp('.*' + searchTerms[0] + '.*');
 			query.$or = [
 				{ displayName: re },
 				{ description: re },
@@ -231,7 +231,7 @@ module.exports = DBModel.extend ({
 		} else {
 			var reArray = [];
 			_.forEach(searchTerms, function(term) {
-				var re = new RegExp('.*' + term + '.*');
+				re = new RegExp('.*' + term + '.*');
 				reArray.push(re);
 			});
 			query.$or = [
@@ -241,17 +241,10 @@ module.exports = DBModel.extend ({
 				{ keywords:  { $in:  reArray }  }
 			];
 		}
-		return this.findMany ( query,
-			{
-				displayName : 1,
-				documentFileName : 1,
-				keywords : 1,
-				description: 1,
-				documentType :1
-			})
+		return this.findMany ( query )
 		.then(function(result) {
 			if (result !== null) {
-				console.log("Document search found:", result);
+				//console.log("Document search found:", result);
 				return result;
 			}
 		})

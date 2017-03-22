@@ -1,0 +1,18 @@
+<div class="view-title-container">
+
+  <button class="btn icon-btn mobile-nav-btn" onclick="toggleSideNav();"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+  <h1>Document Search Results</h1>
+
+  <main-search-widget x-project="project" x-search-text="searchText"></main-search-widget>
+
+  <div class="actions">
+    <button class="btn icon-btn" x-modal-search-instructions>
+      <i class="glyphicon glyphicon-question-sign"></i>
+    </button>
+  </div>
+
+</div>
+
+<div class="view-body-container file-browser-container">
+  <x-search-results-document x-project="project"/>
+</div>
