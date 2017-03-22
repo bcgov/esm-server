@@ -1,39 +1,32 @@
 'use strict';
 angular.module('documents')
-	.directive('documentSearchWidget', ['_', 'DocumentMgrService', function (_, DocumentMgrService) {
-		return {
-			restrict: 'E',
-			scope: {
-				project: '='
-			},
-			templateUrl: 'modules/documents/client/views/partials/document-search-widget.html',
-			controller: function ($scope) {
-				var self = this;
-				self.searchText = '';
+	.directive('documentSearchWidget', documentSearchWidgetDirective)
 
-				self.search = search;
+documentSearchWidgetDirective.$inject = ['_', 'SearchService'];
+/* @ngInject */
+function documentSearchWidgetDirective(_, SearchService) {
+	return {
+		restrict: 'E',
+		scope: {
+			project: '='
+		},
+		controllerAs: 'vm',
+		templateUrl: 'modules/search/client/views/partials/search-widget.html',
+		controller: function ($scope) {
+			var self = this;
+			self.searchText = '';
+			self.search = search;
 
-				self.searchTextKeyPress = function (event) {
-					if (event.which === 13) {
-						event.preventDefault();
-						self.search();
-					}
-				};
-
-				function search() {
-					console.log("BG do search");
-					DocumentMgrService.searchDocuments($scope.project, self.searchText)
-						.then(
-							function (result) {
-								console.log("search results", result);
-							},
-							function (err) {
-								//$log.error('renameDirectory error: ', JSON.stringify(err));
-								console.log("Search failed", err);
-							}
-						);
+			self.searchTextKeyPress = function (event) {
+				if (event.which === 13) {
+					event.preventDefault();
+					self.search();
 				}
-			},
-			controllerAs: 'docSearch'
-		};
-	}]);
+			};
+
+			function search() {
+				SearchService.redirectSearchDocuments($scope.project, self.searchText);
+			}
+		}
+	};
+}
