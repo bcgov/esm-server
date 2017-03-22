@@ -1,11 +1,125 @@
-<div class="view-title-container flex-row">
+<div class="view-title-container">
+
 	<button class="btn icon-btn mobile-nav-btn" onclick="toggleSideNav();"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
 	<h1>Documents</h1>
+	
+	<!-- SW Prototype -->
+	<div class="search-widget collapsed">
+		<form id="swForm" class="sw-resize-container sw-form">
+			
+			<button class="sw-expand-btn btn icon-btn" onclick="swMenuShow();"><i class="glyphicon glyphicon-search"></i></button>
+			<input class="form-control sw-input" type="text" placeholder="Search" />
+			<button class="sw-toggle-btn dropdown-toggle btn icon-btn"
+				data-toggle="dropdown"
+				data-target="swAdvanced">
+				<i class="glyphicon glyphicon-triangle-bottom"></i>
+			</button>
+			<button class="sw-collapse-btn btn icon-btn" onclick="swMenuHide();">
+				<span aria-hidden="true">&times;</span>
+			</button>
+
+			<div class="dropdown-menu" id="swAdvanced" ng-click="$event.stopPropagation()">
+				<div class="sw-form-container">
+					<div class="sw-form-items">
+						<div class="form-group">
+							<label class="control-label">File Name</label>
+							<input class="form-control" type="text" id="swName" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Keywords</label>
+							<input class="form-control" type="text" id="swKeywords" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Includes the words</label>
+							<input class="form-control" type="text" id="swKeywords" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Project Phase</label>
+							<div class="row">
+								<div class="col-sm-6">
+									<div class="checkbox">
+										<label for="projectPhase1">
+											<input type="checkbox" id="projectPhase1"/>Intake
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase2">
+											<input type="checkbox" id="projectPhase2"/>Determination
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase3">
+											<input type="checkbox" id="projectPhase3"/>Scope
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase4">
+											<input type="checkbox" id="projectPhase4"/>Evaluation
+										</label>
+									</div>
+								</div>
+								<div class="col-sm-6">
+									<div class="checkbox">
+										<label for="projectPhase5">
+											<input type="checkbox" id="projectPhase5"/>Review
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase6">
+											<input type="checkbox" id="projectPhase6"/>Decision
+										</label>
+									</div>
+									<div class="checkbox">
+										<label for="projectPhase7">
+											<input type="checkbox" id="projectPhase7"/>Post-Certification
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="sw-form-btns">
+						<button class="btn btn-default" onclick="swSearchReset();">Reset</button>
+						<button class="btn btn-primary" onclick="swSearch();">Search</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div><!-- / SW Prototype -->
+
 	<div class="actions">
-		<button class="btn btn-default btn-sm" x-modal-document-instructions><span class="glyphicon glyphicon-info-sign"></span><span>Instructions</span></button>
+		<button class="btn icon-btn" x-modal-document-instructions>
+			<i class="glyphicon glyphicon-question-sign"></i>
+		</button>
 	</div>
+
 </div>
 
 <div class="view-body-container file-browser-container">
+
+	<!-- SW Results Prototype -->
+	<div class="sw-fb-prototype file-browser">
+
+		<div class="spinner-container">
+			<div class="spinner-new rotating"></div>
+		</div>
+
+		<div class="fb-header">
+			<span class="sw-results-label" onclick="swClearResults();">
+				Search Results
+			</span>
+			<div class="file-batch-actions">
+				<button class="btn icon-btn">
+					<i class="glyphicon glyphicon-info-sign"></i>
+				</button>
+			</div>
+		</div>
+
+		<div class="fb-body">
+			<!-- Search results go here -->
+		</div>
+
+	</div><!-- / SW Results Prototype -->
+
 	<x-document-mgr x-project="project" x-opendir="opendir"/>
 </div>

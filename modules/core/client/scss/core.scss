@@ -1482,143 +1482,6 @@ h2.page-title {
 }
 
 
-/* APPLICATION LAYOUT 
------------------------------- */
-tmpl-header,
-tmpl-footer {
-	display: block;
-	flex: 0 0 auto;
-}
-
-.app-main {
-	.left-panel,
-	.main-panel {
-		display: -webkit-flex;
-		display: flex;
-		flex-flow: column nowrap;
-	}
-
-	.main-panel {
-		position: relative;
-		/* Need to set 1px here to fix some flexbox issues with text wrapping */
-		flex: 1 1 1px;
-		min-width: 0;
-
-		.view-title-container {
-			flex: 0 0 auto;
-			z-index: 1;
-		}
-
-		.view-body-insert {
-			flex: 0 0 auto;
-		}
-
-		.view-body-container {
-			flex: 1 1 auto;
-		}
-
-		.view-footer-container {
-			flex: 0 0 auto;
-		}
-	}
-}
-
-ui-view {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: -webkit-flex;
-	display: flex; 
-	flex-flow: column nowrap;
-}
-
-/* PAGE (VIEW) CONTAINERS
------------------------------- */
-.view-body-container,
-.view-body-insert,
-.view-footer-container {
-	padding: 2rem;
-}
-
-.view-title-container {
-	height: 6.2rem;
-	padding: 1.5rem 2rem;
-	border-bottom: 1px solid #EEE;
-	background: #FFF;
-	min-width: 0;
-
-    h1 {
-        margin: 0;
-        padding-top: 0.4rem;
-		font-size: 2.4rem;
-		font-weight: bold;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-    }
-
-	&.flex-row {
-		h1 {
-			-webkit-flex: 1 1 auto;
-			-ms-flex: 1 1 auto;
-			flex: 1 1 auto;
-		}
-
-		.actions {
-			-webkit-flex: 0 0 auto;
-			-ms-flex: 0 0 auto;
-			flex: 0 0 auto;
-
-			.btn {
-				min-width: 8rem;
-			}
-		}
-
-		.actions-group {
-			display: inline-block;
-		}
-	}
-
-	.actions {
-		padding-left: 2rem;
-
-		.permission-btn {
-			.btn {
-				min-width: 3rem;
-			}
-		}
-	}
-}
-
-.view-body-container {
-	overflow-y: auto;
-}
-
-.view-content {
-    display: -webkit-flex; /* Safari */
-    display: flex;
-    flex-flow: row nowrap;
-	
-	section:last-child {
-		margin-bottom: 0;
-	}
-}
-
-.view-fix,
-.view-form {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: -webkit-flex; /* Safari */
-    display: flex;
-	flex-flow: column nowrap;
-}
-
-
 /* ACTIVITIES LIST
 ------------------------------ */
 .activities-container {
@@ -4736,7 +4599,6 @@ tmpl-template-render {
 /* COMPONENTS
 ----------------------------- */
 @import "modules/core/client/styles/mixins.scss";
-@import "modules/core/client/styles/layout.scss";
 @import "modules/core/client/styles/components.scss";
 @import "modules/core/client/styles/spinner.scss";
 @import "modules/core/client/styles/tabs.scss";
@@ -4746,8 +4608,10 @@ tmpl-template-render {
 @import "modules/core/client/scss/components/recipient-manager.scss";
 @import "modules/core/client/scss/components/table.scss";
 @import "modules/core/client/scss/components/ng-table-overrides.scss";
+@import "modules/core/client/scss/components/view-containers.scss";
 
 /* GLOBAL */
+@import "modules/core/client/scss/global/layout.scss";
 @import "modules/core/client/scss/global/footer.scss";
 @import "modules/documents/client/styles/file-browser.scss";
 @import "modules/documents/client/styles/pdf-viewer.scss";
@@ -4758,6 +4622,8 @@ tmpl-template-render {
 @import "modules/invitations/client/scss/invitations.scss";
 @import "modules/projects/client/scss/project-schedule.scss";
 @import "modules/project-comments/client/scss/project-comments.scss";
+@import "modules/search/client/scss/search-widget.scss";
 @import "modules/users/client/scss/user-entry.scss";
 @import "modules/users/client/scss/user-search-chooser.scss";
 @import "modules/vcs/client/scss/vc-list.scss";
+

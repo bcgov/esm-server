@@ -3,13 +3,13 @@
 	<button class="btn icon-btn mobile-nav-btn" onclick="toggleSideNav();"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
 	<h1>{{ project.name }}</h1>
 	<div class="actions">
-		<div class="actions-group" ng-if="environment === 'EAO' && authentication.user">
+		<span class="actions-group" ng-if="environment === 'EAO' && authentication.user">
 			<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})" ng-if="project.userCan.write">
 				<span class="glyphicon glyphicon-pencil"></span><span>Edit Project</span></a>
 			<a class="btn btn-success btn-sm"
 				ng-click="publishProject()"
 				ng-if="project.userCan.publish && !project.isPublished">Publish Project</a>
-		</div>
+		</span>
 		<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="project"></tmpl-permissions-gear>
 	</div>
 </div>

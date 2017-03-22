@@ -63,17 +63,7 @@
     }
 }
 
-.mobile-nav-btn {
-    margin-top: -0.2rem;
-    margin-right: 0.75rem;
-    margin-left: -0.75rem;
-}
-
 @media (min-width: 1020px) {
-    .mobile-nav-btn {
-        display: none;
-    }
-
     .app-main {
         @include flexbox();
         flex-direction: row;

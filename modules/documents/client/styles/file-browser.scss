@@ -170,14 +170,13 @@ a.icon-btn {
 
         li:last-child {
             .btn {
-                
                 font-weight: bold;
                 color: $file-browser-breadcrumb-active-color;
 
                 &:hover,
                 &:focus {
                     background: transparent;
-                    border-color: transparent;
+                    //border-color: transparent;
                 }
             }
         }

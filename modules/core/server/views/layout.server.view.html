@@ -44,6 +44,40 @@
         }
 	</script>
 
+  <!-- Prototype Search Widget -->
+  <script type="text/javascript">
+
+        // Show the dropdown menu
+        function swMenuShow() {
+          $('.search-widget').removeClass('collapsed');
+          $('.search-widget').addClass('expanded');
+        }
+
+        // Hide the dropdown menu
+        function swMenuHide() {
+          $('.search-widget').removeClass('expanded');
+          $('.search-widget').addClass('collapsed');
+          $('.sw-input').val('');
+          document.getElementById('swForm').reset();
+        }
+
+        // Reset the search form
+        function swSearchReset() {
+          document.getElementById('swForm').reset();
+		  $('.sw-fb-prototype').removeClass('visible');
+        }
+
+        // Perform search
+        function swSearch() {
+          $('.search-widget').removeClass('expanded');
+          $('.search-widget').addClass('collapsed');
+          $('.sw-resize-container').removeClass('open');
+          $('.sw-input').val('');
+          $('.sw-fb-prototype').addClass('visible');
+        }
+
+	</script>
+
 </head>
 
 <body class="ng-cloak" x-scroll>
