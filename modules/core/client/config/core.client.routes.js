@@ -48,9 +48,9 @@ angular.module('core').config (
 		templateUrl: 'modules/topics/client/views/topics-of-interest.html',
 		data: {}
 	})
-	.state('reclamation-and-securities', {
-		url: '/reclamation-and-securities',
-		templateUrl: 'modules/topics/client/views/reclamation-and-securities.html',
+	.state('reclamation', {
+		url: '/reclamation',
+		templateUrl: 'modules/topics/client/views/reclamation.html',
 		data: {}
 	})
 	.state('tailings-management', {
