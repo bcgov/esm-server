@@ -1,0 +1,11 @@
+<div class="search-widget collapsed">
+  <form id="swForm" class="sw-resize-container sw-form" ng-class="{'open': docSearch.showAdvanced}">
+
+    <button class="sw-expand-btn btn icon-btn">
+      <i class="glyphicon glyphicon-search"></i>
+    </button>
+    <input class="form-control sw-input" type="text" placeholder="Search"
+           ng-model="docSearch.searchText"
+           ng-keypress="docSearch.searchTextKeyPress($event)"/>
+  </form>
+</div>

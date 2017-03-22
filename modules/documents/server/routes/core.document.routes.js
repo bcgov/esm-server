@@ -266,6 +266,8 @@ module.exports = function (app) {
 		.put(routes.setAndRun(DocumentClass, function (model, req) {
 			return model.getEpicProjectFolderURL(req.body);
 		}));
-
+	app.route('/api/searchDocuments').all(policy('guest'))
+		.get(routes.setAndRun(DocumentClass, function (model, req) {
+			return model.searchDocuments(req.query.projectId, req.query.searchText);
+		}));
 };
-

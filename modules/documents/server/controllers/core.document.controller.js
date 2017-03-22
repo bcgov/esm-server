@@ -183,7 +183,83 @@ module.exports = DBModel.extend ({
 			internalOriginalName : 1
 		});
 	},
-	// -------------------------------------------------------------------------
+	searchDocuments : function(projectId, searchText) {
+		console.log("Document search for:", projectId, searchText);
+		if (! _.isString(searchText)) {
+			return Promise.reject("Search requires searchText");
+		}
+		var searchTerms = [];
+		// e.g. searchText = 'apple "pear orange" fig "rosemary and wine"';
+		var re = /("[^"]*")/g;
+		var phrases = searchText.match(re);
+		// console.log(phrases);
+		// phrases = [ '"pear orange"', '"rosemary and wine"' ]
+
+		_.forEach(phrases,function(v){
+			searchTerms.push(v.replace(/\"/g,''));
+		})
+		// searchTerms = [ 'pear orange', 'rosemary and wine' ]
+		// console.log(searchTerms);
+
+		// next get remaining search terms removing extra spaces
+		var remainder = searchText.replace(re,'');
+		remainder = remainder.trim();
+		remainder = remainder.replace(/  /g,' ');
+		// remainder = 'apple fig'
+		// console.log(remainder);
+
+		var parts = remainder.split(' ');
+		_.forEach(parts,function(v){
+			searchTerms.push(v);
+		})
+		// searchTerms = [ 'pear orange', 'rosemary and wine', 'apple', 'fig' ]
+		// console.log(searchTerms);
+
+		if (searchTerms.length === 0) {
+			return Promise.reject("Search requires searchText");
+		}
+
+		// build query
+		var query = { project: projectId };
+		if (searchTerms.length === 1) {
+			var re = new RegExp('.*' + searchTerms[0] + '.*');
+			query.$or = [
+				{ displayName: re },
+				{ description: re },
+				{ keywords: re }
+			];
+		} else {
+			var reArray = [];
+			_.forEach(searchTerms, function(term) {
+				var re = new RegExp('.*' + term + '.*');
+				reArray.push(re);
+			});
+			query.$or = [
+				{ displayName: { $in:  reArray } },
+				{ documentFileName: { $in:  reArray } },
+				{ description: { $in:  reArray } },
+				{ keywords:  { $in:  reArray }  }
+			];
+		}
+		return this.findMany ( query,
+			{
+				displayName : 1,
+				documentFileName : 1,
+				keywords : 1,
+				description: 1,
+				documentType :1
+			})
+		.then(function(result) {
+			if (result !== null) {
+				console.log("Document search found:", result);
+				return result;
+			}
+		})
+		.catch (function (err) {
+			console.log("Document search found nothing");
+			return null;
+		});
+	},	// -------------------------------------------------------------------------
 	//
 	// get document types for a project, returns an array of unique groups
 	// of folder types, sub types and names

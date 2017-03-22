@@ -36,11 +36,16 @@ function documentMgrService($http) {
 		return $http({method: 'GET', url: '/api/query/document?project=' + project._id.toString() + '&directoryID=' + directoryID.toString()});
 	};
 
+	var searchDocuments = function (project, searchText) {
+		return $http({method: 'GET', url: '/api/searchDocuments?projectId=' + project._id.toString() + '&searchText=' + searchText.toString()});
+	};
+
 	return {
 		addDirectory: addDirectory,
 		renameDirectory: renameDirectory,
 		removeDirectory: removeDirectory,
 		moveDirectory: moveDirectory,
+		searchDocuments: searchDocuments,
 		getDirectoryDocuments: getDirectoryDocuments
 	};
 }
