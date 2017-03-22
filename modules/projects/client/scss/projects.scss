@@ -152,11 +152,14 @@
     a {
         display: block;
         padding: 0.2rem;
+        height: 180px;
         background: #EEE;
+        background-position: center -25px;
+        background-size: 140%;
 
         img {
             width: 100%;
-            min-height: 200px;
+            //min-height: 200px;
         }
     }
 }

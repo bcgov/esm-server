@@ -7,15 +7,17 @@
     transition: all linear 0.2s;
 
     &.inverted {
-        color: #FFF;
-        border: 2px solid #FFF;
+        border: 2px solid #fff;
+        background: transparent;
+        //text-shadow: 1px 1px 1px #fdd165;
+        color: #fff;
 
         &:active,
         &:focus,
         &:hover {
             border-color: $gold;
             background: $gold;
-            color: #003366;
+            color: #002663;
         }
     }
 
@@ -52,8 +54,7 @@ main {
 // Slide Buttons
 .slide-r-btn,
 .slide-l-btn {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
+    padding: 0.5rem;
     border-radius: 0.2rem;
     transition: all ease-out 0.2s;
 

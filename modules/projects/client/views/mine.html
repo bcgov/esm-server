@@ -86,7 +86,12 @@
             <aside class="col-lg-4">
                 <section>
                     <h4>Project Details</h4>
-                    <div class="map-section"><div class="map-thumb"><a href ui-sref="maps({project: project})"><img src="{{project.staticMap}}"/></div></a></div>
+                    <div class="map-section">
+                        <div class="map-thumb">
+                            <a href ui-sref="maps({project: project})" style="background-image: url({{project.staticMap}})"></a>
+                            <!-- <a href ui-sref="maps({project: project})"><img src="/modules/core/client/images/staticmap.png"/></a> -->
+                        </div>
+                    </div>
                     <ul class="mmti-side-list mine-details-list">
                         <li>
                             <span class="name">Operator</span>
