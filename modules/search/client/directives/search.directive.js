@@ -6,9 +6,9 @@ angular.module('search')
 	.directive('searchResultsDocument', searchResultsDocumentDirective);
 
 
-searchResultsDocumentDirective.$inject = ['_', 'SearchService', '$rootScope'];
+searchResultsDocumentDirective.$inject = ['_', 'SearchService', '$rootScope', 'Authentication'];
 /* @ngInject */
-function searchResultsDocumentDirective(_, SearchService, $rootScope) {
+function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentication) {
 	return {
 		restrict: 'E',
 		scope: {
@@ -16,21 +16,56 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope) {
 		},
 		controllerAs: 'vm',
 		templateUrl: 'modules/search/client/views/search-results-documents.html',
-		controller: function ($scope, Authentication) {
+		controller: function ($scope) {
 			var self = this;
-			self.busy= false;
 			self.authentication = Authentication;
-			self.currentFiles = SearchService.getSearchResults();
-			// default sort is by name ascending...
-			self.sorting = {
-				column: 'name',
-				ascending: true
-			};
+			self.colspan = (self.authentication.user) ? 5 : 3;
+			self.isLoading= false;
+			self.pageSize = 50;
+			$scope.smartTableCtrl = {};
+
+			self.changePageSize = changePageSize;
+			self.selectItem = selectItem;
+
+			reload();
 
 			// if the user enters new search text the search service will notify us here when it has results.
 			$rootScope.$on('search-results-documents', function() {
-				self.currentFiles = SearchService.getSearchResults();
+				console.log("handle search results");
+				reload();
 			});
+
+
+			function changePageSize (value) {
+				self.pageSize = value;
+				$scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
+			}
+
+			function selectItem (item) {
+				console.log("Check item ", item);
+				item.selected = ! item.selected;
+			}
+			function reload() {
+				self.isLoading = true;
+				self.currentFiles = SearchService.getSearchResults();
+				console.log("Search results directive reload",self.currentFiles);
+				self.displayResults = [];
+				_.forEach(self.currentFiles, function (item) {
+					var displayItem = {};
+					displayItem.isFile = true;
+					displayItem.id = item._id;
+					displayItem.isImage = ['png','jpg','jpeg'].includes(item.internalExt);
+					displayItem.displayName = item.displayName;
+					displayItem.description = item.description;
+					displayItem.isPublished = item.isPublished;
+					displayItem.dateUploaded = item.dateUploaded;
+					displayItem.selected = false;
+					displayItem.doc = item;
+					self.displayResults.push(displayItem);
+				});
+				console.log(self.displayResults);
+				self.isLoading = false;
+			}
 
 		}
 	};
@@ -62,7 +97,7 @@ function directiveMainSearch(SearchService) {
 					event.preventDefault();
 					self.search();
 				}
-			};
+			}
 
 			function search() {
 				SearchService.searchDocuments($scope.project, self.searchText);

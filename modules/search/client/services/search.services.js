@@ -7,7 +7,7 @@ searchService.$inject = ['$http', '$state', '$rootScope'];
 /* @ngInject */
 function searchService($http, $state, $rootScope) {
 	var self = this;
-	self.searchResults;
+	self.searchResults = [];
 
 	return {
 		getSearchResults: getSearchResults,
