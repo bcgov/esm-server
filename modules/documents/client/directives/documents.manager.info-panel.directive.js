@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 //x-document-mgr-info-panel
-	.directive('documentMgrInfoPanel', ['DocumentMgrService', function (DocumentMgrService) {
+	.directive('documentMgrInfoPanel', ['DocumentMgrService', '_', function (DocumentMgrService, _) {
 		return {
 			restrict: 'E',
 			scope: {
