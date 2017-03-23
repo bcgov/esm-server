@@ -13,7 +13,7 @@
 
 .hero-banner {
     position: relative;
-    height: 23rem;
+    height: 24rem;
     background-color: rgba($header-bg, 0.85);
     background-size: 280%;
     background-position: -8rem 0;
@@ -32,7 +32,8 @@
 
 .hb-btns {
     .btn {
-        padding: 0.5rem 0.7rem;
+        margin-top: 0.45rem;
+        padding: 0.5rem;
         min-width: 7rem;
         text-transform: uppercase;
         font-size: 0.85rem;
@@ -116,7 +117,7 @@
         margin-bottom: 1.5rem;
         font-size: 0.9375rem;
         font-weight: 300;
-        line-height: 1.5rem;
+        line-height: 1.4rem;
     }
 
     strong {
@@ -184,7 +185,6 @@
 .hb-btns {
     strong {
         display: block;
-        margin-bottom: 0.5rem;
         color: #fff;
         font-size: 1rem;
         font-weight: 600;
