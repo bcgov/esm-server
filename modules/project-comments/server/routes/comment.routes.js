@@ -78,110 +78,11 @@ module.exports = function (app) {
 
 	app.route ('/api/comments/period/:periodId/paginate').all(policy ('guest'))
 		.put (routes.setAndRun (CommentModel, function (model, req) {
-
-			// base query / filter
-			var periodId;
-			var eaoStatus;
-			var proponentStatus;
-			var isPublished;
-
-			// filter By Fields...
-			var commentId;
-			var authorComment;
-			var location;
-			var pillar;
-			var topic;
-
-			// pagination stuff
-			var skip = 0;
-			var limit = 50;
-			var sortby = {};
-
-			if (req.body) {
-
-				// base query / filter
-				if (!_.isEmpty(req.body.periodId)) {
-					periodId = req.body.periodId;
-				}
-				if (!_.isEmpty(req.body.eaoStatus)) {
-					eaoStatus = req.body.eaoStatus;
-				}
-				if (!_.isEmpty(req.body.proponentStatus)) {
-					proponentStatus = req.body.proponentStatus;
-				}
-				if (req.body.isPublished !== undefined) {
-					isPublished = Boolean(req.body.isPublished);
-				}
-
-				// filter By Fields...
-				if (!_.isEmpty(req.body.commentId)) {
-					try {
-						commentId = parseInt(req.body.commentId);
-					} catch(e) {
-
-					}
-				}
-				if (!_.isEmpty(req.body.authorComment)) {
-					authorComment = req.body.authorComment;
-				}
-				if (!_.isEmpty(req.body.location)) {
-					location = req.body.location;
-				}
-				if (!_.isEmpty(req.body.pillar)) {
-					pillar = req.body.pillar;
-				}
-				if (!_.isEmpty(req.body.topic)) {
-					topic = req.body.topic;
-				}
-
-				// pagination stuff
-				try {
-					skip = parseInt(req.body.start);
-					limit = parseInt(req.body.limit);
-				} catch(e) {
-
-				}
-				if (req.body.orderBy) {
-					sortby[req.body.orderBy] = req.body.reverse ? -1 : 1;
-				}
-			}
-
-			return model.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby);
+			return model.getPeriodPaginate(req.body);
 		}));
-
 	app.route ('/api/comments/period/:periodId/perms/sync').all(policy ('user'))
 		.put (routes.setAndRun (CommentModel, function (model, req) {
-
-			// base query / filter
-			var periodId;
-
-			// pagination stuff
-			var skip = 0;
-			var limit = 50;
-
-			var projectId; // will need this to check for createCommentPeriod permission
-
-			if (req.body) {
-
-				// base query / filter
-				if (!_.isEmpty(req.body.periodId)) {
-					periodId = req.body.periodId;
-				}
-
-				// pagination stuff
-				try {
-					skip = parseInt(req.body.start);
-					limit = parseInt(req.body.limit);
-				} catch(e) {
-					console.log('Invalid skip/start or limit value passed in (skip/start =',  req.body.start, ', limit = ', req.body.limit, '); using defaults: skip/start = ', skip, ', limit =', limit);
-				}
-
-				if (!_.isEmpty(req.body.projectId)) {
-					projectId = req.body.projectId;
-				}
-
-			}
-			return model.updatePermissionBatch(projectId, periodId, skip, limit);
+			return model.getPeriodPermsSync(req.body);
 		}));
 
 	// =========================================================================

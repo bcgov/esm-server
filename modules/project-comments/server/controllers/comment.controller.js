@@ -413,6 +413,105 @@ module.exports = DBModel.extend ({
 				})
 				.then(resolve, reject);
 		});
+	},
+	getPeriodPaginate: function (body) {
+		var self = this;
+		// base query / filter
+		var periodId;
+		var eaoStatus;
+		var proponentStatus;
+		var isPublished;
+
+		// filter By Fields...
+		var commentId;
+		var authorComment;
+		var location;
+		var pillar;
+		var topic;
+
+		// pagination stuff
+		var skip = 0;
+		var limit = 50;
+		var sortby = {};
+
+		if (body) {
+			// base query / filter
+			if (!_.isEmpty(body.periodId)) {
+				periodId = body.periodId;
+			}
+			if (!_.isEmpty(body.eaoStatus)) {
+				eaoStatus = body.eaoStatus;
+			}
+			if (!_.isEmpty(body.proponentStatus)) {
+				proponentStatus = body.proponentStatus;
+			}
+			if (body.isPublished !== undefined) {
+				isPublished = Boolean(body.isPublished);
+			}
+			// filter By Fields...
+			if (!_.isEmpty(body.commentId)) {
+				try {
+					commentId = parseInt(body.commentId);
+				} catch(e) {
+
+				}
+			}
+			if (!_.isEmpty(body.authorComment)) {
+				authorComment = body.authorComment;
+			}
+			if (!_.isEmpty(body.location)) {
+				location = body.location;
+			}
+			if (!_.isEmpty(body.pillar)) {
+				pillar = body.pillar;
+			}
+			if (!_.isEmpty(body.topic)) {
+				topic = body.topic;
+			}
+			// pagination stuff
+			try {
+				skip = parseInt(body.start);
+				limit = parseInt(body.limit);
+			} catch(e) {
+				console.log("Non-critical error:", e);
+			}
+			if (body.orderBy) {
+				sortby[body.orderBy] = body.reverse ? -1 : 1;
+			}
+		}
+
+		return self.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby);
+	},
+	getPeriodPermsSync: function (body) {
+		var self = this;
+		// base query / filter
+		var periodId;
+
+		// pagination stuff
+		var skip = 0;
+		var limit = 50;
+
+		var projectId; // will need this to check for createCommentPeriod permission
+
+		if (body) {
+			// base query / filter
+			if (!_.isEmpty(body.periodId)) {
+				periodId = body.periodId;
+			}
+			// pagination stuff
+			try {
+				skip = parseInt(body.start);
+				limit = parseInt(body.limit);
+			} catch(e) {
+				console.log('Invalid skip/start or limit value passed in (skip/start =',  body.start, ', limit = ', body.limit, '); using defaults: skip/start = ', skip, ', limit =', limit);
+			}
+
+			if (!_.isEmpty(body.projectId)) {
+				projectId = body.projectId;
+			}
+
+		}
+		return self.updatePermissionBatch(projectId, periodId, skip, limit);
 	}
 });
 
