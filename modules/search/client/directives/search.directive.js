@@ -82,15 +82,15 @@ function directiveMainSearch(SearchService) {
 		},
 		controllerAs: 'vm',
 		templateUrl: 'modules/search/client/views/partials/search-widget.html',
-		controller: function ($scope) {
+		controller: function ($scope, $state) {
 			var self = this;
 			self.searchText = $scope.searchText;
 			self.search = search;
 			self.searchTextKeyPress = searchTextKeyPress;
 
-			if (self.searchText && self.searchText.length > 1) {
-				self.search();
-			}
+			// if (self.searchText && self.searchText.length > 1) {
+			// 	self.search();
+			// }
 
 			function searchTextKeyPress (event) {
 				if (event.which === 13) {
@@ -100,7 +100,8 @@ function directiveMainSearch(SearchService) {
 			}
 
 			function search() {
-				SearchService.searchDocuments($scope.project, self.searchText);
+				SearchService.redirectSearchDocuments($scope.project, self.searchText);
+				//SearchService.searchDocuments($scope.project, self.searchText);
 			}
 		}
 	};
@@ -130,9 +131,6 @@ function directiveModalSearchInstructions($modal) {
 					controllerAs: 'instruct',
 					size: 'lg'
 				});
-				modalInstructions.result.then(function (data) {
-					// do nothing
-				}, function () {});
 			});
 		}
 	};

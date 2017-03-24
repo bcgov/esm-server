@@ -117,6 +117,13 @@ tr.selected td {
     border-top: none !important;
 }
 
+/*
+Show scroll bar on large datasets.
+ */
+.file-browser-search {
+    overflow: visible;
+}
+
 .search-table {
     .selected {
         /*  Force over-write the tr.selected styling from core.  */
