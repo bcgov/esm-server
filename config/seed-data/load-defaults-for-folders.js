@@ -28,16 +28,18 @@ module.exports = function () {
             }
         };
 
-        Defaults.find({context: 'project', resource: 'folder'})
+        return Defaults.find({context: 'project', resource: 'folder'})
         .then(function (defaultFolderContext) {
             // console.log("Results of folder defaults:", defaultFolderContext);
             if (defaultFolderContext.length === 0) {
-                Defaults.create(defaultFolderObj)
+                return Defaults.create(defaultFolderObj)
                 .then(function (def) {
                     console.log("Created Default:", def);
+                    resolve();
                 });
             } else {
                 // STUB: We have no purpose yet.
+                resolve();
             }
         });
     });
