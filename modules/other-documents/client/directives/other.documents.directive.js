@@ -39,5 +39,4 @@ function otherDocumentsListController($scope, _) {
 			});
 		}
 	});
-	console.log(sortedList, headings, vm.groupings);
 }

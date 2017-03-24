@@ -17,8 +17,8 @@
                 <section class="mb-0">
                     <h2 ng-bind-html="content(project, 'SUBTITLE', 'DETAILS')"></h2>
                     <ul class="nav nav-pills" role="tablist">
-                        <li class="nav-item" ng-repeat="t in tabs">
-                            <a class="nav-link" ng-class="{active:t.active}" href="" ui-sref="{{t.route}}" >{{t.heading}}</a>
+                        <li class="nav-item" ng-repeat="tab in tabs">
+                            <a class="nav-link" ng-class="{active:tab.active}" href="" ui-sref="{{tab.route}}" >{{tab.heading}}</a>
                         </li>
                     </ul>
                     <div ui-view class="view"></div>

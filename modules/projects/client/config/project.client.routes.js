@@ -27,8 +27,8 @@ angular.module('project').config (
 				// Force this false when we enter
 				$rootScope.isMapActive = false;
 				var lat = $scope.project.latitude, lng = $scope.project.longitude;
-				console.log("scope.project.latitude:", lat);
-				console.log("scope.project.longitude:", lng);
+				// console.log("scope.project.latitude:", lat);
+				// console.log("scope.project.longitude:", lng);
 				var apiKey = "AIzaSyCFL10NqreZxmQKTr_uBLxcars5-0b83nA";
 				var map ='';
 				map += "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lng;

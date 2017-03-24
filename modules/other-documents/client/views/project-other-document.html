@@ -1,7 +1,7 @@
-<section class="doc-section" ng-repeat="h in vm.groupings" >
+<section class="doc-section" ng-repeat="hdr in vm.groupings" >
 	<h3>{{h.name}}</h3>
 	<div class="mmti-accord mmti-doc-list" role="tablist" aria-multiselectable="false">
-		<div class="mmti-accord-item" ng-repeat="doc in h.list">
+		<div class="mmti-accord-item" ng-repeat="doc in hdr.list">
 			<div class="mmti-accord-header" role="tab" id="heading-{{doc._id}}">
 				<div>
 					<a class="toggle collapsed"
