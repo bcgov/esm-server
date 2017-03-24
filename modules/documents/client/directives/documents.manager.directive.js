@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, TreeModel, ProjectModel, Document, FolderModel) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -299,44 +299,61 @@ angular.module('documents')
 
 					//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
 					DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
-						.then(
-							function (result) {
-								//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
+					.then(
+						function (result) {
+							//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
 
-								self.unsortedFiles = _.map(result.data, function(f) {
-									// making sure that the displayName is set...
-									if (_.isEmpty(f.displayName)) {
-										f.displayName = f.documentFileName || f.internalOriginalName;
+							self.unsortedFiles = _.map(result.data, function(f) {
+								// making sure that the displayName is set...
+								if (_.isEmpty(f.displayName)) {
+									f.displayName = f.documentFileName || f.internalOriginalName;
+								}
+								if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
+									var od = JSON.parse(f.oldData);
+									//console.log(od);
+									try {
+										f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
+									} catch(ex) {
+										console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
 									}
-									if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
-										var od = JSON.parse(f.oldData);
-										//console.log(od);
-										try {
-											f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
-										} catch(ex) {
-											console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
-										}
+								}
+								return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
+							});
+
+							self.unsortedDirs = _.map(self.currentNode.children, function (n) {
+								return _.extend(n,{selected: (_.find(self.checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
+							});
+
+							self.applySort();
+							// since we loaded this, make it the selected node
+							self.selectedNode = self.currentNode;
+
+							// see what is currently checked
+							self.syncCheckedItems();
+							self.busy = false;
+						},
+						function (error) {
+							$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
+							self.busy = false;
+						}
+					).then(function () {
+						// Go through each of the currently available folders in view, and attach the object
+						// to the model dynamically so that the permissions directive will work by using the
+						// correct x-object=folderObject instead of a doc.
+						FolderModel.lookupForProjectIn($scope.project._id, self.currentNode.model.id)
+						.then(function (folder) {
+							_.each(folder, function (fs) {
+								// We do breadth-first because we like to talk to our neighbours before moving
+								// onto the next level (where we bail for performance reasons).
+								theNode.walk({strategy: 'breadth'}, function (n) {
+									if (n.model.id === fs.directoryID) {
+										n.model.folderObj = fs;
+										return false;
 									}
-									return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
 								});
-
-								self.unsortedDirs = _.map(self.currentNode.children, function (n) {
-									return _.extend(n,{selected: (_.find(self.checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
-								});
-
-								self.applySort();
-								// since we loaded this, make it the selected node
-								self.selectedNode = self.currentNode;
-
-								// see what is currently checked
-								self.syncCheckedItems();
-								self.busy = false;
-							},
-							function (error) {
-								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
-								self.busy = false;
-							}
-						);
+							});
+						});
+					});
 				};
 
 				self.syncCheckedItems = function(doc) {
