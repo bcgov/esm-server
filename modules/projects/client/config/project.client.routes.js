@@ -12,26 +12,31 @@ angular.module('project').config (
 			resolve: {
 				project: function ($stateParams, ProjectModel) {
 					return ProjectModel.byCode($stateParams.projectid);
-				},
-				otherDocuments: function($stateParams, project, OtherDocumentModel) {
-					return OtherDocumentModel.forProjectCode(project.projectCode);
 				}
 			},
-			controller: function ($rootScope, $scope, $stateParams, project, otherDocuments, _) {
+			controller: function ($rootScope, $scope, $location, $stateParams, $state, project) {
+				$scope.project = project;
+				$scope.tabs = [
+					{ heading: "Mine Summary", route:"project.overview", active:false, page:'DETAILS' },
+					{ heading: "Authorizations", route:"project.authorizations", active:false, page:'AUTHORIZATION' },
+					{ heading: "Compliance Oversight", route:"project.compliance", active:false, page:'COMPLIANCE' },
+					{ heading: "Other Documents", route:"project.docs", active:false, page:'DOCS' }
+				];
+
+				// Static map generation
 				// Force this false when we enter
 				$rootScope.isMapActive = false;
-				$scope.project = project;
-				$scope.otherDocuments = otherDocuments || [];
-				$scope.links = project.externalLinks;
-				console.log("scope.project.latitude:", $scope.project.latitude);
-				console.log("scope.project.longitude:", $scope.project.longitude);
+				var lat = $scope.project.latitude, lng = $scope.project.longitude;
+				// console.log("scope.project.latitude:", lat);
+				// console.log("scope.project.longitude:", lng);
 				var apiKey = "AIzaSyCFL10NqreZxmQKTr_uBLxcars5-0b83nA";
-				// Static map generation
-				$scope.project.staticMap = "https://maps.googleapis.com/maps/api/staticmap?center=" + $scope.project.latitude + "," + $scope.project.longitude;
-				$scope.project.staticMap += "&markers=color:red%7Clabel:";
+				var map ='';
+				map += "https://maps.googleapis.com/maps/api/staticmap?center=" + lat + "," + lng;
+				map += "&markers=color:red%7Clabel:";
 				//$scope.project.staticMap += $scope.project.commodityType === "Metal" ? "M" : "C";
-				$scope.project.staticMap += "%7C" + $scope.project.latitude + "," + $scope.project.longitude;
-				$scope.project.staticMap += "&zoom=4&size=320x180&maptype=map&scale=2&key=" + apiKey;
+				map += "%7C" + lat + "," + lng;
+				map += "&zoom=4&size=320x180&maptype=map&scale=2&key=" + apiKey;
+				$scope.project.staticMap = map;
 
 				$scope.content = function(p, type, page) {
 					try {
@@ -60,14 +65,58 @@ angular.module('project').config (
 					}
 				};
 
-				$scope.page = function(page) {
-					$scope.links = _.filter($scope.project.externalLinks, function(l) { return l.type === 'EXTERNAL_LINK'; } );
-				};
+				function pageLinks(page) {
+					$scope.links = _.filter($scope.project.externalLinks, function (link) {
+						return link.type === 'EXTERNAL_LINK';
+					});
+				}
 
-				$scope.page('DETAILS');
+				// when state changes update the tab's active state and reload the external links
+				$scope.$on("$stateChangeSuccess", function() {
+					var activeTab;
+					$scope.tabs.forEach(function(tab) {
+						tab.active =  $state.current.name === tab.route;
+						activeTab = tab.active ? tab : activeTab;
+					});
+					if (activeTab) {
+						pageLinks(activeTab.page);
+					}
+				});
+
+				// If user has navigated here from the mine list then transition to the overview tab
+				if ($state.current.name === 'project') {
+					$state.transitionTo('project.overview',	{projectid: $scope.project.code}, {reload: false, inherit: false, notify: true});
+				}
 			}
 		})
-
+		.state('project.overview', {
+			url: '/overview',
+			templateUrl: 'modules/projects/client/views/partials/overview.html'
+		})
+		.state('project.authorizations', {
+			url: '/authorizations',
+			templateUrl: 'modules/projects/client/views/partials/authorizations.html'
+		})
+		.state('project.compliance', {
+			url: '/compliance',
+			templateUrl: 'modules/projects/client/views/partials/compliance.html'
+		})
+		.state('project.docs', {
+			url: '/docs',
+			templateUrl: 'modules/projects/client/views/partials/otherDocs.html',
+			controllerAs: 'vm',
+			resolve: {
+				otherDocuments: function($stateParams, project, OtherDocumentModel) {
+					return OtherDocumentModel.forProjectCode(project.code);
+				}
+			},
+			controller: function ($rootScope, $scope, $stateParams, $state, project, otherDocuments) {
+				var vm = this;
+				vm.project = project;
+				vm.otherDocuments = otherDocuments;
+				vm.asString = otherDocuments.length;
+			}
+		})
 		;
 	}]);
 

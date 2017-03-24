@@ -1,0 +1,17 @@
+<!-- Compliance Oversight -->
+<div class="compliance tab-pane" id="compliance" role="tabpanel">
+  <!-- Putting generic content back in until we have content. -->
+  <!--
+  <p class="tab-intro"
+     ng-bind-html="content(project, 'INTRO_TEXT', 'COMPLIANCE')"></p>
+  -->
+  <p class="tab-intro">Compliance and enforcement (C&E) activities begin after a claim is staked and continue through exploration and the life of a mine. The Ministry of Energy and Mines (MEM), Ministry of Environment (ENV) and Environmental Assessment Office (EAO) work together to provide integrated oversight of British Columbia’s mining sector. Records of inspections conducted during the 2016 calendar year can be found below. To learn more about compliance oversight of major mines in general, <a ui-sref="compliance-oversight">click here</a>.</span></p>
+
+  <tmpl-project-compliance project="project"></tmpl-project-compliance>
+
+  <div class="main-footer">
+    <h3>Can't find what you are looking for?</h3>
+    <p>Ministry of Energy and Mines inspection reports for {{project.name}} from 2013 through to 2015 can be accessed at <a href="https://mines.empr.gov.bc.ca" target="_blank">mines.empr.gov.bc.ca</a>. These records will be moved to the new BC Mine Information website in the coming months.</p>
+    <a class="btn inverted slide-r-btn" href="https://mines.empr.gov.bc.ca" target="_blank"><span>Visit mines.empr.gov.bc.ca</span><i class="material-icons">open_in_new</i></a>
+  </div>
+</div>
