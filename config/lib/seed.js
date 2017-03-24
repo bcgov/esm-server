@@ -84,6 +84,11 @@ var seedingAsync = function() {
 	checkIntegration('loadfolders').then(function () {
 		require('../seed-data/load-folders')();
 	});
+
+	// Changing how we do things.  Run the default folder permission lookup
+	// every time.  It will make sure it looks for the default permission first
+	// and will update it if needed, or create it if it doesn't exist.
+	require('../seed-data/load-defaults-for-folders')();
 };
 
 // =========================================================================
