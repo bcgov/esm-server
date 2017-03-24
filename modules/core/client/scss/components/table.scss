@@ -12,7 +12,7 @@ $table-pagination-bg: #fff;
     table {
         width: 100%;
         table-layout: fixed;
-        background: $table-bg;
+        //background: $table-bg;
 
         thead {
             font-size: 1.2rem;
@@ -80,23 +80,14 @@ $table-pagination-bg: #fff;
             tr {
                 border-bottom: $table-row-border;
             }
-        }
 
-        td {
-            padding: 1.5rem 0.5rem;
-            vertical-align: top;
+            td {
+                padding: 1.5rem 0.5rem;
+                vertical-align: top;
 
-            &.table-row-actions {
-                padding-top: 0;
-                padding-bottom: 0;
-            }
-
-            &.pagination-container {
-                padding: 1.5rem;
-
-                ul {
-                    margin: 0;
-                    vertical-align: bottom;
+                &.table-row-actions {
+                    padding-top: 0;
+                    padding-bottom: 0;
                 }
             }
         }
@@ -106,13 +97,15 @@ $table-pagination-bg: #fff;
         tr {
             cursor: pointer;
 
-            &:hover {
-                background-color: $table-row-hover-bg;
-            }
+            tbody {
+                &:hover {
+                    background-color: $table-row-hover-bg;
+                }
 
-            &.no-records:hover {
-                cursor: default;
-                background-color: $table-bg;   
+                &.no-records:hover {
+                    cursor: default;
+                    background-color: $table-bg;   
+                }
             }
         }
     }
@@ -161,6 +154,55 @@ $table-pagination-bg: #fff;
                             display: block;
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+// Pagination Control
+$pgn-container-bg: #f7f8fa;
+$pgn-btn-active-bg: #5091cd;
+$pgn-btn-active-color: #fff;
+
+$pgn-btn-border: 1px solid #ccc;
+$pgn-btn-color: #000;
+
+
+.pagination-container {
+    padding: 1rem;
+    overflow: hidden;
+    border-top: none;
+    background: $pgn-container-bg;
+    font-size: 1.2rem;
+    font-weight: bold;
+
+    .pgn-btns {
+        button {
+            padding: 0 0.5rem;
+            min-width: 3.4rem;
+            min-height: 3.4rem;
+            border: $pgn-btn-border;
+            color: $pgn-btn-color;
+            text-align: center;
+
+            &:hover,
+            &:focus {
+                border-color: $pgn-btn-active-bg;
+                background-color: rgba($pgn-btn-active-bg, 0.8);
+                color: $pgn-btn-active-color;
+            }
+
+            &.active {
+                border-color: $pgn-btn-active-bg;
+                background-color: $pgn-btn-active-bg;
+                color: $pgn-btn-active-color;
+
+                &:hover,
+                &:focus {
+                    border-color: $pgn-btn-active-bg;
+                    background-color: rgba($pgn-btn-active-bg, 0.8);
+                    color: $pgn-btn-active-color;
                 }
             }
         }
