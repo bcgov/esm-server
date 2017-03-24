@@ -8,25 +8,240 @@ $pcp-btn-color: #fff;
 $pcp-btn-text-shadow: 1px 1px 0 #3c85c7;
 $pcp-text-shadow: 1px 1px 1px #3478b6;
 
+$pcp-open-badge-bg: #5091cd;
+$pcp-pending-badge-bg: #666;
+$pcp-closed-badge-bg: #5cb85c;
+$pcp-comment-icon-color: #ccc;
+
 .pcp-alert-container {
     margin-bottom: 2rem;
 }
+
+.pcp-table {
+    td {
+        &.date-col {
+            font-weight: bold;
+        }
+
+        &.count-col {
+            .glyphicon {
+                margin-top: -0.2rem;
+                margin-right: 0.5rem;
+                color: #ccc;
+                vertical-align: middle;
+                font-size: 1.8rem;
+            }
+
+            .count {
+                font-size: 1.2rem;
+                font-weight: bold;
+            }
+        }
+
+        &.status-col {
+            .label {
+                background-color: $pcp-comment-icon-color;
+                text-transform: uppercase;
+
+                &.closed,
+                &.completed,
+                &.unpublished {
+                    background-color: $pcp-closed-badge-bg;
+                }
+
+                &.open {
+                    background-color: $pcp-open-badge-bg;
+                }
+
+                &.pending {
+                    background-color: $pcp-pending-badge-bg;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 759px) {
+    .pcp-table {
+        thead {
+            background: transparent !important;
+            
+            tr {
+                position: relative;
+                display: block;
+                margin-bottom: 0.5rem;
+                text-align: right;
+            }
+            
+            th {
+                display: inline-block;
+                width: 50%;
+                text-align: center !important;
+
+                &.count-col,
+                &.date-col,
+                &.status-col {
+                    @include flex(0 0 auto);
+                }
+
+                &.count-col,
+                &.details-col {
+                    display: none;
+                }
+            }
+        }
+
+        > tbody {
+            display: block;
+
+            > tr {
+                position: relative;
+                display: block;
+
+                > td {
+                    display: block;
+                    padding: 1.25rem;
+                    border: none;
+                }
+            }
+        }
+
+        td {
+            &.actions-col {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            &.count-col {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 6rem;
+                padding-right: 1.25rem !important;
+                padding-left: 0;
+                text-align: right;
+            }
+
+            &.date-col {
+                padding-top: 1.25rem;
+                padding-right: 1.25rem;
+                padding-bottom: 1rem;
+                padding-left: 1.25rem !important;
+                font-size: 1.6rem;
+            }
+
+            &.details-col {
+                padding-top: 0;
+            }
+
+            &.status-col {
+                position: absolute;
+                top: 0;
+                right: 6rem;
+                padding-right: 0;
+                width: auto;
+
+                .label {
+                    min-width: 7rem;
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        &.can-edit {
+            th.actions-col {
+                display: none;
+            }
+
+            td {
+                &.count-col {
+                    right: 4rem;
+                }
+
+                &.status-col {
+                    right: 11rem;
+                }
+
+                &.actions-col {
+                    position: absolute;
+                    top: 0;
+                    right:0;
+
+                    .btn-group {
+                        top: 0.4rem;
+                        right: 0.4rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@media (min-width: 760px) {
+    .pcp-table {
+        > tbody {
+            > tr {
+                > td {
+                    padding: 1.5rem 0.5rem;
+                    vertical-align: top;
+                }
+            }
+        }
+
+        .date-col {
+            width: 12rem;
+        }
+
+        .status-col {
+            width: 12rem;
+
+            .label {
+                min-width: 8rem;
+            }
+        }
+
+        .count-col {
+            width: 8.5rem;
+            padding-right: 1rem;
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .pcp-table {
+        .date-col {
+            width: 14rem;
+        }
+
+        .status-col {
+            width: 14rem;
+        }
+
+        .count-col {
+            width: 8.5rem;
+            padding-right: 1rem;
+        }
+    }
+}
+
 
 // Public Comment Period Alert Banner
 .pcp-alert {
     @include flexbox();
     flex-direction: column;
     padding: 2rem;
+    border-radius: 0.25rem;
 	background: $pcp-alert-bg;
 	color: $pcp-alert-color;
-    text-align: center;
 
     .pcp-alert-info {
         @include flex(1 1 auto);
 
         h2 {
             margin: 0;
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: bold;
         }
 
@@ -34,7 +249,6 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
             margin-top: 1rem;
             display: block;
             color: $pcp-btn-color;
-            font-size: 1.2rem;
         }
     }
 
@@ -49,11 +263,12 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
             @include flex(1 1 auto);
             padding: 1rem;
             border: $pcp-btn-border;
+            border-radius: 0.25rem;
             background-color: $pcp-btn-bg;
             color: $pcp-btn-color;
             text-shadow: $pcp-btn-text-shadow;
             font-size: 1.25rem;
-            font-weight: normal;
+            font-weight: bold;
             transition: background ease-out 0.2s;
 
             
@@ -72,7 +287,6 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
 
         .pcp-btn-spacer {
             @include flex(1 1 auto); 
-            margin: 0.25rem;
             text-align: center;
         }
     }
@@ -86,7 +300,7 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
             }
 
             .pcp-dates {
-                margin-top: 0.25rem;
+                margin-top: 0;
             }
         }
 
@@ -190,31 +404,6 @@ $pcp-text-shadow: 1px 1px 1px #3478b6;
 		}
 	}
 }
-
-
-// List of Public Comment Periods
-.pcp-table {
-    td, th {
-        &:first-child {
-            padding-left: 1.25rem;
-        }
-    }
-
-    .status-col {
-        width: 7.5rem;
-
-        .glyphicon {
-            margin-top: 1.4rem;
-            font-size: 1.8rem;
-        }
-    }
-
-    td.status-col {
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-}
-
 
 // Comments Table
 .comment-table {
