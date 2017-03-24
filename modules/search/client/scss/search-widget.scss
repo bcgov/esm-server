@@ -118,6 +118,13 @@ tr.selected td {
 }
 
 .search-table {
+    .selected {
+        /*  Force over-write the tr.selected styling from core.  */
+        color: $inverted-text-color !important;
+        background: $selected-color !important;
+        border-top: none !important;
+        border-bottom: 1px solid $selected-border-color !important;
+    }
     .checkbox-col {
         width: 4rem;
     }
@@ -145,14 +152,11 @@ tr.selected td {
             text-align: center;
             color: #000;
         }
+        .selected {
+            color: $inverted-text-color !important;
+        }
     }
-    .selected {
-        /*  Force over-write the tr.selected styling from core.  */
-        color: $inverted-text-color !important;
-        background: $selected-color !important;
-        border-top: none !important;
-        border-bottom: 1px solid $selected-border-color !important;
-    }
+
     .document-info {
         @extend .flex-row;
         .icon {
