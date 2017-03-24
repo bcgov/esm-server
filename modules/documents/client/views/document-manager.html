@@ -214,6 +214,16 @@
 													<span class="glyphicon glyphicon-trash"></span>
 												</button>
 											</li>
+											<li ng-if="project.userCan.manageFolders">
+												<button class="btn icon-btn" title="Edit Permissions" ng-click="$event.stopPropagation();"
+														x-role-permissions-modal
+														x-context="project"
+														x-object="doc.model.folderObj"
+														x-reload="'false'"
+														x-callback="documentMgr.onPermissionsUpdate">
+													<span class="glyphicon glyphicon-cog"></span></button>
+												</button>
+											</li>
 											<li>
 												<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
 													<span class="glyphicon glyphicon-info-sign"></span>

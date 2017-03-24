@@ -33,18 +33,10 @@ module.exports = DBModel.extend ({
 	// get documents for a project sort by name
 	//
 	// -------------------------------------------------------------------------
-	getFoldersForProject : function (projectid, reviewdocsonly) {
+	getFoldersForProject : function (projectid, parentid) {
 		return this.list ({
 			project: projectid,
-			documentIsLatestVersion: true,
-			$or: [
-				{existsdocumentIsInReview: reviewdocsonly || false},
-				{existsdocumentIsInReview: {$exists: false }}
-			]
-		},
-		null,
-		{
-			internalOriginalName : 1
+			parentID: parentid
 		});
 	},
 	// -------------------------------------------------------------------------
