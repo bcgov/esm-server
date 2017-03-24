@@ -85,13 +85,10 @@
 							<option ng-repeat="option in s.topicsArray" value="{{option.id}}">{{option.name}}</option>
 						</select>
 					</th>
-					<th class="date-col">
-						
-					</th>
+					<th class="date-col"></th>
 				</tr>
-
+				
 			</thead>
-
 			<tbody>
 				<tr class="comment-row clickable"  ng-repeat="o in s.displayed" ng-click="s.detail(o)">
 					<td class="id-col no-mobile" ng-if="authentication.user">
@@ -126,22 +123,14 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td class="pagination-container clearfix" colspan="{{s.colspan -1}}">
+					<td class="pagination-container" colspan="{{s.colspan -1}}">
 						<div class="pull-left" st-pagination="" st-items-by-page="s.pageSize" st-template="modules/core/client/views/st-template.html"></div>
-						<ul class="pull-right pagination">
-							<li ng-class="{active: s.pageSize==10}">
-								<a ng-click="s.changePageSize(10)">10</a>
-							</li>
-							<li ng-class="{active: s.pageSize==20}">
-								<a ng-click="s.changePageSize(20)">20</a>
-							</li>
-							<li ng-class="{active: s.pageSize==50}">
-								<a ng-click="s.changePageSize(50)">50</a>
-							</li>
-							<li ng-class="{active: s.pageSize==100}">
-								<a ng-click="s.changePageSize(100)">100</a>
-							</li>
-						</ul>
+						<div class="pgn-btns btn-group pull-right">
+							<button class="btn btn-default btn-sm" ng-class="{active: s.pageSize==10}" ng-click="s.changePageSize(10)">10</button>
+							<button class="btn btn-default btn-sm" ng-class="{active: s.pageSize==20}" ng-click="s.changePageSize(20)">20</button>
+							<button class="btn btn-default btn-sm" ng-class="{active: s.pageSize==50}" ng-click="s.changePageSize(50)">50</button>
+							<button class="btn btn-default btn-sm" ng-class="{active: s.pageSize==100}" ng-click="s.changePageSize(100)">100</button>
+						</div>
 					</td>
 				</tr>
 			</tfoot>
