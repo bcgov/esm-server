@@ -29,7 +29,8 @@
                     <h4>Project Details</h4>
                     <div class="map-section">
                         <div class="map-thumb">
-                            <a href ui-sref="maps({project: project})"><img src="{{project.staticMap}}"/></a>
+                            <a href ui-sref="maps({project: project})" style="background-image: url({{project.staticMap}})"></a>
+                            <!-- <a href ui-sref="maps({project: project})"><img src="/modules/core/client/images/staticmap.png"/></a> -->
                         </div>
                     </div>
                     <ul class="mmti-side-list mine-details-list">
@@ -63,7 +64,7 @@
                 <section ng-if="links.length > 0">
                     <h4>External Links &amp; Resources</h4>
                     <ul class="mmti-side-list">
-                        <li ng-repeat="l in links">
+                        <li ng-repeat="l in links | unique:'link'">
                             <a target="_blank" href="{{l.link}}">{{l.title}}</a>
                         </li>
                     </ul>

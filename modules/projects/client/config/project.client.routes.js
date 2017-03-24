@@ -35,7 +35,7 @@ angular.module('project').config (
 				map += "&markers=color:red%7Clabel:";
 				//$scope.project.staticMap += $scope.project.commodityType === "Metal" ? "M" : "C";
 				map += "%7C" + lat + "," + lng;
-				map += "&zoom=4&size=320x180&maptype=map&key=" + apiKey;
+				map += "&zoom=4&size=320x180&maptype=map&scale=2&key=" + apiKey;
 				$scope.project.staticMap = map;
 
 				$scope.content = function(p, type, page) {
@@ -67,7 +67,7 @@ angular.module('project').config (
 
 				function pageLinks(page) {
 					$scope.links = _.filter($scope.project.externalLinks, function (link) {
-						return link.type === 'EXTERNAL_LINK' && link.page === page;
+						return link.type === 'EXTERNAL_LINK';
 					});
 				}
 

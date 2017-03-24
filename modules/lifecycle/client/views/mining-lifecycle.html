@@ -1,10 +1,24 @@
 
-<div class="hero-banner">
+<div class="hero-banner banner-sample-1">
     <div class="container">
         <div class="container-inner">
             <div class="hb-txt">
                 <h1>The Mining Lifecycle</h1>
-                <p class="mb-2">It can take decades to develop a deposit into a mine, which in turn can operate for decades.</p>
+                <p>It can take decades to develop a deposit into a mine, which in turn can operate for decades.</p>
+                <div class="hb-btns">
+					<a class="btn hero-btn inverted" href="#exploration" 
+                        du-smooth-scroll offset="100"><span>Exploration</span>
+                    </a>&nbsp;
+					<a class="btn hero-btn inverted" href="#development" 
+                        du-smooth-scroll offset="100"><span>Development</span>
+                    </a>&nbsp;
+                    <a class="btn hero-btn inverted" href="#operation" 
+                        du-smooth-scroll offset="100"><span>Operation</span>
+                    </a>&nbsp;
+                    <a class="btn hero-btn inverted" href="#closure" 
+                        du-smooth-scroll offset="100"><span>Closure</span>
+                    </a>
+				</div>
             </div>
         </div>
     </div>
@@ -13,7 +27,7 @@
 <div class="container" id="anchor-point">
     <div class="row">
         <main class="col-lg-8">
-            <section>
+            <section id="exploration">
                 <h3>Exploration</h3>
                 <h4>Geoscience/Prospecting</h4>
                 <p>Searching for mineral deposits is the first step of the mining lifecycle. During this stage, large areas are often evaluated by airborne or ground-based surveys, such as those conducted by the <a href="http://www.empr.gov.bc.ca/MINING/GEOSCIENCE/Pages/default.aspx/" target="_blank">BC Geological Survey</a>. These surveys provide important geological and geoscientific information about mineral and coal resources and potential. This information encourages investment in mineral and coal exploration by helping prospectors and companies target promising areas.</p>
@@ -26,7 +40,7 @@
                 <p>During the advanced exploration phase, drilling programs are intensified to further enhance knowledge of the shape of the deposit and the characteristics of the orebody. The results of advanced exploration are used to estimate the mineral or coal reserve, and feasibility studies are based on these estimates.</p>
             </section>
             <hr>
-            <section>
+            <section id="development">
                 <h3>Development</h3>
                 <h4>Feasibility</h4>
                 <p>The feasibility stage begins once exploration activities indicate that a mineral or coal deposit is worthy of further evaluation. Using the estimated mineral/coal reserve as a basis, feasibility studies assess the technical, legal and economic viability of developing the deposit. Advanced exploration often goes on during the feasibility stage and may result in adjustments to mineral reserve estimates.</p>
@@ -40,13 +54,13 @@
                 <p>Progressive reclamation begins during the construction phase and continues until a mine site is fully reclaimed after mine closure.</p>
             </section>
             <hr>
-            <section>
+            <section id="operation">
                 <h3>Operation</h3>
                 <p>The operation phase begins once a mine is constructed and starts producing. Mining operations include extraction and processing of ore as well as waste disposal and ore transport.</p>
-                <p><a ui-sref="reclamation-and-securities">Progressive reclamation</a> begins during the mine construction phase and continues until a site is fully reclaimed after mine closure.</p>
+                <p><a ui-sref="reclamation">Progressive reclamation</a> begins during the mine construction phase and continues until a site is fully reclaimed after mine closure.</p>
             </section>
             <hr>
-            <section class="mb-0">
+            <section class="mb-0" id="closure">
                 <h3>Closure</h3>
                 <p>Mine closure is the final phase of the mining lifecycle. A mine’s life comes to an end once production reserves are exhausted or it is no longer economically viable to continue extracting resources from the site. Shutdown and decommissioning of a mine involves removing equipment (e.g., vehicles, processing equipment), dismantling facilities (e.g., mills, workers’ quarters) and safely closing all mine workings. <a ui-sref="authorizations({'#': 'minesActPermits'})">Mines Act permits</a> include site-specific conditions regarding detailed closure and reclamation plans.</p>
                 <p class="mb-0">Because increases in commodity prices and advances in technology can improve the economic viability of mining a deposit, closed mines are sometimes re-opened. When companies want to re-open or re-develop a major mine that has been closed for many years, they usually need to begin the <a ui-sref="authorizations">authorizations</a> process anew.</p>
@@ -57,7 +71,7 @@
                 <h4>Ongoing Lifecycle Activities</h4>
                 <div class="section-body">
                     <h5>Reclamation</h5>
-                    <p><a ui-sref="reclamation-and-securities">Progressive reclamation</a> begins during the construction phase and continues until a site is fully reclaimed after mine closure.</p>
+                    <p><a ui-sref="reclamation">Progressive reclamation</a> begins during the construction phase and continues until a site is fully reclaimed after mine closure.</p>
                     <hr>
                     <h5>Monitoring &amp; Reporting</h5>
                     <p class="mb-0">Monitoring includes environmental (e.g., <a ui-sref="water-quality">water quality</a>) testing and assessments of structures (e.g., <a ui-sref="tailings-management">tailings management facilities</a>). Monitoring activities begin long before a mine is constructed in order to gather baseline information on the site.</p>

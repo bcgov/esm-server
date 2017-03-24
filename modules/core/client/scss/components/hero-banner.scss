@@ -1,9 +1,19 @@
 
 // Banner
 .hero-banner {
+    background-image: url("/modules/core/client/images/sample-bg-img-duotone-2.jpg");
+    background-repeat: no-repeat;
+
+    //&.banner-sample-1 {
+        //background-image: url("/modules/core/client/images/sample-bg-img-duotone-3.jpg");
+        //background-size: 100%;
+    //}
+}
+
+
+.hero-banner {
     position: relative;
-    height: 23rem;
-    //border-bottom: 4px solid $gold;
+    height: 24rem;
     background-color: rgba($header-bg, 0.85);
     background-size: 280%;
     background-position: -8rem 0;
@@ -20,20 +30,21 @@
     }
 }
 
-.hero-btn {
-    padding: 0.4rem 0.5rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
+.hb-btns {
+    .btn {
+        margin-top: 0.45rem;
+        padding: 0.5rem;
+        min-width: 7rem;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
 }
 
 @media (min-width: 400px) {
     .hero-banner {
         background-size: 230%;
         background-position: -150px center;
-    }
-
-    .hero-btn {
-        padding: 0.65rem 1rem;
     }
 }
 
@@ -80,7 +91,7 @@
 @media (min-width: 1360px) {
     .hero-banner {
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
         }
     }
 }
@@ -88,8 +99,7 @@
 
 // Banner Text
 .hb-txt {
-    padding: 0 1.5rem;
-    //background-color: rgba(#003366, 0.75); 
+    padding: 0 1.5rem; 
     color: #FFF;
 
     h1 {
@@ -106,7 +116,8 @@
     p {
         margin-bottom: 1.5rem;
         font-size: 0.9375rem;
-        line-height: 1.5rem;
+        font-weight: 300;
+        line-height: 1.4rem;
     }
 
     strong {
@@ -141,13 +152,13 @@
         padding: 2rem;
 
         h1 {
-            margin-bottom: 2.25rem;
+            margin-bottom: 2.15rem;
             font-size: 2.4rem;
             line-height: 2.5rem;
         }
 
         p {
-            margin-bottom: 2.75rem;
+            margin-bottom: 2.5rem;
             font-size: 1rem;
             line-height: 1.75rem;
         }
@@ -156,8 +167,16 @@
 
 @media (min-width: 900px) {
     .hb-txt {
-        margin-top: 3.5rem;
-        max-width: 43rem;
+        margin-top: 2rem;
+
+        h1 {
+            font-size: 2.65rem;
+        }
+
+        p {
+            line-height: 2rem;
+            font-size: 1.25rem;
+        }
     }
 }
 
@@ -165,11 +184,10 @@
 // Banner Buttons
 .hb-btns {
     strong {
-        margin-bottom: 0.5rem;
         display: block;
-        color: $gold;
+        color: #fff;
         font-size: 1rem;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     .btn {
