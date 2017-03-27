@@ -2,7 +2,7 @@
 
 	<div class="fb-header">
 		<div class="fb-breadcrumbs">
-			Documents
+			Found {{vm.displayResults.length}} Results
 		</div>
 		<div class="file-batch-actions">
 			<div class="fb-menu btn-group">
@@ -104,8 +104,8 @@
 									<span class="fb-img glyphicon glyphicon-picture" ng-if="item.isFile && item.isImage"></span>
 								</div>
 								<div class="sr-info">
-									<div class="name">{{ item.displayName }}</div>
-									<div class="sr-desc" ng-if="item.description">{{ item.description | maxWords: 20 }}</div>
+									<div class="sr-name">{{ item.displayName }}</div>
+									<div class="sr-desc" ng-if="item.description">{{ item.description }}</div>
 								</div>
 							</div>
 						</td>
