@@ -2,10 +2,11 @@
 
 angular.module('search').service('SearchService', searchService);
 
+console.log("BG SearchService");
 
-searchService.$inject = ['$http', '$state', '$rootScope'];
+searchService.$inject = [ '$http', '$state', '$rootScope'];
 /* @ngInject */
-function searchService($http, $state, $rootScope) {
+function searchService( $http, $state, $rootScope) {
 	var self = this;
 	self.searchResults = [];
 
@@ -25,10 +26,18 @@ function searchService($http, $state, $rootScope) {
 		});
 	}
 
-	function searchDocuments(project, searchText) {
-		$http({method: 'GET', url: '/api/searchDocuments?projectId=' + project._id.toString() + '&searchText=' + searchText.toString()})
+	function searchDocuments(project, searchText, start, limit) {
+		start = start || 0;
+		limit = limit || 10;
+		//console.log("SearchDocuments", project._id.toString(), searchText, start, limit);
+		var url =  '/api/searchDocuments?projectId=' + project._id.toString();
+		url += '&searchText=' + searchText.toString();
+		url += '&start=' + start;
+		url += '&limit=' + limit;
+
+		$http({method: 'GET', url: url})
 			.then(function (results) {
-				console.log("BG search service http returned ", results);
+				console.log("Search service http returned ", results);
 				self.searchResults = results.data;
 				$rootScope.$broadcast('search-results-documents');
 			});

@@ -31,7 +31,6 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 
 			// if the user enters new search text the search service will notify us here when it has results.
 			$rootScope.$on('search-results-documents', function() {
-				console.log("handle search results");
 				reload();
 			});
 
@@ -48,7 +47,9 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			function reload() {
 				self.isLoading = true;
 				self.currentFiles = SearchService.getSearchResults();
-				console.log("Search results directive reload",self.currentFiles);
+				self.currentFiles = self.currentFiles.data;
+				// TODO Search ... explain .data
+				console.log("Search results directive reload, currentFiles",self.currentFiles);
 				self.displayResults = [];
 				_.forEach(self.currentFiles, function (item) {
 					var displayItem = {};
@@ -63,7 +64,7 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 					displayItem.doc = item;
 					self.displayResults.push(displayItem);
 				});
-				console.log(self.displayResults);
+				console.log("Search results directive reload, displayResults",self.displayResults);
 				self.isLoading = false;
 			}
 
