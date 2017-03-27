@@ -1,6 +1,6 @@
 'use strict';
 angular.module('documents')
-	.directive('documentSearchWidget', documentSearchWidgetDirective)
+	.directive('documentSearchWidget', documentSearchWidgetDirective);
 
 documentSearchWidgetDirective.$inject = ['_', 'SearchService'];
 /* @ngInject */

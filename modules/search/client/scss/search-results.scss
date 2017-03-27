@@ -1,0 +1,122 @@
+.sr-browser-container  {
+    position: relative;
+
+    .file-browser {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        bottom: 1.5rem;
+        left: 1.5rem;
+    }
+
+    .table-container {
+        table {
+            @include flexbox();
+            @include flexdirection(column);
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+$list-selected-color: #FFF;
+$list-selected-bg: #5091cd;
+$list-selected-hover-bg: #4187c9;
+$list-selected-border: 1px solid #4187c9;
+
+.sr-table {
+    tr {
+        display: table;
+        width: 100%;
+    }
+
+    thead, tbody, tfoot {
+        display: block; /* Required for IE */ 
+    }
+
+    thead {
+        @include flex(0 0 auto);
+        width: 100%;
+
+        > tr {
+            > th {
+                &.actions-col.x1 {
+                    width: 6.7rem;
+                }
+            }
+        }
+    }
+
+    tbody {
+        @include flex(1 1 auto);
+        overflow-y: scroll;
+
+        > tr {
+            > td {
+                vertical-align: top;
+
+                &.actions-col.x1 {
+                    width: 5rem;
+                }
+            }
+
+            &.selected {
+                > td {
+                    border-bottom: $list-selected-border;
+                    background: $list-selected-bg;
+                    color: $list-selected-color;
+
+                    .glyphicon {
+                        color: inherit;
+                    }
+                }
+            }
+        }
+    }
+
+    tfoot {
+        @include flex(0 0 auto);
+        margin-top: -1px;
+    }
+
+    .checkbox-col {
+        width: 4rem;
+    }
+
+    .date-added-col {
+        width: 20rem;
+    }
+
+    .name-col {
+        padding-left: 1.5rem;
+
+        .name-col-inner {
+            @include flexbox();
+
+            .avatar {
+                @include flex(0 0 auto);
+                margin-top: -0.2rem;
+                margin-right: 0.75rem;
+                margin-bottom: -0.5rem;
+                font-size: 1.8rem;
+            }
+
+            .sr-info {
+                @include flex(1 1 auto);
+
+                .sr-desc {
+                    margin-top: 0.5rem;
+                }
+            }
+        }
+    }
+
+    .status-col {
+        width: 18rem;
+
+        .glyphicon {
+            font-size: 1.8rem;
+            vertical-align: top;
+        }
+    }
+}
