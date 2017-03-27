@@ -1,6 +1,7 @@
 'use strict';
 
-angular.module('search').config(['$stateProvider', function ($stateProvider) {
+angular.module('search')
+	.config(['$stateProvider',  function ($stateProvider) {
 	$stateProvider
 		.state('p.search', {
 			url: '/search/:searchText',
@@ -9,14 +10,17 @@ angular.module('search').config(['$stateProvider', function ($stateProvider) {
 			resolve: {
 				searchText: function($stateParams) {
 					return $stateParams.searchText;
+				},
+				results : function ($stateParams, project, SearchService) {
+					console.log("BG initiate search",$stateParams.searchText, $stateParams.sortBy, $stateParams.start, $stateParams.limit);
+					return SearchService.searchDocuments(project, $stateParams.searchText, $stateParams.sortBy, $stateParams.start, $stateParams.limit);
 				}
 			},
-			controller: function($scope, project, searchText) {
+			controller: function($scope, project, searchText, results) {
 				$scope.project = project;
 				$scope.searchText = searchText;
-				// Used to start the documentUI in a specific folder location.
-				console.log("BG search route window.location.search", project.code, searchText);
-				//$scope.search = window.location.search;
+				$scope.results = results;
+				console.log("BG controller has put results into scope", results);
 			}
 		});
 

@@ -183,8 +183,24 @@ module.exports = DBModel.extend ({
 			internalOriginalName : 1
 		});
 	},
-	searchDocuments : function(projectId, searchText) {
-		console.log("Document search for:", projectId, searchText);
+	/**
+	 * Search for documents
+	 * @param projectId
+	 * @param searchText
+	 * @param sortBy:
+	 * @param start: the index to start from
+	 * @param limit: page size
+	 * @returns {Promise}
+	 */
+	searchDocuments : function(projectId, searchText, orderBy, start, limit) {
+		var self = this;
+		// build query
+		var query = { project: projectId };
+
+		var success = dbcore.composeSearch(searchText,query);
+
+
+		console.log("Core Doc Cntlr: searchDocuments for:", projectId, searchText, orderBy, start, limit);
 		if (! _.isString(searchText)) {
 			return Promise.reject("Search requires searchText");
 		}
@@ -192,40 +208,40 @@ module.exports = DBModel.extend ({
 		// e.g. searchText = 'apple "pear orange" fig "rosemary and wine"';
 		var re = /("[^"]*")/g;
 		var phrases = searchText.match(re);
-		// console.log(phrases);
 		// phrases = [ '"pear orange"', '"rosemary and wine"' ]
 
 		_.forEach(phrases,function(v){
 			searchTerms.push(v.replace(/\"/g,''));
 		});
 		// searchTerms = [ 'pear orange', 'rosemary and wine' ]
-		// console.log(searchTerms);
+		console.log(searchTerms);
 
 		// next get remaining search terms removing extra spaces
 		var remainder = searchText.replace(re,'');
 		remainder = remainder.trim();
 		remainder = remainder.replace(/  /g,' ');
 		// remainder = 'apple fig'
-		// console.log(remainder);
 
-		var parts = remainder.split(' ');
+		var parts = remainder.length > 0 ? remainder.split(' ') : [];
 		_.forEach(parts,function(v){
+			console.log('push part', v);
 			searchTerms.push(v);
 		});
+		console.log(searchTerms);
 		// searchTerms = [ 'pear orange', 'rosemary and wine', 'apple', 'fig' ]
-		// console.log(searchTerms);
 
 		if (searchTerms.length === 0) {
 			return Promise.reject("Search requires searchText");
 		}
 
-		// build query
-		var query = { project: projectId };
+
+
 		if (searchTerms.length === 1) {
 			re = new RegExp('.*' + searchTerms[0] + '.*');
 			query.$or = [
 				{ displayName: re },
 				{ description: re },
+				{ documentFileName: re },
 				{ keywords: re }
 			];
 		} else {
@@ -241,18 +257,52 @@ module.exports = DBModel.extend ({
 				{ keywords:  { $in:  reArray }  }
 			];
 		}
-		return this.findMany ( query )
-		.then(function(result) {
-			if (result !== null) {
-				//console.log("Document search found:", result);
-				return result;
-			}
-		})
-		.catch (function (err) {
-			console.log("Document search found nothing");
-			return null;
-		});
-	},	// -------------------------------------------------------------------------
+		console.log('SearchTerms', searchTerms, query.$or);
+
+		var filterByFields = {};
+		var sortBy = '';
+		var fields = null;
+		fields = {
+			'displayName': 1,
+			'dateUpdated': 1,
+			'isPublished': 1,
+			'documentFileName': 1,
+			'keywords' : 1,
+			'description': 1
+		};
+		var populate = null;
+		var userCan = false;
+
+		// Parse order by, if present. Do not reuse URL components to prevent injection.
+		// Expected input: orderBy=Field1,Field2 desc
+		// Mongoose allows sort by string. http://mongoosejs.com/docs/api.html#query_Query-sort
+		if (orderBy) {
+			var parts = orderBy.split(',');
+			var needsSpace = false;
+			_.forEach(parts, function(part) {
+				var field = part.split(' ');
+				var name = field[0];
+				var orderPrefix = needsSpace ? ' ' : '';
+				if (field[1] && field[1] == 'desc') {
+					orderPrefix += '-';
+				}
+				if (name === 'displayName') {
+					sortBy +=  orderPrefix + 'displayName';
+				}
+				if (name === 'dateUpdated') {
+					sortBy +=  orderPrefix + 'dateUpdated';
+				}
+				if (name === 'isPublished') {
+					sortBy +=  orderPrefix + 'isPublished';
+				}
+				needsSpace = true;
+			});
+			console.log("Core Doc Cntlr: apply sort: ", sortBy);
+		}
+
+		return self.paginate(query, filterByFields, start, limit, fields, populate, sortBy, userCan);
+	},
+	// -------------------------------------------------------------------------
 	//
 	// get document types for a project, returns an array of unique groups
 	// of folder types, sub types and names
