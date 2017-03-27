@@ -109,90 +109,6 @@ $search-widget-btn-offset: 0.1rem;
     }
 }
 
-$selected-color: #5091cd;
-$selected-border-color: #4187c9;
-$inverted-text-color: #FFF;
-
-tr.selected td {
-    border-top: none !important;
-}
-
-/*
-Show scroll bar on large datasets.
- */
-.file-browser-search {
-    overflow: visible;
-}
-
-.search-table {
-    .selected {
-        /*  Force over-write the tr.selected styling from core.  */
-        color: $inverted-text-color !important;
-        background: $selected-color !important;
-        border-top: none !important;
-        border-bottom: 1px solid $selected-border-color !important;
-    }
-    .checkbox-col {
-        width: 4rem;
-    }
-    .date-added-col {
-        width: 20rem;
-    }
-    .status-col {
-        width: 8rem;
-    }
-    .actions-col {
-        width: 8rem;
-        .btn-group {
-            opacity: 1;
-        }
-    }
-    .row-actions {
-        display: block;
-        //position: absolute;
-        //top: 0.6rem;
-        right: 2.5rem;
-        .btn {
-            padding: 0;
-            width: 3.4rem;
-            height: 3.4rem;
-            text-align: center;
-            color: #000;
-        }
-        .selected {
-            color: $inverted-text-color !important;
-        }
-    }
-
-    .document-info {
-        @extend .flex-row;
-        .icon {
-            @include flex(0 0 auto);
-            .avatar {
-                margin-right: 0.75rem;
-                text-align: center;
-                .glyphicon {
-                    margin-top: -0.2rem;
-                    font-size: 3rem;
-                    vertical-align: top;
-                }
-            }
-        }
-        .text {
-            @extend .flex-column;
-            @include flex(1 1 auto);
-            .name {
-                @include flex(1 1 auto);
-            }
-            .description {
-                @include flex(1 1 auto);
-            }
-        }
-    }
-}
-
-
-
 @media (max-width: 750px) {
     .search-widget {
         .dropdown-menu {
@@ -375,11 +291,4 @@ $sw-form-font-size: 1.3rem;
             animation: sw-search-results-anim 2s forwards;
         }
     }
-}
-
-.sw-results-label {
-    @include flex(1 1 auto);
-    padding-top: 0.75rem;
-    padding-left: 1rem;
-    font-weight: bold;
 }

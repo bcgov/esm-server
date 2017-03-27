@@ -74,208 +74,201 @@
 
 	<div class="fb-body" ng-class="{'panel-open': vm.infoPanel.open}">
 
-		<div class="table-container">
-
-			<table class="search-table"  st-table="vm.somethingElse" st-safe-src="vm.displayResults">
+		<div class="table-container fb-list sr-table">
+			<table class="sr-table table" st-table="vm.somethingElse" st-safe-src="vm.displayResults">
 				<thead>
-				<tr class="sort-row">
-					<th class="col checkbox-col" ng-if="vm.authentication.user">
-						<input id="select-all" type="checkbox" title="Select All / None" ng-model="vm.allChecked" ng-click="vm.checkAll()"/>
-						<label for="select-all"><span class="glyphicon glyphicon-ok"/></label>
-					</th>
-					<th class="name-col" st-sort="name">Name <span class="sort-icon"/></th>
-					<th class="date-added-col" st-sort="date">Uploaded <span class="sort-icon"/></th>
-					<th class="status-col" ng-if="vm.authentication.user" st-sort="pub">Status <span class="sort-icon"/></th>
-					<th class="actions-col">&nbsp;</th>
-				</tr>
+					<tr class="sort-row">
+						<th class="col checkbox-col" ng-if="vm.authentication.user">
+							<input id="select-all" type="checkbox" title="Select All / None" ng-model="vm.allChecked" ng-click="vm.checkAll()"/>
+							<label for="select-all"><span class="glyphicon glyphicon-ok"/></label>
+						</th>
+						<th class="name-col" st-sort="name">Name <span class="sort-icon"/></th>
+						<th class="date-added-col" st-sort="date">Uploaded <span class="sort-icon"/></th>
+						<th class="status-col" ng-if="vm.authentication.user" st-sort="pub">Status <span class="sort-icon"/></th>
+						<th class="actions-col x1">&nbsp;</th>
+					</tr>
 				</thead>
-
 				<tbody>
-				<tr class="comment-row clickable"
-						ng-class="{'selected': item.selected}"
+					<tr ng-class="{'selected': item.selected}"
 						ng-repeat="item in vm.displayResults"
-						ng-click="vm.selectItem(item)">
-					<td class="col checkbox-col" ng-if="vm.authentication.user">
-						<input id="{{item.id}}" type="checkbox" ng-model="item.selected" ng-click="vm.selectItem(item)"/>
-						<label for="{{item.id}}"><span class="glyphicon glyphicon-ok"/></label>
-					</td>
-					<td>
-						<div class="document-info">
-							<div class="icon">
-								<span class="avatar" ng-if="!item.isFile">
-									<span class="fb-folder glyphicon glyphicon-folder-close"></span>
-								</span>
-								<span class="avatar"  ng-if="item.isFile">
-									<span class="fb-file glyphicon glyphicon-file" ng-if="!item.isImage"></span>
-									<span class="fb-img glyphicon glyphicon-picture" ng-if="item.isImage"></span>
-								</span>
+						ng-click="$event.originalEvent.dropdown || vm.selectItem(item)">
+						<td class="col checkbox-col" ng-if="vm.authentication.user">
+							<input id="{{item.id}}" type="checkbox" ng-model="item.selected" ng-click="vm.selectItem(item)"/>
+							<label for="{{item.id}}"><span class="glyphicon glyphicon-ok"/></label>
+						</td>
+						<td class="name-col">
+							<div class="name-col-inner">
+								<div class="avatar">
+									<span class="fb-folder glyphicon glyphicon-folder-close" ng-if="!item.isFile"></span>
+									<span class="fb-file glyphicon glyphicon-file" ng-if="item.isFile && !item.isImage"></span>
+									<span class="fb-img glyphicon glyphicon-picture" ng-if="item.isFile && item.isImage"></span>
+								</div>
+								<div class="sr-info">
+									<div class="name">{{ item.displayName }}</div>
+									<div class="sr-desc" ng-if="item.description">{{ item.description | maxWords: 20 }}</div>
+								</div>
 							</div>
-							<div class="text">
-								<div class="name">{{ item.displayName }}</div>
-								<div class="description">{{ item.description | maxWords: 20 }}</div>
+						</td>
+						<td class="date-added-col">
+							{{ item.dateUploaded | date : format : timezone }}
+						</td>
+						<td class="status-col" ng-if="vm.authentication.user">
+							<span class="glyphicon glyphicon-ok-circle" ng-if="item.isPublished" title="Published"></span>
+						</td>
+						<td class="actions-col x1">
+							<div class="btn-group" ng-if="!item.isFile">
+								<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+								</button>
+								<ul class="dropdown-menu pull-right">
+									<li ng-if="project.userCan.manageFolders">
+										<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();"
+														x-document-mgr-rename-folder
+														x-project="project"
+														x-root="documentMgr.rootNode"
+														x-node="doc">
+											<span class="glyphicon glyphicon-edit"></span>
+										</button>
+									</li>
+									<li ng-if="project.userCan.manageFolders && !item.isPublished">
+										<button class="btn icon-btn" title="Publish Folder" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Publish Folder'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to publish the selected folder?'"
+														x-confirm-items="[item.displayName]"
+														x-on-ok="documentMgr.publishFolder"
+														x-ok-args="doc">
+											<span class="glyphicon glyphicon-ok-circle"></span>
+										</button>
+									</li>
+									<li ng-if="project.userCan.manageFolders && item.isPublished">
+										<button class="btn icon-btn" title="Unpublish Folder" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Unpublish Folder'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to unpublish the selected folder?'"
+														x-confirm-items="[item.displayName]"
+														x-on-ok="documentMgr.unpublishFolder"
+														x-ok-args="doc">
+											<span class="glyphicon glyphicon-ban-circle"></span>
+										</button>
+									</li>
+									<li ng-if="project.userCan.manageFolders">
+										<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Delete Folder'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to delete this folder? This action cannot be undone.'"
+														x-confirm-items="[item.displayName]"
+														x-on-ok="documentMgr.deleteDir"
+														x-ok-args="doc">
+											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</li>
+									<li>
+										<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+											<span class="glyphicon glyphicon-info-sign"></span>
+										</button>
+									</li>
+								</ul>
 							</div>
-						</div>
-					</td>
-					<td class="date-added-col">
-						{{ item.dateUploaded | date : format : timezone }}
-					</td>
-					<td class="status-col" ng-if="vm.authentication.user">
-						<span ng-if="item.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"/></span>
-					</td>
-					<td class="actions-col row-actions">
-						<div class="btn-group" ng-if="!item.isFile">
-							<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-							</button>
-							<ul class="dropdown-menu pull-right">
-								<li ng-if="project.userCan.manageFolders">
-									<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();"
-													x-document-mgr-rename-folder
-													x-project="project"
-													x-root="documentMgr.rootNode"
-													x-node="doc">
-										<span class="glyphicon glyphicon-edit"></span>
-									</button>
-								</li>
-								<li ng-if="project.userCan.manageFolders && !item.isPublished">
-									<button class="btn icon-btn" title="Publish Folder" ng-click="$event.stopPropagation();"
-													x-confirm-dialog
-													x-title-text="'Publish Folder'"
-													x-ok-text="'Yes'"
-													x-cancel-text="'No'"
-													x-confirm-text="'Are you sure you want to publish the selected folder?'"
-													x-confirm-items="[item.displayName]"
-													x-on-ok="documentMgr.publishFolder"
-													x-ok-args="doc">
-										<span class="glyphicon glyphicon-ok-circle"></span>
-									</button>
-								</li>
-								<li ng-if="project.userCan.manageFolders && item.isPublished">
-									<button class="btn icon-btn" title="Unpublish Folder" ng-click="$event.stopPropagation();"
-													x-confirm-dialog
-													x-title-text="'Unpublish Folder'"
-													x-ok-text="'Yes'"
-													x-cancel-text="'No'"
-													x-confirm-text="'Are you sure you want to unpublish the selected folder?'"
-													x-confirm-items="[item.displayName]"
-													x-on-ok="documentMgr.unpublishFolder"
-													x-ok-args="doc">
-										<span class="glyphicon glyphicon-ban-circle"></span>
-									</button>
-								</li>
-								<li ng-if="project.userCan.manageFolders">
-									<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
-													x-confirm-dialog
-													x-title-text="'Delete Folder'"
-													x-ok-text="'Yes'"
-													x-cancel-text="'No'"
-													x-confirm-text="'Are you sure you want to delete this folder? This action cannot be undone.'"
-													x-confirm-items="[item.displayName]"
-													x-on-ok="documentMgr.deleteDir"
-													x-ok-args="doc">
-										<span class="glyphicon glyphicon-trash"></span>
-									</button>
-								</li>
-								<li>
-									<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
-										<span class="glyphicon glyphicon-info-sign"></span>
-									</button>
-								</li>
-							</ul>
-						</div>
-						<div class="btn-group"  ng-if="item.isFile">
-							<button class="btn icon-btn dropdown-toggle" type="button"
-											ng-click="$event.originalEvent.dropdown = true"
-											data-toggle="dropdown"
-											aria-haspopup="true"
-											aria-expanded="false">
-								<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
-							</button>
-							<ul class="dropdown-menu pull-right">
-								<li ng-if="item.doc.userCan.read">
-									<a class="btn icon-btn" href="/api/document/{{ item.id }}/fetch" target="_self" title="Download File">
-										<span class="glyphicon glyphicon-download-alt"></span></a>
-								</li>
-								<li ng-if="item.doc.userCan.read && item.doc.internalMime === 'application/pdf'">
-									<button class="btn icon-btn"
-													ng-show="item.doc.internalMime === 'application/pdf'"
-													x-modal-pdf-viewer
-													x-pdfobject="doc"
-													title="View File">
-										<span class="glyphicon glyphicon-eye-open"></span>
-									</button>
-								</li>
-								<li ng-if="item.doc.userCan.write">
-									<button class="btn icon-btn" title="Edit File"
-													ng-if="item.doc.userCan.write"
-													x-document-mgr-edit
-													x-project="project"
-													x-doc="item.doc"
-													x-on-update="documentMgr.onDocumentUpdate">
-										<span class="glyphicon glyphicon-edit"></span>
-									</button>
-								</li>
-								<li ng-if="item.doc.userCan.publish && !item.isPublished">
-									<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
-													x-confirm-dialog
-													x-title-text="'Publish File(s)'"
-													x-ok-text="'Yes'"
-													x-cancel-text="'No'"
-													x-confirm-text="'Are you sure you want to publish the selected file?'"
-													x-confirm-items="[item.displayName]"
-													x-on-ok="documentMgr.publishFile"
-													x-ok-args="item.doc">
-										<span class="glyphicon glyphicon-ok-circle"></span>
-									</button>
-								</li>
-								<li ng-if="item.doc.userCan.unPublish && item.isPublished">
-									<button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
-													x-confirm-dialog
-													x-title-text="'Unpublish File(s)'"
-													x-ok-text="'Yes'"
-													x-cancel-text="'No'"
-													x-confirm-text="'Are you sure you want to unpublish the selected file?'"
-													x-confirm-items="[item.displayName]"
-													x-on-ok="documentMgr.unpublishFile"
-													x-ok-args="item.doc">
-										<span class="glyphicon glyphicon-ban-circle"></span>
-									</button>
-								</li>
-								<li ng-if="item.doc.userCan.delete">
-									<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
-													x-confirm-dialog
-													x-title-text="'Delete File(s)'"
-													x-ok-text="'Yes'"
-													x-cancel-text="'No'"
-													x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone.'"
-													x-confirm-items="[item.displayName]"
-													x-on-ok="documentMgr.deleteFile"
-													x-ok-args="item.doc">
-										<span class="glyphicon glyphicon-trash"></span>
-									</button>
-								</li>
-								<li ng-if="project.userCan.manageDocumentPermissions">
-									<button class="btn icon-btn" title="Edit Permissions" ng-click="$event.stopPropagation();"
-													x-role-permissions-modal
-													x-context="project"
-													x-object="item.doc"
-													x-reload="'false'"
-													x-callback="documentMgr.onPermissionsUpdate">
-										<span class="glyphicon glyphicon-cog"></span></button>
-									</button>
-								</li>
-								<li>
-									<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
-										<span class="glyphicon glyphicon-info-sign"></span>
-									</button>
-								</li>
-							</ul>
-						</div>
-					</td>
-				</tr>
-				<tr ng-if="!vm.displayResults || vm.displayResults.length === 0">
-					<td colspan="{{vm.colspan -1}}">No records found.</td>
-				</tr>
+							<div class="btn-group" ng-if="item.isFile">
+								<button class="btn icon-btn dropdown-toggle" type="button"
+									ng-click="$event.originalEvent.dropdown = true"
+									data-toggle="dropdown"
+									aria-haspopup="true"
+									aria-expanded="false">
+									<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
+								</button>
+								<ul class="dropdown-menu pull-right">
+									<li ng-if="item.doc.userCan.read">
+										<a class="btn icon-btn" href="/api/document/{{ item.id }}/fetch" target="_self" title="Download File">
+											<span class="glyphicon glyphicon-download-alt"></span></a>
+									</li>
+									<li ng-if="item.doc.userCan.read && item.doc.internalMime === 'application/pdf'">
+										<button class="btn icon-btn"
+											ng-show="item.doc.internalMime === 'application/pdf'"
+											x-modal-pdf-viewer
+											x-pdfobject="doc"
+											title="View File">
+											<span class="glyphicon glyphicon-eye-open"></span>
+										</button>
+									</li>
+									<li ng-if="item.doc.userCan.write">
+										<button class="btn icon-btn" title="Edit File"
+											ng-if="item.doc.userCan.write"
+											x-document-mgr-edit
+											x-project="project"
+											x-doc="item.doc"
+											x-on-update="documentMgr.onDocumentUpdate">
+											<span class="glyphicon glyphicon-edit"></span>
+										</button>
+									</li>
+									<li ng-if="item.doc.userCan.publish && !item.isPublished">
+										<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
+											x-confirm-dialog
+											x-title-text="'Publish File(s)'"
+											x-ok-text="'Yes'"
+											x-cancel-text="'No'"
+											x-confirm-text="'Are you sure you want to publish the selected file?'"
+											x-confirm-items="[item.displayName]"
+											x-on-ok="documentMgr.publishFile"
+											x-ok-args="item.doc">
+											<span class="glyphicon glyphicon-ok-circle"></span>
+										</button>
+									</li>
+									<li ng-if="item.doc.userCan.unPublish && item.isPublished">
+										<button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Unpublish File(s)'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to unpublish the selected file?'"
+														x-confirm-items="[item.displayName]"
+														x-on-ok="documentMgr.unpublishFile"
+														x-ok-args="item.doc">
+											<span class="glyphicon glyphicon-ban-circle"></span>
+										</button>
+									</li>
+									<li ng-if="item.doc.userCan.delete">
+										<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
+														x-confirm-dialog
+														x-title-text="'Delete File(s)'"
+														x-ok-text="'Yes'"
+														x-cancel-text="'No'"
+														x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone.'"
+														x-confirm-items="[item.displayName]"
+														x-on-ok="documentMgr.deleteFile"
+														x-ok-args="item.doc">
+											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</li>
+									<li ng-if="project.userCan.manageDocumentPermissions">
+										<button class="btn icon-btn" title="Edit Permissions" ng-click="$event.stopPropagation();"
+														x-role-permissions-modal
+														x-context="project"
+														x-object="item.doc"
+														x-reload="'false'"
+														x-callback="documentMgr.onPermissionsUpdate">
+											<span class="glyphicon glyphicon-cog"></span></button>
+										</button>
+									</li>
+									<li>
+										<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+											<span class="glyphicon glyphicon-info-sign"></span>
+										</button>
+									</li>
+								</ul>
+							</div>
+						</td>
+					</tr>
+					<tr ng-if="!vm.displayResults || vm.displayResults.length === 0">
+						<td colspan="{{vm.colspan -1}}">No records found.</td>
+					</tr>
 				</tbody>
 				<tfoot>
 				<tr>
@@ -303,6 +296,7 @@
 
 
 		</div>
+		
 		<div class="fb-details-panel">
 			<!-- Load the File/Folder Details -->
 			<div class="spinner-container" ng-show="vm.isLoading">

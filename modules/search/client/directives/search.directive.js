@@ -103,6 +103,17 @@ function directiveMainSearch(SearchService) {
 				SearchService.redirectSearchDocuments($scope.project, self.searchText);
 				//SearchService.searchDocuments($scope.project, self.searchText);
 			}
+			
+			// TODO - Need to hook up
+			$scope.swMenuShow = function() {
+				//searchWidget.removeClass('collapsed');
+				//searchWidget.addClass('expanded');
+			};
+
+			$scope.swMenuHide = function() {
+				//searchWidget.removeClass('expanded');
+				//searchWidget.addClass('collapsed');
+			};
 		}
 	};
 	return directive;

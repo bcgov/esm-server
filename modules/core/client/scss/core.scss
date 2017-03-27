@@ -3587,53 +3587,6 @@ section {
 }
 
 
-/* DOCUMENTS VIEW 
------------------------------- */
-.table.document-browser {
-	td {
-		padding-top: 1rem;
-		padding-bottom: 1rem;
-	}
-	
-	td.actions-col {
-		padding-top: 0;
-		padding-bottom: 0;
-		vertical-align: middle;
-	}
-	
-	.name-col {
-		padding-left: 1.5rem;
-		
-		.glyphicon {
-			margin-top: -0.5rem;
-			margin-right: 1rem;
-			vertical-align: middle;
-		}
-	}
-}
-
-tr.selected {
-	background-color: #003366 !important;
-	color: #FFF;
-	
-	td {
-		border-top: 1px solid #003366 !important;
-	}
-}
-
-tr.row-depth-2 {
-	td:first-child {
-		padding-left: 4rem;
-	}
-}
-
-tr.row-depth-3 {
-	td:first-child {
-		padding-left: 6rem;
-	}
-}
-
-
 /* DOCUMENT PANELS (MAIN, SUPPORTING, ADDITIONAL, INTERNAL)
 ------------------------------ */
 .document-panel {
@@ -4623,6 +4576,7 @@ tmpl-template-render {
 @import "modules/projects/client/scss/project-schedule.scss";
 @import "modules/project-comments/client/scss/project-comments.scss";
 @import "modules/search/client/scss/search-widget.scss";
+@import "modules/search/client/scss/search-results.scss";
 @import "modules/users/client/scss/user-entry.scss";
 @import "modules/users/client/scss/user-search-chooser.scss";
 @import "modules/vcs/client/scss/vc-list.scss";
