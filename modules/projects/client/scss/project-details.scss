@@ -1,0 +1,122 @@
+
+.project-details {
+	section {
+		margin-bottom: 2rem;
+	}
+	
+	section:last-child {
+		margin-bottom: 0;
+	}
+	
+	.detail-row:first-child {
+		margin-top: 0;
+	}
+}
+
+section.project-info {
+	.badge.review {
+		background-color: forestgreen;
+	}
+}
+
+.project-phases {
+	.panel-body {
+		padding-left: 0;
+		padding-right: 0;
+		overflow: hidden;
+	}
+}
+
+.project-artifacts {
+	.panel {
+		margin-bottom: 0;
+	}
+}
+
+.project-map {
+	.angular-google-map-container {
+		height: 30rem;
+	}
+}
+
+.detail-panel {
+	padding-bottom: 0;
+}
+
+.detail-row {
+	margin-bottom: 1.5rem;
+	
+	label,
+	span.value {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	> label {
+		margin-bottom: .2rem;
+		font-weight: 600;
+		text-shadow: 0 0 0 #FFF;
+	}
+	
+	span.value.wrap-text {
+		white-space:normal;
+	}
+}
+
+.detail-row.horiz {
+	label,
+	span.value {
+		margin: 0;
+		display: inline-block;
+		color: inherit;
+		vertical-align: middle;
+	}
+	
+	> label {
+		margin-right: 1rem;
+	}
+}
+
+.detail-row.project-desc {
+	span.value {
+		white-space: normal;
+		overflow: visible;
+	}
+}
+
+@media (min-width: 1024px) {
+	.detail-row {
+		font-size: 1.4rem;
+	}
+	
+	.mem-details .detail-row {
+		display: table-row;
+		
+		label, span.value {
+			display: table-cell;
+			vertical-align: top;
+			padding: 0.4rem 0;
+		}
+		
+		label {
+			padding-right: 2rem;
+			text-align: left;
+			white-space: nowrap;
+		}
+	}
+}
+
+.project-tombstone {
+	.panel-body {
+		padding-bottom: 0;
+	}
+
+	hr {
+		margin-top: 0.5rem;
+		margin-right: 1.5rem;
+		margin-bottom: 2rem;
+		margin-left: 1.5rem;
+	}
+}
