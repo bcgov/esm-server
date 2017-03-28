@@ -91,13 +91,13 @@ function directiveMainSearch(SearchService) {
 					event.preventDefault();
 					self.search();
 				}
-			}
+			};
 
 			self.search = function() {
 				SearchService.searchDocuments($scope.project, $scope.searchText);
-			}
+			};
 
-			self.toggleSearch = function (){
+			self.toggleSearch = function () {
 				$scope.swOpen = !$scope.swOpen;
 			};
 
