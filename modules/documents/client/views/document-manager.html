@@ -528,15 +528,18 @@
 						<ul class="nv-pair">
 							<li ng-if="authentication.user">
 								<span class="name">Status:</span>
-								<span class="value">---</span>
+								<span class="value">
+									<span class="label label-success" ng-if="documentMgr.infoPanel.data.folderObj.isPublished">Published</span>
+									<span class="label label-default" ng-if="!documentMgr.infoPanel.data.folderObj.isPublished">Not Published</span>
+								</span>
 							</li>
 							<li>
 								<span class="name">Description:</span>
-								<span class="value">---</span>
+								<span class="value">{{documentMgr.infoPanel.data.folderObj.description}}</span>
 							</li>
 							<li>
-								<span class="name">Date uploaded:</span>
-								<span class="value">---</span>
+								<span class="name">Date Created:</span>
+								<span class="value">{{documentMgr.infoPanel.data.folderObj.dateAdded | date : format : timezone}}</span>
 							</li>
 						</ul>
 					</section>
