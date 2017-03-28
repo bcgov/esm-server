@@ -1,0 +1,10 @@
+
+.home-view {
+	padding: 2rem;
+	overflow-y: auto;
+
+	.angular-google-map-container,
+	.news-feed {
+		height: 400px;
+	}
+}
