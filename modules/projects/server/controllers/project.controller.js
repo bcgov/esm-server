@@ -291,6 +291,27 @@ module.exports = DBModel.extend ({
 				}
 				return self.findById(projectId);
 			})
+			.then(function(project){
+				//create the tree model
+				var tree = new TreeModel();
+				if (!project.directoryStructure) {
+					return project;
+				}
+				//parse the tree
+				var root = tree.parse(project.directoryStructure);
+				// Walk until the right folder is found
+				var theNode = root.first(function (node) {
+					return node.model.id === parseInt(folderId);
+				});
+				//check if it has children
+				if(theNode.hasChildren()){
+					return Promise.reject(project); //need to have an object inside the promise
+				}
+			})
+			.then(function () {
+				//get the project from database
+					return self.findById(projectId);
+			})
 			.then(function (project) {
 				// check for manageFolders permission
 				if (!project.userCan.manageFolders) {
