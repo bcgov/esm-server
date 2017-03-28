@@ -89,6 +89,9 @@ var seedingAsync = function() {
 	// every time.  It will make sure it looks for the default permission first
 	// and will update it if needed, or create it if it doesn't exist.
 	require('../seed-data/load-defaults-for-folders')();
+
+	// Codelists
+	require('../seed-data/load-codelists')();
 };
 
 // =========================================================================
