@@ -352,6 +352,7 @@ angular.module('documents')
 									}
 								});
 							});
+							$scope.$apply();
 						});
 					});
 				};

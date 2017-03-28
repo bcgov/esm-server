@@ -17,6 +17,7 @@ module.exports = require (path.resolve('./modules/core/server/controllers/core.s
 	description : { type:String, default:'' },
 	dateAdded 	: { type: Date, default: Date.now },
 	dateUpdated : { type: Date, default: Date.now },
+	documentDate: { type: Date, default: Date.now },
 
 	updatedBy 	: { type:'ObjectId', ref:'User', default:null },
 	order 		: { type: Number, default: 0},
