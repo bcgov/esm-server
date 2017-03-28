@@ -1,0 +1,1023 @@
+
+
+/* COLORS */
+$file-browser-bg: #FFF;
+$file-browser-border: 1px solid #EEE;
+$fb-border: 1px solid #EEE;
+
+$file-browser-breadcrumb-color: #999;
+$file-browser-breadcrumb-active-color: #494949;
+
+$file-browser-table-header-bg: #F7F8FA;
+$file-browser-table-header-hover-bg: #EEE;
+
+$file-browser-row-border: 1px solid #EEE;
+$file-browser-row-hover-bg: #f7f8fa;
+
+$fb-folder-color: #666;
+$fb-file-color: #999;
+$fb-img-color: #999;
+$fb-error-color: #494949;
+
+$list-selected-color: #FFF;
+$list-selected-bg: #5091cd;
+$list-selected-hover-bg: #4187c9;
+$list-selected-border: 1px solid #4187c9;
+
+/* MIXINS */
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin flex($values) {
+  -webkit-flex: $values;
+  -ms-flex: $values;
+  flex: $values;
+}
+
+@mixin flexdirection($values) {
+  -webkit-flex-direction: $values;
+  -ms-flex-direction: $values;
+  flex-direction: $values;
+}
+
+@mixin userselect($values) {
+    user-select: $values;
+}
+
+/* UTILITY SELECTORS */
+.text-align-right {
+    text-align: right;
+}
+
+.icon-default {
+    font-size: 2.4rem;
+}
+
+/* CUSTOM BUTTON STYLING */
+.icon-btn {
+    min-width: 3.4rem;
+    height: 3.4rem;
+    padding: 0;
+    text-align: center;
+    background: transparent;
+    border: 1px solid transparent;
+
+    .glyphicon {
+        top: 0;
+        vertical-align: middle;
+        font-size: 1.8rem;
+        color: inherit;
+    }
+
+    &:hover {
+        background: #EEE;
+        border-color: #CCC;
+    }
+
+    &:disabled {
+        opacity: 0.2;
+    }
+}
+
+a.icon-btn {
+    color: #494949;
+
+    .glyphicon {
+        top: 0.55rem;
+    }
+}
+
+/* NAME-VALUE PAIR */
+.nv-pair {
+    margin: 0;
+    padding: 0;
+
+    li {
+        @include flexbox();
+        @include flexdirection(row);
+        margin-bottom: 0.5rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    span.name {
+        width: 15rem;
+    }
+
+    span.value {
+        @include flex(1 1 auto);
+    }
+}
+
+
+/* FILE BROWSER */
+.file-browser {
+    @include flexbox();
+    @include flex(1 1 auto);
+    @include flexdirection(column);
+    overflow: hidden;
+}
+
+.fb-header {
+    @include flexbox();
+    @include flex(0 0 auto);
+    padding: 0.7rem 0.5rem;
+    background: $file-browser-bg;
+    border-bottom: $file-browser-border;
+
+    .fb-breadcrumbs {
+        @include flex(1 1 auto);
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        white-space: nowrap;
+
+        .btn {
+            height: 3.4rem;
+            padding: 0.7rem;
+            font-weight: normal;
+
+            /* Fix this in core.scss */
+            span + span {
+                margin-left: 0;
+            }
+        }
+
+        .back-icon {
+            display: none;
+        }
+
+        li {
+            display: inline-block;
+
+            + li {
+                &:before {
+                    display: inline-block;
+                    margin-top: -3px;
+                    margin-left: 4px;
+                    font-size: 2.6rem;
+                    vertical-align: middle;
+                    content: '›';
+                }
+            }
+        }
+
+        li:last-child {
+            .btn {
+                
+                font-weight: bold;
+                color: $file-browser-breadcrumb-active-color;
+
+                &:hover,
+                &:focus {
+                    background: transparent;
+                    border-color: transparent;
+                }
+            }
+        }
+    }
+
+    .file-batch-actions {
+        @include flex(0 0 auto);
+        margin-right: 0.25rem;
+    }
+}
+
+@media only screen 
+    and (max-width: 1024px) {
+
+    .fb-header {
+        .fb-breadcrumbs {
+            position: relative;
+
+            li {
+                display: none;
+
+                + li {
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            li:last-child,
+            li:nth-last-child(2) {
+                display: inline-block;
+            }
+
+            li:last-child {
+                .btn {
+                    &:active,
+                    &:hover,
+                    &:focus {
+                        border: 1px solid transparent;
+                    }
+                }
+            }
+
+            li:nth-last-child(2) {
+                position: absolute;
+
+                .icon-btn {
+                    min-width: 3rem;
+
+                    .root-icon {
+                        display: none;
+                    }
+
+                    .back-icon {
+                        margin: 0;
+                        display: block;
+
+                        + span {
+                            display: none;
+                        }
+                    }
+                }
+
+                + li {
+                    position: absolute;
+                    right: 0;
+                    left: 3.25rem;
+
+                    button {
+                        max-width: 100%;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.fb-body {
+    @include flex(1 1 auto);
+    @include flexbox();
+    @include flexdirection(row);
+    background: $file-browser-bg;
+
+    .fb-details-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        background: $file-browser-bg;
+        transform: translateX(100%);
+
+        .fb-details-content {
+            width: 100%;
+        }
+    }
+
+    &.panel-open {
+         .fb-list,
+         .fb-details-panel {
+            transform: translateX(0);
+         }
+    }
+}
+
+@media (min-width: 1200px) {
+    .fb-body {
+        .fb-details-panel {
+            position: relative;
+            transform: translateX(0);
+            transition: flex-basis ease-out 0.2s;
+
+            .fb-details-content {
+                width: 35rem;
+            }
+        }
+
+        &.panel-open {
+            .fb-list {
+                @include flex(1 1 auto);
+                transform: translateX(0);
+            }
+
+            .fb-details-panel {
+                @include flex(0 0 35rem);
+                transform: translateX(0);
+            }
+        }
+    }
+}
+
+.fb-list {
+    @include flexbox();
+    @include flexdirection(column);
+    @include flex(1 1 auto);
+    position: relative;
+    overflow: hidden;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    .fb-list-item {
+        @include flexbox();
+        @include flexdirection(row); 
+        border-bottom: $file-browser-row-border;
+
+        .row-actions {
+            a {
+                display: inline-block;
+
+                .glyphicon {
+                    top: 0.55rem;
+                }
+            }
+        }
+
+        &.selected {
+            color: $list-selected-color;
+            background: $list-selected-bg;
+            border-bottom: $list-selected-border;
+
+            .btn:focus,
+            .btn:hover {
+                background: transparent;
+                border-color: $list-selected-color;
+            }
+
+            .avatar {
+                .glyphicon {
+                    color: inherit;
+                }
+            }
+
+            .row-actions {
+                display: block;
+            }
+        }
+
+        &.disabled {
+            opacity: 0.5;
+        }
+    }
+
+    .fb-col-group {
+        @include flexbox();
+        @include flex(1 1 auto);
+        @include flexdirection(row);
+        position: relative;
+    }
+
+    .column-header {
+        @include flexbox();
+        @include flexdirection(row);
+        @include flex(0 0 auto);
+        font-size: 1.2rem;
+        font-weight: bold;
+        background: $file-browser-table-header-bg;
+        z-index: 3;
+
+        .col {
+            padding: 1rem 0.5rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            input {
+                margin: 0;
+            }
+
+            &.sortable {
+                &:hover {
+                    background: $file-browser-table-header-hover-bg;
+                }
+            }
+
+            .sort-icon {
+                display: inline-block;
+                margin-top: -2px;
+                margin-left: 0.25rem;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 5px 5px 0 5px;
+                border-color: #494949 transparent transparent transparent; 
+                vertical-align: middle;
+            }
+
+            &.descending {
+                .sort-icon {
+                    border-width: 0 5px 5px 5px;
+                    border-color: transparent transparent #494949 transparent;
+                }
+            }
+        }
+
+        .checkbox-col {
+            .glyphicon {
+                margin-top: 1rem;
+                font-size: 1.2rem;
+                visibility: visible;
+            }
+        }
+    }
+
+    .scroll-container {
+        @include flex(1 1 1px);
+        position: relative;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        .scroll-container-inner {
+            margin-right: -17px;
+        }
+    }
+
+    @media only screen 
+        and (max-device-width: 1024px) {
+        
+        .scroll-container {
+            .scroll-container-inner {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .fb-list-item {
+        @include flexbox();
+        @include flex(1 1 auto);
+        @include userselect(none);
+        position: relative;
+
+        .avatar {
+            margin-right: 0.75rem;
+            text-align: center;
+
+            .glyphicon {
+                margin-top: -0.2rem;
+                font-size: 1.8rem;
+                vertical-align: top;
+            }
+        }
+
+        .col {
+            padding: 1.25rem 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .row-actions {
+            display: none;
+            position: absolute;
+            top: 0.6rem;
+            right: 2.5rem;
+
+            .btn {
+                padding: 0;
+                width: 3.4rem;
+                height: 3.4rem;
+                text-align: center;
+                color: inherit;
+            }
+
+            .dropdown-menu {
+                top: -3px;
+                right: -3px;
+                min-width: 0;
+                padding: 0.2rem;
+                white-space: nowrap;
+
+                li {
+                    display: inline-block;
+                }
+
+                .glyphicon {
+                    color: #494949;
+                }
+            }
+
+            .drill-in-btn {
+                display: none;
+            }
+
+            &.visible {
+                display: block;
+                top: 0.5rem;
+                right: 0.75rem;
+            }
+        }
+    }
+
+    
+    .col {
+        &.first-col {
+            padding-left: 1.5rem;
+        }
+
+        &.last-col {
+            padding-right: 1.5rem;
+        }
+    }
+
+    .fb-folder {
+        color: $fb-folder-color;
+    }
+
+    .fb-file {
+        color: $fb-file-color;
+    }
+
+    .fb-img {
+        color: $fb-img-color;
+    }
+
+    .fb-error {
+        color: $brand-danger;
+    }
+
+    .empty-directory-msg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        padding: 1.5rem;
+    }
+}
+
+@media only screen
+    and (max-device-width: 768px) {
+    .fb-list {
+        .col + .col {
+            display: none;
+        }
+    }
+}
+
+@media only screen 
+    and (max-device-width: 1024px) {
+    .fb-list {
+        .fb-col-group {
+            .row-actions {
+                right: 1rem;
+
+                .drill-in-btn {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+}
+
+/* COLUMNS */
+span.avatar {
+    @include flex(0 0 3rem);
+}
+
+.col.author-col {
+    @include flex(0 0 18%);
+}
+
+.col.name-col {
+    @include flex(1 1 auto);
+    position: relative;
+
+    .name {
+        position: absolute;
+        left: 4.5rem;
+        right: 0.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.col.size-col{
+    @include flex(0 0 18%)
+}
+
+.col.type-col {
+    @include flex(0 0 13%)
+}
+
+.col.status-col {
+    @include flex(0 0 18%);
+
+
+    .glyphicon {
+        font-size: 1.8rem;
+        vertical-align: top;
+    }
+}
+
+.col.date-added-col {
+    @include flex(0 0 20%);
+}
+
+
+/* CHECKBOX COL */
+.col.checkbox-col {
+    @include flex(0 0 auto);
+    width: 4rem;
+    position: relative;
+    padding: 0;
+    text-align: center;
+    border-right: $fb-border;
+
+    label {
+        span {
+            font-size: 1.2rem;
+            margin-top: 1.4rem;
+            visibility: hidden;
+        }
+    }
+
+    input[type='checkbox'],
+    label {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: 0; 
+        width: 100%;
+        height: 100%;
+    }
+
+    input[type='checkbox'] {
+        margin: 0;
+        opacity: 0;
+        z-index: 2;
+
+        &:hover,
+        &:focus {
+            + label {
+                background: #EEE;
+
+                span {
+                    opacity: 0.2rem;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+
+    input[type='checkbox']:checked {
+        + label {
+            span {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+}
+
+.selected {
+    .col.checkbox-col {
+        border-right: $list-selected-border;
+
+        input[type='checkbox'] {
+            &:hover,
+            &:focus {
+                + label {
+                    background: $list-selected-hover-bg;
+                }
+            }
+        }
+    }
+}
+
+
+/* DETAILS PANEL */
+$fb-details-panel-width: 35rem;
+
+.fb-details-panel {
+    @include flex(0 0 0);
+    position: relative;
+    overflow: hidden;
+    border-left: $file-browser-border;
+
+    .fb-details-content {
+        @include flexbox();
+        @include flexdirection(column);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: $fb-details-panel-width;
+
+        .title-panel {
+            position: relative;
+            margin: 0 2rem;
+            padding: 2rem 0;
+            z-index: 3;
+            border-bottom: 1px solid #DDD;
+
+            .title-panel-info {
+                 @include flex(0 0 auto);
+                 position: relative;
+                 padding-right: 3rem;
+
+                 h2 {
+                    margin: 0;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    font-size: 2.2rem;
+                }
+
+                .close {
+                    position: absolute;
+                    top: -0.5rem;
+                    right: 0;
+                    width: 3.4rem;
+                    height: 3.4rem;
+                    padding: 0;
+                    font-size: 2.4rem;
+                    border: 1px solid transparent;
+
+                    &:hover {
+                        border: 1px solid #CCC;
+                    }
+                }
+            }
+        }
+
+        .title-panel-btns {
+            padding-top: 1.5rem;
+        }
+
+        section {
+            margin-bottom: 2.5rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+                font-weight: bold;
+            }
+
+            h3 {
+                margin-top: 2rem;
+                margin-bottom: 0.75rem;
+                font-size: 1.4rem;
+                font-weight: bold;
+                border-bottom: none;
+            }
+        }
+
+        .scroll-container {
+            @include flex(1 1 auto);
+            position: relative;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+    }
+}
+
+/* Need to set on the 'view-body-container' when the file browser is placed within this element. */
+.file-browser-container {
+    position: relative;
+
+    .file-browser {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        bottom: 1.5rem;
+        left: 1.5rem;
+    }
+}
+
+/* File Upload */
+$fb-upload-target-height: 10rem;
+$fb-upload-target-bg: #DDD;
+$fb-upload-target-hover-bg: #FFF;
+$fb-upload-target-border: 2px dashed #BBB;
+
+.fb-upload-target-container {
+    position: relative;
+
+    + .file-browser {
+        margin-top: 2rem;
+    }
+}
+
+.fb-upload-target-status {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.5rem;
+    width: 100%;
+    height: $fb-upload-target-height;
+    background: $fb-upload-target-bg;
+    text-align: center;
+    opacity: 0.5;
+}
+
+.fb-upload-target {
+    position: relative;
+    height: $fb-upload-target-height;
+    padding: 0.5rem;
+    background: $fb-upload-target-bg;
+    text-align: center;
+    transition: all ease-out 0.2s;
+
+    .fb-upload-target-border {
+       position: relative;
+       height: 100%;
+       border: $fb-upload-target-border;
+    }
+
+    &.fb-upload-target-hover {
+        padding: 1rem;
+        background: $fb-upload-target-hover-bg;
+
+        .fb-upload-target-border {
+            border-color: #CCC;
+        }
+    }
+
+    .fb-upload-target-alert {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: $fb-upload-target-bg;
+    }
+}
+
+.fb-upload-target-content {
+    position: absolute;
+    top: 3.85rem;
+    right: 0;
+    left: 0;
+    text-align: center;
+
+    .glyphicon {
+        top: -0.3rem;
+        margin-right: 0.5rem;
+        vertical-align: middle;
+    }
+
+    .fb-upload-target-msg {
+        font-size: 1.6rem;
+        font-weight: bold;
+        color: #999;
+
+        b {
+            color: #494949;
+        }
+    }
+}
+
+.fb-upload-container {
+    .fb-list {
+        .fb-col-group {
+            .col.name-col {
+                padding-top: 1.8rem;
+            }
+
+            .row-actions {
+                right: 1rem;
+            }
+        }
+    }
+}
+
+.fb-upload-count {
+    display: block;
+    padding: 0.6rem;
+    font-weight: bold;
+}
+
+
+/* PROGRESS BAR */
+.progress {
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.progress {
+    height: 1rem;
+    border-radius: 0;
+}
+
+.file-size-progress-col {
+    width: 30%;
+    overflow: visible;
+
+    .progress-container {
+        padding-right: 3.5rem;
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        position: absolute;
+        top: 0.75rem;
+        right: 1rem;
+    }
+}
+
+.has-error {
+    .progress-bar {
+        display: none;
+    }
+}
+
+
+/* TO BE MOVED TO GLOBAL DIALOG STYLING */
+.confirm-dialog {
+    .confirm-list {
+        margin-top: 1rem;
+        margin-bottom: 0;
+        font-weight: bold;
+    }
+}
+
+/* TO BE MOVED TO GLOBAL CONTEXT MENU STYLING */
+.fb-menu.btn-group {
+    &.open {
+        .dropdown-toggle {
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            border: 1px solid #DDD;
+        }
+    }
+
+    .dropdown-menu {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        border-radius: 0;
+        border: none;
+        box-shadow: 0 0 1rem #999;
+
+        a {
+            padding: 0.75rem 1.5rem;
+        }
+
+        .glyphicon {
+            margin-top: -0.5rem;
+            margin-right: 1rem;
+            font-size: 1.8rem;
+            vertical-align: middle;
+        }
+    }
+}
+
+/* TO DO - FIX DROP TARGET TO INCLUDE REQUIREMENTS MSG */
+.fb-upload-target {
+    &.pcp {
+        .fb-upload-target-content {
+            top: 2.8rem;
+        }
+
+        .fb-upload-req-msg {
+            display: block;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #666;
+        }
+    }
+}
+
+/* File Browser Modal */
+.fb-browser-modal {
+    .fb-link-select-files {
+        margin-bottom: 2rem;
+    }
+
+    .file-browser {
+        height: 40rem;
+    }
+
+    .linked-files-container {
+        max-height: 40rem;
+        overflow-y: auto;
+
+        .row-actions {
+            display: block;
+        }
+    }
+}
+
+
+/* Edit File Metadata Form */
+.fb-edit-form {
+    .document-type {
+        width: 20rem;
+    }
+
+    .datepicker {
+        width: 20rem;
+    }
+}

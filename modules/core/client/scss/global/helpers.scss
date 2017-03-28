@@ -1,0 +1,60 @@
+
+// Margins
+.no-margin {
+	margin: 0;
+}
+
+.m-b-0  {
+	margin-bottom: 0 !important;
+}
+
+.m-b-1 { 
+	margin-bottom: 1rem !important;
+}
+
+.m-b-2 {
+	margin-bottom: 2rem !important;
+}
+
+.m-t-0 {
+	margin-top: 0 !important;
+}
+
+.m-t-1 {
+	margin-top: 1rem !important;
+}
+
+.m-t-2 {
+	margin-top: 2rem !important;
+}
+
+
+// Flex Containers
+.flex-row {
+	@include display-flex;
+	-ms-flex-flow: row nowrap;
+	flex-flow: row nowrap;
+}
+
+.flex-column {
+	@include display-flex;
+	-ms-flex-flow: column nowrap;
+	flex-flow: column nowrap;
+}
+
+.flex-title {
+	@extend .flex-row;
+
+	h2 {
+		@include flex(1 1 auto);
+		margin: 0;
+		padding-top: 1rem;
+		padding-bottom: 1rem;
+		font-size: 2rem;
+		font-weight: bold;
+	}
+
+	.actions {
+		@include flex(0 0 auto);
+	}
+}
