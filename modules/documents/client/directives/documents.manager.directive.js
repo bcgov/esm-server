@@ -290,7 +290,7 @@ angular.module('documents')
 					}
 
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
-					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
+					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/documents?folder=" + self.currentNode.model.id;
 					self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
@@ -1303,7 +1303,7 @@ angular.module('documents')
 					}
 
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
-					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
+					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/documents?folder=" + self.currentNode.model.id;
 					self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
@@ -1577,7 +1577,7 @@ angular.module('documents')
 								}
 
 								self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
-								self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
+								self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/documents?folder=" + self.currentNode.model.id;
 								self.currentPath = theNode.getPath() || [];
 								self.unsortedFiles = [];
 								self.unsortedDirs = [];
