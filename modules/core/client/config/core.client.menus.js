@@ -123,7 +123,7 @@ angular.module('core').run(['Menus', 'ENV', 'ADMIN_FEATURES', 'FEATURES', functi
 	});
 	Menus.addMenuItem('projectMenu', {
 		title: 'Documents',
-		state: 'p.documents',
+		state: 'p.docs',
 		permissions: ['context.listDocuments'],
 		enable: 'true' === FEATURES.enableDocuments
 	});
