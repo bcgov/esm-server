@@ -1,11 +1,12 @@
 <div class="file-browser">
+
 	<div class="fb-header">
 		<ul class="fb-breadcrumbs">
 			<li ng-repeat="node in documentMgr.currentPath">
 				<button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
 					<span class="root-icon glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
 					<span class="back-icon glyphicon glyphicon-menu-left"></span>
-					<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+					<span ng-show="node.model.name != 'ROOT'">{{ node.model.folderObj.displayName }}</span>
 				</button>
 			</li>
 		</ul>
@@ -145,13 +146,13 @@
 							</span>
 							<span class="fb-col-group"
 								ng-click="$event.originalEvent.dropdown || documentMgr.selectDir(doc)"
-								ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)" title="{{doc.model.name}}">
+								ng-dblclick="$event.originalEvent.dropdown || documentMgr.openDir(doc)" title="{{doc.model.folderObj.displayName}}">
 								<span class="col name-col first-col">
 									<span class="avatar">
 										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
 									</span>
 									<span class="name">
-										{{ doc.model.name }}
+										{{ doc.model.folderObj.displayName }}
 									</span>
 								</span>
 								<span hidden class="col author-col">---</span>
@@ -161,17 +162,17 @@
 								</span>
 								<div class="row-actions">
 
-									<div class="btn-group" ng-if="doc.model.id === documentMgr.lastChecked.directoryID">
+									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 										</button>
 										<ul class="dropdown-menu pull-right">
 											<li ng-if="project.userCan.manageFolders">
 												<button class="btn icon-btn" title="Edit Folder Details" ng-click="$event.stopPropagation();"
-														x-document-mgr-rename-folder
+														x-document-mgr-edit
 														x-project="project"
-														x-root="documentMgr.rootNode"
-														x-node="doc">
+														x-doc="doc"
+														x-on-update="documentMgr.onDocumentUpdate">
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
 											</li>
@@ -182,7 +183,7 @@
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to publish the selected folder?'"
-														x-confirm-items="[doc.model.name]"
+														x-confirm-items="[doc.model.folderObj.displayName]"
 														x-on-ok="documentMgr.publishFolder"
 														x-ok-args="doc">
 													<span class="glyphicon glyphicon-ok-circle"></span>
@@ -195,7 +196,7 @@
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to unpublish the selected folder?'"
-														x-confirm-items="[doc.model.name]"
+														x-confirm-items="[doc.model.folderObj.displayName]"
 														x-on-ok="documentMgr.unpublishFolder"
 														x-ok-args="doc">
 													<span class="glyphicon glyphicon-ban-circle"></span>
@@ -208,7 +209,7 @@
 														x-ok-text="'Yes'"
 														x-cancel-text="'No'"
 														x-confirm-text="'Are you sure you want to delete this folder? This action cannot be undone.'"
-														x-confirm-items="[doc.model.name]"
+														x-confirm-items="[doc.model.folderObj.displayName]"
 														x-on-ok="documentMgr.deleteDir"
 												        x-ok-args="doc">
 													<span class="glyphicon glyphicon-trash"></span>
@@ -264,7 +265,7 @@
 								<span class="col status-col last-col" ng-if="authentication.user">
 									<span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
 								</span>
-								<div class="row-actions" ng-if="doc._id.toString() === documentMgr.lastChecked.fileId">
+								<div class="row-actions">
 
 									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -291,7 +292,7 @@
 														x-project="project"
 														x-doc="doc"
 														x-on-update="documentMgr.onDocumentUpdate">
-													<span class="glyphicon glyphicon-pencil"></span>
+													<span class="glyphicon glyphicon-edit"></span>
 												</button>
 											</li>
 											<li ng-if="doc.userCan.publish && !doc.isPublished">
@@ -480,7 +481,7 @@
 								</li>
 								<li ng-if="documentMgr.infoPanel.data.documentType">
 									<span class="name">Document Type:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.documentType }}</span>
+									<span class="value">{{ documentTypes.display(documentMgr.infoPanel.data.documentType) }}</span>
 								</li>
 								<li ng-if="documentMgr.infoPanel.data.documentType ==='Inspection Report' && documentMgr.infoPanel.data.inspectionReport">
 									<span class="name">Inspector Initials:</span>
@@ -538,7 +539,7 @@
 							</li>
 							<li>
 								<span class="name">Date Created:</span>
-								<span class="value">{{documentMgr.infoPanel.data.folderObj.dateAdded | date : format : timezone}}</span>
+								<span class="value">{{documentMgr.infoPanel.data.folderObj.documentDate | date : format : timezone}}</span>
 							</li>
 						</ul>
 					</section>

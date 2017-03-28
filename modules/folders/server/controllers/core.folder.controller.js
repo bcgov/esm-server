@@ -4,13 +4,13 @@
 // Controller for Folders
 //
 // =========================================================================
-var path     = require('path');
-var DBModel   = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var _         = require ('lodash');
+var path 		= require('path');
+var DBModel 	= require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var _ 			= require ('lodash');
 var CSVParse 	= require ('csv-parse');
-var Project    = require (path.resolve('./modules/projects/server/controllers/project.controller'));
+var Project 	= require (path.resolve('./modules/projects/server/controllers/project.controller'));
 var mongoose 	= require ('mongoose');
-var FolderModel 	= mongoose.model ('Folder');
+var FolderModel = mongoose.model ('Folder');
 
 module.exports = DBModel.extend ({
 	name : 'Folder',
@@ -37,6 +37,12 @@ module.exports = DBModel.extend ({
 		return this.list ({
 			project: projectid,
 			parentID: parentid
+		});
+	},
+	getFolderObject: function (projectid, folderid) {
+		return this.findOne ({
+			project: projectid,
+			directoryID: folderid
 		});
 	},
 	// -------------------------------------------------------------------------

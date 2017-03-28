@@ -3,7 +3,8 @@
 //
 // Folder Model
 //
-module.exports = require ('../../../core/server/controllers/core.schema.controller')
+var path     = require('path');
+module.exports = require (path.resolve('./modules/core/server/controllers/core.schema.controller'))
 ('Folder', {
 	__audit 	: true,  // who what when
 	__access 	: ['publish', 'unPublish'],
@@ -16,6 +17,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	description : { type:String, default:'' },
 	dateAdded 	: { type: Date, default: Date.now },
 	dateUpdated : { type: Date, default: Date.now },
+	documentDate: { type: Date, default: Date.now },
 
 	updatedBy 	: { type:'ObjectId', ref:'User', default:null },
 	order 		: { type: Number, default: 0},

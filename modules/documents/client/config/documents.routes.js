@@ -3,8 +3,8 @@
 angular.module('documents').config(['$stateProvider', function ($stateProvider) {
 
 	$stateProvider
-	.state('p.documents', {
-		url: '/documents',
+	.state('p.docs', {
+		url: '/docs',
 		templateUrl: 'modules/documents/client/views/docs.html',
 		data: { },
 		resolve: { },
