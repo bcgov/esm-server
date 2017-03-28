@@ -39,6 +39,12 @@ module.exports = DBModel.extend ({
 			parentID: parentid
 		});
 	},
+	getFolderObject: function (projectid, folderid) {
+		return this.findOne ({
+			project: projectid,
+			directoryID: folderid
+		});
+	},
 	// -------------------------------------------------------------------------
 	getList : function (list) {
 		return this.list ({_id : {$in : list }});
