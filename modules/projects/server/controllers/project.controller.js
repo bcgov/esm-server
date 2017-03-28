@@ -210,6 +210,18 @@ module.exports = DBModel.extend ({
 				}
 			})
 			.then(function (project) {
+				// Check if the folder name already exists.
+				var f = new FolderClass (self.opts);
+				return f.findOne({parentID: parentId, project: projectId, displayName: folderName})
+				.then(function (folder) {
+					if (folder) {
+						return Promise.reject(new Error("Folder name already exists."));
+					} else {
+						return project;
+					}
+				});
+			})
+			.then(function (project) {
 				// console.log("current structure:", project.directoryStructure);
 				var tree = new TreeModel();
 				if (!project.directoryStructure) {
@@ -356,6 +368,17 @@ module.exports = DBModel.extend ({
 					} else {
 						return project;
 					}
+				})
+				.then(function (project) {
+					// Check if the folder name already exists.
+					return f.findOne({parentID: folderId, project: projectId, displayName: newName})
+					.then(function (folder) {
+						if (folder) {
+							return Promise.reject(new Error("Folder name already exists."));
+						} else {
+							return project;
+						}
+					});
 				})
 				.then(function (project) {
 					// console.log("current structure:", project.directoryStructure);
