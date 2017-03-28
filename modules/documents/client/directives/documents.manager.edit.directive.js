@@ -140,17 +140,22 @@ angular.module('documents')
 										// Check if the foldername already exists.
 										FolderModel.lookupForProjectIn($scope.project._id, $scope.doc.parentID)
 										.then(function (fs) {
-											var found = null;
-											_.each(fs, function (foldersInDirectory) {
-												if (foldersInDirectory.displayName === $scope.doc.displayName) {
-													found = true;
-													return false;
-												}
-											});
-											if (found) {
-												return null;
-											} else {
+											if ($scope.originalName === $scope.doc.displayName) {
+												// Skip if we detect the user didn't change the name.
 												return FolderModel.save($scope.doc);
+											} else {
+												var found = null;
+												_.each(fs, function (foldersInDirectory) {
+													if (foldersInDirectory.displayName === $scope.doc.displayName) {
+														found = true;
+														return false;
+													}
+												});
+												if (found) {
+													return null;
+												} else {
+													return FolderModel.save($scope.doc);
+												}
 											}
 										})
 										.then(function (result) {
