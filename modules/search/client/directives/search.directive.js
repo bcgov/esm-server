@@ -82,38 +82,28 @@ function directiveMainSearch(SearchService) {
 		},
 		controllerAs: 'vm',
 		templateUrl: 'modules/search/client/views/partials/search-widget.html',
-		controller: function ($scope, $state) {
+		controller: function ($scope) {
 			var self = this;
 			self.searchText = $scope.searchText;
-			self.search = search;
-			self.searchTextKeyPress = searchTextKeyPress;
 
-			// if (self.searchText && self.searchText.length > 1) {
-			// 	self.search();
-			// }
-
-			function searchTextKeyPress (event) {
+			self.searchTextKeyPress = function(event) {
 				if (event.which === 13) {
 					event.preventDefault();
 					self.search();
 				}
 			}
 
-			function search() {
-				SearchService.redirectSearchDocuments($scope.project, self.searchText);
-				//SearchService.searchDocuments($scope.project, self.searchText);
+			self.search = function() {
+				SearchService.searchDocuments($scope.project, $scope.searchText);
 			}
-			
-			// TODO - Need to hook up
-			$scope.swMenuShow = function() {
-				//searchWidget.removeClass('collapsed');
-				//searchWidget.addClass('expanded');
+
+			self.toggleSearch = function (){
+				$scope.swOpen = !$scope.swOpen;
 			};
 
-			$scope.swMenuHide = function() {
-				//searchWidget.removeClass('expanded');
-				//searchWidget.addClass('collapsed');
-			};
+			if ($scope.searchText && self.searchText.length > 1) {
+				self.search();
+			}
 		}
 	};
 	return directive;
@@ -142,6 +132,9 @@ function directiveModalSearchInstructions($modal) {
 					controllerAs: 'instruct',
 					size: 'lg'
 				});
+				modalInstructions.result.then(function (data) {
+					// do nothing
+				}, function () {});
 			});
 		}
 	};

@@ -1,34 +1,72 @@
 
 // Flexbox
 @mixin flexbox() {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
 }
 
 @mixin flex($values) {
 	-webkit-box-flex: $values;
-  -moz-box-flex: $values;
+	-moz-box-flex: $values;
 	-ms-box-flex: $values;
-  -webkit-flex: $values;
-  -ms-flex: $values;
-  flex: $values; 
+	-webkit-flex: $values;
+	-ms-flex: $values;
+	flex: $values; 
 }
 
 @mixin flexdirection($values) {
-  -webkit-flex-direction: $values;
-  -ms-flex-direction: $values;
-  flex-direction: $values;
+	-webkit-flex-direction: $values;
+	-ms-flex-direction: $values;
+	flex-direction: $values;
 }
 
 @mixin flexflow($values) {
-  -webkit-flex-flow: $values;
-  -ms-flex-flow: $values;
-  flex-flow: $values;
+	-webkit-flex-flow: $values;
+	-ms-flex-flow: $values;
+	flex-flow: $values;
 }
 
 @mixin display-flex {
 	display: -webkit-flex;
 	display: flex;
+}
+
+@mixin ellipsis-gradient {
+	background: -moz-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,1) 100%);
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 50%,rgba(255,255,255,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 );
+}
+
+// CSS Overflow
+@mixin cssEllipsis($lineHeight: 1.2rem, $lineCount: 1, $bgColor: #fff) {
+	overflow: hidden;
+	position: relative;
+	line-height: $lineHeight;
+	max-height: $lineHeight * $lineCount; 
+	text-align: left;
+	//margin-right: -1rem;
+	//padding-right: 1rem;
+
+	&:before {
+		@include ellipsis-gradient();
+		content: '...';
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		width: 2rem;
+		text-align: center;
+	}
+
+	&:after {
+		@include ellipsis-gradient();
+		content: '';
+		position: absolute;
+		right: 0;
+		width: 2em;
+		height: 1em;
+		margin-top: 0.2em;
+	}
 }

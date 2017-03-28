@@ -12,6 +12,11 @@ $list-selected-border: 1px solid #4187c9;
         right: 1.5rem;
         bottom: 1.5rem;
         left: 1.5rem;
+        
+        .fb-breadcrumbs {
+            padding: 0.65rem;
+            font-weight: bold;
+        }
     }
 
     .table-container {
@@ -70,6 +75,13 @@ $list-selected-border: 1px solid #4187c9;
     thead {
         > tr {
             > th {
+                &.checkbox-col {
+                    .glyphicon {
+                        margin-top: 1rem;
+                        visibility: visible;
+                    }
+                }
+
                 &.actions-col.x1 {
                     width: 6.7rem;
                 }
@@ -146,9 +158,20 @@ $list-selected-border: 1px solid #4187c9;
             }
 
             .sr-desc {
+                //@include cssEllipsis($lineHeight: 2rem, $lineCount: 3, $bgColor: #fff);
                 margin-top: 0.5rem;
+                overflow: hidden;
+                max-height: 6rem;
+                line-height: 2rem;
                 font-style: italic;
             }
+        }
+    }
+
+    .selected {
+        .src-desc:after,
+        .sr-desc:before {
+            background-color: blue;
         }
     }
 
@@ -178,6 +201,11 @@ $list-selected-border: 1px solid #4187c9;
                     }
                 }
             }
+        }
+
+        .date-added-col,
+        .status-col {
+            display: none;
         } 
     }
 }

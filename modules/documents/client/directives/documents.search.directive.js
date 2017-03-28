@@ -27,6 +27,12 @@ function documentSearchWidgetDirective(_, SearchService) {
 			function search() {
 				SearchService.redirectSearchDocuments($scope.project, self.searchText);
 			}
+
+			self.toggleSearch = function (){
+				$scope.swOpen = !$scope.swOpen;
+			};
+
+
 		}
 	};
 }
