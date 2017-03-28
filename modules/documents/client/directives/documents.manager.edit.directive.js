@@ -23,7 +23,7 @@ angular.module('documents')
 							}
 						},
 						controllerAs: 'editFileProperties',
-						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, obj, CodeLists, FolderModel) {
+						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, obj, CodeLists, FolderModel, AlertService) {
 							var self = this;
 							self.busy = true;
 
@@ -137,14 +137,34 @@ angular.module('documents')
 											self.busy = false;
 										});
 									} else {
-										FolderModel.save($scope.doc)
-										.then(function (result) {
-											// somewhere here we need to tell document manager to refresh it's document...
-											if (scope.onUpdate) {
-												scope.onUpdate(result);
+										// Check if the foldername already exists.
+										FolderModel.lookupForProjectIn($scope.project._id, $scope.doc.parentID)
+										.then(function (fs) {
+											var found = null;
+											_.each(fs, function (foldersInDirectory) {
+												if (foldersInDirectory.displayName === $scope.doc.displayName) {
+													found = true;
+													return false;
+												}
+											});
+											if (found) {
+												return null;
+											} else {
+												return FolderModel.save($scope.doc);
 											}
-											self.busy = false;
-											$modalInstance.close(result);
+										})
+										.then(function (result) {
+											if (result) {
+												// somewhere here we need to tell document manager to refresh it's document...
+												if (scope.onUpdate) {
+													scope.onUpdate(result);
+												}
+												self.busy = false;
+												$modalInstance.close(result);
+											} else {
+												self.busy = false;
+												AlertService.error("Sorry, folder already exists.  Please choose another name.");
+											}
 										}, function(error) {
 											console.log(error);
 											self.busy = false;
