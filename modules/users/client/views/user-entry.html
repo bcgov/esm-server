@@ -244,13 +244,13 @@
 			
 			<div class="panel panel-default accordion">
 				<div class="panel-heading flex-row" role="tab">
-					<a class="collapse-control" role="button" data-toggle="collapse" href="#systemRoles" aria-expanded="true" aria-controls="systemRoles">
+					<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#systemRoles" aria-expanded="true" aria-controls="systemRoles">
 						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
 						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
 						<span>System Roles</span>
 					</a>
 				</div>
-				<div class="panel-collapse collapse in" id="systemRoles" role="tabpanel" aria-labelledby="systemRoles">
+				<div class="panel-collapse collapse" id="systemRoles" role="tabpanel" aria-labelledby="systemRoles">
 					<div class="permission-list-container panel-body">
 						<section>
 							<h3><span class="label label-default" ng-class="{'label-primary': groupsAndRoles.systemRoles.length > 0}">{{groupsAndRoles.systemRoles.length}}</span> Roles</h3>
@@ -264,13 +264,13 @@
 
 			<div class="panel panel-default accordion">
 				<div class="panel-heading flex-row" role="tab">
-					<a class="collapse-control" role="button" data-toggle="collapse" href="#globalProjectRoles" aria-expanded="true" aria-controls="globalProjectRoles">
+					<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#globalProjectRoles" aria-expanded="true" aria-controls="globalProjectRoles">
 						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
 						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
 						<span>Global Project Roles</span>
 					</a>
 				</div>
-				<div class="panel-collapse collapse in" id="globalProjectRoles" role="tabpanel" aria-labelledby="globalProjectRoles">
+				<div class="panel-collapse collapse" id="globalProjectRoles" role="tabpanel" aria-labelledby="globalProjectRoles">
 					<div class="permission-list-container panel-body">
 						<section>
 							<h3><span class="label label-default" ng-class="{'label-primary': groupsAndRoles.globalProjectRoles.length > 0}">{{groupsAndRoles.globalProjectRoles.length}}</span> Roles</h3>
@@ -284,13 +284,13 @@
 
 			<div class="panel panel-default accordion" ng-repeat="project in groupsAndRoles.projects">
 				<div class="panel-heading flex-row" role="tab">
-					<a class="collapse-control" role="button" data-toggle="collapse" href="#{{project.id}}" aria-expanded="true" aria-controls="{{project.name}}">
+					<a class="collapse-control collapsed" role="button" data-toggle="collapse" href="#{{project.id}}" aria-expanded="true" aria-controls="{{project.name}}">
 						<span class="glyphicon glyphicon-triangle-right pull-left"></span>
 						<span class="glyphicon glyphicon-triangle-bottom pull-left"></span>
 						<span>{{project.name}}</span>
 					</a>
 				</div>
-				<div class="panel-collapse collapse in" id="{{project.id}}" role="tabpanel" aria-labelledby="{{project.name}}">
+				<div class="panel-collapse collapse" id="{{project.id}}" role="tabpanel" aria-labelledby="{{project.name}}">
 					<div class="permission-list-container panel-body">
 						<section>
 							<h3><span class="label label-default" ng-class="{'label-primary': project.roles.length > 0}">{{project.roles.length}}</span> Roles</h3>
