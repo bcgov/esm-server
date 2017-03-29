@@ -1,11 +1,11 @@
-<div class="search-widget collapsed" id="search-widget">
-	<form id="swForm" class="sw-resize-container sw-form">
-		<button class="sw-expand-btn btn icon-btn" onclick="swMenuShow()">
-			<i class="glyphicon glyphicon-search"></i>
+<div class="search-widget collapsed" id="search-widget" ng-class="{'expanded': swOpen == true}">
+    <form id="swForm" class="sw-resize-container sw-form">
+		<button class="sw-expand-btn btn icon-btn">
+			<i class="glyphicon glyphicon-search" ng-click="vm.toggleSearch()"></i>
 		</button>
 		<input class="form-control sw-input" type="text" placeholder="Search" ng-model="vm.searchText" ng-keypress="vm.searchTextKeyPress($event)"/>
-		<button class="sw-collapse-btn btn icon-btn" onclick="swMenuHide()">
+		<button class="sw-collapse-btn btn icon-btn" ng-click="vm.toggleSearch()">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</form>
-</div>
+</div>	
