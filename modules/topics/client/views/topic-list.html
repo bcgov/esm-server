@@ -11,8 +11,8 @@
 		</a>
 	</div>
 	<div class="table-container">
-		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-hover table-striped">
-			<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})" class="clickable">
+		<table class="table" ng-table="tableParams" x-show-filter="true">
+			<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})">
 				<td data-title="'Pillar'" sortable="'pillar'" filter="{'pillar':'select'}" filter-data="pillars">{{o.pillar}}</td>
 				<td data-title="'Name'" sortable="'name'" filter="{'name':'text'}">{{o.name}}</td>
 				<td data-title="'Type'" sortable="'type'" filter="{'type':'select'}" filter-data="getTypes()">{{o.type}}</td>

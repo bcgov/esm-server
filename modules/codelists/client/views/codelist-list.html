@@ -26,9 +26,11 @@
 	</div>
 
 	<section class="table-container">
-		<table ng-table="vm.tableParams" class="table">
+		<table class="table" ng-table="vm.tableParams" x-show-filter="true">
 			<tr ng-repeat="o in $data" ui-sref="admin.codelist.detail({value:o.value})">
 				<td data-title="'Name'"
+					filter="{'display':'text'}" 
+					filter-data="display"
 					sortable="'display'">{{o.display}}</td>
 				<td data-title="'Sort Priority'"
 					sortable="'displayPriority'">
