@@ -289,9 +289,9 @@ module.exports = DBModel.extend ({
 					// bail - this folder contains published files.
 					return Promise.reject(doc);
 				}
-				return self.findById(projectId);
+				return self.findById(projectId); 
 			})
-			.then(function(project){
+			.then(function (project) {
 				//create the tree model
 				var tree = new TreeModel();
 				if (!project.directoryStructure) {
@@ -307,10 +307,7 @@ module.exports = DBModel.extend ({
 				if(theNode.hasChildren()){
 					return Promise.reject(project); //need to have an object inside the promise
 				}
-			})
-			.then(function () {
-				//get the project from database
-					return self.findById(projectId);
+				return project; //fetch the database again for project
 			})
 			.then(function (project) {
 				// check for manageFolders permission
