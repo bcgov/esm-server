@@ -27,10 +27,7 @@ function searchService( $http, $state, $rootScope) {
 	}
 
 	function searchDocuments(project, searchText, start, limit) {
-		start = start || 0;
-		limit = limit || 10;
-		//console.log("SearchDocuments", project._id.toString(), searchText, start, limit);
-		var url =  '/api/searchDocuments?projectId=' + project._id.toString();
+		var url =  '/api/search?collection=documents&projectId=' + project._id.toString();
 		url += '&searchText=' + searchText.toString();
 		url += '&start=' + start;
 		url += '&limit=' + limit;

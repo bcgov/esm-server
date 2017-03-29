@@ -99,7 +99,9 @@ _.extend (DBModel.prototype, {
 			'newFromObject',
 			'applyModelPermissionDefaults',
 			'getModelPermissionDefaults',
-			'complete'
+			'complete',
+			'search',
+			'paginate'
 		]);
 		//
 		// allows the extended classes to also bind
@@ -1021,7 +1023,8 @@ _.extend (DBModel.prototype, {
 	},
 
 	paginate: function(query, filter, skip, limit, fields, population, sortby, userCan) {
-		// console.log ('paginate(query=', query, ', filter=', filter, ', skip=', skip, ', limit=', limit, ', fields=', fields, ', population=', population, ', sortby=', sortby, ', userCan=', userCan, ')');
+		//console.log ('paginate(query=', query, ', filter=', filter, ', skip=', skip, ', limit=', limit, ', fields=', fields, ', population=', population, ', sortby=', sortby, ', userCan=', userCan, ')');
+		var debug = false;
 		var sort = sortby || this.sort;
 		var populate = population || this.populate;
 		var decoratePermissions = this.decorateCollection;
@@ -1035,15 +1038,16 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			console.log ('paginate.q = ' + JSON.stringify(q, null, 4));
-			console.log ('paginate.and = ' + JSON.stringify(and, null, 4));
-			console.log ('paginate.sort = ' + JSON.stringify(sort, null, 4));
-			console.log ('paginate.skip = ' + skip);
-			console.log ('paginate.limit = ' + limit);
-			console.log ('paginate.populate = ' + JSON.stringify(populate, null, 4));
-			console.log ('paginate.fields = ' + JSON.stringify(fields, null, 4));
-			console.log ('paginate.decorateCollection = ' + self.decorateCollection);
-
+			if(debug) {
+				console.log('paginate.q = ' + JSON.stringify(q, null, 4));
+				console.log('paginate.and = ' + JSON.stringify(and, null, 4));
+				console.log('paginate.sort = ' + JSON.stringify(sort, null, 4));
+				console.log('paginate.skip = ' + skip);
+				console.log('paginate.limit = ' + limit);
+				console.log('paginate.populate = ' + JSON.stringify(populate, null, 4));
+				console.log('paginate.fields = ' + JSON.stringify(fields, null, 4));
+				console.log('paginate.decorateCollection = ' + self.decorateCollection);
+			}
 			self.model.find(q)
 				.and(and)
 				.sort(sort)
@@ -1053,18 +1057,18 @@ _.extend (DBModel.prototype, {
 				.select(fields)
 				.exec(function(error, data) {
 					if (!error) {
-						console.log('search.completed, get total count');
+						if (debug) console.log('search.completed, get total count');
 						self.model.find(q).and(and).count(function(e,c) {
 							if (e) {
 								console.log('search.count.error = ' + JSON.stringify(e));
 								self.complete(reject, 'search');
 							} else {
-								console.log('search.count.completed. total = ', c);
+								if (debug) console.log('search.count.completed. total = ', c);
 								resolve({data: data, count: c});
 							}
 						});
 					} else {
-						// console.log('search.error = ' + JSON.stringify(error));
+						console.log('search.error = ' + JSON.stringify(error));
 						self.complete(reject, 'search');
 					}
 				});
@@ -1076,6 +1080,88 @@ _.extend (DBModel.prototype, {
 
 			self.decorateCollection = decoratePermissions;
 		});
+	},
+
+	search: function (options) {
+		var self = this;
+		var debug = true;
+		var fields = null;
+		var filterByFields = {};
+		var limit = (options.limit || 10)  * 1;
+		var orderBy = options.orderBy || '';
+		var populate = null;
+		var projectId = options.projectId;
+		var searchText = options.searchText;
+		var start = (options.start || 0) * 1;
+		var userCan = false;
+		if (debug) {
+			fields = {
+				'displayName': 1,
+				'dateUpdated': 1,
+				'isPublished': 1,
+				'documentFileName': 1,
+				'keywords': 1,
+				'description': 1
+			};
+		}
+
+		// build query
+		var query = { project: projectId };
+		var searchTerms = convertTextToTerms(searchText);
+		if (searchTerms.length === 0) {
+			return Promise.reject("Search requires searchText");
+		}
+		if (searchTerms.length === 1) {
+			var re = new RegExp('.*' + searchTerms[0] + '.*');
+			query.$or = [
+				{ displayName: re },
+				{ description: re },
+				{ documentFileName: re },
+				{ keywords: re }
+			];
+		} else {
+			var reArray = [];
+			_.forEach(searchTerms, function(term) {
+				var re = new RegExp('.*' + term + '.*');
+				reArray.push(re);
+			});
+			query.$or = [
+				{ displayName: { $in:  reArray } },
+				{ documentFileName: { $in:  reArray } },
+				{ description: { $in:  reArray } },
+				{ keywords:  { $in:  reArray }  }
+			];
+		}
+		return self.paginate(query, filterByFields, start, limit, fields, populate, orderBy, userCan);
+
+		function convertTextToTerms (searchText) {
+			var searchTerms = [];
+			if (! _.isString(searchText)) {
+				return searchTerms;
+			}
+			// e.g. searchText = 'apple "pear orange" fig "rosemary and wine"';
+			var re = /("[^"]*")/g;
+			var phrases = searchText.match(re);
+			// phrases = [ '"pear orange"', '"rosemary and wine"' ]
+
+			_.forEach(phrases,function(v){
+				searchTerms.push(v.replace(/\"/g,''));
+			});
+			// searchTerms = [ 'pear orange', 'rosemary and wine' ]
+
+			// next get remaining search terms removing extra spaces
+			var remainder = searchText.replace(re,'');
+			remainder = remainder.trim();
+			remainder = remainder.replace(/  /g,' ');
+			// remainder = 'apple fig'
+
+			var parts = remainder.length > 0 ? remainder.split(' ') : [];
+			_.forEach(parts,function(v){
+				searchTerms.push(v);
+			});
+			// searchTerms = [ 'pear orange', 'rosemary and wine', 'apple', 'fig' ]
+			return searchTerms;
+		}
 	}
 });
 

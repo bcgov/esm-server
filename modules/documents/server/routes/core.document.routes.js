@@ -266,19 +266,4 @@ module.exports = function (app) {
 		.put(routes.setAndRun(DocumentClass, function (model, req) {
 			return model.getEpicProjectFolderURL(req.body);
 		}));
-	app.route('/api/searchDocuments').all(policy('guest'))
-		.get (routes.setAndRun (DocumentClass, function (model, req) {
-			var searchTerms = req.query.searchText;
-			var skip = 0;
-			var limit = 10;
-			// orderBy=Field1,Field2 desc
-			var orderBy =  req.query.orderBy || '';
-			try {
-				skip = parseInt(req.query.start);
-				limit = parseInt(req.query.limit);
-			} catch(e) {
-				console.log("C.D.R. error parsing request parameters", e);
-			}
-			return model.searchDocuments (req.query.projectId, req.query.searchText, orderBy,  skip, limit);
-		}));
 };
