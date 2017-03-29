@@ -5,18 +5,33 @@
 
 <div class="view-body-container">
 	<div class="button-bar">
-		<a class="btn btn-default btn-sm" ng-if="application.userCan.createValuedComponent" ui-sref="admin.topic.create()">
+		<a class="btn btn-default btn-sm" 
+			ng-if="application.userCan.createValuedComponent" 
+			ui-sref="admin.topic.create()">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Valued Component</span>
 		</a>
 	</div>
 	<div class="table-container">
-		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-hover table-striped">
-			<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})" class="clickable">
-				<td data-title="'Pillar'" sortable="'pillar'" filter="{'pillar':'select'}" filter-data="pillars">{{o.pillar}}</td>
-				<td data-title="'Name'" sortable="'name'" filter="{'name':'text'}">{{o.name}}</td>
-				<td data-title="'Type'" sortable="'type'" filter="{'type':'select'}" filter-data="getTypes()">{{o.type}}</td>
-				<td data-title="'Parent'" sortable="'parent'"  filter="{'parent':'text'}">{{o.parent}}</td>
+		<table class="table" ng-table="tableParams" x-show-filter="true">
+			<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})">
+				<td data-title="'Pillar'"
+					filter="{'pillar':'select'}"
+					filter-data="pillars" 
+					sortable="'pillar'">{{o.pillar}}
+				</td>
+				<td data-title="'Name'"
+					filter="{'name':'text'}"
+					sortable="'name'">{{o.name}}
+				</td>
+				<td data-title="'Type'" 
+					filter="{'type':'select'}" 
+					filter-data="getTypes()"
+					sortable="'type'">{{o.type}}
+				</td>
+				<td data-title="'Parent'" 
+					filter="{'parent':'text'}"
+					sortable="'parent'">{{o.parent}}</td>
 				<td class="actions-col" header-class="'actions-col x2'">
 					<div class="btns">
 						<a class="btn icon-btn" 

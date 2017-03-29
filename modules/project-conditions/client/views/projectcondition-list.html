@@ -2,19 +2,20 @@
 <div class="view-title-container flex-row">
 	<button class="btn icon-btn mobile-nav-btn" onclick="toggleSideNav();"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
 	<h1>Conditions</h1>
-<!-- <tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
 </div>
 
 <div class="view-body-container">
 	<div class="button-bar">
-		<a ng-if="project.userCan.createProjectCondition" class="btn btn-default btn-sm" ui-sref="p.projectcondition.create()">
+		<a class="btn btn-default btn-sm" 
+			ng-if="project.userCan.createProjectCondition" 
+			ui-sref="p.projectcondition.create()">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Condition</span>
 		</a>
 	</div>
 	<section class="table-container">
-		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-hover">
-			<tr ng-repeat="o in $data" ui-sref="p.projectcondition.detail({conditionId:o._id})" class="clickable">
+		<table class="table table-hover" ng-table="tableParams" x-show-filter="true">
+			<tr ng-repeat="o in $data" ui-sref="p.projectcondition.detail({conditionId:o._id})">
 				<td data-title="'Name'"
 					filter="{'name':'text'}" 
 					sortable="'name'">{{o.name}}</td>
