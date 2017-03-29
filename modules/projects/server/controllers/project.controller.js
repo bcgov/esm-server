@@ -304,7 +304,7 @@ module.exports = DBModel.extend ({
 					return node.model.id === parseInt(folderId);
 				});
 				//check if it has children
-				if(theNode.hasChildren()){
+				if (theNode.hasChildren()) {
 					return Promise.reject(project); //need to have an object inside the promise
 				}
 				return project; //fetch the database again for project
