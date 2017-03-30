@@ -110,7 +110,10 @@
 						<span class="tag-list">{{o.pillars.join (', ')}}</span>
 					</td>
 					<td class="vc-col">
-						<span class="tag-list">{{o.topics.join (', ')}}</span>
+						<!--<span class="tag-list">{{o.topics.join (', ')}}</span>-->
+						<span class="tag-list" class="clickable" ng-repeat="x in o.valuedComponents" ng-click="$event.stopPropagation();">
+							<a  ng-href="../p/{{project.code}}/vc/{{x}}" target="_blank">{{o.topics[$index]}}{{$last ? '' : ', '}}</a>
+						</span>
 					</td>
 					<td class="date-col">
 						<span class="attachment-icon glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
