@@ -273,7 +273,42 @@
 				<tfoot>
 				<tr>
 					<td class="pagination-container clearfix" colspan="{{vm.colspan -1}}">
-						<div class="pull-left" st-pagination="" st-items-by-page="vm.pageSize" st-template="modules/core/client/views/st-template.html"></div>
+						<div class="pull-left">
+							<ul class="pagination">
+
+								<li ng-class="{disabled: vm.currentPage == 1}">
+									<a ng-click="vm.selectPage(vm.currentPage-1)" aria-label="Previous">
+										<span class="glyphicon glyphicon-backward"></span>
+									</a>
+								</li>
+
+								<li ng-show="vm.pages.indexOf(1) == -1"><a
+								ng-click="vm.selectPage(1)">1</a>
+								</li>
+
+								<li ng-show="vm.pages.indexOf(2) == -1"><a
+								ng-click="vm.selectPage(vm.pages[0])"><span class="glyphicon glyphicon-chevron-left"/></a>
+								</li>
+
+								<li ng-repeat="page in vm.pages" ng-class="{active: page==vm.currentPage}">
+									<a ng-click="vm.selectPage(page)">{{page}}</a>
+								</li>
+
+								<li ng-show="vm.pages.indexOf(vm.numPages -1) == -1"><a
+								ng-click="vm.selectPage(vm.pages[vm.pages.length - 1])"><span class="glyphicon glyphicon-chevron-right"/></a>
+								</li>
+
+								<li ng-show="vm.pages.indexOf(vm.numPages) == -1"><a
+								ng-click="selectPage(vm.numPages)">{{numPages}}</a>
+								</li>
+
+								<li ng-class="{disabled: vm.currentPage == vm.numPages}">
+									<a ng-click="vm.selectPage(vm.currentPage+1)" aria-label="Next">
+										<span class="glyphicon glyphicon-forward"></span>
+									</a>
+								</li>
+							</ul>
+						</div>
 						<ul class="pull-right pagination">
 							<li ng-class="{active: vm.pageSize==10}">
 								<a ng-click="vm.changePageSize(10)">10</a>

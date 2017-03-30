@@ -20,11 +20,14 @@ function documentSearchWidgetDirective(_, SearchService) {
 			self.searchTextKeyPress = function (event) {
 				if (event.which === 13) {
 					event.preventDefault();
-					self.search();
+					if (self.searchText.length > 1) {
+						self.search();
+					}
 				}
 			};
 
 			function search() {
+				console.log("redirect to search ", self.searchText);
 				SearchService.redirectSearchDocuments($scope.project, self.searchText);
 			}
 

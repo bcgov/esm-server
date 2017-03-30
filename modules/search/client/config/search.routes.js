@@ -1,24 +1,25 @@
 'use strict';
 
 angular.module('search')
-	.config(['$stateProvider',  function ($stateProvider) {
+	.config(['$stateProvider', '$locationProvider',  function ($stateProvider, $locationProvider) {
 	$stateProvider
 		.state('p.search', {
-			url: '/search/:searchText',
+			url: '/search',
 			templateUrl: 'modules/search/client/views/search.html',
 			data: { },
 			resolve: {
-				searchText: function($stateParams) {
-					return $stateParams.searchText;
-				},
-				results : function ($stateParams, project, SearchService) {
-					console.log("BG initiate search",$stateParams.searchText, $stateParams.sortBy, $stateParams.start, $stateParams.limit);
-					return SearchService.searchDocuments(project, $stateParams.searchText, $stateParams.sortBy, $stateParams.start, $stateParams.limit);
+				results : function ($location, project, SearchService) {
+					var start = $location.search().start * 1;
+					var limit = $location.search().limit  * 1;
+					var orderBy = $location.search().orderBy;
+					var collection = $location.search().collection;
+					var searchText = $location.search().searchText;
+					console.log("What is in the query string?", $stateProvider);// $location.search());
+					return SearchService.searchDocuments(project, searchText, orderBy, start, limit);
 				}
 			},
-			controller: function($scope, project, searchText, results) {
+			controller: function($scope, project, results) {
 				$scope.project = project;
-				$scope.searchText = searchText;
 				$scope.results = results;
 				console.log("BG controller has put results into scope", results);
 			}

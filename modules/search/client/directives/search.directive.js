@@ -21,8 +21,7 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			self.authentication = Authentication;
 			self.colspan = (self.authentication.user) ? 5 : 3;
 			self.isLoading= false;
-			self.pageSize = 50;
-			$scope.smartTableCtrl = {};
+			self.limit = 10;
 
 			self.changePageSize = changePageSize;
 			self.selectItem = selectItem;
@@ -34,24 +33,39 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				reload();
 			});
 
-
 			function changePageSize (value) {
-				self.pageSize = value;
-				$scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
+				self.limit = value;
 			}
 
 			function selectItem (item) {
-				console.log("Check item ", item);
 				item.selected = ! item.selected;
 			}
+
 			function reload() {
 				self.isLoading = true;
-				self.currentFiles = SearchService.getSearchResults();
-				self.currentFiles = self.currentFiles.data;
-				// TODO Search ... explain .data
-				console.log("Search results directive reload, currentFiles",self.currentFiles);
+				var searchResults = SearchService.getSearchResults();
+				var currentFiles = searchResults.data;
+				if (!currentFiles) {
+					return;
+				}
+				self.count = searchResults.count;
+
+				self.start = searchResults.start;
+				// prevent accidental divide by zero
+				self.limit = searchResults.limit < 1 ? 1 : searchResults.limit;
+				self.orderBy = searchResults.orderBy;
+				//set the number of pages so the pagination can update
+				self.numPages = Math.ceil(self.count / self.limit);
+				self.pages = [];
+				_.forEach(Array(self.numPages), function (value, index) {
+					value = index * self.limit;
+					self.pages.push(value);
+				});
+				console.log(self.pages);
+
+				console.log("Search results directive reload, currentFiles",currentFiles);
 				self.displayResults = [];
-				_.forEach(self.currentFiles, function (item) {
+				_.forEach(currentFiles, function (item) {
 					var displayItem = {};
 					displayItem.isFile = true;
 					displayItem.id = item._id;
@@ -64,7 +78,6 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 					displayItem.doc = item;
 					self.displayResults.push(displayItem);
 				});
-				console.log("Search results directive reload, displayResults",self.displayResults);
 				self.isLoading = false;
 			}
 

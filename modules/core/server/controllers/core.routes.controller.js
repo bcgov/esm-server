@@ -298,7 +298,6 @@ exports.setAndRun = setAndRun;
 
 function searchMiddle(req, res, next) {
 	function workerFunction (model, queryOptions) {
-		var model = req.model;
 		return model.search (queryOptions);
 	}
 	setSessionContext (req)
