@@ -18,26 +18,36 @@ function searchService( $http, $state, $rootScope) {
 		return self.searchResults;
 	}
 
-	function redirectSearchDocuments(project, searchText) {
-		console.log("transition to search with searchtext", searchText);
-		$state.go('p.search', {projectid: project.code, searchText: searchText});
+	function redirectSearchDocuments(project, searchText, start, limit, orderBy, collection) {
+		console.log("transition to search with searchtext", searchText, start, limit, orderBy);
+		$state.go('p.search', {
+			projectid: project.code,
+			searchText: searchText,
+			collection: collection,
+			start: start,
+			limit: limit,
+			orderBy: orderBy
+		});
 	}
 
-	function searchDocuments(project, searchText, orderBy, start, limit) {
-		start = start || 0;
+	function searchDocuments(project, searchText, start, limit, orderBy, collection) {
+		start = start || 1;
 		limit = limit || 10;
 		orderBy = orderBy || '';
-		var url =  '/api/search?collection=documents&projectId=' + project._id.toString();
+		collection = collection || 'documents';
+		var url =  '/api/search?projectId=' + project._id.toString();
 		url += '&searchText=' + searchText;
 		url += '&orderBy=' + orderBy;
 		url += '&start=' + start;
 		url += '&limit=' + limit;
-		console.log("The url ", url);
+		url += '&collection=' + collection;
+		//console.log("The url ", url);
 
 		$http({method: 'GET', url: url})
 			.then(function (results) {
-				console.log("Search service http returned ", results);
-				self.searchResults = results.data;
+				self.searchResults.searchText = searchText;
+				self.searchResults.data = results.data.data;
+				self.searchResults.count = results.data.count;
 				self.searchResults.start = start;
 				self.searchResults.limit = limit;
 				self.searchResults.orderBy = orderBy;

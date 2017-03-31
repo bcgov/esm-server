@@ -2,7 +2,7 @@
 
 	<div class="fb-header">
 		<div class="fb-breadcrumbs">
-			Found {{vm.displayResults.length}} Results
+			Found {{vm.count}} Results
 		</div>
 		<div class="file-batch-actions">
 			<div class="fb-menu btn-group">
@@ -75,7 +75,7 @@
 	<div class="fb-body" ng-class="{'panel-open': vm.infoPanel.open}">
 
 		<div class="table-container fb-list sr-table">
-			<table class="sr-table table" st-table="vm.somethingElse" st-safe-src="vm.displayResults">
+			<table class="sr-table table" st-table="vm.displayResults">
 				<thead>
 					<tr class="sort-row">
 						<th class="col checkbox-col" ng-if="vm.authentication.user">
@@ -299,9 +299,8 @@
 								</li>
 
 								<li ng-show="vm.pages.indexOf(vm.numPages) == -1"><a
-								ng-click="selectPage(vm.numPages)">{{numPages}}</a>
+									ng-click="selectPage(vm.numPages)">{{vm.numPages}}</a>
 								</li>
-
 								<li ng-class="{disabled: vm.currentPage == vm.numPages}">
 									<a ng-click="vm.selectPage(vm.currentPage+1)" aria-label="Next">
 										<span class="glyphicon glyphicon-forward"></span>
@@ -310,26 +309,14 @@
 							</ul>
 						</div>
 						<ul class="pull-right pagination">
-							<li ng-class="{active: vm.pageSize==10}">
-								<a ng-click="vm.changePageSize(10)">10</a>
-							</li>
-							<li ng-class="{active: vm.pageSize==20}">
-								<a ng-click="vm.changePageSize(20)">20</a>
-							</li>
-							<li ng-class="{active: vm.pageSize==50}">
-								<a ng-click="vm.changePageSize(50)">50</a>
-							</li>
-							<li ng-class="{active: vm.pageSize==100}">
-								<a ng-click="vm.changePageSize(100)">100</a>
+							<li ng-repeat="size in vm.pageSizes" ng-class="{active: vm.limit==size}">
+								<a ng-click="vm.changePageSize(size)">{{size}}</a>
 							</li>
 						</ul>
 					</td>
 				</tr>
 				</tfoot>
 			</table>
-
-
-
 		</div>
 		
 		<div class="fb-details-panel">

@@ -1,22 +1,21 @@
 'use strict';
 
 angular.module('search')
-	.config(['$stateProvider', '$locationProvider',  function ($stateProvider, $locationProvider) {
+	.config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 		.state('p.search', {
-			url: '/search',
+			url: '/search?searchText&start&limit&orderBy&collection',
 			templateUrl: 'modules/search/client/views/search.html',
 			data: { },
 			resolve: {
-				results : function ($location, project, SearchService) {
-					var start = $location.search().start * 1;
-					var limit = $location.search().limit  * 1;
-					var orderBy = $location.search().orderBy;
-					var collection = $location.search().collection;
-					var searchText = $location.search().searchText;
-					console.log("What is in the query string?", $stateProvider);// $location.search());
-					return SearchService.searchDocuments(project, searchText, orderBy, start, limit);
-				}
+				results: ['$stateParams', 'SearchService', 'project', function ($stateParams, SearchService, project) {
+					var start = $stateParams.start * 1;
+					var limit = $stateParams.limit * 1;
+					var orderBy = $stateParams.orderBy;
+					var collection = $stateParams.collection;
+					var searchText = $stateParams.searchText;
+					return SearchService.searchDocuments(project, searchText, start, limit, orderBy, collection);
+				}]
 			},
 			controller: function($scope, project, results) {
 				$scope.project = project;

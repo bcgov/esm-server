@@ -22,23 +22,31 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			self.colspan = (self.authentication.user) ? 5 : 3;
 			self.isLoading= false;
 			self.limit = 10;
+			self.pageSizes= [10, 20, 50, 100];
 
 			self.changePageSize = changePageSize;
 			self.selectItem = selectItem;
+			self.selectPage = selectPage;
 
 			reload();
 
-			// if the user enters new search text the search service will notify us here when it has results.
+			// When the search results are resolved ....
 			$rootScope.$on('search-results-documents', function() {
 				reload();
 			});
 
 			function changePageSize (value) {
 				self.limit = value;
+				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy);
 			}
 
 			function selectItem (item) {
 				item.selected = ! item.selected;
+			}
+
+			function selectPage(page) {
+				self.start = Math.abs(page * self.limit);
+				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy);
 			}
 
 			function reload() {
@@ -48,22 +56,13 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				if (!currentFiles) {
 					return;
 				}
+				self.searchText = searchResults.searchText;
 				self.count = searchResults.count;
-
 				self.start = searchResults.start;
 				// prevent accidental divide by zero
 				self.limit = searchResults.limit < 1 ? 1 : searchResults.limit;
 				self.orderBy = searchResults.orderBy;
-				//set the number of pages so the pagination can update
-				self.numPages = Math.ceil(self.count / self.limit);
-				self.pages = [];
-				_.forEach(Array(self.numPages), function (value, index) {
-					value = index * self.limit;
-					self.pages.push(value);
-				});
-				console.log(self.pages);
-
-				console.log("Search results directive reload, currentFiles",currentFiles);
+				paginationControlsLoad();
 				self.displayResults = [];
 				_.forEach(currentFiles, function (item) {
 					var displayItem = {};
@@ -81,6 +80,26 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				self.isLoading = false;
 			}
 
+			function paginationControlsLoad() {
+				//set the number of pages so the pagination can update
+				self.numPages = Math.floor(self.count / self.limit);
+				self.currentPage = Math.ceil(self.start / self.limit);
+				console.log("currentPage", self.currentPage, self.start);
+				var start = 1;
+				var paginationDisplaySize = 6;
+				var end;
+				var i;
+				start = Math.max(start, self.currentPage - paginationDisplaySize / 2);
+				end = start + paginationDisplaySize;
+				if (end > self.numPages) {
+					end = self.numPages + 1;
+					start = Math.max(1, end - paginationDisplaySize);
+				}
+				self.pages = [];
+				for (i = start; i < end; i++) {
+					self.pages.push(i);
+				}
+			}
 		}
 	};
 }
@@ -91,33 +110,33 @@ function directiveMainSearch(SearchService) {
 	var directive = {
 		restrict: 'E',
 		scope: {
-			project: '=',
-			searchText: '='
+			project: '='
 		},
 		controllerAs: 'vm',
 		templateUrl: 'modules/search/client/views/partials/search-widget.html',
 		controller: function ($scope) {
 			var self = this;
-			self.searchText = $scope.searchText;
+			self.searchText = '';
+			self.search = search;
+			self.toggleSearch = toggleSearch;
+			self.searchTextKeyPress = searchTextKeyPress;
 
-			self.searchTextKeyPress = function(event) {
+			function searchTextKeyPress (event) {
 				if (event.which === 13) {
 					event.preventDefault();
-					self.search();
+					if (self.searchText.length > 1) {
+						self.search();
+					}
 				}
 			};
 
-			self.search = function() {
-				SearchService.searchDocuments($scope.project, $scope.searchText);
-			};
+			function search() {
+				SearchService.redirectSearchDocuments($scope.project, self.searchText);
+			}
 
-			self.toggleSearch = function () {
+			function toggleSearch () {
 				$scope.swOpen = !$scope.swOpen;
 			};
-
-			if ($scope.searchText && self.searchText.length > 1) {
-				self.search();
-			}
 		}
 	};
 	return directive;
