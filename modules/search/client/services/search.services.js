@@ -18,7 +18,7 @@ function searchService( $http, $state, $rootScope) {
 		return self.searchResults;
 	}
 
-	function redirectSearchDocuments(project, searchText, start, limit, orderBy, collection) {
+	function redirectSearchDocuments(project, searchText, start, limit, orderBy, direction, collection) {
 		console.log("transition to search with searchtext", searchText, start, limit, orderBy);
 		$state.go('p.search', {
 			projectid: project.code,
@@ -26,11 +26,12 @@ function searchService( $http, $state, $rootScope) {
 			collection: collection,
 			start: start,
 			limit: limit,
-			orderBy: orderBy
+			orderBy: orderBy,
+			direction: direction
 		});
 	}
 
-	function searchDocuments(project, searchText, start, limit, orderBy, collection) {
+	function searchDocuments(project, searchText, start, limit, orderBy, direction, collection) {
 		start = start || 0;
 		limit = limit || 10;
 		orderBy = orderBy || '';
@@ -38,6 +39,7 @@ function searchService( $http, $state, $rootScope) {
 		var url =  '/api/search?projectId=' + project._id.toString();
 		url += '&searchText=' + searchText;
 		url += '&orderBy=' + orderBy;
+		url += '&direction=' + direction;
 		url += '&start=' + start;
 		url += '&limit=' + limit;
 		url += '&collection=' + collection;
@@ -51,6 +53,7 @@ function searchService( $http, $state, $rootScope) {
 				self.searchResults.start = start;
 				self.searchResults.limit = limit;
 				self.searchResults.orderBy = orderBy;
+				self.searchResults.direction = direction;
 				$rootScope.$broadcast('search-results-documents');
 			});
 	}

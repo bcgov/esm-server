@@ -4,7 +4,7 @@ angular.module('search')
 	.config(['$stateProvider', function ($stateProvider) {
 	$stateProvider
 		.state('p.search', {
-			url: '/search?searchText&start&limit&orderBy&collection',
+			url: '/search?searchText&start&limit&orderBy&direction&collection',
 			templateUrl: 'modules/search/client/views/search.html',
 			data: { },
 			resolve: {
@@ -14,7 +14,8 @@ angular.module('search')
 					var orderBy = $stateParams.orderBy;
 					var collection = $stateParams.collection;
 					var searchText = $stateParams.searchText;
-					return SearchService.searchDocuments(project, searchText, start, limit, orderBy, collection);
+					var direction = $stateParams.direction;
+					return SearchService.searchDocuments(project, searchText, start, limit, orderBy, direction, collection);
 				}]
 			},
 			controller: function($scope, project, results) {

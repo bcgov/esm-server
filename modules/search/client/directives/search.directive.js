@@ -48,22 +48,38 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			function sortBy (column) {
 				switch(column) {
 					case 'name':
-						self.orderBy = 'displayName';
+						if (self.orderBy === 'displayName') {
+							self.direction = self.direction==='asc' ? 'desc' : 'asc';
+						} else {
+							self.direction = 'asc';
+							self.orderBy = 'displayName';
+						}
 						break;
 					case 'date':
-						self.orderBy = 'dateUploaded';
+						if (self.orderBy === 'dateUploaded') {
+							self.direction = self.direction==='asc' ? 'desc' : 'asc';
+						} else {
+							self.direction = 'asc';
+							self.orderBy = 'dateUploaded';
+						}
 						break;
 					case 'status':
-						self.orderBy = 'isPublished';
+						if (self.orderBy === 'isPublished') {
+							self.direction = self.direction==='asc' ? 'desc' : 'asc';
+						} else {
+							self.direction = 'asc';
+							self.orderBy = 'isPublished';
+						}
 						break;
 				}
-				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy);
+				self.start = 0;
+				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy, self.direction);
 			}
 
 
 			function selectPage(page) {
 				self.start = Math.abs((page -1) * self.limit);
-				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy);
+				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy, self.direction);
 			}
 
 			function reload() {
@@ -76,9 +92,9 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				self.searchText = searchResults.searchText;
 				self.count = searchResults.count;
 				self.start = searchResults.start;
-				// prevent accidental divide by zero
-				self.limit = searchResults.limit < 1 ? 1 : searchResults.limit;
+				self.limit = searchResults.limit;
 				self.orderBy = searchResults.orderBy;
+				self.direction = searchResults.direction;
 				initializeSorting();
 				initializePagination();
 				self.displayResults = [];
@@ -100,7 +116,7 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 
 			function initializeSorting () {
 				self.sorting={};
-				self.sorting.ascending = true;
+				self.sorting.ascending = self.direction === 'asc' ? 'ascending' : 'descending';
 				switch(self.orderBy) {
 					case 'displayName':
 						self.sorting.column = 'name';
@@ -115,6 +131,8 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			}
 
 			function initializePagination() {
+				// prevent accidental divide by zero
+				self.limit = Math.max(1,self.limit);
 				//set the number of pages so the pagination can update
 				self.numPages = Math.ceil(self.count / self.limit);
 				self.currentPage = Math.ceil(self.start / self.limit) + 1;

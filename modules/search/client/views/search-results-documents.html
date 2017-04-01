@@ -86,20 +86,20 @@
 						</th>
 
 						<th class="name-col sortable clickable"
-								ng-class="$vm.sorting.ascending ? 'ascending' : 'descending'"
+								ng-class="vm.sorting.ascending"
 								ng-click="vm.sortBy('name')">Name
 							<span class="sort-icon"
 										ng-show="vm.sorting.column === 'name'"></span>
 						</th>
 						<th class="date-added-col sortable  clickable"
-								ng-class="$vm.sorting.ascending ? 'ascending' : 'descending'"
+								ng-class="vm.sorting.ascending"
 								ng-click="vm.sortBy('date')">Uploaded
 							<span class="sort-icon"
 										ng-show="vm.sorting.column === 'date'"></span>
 						</th>
 						<th class="status-col sortable clickable"
 								ng-if="vm.authentication.user"
-								ng-class="$vm.sorting.ascending ? 'ascending' : 'descending'"
+								ng-class="vm.sorting.ascending"
 								ng-click="vm.sortBy('status')">Status
 							<span class="sort-icon"
 										ng-show="vm.sorting.column === 'status'"></span>

@@ -1088,7 +1088,10 @@ _.extend (DBModel.prototype, {
 		var fields = null;
 		var filterByFields = {};
 		var limit = (options.limit || 10)  * 1;
-		var orderBy = options.orderBy || '';
+		var orderBy = {}
+		if (options.orderBy) {
+			orderBy[options.orderBy] = options.direction ? options.direction: '';
+		}
 		var populate = null;
 		var projectId = options.projectId;
 		var searchText = options.searchText;
@@ -1097,7 +1100,7 @@ _.extend (DBModel.prototype, {
 		if (debug) {
 			fields = {
 				'displayName': 1,
-				'dateUpdated': 1,
+				'dateUploaded': 1,
 				'isPublished': 1,
 				'documentFileName': 1,
 				'keywords': 1,
