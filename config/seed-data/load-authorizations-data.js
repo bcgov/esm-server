@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Authorizations",
-  "date": "2017-03-06T23:57:22.686Z",
+  "date": "2017-04-01T13:50:24.390Z",
   "data": [
     {
       "agencyCode": "EAO",
@@ -1346,18 +1346,18 @@ module.exports = {
     {
       "agencyCode": "MEM",
       "projectName": "Brule",
-      "authorizationID": "C-153",
+      "authorizationID": "C-221",
       "documentName": "Approving Permit Transfer",
       "authorizationDate": "2016-12-12T16:00:00.000Z",
       "documentType": "Permit",
       "documentStatus": "Amended",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/584f32729dcf6000197cc7f6/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58dada5bb6bfe2001cbcc592/fetch",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
       "followUpDocuments": [
         {
           "name": "Approving Permit Transfer",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/584f32729dcf6000197cc7f6/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58dada5bb6bfe2001cbcc592/fetch"
         }
       ]
     },
@@ -2391,24 +2391,6 @@ module.exports = {
       "agencyCode": "MEM",
       "projectName": "Mount Polley",
       "authorizationID": "M-200",
-      "documentName": "Approving Upstream TSF Construction and 2016 Freshet Water Management",
-      "authorizationDate": "2016-02-25T16:00:00.000Z",
-      "documentType": "Permit",
-      "documentStatus": "Amended",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/582271886d6ad30017cd9b30/fetch",
-      "agencyName": "Ministry of Energy and Mines",
-      "actName": "Mines Act",
-      "followUpDocuments": [
-        {
-          "name": "Approving Upstream TSF Construction and 2016 Freshet Water Management",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/582271886d6ad30017cd9b30/fetch"
-        }
-      ]
-    },
-    {
-      "agencyCode": "MEM",
-      "projectName": "Mount Polley",
-      "authorizationID": "M-200",
       "documentName": "Approving Return to Full Operations and Use of Tailings Storage Facility",
       "authorizationDate": "2016-06-23T15:00:00.000Z",
       "documentType": "Permit",
@@ -2449,13 +2431,13 @@ module.exports = {
       "authorizationDate": "2016-02-25T16:00:00.000Z",
       "documentType": "Permit",
       "documentStatus": "Amended",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/5822781b6d6ad30017cdb88a/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58227d946d6ad30017cdc83b/fetch",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
       "followUpDocuments": [
         {
           "name": "Approving Extension to Restricted Restart of Operations and Corner 1 Buttressing",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/5822781b6d6ad30017cdb88a/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58227d946d6ad30017cdc83b/fetch"
         }
       ]
     },
@@ -2485,13 +2467,13 @@ module.exports = {
       "authorizationDate": "2016-02-25T16:00:00.000Z",
       "documentType": "Permit",
       "documentStatus": "Amended",
-      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58227d4c6d6ad30017cdc7d3/fetch",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58db05d5b6bfe2001cbcc604/fetch",
       "agencyName": "Ministry of Energy and Mines",
       "actName": "Mines Act",
       "followUpDocuments": [
         {
           "name": "Approving Upstream TSF Construction and 2016 Freshet Water Management",
-          "ref": "https://mines.empr.gov.bc.ca/api/document/58227d4c6d6ad30017cdc7d3/fetch"
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58db05d5b6bfe2001cbcc604/fetch"
         }
       ]
     },
