@@ -26,6 +26,34 @@ $list-selected-border: 1px solid #4187c9;
             width: 100%;
             height: 100%;
 
+            .sortable:hover {
+                background: #EEE;
+            }
+            .sort-icon {
+                display: none;
+                margin-top: -2px;
+                margin-left: 0.25rem;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                vertical-align: middle;
+            }
+
+            .descending {
+                .sort-icon {
+                    display: inline-block;
+                    border-width: 5px 5px 0 5px;
+                    border-color: #494949  transparent transparent transparent;
+                }
+            }
+            .ascending {
+                .sort-icon {
+                    display: inline-block;
+                    border-width: 0 5px 5px 5px;
+                    border-color: transparent transparent #494949 transparent;
+                }
+            }
+
             > thead, > tbody, > tfoot {
                 display: block;
 

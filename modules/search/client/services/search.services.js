@@ -31,7 +31,7 @@ function searchService( $http, $state, $rootScope) {
 	}
 
 	function searchDocuments(project, searchText, start, limit, orderBy, collection) {
-		start = start || 1;
+		start = start || 0;
 		limit = limit || 10;
 		orderBy = orderBy || '';
 		collection = collection || 'documents';

@@ -27,6 +27,7 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			self.changePageSize = changePageSize;
 			self.selectItem = selectItem;
 			self.selectPage = selectPage;
+			self.sortBy = sortBy;
 
 			reload();
 
@@ -44,8 +45,24 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				item.selected = ! item.selected;
 			}
 
+			function sortBy (column) {
+				switch(column) {
+					case 'name':
+						self.orderBy = 'displayName';
+						break;
+					case 'date':
+						self.orderBy = 'dateUploaded';
+						break;
+					case 'status':
+						self.orderBy = 'isPublished';
+						break;
+				}
+				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy);
+			}
+
+
 			function selectPage(page) {
-				self.start = Math.abs(page * self.limit);
+				self.start = Math.abs((page -1) * self.limit);
 				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy);
 			}
 
@@ -62,7 +79,8 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				// prevent accidental divide by zero
 				self.limit = searchResults.limit < 1 ? 1 : searchResults.limit;
 				self.orderBy = searchResults.orderBy;
-				paginationControlsLoad();
+				initializeSorting();
+				initializePagination();
 				self.displayResults = [];
 				_.forEach(currentFiles, function (item) {
 					var displayItem = {};
@@ -80,10 +98,26 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				self.isLoading = false;
 			}
 
-			function paginationControlsLoad() {
+			function initializeSorting () {
+				self.sorting={};
+				self.sorting.ascending = true;
+				switch(self.orderBy) {
+					case 'displayName':
+						self.sorting.column = 'name';
+						break;
+					case 'dateUploaded':
+						self.sorting.column = 'date';
+						break;
+					case 'isPublished':
+						self.sorting.column = 'status';
+						break;
+				}
+			}
+
+			function initializePagination() {
 				//set the number of pages so the pagination can update
-				self.numPages = Math.floor(self.count / self.limit);
-				self.currentPage = Math.ceil(self.start / self.limit);
+				self.numPages = Math.ceil(self.count / self.limit);
+				self.currentPage = Math.ceil(self.start / self.limit) + 1;
 				console.log("currentPage", self.currentPage, self.start);
 				var start = 1;
 				var paginationDisplaySize = 6;
@@ -104,6 +138,11 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 	};
 }
 
+// -----------------------------------------------------------------------------------
+//
+// DIRECTIVE: Main search widget
+//
+// -----------------------------------------------------------------------------------
 directiveMainSearch.$inject = ['SearchService'];
 /* @ngInject */
 function directiveMainSearch(SearchService) {
@@ -128,7 +167,7 @@ function directiveMainSearch(SearchService) {
 						self.search();
 					}
 				}
-			};
+			}
 
 			function search() {
 				SearchService.redirectSearchDocuments($scope.project, self.searchText);
@@ -136,7 +175,7 @@ function directiveMainSearch(SearchService) {
 
 			function toggleSearch () {
 				$scope.swOpen = !$scope.swOpen;
-			};
+			}
 		}
 	};
 	return directive;
