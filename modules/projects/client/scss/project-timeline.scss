@@ -1,0 +1,114 @@
+
+.project-timeline-container {
+	padding: 1px;
+
+	.phase {
+		position: relative;
+		color: #888;
+		background: #EEE;
+
+		.phase-info {
+			position: relative;
+			height: 100%;
+			padding: 1rem;
+			border: 1px solid #FFF;
+
+			.phase-badge {
+				margin-bottom: 1rem;
+
+				.label {
+					padding-top: 0.4rem;
+					padding-bottom: 0.3rem;
+				}
+
+				.label-info,
+				.label-success {
+					border: 2px solid #FFF;
+				}
+
+				.label-default {
+					background: #bbb;
+					border: 2px solid #bbb;
+				}
+			}
+
+			.phase-name {
+				@include flex(1 1 auto);
+				display: block;
+				margin-bottom: 1rem;
+				font-size: 1.6rem;
+				font-weight: bold;
+				line-height: 1.8rem;
+			}
+
+			.phase-status {
+				@include flex(0 0 auto);
+				font-size: 1.2rem;
+				line-height: 1.4rem;
+			}
+		}
+
+		&.complete {
+			color: #FFF;
+			background: $success-bg;
+		}
+
+		&.active {
+			color: #FFF;
+			background: $info-bg;
+
+			+ .active {
+				display: none;
+			}
+		}
+	}
+}
+
+@media (min-width: 768px)
+	and (max-device-width: 768px) {
+	.project-timeline-container {
+		@include flexdirection(column);
+
+		.phase {
+			.phase-info {
+				@include flexbox();
+				padding: 1rem 1.5rem;
+
+				.phase-name {
+					margin-top: 0.5rem;
+					margin-bottom: 0.5rem;
+				}
+			}
+		}
+
+		.phase-status {
+			text-align: right;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.project-timeline-container {
+		@include flexbox();
+
+		.phase {
+			-webkit-flex: 1 1 auto;
+			flex: 1 1 auto;
+			-ms-flex: 1 1 1px; /* IE needs a value for flex-basis or the flex grow/shrink properties won't obey */
+
+			.phase-info {
+				flex-flow: column nowrap;
+
+				.phase-badge {
+					text-align: left;
+				}
+
+				.phase-status {
+					.status-name {
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}

@@ -210,6 +210,18 @@ module.exports = DBModel.extend ({
 				}
 			})
 			.then(function (project) {
+				// Check if the folder name already exists.
+				var f = new FolderClass (self.opts);
+				return f.findOne({parentID: parentId, project: projectId, displayName: folderName})
+				.then(function (folder) {
+					if (folder) {
+						return Promise.reject(new Error("Folder name already exists."));
+					} else {
+						return project;
+					}
+				});
+			})
+			.then(function (project) {
 				// console.log("current structure:", project.directoryStructure);
 				var tree = new TreeModel();
 				if (!project.directoryStructure) {
@@ -277,7 +289,25 @@ module.exports = DBModel.extend ({
 					// bail - this folder contains published files.
 					return Promise.reject(doc);
 				}
-				return self.findById(projectId);
+				return self.findById(projectId); 
+			})
+			.then(function (project) {
+				//create the tree model
+				var tree = new TreeModel();
+				if (!project.directoryStructure) {
+					return project;
+				}
+				//parse the tree
+				var root = tree.parse(project.directoryStructure);
+				// Walk until the right folder is found
+				var theNode = root.first(function (node) {
+					return node.model.id === parseInt(folderId);
+				});
+				//check if it has children
+				if (theNode.hasChildren()) {
+					return Promise.reject(project); //need to have an object inside the promise
+				}
+				return project; //fetch the database again for project
 			})
 			.then(function (project) {
 				// check for manageFolders permission
@@ -356,6 +386,17 @@ module.exports = DBModel.extend ({
 					} else {
 						return project;
 					}
+				})
+				.then(function (project) {
+					// Check if the folder name already exists.
+					return f.findOne({parentID: folderId, project: projectId, displayName: newName})
+					.then(function (folder) {
+						if (folder) {
+							return Promise.reject(new Error("Folder name already exists."));
+						} else {
+							return project;
+						}
+					});
 				})
 				.then(function (project) {
 					// console.log("current structure:", project.directoryStructure);
@@ -618,7 +659,7 @@ module.exports = DBModel.extend ({
 					}
 					// See if any documents are published.
 					// console.log("finding:", {directoryID: parseInt(directoryId), isPublished: true})
-					return DocumentModel.find({directoryID: parseInt(directoryId), isPublished: true})
+					return DocumentModel.find({project: projectId, directoryID: parseInt(directoryId), isPublished: true})
 					.then( function (doc) {
 						// console.log("doc:", doc);
 						if (doc.length !== 0) {

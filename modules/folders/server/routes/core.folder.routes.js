@@ -14,10 +14,15 @@ module.exports = function (app) {
 	// get put new delete
 	//
 	routes.setCRUDRoutes (app, 'folders', FolderClass, policy, ['get','put','new', 'delete', 'query'], {all:'guest',get:'guest'});
-	app.route ('/api/folders/:projectid')
+	app.route ('/api/folders/for/project/:projectid/in/:parentid')
 		.all (policy ('guest'))
 		.get (routes.setAndRun (FolderClass, function (model, req) {
-			return model.getFoldersForProject (req.params.projectid);
+			return model.getFoldersForProject (req.params.projectid, req.params.parentid);
+		}));
+	app.route ('/api/folders/for/project/:projectid/:folderid')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (FolderClass, function (model, req) {
+			return model.getFolderObject (req.params.projectid, req.params.folderid);
 		}));
 	app.route('/api/publish/folders/:folders').all(policy('user'))
 		.put(routes.setAndRun(FolderClass, function (model, req) {

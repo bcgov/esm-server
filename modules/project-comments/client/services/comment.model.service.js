@@ -5,7 +5,7 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('comment').factory ('CommentModel', function (ModelBase, moment, _) {
+angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment', '_', function ($q, ModelBase, moment, _) {
 	//
 	// build the model by extending the base model. the base model will
 	// have all the basic crud stuff built in
@@ -20,6 +20,70 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, moment, 
 		// get all the comments for a comment period
 		//
 		// -------------------------------------------------------------------------
+		commentPeriodCommentsSync: function (projectId, periodId, commentLength) {
+			var self = this;
+			// setting batch size (limit) to 10 because DEV was performing poorly.  adjust this to try on different envs.
+			var start = 0, limit = 10;
+			var requests = [];
+
+			// build up however many requests we need to save all comments...
+			do {
+				requests.push({
+					// primary query...
+					periodId: periodId,
+					start: start,
+					limit: limit,
+					projectId: projectId
+				});
+				start = start + limit;
+			}
+			while (start < commentLength);
+
+			// sequential loop, one request at a time, wait until each step completes.
+			function sequential(items, callback) {
+				var i = 0, d = $q.defer();
+				next();
+				return d.promise;
+
+				function next() {
+					if( i < items.length ) {
+						callback(items[i], i, items).then(
+							function() {
+								i++;
+								next();
+							},
+							onError
+						);
+					}
+					else {
+						d.resolve();
+					}
+				}
+				function onError(reason) {
+					d.reject(reason);
+				}
+			}
+
+			// make the actual http request, return a promise..
+			function makeRequest(item, index, list) {
+				//console.log('pcp comments sync request ', (index+1), ' of ', list.length);
+				return self.put ('/api/comments/period/' + item.periodId + '/perms/sync', item);
+			}
+
+
+			return new Promise(function(resolve, reject) {
+				sequential(requests, makeRequest)
+					.then(function() {
+						//console.log('pcp comments sync done.');
+						resolve();
+					})
+					.catch(function(err) {
+						console.log('pcp comments sync error... reject ', JSON.stringify(err));
+						reject(err);
+					});
+			});
+
+		},
 		getAllCommentsForPeriod: function (periodId) {
 			return this.get ('/api/comments/period/'+periodId+'/all');
 		},
@@ -211,6 +275,6 @@ angular.module('comment').factory ('CommentModel', function (ModelBase, moment, 
 		}
 	});
 	return new Class ();
-});
+}]);
 
 

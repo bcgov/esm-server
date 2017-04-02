@@ -14,12 +14,16 @@ angular.module('documents')
 						animation: true,
 						templateUrl: 'modules/documents/client/views/document-manager-edit.html',
 						resolve: {
-							file: function(Document) {
-								return Document.getModel(scope.doc._id);
+							obj: function(Document, FolderModel) {
+								if (scope.doc._schemaName === "Document") {
+									return Document.getModel(scope.doc._id);
+								} else {
+									return FolderModel.lookup(scope.project._id, scope.doc.model.id);
+								}
 							}
 						},
 						controllerAs: 'editFileProperties',
-						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, file, CodeLists) {
+						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, obj, CodeLists, FolderModel, AlertService) {
 							var self = this;
 							self.busy = true;
 
@@ -31,17 +35,17 @@ angular.module('documents')
 								showWeeks: false
 							};
 
-							$scope.originalName = file.displayName || file.documentFileName || file.internalOriginalName;
-							$scope.doc = file;
+							$scope.originalName = obj.displayName || obj.documentFileName || obj.internalOriginalName;
+							$scope.doc = obj;
 							// any dates going to the datepicker need to be javascript Date objects...
-							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? null : moment(file.documentDate).toDate();
+							$scope.doc.documentDate = _.isEmpty(obj.documentDate) ? null : moment(obj.documentDate).toDate();
 							$scope.datePicker = {
 								opened: false
 							};
 							$scope.dateOpen = function() {
 								$scope.datePicker.opened = true;
 							};
-							$scope.doc.dateUploaded = _.isEmpty(file.dateUploaded) ? moment.now() : moment(file.dateUploaded).toDate();
+							$scope.doc.dateUploaded = _.isEmpty(obj.dateUploaded) ? moment.now() : moment(obj.dateUploaded).toDate();
 							$scope.dateUploadedPicker = {
 								opened: false
 							};
@@ -119,8 +123,9 @@ angular.module('documents')
 								self.busy = true;
 								// should be valid here...
 								if (isValid) {
-									Document.save($scope.doc)
-										.then(function(result) {
+									if ($scope.doc._schemaName === "Document") {
+										Document.save($scope.doc)
+										.then(function (result) {
 											// somewhere here we need to tell document manager to refresh it's document...
 											if (scope.onUpdate) {
 												scope.onUpdate(result);
@@ -131,6 +136,45 @@ angular.module('documents')
 											console.log(error);
 											self.busy = false;
 										});
+									} else {
+										// Check if the foldername already exists.
+										FolderModel.lookupForProjectIn($scope.project._id, $scope.doc.parentID)
+										.then(function (fs) {
+											if ($scope.originalName === $scope.doc.displayName) {
+												// Skip if we detect the user didn't change the name.
+												return FolderModel.save($scope.doc);
+											} else {
+												var found = null;
+												_.each(fs, function (foldersInDirectory) {
+													if (foldersInDirectory.displayName === $scope.doc.displayName) {
+														found = true;
+														return false;
+													}
+												});
+												if (found) {
+													return null;
+												} else {
+													return FolderModel.save($scope.doc);
+												}
+											}
+										})
+										.then(function (result) {
+											if (result) {
+												// somewhere here we need to tell document manager to refresh it's document...
+												if (scope.onUpdate) {
+													scope.onUpdate(result);
+												}
+												self.busy = false;
+												$modalInstance.close(result);
+											} else {
+												self.busy = false;
+												AlertService.error("Sorry, folder already exists.  Please choose another name.");
+											}
+										}, function(error) {
+											console.log(error);
+											self.busy = false;
+										});
+									}
 								}
 							};
 							self.busy = false;

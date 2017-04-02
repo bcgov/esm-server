@@ -222,12 +222,35 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			period.periodType = 'Public';
 			period.commenterRoles = ['public'];
 
+			// store these, if they change, we need to update all child comment permissions...
+			var originalPeriodRoles = {
+				read: period.read,
+				write: period.write,
+				delete: period.delete,
+				commenterRoles: period.commenterRoles,
+				vettingRoles: period.vettingRoles,
+				classificationRoles: period.classificationRoles
+			};
+
+			var rolesChanged = function(period) {
+				var periodRoles = {
+					read: period.read,
+					write: period.write,
+					delete: period.delete,
+					commenterRoles: period.commenterRoles,
+					vettingRoles: period.vettingRoles,
+					classificationRoles: period.classificationRoles
+				};
+				return (JSON.stringify(originalPeriodRoles) !== JSON.stringify(periodRoles));
+			};
+
 			createEditCommonSetup($timeout, $scope, period, project, CodeLists);
 
 			// ESM-761: for edit - don't show project-system-admin roles for vet and classify..
 			period.vettingRoles = _.without(period.vettingRoles, 'project-system-admin');
 			period.classificationRoles = _.without(period.classificationRoles, 'project-system-admin');
 
+			$scope.busy = false;
 			$scope.hasErrors = false;
 			$scope.errorMessage = '';
 
@@ -236,26 +259,25 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 					$scope.hasErrors = true;
 					$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';
 				} else {
+					$scope.busy = true;
 
 					CommentPeriodModel.save($scope.period)
 					.then(function (model) {
-						// console.log ('period was saved',model);
-						// save the comments so that we pick up the (potential) changes to the period permissions...
-						return CommentModel.getAllCommentsForPeriod(model._id);
-					})
-					.then(function (comments) {
-						Promise.resolve()
-						.then(function () {
-							return comments.reduce(function (current, value, index) {
-								return CommentModel.save(value);
-							}, Promise.resolve());
-						});
+						if (!rolesChanged(model)) {
+							return;
+						} else {
+							// console.log ('period was saved, roles changed');
+							// save the comments so that we pick up the (potential) changes to the period permissions...
+							return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
+						}
 					}).then(function () {
+						$scope.busy = false;
 						$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
 							reload: true, inherit: false, notify: true
 						});
 					})
 					.catch(function (err) {
+						$scope.busy = false;
 						console.error(err);
 						// alert (err.message);
 					});

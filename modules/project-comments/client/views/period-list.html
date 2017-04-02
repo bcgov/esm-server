@@ -26,38 +26,38 @@
 		</div>
 	</div>
 
-	<div class="button-bar clearfix">
-		<a class="btn btn-default btn-sm" ng-if="project.userCan.createCommentPeriod" ui-sref="p.commentperiod.create()" title="Add Comment Period">
+	<div class="button-bar" ng-if="project.userCan.createCommentPeriod">
+		<a class="btn btn-default btn-sm" title="Add Comment Period" ui-sref="p.commentperiod.create()">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Comment Period</span>
 		</a>
-		<!--
-		<show-filter x-toggle-filter="toggleFilter"></show-filter>
-		-->
 	</div>
 
 	<div class="table-container">
-		<table class="table table-hover" ng-table="tableParams" show-filter="toggleFilter">
-			<tr class="clickable" ng-repeat="p in $data"  ng-if="project.userCan.createCommentPeriod || p.isPublished"  ui-sref="p.commentperiod.detail({periodId:p._id})">
-				<td title="'Type'" sortable="'periodType'">
-					{{p.periodType}}
-				</td>
-				<td title="'Start Date'" sortable="'dateStarted'">
+		<table class="pcp-table table table-hover" ng-class="{'can-edit': project.userCan.createCommentPeriod}" ng-table="tableParams">
+			<tr ng-repeat="p in $data" ng-if="project.userCan.createCommentPeriod || p.isPublished"  ui-sref="p.commentperiod.detail({periodId:p._id})">
+				<td class="date-col" header-class="'date-col'" title="'Start Date'" 
+					sortable="'dateStarted'">
 					{{ p.dateStarted | date : format : timezone }}
 				</td>
-				<td title="'End Date'" sortable="'dateCompleted'">
-					{{ p.dateCompleted | date : format : timezone }}
+				<td class="details-col" header-class="'details-col'" title="'Details'" 
+					sortable="'informationLabel'">
+					{{p.informationLabel}}
 				</td>
-				<td title="'Open State'" sortable="'openState'">
-					{{ p.openState.state}}
+				<td class="status-col" header-class="'status-col'" title="'Status'" 
+					sortable="'openState'">
+					<span class="label" 
+						ng-class="{
+							'open':p.openState.state === 'Open',
+							'pending':p.openState.state === 'Pending',
+							'completed':p.openState.state === 'Completed'}">{{ p.openState.state}}</span>
 				</td>
-				<td class="documents-col" header-class="'documents-col'" title="'Documents'" sortable="'relatedDocuments.length'">
-					{{p.relatedDocuments.length}}
+				<td class="count-col" header-class="'count-col'" title="'Comments'">
+					<span class="glyphicon glyphicon-comment"></span>
+					<span class="count">{{p.stats.totalPublic}}</span>
 				</td>
-				<td class="total-col" header-class="'total-col'" title="'Comments'">
-					{{p.stats.totalPublic}}
-				</td>
-				<td class="actions-col" header-class="'actions-col x1'" ng-if="project.userCan.createCommentPeriod">
+				<td class="actions-col" header-class="'actions-col x1'" 
+					ng-if="project.userCan.createCommentPeriod">
 					<div class="btn-group">
 						<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
