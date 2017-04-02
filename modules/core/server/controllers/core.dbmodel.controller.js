@@ -1088,7 +1088,7 @@ _.extend (DBModel.prototype, {
 		var fields = null;
 		var filterByFields = {};
 		var limit = (options.limit || 10)  * 1;
-		var orderBy = {}
+		var orderBy = {};
 		if (options.orderBy) {
 			orderBy[options.orderBy] = options.direction ? options.direction: '';
 		}
