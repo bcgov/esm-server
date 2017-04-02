@@ -130,7 +130,7 @@
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
-		<button type="button" class="btn btn-success" ng-click="s.submit()">Submit Comment</button>
+		<button type="button" class="btn btn-success" ng-click="s.submit()" ng-disabled="!s.comment.comment && s.fileList.length === 0">Submit Comment</button>
 	</div>
 </form><!-- / COMMENT FORM - STEP 2 -->
 
