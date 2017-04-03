@@ -1,0 +1,33 @@
+
+.icon-btn {
+    min-width: 3.4rem;
+    height: 3.4rem;
+    padding: 0;
+    text-align: center;
+    background: transparent;
+    border: 1px solid transparent;
+
+    .glyphicon {
+        top: 0;
+        vertical-align: middle;
+        font-size: 1.8rem;
+        color: inherit;
+    }
+
+    &:hover {
+        background: #EEE;
+        border-color: #CCC;
+    }
+
+    &:disabled {
+        opacity: 0.2;
+    }
+}
+
+a.icon-btn {
+    color: #494949;
+
+    .glyphicon {
+        top: 0.55rem;
+    }
+}

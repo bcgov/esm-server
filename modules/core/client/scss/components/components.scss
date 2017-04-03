@@ -1,0 +1,222 @@
+
+/* LIST VARIATIONS */
+.comma-separated-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+        position: relative;
+        display: inline-block;
+
+        &:after {
+            display: inline-block;
+            content: ',';
+        }
+    }
+
+    li:last-child {
+        &:after {
+            display: none;
+        }
+    }
+}
+
+
+/* TAG LIST 
+------------------------------ */
+$tag-height: 3rem;
+
+.tag-list-container {
+	&.form-control {
+		min-height: 3.4rem;
+		height: auto;
+		padding: 0 0.2rem;
+	}
+
+	+ .tag-list-container {
+		margin-top: 1rem;
+	}
+}
+
+.tag-list {
+	margin: 0;
+	padding: 0;
+    list-style-type: none;
+
+	.add-tag,
+	.tag {
+        float: left;
+        margin: 0.2rem;
+		font-size: 1.2rem;
+		color: #FFF;
+		vertical-align: top;
+	}
+
+	.add-tag {
+		.btn {
+            padding: 0;
+            width: 3rem;
+            height: 3rem;
+			color: #FFF;
+			background: #CCC;
+
+			&:hover,
+			&:focus {
+				background: #999;
+			}
+		}
+	}
+
+	.tag {
+        float: left;
+        height: 3rem;
+		border-radius: 4px;
+        background: $success-bg;
+
+        .tag-name {
+            display: inline-block;
+            padding-top: 0.55rem;
+            padding-right: 1rem;
+            padding-left: 1rem;
+        }
+
+		.btn {
+            padding: 0;
+			width: 3rem;
+            height: 3rem;
+			border-radius: 2px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            background: transparent;
+
+            &:active,
+            &:hover,
+            &:focus
+             {
+                background: rgba(255,255,255,0.25rem);
+                color: #FFF;
+            }
+
+		}
+	}
+}
+
+
+/* Date Picker Popup */
+.datepicker {
+    .datepicker-input {
+        position: relative;
+
+        input:disabled {
+            background: #FFF;
+        }
+        
+        .calendar-btn {
+            position: absolute;
+            top: 0;
+            padding: 0;
+            width: 100%;
+            height: 3.4rem;
+            background: transparent;
+            text-align: right;
+
+            .glyphicon {
+                top: 0.2rem;
+                margin-right: 0.75rem;
+                font-size: 1.8rem;
+            }
+        }
+    }
+
+    .dropdown-menu {
+        padding: 0;
+
+        li {
+            padding: 0.5rem;
+        }
+
+        li:last-child {
+            overflow: hidden;
+            padding: 0.2rem 0.7rem 0.7rem 0.7rem !important;
+
+            .btn {
+                border-color: #CCC;
+                background: #FFF;
+                color: #494949;
+
+                &:hover,
+                &:focus {
+                    background: #EEE;
+                }
+            }
+        }
+
+        table {
+            &:focus {
+                outline: none;
+            }
+
+            .btn {
+                font-weight: normal;
+            }
+        }
+
+        thead {
+            tr:first-child {
+                background-color: #EEE;
+
+                .btn-sm {
+                    font-size: 1.4rem;
+                }
+            }
+
+            .btn {
+                border-color: transparent;
+                background-color: transparent;
+
+                &:hover {
+                    border-color: #CCC;
+                    background-color: rgba(255,255,255,0.5);
+                }
+            }
+        }
+
+        th, td {
+            padding: 0.2rem;
+        }
+    }
+}
+
+
+// Fixed Alert
+$fixed-alert-width: 60rem;
+
+.welcome-alert {
+    position: fixed;
+    top: 3rem;
+    left: 50%;
+    z-index: 999;
+    box-shadow: 0.5rem 0.5rem 1rem rgba(#000, 0.2);
+    margin-left: calc(#{$fixed-alert-width} * -0.5);
+    padding: 2rem;
+    width: 60rem;
+    background-color: #FFF;
+    color: #494949;
+
+    h2, p {
+        margin-bottom: 2rem;
+    }
+
+    p {
+        + p {
+            margin-top: 0;
+        }
+    }
+
+    .btn {
+        padding: 0.75rem 1rem;
+        width: 10rem;
+        font-size: 1.5rem;
+    }
+}
