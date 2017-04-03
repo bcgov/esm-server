@@ -300,7 +300,7 @@
 						</section>
 						<section>
 							<h3><span class="label label-default" ng-class="{'label-primary': project.groups.length > 0}">{{project.groups.length}}</span> Groups</h3>
-							<ul ng-if="projects.groups.length > 0">
+							<ul ng-if="project.groups.length > 0">
 								<li ng-repeat="group in project.groups">{{group.name}}</li>
 							</ul>
 						</section>
