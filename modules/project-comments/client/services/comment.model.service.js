@@ -1,5 +1,6 @@
 'use strict';
-// =========================================================================
+
+//=========================================================================
 //
 // this is the data model (service). This is how all data
 // is accessed through the front end
@@ -20,9 +21,8 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 		// get all the comments for a comment period
 		//
 		// -------------------------------------------------------------------------
-		commentPeriodCommentsSync: function (projectId, periodId, commentLength) {
+		commentPeriodCommentsSync: function (periodId, commentLength) {
 			var self = this;
-			// setting batch size (limit) to 10 because DEV was performing poorly.  adjust this to try on different envs.
 			var start = 0, limit = 10;
 			var requests = [];
 
@@ -32,8 +32,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 					// primary query...
 					periodId: periodId,
 					start: start,
-					limit: limit,
-					projectId: projectId
+					limit: limit
 				});
 				start = start + limit;
 			}
@@ -83,6 +82,41 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 					});
 			});
 
+		},
+		commentPeriodPermissionsSync: function (periodId, commentLength) {
+			// if we change vetting/classification roles on a Period, we need to adjust all children permissions
+			// so all comments and their documents need to have there permissions reset (and some proponent/eaoStatus work too).
+			// makes sure publish flags and statuses are in sync etc.
+			if (commentLength && commentLength <= 1000) {
+				// let's arbitrarily pick 1000 as a limit on doing all comments/docs permission sync in a single call...
+				return this.get ('/api/comments/period/'+periodId+'/permissions/sync');
+			} else {
+				// other wise, break out into stages
+				// there are 4 discrete chunks of work done to get the comments and docs set up correctly.
+				var self = this;
+				return new Promise(function(resolve, reject) {
+					self.get ('/api/comments/period/'+periodId+'/permissions/sync/' + 1)
+						.then(function() {
+							return self.get ('/api/comments/period/'+periodId+'/permissions/sync/' + 2);
+						})
+						.then(function() {
+							return self.get ('/api/comments/period/'+periodId+'/permissions/sync/' + 3);
+						})
+						.then(function() {
+							return self.get ('/api/comments/period/'+periodId+'/permissions/sync/' + 4);
+						})
+						.then(function() {
+							resolve();
+						}, function(err) {
+							console.log('Error comment Period perimissions sync: ', JSON.stringify(err));
+							reject(err);
+						});
+				});
+			}
+		},
+		commentPermissionsSync: function (commentId) {
+			// same logic as above, but limit to a single comment...
+			return this.get ('/api/comments/' + commentId + '/permissions/sync');
 		},
 		getAllCommentsForPeriod: function (periodId) {
 			return this.get ('/api/comments/period/'+periodId+'/all');

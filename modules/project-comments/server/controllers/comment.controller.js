@@ -11,7 +11,7 @@ var DBModel   = require (path.resolve ('./modules/core/server/controllers/core.d
 var _         = require ('lodash');
 // var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
-var ProjectController  = require (path.resolve('./modules/projects/server/controllers/project.controller'));
+var mongoose = require('mongoose');
 
 module.exports = DBModel.extend ({
 	name : 'Comment',
@@ -387,131 +387,1115 @@ module.exports = DBModel.extend ({
 				.then (resolve, reject);
 		});
 	},
-	updatePermissionBatch: function(projectId, periodId, skip, limit) {
+	bulkDeletePermissions: function(items) {
 		var self = this;
-		var projectCtrl = new ProjectController(this.opts);
 
-		return new Promise(function (resolve, reject) {
-			projectCtrl.findById(projectId)
-				.then(function(project) {
-					if (project && project.userCan.createCommentPeriod) {
-						// ok, let them find all the comments and update them... make them act like admin...
-						self.isAdmin = true;
-						self.user.roles.push('admin'); // need this so the documents controller in preprocessUpdate will act as admin
-						return self.getCommentsForPeriod(periodId, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, skip, limit, undefined);
-					} else {
-						// can't createCommentPeriod, so don't allow them to do this comment/document processing...
-						return [];
+		var _BATCH_SIZE = 1000;
+
+		var PermissionModel = mongoose.model('_Permission');
+
+		return new Promise(function(rs, rj) {
+
+			var bulk = PermissionModel.collection.initializeOrderedBulkOp();
+
+			var chunk_size = _BATCH_SIZE;
+			var arr = items;
+			var batches = arr.map( function(e,i){
+				return i%chunk_size===0 ? arr.slice(i,i+chunk_size) : null;
+			}).filter(function(e){ return e; });
+
+			var batchesExecuted = 0;
+
+			_.each(batches, function(b) {
+				_.each(b, function(obj) {
+					//console.log('obj = ', JSON.stringify(obj));
+					bulk.find({ resource: obj._id.toString(), permission: {$in: ['read', 'write', 'delete']} }).remove();
+				});
+
+				// Execute the operation
+				//console.log('insert execute');
+				bulk.execute({w:1}, function(err, result) {
+					batchesExecuted++;
+					//console.log('executed bulkDeletePermissions batch ', batchesExecuted, ' of ', _.size(batches));
+					if (err) {
+						//console.log('bulkDeletePermissions: ', JSON.stringify(err));
+						rj(err);
 					}
-				})
-				.then(function (results) {
-					var a = _.map(results.data, function (d) {
-						// update which will call preprocessUpdate where the logic really is...
-						return self.update(d, d);
-					});
-					return Promise.all(a);
-				})
-				.then(resolve, reject);
+					// re-initialise batch operation
+					bulk = PermissionModel.collection.initializeOrderedBulkOp();
+					if (result) {
+						//console.log('bulkDeletePermissions result.ok ', result.ok);
+						if (batchesExecuted === _.size(batches)){
+							rs(result);
+						}
+					}
+				});
+
+			});
+			if (_.size(items) === 0) {
+				rs();
+			}
 		});
 	},
-	getPeriodPaginate: function (body) {
+
+	bulkInsertPermissions: function(items) {
 		var self = this;
-		// base query / filter
-		var periodId;
-		var eaoStatus;
-		var proponentStatus;
-		var isPublished;
 
-		// filter By Fields...
-		var commentId;
-		var authorComment;
-		var location;
-		var pillar;
-		var topic;
+		var _BATCH_SIZE = 1000;
 
-		// pagination stuff
-		var skip = 0;
-		var limit = 50;
-		var sortby = {};
+		var PermissionModel = mongoose.model('_Permission');
 
-		if (body) {
-			// base query / filter
-			if (!_.isEmpty(body.periodId)) {
-				periodId = body.periodId;
-			}
-			if (!_.isEmpty(body.eaoStatus)) {
-				eaoStatus = body.eaoStatus;
-			}
-			if (!_.isEmpty(body.proponentStatus)) {
-				proponentStatus = body.proponentStatus;
-			}
-			if (body.isPublished !== undefined) {
-				isPublished = Boolean(body.isPublished);
-			}
-			// filter By Fields...
-			if (!_.isEmpty(body.commentId)) {
-				try {
-					commentId = parseInt(body.commentId);
-				} catch(e) {
+		return new Promise(function(rs, rj) {
 
+		var bulk = PermissionModel.collection.initializeOrderedBulkOp();
+
+		var chunk_size = _BATCH_SIZE;
+		var arr = items;
+		var batches = arr.map( function(e,i){
+			return i%chunk_size===0 ? arr.slice(i,i+chunk_size) : null;
+		}).filter(function(e){ return e; });
+
+		var batchesExecuted = 0;
+
+		_.each(batches, function(b) {
+			_.each(b, function(obj) {
+				//console.log('obj = ', JSON.stringify(obj));
+				bulk.find(obj).upsert().replaceOne(obj);
+			});
+
+			// Execute the operation
+			//console.log('insert execute');
+			bulk.execute({w:1}, function(err, result) {
+				batchesExecuted++;
+				//console.log('executed bulkInsertPermissions batch ', batchesExecuted, ' of ', _.size(batches));
+				if (err) {
+					//console.log('bulkInsertPermissions: ', JSON.stringify(err));
+					rj(err);
 				}
-			}
-			if (!_.isEmpty(body.authorComment)) {
-				authorComment = body.authorComment;
-			}
-			if (!_.isEmpty(body.location)) {
-				location = body.location;
-			}
-			if (!_.isEmpty(body.pillar)) {
-				pillar = body.pillar;
-			}
-			if (!_.isEmpty(body.topic)) {
-				topic = body.topic;
-			}
-			// pagination stuff
-			try {
-				skip = parseInt(body.start);
-				limit = parseInt(body.limit);
-			} catch(e) {
-				console.log("Non-critical error:", e);
-			}
-			if (body.orderBy) {
-				sortby[body.orderBy] = body.reverse ? -1 : 1;
-			}
-		}
+				// re-initialise batch operation
+				bulk = PermissionModel.collection.initializeOrderedBulkOp();
+				if (result) {
+					//console.log('bulkInsertPermissions result.ok ', result.ok);
+					if (batchesExecuted === _.size(batches)){
+						rs(result);
+					}
+				}
+			});
 
-		return self.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby);
-	},
-	getPeriodPermsSync: function (body) {
+		});
+		if (_.size(items) === 0) {
+			rs();
+		}
+	});
+},
+
+	permsList: function(items, readRoles, writeRoles, deleteRoles) {
+	var perms = [];
+
+	_.each(items, function(item) {
+		_.each(readRoles, function(r) {
+			perms.push({resource: item._id.toString(), permission: 'read', role: r});
+		});
+		_.each(writeRoles, function(r) {
+			perms.push({resource: item._id.toString(), permission: 'write', role: r});
+		});
+		_.each(deleteRoles, function(r) {
+			perms.push({resource: item._id.toString(), permission: 'delete', role: r});
+		});
+	});
+
+	return perms;
+},
+
+	syncUnclassifiedComments: function(period, comment) {
 		var self = this;
-		// base query / filter
-		var periodId;
 
-		// pagination stuff
-		var skip = 0;
-		var limit = 50;
+		var _BATCH_SIZE = 1000;
 
-		var projectId; // will need this to check for createCommentPeriod permission
+		var CommentModel = mongoose.model('Comment');
 
-		if (body) {
-			// base query / filter
-			if (!_.isEmpty(body.periodId)) {
-				periodId = body.periodId;
-			}
-			// pagination stuff
-			try {
-				skip = parseInt(body.start);
-				limit = parseInt(body.limit);
-			} catch(e) {
-				console.log('Invalid skip/start or limit value passed in (skip/start =',  body.start, ', limit = ', body.limit, '); using defaults: skip/start = ', skip, ', limit =', limit);
-			}
+		var updateUnclassified = function(commentPeriod, comment) {
+			return new Promise(function(res, rej) {
 
-			if (!_.isEmpty(body.projectId)) {
-				projectId = body.projectId;
-			}
+				var findComments = function() {
+					if (comment) {
+						return new Promise(function(rs, rj) {
+							CommentModel.find({ $and: [
+									{ _id: comment._id },
+									{ valuedComponents: { $size: 0 }},
+									{ proponentStatus: {$ne: 'Unclassified'} }
+								] }, '_id',
+								function (err, data){
+									if (err) {
+										rj(err);
+									} else {
+										rs(data);
+									}
+								});
+						});
+					} else {
+						return new Promise(function(rs, rj) {
+							CommentModel.find({ $and: [
+									{ period: commentPeriod._id },
+									{ valuedComponents: { $size: 0 }},
+									{ proponentStatus: {$ne: 'Unclassified'} }
+								] }, '_id',
+								function (err, data){
+									if (err) {
+										rj(err);
+									} else {
+										rs(data);
+									}
+								});
+						});
+					}
+				};
 
-		}
-		return self.updatePermissionBatch(projectId, periodId, skip, limit);
-	}
+				var bulkUpdate = function(items) {
+					return new Promise(function(rs, rj) {
+
+						var bulk = CommentModel.collection.initializeOrderedBulkOp();
+
+						var chunk_size = _BATCH_SIZE;
+						var arr = items;
+						var batches = arr.map( function(e,i){
+							return i%chunk_size===0 ? arr.slice(i,i+chunk_size) : null;
+						}).filter(function(e){ return e; });
+
+						var batchesExecuted = 0;
+
+						_.each(batches, function(b) {
+							_.each(b, function(obj) {
+								//console.log('obj = ', JSON.stringify(obj));
+								bulk.find({ _id: obj._id }).updateOne({ $set: { proponentStatus: 'Unclassified' } });
+							});
+
+							// Execute the operation
+							//console.log('insert execute');
+							bulk.execute({w:1}, function(err, result) {
+								batchesExecuted++;
+								//console.log('executed bulkUpdate batch ', batchesExecuted, ' of ', _.size(batches));
+								if (err) {
+									console.log('bulkUpdate: ', JSON.stringify(err));
+									rj(err);
+								}
+								// re-initialise batch operation
+								bulk = CommentModel.collection.initializeOrderedBulkOp();
+								if (result) {
+									//console.log('bulkUpdate result.ok ', result.ok);
+									if (batchesExecuted === _.size(batches)){
+										rs(result);
+									}
+								}
+							});
+
+						});
+						if (_.size(items) === 0) {
+							rs();
+						}
+					});
+				};
+
+				findComments()
+					.then(function(comments) {
+						//console.log('Comments that need proponent status update: ', _.size(comments));
+						return bulkUpdate(comments);
+					})
+					.then(function() {
+						//console.log('done');
+						res();
+					}, function(err) {
+						console.log(JSON.stringify(err));
+						rej(err);
+					});
+			});
+		};
+
+		return new Promise(function(resolve, reject) {
+			updateUnclassified(period, comment)
+				.then(function() {
+					resolve();
+				}, function(err) {
+					console.log(JSON.stringify(err));
+					reject(err);
+				});
+		});
+	},
+
+	syncPermissionsPublishedComments: function(period, comment) {
+		var self = this;
+
+		var _BATCH_SIZE = 1000;
+
+		var CommentModel = mongoose.model('Comment');
+
+		var updatePublished = function(commentPeriod, comment) {
+			return new Promise(function (res, rej) {
+
+				var _comments;
+				// permissions for reading published comments...
+				var readRoles = _.uniq(_.concat(commentPeriod.read, 'public'));
+
+				var findComments = function() {
+					if (comment) {
+						return new Promise(function(rs, rj) {
+							CommentModel.find({ $and: [
+									{ _id: comment._id},
+									{ eaoStatus: { $eq: 'Published' }}
+								] }, '_id',
+								function (err, data){
+									if (err) {
+										rj(err);
+									} else {
+										rs(data);
+									}
+								});
+						});
+
+					} else {
+						return new Promise(function(rs, rj) {
+							CommentModel.find({ $and: [
+									{ period: commentPeriod._id },
+									{ eaoStatus: { $eq: 'Published' }}
+								] }, '_id',
+								function (err, data){
+									if (err) {
+										rj(err);
+									} else {
+										rs(data);
+									}
+								});
+						});
+					}
+				};
+
+				var bulkUpdate = function(items) {
+					return new Promise(function(rs, rj) {
+
+						var bulk = CommentModel.collection.initializeOrderedBulkOp();
+
+						var chunk_size = _BATCH_SIZE;
+						var arr = items;
+						var batches = arr.map( function(e,i){
+							return i%chunk_size===0 ? arr.slice(i,i+chunk_size) : null;
+						}).filter(function(e){ return e; });
+
+						var batchesExecuted = 0;
+
+						_.each(batches, function(b) {
+							_.each(b, function(obj) {
+								//console.log('obj = ', JSON.stringify(obj));
+								bulk.find({ _id: obj._id }).updateOne(
+									{ $set:
+										{
+											isPublished: true,
+											read: readRoles,
+											write: commentPeriod.write,
+											delete: commentPeriod.delete
+										}
+									});
+							});
+
+							// Execute the operation
+							//console.log('insert execute');
+							bulk.execute({w:1}, function(err, result) {
+								batchesExecuted++;
+								//console.log('executed bulkUpdate batch ', batchesExecuted, ' of ', _.size(batches));
+								if (err) {
+									console.log('bulkUpdate: ', JSON.stringify(err));
+									rj(err);
+								}
+								// re-initialise batch operation
+								bulk = CommentModel.collection.initializeOrderedBulkOp();
+								if (result) {
+									//console.log('bulkUpdate result.ok ', result.ok);
+									if (batchesExecuted === _.size(batches)){
+										rs(result);
+									}
+								}
+							});
+
+						});
+						if (_.size(items) === 0) {
+							rs();
+						}
+					});
+				};
+
+				findComments()
+					.then(function(comments) {
+						_comments = comments;
+						//console.log('Comments eaoStatus = Published: ', _.size(_comments));
+						return bulkUpdate(_comments);
+					})
+					.then(function() {
+						return self.bulkDeletePermissions(_comments);
+					})
+					.then(function() {
+						var perms = self.permsList(_comments, readRoles, commentPeriod.write, commentPeriod.delete);
+						return self.bulkInsertPermissions(perms);
+					})
+					.then(function() {
+						//console.log('done');
+						res();
+					}, function(err) {
+						console.log(JSON.stringify(err));
+						rej(err);
+					});
+			});
+		};
+
+		return new Promise(function(resolve, reject) {
+			updatePublished(period, comment)
+				.then(function () {
+					resolve();
+				}, function (err) {
+					console.log(JSON.stringify(err));
+					reject(err);
+				});
+		});
+	},
+
+	syncPermissionsUnpublishedComments: function(period, comment) {
+		var self = this;
+
+		var _BATCH_SIZE = 1000;
+
+		var CommentModel = mongoose.model('Comment');
+
+		var updateUnpublished = function(commentPeriod, comment) {
+			return new Promise(function (res, rej) {
+
+				var _comments;
+
+				var findComments = function() {
+					if (comment) {
+						return new Promise(function(rs, rj) {
+							CommentModel.find({ $and: [
+									{ _id: comment._id },
+									{ eaoStatus: { $ne: 'Published' }}
+								] }, '_id',
+								function (err, data){
+									if (err) {
+										rj(err);
+									} else {
+										rs(data);
+									}
+								});
+						});
+					} else {
+						return new Promise(function(rs, rj) {
+							CommentModel.find({ $and: [
+									{ period: commentPeriod._id },
+									{ eaoStatus: { $ne: 'Published' }}
+								] }, '_id',
+								function (err, data){
+									if (err) {
+										rj(err);
+									} else {
+										rs(data);
+									}
+								});
+						});
+					}
+				};
+
+				var bulkUpdate = function(comments) {
+					return new Promise(function(rs, rj) {
+
+						var bulk = CommentModel.collection.initializeOrderedBulkOp();
+
+						var chunk_size = _BATCH_SIZE;
+						var arr = comments;
+						var batches = arr.map( function(e,i){
+							return i%chunk_size===0 ? arr.slice(i,i+chunk_size) : null;
+						}).filter(function(e){ return e; });
+
+						var batchesExecuted = 0;
+
+						_.each(batches, function(b) {
+							_.each(b, function(obj) {
+								//console.log('obj = ', JSON.stringify(obj));
+								bulk.find({ _id: obj._id }).updateOne(
+									{ $set:
+										{
+											isPublished: false,
+											read: commentPeriod.vettingRoles,
+											write: commentPeriod.write,
+											delete: commentPeriod.delete
+										}
+									});
+							});
+
+							// Execute the operation
+							//console.log('insert execute');
+							bulk.execute({w:1}, function(err, result) {
+								batchesExecuted++;
+								//console.log('executed bulkUpdate batch ', batchesExecuted, ' of ', _.size(batches));
+								if (err) {
+									console.log('bulkUpdate: ', JSON.stringify(err));
+									rj(err);
+								}
+								// re-initialise batch operation
+								bulk = CommentModel.collection.initializeOrderedBulkOp();
+								if (result) {
+									//console.log('bulkUpdate result.ok ', result.ok);
+									if (batchesExecuted === _.size(batches)){
+										rs(result);
+									}
+								}
+							});
+
+						});
+						if (_.size(comments) === 0) {
+							rs();
+						}
+					});
+				};
+
+				findComments()
+					.then(function(comments) {
+						_comments = comments;
+						//console.log('Comments eaoStatus != Published: ', _.size(_comments));
+						return bulkUpdate(_comments);
+					})
+					.then(function() {
+						return self.bulkDeletePermissions(_comments);
+					})
+					.then(function() {
+						var perms = self.permsList(_comments, commentPeriod.vettingRoles, commentPeriod.write, commentPeriod.delete);
+						return self.bulkInsertPermissions(perms);
+					})
+					.then(function() {
+						//console.log('done');
+						res();
+					}, function(err) {
+						console.log(JSON.stringify(err));
+						rej(err);
+					});
+			});
+		};
+
+		return new Promise(function(resolve, reject) {
+			updateUnpublished(period, comment)
+				.then(function () {
+					resolve();
+				}, function (err) {
+					console.log(JSON.stringify(err));
+					reject(err);
+				});
+		});
+	},
+
+	syncPermissionsCommentDocuments: function(period, comment) {
+		var self = this;
+
+		var _BATCH_SIZE = 1000;
+
+		var DocumentModel = mongoose.model('Document');
+		var CommentModel = mongoose.model('Comment');
+
+		var updateRejectedDocs = function(commentPeriod, comment) {
+			// all comments that are Rejected, set their documents to Rejected
+			return new Promise(function(res, rej) {
+
+				var findDocuments = function() {
+					return new Promise(function(rs, rj) {
+						if (comment) {
+							CommentModel.aggregate([
+								{
+									$match: {_id: comment._id, eaoStatus: 'Rejected'}
+								},
+								{$project: {_id: 1, period: 1, eaoStatus: 1, documents: 1}},
+								{$unwind: '$documents'},
+								{
+									$lookup: {
+										from: 'documents',
+										localField: 'documents',
+										foreignField: '_id',
+										as: 'docs'
+									}
+								},
+								{
+									$project: {
+										docs: {
+											$filter: {
+												input: '$docs',
+												as: 'doc',
+												cond: {$ne: ['$$doc.eaoStatus', 'Rejected']}
+											}
+										}
+									}
+								},
+								{$unwind: '$docs'},
+								{
+									$group: {
+										_id: '$period',
+										docs: {$push: '$docs'}
+									}
+								}
+							], function (err, data) {
+								if (err) {
+									console.log('error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									if (data && data.length === 1) {
+										console.log('documents for rejected comments, not rejected: ', data[0].docs.length);
+										rs(data[0].docs);
+									} else {
+										rs([]);
+									}
+								}
+							});
+						} else {
+							CommentModel.aggregate([
+								{
+									$match: { period: commentPeriod._id, eaoStatus: 'Rejected'}
+								},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, documents: 1 } },
+								{ $unwind: '$documents'},
+								{
+									$lookup:
+										{
+											from: 'documents',
+											localField: 'documents',
+											foreignField: '_id',
+											as: 'docs'
+										}
+								},
+								{
+									$project:
+										{
+											docs:
+												{
+													$filter:
+														{
+															input: '$docs',
+															as: 'doc',
+															cond: { $ne: [ '$$doc.eaoStatus', 'Rejected' ] }
+														}
+												}
+										}
+								},
+								{ $unwind: '$docs'},
+								{
+									$group: {
+										_id: '$period',
+										docs: { $push: '$docs' }
+									}
+								}
+							], function (err, data) {
+								if (err) {
+									console.log('error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									if (data && data.length === 1) {
+										console.log('documents for rejected comments, not rejected: ', data[0].docs.length);
+										rs(data[0].docs);
+									} else {
+										rs([]);
+									}
+								}
+							});
+						}
+					});
+				};
+
+				var bulkUpdate = function(items) {
+					return new Promise(function(rs, rj) {
+
+						var bulk = DocumentModel.collection.initializeOrderedBulkOp();
+
+						var chunk_size = _BATCH_SIZE;
+						var arr = items;
+						var batches = arr.map( function(e,i){
+							return i%chunk_size===0 ? arr.slice(i,i+chunk_size) : null;
+						}).filter(function(e){ return e; });
+
+						var batchesExecuted = 0;
+
+						_.each(batches, function(b) {
+							_.each(b, function(obj) {
+								//console.log('obj = ', JSON.stringify(obj));
+								bulk.find({ _id: obj._id }).updateOne(
+									{ $set:
+										{
+											eaoStatus: 'Rejected'
+										}
+									});
+							});
+
+							// Execute the operation
+							//console.log('insert execute');
+							bulk.execute({w:1}, function(err, result) {
+								batchesExecuted++;
+								//console.log('executed bulkUpdate batch ', batchesExecuted, ' of ', _.size(batches));
+								if (err) {
+									console.log('bulkUpdate: ', JSON.stringify(err));
+									rj(err);
+								}
+								// re-initialise batch operation
+								bulk = DocumentModel.collection.initializeOrderedBulkOp();
+								if (result) {
+									//console.log('bulkUpdate result.ok ', result.ok);
+									if (batchesExecuted === _.size(batches)){
+										rs(result);
+									}
+								}
+							});
+
+						});
+						if (_.size(items) === 0) {
+							rs();
+						}
+					});
+				};
+
+				findDocuments()
+					.then(function(items) {
+						return bulkUpdate(items);
+					})
+					.then(function() {
+						//console.log('done');
+						res();
+					}, function(err) {
+						console.log(JSON.stringify(err));
+						rej(err);
+					});
+			});
+		};
+
+		var updateDocs = function(commentPeriod, comment) {
+			return new Promise(function (res, rej) {
+
+				var _publishedDocs, _unpublishedDocs;
+				var _publicDocs = [], _eaoPublishedDocs = [], _eaoUnpublishedDocs = [];
+
+				var findPublishedDocuments = function() {
+					return new Promise(function(rs, rj) {
+						if (comment) {
+							CommentModel.aggregate([
+								{
+									$match: { _id: comment._id }
+								},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, documents: 1 } },
+								{ $unwind: '$documents'},
+								{
+									$lookup:
+										{
+											from: 'documents',
+											localField: 'documents',
+											foreignField: '_id',
+											as: 'docs'
+										}
+								},
+								{
+									$project:
+										{
+											_id: '$_id',
+											period: '$period',
+											eaoStatus: '$eaoStatus',
+											docs:
+												{
+													$filter:
+														{
+															input: '$docs',
+															as: 'doc',
+															cond: { $eq: [ '$$doc.eaoStatus', 'Published' ] }
+														}
+												}
+										}
+								},
+								{ $unwind: '$docs'},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, 'docs._id': 1, 'docs.eaoStatus':1 } },
+								{
+									$group: {
+										_id: '$eaoStatus',
+										docs: { $push: '$docs' }
+									}
+								}
+							], function (err, data) {
+								if (err) {
+									console.log('error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									if (data) {
+										rs(data);
+									} else {
+										rs([]);
+									}
+								}
+							});
+						} else {
+							CommentModel.aggregate([
+								{
+									$match: { period: commentPeriod._id }
+								},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, documents: 1 } },
+								{ $unwind: '$documents'},
+								{
+									$lookup:
+										{
+											from: 'documents',
+											localField: 'documents',
+											foreignField: '_id',
+											as: 'docs'
+										}
+								},
+								{
+									$project:
+										{
+											_id: '$_id',
+											period: '$period',
+											eaoStatus: '$eaoStatus',
+											docs:
+												{
+													$filter:
+														{
+															input: '$docs',
+															as: 'doc',
+															cond: { $eq: [ '$$doc.eaoStatus', 'Published' ] }
+														}
+												}
+										}
+								},
+								{ $unwind: '$docs'},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, 'docs._id': 1, 'docs.eaoStatus':1 } },
+								{
+									$group: {
+										_id: '$eaoStatus',
+										docs: { $push: '$docs' }
+									}
+								}
+							], function (err, data) {
+								if (err) {
+									console.log('error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									if (data) {
+										rs(data);
+									} else {
+										rs([]);
+									}
+								}
+							});
+						}
+					});
+				};
+
+				var findUnpublishedDocuments = function() {
+					return new Promise(function(rs, rj) {
+						if (comment) {
+							CommentModel.aggregate([
+								{
+									$match: { _id: comment._id }
+								},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, documents: 1 } },
+								{ $unwind: '$documents'},
+								{
+									$lookup:
+										{
+											from: 'documents',
+											localField: 'documents',
+											foreignField: '_id',
+											as: 'docs'
+										}
+								},
+								{
+									$project:
+										{
+											_id: '$_id',
+											period: '$period',
+											eaoStatus: '$eaoStatus',
+											docs:
+												{
+													$filter:
+														{
+															input: '$docs',
+															as: 'doc',
+															cond: { $ne: [ '$$doc.eaoStatus', 'Published' ] }
+														}
+												}
+										}
+								},
+								{ $unwind: '$docs'},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, 'docs._id': 1, 'docs.eaoStatus':1 } },
+								{
+									$group: {
+										_id: '$eaoStatus',
+										docs: { $push: '$docs' }
+									}
+								}
+							], function (err, data) {
+								if (err) {
+									console.log('error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									if (data) {
+										rs(data);
+									} else {
+										rs([]);
+									}
+								}
+							});
+						} else {
+							CommentModel.aggregate([
+								{
+									$match: { period: commentPeriod._id }
+								},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, documents: 1 } },
+								{ $unwind: '$documents'},
+								{
+									$lookup:
+										{
+											from: 'documents',
+											localField: 'documents',
+											foreignField: '_id',
+											as: 'docs'
+										}
+								},
+								{
+									$project:
+										{
+											_id: '$_id',
+											period: '$period',
+											eaoStatus: '$eaoStatus',
+											docs:
+												{
+													$filter:
+														{
+															input: '$docs',
+															as: 'doc',
+															cond: { $ne: [ '$$doc.eaoStatus', 'Published' ] }
+														}
+												}
+										}
+								},
+								{ $unwind: '$docs'},
+								{ $project: {_id: 1, period: 1, eaoStatus: 1, 'docs._id': 1, 'docs.eaoStatus':1 } },
+								{
+									$group: {
+										_id: '$eaoStatus',
+										docs: { $push: '$docs' }
+									}
+								}
+							], function (err, data) {
+								if (err) {
+									console.log('error: ', JSON.stringify(err));
+									rj(err);
+								} else {
+									if (data) {
+										rs(data);
+									} else {
+										rs([]);
+									}
+								}
+							});
+						}
+					});
+				};
+
+				var bulkUpdate = function(items, isPublished, readRoles) {
+					return new Promise(function(rs, rj) {
+
+						var bulk = DocumentModel.collection.initializeOrderedBulkOp();
+
+						var chunk_size = _BATCH_SIZE;
+						var arr = items;
+						var batches = arr.map( function(e,i){
+							return i%chunk_size===0 ? arr.slice(i,i+chunk_size) : null;
+						}).filter(function(e){ return e; });
+
+						var batchesExecuted = 0;
+
+						_.each(batches, function(b) {
+							_.each(b, function(obj) {
+								//console.log('obj = ', JSON.stringify(obj));
+								bulk.find({ _id: obj._id }).updateOne(
+									{ $set:
+										{
+											isPublished: isPublished,
+											read: readRoles,
+											write: commentPeriod.write,
+											delete: commentPeriod.delete
+										}
+									});
+							});
+
+							// Execute the operation
+							//console.log('insert execute');
+							bulk.execute({w:1}, function(err, result) {
+								batchesExecuted++;
+								//console.log('executed bulkUpdate batch ', batchesExecuted, ' of ', _.size(batches));
+								if (err) {
+									console.log('bulkUpdate: ', JSON.stringify(err));
+									rj(err);
+								}
+								// re-initialise batch operation
+								bulk = DocumentModel.collection.initializeOrderedBulkOp();
+								if (result) {
+									//console.log('bulkUpdate result.ok ', result.ok);
+									if (batchesExecuted === _.size(batches)){
+										rs(result);
+									}
+								}
+							});
+
+						});
+						if (_.size(items) === 0) {
+							rs();
+						}
+					});
+				};
+
+				findPublishedDocuments()
+					.then(function(data) {
+						// docs that are eaoStatus = Published, grouped by their comment eaoStatus.
+						_publishedDocs = data || [];
+						return findUnpublishedDocuments();
+					})
+					.then(function(data) {
+						// docs that are NOT eaoStatus = Published, grouped by their comment eaoStatus.
+						_unpublishedDocs = data || [];
+
+						_.each(_publishedDocs, function(d) {
+							if (d._id === 'Published') {
+								_publicDocs = _.concat(_publicDocs, d.docs);
+							} else {
+								_eaoPublishedDocs = _.concat(_eaoPublishedDocs, d.docs);
+							}
+						});
+
+						_.each(_unpublishedDocs, function(d) {
+							_eaoUnpublishedDocs = _.concat(_eaoUnpublishedDocs, d.docs);
+						});
+
+						// publicDocs need to ensure their isPublished  = true and public can read.
+						// eaoPublishedDocs are not public, they are marked as going to be public... isPublished = false, but more read access...
+						// unpublishedDocs are not public, they are marked as going to be public... isPublished = false, no public access and only period vetting roles for read
+						var allDocs = _.concat(_publicDocs, _eaoPublishedDocs, _eaoUnpublishedDocs);
+						return self.bulkDeletePermissions(allDocs);
+					})
+					.then(function() {
+						// ok do permissions insert...
+						var publishReadRoles = _.uniq(_.concat(commentPeriod.read, 'public'));
+
+						var pubPerms = self.permsList(_publicDocs, publishReadRoles, commentPeriod.write, commentPeriod.write);
+						var eaopubPerms = self.permsList(_eaoPublishedDocs, commentPeriod.vettingRoles, commentPeriod.write, commentPeriod.write);
+						var unpubPerms = self.permsList(_eaoUnpublishedDocs, commentPeriod.vettingRoles, commentPeriod.write, commentPeriod.write);
+
+						var allPerms = _.concat(pubPerms, eaopubPerms, unpubPerms);
+						return self.bulkInsertPermissions(allPerms);
+					})
+					.then(function() {
+						var publishReadRoles = _.uniq(_.concat(commentPeriod.read, 'public'));
+						return bulkUpdate(_publicDocs, true, publishReadRoles);
+					})
+					.then(function() {
+						return bulkUpdate(_eaoPublishedDocs, false, commentPeriod.vettingRoles);
+					})
+					.then(function() {
+						return bulkUpdate(_eaoUnpublishedDocs, false, commentPeriod.vettingRoles);
+					})
+					.then(function() {
+						res();
+					}, function(err) {
+						console.log(JSON.stringify(err));
+						rej(err);
+					});
+			});
+		};
+
+		return new Promise(function(resolve, reject) {
+			updateRejectedDocs(period, comment)
+				.then(function() {
+					return updateDocs(period, comment);
+				})
+				.then(function() {
+					resolve();
+				}, function(err) {
+					console.log(JSON.stringify(err));
+					reject(err);
+				});
+		});
+	},
+
+	syncCommentPermissionsAll: function(periodId, commentId, stage) {
+		var self = this;
+
+		var CommentModel = mongoose.model('Comment');
+		var PeriodModel = mongoose.model('CommentPeriod');
+		var _thePeriod, _theComment;
+
+		return new Promise(function(resolve, reject) {
+			PeriodModel.findOne({_id: periodId})
+				.then(function(result) {
+					_thePeriod = result;
+					if (commentId) {
+						return CommentModel.findOne({_id: commentId});
+					} else {
+						return undefined;
+					}
+				})
+				.then(function(result) {
+					_theComment = result;
+					if (!stage || ('1' === stage)) {
+						return self.syncUnclassifiedComments(_thePeriod, _theComment);
+					} else {
+						return;
+					}
+				})
+				.then(function() {
+					if (!stage || ('2' === stage)) {
+						return self.syncPermissionsPublishedComments(_thePeriod, _theComment);
+					} else {
+						return;
+					}
+				})
+				.then(function() {
+					if (!stage || ('3' === stage)) {
+						return self.syncPermissionsUnpublishedComments(_thePeriod, _theComment);
+					} else {
+						return;
+					}
+				})
+				.then(function() {
+					if (!stage || ('4' === stage)) {
+						return self.syncPermissionsCommentDocuments(_thePeriod, _theComment);
+					} else {
+						return;
+					}
+				})
+				.then(function() {
+					resolve();
+				}, function(err) {
+					console.log(JSON.stringify(err));
+					reject(err);
+				});
+		});
+	},
+
+	syncCommentPermissions:  function(commentId) {
+		var self = this;
+
+		return new Promise(function(resolve, reject) {
+			self.findOne({_id: commentId})
+				.then(function(result) {
+					return self.syncCommentPermissionsAll(result.period, commentId);
+				})
+				.then(function() {
+					// return the updated comment...
+					return self.findOne({_id: commentId});
+				})
+				.then(function(data) {
+					resolve(data);
+				}, function(err) {
+					console.log(JSON.stringify(err));
+					reject(err);
+				});
+		});
+	},
+
+
 });
 

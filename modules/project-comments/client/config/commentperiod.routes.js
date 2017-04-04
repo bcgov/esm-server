@@ -23,7 +23,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			periods: function ($stateParams, CommentPeriodModel, project) {
 				// Temporary redirect to PCP for these two projects
 				if (project.code === 'aurora-lng-digby-island') {
-					window.location = "http://www.eao.gov.bc.ca/pcp/comments/aurora_digby_comments.html";
+					window.location = "http://www.eao.gov.bc.ca/pcp/forms/aurora_digby_form.html";
 					return null;
 				} else if (project.code === 'kemess-underground') {
 					window.location = "http://www.eao.gov.bc.ca/pcp/comments/kemess_underground_comments.html";
@@ -264,13 +264,14 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 					CommentPeriodModel.save($scope.period)
 					.then(function (model) {
 						if (!rolesChanged(model)) {
-							return;
+							return [];
 						} else {
-							// console.log ('period was saved, roles changed');
+							console.log ('period was saved, roles changed');
 							// save the comments so that we pick up the (potential) changes to the period permissions...
-							return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
+							return CommentModel.commentPeriodCommentsSync(model._id, period.stats.total);
 						}
-					}).then(function () {
+					})
+					.then(function () {
 						$scope.busy = false;
 						$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
 							reload: true, inherit: false, notify: true
@@ -319,8 +320,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			$scope.isClosed = (end < today);
 			$scope.period   = period;
 			$scope.project  = project;
-			// convert instructions to displayable HTML
-			$scope.aboutThisPeriod = period.instructions.replace(/\n/g,"<br>");
 			// anyone with vetting comments can add a comment at any time
 			// all others with add comment permission must wait until the period is open
 			$scope.allowCommentSubmit = (isopen && period.userCan.addComment) || period.userCan.vetComments;
@@ -453,7 +452,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			.replace('%INFORMATION_LABEL%', INFORMATION_LABEL)
 			.replace('%DATE_RANGE%', DATE_RANGE);
 		if (period.additionalText) {
-			period.instructions += "\n" + period.additionalText;
+			period.instructions += " " + period.additionalText;
 		}
 	}
 
@@ -572,7 +571,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 		}
 		if(!period.dateCompleted) {
 			// console.log("Creating end date",period.dateCompleted,period);
-			period.dateCompleted = moment().set({'hour':23, 'minute':59, 'second': 59, 'millisecond': 0}).toDate();
+			period.dateCompleted = moment().set({'hour':23, 'minute':59, 'second': 0, 'millisecond': 0}).toDate();
 		}
 
 		// UI elements .. set to match model values

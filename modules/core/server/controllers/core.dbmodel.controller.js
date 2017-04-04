@@ -399,7 +399,14 @@ _.extend (DBModel.prototype, {
 				return reject (new Error ('saveDocument: Write operation not permitted for this '+self.name+' object'));
 			}
 			if (self.useAudit) doc.setAuditFields (self.user);
-			doc.save ().then (resolve, self.complete (reject, 'savedocument'));
+			doc.save ()
+				.then(function(data) {
+					return data;
+				}, function(err) {
+					console.log('err ', JSON.stringify(err));
+					reject(err);
+				})
+				.then (resolve, self.complete (reject, 'savedocument'));
 		});
 	},
 	// -------------------------------------------------------------------------
