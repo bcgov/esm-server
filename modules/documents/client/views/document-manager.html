@@ -3,10 +3,12 @@
 	<div class="fb-header">
 		<ul class="fb-breadcrumbs">
 			<li ng-repeat="node in documentMgr.currentPath">
-				<button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
-					<span class="root-icon glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+				<button class="btn icon-btn doc-root-btn" ng-if="node.model.name == 'ROOT'" ng-click="documentMgr.selectNode(node.model.id)">
+					<span class="root-icon glyphicon glyphicon-home"></span> 
+				</button>
+				<button class="btn icon-btn" ng-if="node.model.name != 'ROOT'" ng-click="documentMgr.selectNode(node.model.id)">
 					<span class="back-icon glyphicon glyphicon-menu-left"></span>
-					<span ng-show="node.model.name != 'ROOT'">{{ node.model.folderObj.displayName }}</span>
+					<span>{{ node.model.folderObj.displayName }}</span>
 				</button>
 			</li>
 		</ul>

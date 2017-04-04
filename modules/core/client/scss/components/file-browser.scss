@@ -135,13 +135,13 @@ a.icon-btn {
         @include flex(1 1 auto);
         margin: 0;
         padding: 0;
-        overflow: hidden;
+        //overflow: hidden;
         white-space: nowrap;
 
         .btn {
             height: 3.4rem;
             padding: 0.7rem;
-            font-weight: normal;
+            font-weight: bold;
 
             /* Fix this in core.scss */
             span + span {
@@ -153,31 +153,50 @@ a.icon-btn {
             display: none;
         }
 
+        .doc-root-btn {
+            .glyphicon {
+                margin-top: -2px;
+                margin-left: -2px;
+            }
+        }
+
         li {
             display: inline-block;
+
+            .btn {
+                color: $file-browser-breadcrumb-color;
+            }
 
             + li {
                 &:before {
                     display: inline-block;
-                    margin-top: -3px;
+                    margin-top: -2px;
                     margin-left: 4px;
+                    color: $file-browser-breadcrumb-color;
                     font-size: 2.6rem;
-                    vertical-align: middle;
+                    font-weight: bold;
+                    vertical-align: top;
                     content: '›';
                 }
             }
-        }
 
-        li:last-child {
-            .btn {
-                
-                font-weight: bold;
-                color: $file-browser-breadcrumb-active-color;
+            &:first-child {
+                .btn {
+                    padding: 0;
+                    min-width: 3.4rem;
+                }
+            }
 
-                &:hover,
-                &:focus {
-                    background: transparent;
-                    border-color: transparent;
+            &:last-child {
+                .btn {
+                    font-weight: bold;
+                    color: $file-browser-breadcrumb-active-color;
+
+                    &:hover,
+                    &:focus {
+                        background: transparent;
+                        border-color: transparent;
+                    }
                 }
             }
         }
