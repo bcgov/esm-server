@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   "name": "Authorizations",
-  "date": "2017-04-01T13:50:24.390Z",
+  "date": "2017-04-09T13:50:24.390Z",
   "data": [
     {
       "agencyCode": "EAO",
@@ -2193,6 +2193,24 @@ module.exports = {
       "agencyCode": "MEM",
       "projectName": "Gibraltar",
       "authorizationID": "M-40",
+      "documentName": "Approving Granite Pollyanna Pit Pushback and Dump 7 Expansion",
+      "authorizationDate": "2017-03-10T15:00:00.000Z",
+      "documentType": "Permit",
+      "documentStatus": "Amended",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58e823349d14c3001dc8e170/fetch",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "followUpDocuments": [
+        {
+          "name": "Approving Granite Pollyanna Pit Pushback and Dump 7 Expansion",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58e823349d14c3001dc8e170/fetch"
+        }
+      ]
+    },
+    {
+      "agencyCode": "MEM",
+      "projectName": "Gibraltar",
+      "authorizationID": "M-40",
       "documentName": "Approving Deadline Extension of Updated Liability Cost Estimate",
       "authorizationDate": "2015-10-27T15:00:00.000Z",
       "documentType": "Permit",
@@ -2679,6 +2697,24 @@ module.exports = {
       "agencyCode": "MEM",
       "projectName": "New Afton",
       "authorizationID": "M-229",
+      "documentName": "Approving Mine Plan and Reclamation Program",
+      "authorizationDate": "2017-03-31T15:00:00.000Z",
+      "documentType": "Permit",
+      "documentStatus": "Issued",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58e824bd9d14c3001dc8e196/fetch",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "followUpDocuments": [
+        {
+          "name": "Approving Mine Plan and Reclamation Program",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58e824bd9d14c3001dc8e196/fetch"
+        }
+      ]
+    },
+    {
+      "agencyCode": "MEM",
+      "projectName": "New Afton",
+      "authorizationID": "M-229",
       "documentName": "Approving Increase in Mill Throughput",
       "authorizationDate": "2014-03-25T15:00:00.000Z",
       "documentType": "Permit",
@@ -2780,6 +2816,24 @@ module.exports = {
         {
           "name": "Interim Approval to Operate TSF",
           "ref": "https://mines.empr.gov.bc.ca/api/document/58225a656d6ad30017cd6f84/fetch"
+        }
+      ]
+    },
+    {
+      "agencyCode": "MEM",
+      "projectName": "Brucejack",
+      "authorizationID": "M-243",
+      "documentName": "Approving Mine Plan and Reclamation Program",
+      "authorizationDate": "2016-04-03T15:00:00.000Z",
+      "documentType": "Permit",
+      "documentStatus": "Issued",
+      "documentURL": "https://mines.empr.gov.bc.ca/api/document/58e826259d14c3001dc8e1a9/fetch",
+      "agencyName": "Ministry of Energy and Mines",
+      "actName": "Mines Act",
+      "followUpDocuments": [
+        {
+          "name": "Approving Mine Plan and Reclamation Program",
+          "ref": "https://mines.empr.gov.bc.ca/api/document/58e826259d14c3001dc8e1a9/fetch"
         }
       ]
     },
