@@ -30,6 +30,7 @@ function projectInspectionController($scope, _, InspectionsModel) {
 		// complianceList.data = data;
 		$scope.sortedList = data;
 		$scope.applySort();
+		$scope.$apply();
 	});
 	$scope.sorting = {
 		column: 'inspectionDate',
