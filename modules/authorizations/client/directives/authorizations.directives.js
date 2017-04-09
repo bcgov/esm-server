@@ -37,5 +37,6 @@ function projectAuthorizationController($scope, _, AuthorizationsModel) {
 	$scope.actName = agencyMap[agencyCode].act;
 	AuthorizationsModel.forProject(projectCode, agencyCode).then(function (data) {
 		$scope.list = data;
+		$scope.$apply();
 	});
 }
