@@ -2824,7 +2824,7 @@ module.exports = {
       "projectName": "Brucejack",
       "authorizationID": "M-243",
       "documentName": "Approving Mine Plan and Reclamation Program",
-      "authorizationDate": "2016-04-03T15:00:00.000Z",
+      "authorizationDate": "2017-04-03T15:00:00.000Z",
       "documentType": "Permit",
       "documentStatus": "Issued",
       "documentURL": "https://mines.empr.gov.bc.ca/api/document/58e826259d14c3001dc8e1a9/fetch",
