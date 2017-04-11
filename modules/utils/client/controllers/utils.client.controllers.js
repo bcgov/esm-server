@@ -471,7 +471,7 @@ function controllerModalDatePicker($modalInstance, rChosenDate, moment, mindate,
 	if (maxdate !== null) {
 		modalDatePick.toggleMax();
 	}
-	if	(mindate !== null) {
+	if (mindate !== null) {
 		modalDatePick.toggleMin();
 	}
 
