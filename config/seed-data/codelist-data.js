@@ -66,27 +66,20 @@ var lists = [
 		displayName: 'Document Types',
 		whereUsed: 'Documents',
 		items: [
+			{ value: 'Certificate Amendment', display: 'Amendment' },
 			{ value: 'Assessment', display: 'Assessment' },
-			{ value: 'Certificate Information', display: 'Certificate Information' },
+			{ value: 'Certificate', display: 'Certificate' },
 			{ value: 'Comments/Submissions', display: 'Comments/Submissions' },
 			{ value: 'Correspondence', display: 'Correspondence' },
+			{ value: 'Inspection Report', display: 'Inspection Report' },
 			{ value: 'Letter', display: 'Letter' },
 			{ value: 'Notice/News Release', display: 'Notice/News Release' },
 			{ value: 'Notification', display: 'Notification' },
 			{ value: 'Order', display: 'Order' },
 			{ value: 'Project Information', display: 'Project Information' },
-			{ value: '', display: '' },
-			// MMTI values
-			{ value: 'Inspection Report', display: 'Inspection Report' },
-			{ value: 'Certificate', display: 'Certificate' },
-			{ value: 'Certificate Amendment', display: 'Certificate Amendment' },
-			{ value: 'Permit', display: 'Permit' },
-			{ value: 'Permit Amendment', display: 'Permit Amendment' },
-			{ value: 'Mine Manager Response', display: 'Mine Manager Response' },
-			{ value: 'Annual Report', display: 'Annual Report' },
-			{ value: 'Annual Reclamation Report', display: 'Annual Reclamation Report' },
-			{ value: 'Dam Safety Inspection', display: 'Dam Safety Inspection' }
-
+			{ value: 'Report/Plan', display: 'Report/Plan' },
+			{ value: 'Request', display: 'Request' },
+			{ value: '', display: '' }
 		]
 	},
 	{
