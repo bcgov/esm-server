@@ -350,7 +350,6 @@
 						ng-if="project.status !== 'Initiated'"
 						type="submit">Save</button>
 				<button class="btn btn-success btn-sm"
-						ng-disabled="projectForm.$invalid"
 						ng-click="submitProject(projectForm.$valid, 'Submit Project', 'Are you sure you would like to submit this project. Clicking OK will make this project and its content publicly available.', 'Submit Project', 'Cancel')"
 						ng-if="project.status === 'Initiated'">Submit Project</button>
 			</div>
