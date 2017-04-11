@@ -72,36 +72,6 @@ angular.module('documents')
 													$scope.doc.certificateAmendment = {};
 												}
 												break;
-											case 'Permit':
-												if (!$scope.doc.permit) {
-													$scope.doc.permit = {};
-												}
-												break;
-											case 'Permit Amendment':
-												if (!$scope.doc.permitAmendment) {
-													$scope.doc.permitAmendment = {};
-												}
-												break;
-											case 'Mine Manager Response':
-												if (!$scope.doc.mineManagerResponse) {
-													$scope.doc.mineManagerResponse = {};
-												}
-												break;
-											case 'Annual Report':
-												if (!$scope.doc.annualReport) {
-													$scope.doc.annualReport = {};
-												}
-												break;
-											case 'Annual Reclamation Report':
-												if (!$scope.doc.annualReclamationReport) {
-													$scope.doc.annualReclamationReport = {};
-												}
-												break;
-											case 'Dam Safety Inspection':
-												if (!$scope.doc.damSafetyInspection) {
-													$scope.doc.damSafetyInspection = {};
-												}
-												break;
 											default:
 												break;
 										}

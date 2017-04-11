@@ -34,7 +34,7 @@ module.exports = DBModel.extend ({
 		//
 		// check if there is an existing matching document
 		//
-		
+
 		return this.findOne ({
 			project 				: doc.project,
 			documentIsLatestVersion: true,
@@ -89,66 +89,6 @@ module.exports = DBModel.extend ({
 				doc.annualReport = null;
 				doc.annualReclamationReport = null;
 				doc.damSafetyInspection = null;
-				break;
-			case 'Permit':
-				doc.inspectionReport = null;
-				doc.certificate = null;
-				doc.certificateAmendment = null;
-				doc.permitAmendment = null;
-				doc.mineManagerResponse  = null;
-				doc.annualReport = null;
-				doc.annualReclamationReport = null;
-				doc.damSafetyInspection = null;
-				break;
-			case 'Permit Amendment':
-				doc.inspectionReport = null;
-				doc.certificate = null;
-				doc.certificateAmendment = null;
-				doc.permit = null;
-				doc.mineManagerResponse  = null;
-				doc.annualReport = null;
-				doc.annualReclamationReport = null;
-				doc.damSafetyInspection = null;
-				break;
-			case 'Mine Manager Response':
-				doc.inspectionReport = null;
-				doc.certificate = null;
-				doc.certificateAmendment = null;
-				doc.permit = null;
-				doc.permitAmendment = null;
-				doc.annualReport = null;
-				doc.annualReclamationReport = null;
-				doc.damSafetyInspection = null;
-				break;
-			case 'Annual Report':
-				doc.inspectionReport = null;
-				doc.certificate = null;
-				doc.certificateAmendment = null;
-				doc.permit = null;
-				doc.permitAmendment = null;
-				doc.mineManagerResponse  = null;
-				doc.annualReclamationReport = null;
-				doc.damSafetyInspection = null;
-				break;
-			case 'Annual Reclamation Report' :
-				doc.inspectionReport = null;
-				doc.certificate = null;
-				doc.certificateAmendment = null;
-				doc.permit = null;
-				doc.permitAmendment = null;
-				doc.mineManagerResponse  = null;
-				doc.annualReport = null;
-				doc.damSafetyInspection = null;
-				break;
-			case 'Dam Safety Inspection':
-				doc.inspectionReport = null;
-				doc.certificate = null;
-				doc.certificateAmendment = null;
-				doc.permit = null;
-				doc.permitAmendment = null;
-				doc.mineManagerResponse  = null;
-				doc.annualReport = null;
-				doc.annualReclamationReport = null;
 				break;
 			default:
 				doc.inspectionReport = null;
@@ -398,7 +338,7 @@ module.exports = DBModel.extend ({
 	publish: function(doc) {
 		if (!doc)
 			return Promise.resolve();
-		
+
 		return new Promise(function (resolve, reject) {
 				doc.publish();
 				doc.save()
@@ -411,7 +351,7 @@ module.exports = DBModel.extend ({
 	unpublish: function(doc) {
 		if (!doc)
 			return Promise.resolve();
-		
+
 		return new Promise(function (resolve, reject) {
 			doc.unpublish();
 			doc.save()
