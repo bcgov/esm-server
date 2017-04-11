@@ -826,7 +826,9 @@ function directiveModalDatePicker($modal, $rootScope, $timeout) {
         scope: {
         	selectedDate: '=',
         	title: '@',
-        	pickerEnabled: '='
+        	pickerEnabled: '=',
+			min: '=',
+			max: '='
         },
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -851,7 +853,15 @@ function directiveModalDatePicker($modal, $rootScope, $timeout) {
 	        				},
 	        				rTitle: function() {
 	        					return scope.title;
-	        				}
+	        				},
+							mindate: function() {
+								//start date selected in editPCP page datepicker
+								return scope.min;
+ 							},
+							maxdate: function() {
+								//end date selected in editPCP page datepicker
+								return scope.max;
+							}
 					}
 				});
 				modalAddComment.result.then(function (chosenDate) {

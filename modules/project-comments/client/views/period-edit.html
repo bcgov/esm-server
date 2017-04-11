@@ -74,7 +74,7 @@
 				<div class="form-group">
 					<label class="control-label">Start Date</label>
 					<div class="form-control pcp-date date-picker"
-						ng-disabled="!startPickerEnabled"
+						ng-disabled="!startPickerEnabled" x-max="period.dateCompleted"
 						x-modal-date-picker x-selected-date="period.dateStarted" x-picker-enabled="startPickerEnabled"
 						title="{{ period.dateStarted | amDateFormat:'HH:mm:ss' }}">
 						<span ng-if="!period.dateStarted">Start Date</span>
@@ -87,7 +87,7 @@
 				<div class="form-group">
 					<label class="control-label">End Date</label>
 					<div class="form-control pcp-date date-picker"
-						ng-disabled="!endPickerEnabled"
+						ng-disabled="!endPickerEnabled" x-min="period.dateStarted"
 						x-modal-date-picker x-selected-date="period.dateCompleted" x-picker-enabled="endPickerEnabled"
 						title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}">
 						<span ng-if="!period.dateCompleted">End Date</span>
