@@ -566,15 +566,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			//console.log("defaulting on type and range ");
 		}
 
-		if(!period.dateStarted) {
-			// console.log("Creating start date",period.dateStarted,period);
-			period.dateStarted = moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0}).toDate();
-		}
-		if(!period.dateCompleted) {
-			// console.log("Creating end date",period.dateCompleted,period);
-			period.dateCompleted = moment().set({'hour':23, 'minute':59, 'second': 59, 'millisecond': 0}).toDate();
-		}
-
 		// UI elements .. set to match model values
 		$scope.rType = _.find(rangeTypes, function(t) { return t.value === period.rangeType; });
 		// note need to force conversion to number for === to work
