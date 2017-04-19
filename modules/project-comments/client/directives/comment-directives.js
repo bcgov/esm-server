@@ -451,6 +451,10 @@ angular.module ('comment')
 							comment.isAnonymous = !comment.makeVisible;
 							var docCount = s.fileList.length;
 
+							if (!comment.author) {
+								comment.isAnonymous = true; // if the author is empty make it anonymous
+							}
+
 							if (docCount === 0 ) {
 								// We don't need to do anything but add the comment.
 								// console.log("s.comment:", s.comment);
@@ -484,6 +488,11 @@ angular.module ('comment')
 												_.each( uploadedDocs, function(d) {
 													s.comment.documents.push(d);
 												});
+		
+												if (!s.comment.comment) {
+													s.comment.comment = "Please see the Attachment"; //if the comment is empty and has attachment
+												} 
+												
 												CommentModel.add (s.comment)
 												.then (function (comment) {
 													s.step = 3;
