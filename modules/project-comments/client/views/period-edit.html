@@ -269,7 +269,7 @@
 		</div>
 		<ul class="list-group">
 			<li class="list-group-item" ng-if="period.vettingRoles == 0">No Roles assigned.</li>
-			<li class="list-group-item" ng-repeat="role in period.vettingRoles">{{ role }}</li>
+			<li class="list-group-item" ng-repeat="role in period.vettingRoles | orderBy">{{ role }}</li>
 		</ul>
 
 		<div class="clearfix">
@@ -284,7 +284,7 @@
 		</div>
 		<ul class="list-group">
 			<li class="list-group-item" ng-if="period.classificationRoles == 0">No Roles assigned.</li>
-			<li class="list-group-item" ng-repeat="role in period.classificationRoles">{{ role }}</li>
+			<li class="list-group-item" ng-repeat="role in period.classificationRoles | orderBy">{{ role }}</li>
 		</ul>
 	</div>
 	<!-- / ROLES & PERMISSIONS TAB CONTENT -->
