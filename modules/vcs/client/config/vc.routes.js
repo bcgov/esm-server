@@ -55,7 +55,9 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
 		controller: function ($scope, NgTableParams, vcs, project, $modal, $state, Authentication) {
-			$scope.tableParams = new NgTableParams ({count:10}, {dataset: vcs});
+			// EPIC-745 Sort by Name [alpha], then by Title [alpha] inside the name
+			var sortedVcs = _.sortByOrder(vcs, ['name', 'title']);
+			$scope.tableParams = new NgTableParams ({count:10}, {dataset: sortedVcs});
 			$scope.project = project;
 			$scope.authentication = Authentication;
 			$scope.openAddTopic = function() {
