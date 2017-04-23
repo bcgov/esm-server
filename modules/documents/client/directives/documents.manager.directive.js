@@ -297,17 +297,17 @@ angular.module('documents')
 					self.currentFiles = [];
 					self.currentDirs = [];
 
-					var pathArray = theNode.getPath()
+					var pathArray = theNode.getPath();
 					_.each(pathArray, function (elem) {
 						if (elem.model.id > 1) { //bail the root node cus we don't need to attatch the folderObj to it
 							if (!elem.model.hasOwnProperty('folderObj')) { //trying to reduce the amount of API calls only by checking if node model does not have folderObj
 								FolderModel.lookup($scope.project._id, elem.model.id)
 								.then(function (folder) {
 									elem.model.folderObj = folder;
-								})
+								});
 							}
 						}
-					})
+					});
 					self.currentPath = pathArray || [];
 
 
