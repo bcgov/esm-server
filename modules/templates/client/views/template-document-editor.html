@@ -36,11 +36,6 @@
                     </span>
                 </span>
                 <span class="actions">
-                    <button ng-disabled="file.internalMime !== 'application/pdf'" ng-click="$event.stopPropagation()"
-                            x-modal-pdf-viewer
-                            x-pdfobject="file"
-                            title="View File"
-                            class="btn btn-sm btn-default"><span class="glyphicon glyphicon-eye-open"></span></button>
                     <a class="btn btn-sm btn-default"
                        ng-if="file.userCan.read"
                        href="/api/document/{{ file._id }}/fetch"

@@ -174,15 +174,6 @@
 												<span class="glyphicon glyphicon-download-alt"></span></a>
 										</li>
 										<li>
-											<button class="btn icon-btn" ng-if="doc.userCan.read && doc.internalMime === 'application/pdf'"
-													ng-show="doc.internalMime === 'application/pdf'"
-													x-modal-pdf-viewer
-													x-pdfobject="doc"
-													title="View File">
-												<span class="glyphicon glyphicon-eye-open"></span>
-											</button>
-										</li>
-										<li>
 											<button class="btn icon-btn"
 													ng-click="removeDocument(doc)">
 												<span class="glyphicon glyphicon-trash"></span>
