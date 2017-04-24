@@ -58,7 +58,7 @@ The project was released in February 2017 as a public beta, with continuing enga
 
 ## How to Contribute
 
-Feel free to create pull requests from the default "develop" branch, click here to create one automatically: https://github.com/bcgov/esm-server/pull/new/develop.
+Feel free to create pull requests from the default "master" branch, click here to create one automatically: https://github.com/bcgov/esm-server/pull/new/master.
 
 ## Licence
 

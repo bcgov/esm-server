@@ -250,7 +250,15 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 				projectList.phaseArray.push({id: item, title: item});
 			});
 			projs.pluck('openCommentPeriod').unique().value().map( function(item) {
-				projectList.openPCPArray.push({id: item, title: item});
+				if (item === "" || item === "Pending" || item === "Open" || item === "Completed") { //extract without unpublished commentPeriod
+						projectList.openPCPArray.push({id: item, title: item});
+				}
+			});
+			//avoid showing unpublished in the model in order to prevent it from appearing in home page
+			_.each(newValue, function(item){
+				if (item.openCommentPeriod === "Unpublished") {
+					item.openCommentPeriod = "";
+				}
 			});
 
 			if ($scope.$parent.filterObj) {
@@ -263,6 +271,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 					count: 10,
 				}, {dataset: newValue});
 			}
+
 		}
 	});
 

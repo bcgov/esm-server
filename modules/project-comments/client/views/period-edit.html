@@ -74,7 +74,7 @@
 				<div class="form-group">
 					<label class="control-label">Start Date</label>
 					<div class="form-control pcp-date date-picker"
-						ng-disabled="!startPickerEnabled"
+						ng-disabled="!startPickerEnabled" x-max="period.dateCompleted"
 						x-modal-date-picker x-selected-date="period.dateStarted" x-picker-enabled="startPickerEnabled"
 						title="{{ period.dateStarted | amDateFormat:'HH:mm:ss' }}">
 						<span ng-if="!period.dateStarted">Start Date</span>
@@ -87,7 +87,7 @@
 				<div class="form-group">
 					<label class="control-label">End Date</label>
 					<div class="form-control pcp-date date-picker"
-						ng-disabled="!endPickerEnabled"
+						ng-disabled="!endPickerEnabled" x-min="period.dateStarted"
 						x-modal-date-picker x-selected-date="period.dateCompleted" x-picker-enabled="endPickerEnabled"
 						title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}">
 						<span ng-if="!period.dateCompleted">End Date</span>
@@ -269,7 +269,7 @@
 		</div>
 		<ul class="list-group">
 			<li class="list-group-item" ng-if="period.vettingRoles == 0">No Roles assigned.</li>
-			<li class="list-group-item" ng-repeat="role in period.vettingRoles">{{ role }}</li>
+			<li class="list-group-item" ng-repeat="role in period.vettingRoles | orderBy">{{ role }}</li>
 		</ul>
 
 		<div class="clearfix">
@@ -279,12 +279,12 @@
 				x-context="project"
 				x-current="period.classificationRoles"
 				x-public="false"
-				x-allowed-roles="'assessment-lead,assessment-team,proponent-lead,proponent-team'"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+				x-allowed-roles="'assessment-lead,assessment-team,project-epd,proponent-lead,proponent-team'"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
 			</a>
 		</div>
 		<ul class="list-group">
 			<li class="list-group-item" ng-if="period.classificationRoles == 0">No Roles assigned.</li>
-			<li class="list-group-item" ng-repeat="role in period.classificationRoles">{{ role }}</li>
+			<li class="list-group-item" ng-repeat="role in period.classificationRoles | orderBy">{{ role }}</li>
 		</ul>
 	</div>
 	<!-- / ROLES & PERMISSIONS TAB CONTENT -->

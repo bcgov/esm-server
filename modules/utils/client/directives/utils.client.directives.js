@@ -821,13 +821,15 @@ function directiveModalSelectItems($modal) {
 directiveModalDatePicker.$inject = ['$modal', '$rootScope', '$timeout'];
 /* @ngInject */
 function directiveModalDatePicker($modal, $rootScope, $timeout) {
-    var directive = {
-        restrict:'A',
-        scope: {
-        	selectedDate: '=',
-        	title: '@',
-        	pickerEnabled: '='
-        },
+	var directive = {
+		restrict: 'A',
+		scope: {
+			selectedDate: '=',
+			title: '@',
+			pickerEnabled: '=',
+			min: '=',
+			max: '='
+		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
 				/*
@@ -846,12 +848,20 @@ function directiveModalDatePicker($modal, $rootScope, $timeout) {
 					controllerAs: 'modalDatePick',
 					size: 'md',
 					resolve: {
-			            	rChosenDate: function() {
-			            		return scope.selectedDate;
-	        				},
-	        				rTitle: function() {
-	        					return scope.title;
-	        				}
+						rChosenDate: function () {
+							return scope.selectedDate;
+						},
+						rTitle: function () {
+							return scope.title;
+						},
+						mindate: function () {
+							//start date selected in editPCP page datepicker
+							return scope.min;
+						},
+						maxdate: function () {
+							//end date selected in editPCP page datepicker
+							return scope.max;
+						}
 					}
 				});
 				modalAddComment.result.then(function (chosenDate) {

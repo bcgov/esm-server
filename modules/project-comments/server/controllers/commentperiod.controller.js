@@ -81,7 +81,7 @@ module.exports = DBModel.extend ({
 
 		var defaultWriteDeleteRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']; // this is what is in the _defaults table... retain those...
 		var allowedVettingRoles = ['assessment-lead', 'assessment-team', 'project-epd'];
-		var allowedClassificationRoles = ['assessment-lead', 'assessment-team', 'proponent-lead', 'proponent-team'];
+		var allowedClassificationRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'proponent-lead', 'proponent-team'];
 
 		period.vettingRoles = _.intersection(period.vettingRoles, allowedVettingRoles);
 		period.classificationRoles = _.intersection(period.classificationRoles, allowedClassificationRoles);

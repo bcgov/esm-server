@@ -4,7 +4,7 @@
 		<ul class="fb-breadcrumbs">
 			<li ng-repeat="node in documentMgr.currentPath">
 				<button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
-					<span class="root-icon glyphicon glyphicon-hdd" ng-if="node.model.name == 'ROOT'"></span>
+					<span class="root-icon glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'" title="Document Home"></span>
 					<span class="back-icon glyphicon glyphicon-menu-left"></span>
 					<span ng-show="node.model.name != 'ROOT'">{{ node.model.folderObj.displayName }}</span>
 				</button>

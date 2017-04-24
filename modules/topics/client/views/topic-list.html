@@ -5,8 +5,8 @@
 
 <div class="view-body-container">
 	<div class="button-bar">
-		<a class="btn btn-default btn-sm" 
-			ng-if="application.userCan.createValuedComponent" 
+		<a class="btn btn-default btn-sm"
+			ng-if="application.userCan.createValuedComponent"
 			ui-sref="admin.topic.create()">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Valued Component</span>
@@ -15,29 +15,29 @@
 	<div class="table-container">
 		<table class="table" ng-table="tableParams" x-show-filter="true">
 			<tr ng-repeat="o in $data" ui-sref="admin.topic.detail({topicId:o._id})">
-				<td data-title="'Pillar'"
-					filter="{'pillar':'select'}"
-					filter-data="pillars" 
-					sortable="'pillar'">{{o.pillar}}
-				</td>
 				<td data-title="'Name'"
 					filter="{'name':'text'}"
 					sortable="'name'">{{o.name}}
 				</td>
-				<td data-title="'Type'" 
-					filter="{'type':'select'}" 
+				<td data-title="'Pillar'"
+					filter="{'pillar':'select'}"
+					filter-data="pillars"
+					sortable="'pillar'">{{o.pillar}}
+				</td>
+				<td data-title="'Type'"
+					filter="{'type':'select'}"
 					filter-data="getTypes()"
 					sortable="'type'">{{o.type}}
 				</td>
-				<td data-title="'Parent'" 
+				<td data-title="'Parent'"
 					filter="{'parent':'text'}"
 					sortable="'parent'">{{o.parent}}</td>
 				<td class="actions-col" header-class="'actions-col x2'">
 					<div class="btns">
-						<a class="btn icon-btn" 
+						<a class="btn icon-btn"
 							title="Edit Valued Component"
-							ng-if="application.userCan.createValuedComponent" 
-							ng-click="$event.stopPropagation()" 
+							ng-if="application.userCan.createValuedComponent"
+							ng-click="$event.stopPropagation()"
 							ui-sref="admin.topic.edit({topicId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
