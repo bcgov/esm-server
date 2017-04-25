@@ -153,6 +153,7 @@ module.exports = genSchema ('Document', {
 	annualReclamationReport : { type: {}, default: null },
 	damSafetyInspection     : { type: {}, default: null },
 
+	// add full text search on the following fields ....
 	indexes__ : [{
 		description: "text",
 		displayName: "text",

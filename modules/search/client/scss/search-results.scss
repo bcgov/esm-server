@@ -193,6 +193,14 @@ $list-selected-border: 1px solid #4187c9;
                 line-height: 2rem;
                 font-style: italic;
             }
+
+            .sr-path {
+                //@include cssEllipsis($lineHeight: 2rem, $lineCount: 3, $bgColor: #fff);
+                margin-top: 0.5rem;
+                overflow: hidden;
+                max-height: 6rem;
+                line-height: 2rem;
+            }
         }
     }
 
@@ -264,3 +272,4 @@ $list-selected-border: 1px solid #4187c9;
         }
     }
 }
+

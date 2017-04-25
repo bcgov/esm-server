@@ -6,9 +6,9 @@ angular.module('search')
 	.directive('searchResultsDocument', searchResultsDocumentDirective);
 
 
-searchResultsDocumentDirective.$inject = ['_', 'SearchService', '$rootScope', 'Authentication'];
+searchResultsDocumentDirective.$inject = ['_', 'SearchService', '$rootScope', 'Authentication', 'TreeModel', 'ProjectModel'];
 /* @ngInject */
-function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentication) {
+function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentication, TreeModel, ProjectModel) {
 	return {
 		restrict: 'E',
 		scope: {
@@ -29,7 +29,19 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			self.selectPage = selectPage;
 			self.sortBy = sortBy;
 
-			reload();
+			self.tree = new TreeModel();
+			ProjectModel.getProjectDirectory($scope.project)
+				.then( function (dir) {
+					$scope.project.directoryStructure = dir || {
+							id: 1,
+							lastId: 1,
+							name: 'ROOT',
+							published: true
+						};
+					self.rootNode = self.tree.parse($scope.project.directoryStructure);
+					reload();
+				});
+
 
 			// When the search results are resolved ....
 			$rootScope.$on('search-results-documents', function() {
@@ -102,6 +114,22 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 					var displayItem = {};
 					displayItem.isFile = true;
 					displayItem.id = item._id;
+					//console.log("Reload file id", item);
+					if (self.rootNode) {
+						var theNode = self.rootNode.first(function (n) {
+							return n.model.id === item.directoryID;
+						});
+						var pathSet = theNode ? theNode.getPath() || [] : [];
+						var path = "";
+						_.each(pathSet, function (element) {
+							var n = element.model.name;
+							if (n !== 'ROOT') {
+								path += "/" + n;
+							}
+						});
+						displayItem.path = path;
+					}
+					displayItem.nodeId = item.directoryID;
 					displayItem.isImage = ['png','jpg','jpeg'].includes(item.internalExt);
 					displayItem.displayName = item.displayName;
 					displayItem.description = item.description;
@@ -112,6 +140,7 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 					self.displayResults.push(displayItem);
 				});
 				self.isLoading = false;
+				$scope.$apply();
 			}
 
 			function initializeSorting () {

@@ -1057,7 +1057,6 @@ _.extend (DBModel.prototype, {
 				.select(fields)
 				.exec(function(error, data) {
 					if (!error) {
-						if (debug) console.log('search.completed, get total count');
 						self.model.find(q).and(and).count(function(e,c) {
 							if (e) {
 								console.log('search.count.error = ' + JSON.stringify(e));
@@ -1097,7 +1096,7 @@ _.extend (DBModel.prototype, {
 		var searchQuery = { $text: { $search: options.searchText } };
 		var scoring = { score: { $meta: "textScore" } };
 		var query = _.extend ({}, self.baseQ,  searchQuery );
-		if (debug) console.log("searchPaginate query ", query);
+		if (debug) console.log("search query ", query);
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			self.model.find(query, scoring)
@@ -1107,7 +1106,7 @@ _.extend (DBModel.prototype, {
 				.limit(limit)
 				.exec(function(error, data) {
 					if (!error) {
-						if (debug) console.log('search.completed, get total count', data);
+						if (debug) console.log('search.completed, get total count');
 						self.model.find(query).and(projectQuery).count(function(e,c) {
 							if (e) {
 								console.log('search.count.error = ' + JSON.stringify(e));

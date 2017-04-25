@@ -21,7 +21,6 @@ angular.module('search')
 			controller: function($scope, project, results) {
 				$scope.project = project;
 				$scope.results = results;
-				console.log("BG controller has put results into scope", results);
 			}
 		});
 
