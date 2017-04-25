@@ -273,17 +273,8 @@
 										</button>
 										<ul class="dropdown-menu pull-right">
 											<li ng-if="doc.userCan.read">
-												<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File">
+												<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_blank" title="Download File">
 													<span class="glyphicon glyphicon-download-alt"></span></a>
-											</li>
-											<li ng-if="doc.userCan.read && doc.internalMime === 'application/pdf'">
-												<button class="btn icon-btn"
-														ng-show="doc.internalMime === 'application/pdf'"
-													 	x-modal-pdf-viewer
-													 	x-pdfobject="doc"
-													 	title="View File">
-													<span class="glyphicon glyphicon-eye-open"></span>
-												</button>
 											</li>
 											<li ng-if="doc.userCan.write">
 												<button class="btn icon-btn" title="Edit File"
@@ -379,7 +370,7 @@
 						<a ng-if="documentMgr.infoPanel.data.userCan.read"
 						   class="btn btn-sm btn-default"
 						   href="/api/document/{{ documentMgr.infoPanel.data._id }}/fetch"
-						   target="_self"
+						   target="_blank"
 						   title="Download File"><span class="glyphicon glyphicon-download-alt"></span></a>
 						<button ng-if="documentMgr.infoPanel.data.userCan.read && documentMgr.infoPanel.data.internalMime === 'application/pdf'"
 								x-modal-pdf-viewer
