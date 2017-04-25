@@ -25,6 +25,7 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			self.pageSizes= [10, 20, 50, 100];
 
 			self.changePageSize = changePageSize;
+			self.openFile = openFile;
 			self.selectItem = selectItem;
 			self.selectPage = selectPage;
 			self.sortBy = sortBy;
@@ -92,6 +93,11 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			function selectPage(page) {
 				self.start = Math.abs((page -1) * self.limit);
 				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy, self.direction);
+			}
+
+			function openFile(docId){
+				var url = window.location.protocol + "//" + window.location.host + "/api/document/" + docId + "/fetch";
+				window.open(url, "_blank");
 			}
 
 			function reload() {

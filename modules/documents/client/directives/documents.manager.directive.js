@@ -304,7 +304,7 @@ angular.module('documents')
 										self.selectFile(doc);
 										return;
 									}
-								})
+								});
 							} else {
 								// otherwise selected node (folder)
 								self.selectedNode = self.currentNode;

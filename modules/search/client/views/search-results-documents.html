@@ -124,7 +124,7 @@
 									<span class="fb-img glyphicon glyphicon-picture" ng-if="item.isFile && item.isImage"></span>
 								</div>
 								<div class="sr-info">
-									<div class="sr-name">{{ item.displayName }}</div>
+									<div class="sr-name clickable" ng-click="vm.openFile(item.id)">{{ item.displayName }}</div>
 									<div class="sr-desc" ng-if="item.description">{{ item.description }}</div>
 									<div class="sr-path clickable" ng-if="item.path"> <a ui-sref="p.docs({ file: item.id })">{{ item.path }}</a></div>
 								</div>
@@ -162,18 +162,9 @@
 									<span class="glyphicon glyphicon glyphicon-option-vertical" ></span>
 								</button>
 								<ul class="dropdown-menu pull-right">
-									<li ng-if="item.doc.userCan.read">
-										<a class="btn icon-btn" href="/api/document/{{ item.id }}/fetch" target="_self" title="Download File">
+									<li>
+										<a class="btn icon-btn" href="/api/document/{{ item.id }}/fetch" target="_blank" title="Download File">
 											<span class="glyphicon glyphicon-download-alt"></span></a>
-									</li>
-									<li ng-if="item.doc.userCan.read && item.doc.internalMime === 'application/pdf'">
-										<button class="btn icon-btn"
-											ng-show="item.doc.internalMime === 'application/pdf'"
-											x-modal-pdf-viewer
-											x-pdfobject="doc"
-											title="View File">
-											<span class="glyphicon glyphicon-eye-open"></span>
-										</button>
 									</li>
 								</ul>
 							</div>
