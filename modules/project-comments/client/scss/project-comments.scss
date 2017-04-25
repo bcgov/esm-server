@@ -505,6 +505,8 @@ $pcp-comment-icon-color: #ccc;
     .comment-table { 
         .location-col {
             width: 12rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .pillar-col {
