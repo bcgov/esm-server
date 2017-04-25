@@ -1085,86 +1085,44 @@ _.extend (DBModel.prototype, {
 	search: function (options) {
 		var self = this;
 		var debug = true;
-		var fields = null;
-		var filterByFields = {};
 		var limit = (options.limit || 10)  * 1;
+		var skip = (options.start || 0) * 1;
 		var orderBy = {};
 		if (options.orderBy) {
 			orderBy[options.orderBy] = options.direction ? options.direction: '';
-		}
-		var populate = null;
-		var projectId = options.projectId;
-		var searchText = options.searchText;
-		var start = (options.start || 0) * 1;
-		var userCan = false;
-		if (debug) {
-			fields = {
-				'displayName': 1,
-				'dateUploaded': 1,
-				'isPublished': 1,
-				'documentFileName': 1,
-				'keywords': 1,
-				'description': 1
-			};
-		}
-
-		// build query
-		var query = { project: projectId };
-		var searchTerms = convertTextToTerms(searchText);
-		if (searchTerms.length === 0) {
-			return Promise.reject("Search requires searchText");
-		}
-		if (searchTerms.length === 1) {
-			var re = new RegExp('.*' + searchTerms[0] + '.*');
-			query.$or = [
-				{ displayName: re },
-				{ description: re },
-				{ documentFileName: re },
-				{ keywords: re }
-			];
 		} else {
-			var reArray = [];
-			_.forEach(searchTerms, function(term) {
-				var re = new RegExp('.*' + term + '.*');
-				reArray.push(re);
-			});
-			query.$or = [
-				{ displayName: { $in:  reArray } },
-				{ documentFileName: { $in:  reArray } },
-				{ description: { $in:  reArray } },
-				{ keywords:  { $in:  reArray }  }
-			];
+			orderBy = { score: { $meta: "textScore" } };
 		}
-		return self.paginate(query, filterByFields, start, limit, fields, populate, orderBy, userCan);
-
-		function convertTextToTerms (searchText) {
-			var searchTerms = [];
-			if (! _.isString(searchText)) {
-				return searchTerms;
-			}
-			// e.g. searchText = 'apple "pear orange" fig "rosemary and wine"';
-			var re = /("[^"]*")/g;
-			var phrases = searchText.match(re);
-			// phrases = [ '"pear orange"', '"rosemary and wine"' ]
-
-			_.forEach(phrases,function(v){
-				searchTerms.push(v.replace(/\"/g,''));
-			});
-			// searchTerms = [ 'pear orange', 'rosemary and wine' ]
-
-			// next get remaining search terms removing extra spaces
-			var remainder = searchText.replace(re,'');
-			remainder = remainder.trim();
-			remainder = remainder.replace(/  /g,' ');
-			// remainder = 'apple fig'
-
-			var parts = remainder.length > 0 ? remainder.split(' ') : [];
-			_.forEach(parts,function(v){
-				searchTerms.push(v);
-			});
-			// searchTerms = [ 'pear orange', 'rosemary and wine', 'apple', 'fig' ]
-			return searchTerms;
-		}
+		var projectQuery =  { project: options.projectId };
+		var searchQuery = { $text: { $search: options.searchText } };
+		var scoring = { score: { $meta: "textScore" } };
+		var query = _.extend ({}, self.baseQ,  searchQuery );
+		if (debug) console.log("searchPaginate query ", query);
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			self.model.find(query, scoring)
+				.and(projectQuery)
+				.sort(orderBy)
+				.skip(skip)
+				.limit(limit)
+				.exec(function(error, data) {
+					if (!error) {
+						if (debug) console.log('search.completed, get total count', data);
+						self.model.find(query).and(projectQuery).count(function(e,c) {
+							if (e) {
+								console.log('search.count.error = ' + JSON.stringify(e));
+								self.complete(reject, 'search');
+							} else {
+								if (debug) console.log('search.count.completed. total = ', c);
+								resolve({data: data, count: c});
+							}
+						});
+					} else {
+						console.log('search.error = ' + JSON.stringify(error));
+						self.complete(reject, 'search');
+					}
+				});
+		});
 	}
 });
 

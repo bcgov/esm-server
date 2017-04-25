@@ -151,5 +151,14 @@ module.exports = genSchema ('Document', {
 	mineManagerResponse     : { type: {}, default: null },
 	annualReport            : { type: {}, default: null },
 	annualReclamationReport : { type: {}, default: null },
-	damSafetyInspection     : { type: {}, default: null }
+	damSafetyInspection     : { type: {}, default: null },
+
+	indexes__ : [{
+		description: "text",
+		displayName: "text",
+		documentFileName: "text",
+		keywords: "text",
+		documentType: "text"
+	}
+	]
 });
