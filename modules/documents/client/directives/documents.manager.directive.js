@@ -6,24 +6,38 @@ angular.module('documents')
 			restrict: 'E',
 			scope: {
 				project: '=',
-				opendir: '='
+				queryParams: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
 			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
+				self.requestOpenDir = null;
+				console.log("$scope.queryParams ", $scope.queryParams);
 
-				if ($scope.opendir) {
-					try {
-						self.opendir = $scope.opendir.substr(1,$scope.opendir.length - 1);
-						self.opendir = self.opendir.split('=');
-						self.opendir = parseInt(self.opendir[1]);
-					} catch (e) {
-						console.log("couldn't parse directory");
-					}
-					self.openDir = null;
+				if ($scope.queryParams) {
+					var paramStr = $scope.queryParams.substr(1, $scope.queryParams.length - 1);
+					console.log("query string", paramStr);
+					var params = paramStr.split('&');
+					_.each(params, function (param) {
+						var parts = param.split('=');
+						var name = parts[0];
+						var value = parts[1];
+						if (name === 'folder') {
+							try {
+								console.log("open folder", value);
+								self.requestOpenDir = parseInt(value); // tree Id
+							} catch (e) {
+								console.log("couldn't parse directory");
+							}
+						}
+						if (name === 'file') {
+							self.openFile = value; // objectId
+						}
+					});
 				}
+
 
 				$scope.authentication = Authentication;
 				$scope.documentTypes = CodeLists.documentTypes;
@@ -36,13 +50,10 @@ angular.module('documents')
 						name: 'ROOT',
 						published: true
 					};
-
 					self.rootNode = tree.parse($scope.project.directoryStructure);
-
-
-					if (self.opendir) {
-						console.log("Going to directory:", self.opendir);
-						self.selectNode(self.opendir);
+					if (self.requestOpenDir) {
+						console.log("Going to directory:", self.requestOpenDir);
+						self.selectNode(self.requestOpenDir);
 					} else {
 						self.selectNode(self.rootNode);
 					}

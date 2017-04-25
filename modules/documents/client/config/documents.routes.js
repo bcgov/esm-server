@@ -10,8 +10,8 @@ angular.module('documents').config(['$stateProvider', function ($stateProvider) 
 		resolve: { },
 		controller: function($scope, project) {
 			$scope.project = project;
-			// Used to start the documentUI in a specific folder location.
-			$scope.opendir = window.location.search;
+			// Used to start the documentUI in a specific folder or file location.
+			$scope.queryParams = window.location.search;
 		}
 	});
 
