@@ -5,20 +5,33 @@
 </div>
 
 <div class="modal-body">
-	<section class="panel panel-default no-margin add-vc-table">
-		<table class="table table-scroll" ng-table="self.tableParams" show-filter="self.showFilter">
+	<div class="table-container">
+		<table class="add-vc-table table table-hover table-scroll" ng-table="self.tableParams" show-filter="self.showFilter">
 			<tr ng-repeat="o in $data">
-				<td class="select"
+				<td class="col checkbox-col"
+					header-class="'col checkbox-col'">
+					<div>
+						<input type="checkbox" ng-click="self.toggleItem(o)"/>
+						<label for="{{o._id}}">
+							<span class="glyphicon glyphicon-ok"></span>
+						</label>
+					</div>
+				</td>
+				<td class="name-col"
 					data-title="'Name'"
 					sortable="'name'"
-					filter="{'name':'text'}"><input type="checkbox" ng-click="self.toggleItem(o)"/>{{o.name}}</td>
-				<td class="pillar-col" header-class="'pillar-col'" data-title="'Pillar'"
+					filter="{'name':'text'}">{{o.name}}
+				</td>
+				<td class="pillar-col" 
+					header-class="'pillar-col'" 
+					data-title="'Pillar'"
 					sortable="'pillar'"
 					filter="{'pillar':'select'}"
-					filter-data="self.pillars">{{o.pillar}}</td>
+					filter-data="self.pillars">{{o.pillar}}
+				</td>
 			</tr>
 		</table>
-	</section>
+	</div>
 </div>
 
 <div class="modal-footer">

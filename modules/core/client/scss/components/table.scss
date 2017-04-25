@@ -94,10 +94,10 @@ $table-pagination-bg: #fff;
     }
 
     table.table-hover {
-        tr {
+        tbody {
             cursor: pointer;
 
-            tbody {
+            tr {
                 &:hover {
                     background-color: $table-row-hover-bg;
                 }
