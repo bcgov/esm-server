@@ -2,9 +2,9 @@
 
 angular.module('search').service('SearchService', searchService);
 
-searchService.$inject = [ '$http', '$state', '$rootScope'];
+searchService.$inject = [ '$http', '$state', '$rootScope', '$timeout'];
 /* @ngInject */
-function searchService( $http, $state, $rootScope) {
+function searchService( $http, $state, $rootScope, $timeout) {
 	var self = this;
 	self.searchResults = {};
 
@@ -54,7 +54,9 @@ function searchService( $http, $state, $rootScope) {
 				self.searchResults.limit = limit;
 				self.searchResults.orderBy = orderBy;
 				self.searchResults.direction = direction;
-				$rootScope.$broadcast('search-results-documents');
+				$timeout(function() {
+					$rootScope.$broadcast('search-results-documents');
+				},10);
 			});
 	}
 

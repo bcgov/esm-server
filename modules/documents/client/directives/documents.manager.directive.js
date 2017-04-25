@@ -6,7 +6,8 @@ angular.module('documents')
 			restrict: 'E',
 			scope: {
 				project: '=',
-				queryParams: '='
+				file: '=',
+				folder: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
 			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document) {
@@ -14,30 +15,18 @@ angular.module('documents')
 				var self = this;
 				self.busy = true;
 				self.requestOpenDir = null;
-				console.log("$scope.queryParams ", $scope.queryParams);
+				self.requestOpenFileID = null;
 
-				if ($scope.queryParams) {
-					var paramStr = $scope.queryParams.substr(1, $scope.queryParams.length - 1);
-					console.log("query string", paramStr);
-					var params = paramStr.split('&');
-					_.each(params, function (param) {
-						var parts = param.split('=');
-						var name = parts[0];
-						var value = parts[1];
-						if (name === 'folder') {
-							try {
-								console.log("open folder", value);
-								self.requestOpenDir = parseInt(value); // tree Id
-							} catch (e) {
-								console.log("couldn't parse directory");
-							}
-						}
-						if (name === 'file') {
-							self.openFile = value; // objectId
-						}
-					});
+				if ($scope.file) {
+					self.requestOpenFileID = $scope.file; // objectId
 				}
-
+				if ($scope.folder) {
+					try {
+						self.requestOpenDir = parseInt($scope.folder); // tree Id
+					} catch (e) {
+						console.log("couldn't parse directory");
+					}
+				}
 
 				$scope.authentication = Authentication;
 				$scope.documentTypes = CodeLists.documentTypes;
@@ -52,8 +41,9 @@ angular.module('documents')
 					};
 					self.rootNode = tree.parse($scope.project.directoryStructure);
 					if (self.requestOpenDir) {
-						console.log("Going to directory:", self.requestOpenDir);
 						self.selectNode(self.requestOpenDir);
+					} else if (self.requestOpenFileID) {
+						self.gotoDoc(self.requestOpenFileID);
 					} else {
 						self.selectNode(self.rootNode);
 					}
@@ -291,7 +281,15 @@ angular.module('documents')
 					self.selectNode(doc.model.id);
 				};
 
-				self.selectNode = function (nodeId) {
+				self.gotoDoc = function(docID) {
+					Document.lookup(docID) //docID is an objectID
+						.then(function (doc) {
+							self.selectNode(doc.directoryID, docID);
+						});
+				};
+
+				// Select folder based on tree id (directoryID). If docID is present then select this doc.
+				self.selectNode = function (nodeId, docID) {
 					self.busy = true;
 					var theNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
@@ -336,8 +334,19 @@ angular.module('documents')
 							});
 
 							self.applySort();
-							// since we loaded this, make it the selected node
-							self.selectedNode = self.currentNode;
+
+							if (docID) {
+								// search in the folder's document list to locate the target document
+								_.each(self.unsortedFiles, function(doc) {
+									if (doc._id === docID) {
+										self.selectFile(doc);
+										return;
+									}
+								})
+							} else {
+								// otherwise selected node (folder)
+								self.selectedNode = self.currentNode;
+							}
 
 							// see what is currently checked
 							self.syncCheckedItems();

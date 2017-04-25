@@ -78,12 +78,12 @@
 			<table class="sr-table table" st-table="vm.displayResults">
 				<thead>
 					<tr class="sort-row">
-						<th class="col checkbox-col" ng-if="vm.authentication.user">
-							<input id="select-all" type="checkbox" title="Select All / None"
-								ng-model="vm.allChecked"
-								ng-click="vm.checkAll()"/>
-							<label for="select-all"><span class="glyphicon glyphicon-ok"/></label>
-						</th>
+						<!--<th class="col checkbox-col" ng-if="vm.authentication.user">-->
+							<!--<input id="select-all" type="checkbox" title="Select All / None"-->
+								<!--ng-model="vm.allChecked"-->
+								<!--ng-click="vm.checkAll()"/>-->
+							<!--<label for="select-all"><span class="glyphicon glyphicon-ok"/></label>-->
+						<!--</th>-->
 
 						<th class="name-col sortable clickable"
 								ng-class="vm.sorting.ascending"
@@ -110,11 +110,12 @@
 				<tbody>
 					<tr ng-class="{'selected': item.selected}"
 						ng-repeat="item in vm.displayResults"
-						ng-click="$event.originalEvent.dropdown || vm.selectItem(item)">
-						<td class="col checkbox-col" ng-if="vm.authentication.user">
-							<input id="{{item.id}}" type="checkbox" ng-model="item.selected" ng-click="vm.selectItem(item)"/>
-							<label for="{{item.id}}"><span class="glyphicon glyphicon-ok"/></label>
-						</td>
+						>
+						<!--ng-click="$event.originalEvent.dropdown || vm.selectItem(item)"-->
+						<!--<td class="col checkbox-col" ng-if="vm.authentication.user">-->
+							<!--<input id="{{item.id}}" type="checkbox" ng-model="item.selected" ng-click="vm.selectItem(item)"/>-->
+							<!--<label for="{{item.id}}"><span class="glyphicon glyphicon-ok"/></label>-->
+						<!--</td>-->
 						<td class="name-col">
 							<div class="name-col-inner">
 								<div class="avatar">
@@ -125,7 +126,7 @@
 								<div class="sr-info">
 									<div class="sr-name">{{ item.displayName }}</div>
 									<div class="sr-desc" ng-if="item.description">{{ item.description }}</div>
-									<div class="sr-path" ng-if="item.path">{{ item.path }}</div>
+									<div class="sr-path clickable" ng-if="item.path"> <a ui-sref="p.docs({ file: item.id })">{{ item.path }}</a></div>
 								</div>
 							</div>
 						</td>
