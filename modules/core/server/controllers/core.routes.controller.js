@@ -246,9 +246,11 @@ var setModelByQuery = function () {
 	return function (req, res, next) {
 		var name = req.query.collection;
 		var Dbclass;
+		var fields;
 		switch(name) {
 			case 'documents':
 				Dbclass = require (path.resolve('./modules/documents/server/controllers/core.document.controller.js'));
+				fields = ['description', 'displayName', 'keywords'];
 				break;
 		}
 		if (!Dbclass) {
@@ -256,6 +258,7 @@ var setModelByQuery = function () {
 		}
 		setSessionContext (req)
 			.then (function (opts) {
+				req.searchFields = fields;
 				req.model = new Dbclass (opts);
 				next ();
 			});
@@ -297,12 +300,12 @@ exports.setAndRun = setAndRun;
 
 
 function searchMiddle(req, res, next) {
-	function workerFunction (model, queryOptions) {
-		return model.search (queryOptions);
+	function workerFunction (model, searchFields, queryOptions) {
+		return model.search (searchFields, queryOptions);
 	}
 	setSessionContext (req)
 		.then (function (opts) {
-			runPromise (res, workerFunction (req.model, req.query));
+			runPromise (res, workerFunction (req.model, req.searchFields, req.query));
 		});
 }
 exports.searchMiddle = searchMiddle;
