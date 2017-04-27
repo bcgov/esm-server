@@ -7,19 +7,33 @@ searchService.$inject = [ '$http', '$state', '$rootScope', '$timeout'];
 function searchService( $http, $state, $rootScope, $timeout) {
 	var self = this;
 	self.searchResults = {};
+	self.searchText = '';
 
 	return {
+		getSearchText: getSearchText,
 		getSearchResults: getSearchResults,
 		redirectSearchDocuments: redirectSearchDocuments,
 		searchDocuments: searchDocuments
 	};
+
+	function setSearchText(searchText) {
+		self.searchText = searchText;
+		$timeout(function() {
+			$rootScope.$broadcast('search-text-changed');
+		},100);
+	}
+
+	function getSearchText () {
+		return self.searchText;
+	}
 
 	function getSearchResults () {
 		return self.searchResults;
 	}
 
 	function redirectSearchDocuments(project, searchText, start, limit, orderBy, direction, collection) {
-		console.log("transition to search with searchtext", searchText, start, limit, orderBy);
+		//console.log("transition to search with searchText", searchText, start, limit, orderBy);
+		setSearchText(searchText);
 		$state.go('p.search', {
 			projectid: project.code,
 			searchText: searchText,
@@ -32,6 +46,7 @@ function searchService( $http, $state, $rootScope, $timeout) {
 	}
 
 	function searchDocuments(project, searchText, start, limit, orderBy, direction, collection) {
+		setSearchText(searchText);
 		start = start || 0;
 		limit = limit || 10;
 		orderBy = orderBy || '';

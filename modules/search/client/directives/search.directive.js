@@ -206,12 +206,16 @@ function directiveMainSearch(SearchService) {
 		},
 		controllerAs: 'vm',
 		templateUrl: 'modules/search/client/views/partials/search-widget.html',
-		controller: function ($scope) {
+		controller: function ($scope, $rootScope) {
 			var self = this;
-			self.searchText = '';
+			self.searchText = SearchService.getSearchText();
 			self.search = search;
 			self.toggleSearch = toggleSearch;
 			self.searchTextKeyPress = searchTextKeyPress;
+
+			$rootScope.$on('search-text-changed', function() {
+				self.searchText = SearchService.getSearchText();
+			});
 
 			function searchTextKeyPress (event) {
 				if (event.which === 13) {
