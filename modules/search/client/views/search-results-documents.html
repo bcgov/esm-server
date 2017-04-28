@@ -1,0 +1,172 @@
+<div class="file-browser">
+
+  <div class="fb-header">
+    <div class="fb-breadcrumbs">
+      Found {{vm.count}} Results
+    </div>
+    <div class="file-batch-actions">
+      <div class="fb-menu btn-group">
+        <button class="toggle-details-btn btn icon-btn" title="Properties"
+                ng-click="vm.toggleInfoPanel()"><span class="glyphicon glyphicon-info-sign"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="fb-body panel-open" ng-class="{'panel-open': vm.infoPanelOpen}">
+
+    <div class="table-container fb-list sr-table">
+      <table class="sr-table table" st-table="vm.displayResults">
+        <thead>
+        <tr class="sort-row">
+          <th class="name-col sortable clickable"
+              ng-class="vm.sorting.ascending"
+              ng-click="vm.sortBy('name')">Name
+            <span class="sort-icon"
+                  ng-show="vm.sorting.column === 'name'"></span>
+          </th>
+          <th class="date-added-col sortable  clickable"
+              ng-class="vm.sorting.ascending"
+              ng-click="vm.sortBy('date')">Uploaded
+            <span class="sort-icon"
+                  ng-show="vm.sorting.column === 'date'"></span>
+          </th>
+          <th class="status-col sortable clickable"
+              ng-if="vm.authentication.user"
+              ng-class="vm.sorting.ascending"
+              ng-click="vm.sortBy('status')">Status
+            <span class="sort-icon"
+                  ng-show="vm.sorting.column === 'status'"></span>
+          </th>
+          <th class="actions-col x1">&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-class="{'selected': item.selected}"
+            ng-repeat="item in vm.displayResults"
+            ng-click="$event.originalEvent.dropdown || vm.selectItem(item)"
+        >
+          <!--ng-click="$event.originalEvent.dropdown || vm.selectItem(item)"-->
+          <!--<td class="col checkbox-col" ng-if="vm.authentication.user">-->
+          <!--<input id="{{item.id}}" type="checkbox" ng-model="item.selected" ng-click="vm.selectItem(item)"/>-->
+          <!--<input id="{{item.id}}" type="checkbox" ng-model="item.selected" ng-click="vm.selectItem(item)"/>-->
+          <!--<label for="{{item.id}}"><span class="glyphicon glyphicon-ok"/></label>-->
+          <!--</td>-->
+          <td class="name-col">
+            <div class="name-col-inner">
+              <div class="avatar">
+                <span class="fb-folder glyphicon glyphicon-folder-close" ng-if="!item.isFile"></span>
+                <span class="fb-file glyphicon glyphicon-file" ng-if="item.isFile && !item.isImage"></span>
+                <span class="fb-img glyphicon glyphicon-picture" ng-if="item.isFile && item.isImage"></span>
+              </div>
+              <div class="sr-info">
+                <div class="sr-name clickable" ng-dblclick="vm.openFile(item.id)">{{ item.displayName }}</div>
+                <div class="sr-desc" ng-if="item.description">{{ item.description }}</div>
+                <div class="sr-path clickable" ng-if="item.path"><a ui-sref="p.docs({ file: item.id })">{{ item.path
+                  }}</a></div>
+              </div>
+            </div>
+          </td>
+          <td class="date-added-col">
+            {{ item.dateUploaded | date : format : timezone }}
+          </td>
+          <td class="status-col" ng-if="vm.authentication.user">
+            <span class="glyphicon glyphicon-ok-circle" ng-if="item.isPublished" title="Published"></span>
+          </td>
+          <td class="actions-col x1">
+            <div class="btn-group" ng-if="!item.isFile">
+              <button class="btn icon-btn dropdown-toggle" type="button"
+                      ng-click="$event.originalEvent.dropdown = true"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false">
+                <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+              </button>
+              <ul class="dropdown-menu pull-right">
+                <li>
+                  <button class="btn icon-btn" title="Properties"
+                          ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+                    <span class="glyphicon glyphicon-info-sign"></span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+            <div class="btn-group" ng-if="item.isFile">
+              <button class="btn icon-btn dropdown-toggle" type="button"
+                      ng-click="$event.originalEvent.dropdown = true"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false">
+                <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+              </button>
+              <ul class="dropdown-menu pull-right">
+                <li>
+                  <a class="btn icon-btn" href="/api/document/{{ item.id }}/fetch" target="_blank"
+                     title="Download File">
+                    <span class="glyphicon glyphicon-download-alt"></span></a>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        <tr ng-if="!vm.displayResults || vm.displayResults.length === 0">
+          <td colspan="{{vm.colspan -1}}">No records found.</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+          <td class="pagination-container clearfix" colspan="{{vm.colspan -1}}">
+            <div class="pull-left">
+              <ul class="pagination">
+
+                <li ng-class="{disabled: vm.currentPage == 1}">
+                  <a ng-click="vm.selectPage(vm.currentPage-1)" aria-label="Previous">
+                    <span class="glyphicon glyphicon-backward"></span>
+                  </a>
+                </li>
+
+                <li ng-show="vm.pages.indexOf(1) == -1"><a
+                ng-click="vm.selectPage(1)">1</a>
+                </li>
+
+                <li ng-show="vm.pages.indexOf(2) == -1"><a
+                ng-click="vm.selectPage(vm.pages[0])"><span class="glyphicon glyphicon-chevron-left"/></a>
+                </li>
+
+                <li ng-repeat="page in vm.pages" ng-class="{active: page==vm.currentPage}">
+                  <a ng-click="vm.selectPage(page)">{{page}}</a>
+                </li>
+
+                <li ng-show="vm.pages.indexOf(vm.numPages -1) == -1"><a
+                ng-click="vm.selectPage(vm.pages[vm.pages.length - 1])"><span
+                class="glyphicon glyphicon-chevron-right"/></a>
+                </li>
+
+                <li ng-show="vm.pages.indexOf(vm.numPages) == -1"><a
+                ng-click="vm.selectPage(vm.numPages)">{{vm.numPages}}</a>
+                </li>
+                <li ng-class="{disabled: vm.currentPage == vm.numPages}">
+                  <a ng-click="vm.selectPage(vm.currentPage+1)" aria-label="Next">
+                    <span class="glyphicon glyphicon-forward"></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <ul class="pull-right pagination">
+              <li ng-repeat="size in vm.pageSizes" ng-class="{active: vm.limit==size}">
+                <a ng-click="vm.changePageSize(size)">{{size}}</a>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <x-search-info-panel></x-search-info-panel>
+
+  </div>
+
+
+</div>

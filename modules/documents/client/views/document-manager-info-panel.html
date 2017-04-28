@@ -1,0 +1,210 @@
+<div class="fb-details-panel">
+	<!-- Load the File/Folder Details -->
+	<div class="spinner-container" ng-show="documentMgr.busy">
+		<div class="spinner-new rotating"></div>
+	</div>
+
+	<!-- FILE DETAILS -->
+	<div class="fb-details-content" ng-if="infoPanel.data && infoPanel.type === 'File'">
+		<div class="title-panel">
+			<div class="title-panel-info">
+				<button class="btn btn-default close" type="button" ng-click="infoPanel.close()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h2 title="{{infoPanel.data.displayName | removeExtension}}">{{infoPanel.data.displayName | removeExtension }}</h2>
+			</div>
+			<div class="title-panel-btns">
+				<a ng-if="infoPanel.data.userCan.read"
+					 class="btn btn-sm btn-default"
+					 href="/api/document/{{ infoPanel.data._id }}/fetch"
+					 target="_self"
+					 title="Download File"><span class="glyphicon glyphicon-download-alt"></span></a>
+				<button ng-if="infoPanel.data.userCan.read && infoPanel.data.internalMime === 'application/pdf'"
+						x-modal-pdf-viewer
+						x-pdfobject="infoPanel.data"
+						title="View File"
+						class="btn btn-sm btn-default">View</button>
+				<button class="btn btn-sm btn-default" ng-if="infoPanel.data.userCan.write"
+						x-document-mgr-edit
+						x-project="project"
+						x-doc="infoPanel.data"
+						x-on-update="documentMgr.onDocumentUpdate">Edit</button>
+				<div class="fb-menu btn-group">
+					<button class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">More</button>
+					<ul class="dropdown-menu pull-right">
+						<li ng-if="infoPanel.data.userCan.delete">
+							<a title="Delete File"
+								 ng-click="$event.stopPropagation();"
+								 x-confirm-dialog
+								 x-title-text="'Delete File(s)'"
+								 x-ok-text="'Yes'"
+								 x-cancel-text="'No'"
+								 x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone.'"
+								 x-confirm-items="[infoPanel.data.displayName]"
+								 x-on-ok="documentMgr.deleteFile"
+								 x-ok-args="infoPanel.data"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+						</li>
+						<li ng-if="infoPanel.data.userCan.publish && !infoPanel.data.isPublished">
+							<a title="Publish File"
+								 ng-click="$event.stopPropagation();"
+								 x-confirm-dialog
+								 x-title-text="'Publish File'"
+								 x-ok-text="'Yes'"
+								 x-cancel-text="'No'"
+								 x-confirm-text="'Are you sure you want to publish the selected file?'"
+								 x-confirm-items="[infoPanel.data.displayName]"
+								 x-on-ok="documentMgr.publishFile"
+								 x-ok-args="infoPanel.data"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
+						</li>
+						<li ng-if="infoPanel.data.userCan.unPublish && infoPanel.data.isPublished">
+							<a title="Unpublish File"
+								 ng-click="$event.stopPropagation();"
+								 x-confirm-dialog
+								 x-title-text="'Unpublish File'"
+								 x-ok-text="'Yes'"
+								 x-cancel-text="'No'"
+								 x-confirm-text="'Are you sure you want to unpublish the selected file?'"
+								 x-confirm-items="[infoPanel.data.displayName]"
+								 x-on-ok="documentMgr.unpublishFile"
+								 x-ok-args="infoPanel.data"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
+						</li>
+						<li>
+							<a title="Edit Permissions" ng-if="project.userCan.manageDocumentPermissions"
+								x-role-permissions-modal
+								x-context="project"
+								x-object="infoPanel.data"
+									x-reload="'false'"
+									x-callback="documentMgr.onPermissionsUpdate"><span class="glyphicon glyphicon-cog"></span> Edit Permissions</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="scroll-container">
+			<section class="fb-details-section">
+				<h2>File Details</h2>
+				<section ng-if="infoPanel.data.description">
+					<h3>Description</h3>
+					<div class="value">{{ infoPanel.data.description }}</div>
+				</section>
+				<section>
+					<h3>Properties</h3>
+					<ul class="nv-pair">
+						<li ng-if="authentication.user">
+							<span class="name">Status:</span>
+							<span class="value">
+								<span class="label label-success" ng-if="infoPanel.data.isPublished">Published</span>
+								<span class="label label-default" ng-if="!infoPanel.data.isPublished">Not Published</span>
+							</span>
+						</li>
+						<li>
+							<span class="name">Document Date:</span>
+							<span class="value">{{ infoPanel.data.documentDate | date : format : timezone }}</span>
+						</li>
+						<li>
+							<span class="name">Uploaded Date:</span>
+							<span class="value">{{ infoPanel.data.dateUploaded | date : format : timezone }}</span>
+						</li>
+						<li>
+							<span class="name">Size:</span>
+							<span class="value">{{ infoPanel.data.internalSize | bytes:2 }}</span>
+						</li>
+						<li>
+							<span class="name">Type:</span>
+							<span class="value">{{ infoPanel.data.internalExt }}</span>
+						</li>
+						<li ng-if="infoPanel.data.documentId">
+							<span class="name">Document ID:</span>
+							<span class="value">{{ infoPanel.data.documentId }}</span>
+						</li>
+						<li ng-if="infoPanel.data.documentType">
+							<span class="name">Document Type:</span>
+							<span class="value">{{ documentTypes.display(infoPanel.data.documentType) }}</span>
+						</li>
+						<li ng-if="infoPanel.data.documentType ==='Inspection Report' && infoPanel.data.inspectionReport">
+							<span class="name">Inspector Initials:</span>
+							<span class="value">{{ infoPanel.data.inspectionReport.inspectorInitials }}</span>
+						</li>
+						<li ng-if="infoPanel.data.documentType ==='Inspection Report' && infoPanel.data.inspectionReport">
+							<span class="name">Follow up:</span>
+							<span class="value">{{ infoPanel.data.inspectionReport.followup }}</span>
+						</li>
+
+					</ul>
+				</section>
+
+				<!-- FILE KEYWORDS -->
+				<!--
+				<section>
+					<h3>Keywords</h3>
+					<ul class="comma-separated-list">
+						<li>Keyword 1</li>
+						<li>Keyword 2</li>
+						<li>Keyword 3</li>
+						<li>Keyword 4</li>
+					</ul>
+				</section>
+				-->
+				<!-- / FILE KEYWORDS -->
+
+			</section>
+		</div>
+	</div><!-- / FILE DETAILS -->
+
+	<!-- DIRECTORY DETAILS -->
+	<div class="fb-details-content" ng-if="infoPanel.data && infoPanel.type === 'Directory'">
+		<div class="title-panel">
+			<div class="title-panel-info">
+				<button class="btn btn-default close" type="button" ng-click="infoPanel.close()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h2 title="{{infoPanel.data.name}}">{{infoPanel.data.name}}</h2>
+			</div>
+		</div>
+		<div class="scroll-container">
+			<section>
+				<ul class="nv-pair">
+					<li ng-if="authentication.user">
+						<span class="name">Status:</span>
+						<span class="value">---</span>
+					</li>
+					<li>
+						<span class="name">Description:</span>
+						<span class="value">---</span>
+					</li>
+					<li>
+						<span class="name">Date uploaded:</span>
+						<span class="value">---</span>
+					</li>
+				</ul>
+			</section>
+		</div>
+	</div><!-- / DIRECTORY DETAILS -->
+
+	<!-- NO DETAILS -->
+	<div class="fb-details-content" ng-if="infoPanel.data && infoPanel.type === 'Multi'">
+		<div class="title-panel">
+			<div class="title-panel-info">
+				<button class="btn btn-default close" type="button" ng-click="infoPanel.close()">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h2 title="{{project.name}}">{{project.name}}</h2>
+			</div>
+		</div>
+		<div class="scroll-container">
+			There are {{infoPanel.data.checkedFiles}} files and {{infoPanel.data.checkedDirs}} folders selected.<br>Select one file or folder to view details.
+		</div>
+	</div>
+	<div class="fb-details-content" ng-if="!infoPanel.data || infoPanel.type === 'None'">
+		<div class="title-panel">
+			<button class="btn btn-default close" type="button" ng-click="infoPanel.close()">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<h2 title="{{project.name}}">{{project.name}}</h2>
+		</div>
+		<div class="scroll-container">
+			Select one file or folder to view details.
+		</div>
+	</div><!-- / NO DETAILS -->
+
+</div>

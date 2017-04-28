@@ -331,6 +331,4 @@ module.exports = function (app) {
 		.put(routes.setAndRun(DocumentClass, function (model, req) {
 			return model.getEpicProjectFolderURL(req.body);
 		}));
-
 };
-
