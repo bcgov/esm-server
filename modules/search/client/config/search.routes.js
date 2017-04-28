@@ -16,11 +16,16 @@ angular.module('search')
 					var searchText = $stateParams.searchText;
 					var direction = $stateParams.direction;
 					return SearchService.searchDocuments(project, searchText, start, limit, orderBy, direction, collection);
+				}],
+				rootDirectoryNode:['SearchService', 'project', function (SearchService, project) {
+					// need to have directory set up before displaying any results
+					return SearchService.setupDirectoryTree(project);
 				}]
 			},
-			controller: function($scope, project, results) {
+			controller: function($scope, project, results, rootDirectoryNode) {
 				$scope.project = project;
 				$scope.results = results;
+				$scope.rootDirectoryNode = rootDirectoryNode;
 			}
 		});
 

@@ -1,18 +1,23 @@
 'use strict';
 
-angular.module('search').service('SearchService', searchService);
+angular.module('search')
+	.service('SearchService', searchService)
+	.service('SearchResultsService', searchResultsService);
 
-searchService.$inject = [ '$http', '$state', '$rootScope', '$timeout'];
+searchService.$inject = [ '$http', '$state', '$rootScope', '$timeout', '_', 'ProjectModel', 'TreeModel'];
 /* @ngInject */
-function searchService( $http, $state, $rootScope, $timeout) {
+function searchService( $http, $state, $rootScope, $timeout, _, ProjectModel, TreeModel) {
 	var self = this;
 	self.searchResults = {};
 	self.searchText = '';
+	self.rootNode = null;
 
 	return {
 		getSearchText: getSearchText,
 		getSearchResults: getSearchResults,
+		setupDirectoryTree: setupDirectoryTree,
 		redirectSearchDocuments: redirectSearchDocuments,
+		composeFilePath: composeFilePath,
 		searchDocuments: searchDocuments
 	};
 
@@ -45,6 +50,39 @@ function searchService( $http, $state, $rootScope, $timeout) {
 		});
 	}
 
+	function setupDirectoryTree (project) {
+		var tree = new TreeModel();
+		return ProjectModel.getProjectDirectory(project)
+			.then(function (dir) {
+				project.directoryStructure = dir || {
+						id: 1,
+						lastId: 1,
+						name: 'ROOT',
+						published: true
+					};
+				self.rootNode = tree.parse(project.directoryStructure);
+				return self.rootNode;
+			});
+	}
+
+	function composeFilePath(directoryID) {
+		var path = '';
+		if (self.rootNode) {
+			var theNode = self.rootNode.first(function (n) {
+				return n.model.id === directoryID;
+			});
+			var pathSet = theNode ? theNode.getPath() || [] : [];
+			_.forEach(pathSet, function (element) {
+				var n = element.model.name;
+				if (n !== 'ROOT') {
+					path += "/" + n;
+				}
+			});
+		}
+		return path;
+	}
+
+
 	function searchDocuments(project, searchText, start, limit, orderBy, direction, collection) {
 		setSearchText(searchText);
 		start = start || 0;
@@ -60,7 +98,7 @@ function searchService( $http, $state, $rootScope, $timeout) {
 		url += '&collection=' + collection;
 		//console.log("The url ", url);
 
-		$http({method: 'GET', url: url})
+		return $http({method: 'GET', url: url})
 			.then(function (results) {
 				self.searchResults.searchText = searchText;
 				self.searchResults.data = results.data.data;
@@ -69,10 +107,22 @@ function searchService( $http, $state, $rootScope, $timeout) {
 				self.searchResults.limit = limit;
 				self.searchResults.orderBy = orderBy;
 				self.searchResults.direction = direction;
-				$timeout(function() {
-					$rootScope.$broadcast('search-results-documents');
-				},10);
+				return self.searchResults;
 			});
+	}
+}
+
+
+
+searchResultsService.$inject = [];
+/* @ngInject */
+function searchResultsService( ) {
+	var service = this;
+	service.openFile = openFile;
+
+	function openFile(docId) {
+		var url = window.location.protocol + "//" + window.location.host + "/api/document/" + docId + "/fetch";
+		window.open(url, "_blank");
 	}
 
 }

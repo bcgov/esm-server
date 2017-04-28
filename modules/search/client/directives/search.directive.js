@@ -3,16 +3,41 @@
 angular.module('search')
 	.directive('mainSearchWidget', directiveMainSearch)
 	.directive('modalSearchInstructions', directiveModalSearchInstructions)
+	.directive('searchInfoPanel', directiveSearchInfoPanel)
 	.directive('searchResultsDocument', searchResultsDocumentDirective);
 
-
-searchResultsDocumentDirective.$inject = ['_', 'SearchService', '$rootScope', 'Authentication', 'TreeModel', 'ProjectModel'];
-/* @ngInject */
-function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentication, TreeModel, ProjectModel) {
+directiveSearchInfoPanel.inject = ['Authentication', 'CodeLists'];
+function directiveSearchInfoPanel(Authentication, CodeLists) {
 	return {
 		restrict: 'E',
 		scope: {
-			project: '='
+		},
+		controllerAs: 'vm',
+		templateUrl: 'modules/search/client/views/search-info-panel.html',
+		controller: function ($scope) {
+			var self = this;
+			self.authentication = Authentication;
+			self.documentTypes = CodeLists.documentTypes;
+
+
+			$scope.$on('itemSelected', function (event, item) {
+				self.item = item;
+				self.doc = item.doc;
+			});
+
+
+		}
+	};
+}
+
+searchResultsDocumentDirective.$inject = ['_', 'SearchService', 'SearchResultsService', '$rootScope', 'Authentication',  'ProjectModel'];
+/* @ngInject */
+function searchResultsDocumentDirective(_, SearchService, SearchResultsService, $rootScope, Authentication, ProjectModel) {
+	return {
+		restrict: 'E',
+		scope: {
+			project: '=',
+			results: '='
 		},
 		controllerAs: 'vm',
 		templateUrl: 'modules/search/client/views/search-results-documents.html',
@@ -20,91 +45,30 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 			var self = this;
 			self.authentication = Authentication;
 			self.colspan = (self.authentication.user) ? 5 : 3;
-			self.isLoading= false;
+			self.isLoading = false;
 			self.limit = 10;
-			self.pageSizes= [10, 20, 50, 100];
+			self.pageSizes = [10, 20, 50, 100];
+			self.currentFiles = [];
+			self.infoPanelOpen = false;
 
+			// methods
 			self.changePageSize = changePageSize;
-			self.openFile = openFile;
+			self.openFile = SearchResultsService.openFile;
 			self.selectItem = selectItem;
 			self.selectPage = selectPage;
 			self.sortBy = sortBy;
+			self.toggleInfoPanel = toggleInfoPanel;
 
-			self.tree = new TreeModel();
-			ProjectModel.getProjectDirectory($scope.project)
-				.then( function (dir) {
-					$scope.project.directoryStructure = dir || {
-							id: 1,
-							lastId: 1,
-							name: 'ROOT',
-							published: true
-						};
-					self.rootNode = self.tree.parse($scope.project.directoryStructure);
-					reload();
-				});
+			// init
+			reload($scope.results);
+			// end of configuration
+			// helper functions ...
 
-
-			// When the search results are resolved ....
-			$rootScope.$on('search-results-documents', function() {
-				reload();
-			});
-
-			function changePageSize (value) {
-				self.limit = value;
-				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy);
-			}
-
-			function selectItem (item) {
-				item.selected = ! item.selected;
-			}
-
-			function sortBy (column) {
-				switch(column) {
-					case 'name':
-						if (self.orderBy === 'displayName') {
-							self.direction = self.direction==='asc' ? 'desc' : 'asc';
-						} else {
-							self.direction = 'asc';
-							self.orderBy = 'displayName';
-						}
-						break;
-					case 'date':
-						if (self.orderBy === 'dateUploaded') {
-							self.direction = self.direction==='asc' ? 'desc' : 'asc';
-						} else {
-							self.direction = 'asc';
-							self.orderBy = 'dateUploaded';
-						}
-						break;
-					case 'status':
-						if (self.orderBy === 'isPublished') {
-							self.direction = self.direction==='asc' ? 'desc' : 'asc';
-						} else {
-							self.direction = 'asc';
-							self.orderBy = 'isPublished';
-						}
-						break;
-				}
-				self.start = 0;
-				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy, self.direction);
-			}
-
-
-			function selectPage(page) {
-				self.start = Math.abs((page -1) * self.limit);
-				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy, self.direction);
-			}
-
-			function openFile(docId){
-				var url = window.location.protocol + "//" + window.location.host + "/api/document/" + docId + "/fetch";
-				window.open(url, "_blank");
-			}
-
-			function reload() {
+			function reload(searchResults) {
 				self.isLoading = true;
-				var searchResults = SearchService.getSearchResults();
-				var currentFiles = searchResults.data;
-				if (!currentFiles) {
+				//var searchResults = SearchService.getSearchResults();
+				self.currentFiles = searchResults.data;
+				if (!self.currentFiles) {
 					return;
 				}
 				self.searchText = searchResults.searchText;
@@ -116,27 +80,11 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				initializeSorting();
 				initializePagination();
 				self.displayResults = [];
-				_.forEach(currentFiles, function (item) {
+				_.forEach(self.currentFiles, function (item) {
 					var displayItem = {};
 					displayItem.isFile = true;
 					displayItem.id = item._id;
-					//console.log("Reload file id", item);
-					if (self.rootNode) {
-						var theNode = self.rootNode.first(function (n) {
-							return n.model.id === item.directoryID;
-						});
-						var pathSet = theNode ? theNode.getPath() || [] : [];
-						var path = "";
-						_.each(pathSet, function (element) {
-							var n = element.model.name;
-							if (n !== 'ROOT') {
-								path += "/" + n;
-							}
-						});
-						displayItem.path = path;
-					}
-					displayItem.nodeId = item.directoryID;
-					displayItem.isImage = ['png','jpg','jpeg'].includes(item.internalExt);
+					displayItem.path = SearchService.composeFilePath(item.directoryID);
 					displayItem.displayName = item.displayName;
 					displayItem.description = item.description;
 					displayItem.isPublished = item.isPublished;
@@ -146,13 +94,64 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 					self.displayResults.push(displayItem);
 				});
 				self.isLoading = false;
-				$scope.$apply();
+				//$scope.$apply();
 			}
 
-			function initializeSorting () {
-				self.sorting={};
+			function toggleInfoPanel() {
+				self.infoPanelOpen = !self.infoPanelOpen;
+			}
+
+			function selectItem(item) {
+				// selected a file, make it the only item selected...
+				var checked = item.selected;
+				_.forEach(self.displayResults, function (o) {
+					o.selected = false;
+				});
+				item.selected = !checked;
+				var selectedItem = item.selected  ? item : null;
+				$scope.$broadcast('itemSelected', selectedItem);
+			}
+
+			function changePageSize(value) {
+				self.limit = value;
+				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy);
+			}
+
+			function sortBy(column) {
+				switch (column) {
+					case 'name':
+						if (self.orderBy === 'displayName') {
+							self.direction = self.direction === 'asc' ? 'desc' : 'asc';
+						} else {
+							self.direction = 'asc';
+							self.orderBy = 'displayName';
+						}
+						break;
+					case 'date':
+						if (self.orderBy === 'dateUploaded') {
+							self.direction = self.direction === 'asc' ? 'desc' : 'asc';
+						} else {
+							self.direction = 'asc';
+							self.orderBy = 'dateUploaded';
+						}
+						break;
+					case 'status':
+						if (self.orderBy === 'isPublished') {
+							self.direction = self.direction === 'asc' ? 'desc' : 'asc';
+						} else {
+							self.direction = 'asc';
+							self.orderBy = 'isPublished';
+						}
+						break;
+				}
+				self.start = 0;
+				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy, self.direction);
+			}
+
+			function initializeSorting() {
+				self.sorting = {};
 				self.sorting.ascending = self.direction === 'asc' ? 'ascending' : 'descending';
-				switch(self.orderBy) {
+				switch (self.orderBy) {
 					case 'displayName':
 						self.sorting.column = 'name';
 						break;
@@ -165,9 +164,14 @@ function searchResultsDocumentDirective(_, SearchService, $rootScope, Authentica
 				}
 			}
 
+			function selectPage(page) {
+				self.start = Math.abs((page - 1) * self.limit);
+				SearchService.redirectSearchDocuments($scope.project, self.searchText, self.start, self.limit, self.orderBy, self.direction);
+			}
+
 			function initializePagination() {
 				// prevent accidental divide by zero
-				self.limit = Math.max(1,self.limit);
+				self.limit = Math.max(1, self.limit);
 				//set the number of pages so the pagination can update
 				self.numPages = Math.ceil(self.count / self.limit);
 				self.currentPage = Math.ceil(self.start / self.limit) + 1;
@@ -213,11 +217,11 @@ function directiveMainSearch(SearchService) {
 			self.toggleSearch = toggleSearch;
 			self.searchTextKeyPress = searchTextKeyPress;
 
-			$rootScope.$on('search-text-changed', function() {
+			$rootScope.$on('search-text-changed', function () {
 				self.searchText = SearchService.getSearchText();
 			});
 
-			function searchTextKeyPress (event) {
+			function searchTextKeyPress(event) {
 				if (event.which === 13) {
 					event.preventDefault();
 					if (self.searchText.length > 1) {
@@ -230,7 +234,7 @@ function directiveMainSearch(SearchService) {
 				SearchService.redirectSearchDocuments($scope.project, self.searchText);
 			}
 
-			function toggleSearch () {
+			function toggleSearch() {
 				$scope.swOpen = !$scope.swOpen;
 			}
 		}
@@ -248,12 +252,11 @@ directiveModalSearchInstructions.$inject = ['$modal'];
 /* @ngInject */
 function directiveModalSearchInstructions($modal) {
 	var directive = {
-		restrict:'A',
+		restrict: 'A',
 		scope: {
-			project: '='
 		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
+		link: function (scope, element, attrs) {
+			element.on('click', function () {
 				var modalInstructions = $modal.open({
 					animation: true,
 					templateUrl: 'modules/search/client/views/partials/modal-search-instructions.html',
@@ -263,7 +266,8 @@ function directiveModalSearchInstructions($modal) {
 				});
 				modalInstructions.result.then(function (data) {
 					// do nothing
-				}, function () {});
+				}, function () {
+				});
 			});
 		}
 	};

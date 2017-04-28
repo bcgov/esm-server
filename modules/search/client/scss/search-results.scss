@@ -3,6 +3,10 @@ $list-selected-bg: #5091cd;
 $list-selected-hover-bg: #4187c9;
 $list-selected-border: 1px solid #4187c9;
 
+x-search-info-panel {
+    display: block;
+}
+
 .sr-browser-container  {
     position: relative;
 
