@@ -6,12 +6,13 @@
 
 <div class="modal-body">
 	<div class="table-container">
-		<table class="add-vc-table table table-hover table-scroll" ng-table="self.tableParams" show-filter="self.showFilter">
-			<tr ng-repeat="o in $data">
+		<table class="user-search-table table table-hover table-scroll" ng-table="self.tableParams" show-filter="self.showFilter">
+			<tr ng-class="{'active': self.chosen(o._id)}"
+				ng-repeat="o in $data">
 				<td class="col checkbox-col"
 					header-class="'col checkbox-col'">
 					<div>
-						<input type="checkbox" ng-click="self.toggleItem(o)"/>
+						<input type="checkbox" ng-click="self.toggleItem(o)" ng-checked="self.chosen(o._id)"/>
 						<label for="{{o._id}}">
 							<span class="glyphicon glyphicon-ok"></span>
 						</label>
