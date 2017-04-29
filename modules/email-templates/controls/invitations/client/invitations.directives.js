@@ -68,7 +68,6 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
 
 						s.isSelected = function(id) {
 							var item =  _.find(s.selected, function(o) { return o._id === id; });
-							console.log(item);
 							return !_.isEmpty(item);
 						};
 
