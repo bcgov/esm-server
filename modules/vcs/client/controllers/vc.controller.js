@@ -82,7 +82,15 @@ angular.module ('vcs')
 				_.remove(self.currentObjs, {_id: item._id});
 				_.remove(self.current, function(n) {return n === item._id;});
 			}
+
+			//console.log("self curobjs",self.currentObjs);
 			self.okDisabled = _.size(self.currentObjs) === 0;
+		};
+
+
+		this.chosen = function (id) {
+			var item = _.find(self.currentObjs, function (o) { return o._id === id; });
+			return !_.isEmpty(item);
 		};
 
 		this.ok = function () {
