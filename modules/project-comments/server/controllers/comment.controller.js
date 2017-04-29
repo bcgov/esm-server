@@ -129,6 +129,20 @@ module.exports = DBModel.extend ({
 			//
 			.then (function (period) {
 				thePeriod = period;
+
+				// Ceaa logic
+				if (thePeriod.periodType === 'Joint' && (comment.eaoStatus === 'Rejected' || comment.eaoStatus === 'Published')) {
+					// Ensure it's added ot both read and vetting roles since it's going to be
+					// rejected, and we need to include that.
+					thePeriod.read = _.uniq(_.concat(thePeriod.read, 'assessment-ceaa'));
+					thePeriod.vettingRoles = _.uniq(_.concat(thePeriod.vettingRoles, 'assessment-ceaa'));
+				} else {
+					// Ensure it's removed.
+					_.remove(thePeriod.read, function (i) {
+						return (i === 'assessment-ceaa');
+					});
+				}
+
 				if (comment.eaoStatus === 'Published') {
 					//
 					// ROLES, public read
@@ -180,6 +194,18 @@ module.exports = DBModel.extend ({
 						// if the comment is published, but this document has been rejected, we don't want this document set to public read
 						commentPermissions.read = thePeriod.vettingRoles;
 					}
+
+					// Ceaa logic
+					if (thePeriod.periodType === 'Joint' && (comment.eaoStatus === 'Rejected' || comment.eaoStatus === 'Published')) {
+						// Add CEAA role to read when these conditions are met
+						commentPermissions.read = _.uniq(_.concat(commentPermissions.read, 'assessment-ceaa'))
+					} else {
+						// Ensure role is removed.
+						_.remove(commentPermissions.read, function (i) {
+							return (i === 'assessment-ceaa');
+						});
+					}
+
 					// publish or unpublish the doc, and set the doc's permissions...
 					return documentClass.publishForComment(doc, ('Published' === comment.eaoStatus && 'Published' === doc.eaoStatus), commentPermissions);
 				}, Promise.resolve())	;
