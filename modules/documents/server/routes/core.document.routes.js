@@ -6,9 +6,28 @@
 // Does not use the normal crud routes, mostly special sauce
 //
 // =========================================================================
-var DocumentClass  = require ('../controllers/core.document.controller');
-var routes = require ('../../../core/server/controllers/core.routes.controller');
-var policy = require ('../../../core/server/controllers/core.policy.controller');
+var DocumentClass  	= require ('../controllers/core.document.controller');
+var routes 			= require ('../../../core/server/controllers/core.routes.controller');
+var policy 			= require ('../../../core/server/controllers/core.policy.controller');
+var fs 				= require('fs');
+
+var renderNotFound = function (url, res) {
+	res.status(404).format({
+		'text/html': function () {
+			res.render('modules/core/server/views/404', {
+				url: url
+			});
+		},
+		'application/json': function () {
+			res.json({
+				error: 'Path not found'
+			});
+		},
+		'default': function () {
+			res.send('Path not found');
+		}
+	});
+};
 
 module.exports = function (app) {
 	//
@@ -93,30 +112,76 @@ module.exports = function (app) {
 	//
 	// fetch a document (download multipart stream)
 	//
-	app.route ('/api/document/:document/fetch')
-		.all (policy ('guest'))
-		.get (function (req, res) {
-			if (req.Document.internalURL.match (/^(http|ftp)/)) {
-				res.redirect (req.Document.internalURL);
-			} else {
-				// ETL fixing - if the name was brought in without a filename, and we have their document
-				// file format, affix the type as an extension to the original name so they have a better
-				// chance and opening up the file on double-click.
-				String.prototype.endsWith = String.prototype.endsWith || function (str){
-					return new RegExp(str + "$").test(str);
-				};
-				console.log("fetching:",req.Document.internalOriginalName,":", req.Document.documentFileFormat);
-				var name = req.Document.internalOriginalName;
-				if (req.Document.documentFileFormat && !req.Document.internalOriginalName.endsWith(req.Document.documentFileFormat)) {
-					name = req.Document.internalOriginalName + "." + req.Document.documentFileFormat;
-				}
+	app.route ('/api/document/:document/download')
+	.all (policy ('guest'))
+	.get (function (req, res) {
+		if (req.Document.internalURL.match (/^(http|ftp)/)) {
+			res.redirect (req.Document.internalURL);
+		} else {
+			// ETL fixing - if the name was brought in without a filename, and we have their document
+			// file format, affix the type as an extension to the original name so they have a better
+			// chance and opening up the file on double-click.
+			String.prototype.endsWith = String.prototype.endsWith || function (str){
+				return new RegExp(str + "$").test(str);
+			};
+			console.log("downloading:",req.Document.internalOriginalName,":", req.Document.documentFileFormat);
+			var name = req.Document.internalOriginalName;
+			if (req.Document.documentFileFormat && !req.Document.internalOriginalName.endsWith(req.Document.documentFileFormat)) {
+				name = req.Document.internalOriginalName + "." + req.Document.documentFileFormat;
+			}
+			// Double check if the filename has displayName set, if so use that instead.
+			if (req.Document.displayName !== "") {
+				name = req.Document.displayName;
+			}
+
+			if (fs.existsSync(req.Document.internalURL)) {
 				routes.streamFile (res, {
 					file : req.Document.internalURL,
 					name : name,
 					mime : req.Document.internalMime
 				});
+			} else {
+				console.log("User asked for a file that doesn't exist:", req.Document.internalURL);
+				renderNotFound(req.originalUrl, res);
 			}
-		});
+		}
+	});
+	//
+	// fetch a document (download multipart stream)
+	//
+	app.route ('/api/document/:document/fetch')
+	.all (policy ('guest'))
+	.get (function (req, res) {
+		if (req.Document.internalURL.match (/^(http|ftp)/)) {
+			res.redirect (req.Document.internalURL);
+		} else {
+			// ETL fixing - if the name was brought in without a filename, and we have their document
+			// file format, affix the type as an extension to the original name so they have a better
+			// chance and opening up the file on double-click.
+			String.prototype.endsWith = String.prototype.endsWith || function (str){
+				return new RegExp(str + "$").test(str);
+			};
+			console.log("fetching:",req.Document.internalOriginalName,":", req.Document.documentFileFormat);
+			var name = req.Document.internalOriginalName;
+			if (req.Document.documentFileFormat && !req.Document.internalOriginalName.endsWith(req.Document.documentFileFormat)) {
+				name = req.Document.internalOriginalName + "." + req.Document.documentFileFormat;
+			}
+			// Double check if the filename has displayName set, if so use that instead.
+			if (req.Document.displayName !== "") {
+				name = req.Document.displayName;
+			}
+			if (fs.existsSync(req.Document.internalURL)) {
+				var stream 		= fs.createReadStream(req.Document.internalURL);
+				var filename 	= encodeURIComponent(name);
+				res.setHeader('content-disposition', 'inline; filename="' + filename + '"');
+				res.setHeader('content-type', req.Document.internalMime);
+				stream.pipe(res);
+			} else {
+				console.log("User asked for a file that doesn't exist:", req.Document.internalURL);
+				renderNotFound(req.originalUrl, res);
+			}
+		}
+	});
 	//
 	// upload comment document:  We do this to force the model as opposed to trusting the
 	// 'headers' from an untrustworthy client.
