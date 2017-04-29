@@ -198,7 +198,7 @@ module.exports = DBModel.extend ({
 					// Ceaa logic
 					if (thePeriod.periodType === 'Joint' && (comment.eaoStatus === 'Rejected' || comment.eaoStatus === 'Published')) {
 						// Add CEAA role to read when these conditions are met
-						commentPermissions.read = _.uniq(_.concat(commentPermissions.read, 'assessment-ceaa'))
+						commentPermissions.read = _.uniq(_.concat(commentPermissions.read, 'assessment-ceaa'));
 					} else {
 						// Ensure role is removed.
 						_.remove(commentPermissions.read, function (i) {
