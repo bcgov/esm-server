@@ -19,13 +19,10 @@ function directiveSearchInfoPanel(Authentication, CodeLists) {
 			self.authentication = Authentication;
 			self.documentTypes = CodeLists.documentTypes;
 
-
 			$scope.$on('itemSelected', function (event, item) {
 				self.item = item;
 				self.doc = item.doc;
 			});
-
-
 		}
 	};
 }
@@ -206,13 +203,14 @@ function directiveMainSearch(SearchService) {
 	var directive = {
 		restrict: 'E',
 		scope: {
-			project: '='
+			project: '=',
+			preload: '='
 		},
 		controllerAs: 'vm',
 		templateUrl: 'modules/search/client/views/partials/search-widget.html',
 		controller: function ($scope, $rootScope) {
 			var self = this;
-			self.searchText = SearchService.getSearchText();
+			self.searchText = $scope.preload ? SearchService.getSearchText() : '';
 			self.search = search;
 			self.toggleSearch = toggleSearch;
 			self.searchTextKeyPress = searchTextKeyPress;

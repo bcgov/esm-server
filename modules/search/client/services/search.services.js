@@ -53,16 +53,16 @@ function searchService( $http, $state, $rootScope, $timeout, _, ProjectModel, Tr
 	function setupDirectoryTree (project) {
 		var tree = new TreeModel();
 		return ProjectModel.getProjectDirectory(project)
-			.then(function (dir) {
-				project.directoryStructure = dir || {
-						id: 1,
-						lastId: 1,
-						name: 'ROOT',
-						published: true
-					};
-				self.rootNode = tree.parse(project.directoryStructure);
-				return self.rootNode;
-			});
+		.then(function (dir) {
+			project.directoryStructure = dir || {
+					id: 1,
+					lastId: 1,
+					name: 'ROOT',
+					published: true
+				};
+			self.rootNode = tree.parse(project.directoryStructure);
+			return self.rootNode;
+		});
 	}
 
 	function composeFilePath(directoryID) {
@@ -99,16 +99,16 @@ function searchService( $http, $state, $rootScope, $timeout, _, ProjectModel, Tr
 		//console.log("The url ", url);
 
 		return $http({method: 'GET', url: url})
-			.then(function (results) {
-				self.searchResults.searchText = searchText;
-				self.searchResults.data = results.data.data;
-				self.searchResults.count = results.data.count;
-				self.searchResults.start = start;
-				self.searchResults.limit = limit;
-				self.searchResults.orderBy = orderBy;
-				self.searchResults.direction = direction;
-				return self.searchResults;
-			});
+		.then(function (results) {
+			self.searchResults.searchText = searchText;
+			self.searchResults.data = results.data.data;
+			self.searchResults.count = results.data.count;
+			self.searchResults.start = start;
+			self.searchResults.limit = limit;
+			self.searchResults.orderBy = orderBy;
+			self.searchResults.direction = direction;
+			return self.searchResults;
+		});
 	}
 }
 

@@ -231,9 +231,9 @@ angular.module('documents')
 
 				self.gotoDoc = function(docID) {
 					Document.lookup(docID) //docID is an objectID
-						.then(function (doc) {
-							self.selectNode(doc.directoryID, docID);
-						});
+					.then(function (doc) {
+						self.selectNode(doc.directoryID, docID);
+					});
 				};
 
 				// Select folder based on tree id (directoryID). If docID is present then select this doc.
