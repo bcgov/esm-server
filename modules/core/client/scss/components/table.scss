@@ -20,10 +20,14 @@ $table-pagination-bg: #fff;
             background: $table-header-bg;
             z-index: 3;
 
-            tr.sort-row {
-                th {
+            th {
+                cursor: default;
+
+                &.sortable {
+                    cursor: pointer;
+
                     &:hover {
-                        background-color: #EEE
+                        background-color: #EEE; 
                     }
                 }
             }

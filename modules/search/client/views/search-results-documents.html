@@ -21,21 +21,21 @@
 		<div class="fb-list table-container">
 			<table class="sr-table table table-hover" st-table="vm.displayResults">
 				<thead>
-					<tr class="sort-row">
-						<th class="name-col sortable clickable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('name')">Name
+					<tr>
+						<th class="name-col sortable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('name')">Name
 							<span class="sort-icon" ng-show="vm.sorting.column === 'name'"></span>
 						</th>
-						<th class="date-added-col sortable  clickable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('date')">Uploaded
+						<th class="date-added-col sortable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('date')">Uploaded
 							<span class="sort-icon" ng-show="vm.sorting.column === 'date'"></span>
 						</th>
-						<th class="status-col sortable clickable" ng-if="vm.authentication.user" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('status')">Status
+						<th class="status-col sortable" ng-if="vm.authentication.user" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('status')">Status
 							<span class="sort-icon" ng-show="vm.sorting.column === 'status'"></span>
 						</th>
 						<th class="actions-col x1">&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-class="{'active': item.selected}" 
+					<tr ng-class="{'selected': item.selected}" 
 						ng-repeat="item in vm.displayResults" 
 						ng-click="$event.originalEvent.dropdown || vm.selectItem(item)">
 						<td class="name-col">
@@ -78,6 +78,11 @@
 									<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
 								</button>
 								<ul class="dropdown-menu pull-right">
+									<li>
+										<button class="btn icon-btn" title="Properties" ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
+											<span class="glyphicon glyphicon-info-sign"></span>
+										</button>
+									</li>
 									<li>
 										<a class="btn icon-btn" href="/api/document/{{ item.id }}/fetch" target="_blank" title="Download File">
 											<span class="glyphicon glyphicon-download-alt"></span>

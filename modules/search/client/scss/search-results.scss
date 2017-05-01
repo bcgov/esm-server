@@ -30,9 +30,6 @@ x-search-info-panel {
             width: 100%;
             height: 100%;
 
-            .sortable:hover {
-                background: #EEE;
-            }
             .sort-icon {
                 display: none;
                 margin-top: -2px;
@@ -50,6 +47,7 @@ x-search-info-panel {
                     border-color: #494949  transparent transparent transparent;
                 }
             }
+
             .ascending {
                 .sort-icon {
                     display: inline-block;
@@ -90,6 +88,17 @@ x-search-info-panel {
                     &.selected {
                         > td {
                             border-bottom: $list-selected-border;
+                            background: $list-selected-bg;
+                        }
+
+                        a {
+                            color: $list-selected-color;
+
+                            &:active,
+                            &:hover,
+                            &:focus {
+                                color: $list-selected-color;
+                            }
                         }
                     }
                 }
@@ -154,6 +163,13 @@ x-search-info-panel {
                         }
                     }
                 }
+
+                .btn:focus,
+                .btn:hover {
+                    background: transparent;
+                    border-color: $list-selected-color;
+                    color: $list-selected-color;
+                }
             }
         }
     }
@@ -163,7 +179,7 @@ x-search-info-panel {
     }
 
     .name-col {
-        padding-left: 1.5rem;
+        padding-left: 1.5rem !important;
 
         .name-col-inner {
             @include flexbox();
@@ -172,7 +188,7 @@ x-search-info-panel {
         .avatar {
             @include flex(0 0 auto);
             margin-top: -0.2rem;
-            margin-right: 0.75rem;
+            margin-right: 1rem;
             margin-bottom: -0.5rem;
             font-size: 1.8rem;
         }
@@ -216,7 +232,6 @@ x-search-info-panel {
 
     .status-col {
         width: 8rem;
-        text-align: center;
 
         .glyphicon {
             font-size: 1.8rem;
@@ -263,11 +278,11 @@ x-search-info-panel {
 @media (min-width: 1200px) {
     .sr-table {
         .date-added-col {
-            width: 20rem;
+            width: 20%;
         }
 
         .status-col {
-            width: 12rem;
+            width: 18%;
         }
     }
 }
