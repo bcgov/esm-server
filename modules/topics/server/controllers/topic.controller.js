@@ -11,5 +11,6 @@ var _         = require ('lodash');
 module.exports = DBModel.extend ({
 	name : 'Topic',
 	plural : 'topics',
+	sort: 'name'
 });
 

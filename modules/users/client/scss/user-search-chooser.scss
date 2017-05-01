@@ -1,0 +1,124 @@
+
+$row-active-border: #4187c9;
+$row-active-bg: #5091cd;
+$row-active-hover-bg: #4187c9;
+$row-active-color: #fff;
+
+.table.user-search-table {
+    .col.checkbox-col {
+        position: inherit;
+        padding: 0;
+
+        div {
+            position: relative;
+            width: 4rem;
+        }
+    }
+
+    &.no-records {
+        .col.checkbox-col {
+            div {
+                display: none;
+            }
+        }
+    }
+
+    thead {
+        th {
+            &.col.checkbox-col {
+                div {
+                    height: 3.5rem;
+                }
+
+                label {
+                    span {
+                        margin-top: 1.1rem;
+                        display: none;
+                        visibility: hidden;
+                    }
+                }
+
+                input {
+                    &:checked {
+                        + label {
+                            span.glyphicon-ok {
+                                display: inline-block;
+                                visibility: visible;
+                            }
+
+                            span.glyphicon-minus {
+                                display: none;
+                                visibility: hidden;
+                            }
+                        }
+                    }
+
+                    &:indeterminate {
+                        + label {
+                            span.glyphicon-ok {
+                                display: none;
+                                visibility: hidden;
+                            }
+
+                            span.glyphicon-minus {
+                                display: inline-block;
+                                visibility: visible;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    tbody {
+        max-height: 30rem;
+        border-bottom: 1px solid #EEE;
+
+        > tr {
+            &.active {
+                border-bottom: 1px solid $row-active-border;
+
+                td {
+                    background: $row-active-bg;
+                    border-bottom: 1px solid $row-active-border;
+                    color: $row-active-color;
+
+                    &.col.checkbox-col {
+                        border-right: $row-active-border;
+
+                        input[type='checkbox'] {
+                            &:hover,
+                            &:focus {
+                                + label {
+                                    background: $row-active-hover-bg;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            > td {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+
+                &.col.checkbox-col {
+                    div {
+                        height: 4.5rem;
+                    }
+                }
+
+                &:last-child {
+                    padding-right: 2.5rem;
+                }
+            }
+        }
+    }
+
+    .first-name-col,
+    .last-name-col {
+        width: 18rem;
+    }
+}

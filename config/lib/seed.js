@@ -203,6 +203,14 @@ var seedingAsync = function() {
 	checkIntegration('app-20160727.10').then(function () {
 		require('../seed-data/application')();
 	});
+
+	checkIntegration('folders-20170216.21').then(function () {
+		require('../seed-data/folders')();
+	});
+	checkIntegration('codelists-20170410').then(function () {
+		require('../seed-data/codelist')();
+	});
+
 };
 
 // =========================================================================
@@ -211,7 +219,7 @@ var seedingAsync = function() {
 //
 // =========================================================================
 
-checkIntegration ('defaults13')
+checkIntegration ('defaults14')
 	.then(function(){
 		require('../seed-data/defaults')()
 			.then(seedingAsync);

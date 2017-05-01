@@ -1,36 +1,55 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, TreeModel, ProjectModel, Document, FolderModel) {
 		return {
 			restrict: 'E',
 			scope: {
 				project: '=',
-				opendir: '='
+				file: '=',
+				folder: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
-			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
+			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
+				self.requestOpenDir = null;
+				self.requestOpenFileID = null;
 
-				if ($scope.opendir) {
+				if ($scope.file) {
+					self.requestOpenFileID = $scope.file; // objectId
+				}
+				if ($scope.folder) {
 					try {
-						self.opendir = $scope.opendir.substr(1,$scope.opendir.length - 1);
-						self.opendir = self.opendir.split('=');
-						self.opendir = parseInt(self.opendir[1]);
+						self.requestOpenDir = parseInt($scope.folder); // tree Id
 					} catch (e) {
 						console.log("couldn't parse directory");
 					}
-					self.openDir = null;
 				}
 
 				$scope.authentication = Authentication;
-				$scope.project.directoryStructure = $scope.project.directoryStructure || {
+				$scope.documentTypes = CodeLists.documentTypes;
+
+				ProjectModel.getProjectDirectory($scope.project)
+				.then( function (dir) {
+					$scope.project.directoryStructure = dir || {
 						id: 1,
 						lastId: 1,
-						name: 'ROOT'
+						name: 'ROOT',
+						published: true
 					};
+					self.rootNode = tree.parse($scope.project.directoryStructure);
+					if (self.requestOpenDir) {
+						self.selectNode(self.requestOpenDir);
+					} else if (self.requestOpenFileID) {
+						self.gotoDoc(self.requestOpenFileID);
+					} else {
+						self.selectNode(self.rootNode);
+					}
+
+					$scope.$apply();
+				});
 
 				// default sort is by name ascending...
 				self.sorting = {
@@ -38,7 +57,7 @@ angular.module('documents')
 					ascending: true
 				};
 
-				self.rootNode = tree.parse($scope.project.directoryStructure);
+				// self.rootNode = tree.parse($scope.project.directoryStructure);
 				self.selectedNode = undefined;
 				self.currentNode = undefined;
 				self.currentPath = undefined;
@@ -114,11 +133,12 @@ angular.module('documents')
 
 				self.applySort = function() {
 					// sort ascending first...
-					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
+					self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
 						// more making sure that the displayName is set...
 						if (_.isEmpty(f.displayName)) {
 							f.displayName = f.documentFileName || f.internalOriginalName;
 						}
+						f.order = f.order || 0;
 
 						if (self.sorting.column === 'name') {
 							return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
@@ -137,15 +157,20 @@ angular.module('documents')
 						}
 						// by name if none specified... or we incorrectly identified...
 						return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-					});
+					}).sortBy(function (f) {
+						return f.order;
+					}).value();
 
 					// directories always/only sorted by name
-					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
+					self.currentDirs = _(self.unsortedDirs).chain().sortBy(function (d) {
 						if (_.isEmpty(d.model.name)) {
 							return null;
 						}
+						d.model.order = d.model.order || 0;
 						return d.model.name.toLowerCase();
-					});
+					}).sortBy(function (d) {
+						return d.model.order;
+					}).value();
 
 					if (!self.sorting.ascending) {
 						// and if we are not supposed to be ascending... then reverse it!
@@ -184,60 +209,8 @@ angular.module('documents')
 				};
 
 				self.dblClick = function(doc){
-					/*
-					If user can not read the document (BG: I'm not sure this is possible) then show an alert to say
-					"You can not read this document" (BG: someone needs to review the text)
-					Else (user can read file)
-						If the doc is a pdf then open it with the pdf viewer
-						Else show a confirmation dialog to offer the user can download the file.
-							If user selects yes then download the file.
-							Else no op
-					 */
-					if(!doc.userCan.read) {
-						AlertService.success('You can not have access to read this document.');
-						return;
-					}
-					if(doc.internalMime === 'application/pdf') {
-						openPDF(doc);
-						return;
-					}
-					// $filter bytes is filterBytes in documents.client.controllers.js
-					var size = $filter('bytes')(doc.internalSize, 2);
-					var msg = 'Confirm download of: ' + doc.displayName + ' (' + size + ')';
-
-					var scope = {
-						titleText: doc.displayName,
-							confirmText: msg,
-							confirmItems: undefined,
-							okText: 'OK',
-							cancelText: 'Cancel',
-							onOk: downLoadFile,
-							onCancel: cancelDownload,
-							okArgs: doc
-					};
-					ConfirmService.confirmDialog(scope);
-					return;
-
-					function downLoadFile(doc) {
-						var pdfURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
-						window.open(pdfURL, "_self");
-						return Promise.resolve(true);
-					}
-					function cancelDownload() {
-						return Promise.resolve();
-					}
-					function openPDF(doc){
-						var modalDocView = $modal.open({
-							resolve: {
-								pdfobject: { _id: doc._id }
-							},
-							templateUrl: 'modules/documents/client/views/partials/pdf-viewer.html',
-							controller: 'controllerModalPdfViewer',
-							controllerAs: 'pdfViewer',
-							windowClass: 'document-viewer-modal'
-						});
-						modalDocView.result.then(function () {}, function () {});
-					}
+					var pdfURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
+					window.open(pdfURL, "_blank");
 				};
 
 				self.checkDir = function(doc) {
@@ -256,7 +229,15 @@ angular.module('documents')
 					self.selectNode(doc.model.id);
 				};
 
-				self.selectNode = function (nodeId) {
+				self.gotoDoc = function(docID) {
+					Document.lookup(docID) //docID is an objectID
+					.then(function (doc) {
+						self.selectNode(doc.directoryID, docID);
+					});
+				};
+
+				// Select folder based on tree id (directoryID). If docID is present then select this doc.
+				self.selectNode = function (nodeId, docID) {
 					self.busy = true;
 					var theNode = self.rootNode.first(function (n) {
 						return n.model.id === nodeId;
@@ -267,52 +248,95 @@ angular.module('documents')
 
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
 					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
-					self.currentPath = theNode.getPath() || [];
+					//self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
 					self.currentFiles = [];
 					self.currentDirs = [];
 
+					var pathArray = theNode.getPath();
+					_.each(pathArray, function (elem) {
+						if (elem.model.id > 1) { //bail the root node cus we don't need to attatch the folderObj to it
+							if (!elem.model.hasOwnProperty('folderObj')) { //trying to reduce the amount of API calls only by checking if node model does not have folderObj
+								FolderModel.lookup($scope.project._id, elem.model.id)
+								.then(function (folder) {
+									elem.model.folderObj = folder;
+								});
+							}
+						}
+					});
+					self.currentPath = pathArray || [];
+
+
 					//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
 					DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
-						.then(
-							function (result) {
-								//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
+					.then(
+						function (result) {
+							//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
 
-								self.unsortedFiles = _.map(result.data, function(f) {
-									// making sure that the displayName is set...
-									if (_.isEmpty(f.displayName)) {
-										f.displayName = f.documentFileName || f.internalOriginalName;
+							self.unsortedFiles = _.map(result.data, function(f) {
+								// making sure that the displayName is set...
+								if (_.isEmpty(f.displayName)) {
+									f.displayName = f.documentFileName || f.internalOriginalName;
+								}
+								if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
+									var od = JSON.parse(f.oldData);
+									//console.log(od);
+									try {
+										f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
+									} catch(ex) {
+										console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
 									}
-									if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
-										var od = JSON.parse(f.oldData);
-										//console.log(od);
-										try {
-											f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
-										} catch(ex) {
-											console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
-										}
+								}
+								return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
+							});
+
+							self.unsortedDirs = _.map(self.currentNode.children, function (n) {
+								return _.extend(n,{selected: (_.find(self.checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
+							});
+
+							self.applySort();
+
+							if (docID) {
+								// search in the folder's document list to locate the target document
+								_.each(self.unsortedFiles, function(doc) {
+									if (doc._id === docID) {
+										self.selectFile(doc);
+										return;
 									}
-									return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
 								});
-
-								self.unsortedDirs = _.map(self.currentNode.children, function (n) {
-									return _.extend(n,{selected: (_.find(self.checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
-								});
-
-								self.applySort();
-								// since we loaded this, make it the selected node
+							} else {
+								// otherwise selected node (folder)
 								self.selectedNode = self.currentNode;
-
-								// see what is currently checked
-								self.syncCheckedItems();
-								self.busy = false;
-							},
-							function (error) {
-								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
-								self.busy = false;
 							}
-						);
+
+							// see what is currently checked
+							self.syncCheckedItems();
+							self.busy = false;
+						},
+						function (error) {
+							$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
+							self.busy = false;
+						}
+					).then(function () {
+						// Go through each of the currently available folders in view, and attach the object
+						// to the model dynamically so that the permissions directive will work by using the
+						// correct x-object=folderObject instead of a doc.
+						FolderModel.lookupForProjectIn($scope.project._id, self.currentNode.model.id)
+						.then(function (folder) {
+							_.each(folder, function (fs) {
+								// We do breadth-first because we like to talk to our neighbours before moving
+								// onto the next level (where we bail for performance reasons).
+								theNode.walk({strategy: 'breadth'}, function (n) {
+									if (n.model.id === fs.directoryID) {
+										n.model.folderObj = fs;
+										return false;
+									}
+								});
+							});
+							$scope.$apply();
+						});
+					});
 				};
 
 				self.syncCheckedItems = function(doc) {
@@ -369,14 +393,26 @@ angular.module('documents')
 				self.deleteDir = function(doc) {
 					self.busy = true;
 					return DocumentMgrService.removeDirectory($scope.project, doc)
-						.then(function(result) {
+						.then(function (result) {
 							$scope.project.directoryStructure = result.data;
+							$scope.$broadcast('documentMgrRefreshNode', {directoryStructure: result.data});
 							self.busy = false;
 							AlertService.success('The selected folder was deleted.');
-						}, function(error) {
-							$log.error('DocumentMgrService.removeDirectory error: ', JSON.stringify(error));
+						}, function(docs) {
+							var msg = "";
+							var theDocs = [];
+							if (docs.data.message && docs.data.message[0] && docs.data.message[0].documentFileName) {
+								_.each(docs.data.message, function (d) {
+									theDocs.push(d.documentFileName);
+								});
+								msg = 'This action cannot be completed as the following documents are in the folder: ' + theDocs + '.';
+							} else {
+								msg = "Could not delete folder, there are still files in the folder.";
+							}
+
+							$log.error('DocumentMgrService.removeDirectory error: ', msg);
 							self.busy = false;
-							AlertService.error('The selected folder could not be deleted.');
+							AlertService.error(msg);
 						});
 				};
 
@@ -439,6 +475,7 @@ angular.module('documents')
 									if (directoryStructure) {
 										//$log.debug('Setting the new directory structure...');
 										$scope.project.directoryStructure = directoryStructure;
+										$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
 									}
 									//$log.debug('Refreshing current directory...');
 									self.selectNode(self.currentNode.model.id);
@@ -531,6 +568,42 @@ angular.module('documents')
 						});
 				};
 
+				self.publishFolder = function(folder) {
+					self.busy = true;
+					return ProjectModel.publishDirectory($scope.project, folder.model.id)
+						.then(function (directoryStructure) {
+							$scope.project.directoryStructure = directoryStructure;
+							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+							AlertService.success(folder.model.name + ' folder successfully published.');
+						}, function () {
+							self.busy = false;
+							AlertService.error('The selected folder could not be published.');
+						});
+				};
+
+				self.unpublishFolder = function(folder) {
+					self.busy = true;
+					return ProjectModel.unpublishDirectory($scope.project, folder.model.id)
+						.then(function (directoryStructure) {
+							$scope.project.directoryStructure = directoryStructure;
+							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+							AlertService.success(folder.model.name + ' folder successfully un-published.');
+						}, function (docs) {
+							var theDocs = [];
+							var msg = "";
+							if (docs.message && docs.message[0] && docs.message[0].documentFileName) {
+								_.each(docs.message, function (d) {
+									theDocs.push(d.documentFileName);
+								});
+								msg = 'This action cannot be completed as the following documents are published: ' + theDocs + '.  Please unpublish each document and attempt your action again.';
+							} else {
+								msg = "Could complete operation.";
+							}
+							self.busy = false;
+							AlertService.error(msg);
+						});
+				};
+
 				self.publishFile = function(file) {
 					return self.publishFiles([file]);
 				};
@@ -618,6 +691,7 @@ angular.module('documents')
 										if (directoryStructure) {
 											//$log.debug('Setting the new directory structure...');
 											$scope.project.directoryStructure = directoryStructure;
+											$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
 										}
 										//$log.debug('select and refresh destination directory...');
 										self.selectNode(destination.model.id);
@@ -683,930 +757,18 @@ angular.module('documents')
 					self.selectNode(self.currentNode.model.id);
 				};
 
-				$scope.$on('documentMgrRefreshNode', function(event, args) {
-					//console.log('documentMgrRefreshNode...');
-					self.selectNode(self.currentNode.model.id);
-				});
-
-				// set it up at the root...
-				$scope.$watch(function (scope) {
-						return scope.project.directoryStructure;
-					},
-					function (data) {
-						//console.log('$watch directoryStructure...');
-						var node = self.currentNode || self.rootNode;
-						self.rootNode = tree.parse(data);
-						self.selectNode(node.model.id);
+				$scope.$on('documentMgrRefreshNode', function (event, args) {
+					console.log('documentMgrRefreshNode...', args.directoryStructure);
+					if (args.nodeId) {
+						// Refresh the node
+						self.selectNode(args.nodeId);
+					} else {
+						self.rootNode = tree.parse(args.directoryStructure);
+						self.selectNode(self.currentNode.model.id);
 					}
-				);
-
-				if (self.opendir) {
-					console.log("Going to directory:", self.opendir);
-					self.selectNode(self.opendir);
-				}
-
+				});
 			},
 			controllerAs: 'documentMgr'
-		};
-	}])
-	.directive('documentMgrAddFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'AlertService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, AlertService, TreeModel) {
-		return {
-			restrict: 'A',
-			scope: {
-				project: '=',
-				node: '='
-			},
-			link: function (scope, element, attrs) {
-				element.on('click', function () {
-					$modal.open({
-						animation: true,
-						templateUrl: 'modules/documents/client/views/document-manager-add.html',
-						resolve: {},
-						controllerAs: 'addFolder',
-						controller: function ($scope, $modalInstance) {
-							var self = this;
-
-							$scope.project = scope.project;
-							$scope.node = scope.node;
-
-							self.entryText = '';
-							self.title = "Add Folder to '" + $scope.node.model.name + "'";
-							if ($scope.node.model.name === 'ROOT') {
-								self.title = "Add Folder to '" + $scope.project.name + "'";
-							}
-
-							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
-							};
-
-							self.ok = function () {
-								DocumentMgrService.addDirectory($scope.project, $scope.node, self.entryText)
-									.then(
-										function (result) {
-											$modalInstance.close(result.data);
-										},
-										function (err) {
-											//$log.error('addDirectory error: ', JSON.stringify(err));
-											AlertService.error("Could not add folder");
-										}
-									);
-							};
-
-						}
-					}).result.then(function (data) {
-						scope.project.directoryStructure = data;
-						$rootScope.$broadcast('DOCUMENT_MGR_FOLDER_ADDED', {directoryStructure: data});
-					})
-						.catch(function (err) {
-							//$log.error(err);
-						});
-				});
-			}
-		};
-	}])
-	.directive('documentMgrRenameFolder', ['$rootScope', '$modal', '$log', '_', 'DocumentMgrService', 'AlertService', 'TreeModel', function ($rootScope, $modal, $log, _, DocumentMgrService, AlertService, TreeModel) {
-		return {
-			restrict: 'A',
-			scope: {
-				project: '=',
-				root: '=',
-				node: '='
-			},
-			link: function (scope, element, attrs) {
-				element.on('click', function () {
-					$modal.open({
-						animation: true,
-						size: 'lg',
-						templateUrl: 'modules/documents/client/views/document-manager-add.html',
-						resolve: {},
-						controllerAs: 'addFolder',
-						controller: function ($scope, $modalInstance) {
-							var self = this;
-
-							$scope.project = scope.project;
-							$scope.node = scope.node || scope.root;
-
-							self.entryText = '';
-							self.title = "Rename Folder '" + $scope.node.model.name + "'";
-							if ($scope.node.model.name === 'ROOT') {
-								$modalInstance.dismiss('cancel');
-							}
-
-							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
-							};
-
-							self.ok = function () {
-								DocumentMgrService.renameDirectory($scope.project, $scope.node, self.entryText)
-									.then(
-										function (result) {
-											$modalInstance.close(result.data);
-										},
-										function (err) {
-											//$log.error('renameDirectory error: ', JSON.stringify(err));
-											AlertService.error("Could not rename folder");
-										}
-									);
-							};
-
-						}
-					}).result.then(function (data) {
-						scope.project.directoryStructure = data;
-						$rootScope.$broadcast('DOCUMENT_MGR_FOLDER_RENAMED', {directoryStructure: data});
-					})
-						.catch(function (err) {
-							//$log.error(err);
-						});
-				});
-			}
-		};
-	}])
-	.directive('documentMgrUploadModal',['$rootScope', '$modal', '$log', '$timeout', '_', 'DocumentsUploadService', 'DocumentMgrService', function ($rootScope, $modal, $log, $timeout, _, DocumentsUploadService, DocumentMgrService){
-		return {
-			restrict: 'A',
-			scope: {
-				project: '=',
-				root: '=',
-				node: '=',
-				type: '=',
-				parentId: '='
-			},
-			link: function (scope, element, attrs) {
-				element.on('click', function () {
-					$modal.open({
-						animation: true,
-						size: 'lg',
-						templateUrl: 'modules/documents/client/views/document-manager-upload-modal.html',
-						resolve: {},
-						backdrop: 'static',
-						controllerAs: 'uploadModal',
-						controller: function ($rootScope, $scope, $modalInstance) {
-							var self = this;
-
-							$scope.uploadService = DocumentsUploadService;
-							$scope.uploadService.reset(); // just in case... want the upload service to be cleared
-
-							$scope.project = scope.project;
-							$scope.node = scope.node || scope.root;
-
-							self.rootNode = scope.root;
-							self.selectedNode = scope.node;
-							self.type = scope.type;
-							self.parentId = scope.parentId;
-
-							self.title = "Upload Files to '" + self.selectedNode.model.name + "'";
-							if (self.selectedNode.model.name === 'ROOT') {
-								self.title = "Upload Files to '" + $scope.project.name + "'";
-							}
-
-							var getTargetUrl = function(type) {
-								var t = type || 'project';
-								// determine URL for upload, default to project if none set.
-								if (t === 'comment' && self.parentId) {
-									return '/api/commentdocument/publiccomment/' + self.parentId + '/upload';
-								}
-								if (t === 'project' && $scope.project) {
-									return '/api/document/' + $scope.project._id + '/upload';
-								}
-							};
-
-							self.cancel = function () {
-								$scope.uploadService.reset();
-								$modalInstance.dismiss('cancel');
-							};
-
-							self.startUploads = function () {
-								DocumentsUploadService.startUploads(getTargetUrl(self.type), self.selectedNode.model.id, false, new Date());
-							};
-
-							$scope.$watch(function ($scope) {
-									return $scope.uploadService.actions.completed;
-								},
-								function (completed) {
-									if (completed) {
-										$rootScope.$broadcast('documentMgrRefreshNode', {nodeId: self.selectedNode.model.id});
-									}
-								}
-							);
-
-						}
-					}).result.then(function (data) {
-							//$log.debug(data);
-						})
-						.catch(function (err) {
-							//$log.error(err);
-						});
-				});
-			}
-		};
-
-	}])
-	.directive('documentMgrUpload', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'DocumentsUploadService', 'DocumentMgrService', 'Document', function ($rootScope, $timeout, $log, Upload, _, DocumentsUploadService) {
-		return {
-			restrict: 'E',
-			scope: {
-				project: '=',
-				root: '=',
-				node: '='
-			},
-			templateUrl: 'modules/documents/client/views/document-manager-upload.html',
-			controller: function ($rootScope, $scope, $timeout, $log, Upload, _) {
-				var self = this;
-
-				$scope.uploadService = DocumentsUploadService;
-
-				$scope.project = $scope.project;
-				$scope.node = $scope.node || $scope.root;
-
-				self.rootNode = $scope.root;
-				self.selectedNode = $scope.node;
-
-				$scope.$watch('files', function (newValue) {
-					if (newValue) {
-						_.each(newValue, function(file, idx) {
-							$scope.uploadService.addFile(file);
-						});
-					}
-				});
-
-			},
-			controllerAs: 'documentMgrUpload'
-		};
-	}])
-	.directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'DOCUMENT_TYPES', 'INSPECTION_REPORT_FOLLOWUP_TYPES', function ($rootScope, $modal, $log, _, moment, DocumentMgrService, TreeModel, DOCUMENT_TYPES, INSPECTION_REPORT_FOLLOWUP_TYPES) {
-		return {
-			restrict: 'A',
-			scope: {
-				project: '=',
-				doc: '=',
-				onUpdate: '='
-			},
-			link: function (scope, element, attrs) {
-				element.on('click', function () {
-					$modal.open({
-						animation: true,
-						templateUrl: 'modules/documents/client/views/document-manager-edit.html',
-						resolve: {
-							file: function(Document) {
-								return Document.getModel(scope.doc._id);
-							}
-						},
-						controllerAs: 'editFileProperties',
-						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, file) {
-							var self = this;
-							self.busy = true;
-
-							$scope.project = scope.project;
-							$scope.types = DOCUMENT_TYPES;
-							$scope.inspectionReportFollowupTypes = INSPECTION_REPORT_FOLLOWUP_TYPES;
-
-							$scope.dateOptions = {
-								showWeeks: false
-							};
-
-							$scope.originalName = file.displayName || file.documentFileName || file.internalOriginalName;
-							$scope.doc = file;
-							// any dates going to the datepicker need to be javascript Date objects...
-							$scope.doc.documentDate = _.isEmpty(file.documentDate) ? null : moment(file.documentDate).toDate();
-							$scope.datePicker = {
-								opened: false
-							};
-							$scope.dateOpen = function() {
-								$scope.datePicker.opened = true;
-							};
-							$scope.doc.dateUploaded = _.isEmpty(file.dateUploaded) ? moment.now() : moment(file.dateUploaded).toDate();
-							$scope.dateUploadedPicker = {
-								opened: false
-							};
-							$scope.dateUploadedOpen = function() {
-								$scope.dateUploadedPicker.opened = true;
-							};
-
-							$scope.$watch('doc.documentType',
-								function (data) {
-									if (data) {
-										switch(data) {
-											case 'Inspection Report':
-												if (!$scope.doc.inspectionReport) {
-													$scope.doc.inspectionReport = { inspectorInitials: null, followup: null };
-												}
-												break;
-											case 'Certificate':
-												if (!$scope.doc.certificate) {
-													$scope.doc.certificate = {};
-												}
-												break;
-											case 'Certificate Amendment':
-												if (!$scope.doc.certificateAmendment) {
-													$scope.doc.certificateAmendment = {};
-												}
-												break;
-											case 'Permit':
-												if (!$scope.doc.permit) {
-													$scope.doc.permit = {};
-												}
-												break;
-											case 'Permit Amendment':
-												if (!$scope.doc.permitAmendment) {
-													$scope.doc.permitAmendment = {};
-												}
-												break;
-											case 'Mine Manager Response':
-												if (!$scope.doc.mineManagerResponse) {
-													$scope.doc.mineManagerResponse = {};
-												}
-												break;
-											case 'Annual Report':
-												if (!$scope.doc.annualReport) {
-													$scope.doc.annualReport = {};
-												}
-												break;
-											case 'Annual Reclamation Report':
-												if (!$scope.doc.annualReclamationReport) {
-													$scope.doc.annualReclamationReport = {};
-												}
-												break;
-											case 'Dam Safety Inspection':
-												if (!$scope.doc.damSafetyInspection) {
-													$scope.doc.damSafetyInspection = {};
-												}
-												break;
-											default:
-												break;
-										}
-									}
-								}
-							);
-
-							$scope.validate = function() {
-								$scope.$broadcast('show-errors-check-validity', 'editFileForm');
-							};
-
-							self.canEdit = $scope.doc.userCan.write;
-
-							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
-							};
-
-							self.save = function (isValid) {
-								self.busy = true;
-								// should be valid here...
-								if (isValid) {
-									Document.save($scope.doc)
-										.then(function(result) {
-											// somewhere here we need to tell document manager to refresh it's document...
-											if (scope.onUpdate) {
-												scope.onUpdate(result);
-											}
-											self.busy = false;
-											$modalInstance.close(result);
-										}, function(error) {
-											console.log(error);
-											self.busy = false;
-										});
-								}
-							};
-							self.busy = false;
-						}
-					});
-				});
-			}
-		};
-	}])
-	.directive('documentMgrLink', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, TreeModel, ProjectModel, Document) {
-		return {
-			restrict: 'E',
-			scope: {
-				project: '=',
-				linkedFiles: '=',
-				publishedOnly: '='
-			},
-			templateUrl: 'modules/documents/client/views/document-manager-link.html',
-			controller: function ($scope, $log, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
-				var tree = new TreeModel();
-				var self = this;
-				self.busy = true;
-
-				$scope.authentication = Authentication;
-				$scope.project.directoryStructure = $scope.project.directoryStructure || {
-						id: 1,
-						lastId: 1,
-						name: 'ROOT'
-					};
-
-				// default sort is by name ascending...
-				self.sorting = {
-					column: 'name',
-					ascending: true
-				};
-
-				self.rootNode = tree.parse($scope.project.directoryStructure);
-				self.selectedNode = undefined;
-				self.currentNode = undefined;
-				self.currentPath = undefined;
-
-				self.allChecked = false;
-				self.checkedDirs = [];
-				self.checkedFiles = [];
-				self.lastChecked = {fileId: undefined, directoryID: undefined};
-
-				self.unsortedFiles = [];
-				self.unsortedDirs = [];
-
-				self.currentFiles = [];
-				self.currentDirs = [];
-
-				if (!$scope.linkedFiles) {
-					$scope.linkedFiles = [];
-				}
-
-				self.sortBy = function(column) {
-					//is this the current column?
-					if (self.sorting.column.toLowerCase() === column.toLowerCase()){
-						//so we reverse the order...
-						self.sorting.ascending = !self.sorting.ascending;
-					} else {
-						// changing column, set to ascending...
-						self.sorting.column = column.toLowerCase();
-						self.sorting.ascending = true;
-					}
-					self.applySort();
-				};
-
-				self.applySort = function() {
-					// sort ascending first...
-					self.currentFiles = _.sortBy(self.unsortedFiles, function(f) {
-						// more making sure that the displayName is set...
-						if (_.isEmpty(f.displayName)) {
-							f.displayName = f.documentFileName || f.internalOriginalName;
-						}
-
-						if (self.sorting.column === 'name') {
-							return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-						} else if (self.sorting.column === 'author') {
-							return _.isEmpty(f.documentAuthor) ? null : f.documentAuthor.toLowerCase();
-						} else if (self.sorting.column === 'type') {
-							return _.isEmpty(f.internalExt) ? null : f.internalExt.toLowerCase();
-						} else if (self.sorting.column === 'size') {
-							return _.isEmpty(f.internalExt) ? 0 : f.internalSize;
-						} else if (self.sorting.column === 'date') {
-							//date uploaded
-							return _.isEmpty(f.dateUploaded) ? 0 : f.dateUploaded;
-						} else if (self.sorting.column === 'pub') {
-							//is published...
-							return !f.isPublished;
-						}
-						// by name if none specified... or we incorrectly identified...
-						return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-					});
-
-					// directories always/only sorted by name
-					self.currentDirs = _.sortBy(self.unsortedDirs,function(d) {
-						if (_.isEmpty(d.model.name)) {
-							return null;
-						}
-						return d.model.name.toLowerCase();
-					});
-
-					if (!self.sorting.ascending) {
-						// and if we are not supposed to be ascending... then reverse it!
-						self.currentFiles = _(self.currentFiles).reverse().value();
-						if (self.sorting.column === 'name') {
-							// name is the only sort that applies to Directories.
-							// so if descending on name, then we need to reverse it.
-							self.currentDirs = _(self.currentDirs).reverse().value();
-						}
-					}
-				};
-
-				self.linkAll = function() {
-					_.each(self.currentFiles, function(o) {
-						o.selected = self.allChecked;
-						self.linkFile(o);
-					});
-				};
-				self.unlinkFile = function(doc) {
-					_.remove($scope.linkedFiles, function(o) { return o._id.toString() === doc._id.toString(); } );
-				};
-				self.linkFile = function(doc) {
-					// ADD/remove to the selected file list...
-					if (doc.selected) {
-						var f = _.find($scope.linkedFiles, function(o) { return o._id.toString() === doc._id.toString(); });
-						if (!f) {
-							$scope.linkedFiles.push(doc);
-						}
-					} else {
-						self.unlinkFile(doc);
-					}
-				};
-				self.selectFile = function(doc) {
-				};
-				self.checkDir = function(doc) {
-				};
-				self.selectDir = function(doc) {
-				};
-				self.openDir = function(doc) {
-					//double clicked a dir, open it up!
-					self.selectNode(doc.model.id);
-				};
-
-				self.selectNode = function (nodeId) {
-					self.busy = true;
-					var theNode = self.rootNode.first(function (n) {
-						return n.model.id === nodeId;
-					});
-					if (!theNode) {
-						theNode = self.rootNode;
-					}
-
-					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
-					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
-					self.currentPath = theNode.getPath() || [];
-					self.unsortedFiles = [];
-					self.unsortedDirs = [];
-					self.currentFiles = [];
-					self.currentDirs = [];
-
-					//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
-					DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
-						.then(
-							function (result) {
-								//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
-
-								self.unsortedFiles = _.map(result.data, function(f) {
-
-									// making sure that the displayName is set...
-									if (_.isEmpty(f.displayName)) {
-										f.displayName = f.documentFileName || f.internalOriginalName;
-									}
-									if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
-										var od = JSON.parse(f.oldData);
-										//console.log(od);
-										try {
-											f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
-										} catch(ex) {
-											console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
-										}
-									}
-									return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
-								});
-
-								if ($scope.publishedOnly === 'true') {
-									self.unsortedFiles = _.filter(self.unsortedFiles, function(o) { return o.isPublished; });
-								}
-
-								self.unsortedDirs = _.map(self.currentNode.children, function (n) {
-									return _.extend(n,{selected: (_.find(self.checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
-								});
-
-								self.applySort();
-								// since we loaded this, make it the selected node
-								self.selectedNode = self.currentNode;
-								self.busy = false;
-							},
-							function (error) {
-								$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
-								self.busy = false;
-							}
-						);
-				};
-
-				self.selectNode(self.rootNode.model.id);
-
-			},
-			controllerAs: 'documentMgr'
-		};
-	}])
-	.directive('documentMgrLinkModal',['$rootScope', '$modal', '$log', '$timeout', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', function ($rootScope, $modal, $log, $timeout, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document){
-		return {
-			restrict: 'A',
-			scope: {
-				project: '=',
-				target: '=',
-				targetName: '=',
-				publishedOnly: '=',
-				onOk: '='
-			},
-			link: function (scope, element, attrs) {
-				element.on('click', function () {
-					$modal.open({
-						animation: true,
-						size: 'lg',
-						windowClass: 'fb-browser-modal',
-						templateUrl: 'modules/documents/client/views/document-manager-link-modal.html',
-						resolve: {},
-						controllerAs: 'linkModal',
-						controller: function ($rootScope, $scope, $modalInstance) {
-							var self = this;
-
-							$scope.project = scope.project;
-							$scope.authentication = Authentication;
-
-							self.title = "Link Documents to '" + $scope.project.name + "'";
-							if (!_.isEmpty(scope.targetName)) {
-								self.title = "Link Documents to '" + scope.targetName + "'";
-							}
-
-							self.linkedFiles = angular.copy(scope.target || []);
-							self.publishedOnly = scope.publishedOnly;
-
-							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
-							};
-
-							self.ok = function () {
-								// return the data in the selected list...
-								$modalInstance.close(self.linkedFiles);
-							};
-
-						}
-					}).result.then(function (data) {
-							$log.debug(data);
-							// ok, pass data back to the caller....
-							if (scope.target) {
-								// if they set the target collection... update it.
-								scope.target = data;
-							}
-							if (scope.onOk) {
-								//if they set an OK handler, call it.
-								scope.onOk(data);
-							}
-						})
-						.catch(function (err) {
-							//$log.error(err);
-						});
-				});
-			}
-		};
-
-	}])
-	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', function ($rootScope, $modal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
-		return {
-			restrict: 'A',
-			scope: {
-				project: '=',
-				root: '=',
-				node: '=',
-				moveSelected: '='
-			},
-			link: function (scope, element, attrs) {
-				element.on('click', function () {
-					$modal.open({
-						animation: true,
-						size: 'lg',
-						windowClass: 'fb-browser-modal',
-						templateUrl: 'modules/documents/client/views/document-manager-move.html',
-						resolve: {},
-						controllerAs: 'moveDlg',
-						controller: function ($rootScope, $scope, $modalInstance) {
-							var self = this;
-							var tree = new TreeModel();
-
-							self.view = 'select'; // select or mvoe
-							self.busy = false;
-
-							$scope.project = scope.project;
-							$scope.node = scope.node || scope.root;
-							$scope.authentication = Authentication;
-
-							$scope.moveSelected = scope.moveSelected;
-
-
-							self.titleText = scope.titleText || 'Move files and folders';
-							self.title = self.titleText;
-
-							// default sort is by name ascending...
-							self.sorting = {
-								column: 'name',
-								ascending: true
-							};
-
-							self.rootNode = tree.parse($scope.project.directoryStructure);
-							self.selectedNode = undefined;
-							self.currentNode = undefined;
-							self.currentPath = undefined;
-							self.selectedName = undefined;
-
-							self.allChecked = false;
-							self.checkedDirs = [];
-							self.checkedFiles = [];
-							self.lastChecked = {fileId: undefined, directoryID: undefined};
-
-							self.unsortedFiles = [];
-							self.unsortedDirs = [];
-
-							self.currentFiles = [];
-							self.currentDirs = [];
-
-							self.sortBy = function (column) {
-								//is this the current column?
-								if (self.sorting.column.toLowerCase() === column.toLowerCase()) {
-									//so we reverse the order...
-									self.sorting.ascending = !self.sorting.ascending;
-								} else {
-									// changing column, set to ascending...
-									self.sorting.column = column.toLowerCase();
-									self.sorting.ascending = true;
-								}
-								self.applySort();
-							};
-
-							self.applySort = function () {
-								// sort ascending first...
-								self.currentFiles = _.sortBy(self.unsortedFiles, function (f) {
-									// more making sure that the displayName is set...
-									if (_.isEmpty(f.displayName)) {
-										f.displayName = f.documentFileName || f.internalOriginalName;
-									}
-
-									if (self.sorting.column === 'name') {
-										return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-									} else if (self.sorting.column === 'author') {
-										return _.isEmpty(f.documentAuthor) ? null : f.documentAuthor.toLowerCase();
-									} else if (self.sorting.column === 'type') {
-										return _.isEmpty(f.internalExt) ? null : f.internalExt.toLowerCase();
-									} else if (self.sorting.column === 'size') {
-										return _.isEmpty(f.internalExt) ? 0 : f.internalSize;
-									} else if (self.sorting.column === 'date') {
-										//date uploaded
-										return _.isEmpty(f.dateUploaded) ? 0 : f.dateUploaded;
-									} else if (self.sorting.column === 'pub') {
-										//is published...
-										return !f.isPublished;
-									}
-									// by name if none specified... or we incorrectly identified...
-									return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-								});
-
-								// directories always/only sorted by name
-								self.currentDirs = _.sortBy(self.unsortedDirs, function (d) {
-									if (_.isEmpty(d.model.name)) {
-										return null;
-									}
-									return d.model.name.toLowerCase();
-								});
-
-								if (!self.sorting.ascending) {
-									// and if we are not supposed to be ascending... then reverse it!
-									self.currentFiles = _(self.currentFiles).reverse().value();
-									if (self.sorting.column === 'name') {
-										// name is the only sort that applies to Directories.
-										// so if descending on name, then we need to reverse it.
-										self.currentDirs = _(self.currentDirs).reverse().value();
-									}
-								}
-							};
-
-							self.selectDir = function (doc) {
-								// selected a dir, make it the only item selected...
-								var checked = doc.selected;
-								_.each(self.currentDirs, function (o) {
-									o.selected = false;
-								});
-								_.each(self.currentFiles, function (o) {
-									o.selected = false;
-								});
-								doc.selected = !checked;
-							};
-
-							self.openDir = function (doc) {
-								// double clicked a dir, open it up!
-								// if it's not selected...
-								var sourceDir = _.find($scope.moveSelected.moveableFolders, function (o) {
-									return o.model.id === doc.model.id;
-								});
-								if (!sourceDir) {
-									self.selectNode(doc.model.id);
-								}
-							};
-
-							self.selectNode = function (nodeId) {
-								self.busy = true;
-								var theNode = self.rootNode.first(function (n) {
-									return n.model.id === nodeId;
-								});
-								if (!theNode) {
-									theNode = self.rootNode;
-								}
-
-								self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
-								self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
-								self.currentPath = theNode.getPath() || [];
-								self.unsortedFiles = [];
-								self.unsortedDirs = [];
-								self.currentFiles = [];
-								self.currentDirs = [];
-
-								//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
-								DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
-									.then(
-										function (result) {
-											//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
-
-											self.unsortedFiles = _.map(result.data, function (f) {
-												// making sure that the displayName is set...
-												if (_.isEmpty(f.displayName)) {
-													f.displayName = f.documentFileName || f.internalOriginalName;
-												}
-												if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
-													var od = JSON.parse(f.oldData);
-													//console.log(od);
-													try {
-														f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
-													} catch (ex) {
-														console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
-													}
-												}
-												return _.extend(f, {
-													selected: (_.find(self.checkedFiles, function (d) {
-														return d._id.toString() === f._id.toString();
-													}) !== undefined), type: 'File', disabled: true
-												});
-											});
-
-											self.unsortedDirs = _.map(self.currentNode.children, function (n) {
-												var isSourceDir, isCheckedDir = false;
-												var sourceDir = _.find($scope.moveSelected.moveableFolders, function (d) {
-													return d.model.id === n.model.id;
-												});
-												if (sourceDir) {
-													isSourceDir = true;
-												}
-												var checkedDir = _.find(self.checkedDirs, function (d) {
-													return d.model.id === n.model.id;
-												});
-												if (checkedDir) {
-													isCheckedDir = true;
-												}
-
-												return _.extend(n, {
-													selected: isCheckedDir,
-													sourceDir: isSourceDir,
-													type: 'Directory'
-												});
-											});
-
-											self.applySort();
-											// since we loaded this, make it the selected node
-											self.selectedNode = self.currentNode;
-											self.selectedName = self.selectedNode.model.name === 'ROOT' ? $scope.project.name : self.selectedNode.model.name;
-											self.title = self.titleText + " to '" + self.selectedName + "'";
-
-											self.busy = false;
-										},
-										function (error) {
-											$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
-											self.busy = false;
-										}
-									);
-							};
-
-
-							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
-							};
-
-							self.select = function () {
-								self.view = 'move';
-							};
-
-							self.back = function () {
-								self.view = 'select';
-							};
-
-							self.move = function () {
-								// call back into the main document manager and get it to do the moving etc...
-								$scope.moveSelected.ok(self.selectedNode)
-									.then(function (ok) {
-											$modalInstance.close(self.selectedNode);
-										},
-										function (err) {
-										});
-							};
-
-							// initialize the view
-							self.selectNode($scope.node.model.id);
-
-							// need this for add new folder...
-							$scope.$watch(function (scope) {
-									return scope.project.directoryStructure;
-								},
-								function (data) {
-									var node = self.currentNode || self.rootNode;
-									self.rootNode = tree.parse(data);
-									self.selectNode(node.model.id);
-								}
-							);
-						}
-					}).result
-						.then(function (data) {
-							//$log.debug(data);
-						})
-						.catch(function (err) {
-							//$log.error(err);
-						});
-				});
-			}
 		};
 	}])
 ;

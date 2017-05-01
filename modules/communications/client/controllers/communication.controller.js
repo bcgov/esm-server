@@ -2,7 +2,7 @@
 
 angular
 	.module('communications', [])
-	.controller('EditCommunicationController', ['$scope', '$state', '$modal', 'Authentication', 'NgTableParams',  '_', 'CommunicationModel', 'project', 'communication', 'mode', function EditCommunicationController($scope, $state, $modal, Authentication, NgTableParams,  _, CommunicationModel, project, communication, mode) {
+	.controller('EditCommunicationController', ['$scope', '$state', '$modal', 'AlertService', 'Authentication', 'NgTableParams',  '_', 'CommunicationModel', 'project', 'communication', 'mode', function EditCommunicationController($scope, $state, $modal, AlertService, Authentication, NgTableParams,  _, CommunicationModel, project, communication, mode) {
 		$scope.project = project;
 		$scope.authentication = Authentication;
 		$scope.mode = mode;
@@ -100,7 +100,12 @@ angular
 			var theDocuments = _.forEach($scope.documents, function(o) { return o._id; });
 			self.communication.documents = angular.copy(theDocuments);
 			// create a recipient list...
-			self.communication.recipients = angular.copy($scope.recipients);
+			self.communication.recipients = [];
+			_.each($scope.recipients, function(r) {
+				// recipients mgr may have added some extra fields we don't store...
+				var arrr = _.omit(angular.copy(r), ['firstName', 'lastName']);
+				self.communication.recipients.push(arrr);
+			});
 
 			var xformEmail = transformTemplate();
 			self.communication.subject = xformEmail.subject;
@@ -272,6 +277,10 @@ angular
 		};
 
 		var doSend = function(communication) {
+			if (communication.recipients.length === 0) {
+				AlertService.error('Must have at least one recipient to send.');
+				return;
+			}
 			var modalDocView = $modal.open({
 				animation: true,
 				templateUrl: 'modules/communications/client/views/confirm-send.html',
@@ -319,7 +328,10 @@ angular
 			if (mode === 'create') {
 				CommunicationModel.add(self.communication)
 					.then (function (res) {
-						$scope.showSuccess('"'+ self.communication.name +'"' + ' was saved successfully', goToEdit(res), 'Save Successful');
+						function editWithResult() {
+							goToEdit(res);
+						}
+						$scope.showSuccess('"'+ self.communication.name +'"' + ' was saved successfully', editWithResult, 'Save Successful');
 					})
 					.catch (function (err) {
 						$scope.showError('"'+ self.communication.name +'"' + ' was not saved.', [], goNowhere, 'Save Error');

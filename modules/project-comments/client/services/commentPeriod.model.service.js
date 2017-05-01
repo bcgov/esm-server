@@ -78,6 +78,14 @@ angular.module('comment').factory ('CommentPeriodModel', function (ModelBase, _)
 		// -------------------------------------------------------------------------
 		unpublishCommentPeriod: function (commentPeriod) {
 			return this.put ('/api/unpublish/commentperiod/'+commentPeriod._id);
+		},
+		OpenStateEnum: {
+			// these must match the server side model calculateOpenState()
+			open: 'Open',
+			pending: 'Pending',
+			completed: 'Completed',
+			unpublished: 'Unpublished',
+			invalid: 'Invalid'
 		}
 	});
 	return new Class ();

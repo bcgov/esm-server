@@ -11,7 +11,7 @@ module.exports = function () {
 	var defaultsArray = [];
 
 	var defaultRoles = {
-		'project-system-admin' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
+		'project-system-admin' : ['assessment-ceaa', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
 	};
 	//
 	// default project permissions
@@ -183,6 +183,22 @@ module.exports = function () {
 		}
 	}));
 
+	defaultsArray.push(new Defaults({
+		context: 'project',
+		resource: 'folder',
+		level: 'global',
+		type: 'default-permissions',
+		defaults: {
+			roles: defaultRoles,
+			permissions: {
+				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'write' : ['assessment-admin', 'project-system-admin'],
+				'delete' : ['assessment-admin', 'project-system-admin'],
+				'publish' : ['assessment-admin', 'project-system-admin'],
+				'unPublish' : ['assessment-admin', 'project-system-admin']
+			}
+		}
+	}));
 
 	defaultsArray.push(new Defaults({
 		context: 'project',
@@ -368,6 +384,7 @@ module.exports = function () {
 				'createValuedComponent': ['sysadmin'],
 				'createContact': ['sysadmin'],
 				'manageRoles': ['sysadmin'],
+				'manageCodeLists': ['sysadmin', 'eao'],
 				'managePermissions': ['sysadmin'],
 				'addUsersToContext': ['sysadmin']
 			}
@@ -393,6 +410,7 @@ module.exports = function () {
 		'createContact',
 		'createProject',
 		'manageRoles',
+		'manageCodeLists',
 		'managePermissions',
 		'addUsersToContext'
 	];

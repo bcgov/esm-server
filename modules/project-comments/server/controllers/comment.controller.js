@@ -11,6 +11,7 @@ var DBModel   = require (path.resolve ('./modules/core/server/controllers/core.d
 var _         = require ('lodash');
 // var Roles = require (path.resolve('./modules/roles/server/controllers/role.controller'));
 var DocumentClass  = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
+var ProjectController  = require (path.resolve('./modules/projects/server/controllers/project.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'Comment',
@@ -115,6 +116,9 @@ module.exports = DBModel.extend ({
 		if (comment.valuedComponents.length === 0) {
 			comment.proponentStatus = 'Unclassified';
 		}
+		if (_.isEmpty(comment.proponentStatus)) {
+			comment.proponentStatus = 'Unclassified';
+		}
 		return new Promise (function (resolve, reject) {
 			//
 			// get the period
@@ -125,6 +129,20 @@ module.exports = DBModel.extend ({
 			//
 			.then (function (period) {
 				thePeriod = period;
+
+				// Ceaa logic
+				if (thePeriod.periodType === 'Joint' && (comment.eaoStatus === 'Rejected' || comment.eaoStatus === 'Published')) {
+					// Ensure it's added ot both read and vetting roles since it's going to be
+					// rejected, and we need to include that.
+					thePeriod.read = _.uniq(_.concat(thePeriod.read, 'assessment-ceaa'));
+					thePeriod.vettingRoles = _.uniq(_.concat(thePeriod.vettingRoles, 'assessment-ceaa'));
+				} else {
+					// Ensure it's removed.
+					_.remove(thePeriod.read, function (i) {
+						return (i === 'assessment-ceaa');
+					});
+				}
+
 				if (comment.eaoStatus === 'Published') {
 					//
 					// ROLES, public read
@@ -176,6 +194,18 @@ module.exports = DBModel.extend ({
 						// if the comment is published, but this document has been rejected, we don't want this document set to public read
 						commentPermissions.read = thePeriod.vettingRoles;
 					}
+
+					// Ceaa logic
+					if (thePeriod.periodType === 'Joint' && (comment.eaoStatus === 'Rejected' || comment.eaoStatus === 'Published')) {
+						// Add CEAA role to read when these conditions are met
+						commentPermissions.read = _.uniq(_.concat(commentPermissions.read, 'assessment-ceaa'));
+					} else {
+						// Ensure role is removed.
+						_.remove(commentPermissions.read, function (i) {
+							return (i === 'assessment-ceaa');
+						});
+					}
+
 					// publish or unpublish the doc, and set the doc's permissions...
 					return documentClass.publishForComment(doc, ('Published' === comment.eaoStatus && 'Published' === doc.eaoStatus), commentPermissions);
 				}, Promise.resolve())	;
@@ -250,6 +280,54 @@ module.exports = DBModel.extend ({
 			})
 			.catch (reject);
 		});
+	},
+	getCommentsForPeriod: function(periodId, eaoStatus, proponentStatus, isPublished,
+								   commentId, authorComment, location, pillar, topic,
+								   start, limit, sortby) {
+		var self = this;
+
+		var query = {period: periodId};
+		var filterByFields = {};
+
+		// base query...
+		if (isPublished !== undefined) {
+			query = _.extend({}, query, {isPublished: isPublished});
+		}
+		if (eaoStatus !== undefined) {
+			query = _.extend({}, query, {eaoStatus: eaoStatus});
+		}
+		if (proponentStatus !== undefined) {
+			if ('Classified' === proponentStatus) {
+				query = _.extend({}, query, {proponentStatus: 'Classified'});
+			} else {
+				query = _.extend({}, query, {proponentStatus: {$ne: 'Classified'} });
+			}
+		}
+
+		// filer by fields...
+		if (commentId !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {commentId: commentId});
+		}
+		if (authorComment !== undefined) {
+			var authorCommentRe = new RegExp(authorComment, "i");
+			filterByFields = _.extend({}, filterByFields, { $or: [{author: authorCommentRe}, {comment: authorCommentRe}] } );
+		}
+		if (location !== undefined) {
+			var locationRe = new RegExp(location, "i");
+			filterByFields = _.extend({}, filterByFields, {location: locationRe});
+		}
+		if (pillar !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {pillars: {$in: [pillar] }});
+		}
+		if (topic !== undefined) {
+			filterByFields = _.extend({}, filterByFields, {topics: {$in: [topic] }});
+		}
+
+		var fields = null;
+		var populate = null;
+		var userCan = false;
+
+		return self.paginate(query, filterByFields, start, limit, fields, populate, sortby, userCan);
 	},
 	// -------------------------------------------------------------------------
 	//
@@ -334,6 +412,132 @@ module.exports = DBModel.extend ({
 				})
 				.then (resolve, reject);
 		});
+	},
+	updatePermissionBatch: function(projectId, periodId, skip, limit) {
+		var self = this;
+		var projectCtrl = new ProjectController(this.opts);
+
+		return new Promise(function (resolve, reject) {
+			projectCtrl.findById(projectId)
+				.then(function(project) {
+					if (project && project.userCan.createCommentPeriod) {
+						// ok, let them find all the comments and update them... make them act like admin...
+						self.isAdmin = true;
+						self.user.roles.push('admin'); // need this so the documents controller in preprocessUpdate will act as admin
+						return self.getCommentsForPeriod(periodId, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, skip, limit, undefined);
+					} else {
+						// can't createCommentPeriod, so don't allow them to do this comment/document processing...
+						return [];
+					}
+				})
+				.then(function (results) {
+					var a = _.map(results.data, function (d) {
+						// update which will call preprocessUpdate where the logic really is...
+						return self.update(d, d);
+					});
+					return Promise.all(a);
+				})
+				.then(resolve, reject);
+		});
+	},
+	getPeriodPaginate: function (body) {
+		var self = this;
+		// base query / filter
+		var periodId;
+		var eaoStatus;
+		var proponentStatus;
+		var isPublished;
+
+		// filter By Fields...
+		var commentId;
+		var authorComment;
+		var location;
+		var pillar;
+		var topic;
+
+		// pagination stuff
+		var skip = 0;
+		var limit = 50;
+		var sortby = {};
+
+		if (body) {
+			// base query / filter
+			if (!_.isEmpty(body.periodId)) {
+				periodId = body.periodId;
+			}
+			if (!_.isEmpty(body.eaoStatus)) {
+				eaoStatus = body.eaoStatus;
+			}
+			if (!_.isEmpty(body.proponentStatus)) {
+				proponentStatus = body.proponentStatus;
+			}
+			if (body.isPublished !== undefined) {
+				isPublished = Boolean(body.isPublished);
+			}
+			// filter By Fields...
+			if (!_.isEmpty(body.commentId)) {
+				try {
+					commentId = parseInt(body.commentId);
+				} catch(e) {
+
+				}
+			}
+			if (!_.isEmpty(body.authorComment)) {
+				authorComment = body.authorComment;
+			}
+			if (!_.isEmpty(body.location)) {
+				location = body.location;
+			}
+			if (!_.isEmpty(body.pillar)) {
+				pillar = body.pillar;
+			}
+			if (!_.isEmpty(body.topic)) {
+				topic = body.topic;
+			}
+			// pagination stuff
+			try {
+				skip = parseInt(body.start);
+				limit = parseInt(body.limit);
+			} catch(e) {
+				console.log("Non-critical error:", e);
+			}
+			if (body.orderBy) {
+				sortby[body.orderBy] = body.reverse ? -1 : 1;
+			}
+		}
+
+		return self.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby);
+	},
+	getPeriodPermsSync: function (body) {
+		var self = this;
+		// base query / filter
+		var periodId;
+
+		// pagination stuff
+		var skip = 0;
+		var limit = 50;
+
+		var projectId; // will need this to check for createCommentPeriod permission
+
+		if (body) {
+			// base query / filter
+			if (!_.isEmpty(body.periodId)) {
+				periodId = body.periodId;
+			}
+			// pagination stuff
+			try {
+				skip = parseInt(body.start);
+				limit = parseInt(body.limit);
+			} catch(e) {
+				console.log('Invalid skip/start or limit value passed in (skip/start =',  body.start, ', limit = ', body.limit, '); using defaults: skip/start = ', skip, ', limit =', limit);
+			}
+
+			if (!_.isEmpty(body.projectId)) {
+				projectId = body.projectId;
+			}
+
+		}
+		return self.updatePermissionBatch(projectId, periodId, skip, limit);
 	}
 });
 

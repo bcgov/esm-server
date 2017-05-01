@@ -22,7 +22,7 @@
 					</div>
 					<div class="col-md-4 form-group" x-show-errors>
 						<label class="control-label">Group Type<em class="required">(Required)</em></label>
-						<input class="form-control" ng-model="s.group.type" id="type" name="type" title="Type" required/>
+						<select id="type" name="type" title="Type" class="form-control input-sm" ng-model="s.group.type" ng-options="item.value as item.display for item in types" ng-required="true"></select>
 					</div>
 				</div>
 				<div class="form-group no-margin">

@@ -91,11 +91,7 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
 				.then( function (periods) {
 					var isOpen = false;
 					_.each(periods, function (period) {
-						var today 	= new Date ();
-						var start 	= new Date (period.dateStarted);
-						var end 	= new Date (period.dateCompleted);
-						var open 	= start < today && today < end;
-						if (open) {
+						if (period.openState.state === CommentPeriodModel.OpenStateEnum.open) {
 							model.isOpen = true;
 							model.period = period;
 						}
@@ -254,7 +250,15 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 				projectList.phaseArray.push({id: item, title: item});
 			});
 			projs.pluck('openCommentPeriod').unique().value().map( function(item) {
-				projectList.openPCPArray.push({id: item, title: item ? 'Open' : ''});
+				if (item === "" || item === "Pending" || item === "Open" || item === "Completed") { //extract without unpublished commentPeriod
+						projectList.openPCPArray.push({id: item, title: item});
+				}
+			});
+			//avoid showing unpublished in the model in order to prevent it from appearing in home page
+			_.each(newValue, function(item){
+				if (item.openCommentPeriod === "Unpublished") {
+					item.openCommentPeriod = "";
+				}
 			});
 
 			if ($scope.$parent.filterObj) {
@@ -267,6 +271,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 					count: 10,
 				}, {dataset: newValue});
 			}
+
 		}
 	});
 

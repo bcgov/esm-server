@@ -17,19 +17,24 @@ function directiveUserEntry(_) {
 		scope: {
 			readonly: '=',
 			mode: '=',
+			enableNotes: '=',
 			enableSignature: '=',
 			enableDelete: '=',
 			enableSave: '=',
 			enableEdit: '=',
+			enableSetOrganization: '=',
+			showDisplayName: '=',
+			showUsername: '=',
 			org: '=',
 			user: '=',
+			groupsAndRoles: '=',
 			control: '=',
 			srefReturn: '='
 		},
-		controller: function ($scope, $attrs, $state, $filter, $modal, _, Authentication, SALUTATIONS, UserModel) {
-			$scope.salutations = SALUTATIONS;
+		controller: function ($scope, $attrs, $state, $filter, $modal, _, Authentication, CodeLists, UserModel) {
+			$scope.CodeLists = CodeLists;
+			$scope.salutations = $scope.readonly === true ? CodeLists.salutations.all : CodeLists.salutations.active;
 			$scope.internalControl = $scope.control || {};
-
 
 			var which = $scope.mode;
 
@@ -61,6 +66,10 @@ function directiveUserEntry(_) {
 
 			$scope.internalControl.clearOrganization = function () {
 				$scope.user.org = null;
+			};
+
+			$scope.internalControl.clearSignature = function () {
+				$scope.user.signature = null;
 			};
 
 			$scope.setPreferredContactMethod = function(value) {
@@ -184,6 +193,11 @@ function directiveUserEntry(_) {
 			$scope.internalControl.saveUser = function (isValid) {
 				if (!isValid) {
 					$scope.$broadcast('show-errors-check-validity', 'userForm');
+					$scope.$broadcast('show-errors-check-validity', 'detailsForm');
+					$scope.$broadcast('show-errors-check-validity', 'orgForm');
+					$scope.$broadcast('show-errors-check-validity', 'signatureForm');
+					$scope.$broadcast('show-errors-check-validity', 'notesForm');
+					$scope.$broadcast('show-errors-check-validity', 'projectsForm');
 					return false;
 				}
 				var p = (which === 'add') ? UserModel.add($scope.user) : UserModel.save($scope.user);
@@ -233,16 +247,24 @@ function directiveEditMyProfile($modal, _) {
 					resolve: {
 						user: function(UserModel, Authentication) {
 							return UserModel.lookup(Authentication.user._id);
+						},
+						groupsAndRoles: function(UserModel, Authentication) {
+							return UserModel.groupsAndRoles(Authentication.user._id);
 						}
 					},
-					controller: function($scope, $filter, $modalInstance, user) {
+					controller: function($scope, $filter, $modalInstance, user, groupsAndRoles) {
 						$scope.user = user;
+						$scope.groupsAndRoles = groupsAndRoles;
 						$scope.mode = 'edit';
 						$scope.readonly = false;
 						$scope.enableDelete = false;
 						$scope.enableSave = true;
 						$scope.enableEdit = false;
-						$scope.enableSignature = true;
+						$scope.enableSetOrganization = false;
+						$scope.enableSignature = false;
+						$scope.enableNotes = false;
+						$scope.showDisplayName = false;
+						$scope.showUsername = false;
 						//$scope.srefReturn = undefined;
 
 						var userEditControl = this;

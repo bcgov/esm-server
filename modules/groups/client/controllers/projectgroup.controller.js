@@ -2,12 +2,22 @@
 
 angular
 	.module('groups', [])
-	.controller('GroupEditController', ['$scope', '$state', '$modal', 'Authentication', 'NgTableParams',  '_', 'ProjectGroupModel', 'project', 'group', 'mode', function GroupEditController($scope, $state, $modal, Authentication, NgTableParams,  _, ProjectGroupModel, project, group, mode) {
+	.controller('GroupEditController', ['$scope', '$state', '$modal', 'Authentication', 'NgTableParams',  '_', 'ProjectGroupModel', 'project', 'group', 'mode', 'CodeLists', function GroupEditController($scope, $state, $modal, Authentication, NgTableParams,  _, ProjectGroupModel, project, group, mode, CodeLists) {
 		$scope.project = project;
 		$scope.authentication = Authentication;
 		$scope.mode = mode;
 		// disable the delete button if user doesn't have permission to delete
 		$scope.canDelete = $scope.mode === 'edit' && group.userCan.delete;
+
+		$scope.projectGroupTypes = CodeLists.projectGroupTypes;
+		$scope.types = CodeLists.projectGroupTypes.active;
+
+		if ($scope.mode === 'edit') {
+			// types is mandatory, so if we have an inactive type, we need to set to empty, force an update...
+			if (!$scope.projectGroupTypes.isActive(group.type)) {
+				group.type = '';
+			}
+		}
 
 		var self = this;
 		self.group = group;
@@ -15,6 +25,7 @@ angular
 
 		$scope.members = angular.copy(self.group.members) || [];
 		$scope.existingRecipients = [];
+		$scope.members = _.sortByOrder($scope.members, ['lastName', 'firstName']);
 		$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.members});
 
 		var populateGroup = function() {
@@ -111,6 +122,7 @@ angular
 						}
 					});
 					$scope.existingRecipients = [];
+					$scope.members = _.sortByOrder($scope.members, ['lastName', 'firstName']);
 					$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.members});
 				}
 			}
@@ -120,6 +132,7 @@ angular
 			var item =  _.find($scope.members, function(o) { return o.email === email; });
 			if (item) {
 				_.remove($scope.members, function(o) { return o.email === email; });
+				$scope.members = _.sortByOrder($scope.members, ['lastName', 'firstName']);
 				$scope.tableParams = new NgTableParams ({count:10}, {dataset: $scope.members});
 			}
 		};

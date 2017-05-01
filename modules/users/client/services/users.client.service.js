@@ -58,7 +58,11 @@ angular.module('users').factory ('UserModel', function (ModelBase, _) {
 			}, '').slice(0, -1);
 
 			return this.get('/api/toinvite/user?' + qs);
+		},
+		groupsAndRoles: function (userid) {
+			return this.get('/api/user/gnr/' + userid);
 		}
+
 	});
 	return new Class ();
 });

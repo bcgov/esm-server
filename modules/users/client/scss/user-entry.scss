@@ -1,0 +1,62 @@
+$section-border: 1px dotted #999;
+$section-header-bg: #fff;
+
+.user-entry-permissions {
+    .permission-list-container {
+        @include flexbox();
+        margin-bottom: 0;
+        padding: 2rem 1.5rem;
+
+        section {
+            @include flex(0 0 auto);
+            margin: 0;
+            padding: 0;
+            width: 50%;
+        }
+    }
+
+    section {
+        border: none;
+
+        h3 {
+            margin: 0;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            font-weight: bold;
+
+            .label {
+                margin-top: -0.4rem;
+                margin-right: 0.5rem;
+                vertical-align: top;
+                font-weight: bold;
+
+                &.label-default {
+                    opacity: 0.5;
+                }
+
+                &.label-primary {
+                    opacity: 1;
+                }
+            }
+        }
+
+        ul {
+            margin-top: 0.75rem;
+            margin-bottom: 0;
+            padding: 0;
+
+            li {
+                display: inline-block;
+
+                &:after {
+                    margin-right: 0.75rem;
+                    content: ",";
+                }
+
+                &:last-child:after {
+                    display: none;
+                }
+            }
+        }
+    }
+}

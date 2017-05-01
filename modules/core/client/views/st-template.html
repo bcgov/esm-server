@@ -1,0 +1,30 @@
+<div class="pgn-btns btn-group">
+	<button class="pg-prev btn btn-default btn-sm" ng-class="{disabled: currentPage == 1}" 
+		ng-click="selectPage(currentPage-1)" 
+		aria-label="Previous">&laquo;
+	</button>
+	<button class="btn btn-default btn-sm"
+		ng-show="pages.indexOf(1) == -1" 
+		ng-click="selectPage(1)">1
+	</button>
+	<button class="pg-prev btn btn-default btn-sm" 
+		ng-show="pages.indexOf(2) == -1" 
+		ng-click="selectPage(pages[0])">&lsaquo;
+	</button>
+	<button class="btn btn-default btn-sm" ng-class="{active: page==currentPage}" 
+		ng-repeat="page in pages" 
+		ng-click="selectPage(page)">{{page}}
+	</button>
+	<button class="pg-next btn btn-default btn-sm" 
+		ng-show="pages.indexOf(numPages -1) == -1" 
+		ng-click="selectPage(pages[pages.length - 1])">&rsaquo;
+	</button>
+	<button class="btn btn-default btn-sm" 
+		ng-show="pages.indexOf(numPages) == -1" 
+		ng-click="selectPage(numPages)">{{numPages}}
+	</button>
+	<button class="pg-next btn btn-default btn-sm" ng-class="{disabled: currentPage == numPages}" 
+		ng-click="selectPage(currentPage+1)" 
+		aria-label="Next">&raquo;
+	</button>
+</div>

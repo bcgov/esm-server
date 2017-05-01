@@ -31,4 +31,11 @@ module.exports = function (app) {
 				rs(ctrl.opts.userRoles);
 			});
 		}));
+
+	app.route('/api/user/gnr/:userid')
+		.all(policy('user'))
+		.get(routes.setAndRun(User, function (ctrl, req) {
+			return ctrl.groupsAndRoles(req.params.userid);
+		}));
+
 };

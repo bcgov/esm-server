@@ -55,7 +55,7 @@ module.exports = function (app) {
 	app.route('/api/project/byEpicProjectID/:epicprojectid')
 		.all(policy ('guest'))
 		.get(routes.setAndRun(Project, function (model, req) {
-			return model.one({epicProjectID: req.params.epicprojectid});
+			return model.one({epicProjectID: req.params.epicprojectid}, "-directoryStructure");
 		}));
 	//
 	// get all projects in certain statuses
@@ -101,9 +101,19 @@ module.exports = function (app) {
 		}));
 	app.route ('/api/project/bycode/:projectcode')
 		.all (policy ('guest'))
-		.get (routes.setAndRun(Project, function (model, req) {
-			return model.one ({code:req.params.projectcode});
-		}));
+		.get (function (req, res) {
+			routes.setSessionContext(req)
+				.then( function (opts) {
+					var ctrl = new Project(opts);
+					return ctrl.one ({code:req.params.projectcode}, "-directoryStructure");
+				})
+				.then(function(proj) {
+					if (!proj)  {
+						return res.status(404).send ({message: 'Project Not Found'});
+					}
+					return res.json (proj);
+				});
+		});
 	// app.route ('/api/')
 	// 	.all (policy ('user'))
 	// 	.get (function (req, res) {
@@ -118,7 +128,12 @@ module.exports = function (app) {
 
 	app.route ('/api/projects/mine')
 		.get (routes.setAndRun (Project, function (model, req) {
-			return model.mine ();
+			return model.mine ({}, "-directoryStructure");
+		}));
+
+	app.route ('/api/projects/proponent/:id')
+		.get (routes.setAndRun (Project, function (model, req) {
+			return model.forProponent (req.params.id);
 		}));
 
 
@@ -207,6 +222,16 @@ module.exports = function (app) {
 		.all (policy ('user'))
 		.put (routes.setAndRun (Project, function (model, req) {
 			return model.moveDirectory (req.Project, req.params.folderid, req.params.newparentid);
+		}));
+	app.route ('/api/project/:project/directory/publish/:folderid')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Project, function (model, req) {
+			return model.publishDirectory (req.Project, req.params.folderid);
+		}));
+	app.route ('/api/project/:project/directory/unpublish/:folderid')
+		.all (policy ('user'))
+		.put (routes.setAndRun (Project, function (model, req) {
+			return model.unPublishDirectory (req.Project, req.params.folderid);
 		}));
 	app.route ('/api/project/:project/directory/list')
 		.all (policy ('guest'))

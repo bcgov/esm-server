@@ -19,9 +19,9 @@ angular.module('users').config(['$stateProvider',
 						return UserModel.me ();
 					}
 				},
-				controller: function ($scope, $state, user, UserModel, $filter, SALUTATIONS) {
+				controller: function ($scope, $state, user, UserModel, CodeLists, $filter) {
 					$scope.user = user;
-					$scope.salutations = SALUTATIONS;
+					$scope.salutations = CodeLists.salutations.active;
 
 					var which = 'edit';
 					$scope.calculateName = function() {

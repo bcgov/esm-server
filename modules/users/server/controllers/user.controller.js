@@ -9,6 +9,7 @@ var _ = require('lodash');
 var DBModel = require(path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 
 var ProjectGroupController = require(path.resolve('./modules/groups/server/controllers/projectgroup.controller'));
+var ProjectController = require(path.resolve('./modules/projects/server/controllers/project.controller'));
 
 var mongoose = require ('mongoose');
 var Role  = mongoose.model ('_Role');
@@ -18,6 +19,7 @@ module.exports = DBModel.extend({
 	name: 'User',
 	plural: 'users',
 	populate: 'org',
+	sort: 'lastName firstName',
 
 	searchForUsersToInvite: function (projectId, name, email, org, groupId) {
 		//console.log('projectId = ', projectId);
@@ -231,5 +233,153 @@ module.exports = DBModel.extend({
 					}
 				);
 		});
+	},
+
+	groupsAndRoles: function(id) {
+		// get associated projects for user.
+		// can be through role or through a group.
+		var self = this;
+
+		var getUser = function(id) {
+			return self.findById(id);
+		};
+
+		var getSystemRoles = function () {
+			return new Promise(function (fulfill, reject) {
+				Role.find({ context: 'application', owner: 'sysadmin' })
+					.select ({context: 1, role: 1})
+					.sort('role')
+					.exec(function (error, data) {
+						if (error) {
+							reject(new Error(error));
+						} else if (!data) {
+							reject(new Error('user.getSystemRoles none found'));
+						} else {
+							fulfill(data);
+						}
+					});
+			});
+		};
+
+		var getGlobalProjectRoles = function() {
+			var Defaults = mongoose.model ('_Defaults');
+			return new Promise (function (resolve, reject) {
+				Defaults.findOne({resource: 'application', level: 'global', type : 'global-project-roles'}).exec()
+					.then (function(r) {
+						return r.defaults.roles;
+					})
+					.then (resolve,reject);
+			});
+		};
+
+		var getUserSystemRoles = function (username, systemRoles) {
+			return new Promise(function (fulfill, reject) {
+				Role.find({ user: username, context: 'application' })
+					.select ({context: 1, role: 1})
+					.sort('role')
+					.exec(function (error, data) {
+						if (error) {
+							reject(new Error(error));
+						} else if (!data) {
+							fulfill([]);
+						} else {
+							fulfill(data);
+						}
+					});
+			});
+		};
+
+		var getProjectRoles = function (username, systemRoles) {
+			return new Promise(function (fulfill, reject) {
+				Role.find({ user: username, context: {$ne: 'application'}, role: {$nin: systemRoles} })
+					.select ({context: 1, role: 1})
+					.sort('role')
+					.exec(function (error, data) {
+						if (error) {
+							reject(new Error(error));
+						} else if (!data) {
+							reject(new Error('user.projectRoles: Project IDs not found for username, no project roles assigned for: ' + username));
+						} else {
+							fulfill(data);
+						}
+					});
+			});
+		};
+
+		var getProjectGroups = function (id) {
+			var groupCtl = new ProjectGroupController(self.opts);
+			return groupCtl.findMany({members : {$in: [id]}}, 'name type project', 'name');
+		};
+
+		var getProjects = function (ids) {
+			var projectCtl = new ProjectController(self.opts);
+			return projectCtl.findMany({_id : {$in: ids}}, 'code name region status dateCompleted type isPublished', 'name');
+		};
+
+		var allSystemRoles, globalProjectRoles, systemRoles, user, userSystemRoles, projectRoles, projectGroups;
+        var projectIds = [];
+        return getSystemRoles()
+			.then(function(results) {
+				allSystemRoles = _.map(results, function (o) { return o.role; });
+				return getGlobalProjectRoles();
+			})
+			.then(function(results) {
+				globalProjectRoles = results || [];
+				systemRoles = _.difference(allSystemRoles, globalProjectRoles);
+				return getUser(id);
+			})
+			.then(function(result) {
+				user = result;
+				return getUserSystemRoles(user.username, allSystemRoles);
+			})
+			.then(function(results) {
+				userSystemRoles = results || [];
+				return getProjectRoles(user.username, allSystemRoles);
+			})
+			.then(function(results) {
+				projectRoles = results || [];
+				projectIds = _.uniq(_.map(projectRoles, function(o) { return o.context; }));
+				return getProjectGroups(id);
+			})
+			.then(function(results) {
+				projectGroups = results || [];
+				projectIds = _.concat(projectIds, _.map(projectGroups, function(o) { return o.project.toString(); }));
+				return getProjects(_.uniq(projectIds));
+			})
+			.then(function(results) {
+
+				// projects with groups and roles....
+				var _projects = [];
+				_.each(results, function(p) {
+					var groups = _.filter(projectGroups, function(o) { return o.project.toString() === p._id.toString(); });
+					var roles = _.filter(projectRoles, function(o) { return o.context === p._id.toString(); });
+
+					var item = JSON.parse(JSON.stringify(p));
+					item.groups = groups;
+					item.roles = roles;
+					_projects.push(item);
+				});
+
+				// system level roles and system managed project roles...
+				var _systemRoles = [];
+				var _globalProjectRoles = [];
+				var sysroles = _.uniq(_.map(userSystemRoles, function (o) { return o.role; }));
+				_.each(sysroles, function(r) {
+					var gpr = _.find(globalProjectRoles, function(o) { return o === r;});
+					if (gpr) {
+						_globalProjectRoles.push(r);
+					} else {
+						_systemRoles.push(r);
+					}
+				});
+
+				return {
+					systemRoles : _systemRoles,
+					globalProjectRoles: _globalProjectRoles,
+					projects: _projects
+				};
+			});
+
 	}
+
 });

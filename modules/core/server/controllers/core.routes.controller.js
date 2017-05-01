@@ -241,6 +241,30 @@ var setModel = function (Dbclass, name) {
 	};
 };
 exports.setModel = setModel;
+
+var setModelByQuery = function () {
+	return function (req, res, next) {
+		var name = req.query.collection;
+		var Dbclass;
+		var fields;
+		switch(name) {
+			case 'documents':
+				Dbclass = require (path.resolve('./modules/documents/server/controllers/core.document.controller.js'));
+				fields = ['description', 'displayName', 'keywords'];
+				break;
+		}
+		if (!Dbclass) {
+			return Promise.reject("Require collection name for search");
+		}
+		setSessionContext (req)
+			.then (function (opts) {
+				req.searchFields = fields;
+				req.model = new Dbclass (opts);
+				next ();
+			});
+	};
+};
+exports.setModelByQuery = setModelByQuery;
 // -------------------------------------------------------------------------
 //
 // this is a nice shorthard for working with the dbmodel set on the request
@@ -274,6 +298,17 @@ var setAndRun = function (Dbclass, f) {
 };
 exports.setAndRun = setAndRun;
 
+
+function searchMiddle(req, res, next) {
+	function workerFunction (model, searchFields, queryOptions) {
+		return model.search (searchFields, queryOptions);
+	}
+	setSessionContext (req)
+		.then (function (opts) {
+			runPromise (res, workerFunction (req.model, req.searchFields, req.query));
+		});
+}
+exports.searchMiddle = searchMiddle;
 
 var setContextAndRun = function (Dbclass, context, f) {
 	return function (req, res, next) {
@@ -323,9 +358,9 @@ exports.resetSessionContext = resetSessionContext;
 // -------------------------------------------------------------------------
 exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policymap) {
 	var r = {};
-	which = which || ['getall', 'get', 'post', 'put', 'delete', 'new', 'query'];
+	which = which || ['getall', 'get', 'post', 'put', 'delete', 'new', 'query', 'paginate'];
 	which.map (function (p) { r[p]=true; });
-	policymap = policymap || {all:'user',get:'guest'};
+	policymap = policymap || {all:'user',get:'guest',paginate:'guest'};
 	//
 	// middleware to auto-fetch parameter
 	//
@@ -349,6 +384,11 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 	//
 	// collection routes
 	//
+	if (r.paginate) app.route('/api/paginate/'+basename)
+		.all(policy(policymap))
+		.put (setAndRun (DBClass,function (model, req) {
+			return runPaginate (model, req.body);
+		}));
 	if (r.query) app.route ('/api/query/'+basename)
 		.all (policy (policymap))
 		.put (setAndRun (DBClass, function (model, req) {
@@ -361,12 +401,23 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 	if (r.getall) app.route ('/api/'+basename)
 		.all (policy (policymap))
 		.get  (setAndRun (DBClass, function (model, req) {
-			return model.list ();
+			return model.list ({}, "-directoryStructure");
 		}));
 	if (r.getall) app.route ('/api/write/'+basename)
 		.all (policy ({all:'user'}))
 		.get  (setAndRun (DBClass, function (model, req) {
 			return model.listwrite ();
+		}));
+	if (r.getall) app.route ('/api/sorted/'+basename)
+		.all (policy (policymap))
+		.put (setAndRun (DBClass, function (model, req) {
+			var sort = !_.isEmpty(req.body) ? req.body.sort : {};
+			return model.list ({}, "-directoryStructure", sort);
+		}))
+		.get  (setAndRun (DBClass, function (model, req) {
+			var s = JSON.parse(JSON.stringify(req.query));
+			var sort = s.sort || '';
+			return model.list ({}, "-directoryStructure", sort);
 		}));
 	if (r.post) app.route ('/api/'+basename)
 		.all (policy (policymap))
@@ -398,4 +449,49 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 		}));
 };
 
+function runPaginate(model, options) {
+	var query = {};
+	var filter = {};
+	var skip = 0;
+	var limit = 100;
+	var sortby = {};
 
+	// fields, populate, and userCan aren't specific to table params
+	var fields = null;
+	var populate = null;
+	var userCan = false;
+
+	if (options) {
+		if (options.filterBy) {
+			query = options.filterBy;
+		}
+		if (options.filterByFields) {
+			for (var key in options.filterByFields) {
+				if (options.filterByFields.hasOwnProperty(key)) {
+					filter[key] = options.filterByFields[key];
+					console.log(filter);
+				}
+			}
+		}
+		try {
+			limit = parseInt(options.limit);
+			skip = parseInt(options.start);
+		} catch(e) {
+
+		}
+		if (options.orderBy) {
+			sortby[options.orderBy] = options.reverse ? -1 : 1;
+		}
+		if (options.fields) {
+			fields = options.fields;
+		}
+		if (options.populate) {
+			populate = options.populate;
+		}
+		if (options.userCan) {
+			userCan = options.userCan;
+		}
+	}
+	//query, skip, limit, fields, population, sortby, userCan
+	return model.paginate (query, filter, skip, limit, fields, populate, sortby, userCan);
+}

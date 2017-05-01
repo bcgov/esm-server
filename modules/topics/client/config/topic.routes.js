@@ -19,7 +19,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 		template: '<ui-view></ui-view>',
 		resolve: {
 			topics: function ($stateParams, TopicModel) {
-				return TopicModel.getCollection ();
+				return TopicModel.getSorted ('name pillar type');
 			},
 			pillars: function (PILLARS) {
 				return PILLARS.map (function (e) {

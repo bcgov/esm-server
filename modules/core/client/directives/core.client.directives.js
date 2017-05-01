@@ -801,7 +801,8 @@ angular.module('core')
 		scope: {
 			context: '=',
 			current: '=',
-			public: '='
+			public: '=',
+			allowedRoles: '='
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
@@ -821,9 +822,20 @@ angular.module('core')
 						s.selected = angular.copy(scope.current);
 
 						var nonPublicRoles = allRoles;
+
 						if (!scope.public) {
 							nonPublicRoles = _.without(allRoles, 'public');
 						}
+
+						// are we limiting the roles?
+						// ESM-761: we are limiting vet and classify roles, so ensure it happens at this level too..
+						// Note, project-system-admin will not be added in the UI / Client, but will be added in the backend.
+						// Changes here need to sync with the server... it's enforced there.
+						if (scope.allowedRoles) {
+							var roles = scope.allowedRoles.split(",") || [];
+							nonPublicRoles = _.intersection(nonPublicRoles, roles);
+						}
+
 						// alpha sort the roles list...
 						var sortedRoles = _.sortBy(nonPublicRoles, function(r) { return r.toLowerCase(); });
 						s.allRoles = sortedRoles;

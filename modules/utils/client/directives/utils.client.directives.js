@@ -821,14 +821,26 @@ function directiveModalSelectItems($modal) {
 directiveModalDatePicker.$inject = ['$modal', '$rootScope', '$timeout'];
 /* @ngInject */
 function directiveModalDatePicker($modal, $rootScope, $timeout) {
-    var directive = {
-        restrict:'A',
-        scope: {
-        	selectedDate: '=',
-        	title: '@'
-        },
+	var directive = {
+		restrict: 'A',
+		scope: {
+			selectedDate: '=',
+			title: '@',
+			pickerEnabled: '=',
+			min: '=',
+			max: '='
+		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
+				/*
+				Setting ng-disabled on an element with the date picker modal does not disable the click
+				event. It only changes the cursor and ui to look disabled.  To control whether the date picker
+				is enabled use the x-picker-enabled attribute. Default to enabled if this attribute is not defined.
+				 */
+				if(scope.pickerEnabled !== undefined && !scope.pickerEnabled) {
+					console.log("Exit date picker");
+					return;
+				}
 				var modalAddComment = $modal.open({
 					animation: true,
 					templateUrl: 'modules/utils/client/views/partials/modal-date-picker.html',
@@ -836,12 +848,20 @@ function directiveModalDatePicker($modal, $rootScope, $timeout) {
 					controllerAs: 'modalDatePick',
 					size: 'md',
 					resolve: {
-			            	rChosenDate: function() {
-			            		return scope.selectedDate;
-	        				},
-	        				rTitle: function() {
-	        					return scope.title;
-	        				}
+						rChosenDate: function () {
+							return scope.selectedDate;
+						},
+						rTitle: function () {
+							return scope.title;
+						},
+						mindate: function () {
+							//start date selected in editPCP page datepicker
+							return scope.min;
+						},
+						maxdate: function () {
+							//end date selected in editPCP page datepicker
+							return scope.max;
+						}
 					}
 				});
 				modalAddComment.result.then(function (chosenDate) {

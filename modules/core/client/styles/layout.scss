@@ -17,7 +17,6 @@
     position: relative;
     width: 100%;
 
-
     .left-panel {
         position: absolute;
         z-index: 5;
@@ -65,10 +64,6 @@
 }
 
 @media (min-width: 1020px) {
-    .mobile-nav-btn {
-        display: none;
-    }
-
     .app-main {
         @include flexbox();
         flex-direction: row;

@@ -112,7 +112,7 @@
 				ng-if="canDelete"
 				ng-click="delete()"><span class="glyphicon glyphicon-remove"></span><span>Delete</span></button>
 			<button class="btn btn-primary btn-sm"
-				ng-click="save()">Save</button>
+				ng-click="save(vcAddForm.$valid)">Save</button>
 			<button class="btn btn-default btn-sm"
 				ng-if="canUnpublish"
 				ng-click="unpublish()"><span class="glyphicon glyphicon-minus-sign"></span><span>Unpublish</span></button>

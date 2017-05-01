@@ -45,7 +45,7 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
                     size: 'lg',
                     resolve: {
                         items: function (EmailTemplateModel) {
-                            return EmailTemplateModel.all ();
+                            return EmailTemplateModel.getSorted ('group name');
                         }
                     },
 					controller: function ($scope, $modalInstance, items) {

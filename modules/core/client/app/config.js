@@ -18,11 +18,11 @@ var ApplicationConfiguration = (function () {
     'angularMoment',
     'ui.bootstrap.datepicker',
     'ui.bootstrap.timepicker',
-    'mwl.confirm',
     'ngFileUpload',
     'duScroll',
     'ngPDFViewer',
-    'ngCookies'
+    'ngCookies',
+		'smart-table'
   ];
 
 

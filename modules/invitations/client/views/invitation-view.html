@@ -23,36 +23,30 @@
 	</ul>
 
 	<div class="tab-pane active" ng-show="form.curTab === 'Update Details'" ng-form="detailsForm">
-
-		<div class="panel panel-default">
-			<div class="panel-body detail-panel">
-				<div class="detail-row">
-					<label>Invitation Name</label>
-					<span class="value">{{s.communication.name}}</span>
-				</div>
-				<div class="detail-row">
-					<label>Subject</label>
-					<span class="value">{{s.communication.templateSubject}}</span>
-				</div>
-				<div class="detail-row">
-					<label>Message</label>
-					<pre class="value wrap-text" ng-bind-html="s.communication.templateContent"></pre>
-				</div>
-			</div>
+		<div class="detail-row">
+			<label>Invitation Name</label>
+			<span class="value">{{s.communication.name}}</span>
 		</div>
-
+		<div class="detail-row">
+			<label>Subject</label>
+			<span class="value">{{s.communication.templateSubject}}</span>
+		</div>
+		<div class="detail-row">
+			<label>Message</label>
+			<pre class="value wrap-text" ng-bind-html="s.communication.templateContent"></pre>
+		</div>
 	</div>
 
 	<div class="tab-pane" ng-show="form.curTab === 'recipients'" ng-form="recipientsForm">
 		<x-recipients-mgr
-				x-project="project"
-				x-recipients="recipients"
-				x-mode="'view'"
-				x-enable-add-new="false"
-				x-enable-add-existing="false"
-				x-show-cc="false"
-				x-show-bcc="false"
-		        x-show-mail="false">
+			x-project="project"
+			x-recipients="recipients"
+			x-mode="'view'"
+			x-enable-add-new="false"
+			x-enable-add-existing="false"
+			x-show-cc="false"
+			x-show-bcc="false"
+			x-show-mail="false">
 	</div>
-
+	
 </div>

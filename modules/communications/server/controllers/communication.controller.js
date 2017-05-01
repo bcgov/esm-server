@@ -55,29 +55,40 @@ module.exports = DBModel.extend ({
 
 	deliver: function(model) {
 		var emailList = _.filter(model.recipients, function(o) { return o.viaEmail; });
-		var recipients = [];
+		var recipients = [], to = [], cc = [], bcc = [];
 		_.forEach(emailList, function(o) {
-			recipients.push({name: o.displayName, address: o.email});
+			var recip = {name: o.displayName, address: o.email};
+			recipients.push(recip);
+			switch(o.type) {
+				case 'cc':
+					cc.push(recip);
+					break;
+				case 'bcc':
+					bcc.push(recip);
+					break;
+				default:
+					to.push(recip);
+			}
 		});
 
 		if (model.personalized) {
 			return EmailController.sendEach(model.subject, '', model.content, recipients).
-				then(function(res) {
-				    model.status = 'Sent';
-					model.dateSent = Date.now();
-					return model.save();
-				}).catch(function(err) {
-					//console.log(JSON.stringify(err));
-				});
+			then(function(res) {
+				model.status = 'Sent';
+				model.dateSent = Date.now();
+				return model.save();
+			}).catch(function(err) {
+				//console.log(JSON.stringify(err));
+			});
 		} else {
-			return EmailController.sendAll(model.subject, '', model.content, [], [], recipients).
-				then(function(res) {
-					model.status = 'Sent';
-					model.dateSent = Date.now();
-					return model.save();
-				}).catch(function(err) {
-					//console.log(JSON.stringify(err));
-				});
+			return EmailController.sendAll(model.subject, '', model.content, to, cc, bcc).
+			then(function(res) {
+				model.status = 'Sent';
+				model.dateSent = Date.now();
+				return model.save();
+			}).catch(function(err) {
+				//console.log(JSON.stringify(err));
+			});
 		}
 	},
 

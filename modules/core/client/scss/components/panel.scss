@@ -1,0 +1,27 @@
+$panel-border: 1px dotted #999;
+$panel-header-bg: #fff;
+
+.panel {
+    border: none;
+}
+
+.panel-default {
+    > .panel-heading {
+        @include flexbox();
+        padding: 0;
+        border-bottom: none;
+        background-color: $panel-header-bg;
+
+        h2 {
+            @include flex(1 1 auto);
+            margin: 0;
+            padding: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .actions {
+            @include flex(0 0 auto);
+            padding: 1rem;
+        }
+    }
+}

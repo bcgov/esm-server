@@ -1,0 +1,53 @@
+$accordion-panel-border: 1px solid #EEE;
+
+
+.panel-default.accordion > .panel-heading {
+	padding: 0;
+}
+
+.accordion {
+	.panel-heading {
+		a {
+			display: block;
+			padding: 1rem 1.5rem;
+			font-size: 1.8rem;
+			font-weight: bold;
+			color: $app-base-color;
+			
+			.glyphicon {
+				margin-top: 0.4rem;
+				margin-right: 1.25rem;
+				font-size: 1.2rem;
+			}
+			
+			.glyphicon-triangle-right {
+				display: none;
+			}
+			
+			.glyphicon-triangle-bottom {
+				display: inline-block;
+			}
+
+			&:hover,
+			&:focus {
+				text-decoration: none;
+			}
+		}
+		
+		a.collapsed {
+			.glyphicon-triangle-right {
+				display: inline-block;
+			}
+			
+			.glyphicon-triangle-bottom {
+				display: none;
+			}
+		}
+
+		+ .panel-collapse {
+			> .panel-body {
+				border-top: $accordion-panel-border;
+			}
+		}
+	}
+}

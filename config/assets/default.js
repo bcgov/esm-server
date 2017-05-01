@@ -26,7 +26,6 @@ module.exports = {
 				'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
 				'public/lib/angular-file-upload/angular-file-upload.js',
 				'public/lib/ng-file-upload/ng-file-upload.js',
-				'public/lib/angular-sanitize/angular-sanitize.js',
 				'public/lib/angular-toastr/dist/angular-toastr.js',
 				'public/lib/angular-toastr/dist/angular-toastr.tpls.js',
 				'public/lib/angular-bootstrap-confirm/dist/angular-bootstrap-confirm.min.js',
@@ -48,7 +47,8 @@ module.exports = {
 				'public/lib/ng-pdfviewer/pdf.js',
 				'public/lib/ng-pdfviewer/compatibility.js',
 				'public/readable-range.js',
-				'public/lib/tree-model-bower/dist/TreeModel-min.js'
+				'public/lib/tree-model-bower/dist/TreeModel-min.js',
+				'public/lib/angular-smart-table/dist/smart-table.js'
 			],
 			tests: ['public/lib/angular-mocks/angular-mocks.js']
 		},

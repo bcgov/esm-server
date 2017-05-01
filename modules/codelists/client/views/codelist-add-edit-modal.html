@@ -1,0 +1,37 @@
+<form class="code-list-edit-value-form" name="fieldForm" ng-submit="vm.submit(fieldForm.$valid)" novalidate>
+
+	<div class="modal-header">
+		<button type="button" class="btn btn-default close" ng-click="vm.cancel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h3 class="modal-title">{{vm.title}} Value</h3>
+	</div>
+
+	<div class="modal-body">
+		<div class="form-group" ng-class="{'has-error': vm.validationMessage}" x-show-errors>
+			<label class="control-label" for="display">Name</label>
+			<input class="form-control" ng-model="vm.display" id="display" name="display" title="Name" required></input>
+			<div class="help-block">
+				{{vm.validationMessage}}
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="checkbox">
+				<label for="priority">
+					<input ng-model="vm.displayPriority" type="checkbox" id="priority"/> Sorting Priority
+				</label>
+			</div>
+		</div>
+		<div class="checkbox" ng-if="vm.editMode">
+			<label for="active">
+				<input ng-model="vm.active" type="checkbox" id="active"/> Active
+			</label>
+		</div>
+
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" ng-click="vm.cancel()">Cancel</button>
+		<button type="submit" class="btn btn-primary" ng-click="vm.ok()" ng-disabled="!vm.isValid">{{vm.okText}}</button>
+	</div>
+</form>

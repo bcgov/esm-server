@@ -298,17 +298,7 @@ angular
 			'redirectHomepageToGeorgeMassey': false
 		}
 	)
-	.constant('SALUTATIONS', ['Mr','Mrs','Miss','Ms','Dr','Capt','Prof','Rev','Other'])
-	.constant('DOCUMENT_TYPES',
-		[
-			'Inspection Report', 'Certificate', 'Certificate Amendment', 'Permit', 'Permit Amendment', 'Mine Manager Response', 'Annual Report', 'Annual Reclamation Report', 'Dam Safety Inspection', ''
-		]
-	)
-	.constant('INSPECTION_REPORT_FOLLOWUP_TYPES',
-		[
-			'Mine Manager Response', 'Inspection Complete'
-		]
-	)
+	.constant('EAO_COMPLIANCE_EMAIL', 'eao.compliance@gov.bc.ca')
 	.factory ('codeFromTitle', function () {
 		return function (title) {
 			if (title) {

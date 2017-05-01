@@ -32,12 +32,13 @@ angular.module('emailtemplate').config(['$stateProvider', function ($stateProvid
 		templateUrl: 'modules/email-templates/client/views/email-template-list.html',
 		resolve: {
 			emailtemplate: function ($stateParams, EmailTemplateModel) {
-				return EmailTemplateModel.getCollection();
+				return EmailTemplateModel.getSorted("group name");
 			}
 		},
-		controller: function ($scope, $state, AlertService, NgTableParams, emailtemplate, EmailTemplateModel) {
+		controller: function ($scope, $state, AlertService, NgTableParams, emailtemplate, EmailTemplateModel, CodeLists) {
 			var s = this;
 			$scope.tableParams = new NgTableParams({count: 10}, {dataset: emailtemplate});
+			$scope.emailTemplateGroups = CodeLists.emailTemplateGroups;
 			s.confirmText = function(template) {
 				return "Are you sure you would like to permanently delete email template '"+ template.name + "'?";
 			};
@@ -72,8 +73,9 @@ angular.module('emailtemplate').config(['$stateProvider', function ($stateProvid
 				return EmailTemplateModel.getNew ();
 			}
 		},
-		controller: function ($scope, $state, emailtemplate, EmailTemplateModel, $filter) {
+		controller: function ($scope, $state, emailtemplate, EmailTemplateModel, CodeLists, $filter) {
 			$scope.emailtemplate = emailtemplate;
+			$scope.groups = CodeLists.emailTemplateGroups.active;
 			var which = 'add';
 			$scope.save = function (isValid) {
 				if (!isValid) {
@@ -108,8 +110,9 @@ angular.module('emailtemplate').config(['$stateProvider', function ($stateProvid
 				return EmailTemplateModel.getModel ($stateParams.emailtemplateId);
 			}
 		},
-		controller: function ($scope, $state, emailtemplate, EmailTemplateModel, $filter) {
+		controller: function ($scope, $state, emailtemplate, EmailTemplateModel, CodeLists, $filter) {
 			$scope.emailtemplate = emailtemplate;
+			$scope.groups = CodeLists.emailTemplateGroups.active;
 			var which = 'edit';
 			$scope.save = function (isValid) {
 				if (!isValid) {

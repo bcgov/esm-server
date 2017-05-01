@@ -8,9 +8,10 @@ var CommentModel  = require ('../controllers/comment.controller');
 var CommentPeriod  = require ('../controllers/commentperiod.controller');
 var routes = require ('../../../core/server/controllers/core.routes.controller');
 var policy = require ('../../../core/server/controllers/core.policy.controller');
+var _ = require ('lodash');
 
 module.exports = function (app) {
-	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, {all:'guest',get:'guest'});
+	routes.setCRUDRoutes (app, 'comment', CommentModel, policy, null, { all:'guest', get:'guest', paginate:'guest' });
 	routes.setCRUDRoutes (app, 'commentperiod', CommentPeriod, policy);
 	// =========================================================================
 	//
@@ -75,6 +76,15 @@ module.exports = function (app) {
 			return model.getProponentCommentsForPeriod (req.params.periodId);
 		}));
 
+	app.route ('/api/comments/period/:periodId/paginate').all(policy ('guest'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getPeriodPaginate(req.body);
+		}));
+	app.route ('/api/comments/period/:periodId/perms/sync').all(policy ('user'))
+		.put (routes.setAndRun (CommentModel, function (model, req) {
+			return model.getPeriodPermsSync(req.body);
+		}));
+
 	// =========================================================================
 	//
 	// special routes for comment periods
@@ -85,11 +95,11 @@ module.exports = function (app) {
 	//
 	app.route ('/api/publish/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
-			return model.publishCommentPeriod (req.CommentPeriod.ancestor, true);
+			return model.publishCommentPeriod (req.CommentPeriod, true);
 		}));
 	app.route ('/api/unpublish/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
-			return model.publishCommentPeriod (req.CommentPeriod.ancestor, false);
+			return model.publishCommentPeriod (req.CommentPeriod, false);
 		}));
 	app.route ('/api/resolve/commentperiod/:commentperiod').all(policy ('user'))
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {

@@ -27,7 +27,7 @@
 			<div class="col-sm-6">
 				<div class="form-group" x-show-errors>
 					<label for="group" class="control-label">Group</label>
-					<input id="group" name="group" type="text" class="form-control input-sm" ng-model="emailtemplate.group" required>
+					<select id="group" name="group" class="form-control input-sm" ng-model="emailtemplate.group" ng-options="item.value as item.display for item in groups"></select>
 						<div ng-messages="emailtemplateForm.group.$error" role="alert">
 							<p class="help-block error-text" ng-message="required">Group is required.</p>
 						</div>
