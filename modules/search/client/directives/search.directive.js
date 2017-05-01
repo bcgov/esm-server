@@ -81,7 +81,7 @@ function searchResultsDocumentDirective(_, SearchService, SearchResultsService, 
 					var displayItem = {};
 					displayItem.isFile = true;
 					displayItem.id = item._id;
-					displayItem.path = SearchService.composeFilePath(item.directoryID);
+					displayItem.path = SearchService.composeFilePath(item.directoryID, item.displayName);
 					displayItem.displayName = item.displayName;
 					displayItem.description = item.description;
 					displayItem.isPublished = item.isPublished;

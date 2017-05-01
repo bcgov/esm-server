@@ -65,7 +65,7 @@ function searchService( $http, $state, $rootScope, $timeout, _, ProjectModel, Tr
 		});
 	}
 
-	function composeFilePath(directoryID) {
+	function composeFilePath(directoryID, fileName) {
 		var path = '';
 		if (self.rootNode) {
 			var theNode = self.rootNode.first(function (n) {
@@ -79,6 +79,7 @@ function searchService( $http, $state, $rootScope, $timeout, _, ProjectModel, Tr
 				}
 			});
 		}
+		path += "/" + fileName;
 		return path;
 	}
 
