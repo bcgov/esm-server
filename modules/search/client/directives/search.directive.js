@@ -18,7 +18,6 @@ function directiveSearchInfoPanel(Authentication, CodeLists) {
 			var self = this;
 			self.authentication = Authentication;
 			self.documentTypes = CodeLists.documentTypes;
-
 			$scope.$on('itemSelected', function (event, item) {
 				self.item = item;
 				self.doc = item.doc;
