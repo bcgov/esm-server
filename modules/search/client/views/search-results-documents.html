@@ -87,7 +87,9 @@
 					<tr>
 						<td class="pagination-container" colspan="{{vm.colspan -1}}">
 							<div class="pgn-btns btn-group">
-								<button class="pg-prev btn btn-default btn-sm" ng-class="{disabled: vm.currentPage == 1}"
+								<button class="pg-prev btn btn-default btn-sm"
+									ng-class="{disabled: vm.currentPage == 1}"
+									ng-disabled="vm.currentPage == 1"
 									ng-click="vm.selectPage(vm.currentPage-1)" 
 									aria-label="Previous">&laquo;
 								</button>
@@ -96,7 +98,7 @@
 									ng-click="vm.selectPage(1)">1
 								</button>
 								<button class="pg-prev btn btn-default btn-sm" 
-									ng-show="vm.pages.indexOf(2) == -1"
+									ng-show="vm.numPages > 1 && vm.pages.indexOf(2) == -1"
 									ng-click="vm.selectPage(vm.pages[0])">&lsaquo;
 								</button>
 								<button class="btn btn-default btn-sm"
@@ -105,16 +107,17 @@
 									ng-click="vm.selectPage(page)">{{page}}
 								</button>
 								<button class="pg-next btn btn-default btn-sm" 
-									ng-show="vm.pages.indexOf(vm.numPages -1) == -1"
+									ng-show="vm.numPages > 1 && vm.pages.indexOf(vm.numPages -1) == -1"
 									ng-click="vm.selectPage(vm.pages[vm.pages.length - 1])">&rsaquo;
 								</button>
 								<button class="btn btn-default btn-sm" 
-									ng-show="vm.pages.indexOf(vm.numPages) == -1"
+									ng-show="vm.numPages > 1 && vm.pages.indexOf(vm.numPages) == -1"
 									ng-click="vm.selectPage(vm.numPages)">{{vm.numPages}}
 								</button>
 								<button class="pg-next btn btn-default btn-sm" 
 									ng-class="{disabled: vm.currentPage == vm.numPages}"
-									ng-click="vm.selectPage(vm.currentPage+1)" 
+									ng-disabled="vm.currentPage == vm.numPages"
+									ng-click="vm.selectPage(vm.currentPage+1)"
 									aria-label="Next">&raquo;
 								</button>
 							</div>
