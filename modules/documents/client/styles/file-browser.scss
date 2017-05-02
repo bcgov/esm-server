@@ -175,14 +175,13 @@ a.icon-btn {
 
         li:last-child {
             .btn {
-                
                 font-weight: bold;
                 color: $file-browser-breadcrumb-active-color;
 
                 &:hover,
                 &:focus {
                     background: transparent;
-                    border-color: transparent;
+                    //border-color: transparent;
                 }
             }
         }
@@ -677,8 +676,6 @@ span.avatar {
 
         &:hover {
             + label {
-                background: #EEE;
-
                 span {
                     opacity: 0.2rem;
                     visibility: visible;
@@ -748,7 +745,8 @@ $fb-details-panel-width: 35rem;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    font-size: 2.2rem;
+                    font-size: 2rem;
+                    font-weight: bold;
                 }
 
                 .close {
