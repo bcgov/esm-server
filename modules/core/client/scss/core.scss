@@ -1482,143 +1482,6 @@ h2.page-title {
 }
 
 
-/* APPLICATION LAYOUT 
------------------------------- */
-tmpl-header,
-tmpl-footer {
-	display: block;
-	flex: 0 0 auto;
-}
-
-.app-main {
-	.left-panel,
-	.main-panel {
-		display: -webkit-flex;
-		display: flex;
-		flex-flow: column nowrap;
-	}
-
-	.main-panel {
-		position: relative;
-		/* Need to set 1px here to fix some flexbox issues with text wrapping */
-		flex: 1 1 1px;
-		min-width: 0;
-
-		.view-title-container {
-			flex: 0 0 auto;
-			z-index: 1;
-		}
-
-		.view-body-insert {
-			flex: 0 0 auto;
-		}
-
-		.view-body-container {
-			flex: 1 1 auto;
-		}
-
-		.view-footer-container {
-			flex: 0 0 auto;
-		}
-	}
-}
-
-ui-view {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: -webkit-flex;
-	display: flex; 
-	flex-flow: column nowrap;
-}
-
-/* PAGE (VIEW) CONTAINERS
------------------------------- */
-.view-body-container,
-.view-body-insert,
-.view-footer-container {
-	padding: 2rem;
-}
-
-.view-title-container {
-	height: 6.2rem;
-	padding: 1.5rem 2rem;
-	border-bottom: 1px solid #EEE;
-	background: #FFF;
-	min-width: 0;
-
-    h1 {
-        margin: 0;
-        padding-top: 0.4rem;
-		font-size: 2.4rem;
-		font-weight: bold;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-    }
-
-	&.flex-row {
-		h1 {
-			-webkit-flex: 1 1 auto;
-			-ms-flex: 1 1 auto;
-			flex: 1 1 auto;
-		}
-
-		.actions {
-			-webkit-flex: 0 0 auto;
-			-ms-flex: 0 0 auto;
-			flex: 0 0 auto;
-
-			.btn {
-				min-width: 8rem;
-			}
-		}
-
-		.actions-group {
-			display: inline-block;
-		}
-	}
-
-	.actions {
-		padding-left: 2rem;
-
-		.permission-btn {
-			.btn {
-				min-width: 3rem;
-			}
-		}
-	}
-}
-
-.view-body-container {
-	overflow-y: auto;
-}
-
-.view-content {
-    display: -webkit-flex; /* Safari */
-    display: flex;
-    flex-flow: row nowrap;
-	
-	section:last-child {
-		margin-bottom: 0;
-	}
-}
-
-.view-fix,
-.view-form {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: -webkit-flex; /* Safari */
-    display: flex;
-	flex-flow: column nowrap;
-}
-
-
 /* ACTIVITIES LIST
 ------------------------------ */
 .activities-container {
@@ -3108,6 +2971,63 @@ section {
 	}
 }
 
+.ng-table-page-btn {
+	font-size: $ng-table-page-btn-font-size;
+	font-weight: $ng-table-page-btn-font-weight;
+	color: $app-base-color;
+	border: 1px solid $ng-table-page-btn-border-color;
+}
+
+.ng-table-page-btn-active {
+	color: $ng-table-page-btn-active-color;
+	background: $btn-primary-bg;
+	border-color: $btn-primary-bg;
+}
+
+.ng-table-pager {
+	padding-top: 1rem;
+	padding-right: 1.5rem;
+	padding-bottom: 0;
+	padding-left: 1.5rem;
+	border-top: 1px solid #DDD;
+	overflow: auto;
+}
+
+.ng-table-pagination,
+.ng-table-counts {
+	margin-bottom: 1rem;
+}
+
+.ng-table-pagination {
+	display: block;
+	float: left;
+}
+
+.ng-table-counts {
+	.btn-default {
+		&.active,
+		&.active:hover {
+			@extend .ng-table-page-btn-active;
+		}
+	}
+}
+
+.pagination {
+	> li > a {
+		@extend .ng-table-page-btn;
+	}
+
+	> li > a:hover {
+		color: $app-base-color;
+		border: 1px solid $ng-table-page-btn-hover-border-color;
+	}
+
+	> .active > a,
+	> .active > a:hover {
+		@extend .ng-table-page-btn-active;
+	}
+}
+
 .table-scroll {
 	table-layout: fixed;
 
@@ -3666,6 +3586,151 @@ section {
 	}
 }
 
+/* DOCUMENT PANELS (MAIN, SUPPORTING, ADDITIONAL, INTERNAL)
+------------------------------ */
+.document-panel {
+	.link-file-btn {
+		position: absolute;
+		top: 0.55rem;
+		right: 0.55rem;
+	}
+}
+
+
+/* PROJECT DETAILS VIEW
+------------------------------ */
+.project-details {
+	section {
+		margin-bottom: 2rem;
+	}
+	
+	section:last-child {
+		margin-bottom: 0;
+	}
+	
+	.detail-row:first-child {
+		margin-top: 0;
+	}
+}
+
+section.project-info {
+	.badge.review {
+		background-color: forestgreen;
+	}
+}
+
+.project-phases {
+	.panel-body {
+		padding-left: 0;
+		padding-right: 0;
+		overflow: hidden;
+	}
+}
+
+.project-artifacts {
+	.panel {
+		margin-bottom: 0;
+	}
+}
+
+.project-map {
+	.angular-google-map-container {
+		height: 30rem;
+	}
+}
+
+.detail-panel {
+	padding-bottom: 0;
+}
+
+.detail-row {
+	margin-bottom: 1.5rem;
+	
+	label,
+	span.value {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	> label {
+		margin-bottom: .2rem;
+		font-weight: 600;
+		text-shadow: 0 0 0 #FFF;
+	}
+	
+	span.value.wrap-text {
+		white-space:normal;
+	}
+}
+
+.detail-row.horiz {
+	label,
+	span.value {
+		margin: 0;
+		display: inline-block;
+		color: inherit;
+		vertical-align: middle;
+	}
+	
+	> label {
+		margin-right: 1rem;
+	}
+}
+
+.detail-row.project-desc {
+	span.value {
+		white-space: normal;
+		overflow: visible;
+	}
+}
+
+.mem-details {
+	.detail-row label {
+		min-width: 14rem;
+	}
+	
+	 .description {
+		margin-top: 1.5rem;
+	}
+}
+
+@media (min-width: 1024px) {
+	.detail-row {
+		font-size: 1.4rem;
+	}
+	
+	.mem-details .detail-row {
+		display: table-row;
+		
+		label, span.value {
+			display: table-cell;
+			vertical-align: top;
+			padding: 0.4rem 0;
+		}
+		
+		label {
+			padding-right: 2rem;
+			text-align: left;
+			white-space: nowrap;
+		}
+	}
+}
+
+.project-tombstone {
+	.panel-body {
+		padding-bottom: 0;
+	}
+
+	hr {
+		margin-top: 0.5rem;
+		margin-right: 1.5rem;
+		margin-bottom: 2rem;
+		margin-left: 1.5rem;
+	}
+}
+
 
 /* EDIT PROJECT VIEW
 ------------------------------ */ 
@@ -3680,6 +3745,14 @@ section {
 	}
 }
 
+
+/* DOCUMENT BROWSER VIEW
+------------------------------ */
+.document-browser-view {
+	.panel-body {
+		padding: 0;
+	}
+}
 
 /* GUIDANCE VIEW
 ------------------------------ */
@@ -3829,6 +3902,55 @@ section {
 	}
 }
 
+
+/* MAP
+------------------------------ */
+
+
+.map-popup {
+	max-width: 30rem;
+	font-family: $font-family-sans-serif;
+
+	h3 {
+		margin-top: 0.5rem;
+		margin-bottom: 1rem;
+		font-size: $map-popup-title-font-size;
+		font-weight: bold;
+	}
+
+	.map-popup-content,
+	.map-popup-type,
+	.map-popup-links {
+		font-size: $map-popup-body-font-size;	
+	}
+
+	.map-popup-content {
+		max-height: 5rem;
+		margin-bottom: 1.5rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		p:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	.map-popup-type {
+		display: block;
+		margin-bottom: 1rem;
+	}
+
+	.map-popup-links {
+		margin-top: 1.5rem;
+		font-weight: bold;
+	}
+
+	.public-comment-button {
+		display: block;
+	}
+}
+
+
 /* PERMISSIONS SETTINGS VIEW
 ------------------------------ */
 .permissions-settings-table {
@@ -3888,6 +4010,79 @@ section {
 		margin-bottom: -0.4rem;
 	}
 }
+
+
+/* PUBLIC HOMEPAGE VIEW
+------------------------------ */
+.home-view {
+	padding: 2rem;
+	overflow-y: auto;
+
+	.angular-google-map-container {
+		height: 400px;
+	}
+
+	.news-feed {
+		@extend .flex-column;
+		margin-right: -1rem;
+		height: 445px;
+
+		.panel-heading,
+		.panel-footer {
+			@include flex(0 0 auto);
+		}
+
+		.panel-body {
+			@include flex(1 1 auto);
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+	}
+}
+
+/* Portrait */
+@media only screen 
+	and (min-device-width: 768px)
+	and (max-device-width: 1024px)
+	and (orientation: portrait)
+	and (-webkit-min-device-pixel-ratio: 1) {
+
+	.home-view {
+		.angular-google-map-container {
+			height: 500px;
+		}
+
+		.news-feed {
+			height: 545px;
+		}
+	}
+
+	.project-table {
+		th {
+			font-size: 1.1rem;
+		}
+
+		.comment-col {
+			width: 12rem;
+		}
+
+		.decision-col,
+		.phase-col,
+		.region-col,
+		.type-col {
+			width: 10rem;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.project-table {
+		.name-col {
+			width: 32rem;
+		}
+	}
+}
+
 
 
 /* PROJECT INVITATIONS 
@@ -4043,6 +4238,28 @@ tmpl-template-render {
 	}
 }
 
+/* UPLOAD DOCUMENTS VIEW
+----------------------------- */
+.upload-documents-view {
+	position: relative;
+
+	.list-group {
+		margin-top: 1.5rem;
+	}
+
+	.loader-overlay {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		background: red;
+		opacity: 0.5;
+		z-index: 999;
+	}
+}
+
+
 /* USER PROFILE VIEW 
 ----------------------------- */
 .signature-preview {
@@ -4060,6 +4277,8 @@ tmpl-template-render {
 		margin-top: 1rem;
 	}
 }
+
+
 
 /* VALUED COMPONENTS VIEW
 ----------------------------- */
@@ -4133,6 +4352,121 @@ tmpl-template-render {
 		display: block;
 	}
 }
+
+.project-timeline-container {
+	padding: 1px;
+
+	.phase {
+		position: relative;
+		color: #888;
+		background: #EEE;
+
+		.phase-info {
+			position: relative;
+			height: 100%;
+			padding: 1rem;
+			border: 1px solid #FFF;
+
+			.phase-badge {
+				margin-bottom: 1rem;
+
+				.label {
+					padding-top: 0.4rem;
+					padding-bottom: 0.3rem;
+				}
+
+				.label-info,
+				.label-success {
+					border: 2px solid #FFF;
+				}
+
+				.label-default {
+					background: #bbb;
+					border: 2px solid #bbb;
+				}
+			}
+
+			.phase-name {
+				@include flex(1 1 auto);
+				display: block;
+				margin-bottom: 1rem;
+				font-size: 1.6rem;
+				font-weight: bold;
+				line-height: 1.8rem;
+			}
+
+			.phase-status {
+				@include flex(0 0 auto);
+				font-size: 1.2rem;
+				line-height: 1.4rem;
+			}
+		}
+
+		&.complete {
+			color: #FFF;
+			background: $success-bg;
+		}
+
+		&.active {
+			color: #FFF;
+			background: $info-bg;
+
+			+ .active {
+				display: none;
+			}
+		}
+	}
+}
+
+@media (min-width: 768px)
+	and (max-device-width: 768px) {
+	.project-timeline-container {
+		@include flexdirection(column);
+
+		.phase {
+			.phase-info {
+				@include flexbox();
+				padding: 1rem 1.5rem;
+
+				.phase-name {
+					margin-top: 0.5rem;
+					margin-bottom: 0.5rem;
+				}
+			}
+		}
+
+		.phase-status {
+			text-align: right;
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.project-timeline-container {
+		@include flexbox();
+
+		.phase {
+			-webkit-flex: 1 1 auto;
+			flex: 1 1 auto;
+			-ms-flex: 1 1 1px; /* IE needs a value for flex-basis or the flex grow/shrink properties won't obey */
+
+			.phase-info {
+				flex-flow: column nowrap;
+
+				.phase-badge {
+					text-align: left;
+				}
+
+				.phase-status {
+					.status-name {
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}
+
 
 .modal.img-view-modal {
 	padding-left: 0 !important;
@@ -4214,10 +4548,9 @@ tmpl-template-render {
 	}
 }
 
-
-// COMPONENTS
+/* COMPONENTS
+----------------------------- */
 @import "modules/core/client/styles/mixins.scss";
-@import "modules/core/client/styles/layout.scss";
 @import "modules/core/client/styles/components.scss";
 @import "modules/core/client/styles/spinner.scss";
 @import "modules/core/client/styles/tabs.scss";
@@ -4227,22 +4560,23 @@ tmpl-template-render {
 @import "modules/core/client/scss/components/recipient-manager.scss";
 @import "modules/core/client/scss/components/table.scss";
 @import "modules/core/client/scss/components/ng-table-overrides.scss";
+@import "modules/core/client/scss/components/view-containers.scss";
 
-// GLOBAL
+/* GLOBAL */
+@import "modules/core/client/scss/global/layout.scss";
 @import "modules/core/client/scss/global/footer.scss";
 @import "modules/documents/client/styles/file-browser.scss";
 @import "modules/documents/client/styles/pdf-viewer.scss";
 
-// MODULES
+/* MODULES */
 @import "modules/codelists/client/scss/codelist.scss";
 @import "modules/communications/client/scss/communications.scss";
 @import "modules/invitations/client/scss/invitations.scss";
-@import "modules/maps/client/scss/map.scss";
-@import "modules/projects/client/scss/project-details.scss";
 @import "modules/projects/client/scss/project-schedule.scss";
-@import "modules/projects/client/scss/project-timeline.scss";
-@import "modules/projects/client/scss/projects-abstract.scss";
 @import "modules/project-comments/client/scss/project-comments.scss";
+@import "modules/search/client/scss/search-widget.scss";
+@import "modules/search/client/scss/search-results.scss";
 @import "modules/users/client/scss/user-entry.scss";
 @import "modules/users/client/scss/user-search-chooser.scss";
 @import "modules/vcs/client/scss/vc-list.scss";
+
