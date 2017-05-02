@@ -4551,6 +4551,7 @@ tmpl-template-render {
 /* COMPONENTS
 ----------------------------- */
 @import "modules/core/client/styles/mixins.scss";
+@import "modules/core/client/scss/global/layout.scss";
 @import "modules/core/client/styles/components.scss";
 @import "modules/core/client/styles/spinner.scss";
 @import "modules/core/client/styles/tabs.scss";
@@ -4563,8 +4564,8 @@ tmpl-template-render {
 @import "modules/core/client/scss/components/view-containers.scss";
 
 /* GLOBAL */
-@import "modules/core/client/scss/global/layout.scss";
 @import "modules/core/client/scss/global/footer.scss";
+@import "modules/core/client/scss/global/helpers.scss";
 @import "modules/documents/client/styles/file-browser.scss";
 @import "modules/documents/client/styles/pdf-viewer.scss";
 

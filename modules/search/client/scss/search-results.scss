@@ -56,6 +56,8 @@ x-search-info-panel {
                 }
             }
 
+            
+
             > thead, > tbody, > tfoot {
                 display: block;
 
@@ -63,16 +65,6 @@ x-search-info-panel {
                     display: table;
                     width: 100%;
                     border-bottom: none;
-                }
-            }
-
-            > thead {
-                @include flex(0 0 auto);
-
-                > tr {
-                    > th {
-                        border-bottom: $table-row-border;
-                    }
                 }
             }
 
@@ -100,6 +92,16 @@ x-search-info-panel {
                                 color: $list-selected-color;
                             }
                         }
+
+                        .dropdown-menu {
+                            .btn:focus,
+                            .btn:hover {
+                                color: #494949;
+                                background: transparent;
+                                border-color: $list-selected-color;
+                            }
+                        }
+                        
                     }
                 }
             }
@@ -113,6 +115,8 @@ x-search-info-panel {
 }
 
 .sr-table {
+    table-layout: auto !important;
+
     thead {
         > tr {
             > th {
@@ -131,8 +135,11 @@ x-search-info-panel {
     }
 
     tbody {
+        background: transparent;
+
         > tr {
             > td {
+                padding: 0;
                 vertical-align: top;
 
                 &.actions-col.x1 {
@@ -140,17 +147,17 @@ x-search-info-panel {
                     text-align: initial;
 
                     .dropdown-menu {
-                        top: -0.2rem;
+                        top: -0.3rem;
                         box-shadow: none;
                     }
                 }
             }
 
             &.selected {
-                background: $list-selected-bg;
-                color: $list-selected-color;
-
                 > td {
+                    background: $list-selected-bg;
+                    color: $list-selected-color;
+
                     .avatar {
                         .glyphicon {
                             color: inherit;
@@ -169,6 +176,20 @@ x-search-info-panel {
                     background: transparent;
                     border-color: $list-selected-color;
                     color: $list-selected-color;
+                }
+            }
+        }
+    }
+
+    table {
+        > tbody {
+            > tr {
+                border: none;
+
+                > td {
+                    padding: 1.25rem 0.5rem;
+                    border: none;
+                    vertical-align: top;
                 }
             }
         }
@@ -199,23 +220,16 @@ x-search-info-panel {
             .sr-name {
                 font-weight: bold;
             }
+        }
+    }
 
-            .sr-desc {
-                //@include cssEllipsis($lineHeight: 2rem, $lineCount: 3, $bgColor: #fff);
-                margin-top: 0.5rem;
-                overflow: hidden;
-                max-height: 6rem;
-                line-height: 2rem;
-                font-style: italic;
-            }
+    .sr-row-details {
+        padding-right: 1.25rem;
+        padding-bottom: 1.25rem;
+        padding-left: 4rem;
 
-            .sr-path {
-                //@include cssEllipsis($lineHeight: 2rem, $lineCount: 3, $bgColor: #fff);
-                margin-top: 0.5rem;
-                overflow: hidden;
-                max-height: 6rem;
-                line-height: 2rem;
-            }
+        .sr-desc {
+            margin-bottom: 1.25rem;
         }
     }
 
