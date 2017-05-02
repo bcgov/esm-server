@@ -23,7 +23,7 @@ function directiveSearchInfoPanel(Authentication, CodeLists) {
 
 			$scope.$on('itemSelected', function (event, item) {
 				self.item = item;
-				self.doc = item.doc;
+				self.doc = item ? item.doc : null;
 			});
 			self.parent = $scope.parentController;
 
@@ -179,12 +179,12 @@ function searchResultsDocumentDirective(_, SearchService, SearchResultsService, 
 				//set the number of pages so the pagination can update
 				self.numPages = Math.ceil(self.count / self.limit);
 				self.currentPage = Math.ceil(self.start / self.limit) + 1;
-				console.log("currentPage", self.currentPage, self.start);
 				var start = 1;
-				var paginationDisplaySize = 6;
+				var paginationDisplaySize = 7;
+				var middle = Math.floor(paginationDisplaySize / 2);
 				var end;
 				var i;
-				start = Math.max(start, self.currentPage - paginationDisplaySize / 2);
+				start = Math.max(start, self.currentPage - middle);
 				end = start + paginationDisplaySize;
 				if (end > self.numPages) {
 					end = self.numPages + 1;
@@ -194,6 +194,7 @@ function searchResultsDocumentDirective(_, SearchService, SearchResultsService, 
 				for (i = start; i < end; i++) {
 					self.pages.push(i);
 				}
+				//console.log("currentPage, start, numPages, pages.indexOf(numPages), pages.indexOf(numPages -1)", self.currentPage, self.start, self.numPages, self.pages.indexOf(self.numPages), self.pages.indexOf(self.numPages -1));
 			}
 		}
 	};
