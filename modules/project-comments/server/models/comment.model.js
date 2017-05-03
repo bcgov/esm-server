@@ -54,20 +54,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// these are specific to joint comments (Joint PCP)
 	//
 	// -------------------------------------------------------------------------
-	multiContent : [{
-		//
-		// the comment itself
-		//
-		comment          : { type:String, default:'' },
-		//
-		// a list of attachments, if any
-		//
-		documents        : [{ type:'ObjectId', ref:'Document' }],
-		//
-		// the package of information for which this comment has been made; e.g. Provincial, Federal
-		//
-		commentType     : { type:String, default:'Provincial', enum:['Provincial', 'Federal'] }
-	}],
+	comment2         : { type:String, default:'' },
+	documents2       : [{ type:'ObjectId', ref:'Document' }],
 
 	// ESM-431 - want each comment within a period to have a unique number (not guid)
 	//           for export and sorting
