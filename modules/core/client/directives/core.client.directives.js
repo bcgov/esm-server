@@ -481,6 +481,18 @@ angular.module('core')
 							s.dirty = true;
 							setUserRole(s.userRoleIndex, user.username, role, value);
 						};
+
+						//function used to check for selected roles for a 
+						//this fucntion works with the checkboxes of Manage Roles for User
+						s.roleSelect = function (user, role) {
+							if (user && s.userRoleIndex.user.hasOwnProperty(user.username)) {
+								return s.userRoleIndex.user[user.username][role];
+							}
+							else {
+								return;
+							}
+						};
+
 						s.cancel = function () {
 							$modalInstance.dismiss('cancel');
 						};
