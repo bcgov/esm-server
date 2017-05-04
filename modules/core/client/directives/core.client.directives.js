@@ -493,6 +493,21 @@ angular.module('core')
 							}
 						};
 
+						//function used to check for selected users for a role
+						//this fucntion works with the checkboxes of Manage Users for Role
+						s.userSelect = function (user,role) {
+							if (role && s.userRoleIndex.role.hasOwnProperty(role)) {
+								return s.userRoleIndex.role[role][user.username];
+							}
+							else {
+								return;
+							}
+						};
+
+						s.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+
 						s.cancel = function () {
 							$modalInstance.dismiss('cancel');
 						};
