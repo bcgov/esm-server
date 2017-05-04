@@ -2,7 +2,7 @@
 	<button type="button" class="btn btn-default close" ng-click="s.cancel()">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<h3 class="modal-title">Submit a Comment</h3>
+	<h3 class="modal-title">Submit a Comments</h3>
 </div>
 
 <!-- COMMENT FORM - STEP 1 -->
@@ -30,11 +30,11 @@
 		<fieldset>
 			<div class="row">
 				<div class="form-group col-sm-12 col-md-6">
-					<label class="control-label">Name<em>Optional</em></label>
-					<input ng-model="s.comment.author" class="form-control" placeholder="Anonymous" type="text" />
+					<label class="control-label">Name<em>Required</em></label>
+					<input ng-model="s.comment.author" class="form-control" placeholder="Anonymous" type="text"/>
 				</div>
 				<div class="form-group col-sm-12 col-md-6">
-					<label class="control-label">Location<em>Optional</em></label>
+					<label class="control-label">Location<em>Required</em></label>
 					<input ng-model="s.comment.location" class="form-control" placeholder="IE: City, Province, etc." type="text" />
 				</div>
 			</div>
@@ -130,7 +130,7 @@
 	</div>
 	<div class="modal-footer">
 		<button type="button" class="btn btn-default" ng-click="s.cancel()">Cancel</button>
-		<button type="button" class="btn btn-success" ng-click="s.submit()" ng-disabled="!s.comment.comment && s.fileList.length === 0">Submit Comment</button>
+		<button type="button" class="btn btn-success" ng-click="s.submit()" ng-disabled="!s.comment.author || !s.comment.location || (!s.comment.comment && s.fileList.length === 0)">Submit Comment</button>
 	</div>
 </form><!-- / COMMENT FORM - STEP 2 -->
 
