@@ -19,11 +19,6 @@
 					 href="/api/document/{{ infoPanel.data._id }}/fetch"
 					 target="_self"
 					 title="Download File"><span class="glyphicon glyphicon-download-alt"></span></a>
-				<button ng-if="infoPanel.data.userCan.read && infoPanel.data.internalMime === 'application/pdf'"
-						x-modal-pdf-viewer
-						x-pdfobject="infoPanel.data"
-						title="View File"
-						class="btn btn-sm btn-default">View</button>
 				<button class="btn btn-sm btn-default" ng-if="infoPanel.data.userCan.write"
 						x-document-mgr-edit
 						x-project="project"

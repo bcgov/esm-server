@@ -5,8 +5,7 @@ angular.module('documents')
 		return {
 			restrict: 'E',
 			scope: {
-				project: '=',
-				opendir: '='
+				project: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager-info-panel.html',
 			controller: function ($scope) {

@@ -1026,7 +1026,6 @@ _.extend (DBModel.prototype, {
 
 	paginate: function(query, filter, skip, limit, fields, population, sortby, userCan) {
 		//console.log ('paginate(query=', query, ', filter=', filter, ', skip=', skip, ', limit=', limit, ', fields=', fields, ', population=', population, ', sortby=', sortby, ', userCan=', userCan, ')');
-		var debug = false;
 		var sort = sortby || this.sort;
 		var populate = population || this.populate;
 		var decoratePermissions = this.decorateCollection;
@@ -1040,16 +1039,6 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			if(debug) {
-				console.log('paginate.q = ' + JSON.stringify(q, null, 4));
-				console.log('paginate.and = ' + JSON.stringify(and, null, 4));
-				console.log('paginate.sort = ' + JSON.stringify(sort, null, 4));
-				console.log('paginate.skip = ' + skip);
-				console.log('paginate.limit = ' + limit);
-				console.log('paginate.populate = ' + JSON.stringify(populate, null, 4));
-				console.log('paginate.fields = ' + JSON.stringify(fields, null, 4));
-				console.log('paginate.decorateCollection = ' + self.decorateCollection);
-			}
 			self.model.find(q)
 				.and(and)
 				.sort(sort)
@@ -1064,7 +1053,6 @@ _.extend (DBModel.prototype, {
 								console.log('search.count.error = ' + JSON.stringify(e));
 								self.complete(reject, 'search');
 							} else {
-								if (debug) console.log('search.count.completed. total = ', c);
 								resolve({data: data, count: c});
 							}
 						});
@@ -1085,7 +1073,6 @@ _.extend (DBModel.prototype, {
 
 	search: function (searchFields, options) {
 		var self = this;
-		var debug = true;
 		var limit = (options.limit || 10)  * 1;
 		var skip = (options.start || 0) * 1;
 		var orderBy = null;
@@ -1109,23 +1096,24 @@ _.extend (DBModel.prototype, {
 			query = _.extend (query, self.baseQ );
 			//console.log("search call custom", query);
 			self.model.find(query)
-				.exec(function(error, data) {
-					if (!error) {
-						var cnt = data.length;
-						var sorted =  _.sortBy(data, function(item) {
-							return -1 * SearchUtil.relevanceRanking(item, terms.searchTerms, searchFields);
-						});
+			.exec(function(error, data) {
+				if (!error) {
+					var cnt = data.length;
+					var sorted =  _.sortBy(data, function(item) {
+						// sort numbers descending by multiply by -1
+						return -1 * SearchUtil.relevanceRanking(item, terms.searchTerms, searchFields);
+					});
 
-						// paginate ...
-						sorted = sorted.slice(skip, skip + limit);
+					// paginate ...
+					sorted = sorted.slice(skip, skip + limit);
 
-						// return the paginated results with the total count
-						resolve({data: sorted, count: cnt});
-					} else {
-						console.log('search.error = ' + JSON.stringify(error));
-						self.complete(reject, 'search');
-					}
-				});
+					// return the paginated results with the total count
+					resolve({data: sorted, count: cnt});
+				} else {
+					console.log('search.error = ' + JSON.stringify(error));
+					self.complete(reject, 'search');
+				}
+			});
 		});
 	}
 });

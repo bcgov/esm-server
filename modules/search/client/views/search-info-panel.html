@@ -9,9 +9,6 @@
 		</div>
 		<div class="title-panel-btns" ng-if="vm.item">
 			<a class="btn btn-sm btn-default" href="/api/document/{{ vm.doc.id }}/fetch" target="_blank" title="Download File"><span class="glyphicon glyphicon-download-alt"></span></a>
-			<a class="btn btn-sm btn-default" ng-if="vm.doc.internalMime === 'application/pdf'" href="/api/document/{{ vm.doc.id }}/fetch"
-				target="_blank" title="View File">View
-			</a>
 		</div>
 	</div>
 	<div class="scroll-container">

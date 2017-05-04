@@ -40,7 +40,7 @@ angular.module('documents')
 						published: true
 					};
 					self.rootNode = tree.parse($scope.project.directoryStructure);
-					if (self.requestOpenDir) {
+					if (self.requestOpenDir && self.requestOpenDir !== NaN) {
 						self.selectNode(self.requestOpenDir);
 					} else if (self.requestOpenFileID) {
 						self.gotoDoc(self.requestOpenFileID);

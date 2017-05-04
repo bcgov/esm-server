@@ -257,11 +257,11 @@ var setModelByQuery = function () {
 			return Promise.reject("Require collection name for search");
 		}
 		setSessionContext (req)
-			.then (function (opts) {
-				req.searchFields = fields;
-				req.model = new Dbclass (opts);
-				next ();
-			});
+		.then (function (opts) {
+			req.searchFields = fields;
+			req.model = new Dbclass (opts);
+			next ();
+		});
 	};
 };
 exports.setModelByQuery = setModelByQuery;
