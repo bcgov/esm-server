@@ -175,7 +175,6 @@ module.exports.initHelmetHeaders = function (app) {
 	app.use(helmet.xframe());
 	app.use(helmet.xssFilter());
 	app.use(helmet.nosniff());
-	app.use(helmet.ienoopen());
 	app.use(helmet.hsts({
 		maxAge: SIX_MONTHS,
 		includeSubdomains: true,
