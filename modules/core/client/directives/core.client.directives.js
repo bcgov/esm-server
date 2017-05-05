@@ -183,6 +183,28 @@ angular.module('core')
 							s.dirty = true;
 							setPermissionRole(s.permissionRoleIndex, permission, role, value);
 						};
+
+						//function used to check for selected permissions for a role
+						//this function works with the checkboxes of Manage Permissions for Role
+						s.selectedPermission = function (permission, role) {
+							if (permission && s.permissionRoleIndex.permission.hasOwnProperty(permission)) {
+								return s.permissionRoleIndex.permission[permission][role];
+							}
+							else {
+								return;
+							}
+						};
+
+						//function used to check for selected roles for a permisson
+						//this function works with the checkboxes of Manage Roles for permission
+						s.selectedRole = function (permission,role) {
+							if (role && s.permissionRoleIndex.role.hasOwnProperty(role)) {
+								return s.permissionRoleIndex.role[role][permission];
+							}
+							else {
+								return;
+							}
+						};
 						
 						s.cancel = function () {
 							$modalInstance.dismiss('cancel');
@@ -482,8 +504,8 @@ angular.module('core')
 							setUserRole(s.userRoleIndex, user.username, role, value);
 						};
 
-						//function used to check for selected roles for a 
-						//this fucntion works with the checkboxes of Manage Roles for User
+						//function used to check for selected roles for a user
+						//this function works with the checkboxes of Manage Roles for User
 						s.roleSelect = function (user, role) {
 							if (user && s.userRoleIndex.user.hasOwnProperty(user.username)) {
 								return s.userRoleIndex.user[user.username][role];
@@ -494,7 +516,7 @@ angular.module('core')
 						};
 
 						//function used to check for selected users for a role
-						//this fucntion works with the checkboxes of Manage Users for Role
+						//this function works with the checkboxes of Manage Users for Role
 						s.userSelect = function (user,role) {
 							if (role && s.userRoleIndex.role.hasOwnProperty(role)) {
 								return s.userRoleIndex.role[role][user.username];
