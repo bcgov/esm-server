@@ -20,14 +20,10 @@ $table-pagination-bg: #fff;
             background: $table-header-bg;
             z-index: 3;
 
-            th {
-                cursor: default;
-
-                &.sortable {
-                    cursor: pointer;
-
+            tr.sort-row {
+                th {
                     &:hover {
-                        background-color: #EEE; 
+                        background-color: #EEE
                     }
                 }
             }
@@ -183,7 +179,7 @@ $pgn-btn-color: #000;
 
     .pgn-btns {
         button {
-            padding: 0.5rem;
+            padding: 0 0.5rem;
             min-width: 3.4rem;
             min-height: 3.4rem;
             border: $pgn-btn-border;
