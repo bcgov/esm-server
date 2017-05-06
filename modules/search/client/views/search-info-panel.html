@@ -1,0 +1,71 @@
+<div class="fb-details-content">
+	<div class="title-panel">
+		<div class="title-panel-info">
+			<button class="btn btn-default close" type="button" ng-click="vm.close()"><span aria-hidden="true">&times;</span></button>
+			<h2 title="{{vm.doc.displayName}}">
+				{{vm.doc.displayName}}
+				<span ng-if="!vm.doc.displayName">No File Selected</span>
+			</h2>
+		</div>
+		<div class="title-panel-btns" ng-if="vm.item">
+			<a class="btn btn-sm btn-default" href="/api/document/{{ vm.doc.id }}/fetch" target="_blank" title="Download File"><span class="glyphicon glyphicon-download-alt"></span></a>
+			<a class="btn btn-sm btn-default" ng-if="vm.doc.internalMime === 'application/pdf'" href="/api/document/{{ vm.doc.id }}/fetch"
+				target="_blank" title="View File">View
+			</a>
+		</div>
+	</div>
+	<div class="scroll-container">
+		<span ng-if="!vm.doc.displayName">Select a file to view details</span>
+		<section class="fb-details-section" ng-if="vm.doc.displayName">
+			<h2>File Details</h2>
+			<section ng-if="vm.item.description">
+				<h3>Description</h3>
+				<div class="value">{{ vm.doc.description }}</div>
+			</section>
+			<section>
+				<h3>Properties</h3>
+				<ul class="nv-pair">
+					<li ng-if="vm.authentication.user">
+						<span class="name">Status:</span>
+						<span class="value">
+							<span class="label label-success" ng-if="vm.doc.isPublished">Published</span>
+							<span class="label label-default" ng-if="!vm.doc.isPublished">Not Published</span>
+						</span>
+					</li>
+					<li>
+						<span class="name">Document Date:</span>
+						<span class="value">{{ vm.doc.documentDate | date : format : timezone }}</span>
+					</li>
+					<li>
+						<span class="name">Uploaded Date:</span>
+						<span class="value">{{ vm.doc.dateUploaded | date : format : timezone }}</span>
+					</li>
+					<li>
+						<span class="name">Size:</span>
+						<span class="value">{{ vm.doc.internalSize | bytes:2 }}</span>
+					</li>
+					<li>
+						<span class="name">Type:</span>
+						<span class="value">{{ vm.doc.internalExt }}</span>
+					</li>
+					<li ng-if="vm.doc.documentId">
+						<span class="name">Document ID:</span>
+						<span class="value">{{ vm.doc.documentId }}</span>
+					</li>
+					<li ng-if="vm.doc.documentType">
+						<span class="name">Document Type:</span>
+						<span class="value">{{ vm.documentTypes.display(vm.doc.documentType) }}</span>
+					</li>
+					<li ng-if="vm.doc.documentType ==='Inspection Report' && vm.doc.inspectionReport">
+						<span class="name">Inspector Initials:</span>
+						<span class="value">{{ vm.doc.inspectionReport.inspectorInitials }}</span>
+					</li>
+					<li ng-if="vm.doc.documentType ==='Inspection Report' && vm.doc.inspectionReport">
+						<span class="name">Follow up:</span>
+						<span class="value">{{ vm.doc.inspectionReport.followup }}</span>
+					</li>
+				</ul>
+			</section>
+		</section>
+	</div>
+</div>

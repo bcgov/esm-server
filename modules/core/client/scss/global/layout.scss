@@ -1,6 +1,21 @@
 $view-panel-bg: #FFF;
 $view-panel-border: 1px solid #EEE;
 
+tmpl-header,
+tmpl-footer {
+    @include flex(0 0 auto);
+	display: block;
+}
+
+ui-view {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    overflow-y: auto;
+}
+
 // Application
 .app-container {
     @include flexbox();
@@ -59,6 +74,7 @@ $view-panel-border: 1px solid #EEE;
     }
 
     .main-panel {
+        @include flexbox();
         position: absolute;
         top: 0;
         bottom: 0;
@@ -121,55 +137,6 @@ ui-view {
 .main-panel {
     @include flexbox();
     @include flexdirection(column);
-
-    .view-title-container {
-        @include flexbox();
-        @include flex(0 0 auto);
-        padding: 1.5rem 2rem;
-	    border-bottom: $view-panel-border;
-	    background-color: $view-panel-bg;
-
-        h1 {
-            @include flex(1 1 auto);
-            margin: 0;
-            padding-top: 0.7rem;
-            font-size: 2rem;
-            font-weight: bold;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .mobile-nav-btn {
-            margin-right: 0.75rem;
-            margin-left: -0.5rem;
-        }
-
-        .actions {
-            @include flex(0 0 auto);
-        }
-    }
-
-    .view-body-container {
-        @include flex(1 1 auto);
-        padding: 2rem;
-        overflow-y: auto;
-    }
-}
-
-@media (min-width: 1020px) {
-    .main-panel {
-        .view-title-container {
-            h1 {
-                padding-top: 0.4rem;
-                font-size: 2.4rem;
-            }
-
-            .mobile-nav-btn {
-                display: none;
-            }
-        }
-    }
 }
 
 // View Form

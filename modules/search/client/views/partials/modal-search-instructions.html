@@ -1,0 +1,40 @@
+<div>
+  <div class="modal-header">
+    <button type="button" class="btn btn-default close" ng-click="instruct.continue()">
+      <span aria-hidden="true">&times;</em></strong>
+    </button>
+    <h3 class="modal-title">Instructions for using the Search Page</h3>
+  </div>
+
+  <form>
+    <div class="modal-body sr-instructions">
+      <p>
+        You can enter additional words into the search box to increase your results. For example, entering
+        <strong><em>memo letter</em></strong> will
+        find documents that contain either of those words. Entering <strong><em>"memo letter"</em></strong>
+        will find documents that contain that exact phrase.
+      </p>
+      <p>
+        You can narrow your search results by adding a hyphen (minus sign) in front of any word or phrase you wish to
+        exclude from the search.
+        For example, <strong><em>memo -letter</em></strong> will find documents containing the
+        word <strong><em>memo</em></strong>, but not the word <strong><em>letter</em></strong>.
+      </p>
+      <p>
+        This search feature turns up results based on file names and descriptions. To search the contents of an
+        individual document, you must first view or download it and then perform a search within the document itself.
+      </p>
+      <p>
+        Double-click a file's name to open the file in the PDF viewer, or download the file (non-PDF and PDF files).
+      </p>
+      <p>
+        Single-click a file's path to open the file in the documents tab.
+      </p>
+      <p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="instruct.continue()">OK</button>
+    </div>
+  </form>
+
+</div>
