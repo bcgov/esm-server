@@ -30,11 +30,6 @@ $table-pagination-bg: #fff;
                     &.x3 {
                         width: 14rem;
                     }
-
-                    &:hover {
-                        background-color: $table-header-bg;
-                        cursor: default;
-                    }
                 }
             }
         }
