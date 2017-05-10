@@ -309,9 +309,9 @@ var setContextAndRun = function (Dbclass, context, f) {
 		console.log('# setContextAndRun(context = ' + context +' )');
 		req.cookies.context = context;
 		setSessionContext (req)
-			.then (function (opts) {
-				runPromise (res, f (new Dbclass (opts), req));
-			});
+		.then (function (opts) {
+			runPromise (res, f (new Dbclass (opts), req));
+		});
 	};
 };
 exports.setContextAndRun = setContextAndRun;
