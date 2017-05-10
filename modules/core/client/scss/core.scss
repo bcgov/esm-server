@@ -1482,7 +1482,7 @@ h2.page-title {
 }
 
 
-/* APPLICATION LAYOUT 
+/* APPLICATION LAYOUT
 ------------------------------ */
 tmpl-header,
 tmpl-footer {
@@ -1530,7 +1530,7 @@ ui-view {
 	bottom: 0;
 	left: 0;
 	display: -webkit-flex;
-	display: flex; 
+	display: flex;
 	flex-flow: column nowrap;
 }
 
@@ -1600,7 +1600,7 @@ ui-view {
     display: -webkit-flex; /* Safari */
     display: flex;
     flex-flow: row nowrap;
-	
+
 	section:last-child {
 		margin-bottom: 0;
 	}
@@ -4243,6 +4243,8 @@ tmpl-template-render {
 @import "modules/projects/client/scss/project-timeline.scss";
 @import "modules/projects/client/scss/projects-abstract.scss";
 @import "modules/project-comments/client/scss/project-comments.scss";
+@import "modules/search/client/scss/search-widget.scss";
+@import "modules/search/client/scss/search-results.scss";
 @import "modules/users/client/scss/user-entry.scss";
 @import "modules/users/client/scss/user-search-chooser.scss";
 @import "modules/vcs/client/scss/vc-list.scss";

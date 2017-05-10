@@ -9,6 +9,8 @@
 var mongoose = require ('mongoose');
 var _        = require ('lodash');
 var access   = require ('./core.access.controller');
+var path     = require('path');
+var SearchUtil  = require (path.resolve('./modules/core/server/controllers/core.search.util'));
 
 var emptyPromise = function (t) {return new Promise (function (r, e) { r (t); }); };
 
@@ -99,7 +101,9 @@ _.extend (DBModel.prototype, {
 			'newFromObject',
 			'applyModelPermissionDefaults',
 			'getModelPermissionDefaults',
-			'complete'
+			'complete',
+			'search',
+			'paginate'
 		]);
 		//
 		// allows the extended classes to also bind
@@ -1021,7 +1025,7 @@ _.extend (DBModel.prototype, {
 	},
 
 	paginate: function(query, filter, skip, limit, fields, population, sortby, userCan) {
-		// console.log ('paginate(query=', query, ', filter=', filter, ', skip=', skip, ', limit=', limit, ', fields=', fields, ', population=', population, ', sortby=', sortby, ', userCan=', userCan, ')');
+		//console.log ('paginate(query=', query, ', filter=', filter, ', skip=', skip, ', limit=', limit, ', fields=', fields, ', population=', population, ', sortby=', sortby, ', userCan=', userCan, ')');
 		var sort = sortby || this.sort;
 		var populate = population || this.populate;
 		var decoratePermissions = this.decorateCollection;
@@ -1035,15 +1039,6 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			if (self.err) return reject (self.err);
 			var q = _.extend ({}, self.baseQ, query);
-			// console.log ('paginate.q = ' + JSON.stringify(q, null, 4));
-			// console.log ('paginate.and = ' + JSON.stringify(and, null, 4));
-			// console.log ('paginate.sort = ' + JSON.stringify(sort, null, 4));
-			// console.log ('paginate.skip = ' + skip);
-			// console.log ('paginate.limit = ' + limit);
-			// console.log ('paginate.populate = ' + JSON.stringify(populate, null, 4));
-			// console.log ('paginate.fields = ' + JSON.stringify(fields, null, 4));
-			// console.log ('paginate.decorateCollection = ' + self.decorateCollection);
-
 			self.model.find(q)
 				.and(and)
 				.sort(sort)
@@ -1053,18 +1048,16 @@ _.extend (DBModel.prototype, {
 				.select(fields)
 				.exec(function(error, data) {
 					if (!error) {
-						// console.log('search.completed, get total count');
 						self.model.find(q).and(and).count(function(e,c) {
 							if (e) {
 								console.log('search.count.error = ' + JSON.stringify(e));
 								self.complete(reject, 'search');
 							} else {
-								// console.log('search.count.completed. total = ', c);
 								resolve({data: data, count: c});
 							}
 						});
 					} else {
-						// console.log('search.error = ' + JSON.stringify(error));
+						//console.log('search.error = ' + JSON.stringify(error));
 						self.complete(reject, 'search');
 					}
 				});
@@ -1076,7 +1069,55 @@ _.extend (DBModel.prototype, {
 
 			self.decorateCollection = decoratePermissions;
 		});
+	},
+
+	search: function (searchFields, options) {
+		var self = this;
+		var limit = (options.limit || 10)  * 1;
+		var skip = (options.start || 0) * 1;
+		var orderBy = null;
+		var projectId = options.projectId;
+		var searchText = options.searchText;
+		if (options.orderBy) {
+			orderBy = {};
+			orderBy[options.orderBy] = options.direction ? options.direction: '';
+		}
+		/*
+		A note about potential performance issues. The second largest collection in the system is the documents collection.
+		As of May 2017 this collections contains under 60K records. If queries are done by project the project with the most documents has under 3K.
+		 */
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			var terms = SearchUtil.convertTextToTerms(searchText);
+			if (terms.searchTerms.length === 0  && terms.excludeTerms.length === 0) {
+				return reject("Search requires searchText");
+			}
+			var query = SearchUtil.composeQuery(projectId, terms, searchFields);
+			query = _.extend (query, self.baseQ );
+			//console.log("search call custom", query);
+			self.model.find(query)
+			.exec(function(error, data) {
+				if (!error) {
+					var cnt = data.length;
+					var sorted =  _.sortBy(data, function(item) {
+						// sort numbers descending by multiply by -1
+						return -1 * SearchUtil.relevanceRanking(item, terms.searchTerms, searchFields);
+					});
+
+					// paginate ...
+					sorted = sorted.slice(skip, skip + limit);
+
+					// return the paginated results with the total count
+					resolve({data: sorted, count: cnt});
+				} else {
+					// console.log('search.error = ' + JSON.stringify(error));
+					self.complete(reject, 'search');
+				}
+			});
+		});
 	}
 });
 
 module.exports = DBModel;
+
+
