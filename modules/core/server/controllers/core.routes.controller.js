@@ -298,9 +298,9 @@ function searchMiddle(req, res, next) {
 		return model.search (searchFields, queryOptions);
 	}
 	setSessionContext (req)
-		.then (function (opts) {
-			runPromise (res, workerFunction (req.model, req.searchFields, req.query));
-		});
+	.then (function (opts) {
+		runPromise (res, workerFunction (req.model, req.searchFields, req.query));
+	});
 }
 exports.searchMiddle = searchMiddle;
 
