@@ -270,10 +270,6 @@ function directiveModalSearchInstructions($modal) {
 					controllerAs: 'instruct',
 					size: 'lg'
 				});
-				modalInstructions.result.then(function (data) {
-					// do nothing
-				}, function () {
-				});
 			});
 		}
 	};

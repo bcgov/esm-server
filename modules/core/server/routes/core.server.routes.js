@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = function (app) {
-	var path    = require('path');
-	var core    = require('../controllers/core.server.controller');
-	var policy  = require (path.resolve('./modules/core/server/controllers/core.policy.controller'));
+	var path		= require('path');
+	var core		= require('../controllers/core.server.controller');
+	var policy	= require (path.resolve('./modules/core/server/controllers/core.policy.controller'));
 	var routes	= require (path.resolve('./modules/core/server/controllers/core.routes.controller'));
 
 	// Root routing

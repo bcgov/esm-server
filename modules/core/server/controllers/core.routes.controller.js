@@ -245,17 +245,11 @@ exports.setModel = setModel;
 var setModelByQuery = function () {
 	return function (req, res, next) {
 		var name = req.query.collection;
-		var Dbclass;
-		var fields;
-		switch(name) {
-			case 'documents':
-				Dbclass = require (path.resolve('./modules/documents/server/controllers/core.document.controller.js'));
-				fields = ['description', 'displayName', 'keywords'];
-				break;
+		if (name !== 'documents') {
+			return Promise.reject("Search only supports documents and requires documents parameter.");
 		}
-		if (!Dbclass) {
-			return Promise.reject("Require collection name for search");
-		}
+		var Dbclass = require (path.resolve('./modules/documents/server/controllers/core.document.controller.js'));
+		var fields = ['description', 'displayName', 'keywords'];
 		setSessionContext (req)
 		.then (function (opts) {
 			req.searchFields = fields;
@@ -469,7 +463,6 @@ function runPaginate(model, options) {
 			for (var key in options.filterByFields) {
 				if (options.filterByFields.hasOwnProperty(key)) {
 					filter[key] = options.filterByFields[key];
-					console.log(filter);
 				}
 			}
 		}

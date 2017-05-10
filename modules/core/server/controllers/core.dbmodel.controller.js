@@ -1057,7 +1057,7 @@ _.extend (DBModel.prototype, {
 							}
 						});
 					} else {
-						console.log('search.error = ' + JSON.stringify(error));
+						//console.log('search.error = ' + JSON.stringify(error));
 						self.complete(reject, 'search');
 					}
 				});
@@ -1110,7 +1110,7 @@ _.extend (DBModel.prototype, {
 					// return the paginated results with the total count
 					resolve({data: sorted, count: cnt});
 				} else {
-					console.log('search.error = ' + JSON.stringify(error));
+					// console.log('search.error = ' + JSON.stringify(error));
 					self.complete(reject, 'search');
 				}
 			});
