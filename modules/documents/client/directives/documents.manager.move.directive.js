@@ -213,7 +213,7 @@ angular.module('documents')
 											self.applySort();
 											// since we loaded this, make it the selected node
 											self.selectedNode = self.currentNode;
-											self.selectedName = self.selectedNode.model.name === 'ROOT' ? $scope.project.name : self.selectedNode.model.name;
+											self.selectedName = self.selectedNode.model.name === 'ROOT' ? $scope.project.name : self.selectedNode.model.folderObj.displayName;
 											self.title = self.titleText + " to '" + self.selectedName + "'";
 
 											self.busy = false;
