@@ -10,7 +10,7 @@
     "angular-mocks": "~1.5",
     "angular-bootstrap": "~0.14",
     "angular-ui-utils": "bower",
-    "angular-ui-router": "latest",
+    "angular-ui-router": "0.4.2",
     "angular-ui-tinymce": "latest",
     "angular-file-upload": "^2.4.0",
     "angular-messages": "~1.5",
