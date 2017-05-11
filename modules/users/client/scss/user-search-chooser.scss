@@ -76,29 +76,6 @@ $row-active-color: #fff;
         border-bottom: 1px solid #EEE;
 
         > tr {
-            &.active {
-                border-bottom: 1px solid $row-active-border;
-
-                td {
-                    background: $row-active-bg;
-                    border-bottom: 1px solid $row-active-border;
-                    color: $row-active-color;
-
-                    &.col.checkbox-col {
-                        border-right: $row-active-border;
-
-                        input[type='checkbox'] {
-                            &:hover,
-                            &:focus {
-                                + label {
-                                    background: $row-active-hover-bg;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
             > td {
                 overflow: hidden;
                 white-space: nowrap;

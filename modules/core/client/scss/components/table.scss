@@ -5,6 +5,11 @@ $table-row-border: 1px solid #EEE;
 $table-row-hover-bg: #f7f8fa;
 $table-pagination-bg: #fff;
 
+$table-row-active-border: #4187c9;
+$table-row-active-bg: #5091cd;
+$table-row-active-color: #fff;
+
+$table-row-active-hover-bg: #4187c9;
 
 .table-container {
     position: relative;
@@ -94,10 +99,10 @@ $table-pagination-bg: #fff;
     }
 
     table.table-hover {
-        tr {
+        tbody {
             cursor: pointer;
 
-            tbody {
+            tr {
                 &:hover {
                     background-color: $table-row-hover-bg;
                 }
@@ -105,6 +110,29 @@ $table-pagination-bg: #fff;
                 &.no-records:hover {
                     cursor: default;
                     background-color: $table-bg;   
+                }
+
+                &.active {
+                    border-bottom: 1px solid $table-row-active-border;
+
+                    td {
+                        background: $table-row-active-bg;
+                        border-bottom: 1px solid $table-row-active-border;
+                        color: $table-row-active-color;
+
+                        &.col.checkbox-col {
+                            border-right: $table-row-active-border;
+
+                            input[type='checkbox'] {
+                                &:hover,
+                                &:focus {
+                                    + label {
+                                        background: $table-row-active-hover-bg;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
