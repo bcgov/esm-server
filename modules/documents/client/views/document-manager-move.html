@@ -17,7 +17,7 @@
 					<button class="btn icon-btn" ng-click="moveDlg.view === 'select' && moveDlg.selectNode(node.model.id)">
 						<span class="root-icon glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></span>
 						<span class="back-icon glyphicon glyphicon-menu-left"></span>
-						<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+						<span ng-show="node.model.name != 'ROOT'">{{ node.model.folderObj.displayName }}</span>
 					</button>
 				</li>
 			</ul>
@@ -64,7 +64,7 @@
 											<span class="fb-folder glyphicon glyphicon-folder-close"></span>	
 										</span>
 										<span class="name" title="{{doc.model.name}}">
-											{{ doc.model.name }}
+											{{ doc.model.folderObj.displayName }}
 										</span>
 									</span>
 								</span>
@@ -74,7 +74,7 @@
 											<span class="fb-folder glyphicon glyphicon-folder-close"></span>
 										</span>
 										<span class="name">
-											{{ doc.model.name }}
+											{{ doc.model.folderObj.displayName }}
 										</span>
 									</span>
 								</span>
@@ -88,7 +88,7 @@
 										<span class="fb-folder glyphicon glyphicon-folder-close"></span>
 									</span>
 									<span class="name">
-										{{ doc.model.name }}
+										{{ doc.model.folderObj.displayName }}
 									</span>
 								</span>
 							</span>
