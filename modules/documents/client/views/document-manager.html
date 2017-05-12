@@ -351,7 +351,6 @@
 			</div>
 
 		</div>
-		
 		<div class="fb-details-panel">
 			<!-- Load the File/Folder Details -->
 			<div class="spinner-container" ng-show="documentMgr.busy">
@@ -554,12 +553,10 @@
 			</div>
 			<div class="fb-details-content" ng-if="!documentMgr.infoPanel.data || documentMgr.infoPanel.type === 'None'">
 				<div class="title-panel">
-					<div class="title-panel-info">
-						<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h2 title="{{project.name}}">{{project.name}}</h2>
-					</div>
+					<button class="btn btn-default close" type="button" ng-click="documentMgr.infoPanel.close()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h2 title="{{project.name}}">{{project.name}}</h2>
 				</div>
 				<div class="scroll-container">
 					Select one file or folder to view details.
@@ -567,7 +564,6 @@
 			</div><!-- / NO DETAILS -->
 
 		</div>
-
 	</div>
 
 </div>
