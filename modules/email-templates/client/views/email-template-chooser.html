@@ -5,7 +5,7 @@
 
 <div class="modal-body">
 	<div class="table-container">
-		<table class="table table-hover table-scroll" ng-class="{'no-records': !s.items || s.items.length === 0}" ng-table="self.tableParams">
+		<table class="table table-hover table-scroll select-email-template" ng-class="{'no-records': !s.items || s.items.length === 0}" ng-table="self.tableParams">
 			<tr ng-class="{'active': s.isSelected(t._id)}"
 				ng-repeat="t in s.items">
 				<td class="col checkbox-col"
