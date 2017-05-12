@@ -2,6 +2,7 @@
 <div class="view-title-container flex-row">
 	<h1><span ng-show="project.name">Add/Edit Comment Period</h1>
 	<div class="actions">
+		<a class="btn btn-info btn-sm" style="margin-right: 20px;" href x-modal-day-calculator ng-disabled="busy">Day Calculator</a>
 		<a class="btn btn-default btn-sm" ui-sref="p.commentperiod.list" ng-disabled="busy">Cancel</a>
 		<a class="btn btn-primary btn-sm" href ng-click="save()" ng-disabled="busy">Save</a>
 	</div>
@@ -15,7 +16,7 @@
     <div ng-show="hasErrors" class="alert alert-danger flex-row">
 		<div class="alert-icon"><span class="glyphicon glyphicon-exclamation-sign"></span></div>
 		<div class="alert-msg">
-			<span class="alert-msg-title">Roles & Permissions are not complete.</span>
+			<span class="alert-msg-title">Roles &amp; Permissions are not complete.</span>
 			<span class="alert-msg-details">There must be at least one (1) role assigned to each permission.</span>
 		</div>
 	</div>
@@ -32,7 +33,7 @@
 			<a href ng-click="form.curTab = 'pcpOpenHouses'">Open Houses</a>
 		</li>
 		<li role="presentation" ng-class="{'active':form.curTab === 'pcpRoles'}">
-			<a href ng-click="form.curTab = 'pcpRoles'">Roles & Permissions</a>
+			<a href ng-click="form.curTab = 'pcpRoles'">Roles &amp; Permissions</a>
 		</li>
 	</ul><!-- / TABS -->
 

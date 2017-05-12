@@ -13,6 +13,7 @@ angular.module('utils')
     .controller('controllerModalRecipientList', controllerModalRecipientList)
     .controller('controllerModalUserContactInfo', controllerModalUserContactInfo)
     .controller('controllerModalSelectItems', controllerModalSelectItems)
+    .controller('controllerModalDayCalculator', controllerModalDayCalculator)
     .controller('controllerModalDatePicker', controllerModalDatePicker);
 
 
@@ -281,6 +282,255 @@ function controllerModalUsersSelect($scope, users, orgs, project, config, $modal
 
 // -----------------------------------------------------------------------------------
 //
+// CONTROLLER: Modal Day Calculator
+//
+// -----------------------------------------------------------------------------------
+controllerModalDayCalculator.$inject = ['$scope', '$modalInstance', 'moment'];
+/* @ngInject */
+function controllerModalDayCalculator($scope, $modalInstance, moment) {
+	var dayCalculator = this;
+
+	dayCalculator.startDate = "";
+	dayCalculator.endDate = "";
+	dayCalculator.numDays = 0;
+
+	dayCalculator.startDateAlert = "";
+	dayCalculator.endDateAlert = "";
+
+	dayCalculator.suspendDate = "";
+	dayCalculator.resumeDate = "";
+
+	dayCalculator.suspendDateAlert = "";
+	dayCalculator.resumeDateAlert = "";
+
+	var types = [
+		{ displayName: "Regular",    value: "regular",   description: "Start date is excluded from calculation." },
+		{ displayName: "Day Zero",   value: "dayZero",   description: "Start date is included in calculation." },
+		{ displayName: "Suspension", value: "suspended", description: "Suspended dates are excluded from calculation." },
+	];
+	dayCalculator.types = types;
+	dayCalculator.type = types[0];
+
+	var isNonBCBusinessDay = function(date) {
+		// No date is acceptible
+		if (!date) return "";
+
+		// Valid date?
+		date = moment(date);
+		if (!date.isValid()) return "Invalid date";
+
+		// Weekend?
+		var day = date.day();
+		if (day === 0) return "Sunday";
+		if (day === 6) return "Saturday";
+
+		// Holiday?
+		var month = date.month() + 1;
+		var monthDay = date.date();
+		var isMonday = day === 1;
+
+		// New Year's Day
+		if (month === 1 && monthDay === 1) return "New Year's Day";
+
+		// Family Day: Second Monday of February
+		if (month === 2 && isMonday && monthDay > 7 && monthDay < 15) return "Family Day";
+
+		// Good Friday: Hard-coded.
+		var year = date.year();
+		if ((year === 2017 && month === 4 && monthDay === 14) ||
+		    (year === 2018 && month === 3 && monthDay === 30) ||
+		    (year === 2019 && month === 4 && monthDay === 19) ||
+		    (year === 2020 && month === 4 && monthDay === 10) ||
+		    (year === 2021 && month === 4 && monthDay === 2 ) ||
+		    (year === 2022 && month === 4 && monthDay === 15) ||
+		    (year === 2023 && month === 4 && monthDay === 7 ) ||
+		    (year === 2024 && month === 3 && monthDay === 29) ||
+		    (year === 2025 && month === 4 && monthDay === 18) ||
+		    (year === 2026 && month === 4 && monthDay === 3 ) ||
+		    (year === 2027 && month === 3 && monthDay === 26)) return "Good Friday";
+
+		// Victoria Day: Penultimate Monday of May
+		if (month === 5 && isMonday && monthDay > 17 && monthDay < 25) return "Victoria Day";
+
+		// Canada Day: will fall on the 2nd if the 1st is a Sunday
+		if ((month === 7 && monthDay === 1) || (month === 7 && monthDay === 2 && isMonday)) return "Canada Day";
+
+		// B.C. Day: First Monday of August
+		if (month === 8 && isMonday && monthDay < 8) return "B.C. Day";
+
+		// Labour Day: First Monday of September
+		if (month === 9 && isMonday && monthDay < 8) return "Labour Day";
+
+		// Thanksgiving Day: Second Monday of October
+		if (month === 10 && isMonday && monthDay > 7 && monthDay < 15) return "Thanksgiving Day";
+
+		// Remembrance Day
+		if (month === 11 && monthDay === 11) return "Remembrance Day";
+
+		// Christmas Day: Note Boxing Day is not a stat holiday.
+		if (month === 12 && monthDay === 25) return "Christmas Day";
+
+		// Otherwise
+		return "";
+	};
+
+	var getDateAlert = function(date) {
+		var alert = isNonBCBusinessDay(date);
+		if (alert) {
+			// TODO: Use alert text for better description.
+			return "Non-BC Business Day.";
+		}
+		return "";
+	};
+
+	// Update alert text when a date changes
+
+	$scope.$watch('dayCalculator.startDate', function(newDate) {
+		dayCalculator.startDateAlert = getDateAlert(newDate);
+	});
+
+	$scope.$watch('dayCalculator.endDate', function(newDate) {
+		dayCalculator.endDateAlert = getDateAlert(newDate);
+	});
+
+	$scope.$watch('dayCalculator.suspendDate', function(newDate) {
+		dayCalculator.suspendDateAlert = getDateAlert(newDate);
+	});
+
+	$scope.$watch('dayCalculator.resumeDate', function(newDate) {
+		dayCalculator.resumeDateAlert = getDateAlert(newDate);
+	});
+
+	dayCalculator.ok = function() { $modalInstance.dismiss('cancel'); };
+
+	dayCalculator.reset = function() {
+		dayCalculator.startDate = "";
+		dayCalculator.endDate = "";
+		dayCalculator.numDays = 0;
+		dayCalculator.startDateAlert = "";
+		dayCalculator.endDateAlert = "";
+		dayCalculator.suspendDate = "";
+		dayCalculator.resumeDate = "";
+		dayCalculator.suspendDateAlert = "";
+		dayCalculator.resumeDateAlert = "";
+		dayCalculator.type = types[0];
+	};
+
+	dayCalculator.go = function() {
+		var dayZero = dayCalculator.type.value === "dayZero";
+		var suspended = dayCalculator.type.value === "suspended";
+		var temp, numDays;
+
+		if (suspended && dayCalculator.suspendDate && dayCalculator.resumeDate && dayCalculator.suspendDate > dayCalculator.resumeDate) {
+			// Swap dates if resume date is later than suspend date
+			temp = moment(dayCalculator.suspendDate);
+			dayCalculator.suspendDate = moment(dayCalculator.resumeDate);
+			dayCalculator.resumeDate = temp;
+		}
+
+		// Given two of Start Date, End Date, and Number of Days, calculate the third field.
+
+		if (dayCalculator.startDate && dayCalculator.endDate) {
+			if (dayCalculator.startDate > dayCalculator.endDate) {
+				// Swap dates if start date is later than end date
+				temp = moment(dayCalculator.startDate);
+				dayCalculator.startDate = moment(dayCalculator.endDate);
+				dayCalculator.endDate = temp;
+			}
+
+			// Count the number of days between start and end dates
+			dayCalculator.numDays = 0;
+
+			var date = moment(dayCalculator.startDate);
+
+			// Include the start date in the calculation.
+			if (dayZero && !isNonBCBusinessDay(date)) dayCalculator.numDays++;
+
+			// Look at every date between
+			while (date < dayCalculator.endDate) {
+				date.add(1, 'd');
+
+				// Do not count if non-business day
+				if (isNonBCBusinessDay(date)) continue;
+
+				// Factor in a suspension
+				if (suspended && dayCalculator.suspendDate && date >= dayCalculator.suspendDate) {
+					// Stop if the suspension goes past the end date
+					if (!dayCalculator.resumeDate || dayCalculator.endDate < dayCalculator.resumeDate) return;
+
+					// Don't count days in the suspension range
+					if (date < dayCalculator.resumeDate) continue;
+				}
+
+				// If we've made it this far, count the day
+				dayCalculator.numDays++;
+			}
+		} else if (dayCalculator.startDate && dayCalculator.numDays) {
+			// Find the end date from the start date and number of days
+			dayCalculator.endDate = moment(dayCalculator.startDate);
+
+			numDays = 0;
+
+			// Include the start date in the calculation.
+			if (dayZero && !isNonBCBusinessDay(dayCalculator.startDate)) numDays++;
+
+			// Start counting the days
+			while (numDays < dayCalculator.numDays) {
+				dayCalculator.endDate.add(1, 'd');
+
+				// Do not count if non-business day
+				if (isNonBCBusinessDay(dayCalculator.endDate)) continue;
+
+				// Factor in a suspension
+				if (suspended && dayCalculator.suspendDate && dayCalculator.endDate >= dayCalculator.suspendDate) {
+					if (!dayCalculator.resumeDate) {
+						// Can't find an end date if there is no resume date
+						dayCalculator.endDate = "";
+						return;
+					}
+
+					// Don't count days in the suspension range
+					if (dayCalculator.endDate < dayCalculator.resumeDate) continue;
+				}
+
+				// If we've made it this far, count the day
+				numDays++;
+			}
+		} else if (dayCalculator.endDate && dayCalculator.numDays) {
+			// Find the start date from the end date and number of days
+			dayCalculator.startDate = moment(dayCalculator.endDate);
+
+			// Include the start date in the calculation.
+			numDays = dayZero ? 1 : 0;
+
+			// Start counting back the days
+			while (numDays < dayCalculator.numDays) {
+				dayCalculator.startDate.subtract(1, 'd');
+
+				// Do not count if non-business day
+				if (isNonBCBusinessDay(dayCalculator.startDate)) continue;
+
+				// Factor in a suspension
+				if (suspended && dayCalculator.suspendDate && dayCalculator.startDate >= dayCalculator.suspendDate) {
+					if (!dayCalculator.resumeDate) {
+						// Can't find a start date if there is no resume date
+						dayCalculator.startDate = "";
+						return;
+					}
+
+					// Don't count days in the suspension range
+					if (dayCalculator.startDate < dayCalculator.resumeDate) continue;
+				}
+
+				// If we've made it this far, count the day
+				numDays++;
+			}
+		}
+	};
+}
+
+// -----------------------------------------------------------------------------------
+//
 // CONTROLLER: Requirement Completion Calculation
 // provide Project and list of requirements, response is reqCheckList.reqs with a list of requirements completed
 //
@@ -453,13 +703,16 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 // CONTROLLER: Modal: Add Anon Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDatePicker.$inject = ['$modalInstance', 'rChosenDate', 'moment','mindate', 'maxdate'];
+controllerModalDatePicker.$inject = ['$modalInstance', 'rChosenDate', 'rHeader', 'moment', 'mindate', 'maxdate', 'showTime'];
 /* @ngInject */
-function controllerModalDatePicker($modalInstance, rChosenDate, moment, mindate, maxdate) {
+function controllerModalDatePicker($modalInstance, rChosenDate, rHeader, moment, mindate, maxdate, showTime) {
 	var modalDatePick = this;
 
 	modalDatePick.chosenDate = rChosenDate || moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0});
+	modalDatePick.header = rHeader || '';
 	modalDatePick.showSelector = true;
+	// directive: shows time section by default
+	modalDatePick.showTime = showTime;
 
 	modalDatePick.toggleMin = function() {
  		modalDatePick.minDate = mindate;  //if start date is selected
