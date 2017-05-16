@@ -241,24 +241,6 @@ var setModel = function (Dbclass, name) {
 	};
 };
 exports.setModel = setModel;
-
-var setModelByQuery = function () {
-	return function (req, res, next) {
-		var name = req.query.collection;
-		if (name !== 'documents') {
-			return Promise.reject("Search only supports documents and requires documents parameter.");
-		}
-		var Dbclass = require (path.resolve('./modules/documents/server/controllers/core.document.controller.js'));
-		var fields = ['description', 'displayName', 'keywords'];
-		setSessionContext (req)
-		.then (function (opts) {
-			req.searchFields = fields;
-			req.model = new Dbclass (opts);
-			next ();
-		});
-	};
-};
-exports.setModelByQuery = setModelByQuery;
 // -------------------------------------------------------------------------
 //
 // this is a nice shorthard for working with the dbmodel set on the request
@@ -293,25 +275,14 @@ var setAndRun = function (Dbclass, f) {
 exports.setAndRun = setAndRun;
 
 
-function searchMiddle(req, res, next) {
-	function workerFunction (model, searchFields, queryOptions) {
-		return model.search (searchFields, queryOptions);
-	}
-	setSessionContext (req)
-	.then (function (opts) {
-		runPromise (res, workerFunction (req.model, req.searchFields, req.query));
-	});
-}
-exports.searchMiddle = searchMiddle;
-
 var setContextAndRun = function (Dbclass, context, f) {
 	return function (req, res, next) {
 		console.log('# setContextAndRun(context = ' + context +' )');
 		req.cookies.context = context;
 		setSessionContext (req)
-		.then (function (opts) {
-			runPromise (res, f (new Dbclass (opts), req));
-		});
+			.then (function (opts) {
+				runPromise (res, f (new Dbclass (opts), req));
+			});
 	};
 };
 exports.setContextAndRun = setContextAndRun;
@@ -380,8 +351,51 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 	//
 	if (r.paginate) app.route('/api/paginate/'+basename)
 		.all(policy(policymap))
-		.put (setAndRun (DBClass,function (model, req) {
-			return runPaginate (model, req.body);
+		.put (setAndRun (DBClass, function (model, req) {
+			var query = {};
+			var filter = {};
+			var skip = 0;
+			var limit = 100;
+			var sortby = {};
+
+			// fields, populate, and userCan aren't specific to table params
+			var fields = null;
+			var populate = null;
+			var userCan = false;
+
+			if (req.body) {
+				if (req.body.filterBy) {
+					query = req.body.filterBy;
+				}
+				if (req.body.filterByFields) {
+					for (var key in req.body.filterByFields) {
+						if (req.body.filterByFields.hasOwnProperty(key)) {
+							filter[key] = req.body.filterByFields[key];
+							console.log(filter);
+						}
+					}
+				}
+				try {
+					limit = parseInt(req.body.limit);
+					skip = parseInt(req.body.start);
+				} catch(e) {
+
+				}
+				if (req.body.orderBy) {
+					sortby[req.body.orderBy] = req.body.reverse ? -1 : 1;
+				}
+				if (req.body.fields) {
+					fields = req.body.fields;
+				}
+				if (req.body.populate) {
+					populate = req.body.populate;
+				}
+				if (req.body.userCan) {
+					userCan = req.body.userCan;
+				}
+			}
+			//query, skip, limit, fields, population, sortby, userCan
+			return model.paginate (query, filter, skip, limit, fields, populate, sortby, userCan);
 		}));
 	if (r.query) app.route ('/api/query/'+basename)
 		.all (policy (policymap))
@@ -443,48 +457,4 @@ exports.setCRUDRoutes = function (app, basename, DBClass, policy, which, policym
 		}));
 };
 
-function runPaginate(model, options) {
-	var query = {};
-	var filter = {};
-	var skip = 0;
-	var limit = 100;
-	var sortby = {};
 
-	// fields, populate, and userCan aren't specific to table params
-	var fields = null;
-	var populate = null;
-	var userCan = false;
-
-	if (options) {
-		if (options.filterBy) {
-			query = options.filterBy;
-		}
-		if (options.filterByFields) {
-			for (var key in options.filterByFields) {
-				if (options.filterByFields.hasOwnProperty(key)) {
-					filter[key] = options.filterByFields[key];
-				}
-			}
-		}
-		try {
-			limit = parseInt(options.limit);
-			skip = parseInt(options.start);
-		} catch(e) {
-
-		}
-		if (options.orderBy) {
-			sortby[options.orderBy] = options.reverse ? -1 : 1;
-		}
-		if (options.fields) {
-			fields = options.fields;
-		}
-		if (options.populate) {
-			populate = options.populate;
-		}
-		if (options.userCan) {
-			userCan = options.userCan;
-		}
-	}
-	//query, skip, limit, fields, population, sortby, userCan
-	return model.paginate (query, filter, skip, limit, fields, populate, sortby, userCan);
-}
