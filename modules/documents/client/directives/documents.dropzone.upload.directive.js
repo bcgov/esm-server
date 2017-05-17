@@ -23,7 +23,7 @@ angular.module('documents')
 
 							$scope.uploadService = self.uploadService = DocumentsUploadService;
 							self.uploadService.reset(); // just in case... want the upload service to be cleared
-							self.project = $scope.project;
+							self.project = scope.project;
 							self.title = "Drop files into '" + self.project.name + "'";
 							self.url = '/api/dropzone/' + self.project._id + '/upload';
 
