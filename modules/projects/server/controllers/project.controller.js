@@ -998,9 +998,15 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	mine: function () {
 		var self = this;
+		if (!self.user.username) {
+			console.log("No user name ", self.user);
+			return Promise.reject("Unauthorized");
+		}
+		// For comprehensive description of the rules see EPIC-1035
 		var isProjectIntake = _.find(self.opts.userRoles, function(r) { return r === 'project-intake'; }) !== undefined;
 
 		//Ticket ESM-640.  If these are the user's only roles on a project, don't show the project.
+		// This is because these roles are added to all projects.
 		var ignoredSystemRoles = ['compliance-lead', 'project-eao-staff', 'project-qa-officer', 'project-intake'];
 		var findMyProjectRoles = function (username) {
 			return new Promise(function (fulfill, reject) {
@@ -1084,6 +1090,67 @@ module.exports = DBModel.extend ({
 			}
 		};
 
+		var addAllMyProjectRoles = function (username, projList) {
+			var projectIds = _.uniq(_.map(projList, '_id'));
+			return new Promise(function (fulfill, reject) {
+				Role.find({ user: username, context: {$in: projectIds} })
+				.select ({context: 1, role: 1})
+				.exec(function (error, data) {
+					if (error) {
+						reject(new Error(error));
+					} else if (!data) {
+						reject(new Error('findAllMyProjectRoles: Project IDs not found for username, no project roles assigned for: ' + username));
+					} else {
+						_.forEach(projList, function (project) {
+							var projRoles = _.filter(data, function(x) { return x.context === project._id.toString(); });
+							project.userProjectRoles = _.uniq(_.map(projRoles, 'role'));
+
+							var proponentRoles = _.filter(project.userProjectRoles, function(role) {
+								return _.indexOf(["project-system-admin", "proponent-lead", "proponent-team"],role) > -1;
+							});
+							project.userCanUpload = _.size(proponentRoles) > 0;
+
+							var staffRoles = _.filter(project.userProjectRoles, function(role) {
+								return _.indexOf(["project-system-admin", "assessment-admin", "assessment-lead", "assessment-team", "project-epd"],role) > -1;
+							});
+							project.userCanMove = _.size(staffRoles) > 0;
+						});
+						fulfill(projList);
+					}
+				});
+			});
+		};
+
+		var addDropZoneDocumentsForProjects =  function (projList) {
+			var projectIds = _.uniq(_.map(projList, '_id'));
+			var query = {
+				project: {$in: projectIds},
+				$and: [
+					{documentSource: 'DROPZONE'},
+					{directoryID: 0} // not yet moved into the project directory structure
+				]
+			};
+			var sort = { dateUploaded: 'descending'};
+			return new Promise(function(fulfill, reject) {
+				DocumentModel.find (query)
+				.sort(sort)
+				.exec (function(error, data) {
+					if (error) {
+						reject(new Error(error));
+					} else if (!data) {
+						fulfill([]);
+					} else {
+						_.forEach(projList, function (project) {
+							project.dropZoneFiles = _.filter(data, function (doc) {
+								return doc.project.toString() === project._id.toString();
+							});
+						});
+						fulfill(projList);
+					}
+				});
+			});
+		};
+
 		var projects, unpublishedprojects, allprojects = [];
 		return findMyProjectRoles(self.user.username)
 			.then(function(prs) {
@@ -1103,8 +1170,24 @@ module.exports = DBModel.extend ({
 						allprojects.push(o);
 					}
 				});
-				return _.sortBy(allprojects, function(o) { return o.name; });
-			});
+
+				allprojects = _.sortBy(allprojects, function(o) { return o.name; });
+
+				// The following will extend each project with new properties to be used by clients.
+				// The Mongoose object can not be extended so convert all projects to plain JS objects
+				allprojects = _.map(allprojects,function(p) {return p.toObject();});
+				return allprojects;
+			})
+			.then(function(results){
+				return addDropZoneDocumentsForProjects(results);
+			})
+			.then(function(results){
+				return addAllMyProjectRoles(self.user.username, results);
+			})
+			.then(function(results){
+				return results;
+			})
+		;
 	},
 	forProponent: function (id) {
 		// show this list for an org in the system/management screens.

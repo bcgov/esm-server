@@ -4,164 +4,126 @@
 </div>
 
 <!-- MAIN PANEL -->
-<div class="main-panel" ng-hide="dashboardLoading">
+<div class="main-panel" ng-if="!vm.authentication.user">
+    <h1>Unauthorized</h1>
+</div>
+<div class="main-panel" ng-if="vm.authentication.user" ng-hide="dashboardLoading">
 
     <div class="view-title-container flex-row">
         <h1>Dashboard</h1>
         <div class="actions">
-            <a ng-show="application.userCan.createProject" ui-sref="p.edit({projectid:'new'})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add New Project</span></a>
+            <a class="btn btn-primary btn-sm"
+               ng-show="application.userCan.createProject"
+               ui-sref="p.edit({projectid:'new'})">
+                <span class="glyphicon glyphicon-plus"></span><span>Add New Project</span>
+            </a>
         </div>
     </div>
 
     <div class="view-body-container">
-
         <!-- PROJECTS LIST -->
-        <section>
-            <div class="panel panel-default" style="margin-bottom: 1.5rem;">
-                <div class="panel-heading"><h2>My Projects</h2></div>
-                <table class="projects-table table table-hover"
-                    ng-table="projectParams"
-                    x-show-filter="true">
-                    <tr ng-repeat="o in $data" ui-sref="p.detail({projectid: o.code})" class="clickable">
-                        <td data-title="'Name'"
-                            filter="{'name':'text'}"
-                            sortable="'name'">{{o.name}}
-                        </td>
-                        <td ng-if="environment === 'MEM'"
-                            title="'data-Permit'"
-                            sortable="'memPermitID'">{{o.memPermitID}}
-                        </td>
-                        <td data-title="'Type'"
-                            sortable="'type'">{{o.type}}
-                        </td>
-                        <td data-title="'Region'"
-                            sortable="'region'">{{o.region | regionName}}
-                        </td>
-                        <td data-title="'Phase'"
-                            sortable="'currentPhase.name'" >{{o.currentPhase.name}}
-                        </td>
-                        <td ng-if="environment === 'EAO'"
-                            data-title="'Status'"
-                            sortable="'status'">{{o.status}}
-                        </td>
-                    </tr>
-                    <tr class="no-records" ng-show="!$data || !$data.length">
-                        <td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
-                        <td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
-                    </tr>
+        <div class="panel panel-default dzf-container">
+            <div class="panel-heading"><h2>My Projects</h2></div>
+            <div class="dzf-project-row" ng-class="{'active': project.selected}" ng-repeat="project in vm.projects">
+                <table class="table dzf-table">
+                    <td class="expand-col">
+                        <span>
+                            <button class="btn icon-btn btn-sm"
+                                ng-click="$event.stopPropagation(); vm.toggleExpand(project._id)">
+                                <span class="glyphicon glyphicon-triangle-right open-icon" ng-if="!project.expanded"></span>
+                                <span class="glyphicon glyphicon-triangle-bottom close-icon" ng-if="project.expanded"></span>
+                            </button>
+                        </span>
+                    </td>
+                    <td class="project-name-col" >
+                        <a title="Go To {{project.name}}" ui-sref="p.detail({projectid: project.code})">
+                            {{project.name}}
+                        </a>
+                    </td>
+                    <td class="inbox-col">
+                        <label class="label label-info" ng-if="project.dropZoneFiles.length > 0">
+                            {{project.dropZoneFiles.length}}
+                        </label>
+                        <label class="label label-default" ng-if="project.dropZoneFiles.length == 0">
+                            {{project.dropZoneFiles.length}}
+                        </label>
+                    </td>
+                    <td class="upload-col">
+                        <button class="btn btn-default btn-sm" title="Upload Files"
+                                ng-click="vm.forceSelect(project._id)"
+                                ng-if="project.userCanUpload"
+                                x-document-drop-zone-upload-modal
+                                x-project="project"
+                                x-target="project.dropZoneFiles">
+                            <span class="glyphicon glyphicon-open"></span><span class="btn-txt">Upload Files</span>
+                        </button>
+                    </td>
                 </table>
-            </div>
-
-            <!--
-            <div class="panel panel-default">
-                <div class="panel-heading clearfix">
-                    <h2 class="pull-left">Activities</h2>
-                </div>
-                <table class="table table-hover" ng-table="tableParams" show-filter="true">
-                  <tr class="clickable" ng-repeat="o in $data" ui-sref="p.artifact.view({projectid: o.project.code, artifactId:o._id})">
-                    <td class="project-name-col" header-class="'project-name-col'" data-title="'Project'" filter="{'project.name':'text'}" sortable="'project.name'">{{o.project.name}}
-                    </td>
-                    <td class="artifact-name-col" header-class="'artifact-name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">
-                      {{o.name}}
-                    </td>
-                    <td ng-if="!published" data-title="'Stage'" filter="{'stage':'select'}" filter-data="stageArray" sortable="'stage'">
-                      {{o.stage}}<br/><span class="placeholder-value" ng-if="o.stageRole">({{o.stageRole}})</span>
-                    </td>
-                    <td data-title="'Last Updated'" filter-data="'dateUpdated'" sortable="'dateUpdated'">
-                      {{ o.dateUpdated | amDateFormat:'MMM DD, YYYY' }}
-                    </td>
-                  </tr>
-                  <tr class="no-records" ng-if="(!$data || $data.length === 0)">
-                    <td colspan="4">
-                      <span>No records found.</span>
-                    </td>
-                  </tr>
-                </table>
-            </div>
-           -->
-        </section>
-
-        <!-- ACTIVITIES LIST -->
-        <!--
-        <section class="right-panel activities-container hidden">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2>My Activities<span class="hidden">&nbsp;&rsaquo; Project Title</span>&nbsp;<span>(*)</span></h2>
-                </div>
-                <div class="tab-container">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="all-activities">
-                            <a href="#active" aria-controls="active" role="tab" data-toggle="tab">Active (*)</a>
-                        </li>
-                        <li role="all-activities">
-                            <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Complete (*)</a>
-                        </li>
-                        <li class="active" role="all-activities">
-                            <a href="#all" aria-controls="all" role="tab" data-toggle="tab">All (*)</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane" id="active" role="tabpanel">
-                            <ul class="activities-list">
-                                <li>
-                                    <h3>Activity</h3>
-                                    <div class="activity-info">
-                                        <small>Project: <span>Project Name</span></small>
-                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                        <small>End Date: <span>MM/DD/YYYY</span></small>
-                                    </div>
-                                    <span class="badge bg-primary">Active</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane" id="completed" role="tabpanel">
-                            <ul class="activities-list list-group">
-                                <li>
-                                    <h3>Activity</h3>
-                                    <div class="activity-info">
-                                        <small>Project: <span>Project Name</span></small>
-                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                        <small>End Date: <span>MM/DD/YYYY</span></small>
-                                    </div>
-                                    <span class="badge success">Complete</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-pane active" id="all" role="tabpanel">
-                            <ul class="activities-list list-group">
-                                <li>
-                                    <h3>Activity</h3>
-                                    <div class="activity-info">
-                                        <small>Project: <span>Project Name</span></small>
-                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                        <small>End Date: <span>MM/DD/YYYY</span></small>
-                                    </div>
-                                    <span class="badge bg-primary">To Do</span>
-                                </li>
-                                <li>
-                                    <h3>Activity</h3>
-                                    <div class="activity-info">
-                                        <small>Project: <span>Project Name</span></small>
-                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                        <small>End Date: <span>MM/DD/YYYY</span></small>
-                                    </div>
-                                    <span class="badge success">Complete</span>
-                                </li><li>
-                                    <h3>Activity</h3>
-                                    <div class="activity-info">
-                                        <small>Project: <span>Project Name</span></small>
-                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
-                                        <small>End Date: <span>MM/DD/YYYY</span></small>
-                                    </div>
-                                    <span class="badge success">Complete</span>
-                                </li>
-                            </ul>
+                <div class="dzf-collapse-panel collapse" ng-class="{'collapse': !project.expanded}">
+                    <div class="dzf-file-container table-container">
+                        <table class="dzf-file-table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="name-col">File Name</th>
+                                    <th class="upload-by-col">Uploaded By</th>
+                                    <th class="upload-date-col">Upload Date</th>
+                                    <th class="actions-col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="file in project.dropZoneFiles">
+                                    <td class="name-col">
+                                            <div class="name-col-inner">
+                                            <div class="avatar dzf-file">
+                                                <span class="fb-file glyphicon glyphicon-file"></span>
+                                            </div>
+                                            <div class="dzf-info">
+                                                <a class="dzf-name" title="Download/View File" href="/api/document/{{ file._id }}/fetch" target="_blank" >
+                                                    {{ file.displayName }}
+                                                </a>
+                                                <div class="dzf-desc">{{file.description}}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="upload-by-col">
+                                        <span title="{{ doc.documentAuthor }}">{{ file.documentAuthor }}</span>
+                                    </td>
+                                    <td class="upload-date-col">
+                                        <span title="{{ file.dateUploaded | date : 'medium' }}">{{ file.dateUploaded | date : 'medium' }}</span>
+                                    </td>
+                                    <td class="actions-col">
+                                        <div class="btn-group">
+                                                <button class="btn icon-btn dropdown-toggle" type="button"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <a class="btn icon-btn btn-sm" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download File">
+                                                        <span class="glyphicon glyphicon-download-alt"></span>
+                                                    </a>
+                                                </li>
+                                                <li ng-if="project.userCanMove">
+                                                    <button class="btn icon-btn btn-sm" title="Move File To Documents"
+                                                        x-drop-zone-move
+                                                        x-doc="file"
+                                                        x-project="project">
+                                                        <span class="glyphicon glyphicon-transfer"></span>
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="no-results" ng-if="project.dropZoneFiles.length == 0">
+                            No Files Available
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-        -->
+        </div>
     </div>
 
 </div>

@@ -1,0 +1,95 @@
+<div class="dropMoveDialog">
+	<div class="spinner-container" ng-show="moveDlg.busy" ng-animate>
+		<div class="spinner-new rotating"></div>
+	</div>
+
+	<div class="modal-header">
+		<button type="button" class="btn btn-default close" ng-click="moveDlg.cancel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h3 class="modal-title">Move File to Documents</h3>
+	</div>
+
+	<div class="modal-body">
+
+		<div class="m-b-1">File <span class="displayName"> {{ moveDlg.doc.displayName }} </span></div>
+
+
+		<div class="m-b-1">
+			<div class="form-group col-sm-12 description">
+				<label class="control-label">Description</label>
+				<textarea id="content" rows="2" name="content" class="form-control" ng-model="moveDlg.docDescription"></textarea>
+			</div>
+		</div>
+
+
+		<div class="m-b-1">Project <span class="displayName"> {{ moveDlg.project.name }} </span></div>
+
+		<div class="file-browser">
+			<div class="fb-header">
+				<ul class="fb-breadcrumbs">
+					<li ng-repeat="dir in moveDlg.currentPath">
+						<button class="btn icon-btn" ng-click="!$last && moveDlg.selectNode(dir)">
+							<span class="root-icon glyphicon glyphicon-home" ng-if="dir.model.name == 'ROOT'"></span>
+							<span class="back-icon glyphicon glyphicon-menu-left"></span>
+							<span ng-show="dir.model.name != 'ROOT'">{{ dir.model.name }}</span>
+						</button>
+					</li>
+				</ul>
+			</div>
+
+			<div id="fbBody" class="fb-body">
+				<div class="fb-list">
+					<div class="column-header">
+						<div class="fb-col-group">
+							<div class="col name-col first-col">
+								<span>Name</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="scroll-container">
+						<div class="scroll-container-inner">
+							<div class="empty-directory-msg"
+									 ng-if="moveDlg.currentDirs.length == 0">This folder is empty.
+							</div>
+							<ul>
+								<li class="fb-list-item"
+										ng-repeat="dir in moveDlg.currentDirs">
+									<span class="fb-col-group"
+										ng-click="$event.originalEvent.dropdown || moveDlg.selectNode(dir)">
+										<span class="col name-col first-col">
+											<span class="avatar">
+												<span class="fb-folder glyphicon glyphicon-folder-close"></span>
+											</span>
+											<span class="name" title="{{dir.model.name}}">
+												{{ dir.model.name }}
+											</span>
+										</span>
+									</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-body">
+		<div class="">Move <span class="displayName">{{ moveDlg.doc.displayName }}</span> to </div>
+		<div>
+		<span ng-repeat="node in moveDlg.currentPath">
+					<span class="root-icon glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></span>
+					<span ng-show="node.model.name != 'ROOT'" class="back-icon glyphicon glyphicon-menu-right"></span>
+					<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+				</span>
+		</div>
+	</div>
+	<div class="modal-footer clearfix">
+		<div>
+			<button class="btn btn-default" ng-click="moveDlg.cancel()">Cancel</button>
+			<button class="btn btn-primary" ng-click="moveDlg.select()">Move</button>
+		</div>
+	</div>
+</div>

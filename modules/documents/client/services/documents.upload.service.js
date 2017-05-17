@@ -136,7 +136,7 @@ angular.module('documents')
 		};
 
 
-		this.startUploads = function(targetUrl, directoryID, reviewdocs, dateUploaded) {
+		this.startUploads = function(targetUrl, directoryID, reviewdocs, dateUploaded, description) {
 			var self = this;
 			if (self.actions.busy) {
 				return;
@@ -177,6 +177,10 @@ angular.module('documents')
 						displayname: file.name,
 						directoryid : directoryID
 					};
+
+					if (description) {
+						data.description = description;
+					}
 
 					if (dateUploaded) {
 						data.dateuploaded = dateUploaded;
