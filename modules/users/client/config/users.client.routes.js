@@ -1,8 +1,8 @@
 'use strict';
 
 // Setting up route
-angular.module('users').config(['$stateProvider',
-	function ($stateProvider) {
+angular.module('users').config(['$stateProvider', 'TreeModel', '_',
+	function ($stateProvider, TreeModel, _) {
 		// Users state routing
 		$stateProvider
 			.state('settings', {
@@ -123,59 +123,102 @@ angular.module('users').config(['$stateProvider',
 				url: '/contact',
 				templateUrl: 'modules/guidance/client/views/contact.html'
 			})
-			
+			// Activities appear as Dashboard to user. Now includes DropZone.
 			.state('activities', {
 				url: '/activities',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
 				cache: false,
 				resolve: {
-				},
-				controller: function ($scope, $state, $stateParams, NgTableParams, _, ProjectModel) {
-					// console.log (projects);
-					// console.log (activities);
-					//console.log (JSON.stringify(artifacts));
-					$scope.dashboardLoading = true;
-					$scope.projects = [];
-					$scope.projectParams = new NgTableParams ({count:50}, {dataset: $scope.projects});
-
-					ProjectModel.mine().then(function(data) {
-						$scope.projects = data;
-						$scope.projectParams = new NgTableParams ({count:50}, {dataset: $scope.projects});
-						$scope.dashboardLoading = false;
-						$scope.$apply();
-					}, function(err) {
-						// ?
-						$scope.dashboardLoading = false;
-						$scope.$apply();
-
-					});
-					/*
-					$scope.tableParams = new NgTableParams ({count:50}, {dataset: artifacts});
-
-					// filter lists...
-					$scope.versionArray = [{id: '', title: 'Any Version'}];
-					$scope.stageArray = [{id: '', title: 'Any Stage'}];
-					$scope.phaseArray = [{id: '', title: 'Any Phase'}];
-					// build out the filter arrays...
-					var recs = _(angular.copy(artifacts)).chain().flatten();
-					recs.pluck('version').unique().value().map(function (item) {
-						$scope.versionArray.push({id: item, title: item});
-					});
-					recs.pluck('stage').unique().value().map(function (item) {
-						$scope.stageArray.push({id: item, title: item});
-					});
-					try {
-						recs.pluck('phase.name').unique().value().map(function (item) {
-							$scope.phaseArray.push({id: item, title: item});
-						});
-					} catch(err) {
-						//console.log('error getting the list of phase names to use.');
+					user: function(Authentication) {
+						return Authentication.user;
+					},
+					projects: function (ProjectModel) {
+						return ProjectModel.mine();
 					}
-					*/
-					$scope.getLinkUrl = function (state, params) {
-						$state.go(state, params);
-						// return $state.href (state, params);
-					};
+				},
+				controllerAs: 'vm',
+				controller: function ($scope, $state, $stateParams, $timeout, NgTableParams, projects, Authentication, ProjectModel, ContextService) {
+					var self = this;
+					self.authentication = Authentication;
+					self.projects = projects;
+					self.projectParams = new NgTableParams ({count:50}, {dataset: self.projects});
+
+					// TODO  remove before sumbitting PR.  WIP
+					self.forDevelopmentOnly = true;
+
+					self.toggleExpand = toggleExpand;
+					self.toggleSelect = toggleSelect;
+					self.forceSelect 	= forceSelect;
+					self.forceExpand 	= forceExpand;
+					self.findSelected = findSelected;
+
+					resetSelected();
+					resetExpanded();
+
+					$scope.$on('dropZoneRefresh', function () {
+						// After drop zone file upload.
+						// To get here a project has been selected.
+						var pid = self.findSelected()._id;
+						ProjectModel.mine()
+						.then(function(results) {
+							self.projects = results;
+							$scope.$apply();
+							// let the new content run through the digest cycle then ...
+							$timeout(function () {
+								self.forceExpand(pid);
+							},10);
+						});
+					});
+
+					function toggleExpand (projectId) {
+						self.forceSelect(projectId);
+						var p = findProject(projectId);
+						var oldState = p.expanded;
+						resetExpanded();
+						p.expanded = !oldState;
+					}
+
+					function toggleSelect (projectId) {
+						var p = findProject(projectId);
+						var oldState = p.selected;
+						resetSelected();
+						p.selected = !oldState;
+						if(p.selected) {
+							ContextService.sync({name:'p'}, {projectid: p._id});
+						} else  {
+							ContextService.sync({name:''});
+						}
+					}
+
+					function forceExpand (projectId) {
+						self.forceSelect(projectId);
+						var p = findProject(projectId);
+						resetExpanded();
+						p.expanded = true;
+					}
+
+					function forceSelect (projectId) {
+						var p = findProject(projectId);
+						resetSelected();
+						p.selected = true;
+						ContextService.sync({name:'p'}, {projectid: p._id});
+					}
+
+					function resetSelected () {
+						_.forEach(self.projects, function(p) { p.selected = false; });
+					}
+
+					function resetExpanded () {
+						_.forEach(self.projects, function(p) { p.expanded = false; });
+					}
+
+					function findSelected () {
+						return _.find(self.projects, function (p) { return p.selected; });
+					}
+
+					function findProject (projectId) {
+						return _.find(self.projects, function (p) { return p._id === projectId; });
+					}
 				},
 				data: { }
 			});
