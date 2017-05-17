@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('documents')
-	.directive('documentDropZoneUploadModal',['$modal', 'DocumentsUploadService', 'Document', '_', function ($modal, DocumentsUploadService, Document, _){
+// document-drop-zone-upload-modal
+	.directive('documentDropZoneUploadModal',['$modal', '$rootScope', 'DocumentsUploadService', 'Document', '_', function ($modal, $rootScope, DocumentsUploadService, Document, _){
 		return {
 			restrict: 'A',
 			scope: {
@@ -28,21 +29,20 @@ angular.module('documents')
 							self.url = '/api/dropzone/' + self.project._id + '/upload';
 
 							$scope.description = "";
-							self.cancel = cancel;
+							self.done = done;
 							self.startUploads = startUploads;
 
-							$scope.$watch('uploadService.actions.completed', function (newValue) {
-								// after upload refresh the project's drop zone file list, in the caller's UI
-								if (newValue) {
-									if (scope.target) {
-										Document.getDropZoneDocuments(self.project._id)
-										.then(function(docList){
-												scope.target = docList;
-										});
+							$scope.$watch(function ($scope) {
+									return $scope.uploadService.actions.completed;
+								},
+								function (completed) {
+									if (completed) {
+										$rootScope.$broadcast('dropZoneRefresh');
 									}
 								}
-							});
-							function cancel () {
+							);
+
+							function done () {
 								if (self.uploadService.actions.completed) {
 									$modalInstance.close();
 								} else {

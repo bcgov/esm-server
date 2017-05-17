@@ -12,7 +12,18 @@
 
 	<div class="modal-body">
 
-		<div class="m-b-2">Move <span class="displayName"> {{ moveDlg.doc.displayName }} </span> to:</div>
+		<div class="m-b-1">File <span class="displayName"> {{ moveDlg.doc.displayName }} </span></div>
+
+
+		<div class="m-b-1">
+			<div class="form-group col-sm-12 description">
+				<label class="control-label">Description</label>
+				<textarea id="content" rows="2" name="content" class="form-control" ng-model="moveDlg.doc.description"></textarea>
+			</div>
+		</div>
+
+
+		<div class="m-b-1">Project <span class="displayName"> {{ moveDlg.project.name }} </span></div>
 
 		<div class="file-browser">
 			<div class="fb-header">
