@@ -1,0 +1,91 @@
+<div class="modal-header">
+	<h3 class="modal-title">Day Calculator</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label">Start Date</label>
+				<div class="form-control date-picker" title="{{ dayCalculator.startDate | amDateFormat:'HH:mm:ss' }}"
+					x-modal-date-picker x-selected-date="dayCalculator.startDate" x-hide-time="true" x-header="'Choose a Start Date'">
+					<span ng-if="!dayCalculator.startDate">None</span>
+					{{ dayCalculator.startDate | amDateFormat:'ddd, MMM DD, YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<div ng-show="dayCalculator.startDateAlert" role="alert">
+					<p class="text-danger help-block">{{ dayCalculator.startDateAlert }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label">End Date</label>
+				<div class="form-control date-picker" title="{{ dayCalculator.endDate | amDateFormat:'HH:mm:ss' }}"
+					x-modal-date-picker x-selected-date="dayCalculator.endDate" x-hide-time="true" x-header="'Choose an End Date'">
+					<span ng-if="!dayCalculator.endDate">None</span>
+					{{ dayCalculator.endDate | amDateFormat:'ddd, MMM DD, YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<div ng-show="dayCalculator.endDateAlert" role="alert">
+					<p class="text-danger help-block">{{ dayCalculator.endDateAlert }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label">Number of Days</label>
+				<input class="form-control" type="number" ng-model="dayCalculator.numDays" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label">Calculation Type</label>
+				<select class="form-control" ng-model="dayCalculator.type" ng-options="t.displayName for t in dayCalculator.types" ng-selected="t === dayCalculator.type">
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-4" ng-show="dayCalculator.type.value === 'suspended'">
+			<div class="form-group">
+				<label class="control-label">Suspension Date</label>
+				<div class="form-control date-picker" title="{{ dayCalculator.suspendDate | amDateFormat:'HH:mm:ss' }}"
+					x-modal-date-picker x-selected-date="dayCalculator.suspendDate" x-hide-time="true" x-header="'Choose a Suspension Date'">
+					<span ng-if="!dayCalculator.suspendDate">None</span>
+					{{ dayCalculator.suspendDate | amDateFormat:'ddd, MMM DD, YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<div ng-show="dayCalculator.suspendDateAlert" role="alert">
+					<p class="text-danger help-block">{{ dayCalculator.suspendDateAlert }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4" ng-show="dayCalculator.type.value === 'suspended'">
+			<div class="form-group">
+				<label class="control-label">Resumption Date</label>
+				<div class="form-control date-picker" title="{{ dayCalculator.resumeDate | amDateFormat:'HH:mm:ss' }}"
+					x-modal-date-picker x-selected-date="dayCalculator.resumeDate" x-hide-time="true" x-header="'Choose a Resumption Date'">
+					<span ng-if="!dayCalculator.resumeDate">None</span>
+					{{ dayCalculator.resumeDate | amDateFormat:'ddd, MMM DD, YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<div ng-show="dayCalculator.resumeDateAlert" role="alert">
+					<p class="text-danger help-block">{{ dayCalculator.resumeDateAlert }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label class="control-label">Description</label>
+				<textarea class="form-control" disabled ng-model="dayCalculator.type.description"></textarea>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" type="button" ng-click="dayCalculator.reset()">Reset</button>
+	<button class="btn btn-primary" type="button" ng-click="dayCalculator.ok()">Close</button>
+	<button class="btn btn-success" type="button" ng-click="dayCalculator.go()">Calculate</button>
+</div>
