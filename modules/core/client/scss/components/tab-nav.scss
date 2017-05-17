@@ -1,4 +1,18 @@
 
+
+$pill-sm-active-color: #fff;
+$pill-sm-bg: #eee;
+$pill-sm-active-bg: #38598a;
+
+$pill-lg-color: #999;
+$pill-lg-active-color: #38598a;
+$pill-lg-border-color: #f1f1f1;
+$pill-lg-hover-border-color: #ccc;
+$pill-lg-active-border-color: #38598a;
+$pill-lg-bg: transparent;
+$pill-lg-active-bg: transparent;
+
+
 .nav-pills {
     @include clearfix();
     display: block;
@@ -15,13 +29,13 @@
         margin: 0.25rem;
         padding: 0.75rem;
         border-radius: 0;
-        background-color: #EEE;
+        background-color: $pill-sm-bg;
         text-decoration: none;
         font-size: 0.85rem;
 
         &.active {
-            background-color: #38598a;
-            color: #FFF;
+            background-color: $pill-sm-active-bg;
+            color: $pill-sm-active-color;
         }
     }
 }
@@ -31,8 +45,8 @@
         margin: 0;
         margin-top: -0.5rem;
         margin-bottom: 2.5rem;
-        background-color: transparent;
-        border-bottom: 3px solid #f1f1f1;
+        background-color: $pill-lg-bg;
+        border-bottom: 3px solid $pill-lg-border-color;
         border-radius: 0;
 
         .nav-item {
@@ -45,17 +59,22 @@
             position: relative;
             margin: 0;
             padding: 0.5rem 1rem;
-            border-bottom: 4px solid #f1f1f1;
+            border-bottom: 4px solid $pill-lg-border-color;
             background-color: transparent;
-            color: #CCC;
+            color: $pill-lg-color;
             text-transform: uppercase;
             font-size: 0.85rem;
             font-weight: 700;
+            transition: all ease-in 0.2s;
+
+            &:hover {
+                border-color: $pill-lg-hover-border-color;
+            }
 
             &.active {
-                border-color: #38598a;
+                border-color: $pill-lg-active-border-color;
                 background-color: transparent;
-                color: #38598a;
+                color: $pill-lg-active-color;
             }
         }
     }
