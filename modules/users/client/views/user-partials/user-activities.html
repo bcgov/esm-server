@@ -22,10 +22,13 @@
                 <table class="projects-table table table-hover"
                     ng-table="projectParams"
                     x-show-filter="true">
-                    <tr ng-repeat="o in $data" ui-sref="p.detail({projectid: o.code})" class="clickable">
+                    <tr ng-repeat="o in $data" >
                         <td data-title="'Name'"
+                            class="clickable"
                             filter="{'name':'text'}"
-                            sortable="'name'">{{o.name}}
+                            sortable="'name'"
+                            ui-sref="p.detail({projectid: o.code})"
+                        >{{o.name}}
                         </td>
                         <td ng-if="environment === 'MEM'"
                             title="'data-Permit'"
@@ -44,6 +47,14 @@
                             data-title="'Status'"
                             sortable="'status'">{{o.status}}
                         </td>
+                        <td data-title="'Upload'">
+                            <button class="btn icon-btn" title="Upload Files"
+                                x-document-drop-zone-upload-modal
+                                x-project="o"
+                                x-target="o.dropZoneFiles">
+                                <span class="glyphicon glyphicon-open"></span>Upload
+                            </button>
+                        </td>
                     </tr>
                     <tr class="no-records" ng-show="!$data || !$data.length">
                         <td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
@@ -52,6 +63,29 @@
                 </table>
             </div>
 
+            <ul class="temporaryProjectList">
+                <li ng-repeat="project in projects">
+                    <div>{{project.code}}</div>
+                    <div>
+                        <ul class="dropDocList">
+                            <li ng-repeat="doc in project.dropZoneFiles">
+                                <div>
+                                <div class="dropFileCol docName">
+                                {{ doc.displayName || doc.documentFileName}}
+                                </div>
+                                <div class="dropFileCol docUploadUser" title="{{ doc.documentAuthor }}">
+                                {{ doc.documentAuthor }}
+                                </div>
+                                <div class="dropFileCol docUploadDate">{{ (doc.dateUploaded || doc. dateUpdated) | date : format : timezone }}</div>
+                                </div>
+                                <div>
+                                    <div class="docDescription">{{doc.description}}</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
             <!--
             <div class="panel panel-default">
                 <div class="panel-heading clearfix">

@@ -60,3 +60,21 @@ $section-header-bg: #fff;
         }
     }
 }
+
+/*
+Dashboard drop zone
+ */
+
+.temporaryProjectList, .dropDocList {
+    list-style: none;
+    padding: 0;
+}
+
+.dropFileCol {
+    display: inline-block;
+    padding-right: 1rem;
+
+    &:last-child {
+        padding-right: 0;
+    }
+}

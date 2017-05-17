@@ -129,29 +129,26 @@ angular.module('users').config(['$stateProvider',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
 				cache: false,
 				resolve: {
+					projects: function (ProjectModel, Document, _) {
+						return ProjectModel.mine()
+						.then(function(projects){
+							return Document.getDropZoneDocumentsForProjects(projects)
+							.then(function(dzFileList){
+								_.forEach(projects, function(project) {
+									project.dropZoneFiles = _.filter(dzFileList, function(doc) {
+										return doc.project === project._id;
+									});
+								});
+								return projects;
+							});
+						});
+					}
 				},
-				controller: function ($scope, $state, $stateParams, NgTableParams, _, ProjectModel) {
-					// console.log (projects);
-					// console.log (activities);
-					//console.log (JSON.stringify(artifacts));
-					$scope.dashboardLoading = true;
-					$scope.projects = [];
-					$scope.projectParams = new NgTableParams ({count:50}, {dataset: $scope.projects});
-
-					ProjectModel.mine().then(function(data) {
-						$scope.projects = data;
-						$scope.projectParams = new NgTableParams ({count:50}, {dataset: $scope.projects});
-						$scope.dashboardLoading = false;
-						$scope.$apply();
-					}, function(err) {
-						// ?
-						$scope.dashboardLoading = false;
-						$scope.$apply();
-
-					});
+				controller: function ($scope, $state, $stateParams, NgTableParams, _, projects) {
+					$scope.projects = projects;
+					$scope.projectParams = new NgTableParams ({count:50}, {dataset: projects});
 					/*
 					$scope.tableParams = new NgTableParams ({count:50}, {dataset: artifacts});
-
 					// filter lists...
 					$scope.versionArray = [{id: '', title: 'Any Version'}];
 					$scope.stageArray = [{id: '', title: 'Any Stage'}];
