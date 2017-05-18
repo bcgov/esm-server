@@ -193,11 +193,8 @@ angular.module ('comment')
 					.then(function(result) {
 						_.each(result.data, function (item) {
 							var publishedCount = function(item) {
-								_.each(item.documents, function (doc) {
-									if (doc.eaoStatus === 'Published') {
-										publishedCount++;
-									}
-								});
+								var count = _.reduce(item.documents, function(total, doc) { return doc.eaoStatus === 'Published' ? total + 1 : total; }, 0);
+								return count;
 							};
 							item.publishedDocumentCount = period.userCan.vetComments ? item.documents.length : publishedCount(item);
 							item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
@@ -335,11 +332,11 @@ angular.module ('comment')
 						self.ok          = function () { $modalInstance.close (self.comment); };
 						self.pillars     	= self.comment.pillars.map (function (e) { return e; });
 						self.vcs 		   		= self.comment.valuedComponents.map (function (e) { return e.name; });
-						
+
 						self.statusChange = function(status) {
 							self.comment.eaoStatus = status;
 						};
-						
+
 						self.fileStatusChange = function(status, file) {
 							// do not allow a change to Published if it is Rejected and comment is rejected
 							if ('Published' === status && self.comment.eaoStatus === 'Rejected') {
@@ -488,11 +485,11 @@ angular.module ('comment')
 												_.each( uploadedDocs, function(d) {
 													s.comment.documents.push(d);
 												});
-		
+
 												if (!s.comment.comment) {
 													s.comment.comment = "Please see the Attachment"; //if the comment is empty and has attachment
-												} 
-												
+												}
+
 												CommentModel.add (s.comment)
 												.then (function (comment) {
 													s.step = 3;
