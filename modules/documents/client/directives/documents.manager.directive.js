@@ -38,11 +38,10 @@ angular.module('documents')
 					};
 
 					self.rootNode = tree.parse($scope.project.directoryStructure);
-
-
-					if (self.opendir) {
-						console.log("Going to directory:", self.opendir);
-						self.selectNode(self.opendir);
+					if (self.requestOpenDir && !isNaN(self.requestOpenDir)) {
+						self.selectNode(self.requestOpenDir);
+					} else if (self.requestOpenFileID) {
+						self.gotoDoc(self.requestOpenFileID);
 					} else {
 						self.selectNode(self.rootNode);
 					}
