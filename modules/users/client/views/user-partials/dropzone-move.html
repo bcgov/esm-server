@@ -52,9 +52,13 @@
 
 				<div class="scroll-container">
 					<div class="scroll-container-inner">
-						<div class="empty-directory-msg" ng-if="moveDlg.view === 'select' && moveDlg.currentDirs.length == 0 && moveDlg.currentFiles.length == 0">This folder is empty.</div>
+						<div class="empty-directory-msg"
+								 ng-if="moveDlg.view === 'select' && moveDlg.currentDirs.length == 0 && moveDlg.currentFiles.length == 0">This folder is empty.
+						</div>
 						<ul ng-if="moveDlg.view === 'select'">
-							<li class="fb-list-item" ng-class="{'selected': doc.selected, 'disabled': doc.sourceDir}" ng-repeat="doc in moveDlg.currentDirs">
+							<li class="fb-list-item"
+									ng-class="{'selected': doc.selected, 'disabled': doc.sourceDir}"
+									ng-repeat="doc in moveDlg.currentDirs">
 								<span class="fb-col-group"
 									ng-if="!doc.sourceDir"
 									ng-click="$event.originalEvent.dropdown || moveDlg.selectDir(doc)"

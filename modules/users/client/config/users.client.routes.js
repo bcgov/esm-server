@@ -192,6 +192,9 @@ angular.module('users').config(['$stateProvider',
 					var self = this;
 					self.authentication = Authentication;
 					self.projects = projects;
+					_.forEach(projects,function(project){
+						console.log("project.userCan", project);
+					})
 					self.projectParams = new NgTableParams ({count:50}, {dataset: self.projects});
 					self.getLinkUrl = function (state, params) {
 						$state.go(state, params);

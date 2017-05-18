@@ -80,7 +80,7 @@
                                         data-title="'Status'"
                                         sortable="'status'">{{project.status}}
                                     </td>
-                                    <td class="actionCol" data-title="'Upload'">
+                                    <td class="actionCol" data-title="'Upload'" ng-if="!project.userCan.manageFolders">
                                         <button class="btn icon-btn" title="Upload Files"
                                                 x-document-drop-zone-upload-modal
                                                 x-project="project"
@@ -110,7 +110,7 @@
                                             </div>
                                             <div class="dropFileCol docUploadDate">{{ (doc.dateUploaded || doc. dateUpdated) | date : format : timezone }}
                                             </div>
-                                            <div class="dropFileCol docActions">
+                                            <div class="dropFileCol docActions" ng-if="project.userCan.manageFolders">
                                                 <a title="Move File To Documents"
                                                    x-dropzone-move
                                                    x-title-text="vm.moveSelected.titleText"

@@ -41,15 +41,88 @@ angular.module('documents')
 							console.log("Dropzone Move directive");
 							console.log("rootNode",scope.rootNode);
 							console.log("options",scope.options);
-							self.view = 'select'; // select or mvoe
+							self.view = 'select'; // select or move
+							self.view = 'move'; // select or move
 							self.busy = false;
 
 							$scope.project = scope.project;
 							$scope.node = scope.node || scope.root;
 							$scope.authentication = Authentication;
 
-							$scope.moveOptions = scope.moveOptions;
+							//$scope.moveOptions = scope.moveOptions;
+							$scope.options = {
+								titleText: 'Move File To Documents',
+								okText: 'Yes',
+								cancelText: 'No',
+								ok: function(destination) {
+									if (!destination) {
+										return Promise.reject('Destination required for moving files and folders.');
+									} else {
+										var dirs = _.size(self.checkedDirs);
+										var files = _.size(self.checkedFiles);
+										if (dirs === 0 && files === 0) {
+											return Promise.resolve();
+										} else {
+											self.busy = true;
 
+											var dirPromises = _.map(self.moveSelected.moveableFolders, function (d) {
+												return DocumentMgrService.moveDirectory($scope.project, d, destination);
+											});
+
+											var filePromises = _.map(self.moveSelected.moveableFiles, function (f) {
+												f.directoryID = destination.model.id;
+												return Document.save(f);
+											});
+
+											var directoryStructure;
+
+											return Promise.all(dirPromises)
+											.then(function (result) {
+												//$log.debug('Dir results ', JSON.stringify(result));
+												if (!_.isEmpty(result)) {
+													var last = _.last(result);
+													directoryStructure = last.data;
+												}
+												return Promise.all(filePromises);
+											})
+											.then(function (result) {
+												//$log.debug('File results ', JSON.stringify(result));
+												if (directoryStructure) {
+													//$log.debug('Setting the new directory structure...');
+													$scope.project.directoryStructure = directoryStructure;
+													$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+												}
+												//$log.debug('select and refresh destination directory...');
+												self.selectNode(destination.model.id);
+												AlertService.success('The selected items were moved.');
+											}, function (err) {
+												self.busy = false;
+												AlertService.error("The selected items could not be moved.");
+											});
+										}
+									}
+								},
+								cancel: undefined,
+								confirmText:  'Are you sure you want to move the selected item?',
+								confirmItems: [],
+								// moveableFolders: [],
+								// moveableFiles: [],
+								setContext: function() {
+									self.moveOptions.confirmItems = [];
+									self.moveOptions.titleText = 'Move selected';
+									self.moveOptions.confirmText = 'Are you sure you want to move the following the selected item?';
+									self.moveOptions.confirmText = 'Are you sure you want to move the following ('+ files +') selected files?';
+									self.moveOptions.confirmItems = [];
+									self.moveOptions.moveableFiles = [];
+									// _.each(self.checkedFiles, function(o) {
+									// 	if (o.userCan.write) {
+									// 		var name = o.displayName || o.documentFileName || o.internalOriginalName;
+									// 		self.moveSelected.confirmItems.push(name);
+									// 		self.moveSelected.moveableFiles.push(o);
+									// 	}
+									// });
+								}
+							};
 
 							self.titleText = scope.titleText || 'Move files and folders';
 							self.title = self.titleText;
@@ -270,17 +343,7 @@ angular.module('documents')
 							// initialize the view
 							//self.selectNode($scope.node.model.id);
 
-							// need this for add new folder...
-							$scope.$watch(function (scope) {
-									return scope.project.directoryStructure;
-								},
-								function (data) {
-								console.log("In watch on scope this should be a node or directory struct", data);
-									var node = self.currentNode || self.rootNode;
-									// self.rootNode = tree.parse(data);
-									// self.selectNode(node.model.id);
-								}
-							);
+
 						}
 					}).result
 						.then(function (data) {
