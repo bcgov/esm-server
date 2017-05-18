@@ -9,7 +9,6 @@ angular.module('utils')
     .directive('tmplQuickLinks', directiveQuickLinks)
     .directive('kebabThis', directiveKebabThis)
     .directive('modalDatePicker', directiveModalDatePicker)
-    .directive('modalDayCalculator', directiveModalDayCalculator)
     .directive('centerVertical', directiveCenterVertical)
     .directive('contentHeight', directiveContentHeight)
     .directive('artifactEditHeight', directiveArtifactEditHeight)
@@ -575,82 +574,58 @@ function directiveDateField(moment) {
 directiveModalSelectUsers.$inject = ['$modal'];
 /* @ngInject */
 function directiveModalSelectUsers($modal) {
-  var directive = {
-    restrict:'A',
-    scope : {
-      users: '=',
-      callback: '=',
-      parent: '=', // OBJECT with type: (role, project), reference: role or project code or id
-      project: '='
-    },
-    link : function(scope, element, attrs) {
-      // console.log('here', scope.users);
-      console.log('cb', scope);
-      element.on('click', function() {
-        var modalUsersView = $modal.open({
-          animation: true,
-          templateUrl: 'modules/utils/client/views/partials/modal-users-select.html',
-          controller: 'controllerModalUsersSelect',
-          controllerAs: 'utilUsers',
-          size: 'lg',
-          resolve: {
-            users: function() {
-              // users already on the project
-              return scope.users || [];
-            },
-            orgs: function(OrganizationModel) {
-              // accessible organizations
-              return OrganizationModel.getCollection();
-            },
-            project: function() {
-              // the project
-              return scope.project || {};
-            },
-            parent: function() {
-              return scope.parent || {};
-            },
-            config: function() {
-              // config options
-              return {allowChoice: true, allowTeam: true};
-            }
-          }
-        });
-        modalUsersView.result.then(function (newItems) {
-          // if there is a callback, do it.
-          // return the complete user list and the parent to associate it to.
-            console.log(newItems, scope.callback);
-          if (scope.callback) {
-            scope.callback(newItems, scope.parent);
-          }
-        }, function () {});
-      });
-    }
-    };
-    return directive;
-}
-// -----------------------------------------------------------------------------------
-//
-// DIRECTIVE: Modal Day Calculator
-//
-// -----------------------------------------------------------------------------------
-directiveModalDayCalculator.$inject = ['$modal'];
-/* @ngInject */
-function directiveModalDayCalculator($modal) {
 	var directive = {
-		restrict: 'A',
-		link: function(scope, element, attrs) {
+		restrict:'A',
+		scope : {
+			users: '=',
+			callback: '=',
+			parent: '=', // OBJECT with type: (role, project), reference: role or project code or id
+			project: '='
+		},
+		link : function(scope, element, attrs) {
+			// console.log('here', scope.users);
+			console.log('cb', scope);
 			element.on('click', function() {
-				var modalDayCalculator = $modal.open({
+				var modalUsersView = $modal.open({
 					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-day-calculator.html',
-					controller: 'controllerModalDayCalculator',
-					controllerAs: 'dayCalculator',
-					size: 'md',
+					templateUrl: 'modules/utils/client/views/partials/modal-users-select.html',
+					controller: 'controllerModalUsersSelect',
+					controllerAs: 'utilUsers',
+					size: 'lg',
+					resolve: {
+						users: function() {
+							// users already on the project
+							return scope.users || [];
+						},
+						orgs: function(OrganizationModel) {
+							// accessible organizations
+							return OrganizationModel.getCollection();
+						},
+						project: function() {
+							// the project
+							return scope.project || {};
+						},
+						parent: function() {
+							return scope.parent || {};
+						},
+						config: function() {
+							// config options
+							return {allowChoice: true, allowTeam: true};
+						}
+					}
 				});
+				modalUsersView.result.then(function (newItems) {
+					// if there is a callback, do it.
+					// return the complete user list and the parent to associate it to.
+						console.log(newItems, scope.callback);
+					if (scope.callback) {
+						scope.callback(newItems, scope.parent);
+					}
+				}, function () {});
 			});
 		}
-  };
-  return directive;
+    };
+    return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -852,8 +827,6 @@ function directiveModalDatePicker($modal, $rootScope, $timeout) {
 			selectedDate: '=',
 			title: '@',
 			pickerEnabled: '=',
-      hideTime: '=',
-      header: '=',
 			min: '=',
 			max: '='
 		},
@@ -878,16 +851,9 @@ function directiveModalDatePicker($modal, $rootScope, $timeout) {
 						rChosenDate: function () {
 							return scope.selectedDate;
 						},
-            rTitle: function () {
-              return scope.title;
-            },
-						rHeader: function () {
-							return scope.header;
+						rTitle: function () {
+							return scope.title;
 						},
-            showTime: function() {
-              // x-hide-time="true" will hide the time section of the picker
-              return !scope.hideTime;
-            },
 						mindate: function () {
 							//start date selected in editPCP page datepicker
 							return scope.min;
