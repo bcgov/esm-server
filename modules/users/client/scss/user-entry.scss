@@ -78,3 +78,90 @@ Dashboard drop zone
         padding-right: 0;
     }
 }
+
+/*
+.table tbody > tr > td {
+    padding: 1.25rem 0.5rem;
+    border-top: none;
+    border-bottom: 1px solid #EEE;
+    vertical-align: middle;
+}
+*/
+
+.toggle {
+    display: table-cell;
+    width: 3.5rem;
+    vertical-align: middle;
+    text-align: center;
+
+    &:active,
+    &:focus,
+    &:hover {
+        text-decoration: none;
+    }
+
+    .close-icon {
+        display: block;
+    }
+
+    .open-icon {
+        display: none;
+    }
+
+    &.collapsed {
+        .close-icon {
+            display: none;
+        }
+
+        .open-icon {
+            display: block;
+        }
+    }
+}
+
+.projectsTable,
+.projectsTable > thead,
+.projectsTable > thead > tr,
+.projectsTable > thead > tr > th,
+.projectsTable > tbody,
+.projectsTable > tbody > tr,
+.projectsTable > tbody > tr > td,
+.rowNestedTable,
+.rowNestedTable > tbody,
+.rowNestedTable > tbody > tr,
+.rowNestedTable > tbody > tr > td,
+.rowContainer
+{
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nameCol {
+    width: 40rem;
+}
+
+.typeCol,
+.regionCol,
+.phaseCol,
+.statusCol {
+    width: 20rem;
+}
+.actionCol {
+    width: 10rem;
+}
+.expandCol {
+    width: 5rem;
+}
+
+
+.hdrRow th,
+.projectRow td
+{
+    /* use important to override the explict table definitions from bootstrap and core */
+    padding-top: 1rem !important;
+    padding-right: 1rem !important;
+    padding-left: 1rem !important;
+    padding-bottom: 1rem !important;
+
+}
