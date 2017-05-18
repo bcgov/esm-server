@@ -64,12 +64,27 @@ $section-header-bg: #fff;
 /*
 Dashboard drop zone
  */
-
-.temporaryProjectList, .dropDocList {
+.rowContainer {
+    /* to make the content stretch to fit the available panel */
+    width: 100%;
+}
+.dropDocAccordian, .dropDocList {
     list-style: none;
     padding: 0;
+    overflow: auto;
 }
 
+.dropDocAccordian{
+    /* to line up with Project name */
+    padding-left: 6rem;
+}
+
+.dropDocAccordian, .dropDocList:hover{
+    background-color: #ffffff;
+}
+.dropDocRow{
+    padding-bottom: 1.5rem;
+}
 .dropFileCol {
     display: inline-block;
     padding-right: 1rem;
@@ -77,6 +92,20 @@ Dashboard drop zone
     &:last-child {
         padding-right: 0;
     }
+}
+.docName {
+    width: 30rem;
+}
+.docUploadUser, .docUploadDate {
+    width: 15rem;
+}
+.docActions {
+    width: 5rem;
+}
+.docDescription {
+    width: 80%;
+    margin-left: 3rem;
+    margin-top: 0.5rem;
 }
 
 /*
@@ -165,3 +194,4 @@ Dashboard drop zone
     padding-bottom: 1rem !important;
 
 }
+

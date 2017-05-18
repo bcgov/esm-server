@@ -4,12 +4,19 @@
 </div>
 
 <!-- MAIN PANEL -->
-<div class="main-panel" ng-hide="dashboardLoading">
+<div class="main-panel" ng-if="!vm.authentication.user">
+    <h1>Unauthorized</h1>
+</div>
+<div class="main-panel" ng-if="vm.authentication.user" ng-hide="dashboardLoading">
 
     <div class="view-title-container flex-row">
         <h1>Dashboard</h1>
         <div class="actions">
-            <a ng-show="application.userCan.createProject" ui-sref="p.edit({projectid:'new'})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add New Project</span></a>
+            <a class="btn btn-primary btn-sm"
+               ng-show="application.userCan.createProject"
+               ui-sref="p.edit({projectid:'new'})">
+                <span class="glyphicon glyphicon-plus"></span><span>Add New Project</span>
+            </a>
         </div>
     </div>
 
@@ -31,16 +38,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr ng-repeat="project in projects" >
+                    <tr ng-repeat="project in vm.projects" >
                         <td class="rowContainer" colspan="6">
                             <table class="rowNestedTable">
                                 <tr class="projectRow">
                                     <td class="expandCol">
-                                        <a class="toggle collapsed" data-toggle="collapse" href="#collapse-{{project._id}}" aria-expanded="true"
+                                        <span ng-if="project.dropZoneFiles.length > 0">
+                                        <a class="toggle collapsed"
+                                           data-toggle="collapse"
+                                           href="#collapse-{{project._id}}"
+                                           aria-expanded="true"
                                            aria-controls="collapseOne">
                                             <i class="glyphicon glyphicon-plus open-icon"></i>
                                             <i class="glyphicon glyphicon-minus close-icon"></i>
                                         </a>
+                                        </span>
                                     </td>
                                     <td data-title="'Name'"
                                         class="clickable nameCol"
@@ -78,9 +90,17 @@
                                     </td>
                                 </tr>
                             </table>
-                            <div class="collapse" role="tabpanel" id="collapse-{{project._id}}">
+                            <div class="dropDocAccordian collapse" role="tabpanel" id="collapse-{{project._id}}">
                                 <ul class="dropDocList">
-                                    <li ng-repeat="doc in project.dropZoneFiles">
+                                    <li class="dropDocRow" ng-if="project.dropZoneFiles.length > 0">
+                                        <div>
+                                            <div class="dropFileCol docName">File Name</div>
+                                            <div class="dropFileCol docUploadUser">Uploaded By</div>
+                                            <div class="dropFileCol docUploadDate">Upload Date</div>
+                                            <div class="dropFileCol docActions"></div>
+                                        </div>
+                                    </li>
+                                    <li class="dropDocRow" ng-repeat="doc in project.dropZoneFiles">
                                         <div>
                                             <div class="dropFileCol docName">
                                                 {{ doc.displayName || doc.documentFileName}}
@@ -88,7 +108,18 @@
                                             <div class="dropFileCol docUploadUser" title="{{ doc.documentAuthor }}">
                                                 {{ doc.documentAuthor }}
                                             </div>
-                                            <div class="dropFileCol docUploadDate">{{ (doc.dateUploaded || doc. dateUpdated) | date : format : timezone }}</div>
+                                            <div class="dropFileCol docUploadDate">{{ (doc.dateUploaded || doc. dateUpdated) | date : format : timezone }}
+                                            </div>
+                                            <div class="dropFileCol docActions">
+                                                <a title="Move File To Documents"
+                                                   x-dropzone-move
+                                                   x-title-text="vm.moveSelected.titleText"
+                                                   x-project="project"
+                                                   x-doc="doc"
+                                                   x-options="vm.moveOptions">
+                                                    <span class="glyphicon glyphicon-transfer"></span>
+                                                </a>
+                                            </div>
                                         </div>
                                         <div>
                                             <div class="docDescription">{{doc.description}}</div>
@@ -98,7 +129,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr class="no-records" ng-show="!projects || !projects.length">
+                    <tr class="no-records" ng-show="!vm.projects || !vm.projects.length">
                         <td colspan="6">No results match your search.</td>
                     </tr>
                     </tbody>
