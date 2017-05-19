@@ -100,29 +100,29 @@
                                             <div class="dropFileCol docActions"></div>
                                         </div>
                                     </li>
-                                    <li class="dropDocRow" ng-repeat="doc in project.dropZoneFiles">
+                                    <li class="dropDocRow" ng-repeat="file in project.dropZoneFiles">
                                         <div>
                                             <div class="dropFileCol docName">
-                                                {{ doc.displayName || doc.documentFileName}}
+                                                {{ file.displayName }}
                                             </div>
                                             <div class="dropFileCol docUploadUser" title="{{ doc.documentAuthor }}">
-                                                {{ doc.documentAuthor }}
+                                                {{ file.documentAuthor }}
                                             </div>
-                                            <div class="dropFileCol docUploadDate">{{ (doc.dateUploaded || doc. dateUpdated) | date : format : timezone }}
+                                            <div class="dropFileCol docUploadDate">{{ file.dateUploaded | date : format : timezone }}
                                             </div>
-                                            <div class="dropFileCol docActions" ng-if="project.userCan.manageFolders">
+                                            <!-- TODO ng-if="project.userCan.manageFolders" -->
+                                            <div class="dropFileCol docActions" >
                                                 <a title="Move File To Documents"
-                                                   x-dropzone-move
-                                                   x-title-text="vm.moveSelected.titleText"
+                                                   x-drop-zone-move
+                                                   x-doc="file"
                                                    x-project="project"
-                                                   x-doc="doc"
-                                                   x-options="vm.moveOptions">
+                                                >
                                                     <span class="glyphicon glyphicon-transfer"></span>
                                                 </a>
                                             </div>
                                         </div>
                                         <div>
-                                            <div class="docDescription">{{doc.description}}</div>
+                                            <div class="docDescription">{{file.description}}</div>
                                         </div>
                                     </li>
                                 </ul>

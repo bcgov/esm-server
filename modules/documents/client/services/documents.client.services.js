@@ -181,6 +181,9 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 		},
 		getDropZoneDocumentsForProjects: function(projects) {
 			// compose a list of ids and then make the api call.
+			if (!projects || projects.length === 0) {
+				return Promise.resolve([]);
+			}
 			var idList = [];
 			_.forEach(projects, function(project){
 				idList.push(project._id);

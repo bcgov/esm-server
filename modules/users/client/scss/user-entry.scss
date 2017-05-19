@@ -195,3 +195,14 @@ Dashboard drop zone
 
 }
 
+.dropMoveDialog {
+    .displayName {
+        font-weight: bolder;
+        font-family: sans-serif;
+    }
+
+    .fb-breadcrumbs {
+        /* handle long directory names with scroll */
+        overflow: auto;
+    }
+}

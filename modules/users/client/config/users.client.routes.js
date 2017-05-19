@@ -1,8 +1,8 @@
 'use strict';
 
 // Setting up route
-angular.module('users').config(['$stateProvider',
-	function ($stateProvider) {
+angular.module('users').config(['$stateProvider', 'TreeModel',
+	function ($stateProvider, TreeModel) {
 		// Users state routing
 		$stateProvider
 			.state('settings', {
@@ -123,7 +123,7 @@ angular.module('users').config(['$stateProvider',
 				url: '/contact',
 				templateUrl: 'modules/guidance/client/views/contact.html'
 			})
-			
+			// Activities appear as Dashboard to user. Now includes DropZone.
 			.state('activities', {
 				url: '/activities',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
@@ -153,6 +153,8 @@ angular.module('users').config(['$stateProvider',
 						})
 						.then(function (projects) {
 							return new Promise(function (resolve, reject) {
+								// Need project directory structure for each project to support moving files to doc manager
+								// NB. Promise.All is not supported in IE so ...
 								var cnt = projects.length;
 								if (cnt === 0) {
 									return resolve(projects);
@@ -161,7 +163,6 @@ angular.module('users').config(['$stateProvider',
 									if (project.rootNode) {
 										cnt--;
 										if (cnt === 0) {
-											console.log("resolve on no projects");
 											return resolve(projects);
 										}
 									} else {
@@ -174,13 +175,11 @@ angular.module('users').config(['$stateProvider',
 													published: true
 												};
 											project.rootNode = tree.parse(project.directoryStructure);
-											//console.log("resolve    project.directoryStructure", project.directoryStructure);
-											//console.log("resolve    project.rootNode", project.rootNode);
 											cnt--;
 											if (cnt === 0) {
 												return resolve(projects);
 											}
-										})
+										});
 									}
 								});
 							});
@@ -192,87 +191,11 @@ angular.module('users').config(['$stateProvider',
 					var self = this;
 					self.authentication = Authentication;
 					self.projects = projects;
+					// TODO figure out how to limit the drop button to proponents only and move button to staff only
 					_.forEach(projects,function(project){
 						console.log("project.userCan", project);
-					})
+					});
 					self.projectParams = new NgTableParams ({count:50}, {dataset: self.projects});
-					self.getLinkUrl = function (state, params) {
-						$state.go(state, params);
-						// return $state.href (state, params);
-					};
-					self.moveOptions = {
-						titleText: 'Move File To Documents',
-						okText: 'Yes',
-						cancelText: 'No',
-						ok: function(destination) {
-							if (!destination) {
-								return Promise.reject('Destination required for moving files and folders.');
-							} else {
-								var dirs = _.size(self.checkedDirs);
-								var files = _.size(self.checkedFiles);
-								if (dirs === 0 && files === 0) {
-									return Promise.resolve();
-								} else {
-									self.busy = true;
-
-									var dirPromises = _.map(self.moveSelected.moveableFolders, function (d) {
-										return DocumentMgrService.moveDirectory($scope.project, d, destination);
-									});
-
-									var filePromises = _.map(self.moveSelected.moveableFiles, function (f) {
-										f.directoryID = destination.model.id;
-										return Document.save(f);
-									});
-
-									var directoryStructure;
-
-									return Promise.all(dirPromises)
-									.then(function (result) {
-										//$log.debug('Dir results ', JSON.stringify(result));
-										if (!_.isEmpty(result)) {
-											var last = _.last(result);
-											directoryStructure = last.data;
-										}
-										return Promise.all(filePromises);
-									})
-									.then(function (result) {
-										//$log.debug('File results ', JSON.stringify(result));
-										if (directoryStructure) {
-											//$log.debug('Setting the new directory structure...');
-											$scope.project.directoryStructure = directoryStructure;
-											$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-										}
-										//$log.debug('select and refresh destination directory...');
-										self.selectNode(destination.model.id);
-										AlertService.success('The selected items were moved.');
-									}, function (err) {
-										self.busy = false;
-										AlertService.error("The selected items could not be moved.");
-									});
-								}
-							}
-						},
-						cancel: undefined,
-						confirmText:  'Are you sure you want to move the selected item?',
-						confirmItems: [],
-						// moveableFolders: [],
-						// moveableFiles: [],
-						setContext: function() {
-							self.moveOptions.confirmItems = [];
-							self.moveOptions.titleText = 'Move selected';
-							self.moveOptions.confirmText = 'Are you sure you want to move the following the selected item?';
-							self.moveOptions.confirmText = 'Are you sure you want to move the following ('+ files +') selected files?';
-							self.moveOptions.confirmItems = [];
-							self.moveOptions.moveableFiles = [];
-							// _.each(self.checkedFiles, function(o) {
-							// 	if (o.userCan.write) {
-							// 		var name = o.displayName || o.documentFileName || o.internalOriginalName;
-							// 		self.moveSelected.confirmItems.push(name);
-							// 		self.moveSelected.moveableFiles.push(o);
-							// 	}
-							// });
-						}
-					};
 				},
 				data: { }
 			});
