@@ -60,15 +60,18 @@ angular.module('documents')
 								self.doc.directoryID = self.currentDir.model.id;
 								return Document.save(self.doc)
 								.then(function (result) {
-									// self.busy = false;
 									msg = self.doc.displayName + ' moved to ' + self.currentPathName;
-									AlertService.success( msg );
 								}, function (err) {
-									// self.busy = false;
 									msg = self.doc.displayName + ' could not be moved. Error: ' + err;
-									console.log(msg);
-								}).then(function (ok) {
+								})
+								.then(function() {
+									return Document.getDropZoneDocuments(self.project._id);
+								})
+								.then(function(dropZoneFiles) {
+									self.project.dropZoneFiles = dropZoneFiles;
 									self.busy = false;
+									console.log(msg);
+									AlertService.success( msg );
 									$modalInstance.close(msg);
 								});
 							}

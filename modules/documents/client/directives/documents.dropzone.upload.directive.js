@@ -28,31 +28,35 @@ angular.module('documents')
 							self.url = '/api/dropzone/' + self.project._id + '/upload';
 
 							$scope.description = "";
-							self.cancel = function () {
+							self.cancel = cancel;
+							self.startUploads = startUploads;
+
+							$scope.$watch('uploadService.actions.completed', function (newValue) {
+								// after upload refresh the project's drop zone file list, in the caller's UI
+								if (newValue) {
+									if (scope.target) {
+										Document.getDropZoneDocuments(self.project._id)
+										.then(function(docList){
+												scope.target = docList;
+										});
+									}
+								}
+							});
+							function cancel () {
 								if (self.uploadService.actions.completed) {
-									// reload the project's drop zone docs and ...
-									Document.getDropZoneDocuments(self.project._id)
-									.then(function(docList){
-										// return doc list from modal and ...
-										$modalInstance.close(docList);
-									});
+									$modalInstance.close();
 								} else {
 									self.uploadService.reset();
 									$modalInstance.dismiss('cancel');
 								}
 							};
-							self.startUploads = function () {
+							function startUploads () {
 								var description;
 								if ($scope.description && !_.isEmpty(_.trim($scope.description))) {
 									description = $scope.description;
 								}
 								DocumentsUploadService.startUploads(self.url, 0, false, new Date(), description);
 							};
-						}
-					}).result.then(function (docList) {
-						if (scope.target) {
-							// ... send data back to the caller through target....
-							scope.target = docList;
 						}
 					});
 				}); // end element on click
