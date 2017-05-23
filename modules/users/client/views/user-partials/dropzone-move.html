@@ -7,7 +7,7 @@
 		<button type="button" class="btn btn-default close" ng-click="moveDlg.cancel()">
 			<span aria-hidden="true">&times;</span>
 		</button>
-		<h3 class="modal-title">Move Drop Zone File - THIS IS A WIP</h3>
+		<h3 class="modal-title">Move Drop Zone File</h3>
 	</div>
 
 	<div class="modal-body">
@@ -17,11 +17,11 @@
 		<div class="file-browser">
 			<div class="fb-header">
 				<ul class="fb-breadcrumbs">
-					<li ng-repeat="node in moveDlg.currentPath">
-						<button class="btn icon-btn" ng-click="!$last && moveDlg.selectNode(node)">
-							<span class="root-icon glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></span>
+					<li ng-repeat="dir in moveDlg.currentPath">
+						<button class="btn icon-btn" ng-click="!$last && moveDlg.selectNode(dir)">
+							<span class="root-icon glyphicon glyphicon-home" ng-if="dir.model.name == 'ROOT'"></span>
 							<span class="back-icon glyphicon glyphicon-menu-left"></span>
-							<span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+							<span ng-show="dir.model.name != 'ROOT'">{{ dir.model.name }}</span>
 						</button>
 					</li>
 				</ul>
@@ -46,7 +46,7 @@
 								<li class="fb-list-item"
 										ng-repeat="dir in moveDlg.currentDirs">
 									<span class="fb-col-group"
-										ng-click="$event.originalEvent.dropdown || moveDlg.selectDir(dir)">
+										ng-click="$event.originalEvent.dropdown || moveDlg.selectNode(dir)">
 										<span class="col name-col first-col">
 											<span class="avatar">
 												<span class="fb-folder glyphicon glyphicon-folder-close"></span>
