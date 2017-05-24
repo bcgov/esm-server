@@ -335,6 +335,10 @@ module.exports = function (app) {
 		.put(routes.setAndRun(DocumentClass, function (model, req) {
 			return model.getEpicProjectFolderURL(req.body);
 		}));
+
+	/*
+	Drop Zone is a special area for proponents to add documents to a project.
+	 */
 	app.route('/api/dropzone/:project/list').all(policy('guest'))
 	.get(routes.setAndRun(DocumentClass, function (model, req) {
 		return model.getDropZoneDocuments(req.params.project);
@@ -404,4 +408,5 @@ module.exports = function (app) {
 			dateUploaded            : Date.now()
 		};
 	}
+	
 };
