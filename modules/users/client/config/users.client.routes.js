@@ -132,15 +132,25 @@ angular.module('users').config(['$stateProvider', 'TreeModel',
 					user: function(Authentication) {
 						return Authentication.user;
 					},
-					projects: function (ProjectModel, Document, _, user) {
-						// Don't load projects unless user is authorized
-						// Because otherwise they see everything
+					groupsAndRoles: function(user, UserModel) {
+						/*
+						 For all projects get roles so we can determine if user is a proponent.
+						 The response is an array of projects.
+						 Each element has an array of roles.
+						 */
+						return UserModel.groupsAndRoles (user._id);
+					},
+					projects: function (ProjectModel, Document, _, user, groupsAndRoles) {
 						if (!user) {
+							// Don't load projects unless user is authorized -- otherwise ALL projects are loaded
 							return [];
 						}
 						var tree = new TreeModel();
 						return ProjectModel.mine()
 						.then(function (projects) {
+							/*
+							Get the existing drop zone files for a project
+							 */
 							return Document.getDropZoneDocumentsForProjects(projects)
 							.then(function (dzFileList) {
 								_.forEach(projects, function (project) {
@@ -152,8 +162,35 @@ angular.module('users').config(['$stateProvider', 'TreeModel',
 							});
 						})
 						.then(function (projects) {
+							/*
+							For each project determine if user is a proponent.
+							 */
+							_.forEach(projects, function (project) {
+								var pWithRoles = _.find(groupsAndRoles.projects, function(p) {
+									return p.code === project.code;
+								});
+								var roles = pWithRoles.roles;
+								//console.log("Do we have roles for project? ", roles);
+								var proponentRoles = _.find(roles, function(role) {
+									//console.log("Check role ", role);
+									return role.role === "proponent-team" || role.role === "proponent-lead";
+								});
+								// console.log("Do we have proponentRoles for project? ", proponentRoles);
+								project.userIsProponent = proponentRoles && proponentRoles.length > 0 ? true : false;
+								/*
+								TODO Design defect. If user is proponent the system prevents them from saving any Document to Project
+								Until this is resolved show both upload button to everyone.
+								 */
+								project.userCanUpload = true; // project.userIsProponent
+								project.userCanMove = !project.userIsProponent;
+							});
+							return projects;
+						})
+						.then(function (projects) {
+							/*
+							For each project get the directory structure to support moving drop zone files.
+							 */
 							return new Promise(function (resolve, reject) {
-								// Need project directory structure for each project to support moving files to doc manager
 								// NB. Promise.All is not supported in IE so ...
 								var cnt = projects.length;
 								if (cnt === 0) {
@@ -191,10 +228,6 @@ angular.module('users').config(['$stateProvider', 'TreeModel',
 					var self = this;
 					self.authentication = Authentication;
 					self.projects = projects;
-					// TODO figure out how to limit the drop button to proponents only and move button to staff only
-					_.forEach(projects,function(project){
-						console.log("project.userCan", project);
-					});
 					self.projectParams = new NgTableParams ({count:50}, {dataset: self.projects});
 				},
 				data: { }

@@ -49,14 +49,14 @@ angular.module('documents')
 									self.uploadService.reset();
 									$modalInstance.dismiss('cancel');
 								}
-							};
+							}
 							function startUploads () {
 								var description;
 								if ($scope.description && !_.isEmpty(_.trim($scope.description))) {
 									description = $scope.description;
 								}
 								DocumentsUploadService.startUploads(self.url, 0, false, new Date(), description);
-							};
+							}
 						}
 					});
 				}); // end element on click
