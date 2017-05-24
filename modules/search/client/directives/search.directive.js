@@ -58,6 +58,7 @@ function searchResultsDocumentDirective(_, SearchService, SearchResultsService, 
 			// methods
 			self.changePageSize = changePageSize;
 			self.openFile = SearchResultsService.openFile;
+			self.toggleSelectItem = toggleSelectItem;
 			self.selectItem = selectItem;
 			self.selectPage = selectPage;
 			self.sortBy = sortBy;
@@ -105,8 +106,21 @@ function searchResultsDocumentDirective(_, SearchService, SearchResultsService, 
 				self.infoPanelOpen = !self.infoPanelOpen;
 			}
 
+			function toggleSelectItem(item) {
+				// select/unselect a file, make it the only item selected...
+				var checked = item.selected;
+				if (!checked) {
+					_.forEach(self.displayResults, function (o) {
+						o.selected = false;
+					});
+					item.selected = true;
+					var selectedItem = item;
+					$scope.$broadcast('itemSelected', selectedItem);
+				}
+			}
+
 			function selectItem(item) {
-				// selected a file, make it the only item selected...
+				// select a file, make it the only item selected...
 				var checked = item.selected;
 				_.forEach(self.displayResults, function (o) {
 					o.selected = false;
