@@ -1,8 +1,8 @@
 'use strict';
 
 // Setting up route
-angular.module('users').config(['$stateProvider',
-	function ($stateProvider) {
+angular.module('users').config(['$stateProvider', 'TreeModel',
+	function ($stateProvider, TreeModel) {
 		// Users state routing
 		$stateProvider
 			.state('settings', {
@@ -123,59 +123,112 @@ angular.module('users').config(['$stateProvider',
 				url: '/contact',
 				templateUrl: 'modules/guidance/client/views/contact.html'
 			})
-			
+			// Activities appear as Dashboard to user. Now includes DropZone.
 			.state('activities', {
 				url: '/activities',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
 				cache: false,
 				resolve: {
-				},
-				controller: function ($scope, $state, $stateParams, NgTableParams, _, ProjectModel) {
-					// console.log (projects);
-					// console.log (activities);
-					//console.log (JSON.stringify(artifacts));
-					$scope.dashboardLoading = true;
-					$scope.projects = [];
-					$scope.projectParams = new NgTableParams ({count:50}, {dataset: $scope.projects});
-
-					ProjectModel.mine().then(function(data) {
-						$scope.projects = data;
-						$scope.projectParams = new NgTableParams ({count:50}, {dataset: $scope.projects});
-						$scope.dashboardLoading = false;
-						$scope.$apply();
-					}, function(err) {
-						// ?
-						$scope.dashboardLoading = false;
-						$scope.$apply();
-
-					});
-					/*
-					$scope.tableParams = new NgTableParams ({count:50}, {dataset: artifacts});
-
-					// filter lists...
-					$scope.versionArray = [{id: '', title: 'Any Version'}];
-					$scope.stageArray = [{id: '', title: 'Any Stage'}];
-					$scope.phaseArray = [{id: '', title: 'Any Phase'}];
-					// build out the filter arrays...
-					var recs = _(angular.copy(artifacts)).chain().flatten();
-					recs.pluck('version').unique().value().map(function (item) {
-						$scope.versionArray.push({id: item, title: item});
-					});
-					recs.pluck('stage').unique().value().map(function (item) {
-						$scope.stageArray.push({id: item, title: item});
-					});
-					try {
-						recs.pluck('phase.name').unique().value().map(function (item) {
-							$scope.phaseArray.push({id: item, title: item});
+					user: function(Authentication) {
+						return Authentication.user;
+					},
+					groupsAndRoles: function(user, UserModel) {
+						/*
+						 For all projects get roles so we can determine if user is a proponent.
+						 The response is an array of projects.
+						 Each element has an array of roles.
+						 */
+						return UserModel.groupsAndRoles (user._id);
+					},
+					projects: function (ProjectModel, Document, _, user, groupsAndRoles) {
+						if (!user) {
+							// Don't load projects unless user is authorized -- otherwise ALL projects are loaded
+							return [];
+						}
+						var tree = new TreeModel();
+						return ProjectModel.mine()
+						.then(function (projects) {
+							/*
+							Get the existing drop zone files for a project
+							 */
+							return Document.getDropZoneDocumentsForProjects(projects)
+							.then(function (dzFileList) {
+								_.forEach(projects, function (project) {
+									project.dropZoneFiles = _.filter(dzFileList, function (doc) {
+										return doc.project === project._id;
+									});
+								});
+								return projects;
+							});
+						})
+						.then(function (projects) {
+							/*
+							For each project determine if user is a proponent.
+							 */
+							_.forEach(projects, function (project) {
+								var pWithRoles = _.find(groupsAndRoles.projects, function(p) {
+									return p.code === project.code;
+								});
+								var roles = pWithRoles.roles;
+								//console.log("Do we have roles for project? ", roles);
+								var proponentRoles = _.find(roles, function(role) {
+									//console.log("Check role ", role);
+									return role.role === "proponent-team" || role.role === "proponent-lead";
+								});
+								// console.log("Do we have proponentRoles for project? ", proponentRoles);
+								project.userIsProponent = proponentRoles && proponentRoles.length > 0 ? true : false;
+								/*
+								TODO Design defect. If user is proponent the system prevents them from saving any Document to Project
+								Until this is resolved show both upload button to everyone.
+								 */
+								project.userCanUpload = true; // project.userIsProponent
+								project.userCanMove = !project.userIsProponent;
+							});
+							return projects;
+						})
+						.then(function (projects) {
+							/*
+							For each project get the directory structure to support moving drop zone files.
+							 */
+							return new Promise(function (resolve, reject) {
+								// NB. Promise.All is not supported in IE so ...
+								var cnt = projects.length;
+								if (cnt === 0) {
+									return resolve(projects);
+								}
+								_.forEach(projects, function (project) {
+									if (project.rootNode) {
+										cnt--;
+										if (cnt === 0) {
+											return resolve(projects);
+										}
+									} else {
+										ProjectModel.getProjectDirectory(project)
+										.then(function (dir) {
+											project.directoryStructure = dir || {
+													id: 1,
+													lastId: 1,
+													name: 'ROOT',
+													published: true
+												};
+											project.rootNode = tree.parse(project.directoryStructure);
+											cnt--;
+											if (cnt === 0) {
+												return resolve(projects);
+											}
+										});
+									}
+								});
+							});
 						});
-					} catch(err) {
-						//console.log('error getting the list of phase names to use.');
 					}
-					*/
-					$scope.getLinkUrl = function (state, params) {
-						$state.go(state, params);
-						// return $state.href (state, params);
-					};
+				},
+				controllerAs: 'vm',
+				controller: function ($scope, $state, $stateParams, NgTableParams, _, projects, Authentication) {
+					var self = this;
+					self.authentication = Authentication;
+					self.projects = projects;
+					self.projectParams = new NgTableParams ({count:50}, {dataset: self.projects});
 				},
 				data: { }
 			});

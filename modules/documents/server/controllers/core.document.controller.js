@@ -486,6 +486,40 @@ module.exports = DBModel.extend ({
 				});
 			}
 		});
+	},
+
+	getDropZoneDocuments : function (projectid) {
+		var query = {
+			project: projectid,
+			$and: [
+				{documentSource: 'DROPZONE'},
+				{directoryID: 0}
+			]
+		};
+		return this.list (query);
+	},
+	getDropZoneDocumentsForProjects : function (projects) {
+		try {
+			if (_.isString(projects)) {
+				// expect projects to be something like  '58851158aaecd9001b81e83f,...'
+				projects = projects.split(",");
+				projects = _.map(projects, function (id) {
+					return mongoose.Types.ObjectId(id);
+				});
+			}
+		} catch(err) {
+			// the construction of the ObjectId may throw if the id is invalid
+			// console.log("getDropZoneDocumentsForProjects bad request parameter");
+			return Promise.reject("getDropZoneDocumentsForProjects bad request parameter");
+		}
+		var query = {
+			project: { $in: projects },
+			$and: [
+				{documentSource: 'DROPZONE'},
+				{directoryID: 0}
+			]
+		};
+		return this.list(query);
 	}
 });
 
