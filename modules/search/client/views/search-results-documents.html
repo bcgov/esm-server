@@ -1,0 +1,152 @@
+<div class="file-browser">
+	<div class="fb-header">
+		<div class="fb-breadcrumbs">
+			Found {{vm.count}} Results
+		</div>
+		<div class="file-batch-actions">
+			<div class="fb-menu btn-group">
+				<button class="toggle-details-btn btn icon-btn" title="Properties" 
+					ng-click="vm.toggleInfoPanel()"
+					aria-label="Close File Details"
+					title="Close File Details">
+					<span class="glyphicon glyphicon-info-sign"></span>
+        		</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="fb-body" ng-class="{'panel-open': vm.infoPanelOpen}">
+
+		<div class="table-container fb-list">
+			<table class="sr-table" st-table="vm.displayResults">
+				<thead>
+					<tr>
+						<th class="name-col sortable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('name')">Name
+							<span class="sort-icon" ng-show="vm.sorting.column === 'name'"></span>
+						</th>
+						<th class="date-added-col sortable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('date')">Uploaded
+							<span class="sort-icon" ng-show="vm.sorting.column === 'date'"></span>
+						</th>
+						<th class="status-col sortable" ng-if="vm.authentication.user" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('status')">Status
+							<span class="sort-icon" ng-show="vm.sorting.column === 'status'"></span>
+						</th>
+						<th class="actions-col x1">&nbsp;</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-class="{'selected': item.selected}" ng-repeat="item in vm.displayResults" ng-click="$event.originalEvent.dropdown || vm.toggleSelectItem(item)">
+						<td class="p-0" colspan="{{vm.colspan}}">
+							
+							<table class="table">
+								<tr>
+									<td class="name-col">
+										<div class="name-col-inner">
+											<div class="avatar">
+												<span class="fb-folder glyphicon glyphicon-folder-close" ng-if="!item.isFile"></span>
+												<span class="fb-file glyphicon glyphicon-file" ng-if="item.isFile && !item.isImage"></span>
+												<span class="fb-img glyphicon glyphicon-picture" ng-if="item.isFile && item.isImage"></span>
+											</div>
+											<div class="sr-info">
+												<div class="sr-name" ng-dblclick="vm.openFile(item.id)">{{ item.displayName }}</div>
+											</div>
+										</div>
+									</td>
+									<td class="date-added-col">
+										{{ item.dateUploaded | date : format : timezone }}
+									</td>
+									<td class="status-col" ng-if="vm.authentication.user">
+										<span class="glyphicon glyphicon-ok-circle" ng-if="item.isPublished" title="Published"></span>
+									</td>
+									<td class="actions-col x1">
+										<div class="btn-group">
+											<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown"
+												aria-haspopup="true" aria-expanded="false">
+												<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+											</button>
+											<ul class="dropdown-menu pull-right">
+												<li>
+													<button class="btn icon-btn" title="Properties" ng-click="vm.toggleInfoPanel();$event.stopPropagation();">
+														<span class="glyphicon glyphicon-info-sign"></span>
+													</button>
+												</li>
+												<li>
+													<a class="btn icon-btn" href="/api/document/{{ item.id }}/fetch" target="_blank" title="Download File">
+														<span class="glyphicon glyphicon-download-alt"></span>
+													</a>
+												</li>
+											</ul>
+										</div>
+									</td>
+								</tr>
+							</table>
+							<div class="sr-row-details">
+								<div class="sr-desc" ng-if="item.description">{{ item.description }}</div>
+								<div class="sr-path clickable" ng-if="item.path"><a ui-sref="p.docs({ file: item.id })">{{ item.path }}</a></div>
+							</div>
+							
+						</td>
+					</tr>
+					
+					<tr ng-if="!vm.displayResults || vm.displayResults.length === 0">
+						<td colspan="{{vm.colspan}}">No records found.</td>
+					</tr>
+
+				</tbody>
+				
+				<tfoot>
+					<tr>
+						<td class="pagination-container" colspan="{{vm.colspan}}">
+							<div class="pgn-btns btn-group">
+								<button class="pg-prev btn btn-default btn-sm"
+									ng-class="{disabled: vm.currentPage == 1}"
+									ng-disabled="vm.currentPage == 1"
+									ng-click="vm.selectPage(vm.currentPage-1)" 
+									aria-label="Previous">&laquo;
+								</button>
+								<button class="btn btn-default btn-sm" 
+									ng-show="vm.pages.indexOf(1) == -1"
+									ng-click="vm.selectPage(1)">1
+								</button>
+								<button class="pg-prev btn btn-default btn-sm" 
+									ng-show="vm.numPages > 1 && vm.pages.indexOf(2) == -1"
+									ng-click="vm.selectPage(vm.pages[0])">&lsaquo;
+								</button>
+								<button class="btn btn-default btn-sm"
+									ng-class="{active: page==vm.currentPage}" 
+									ng-repeat="page in vm.pages"
+									ng-click="vm.selectPage(page)">{{page}}
+								</button>
+								<button class="pg-next btn btn-default btn-sm" 
+									ng-show="vm.numPages > 1 && vm.pages.indexOf(vm.numPages -1) == -1"
+									ng-click="vm.selectPage(vm.pages[vm.pages.length - 1])">&rsaquo;
+								</button>
+								<button class="btn btn-default btn-sm" 
+									ng-show="vm.numPages > 1 && vm.pages.indexOf(vm.numPages) == -1"
+									ng-click="vm.selectPage(vm.numPages)">{{vm.numPages}}
+								</button>
+								<button class="pg-next btn btn-default btn-sm" 
+									ng-class="{disabled: vm.currentPage == vm.numPages}"
+									ng-disabled="vm.currentPage == vm.numPages"
+									ng-click="vm.selectPage(vm.currentPage+1)"
+									aria-label="Next">&raquo;
+								</button>
+							</div>
+							<div class="pgn-btns btn-group pull-right">
+								<button class="btn btn-default btn-sm" 
+									ng-class="{active: vm.limit==size}" 
+									ng-repeat="size in vm.pageSizes" 
+									ng-click="vm.changePageSize(size)">{{size}}
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+				
+			</table>
+		</div>
+
+		<x-search-info-panel class="fb-details-panel" x-parent-controller="vm"></x-search-info-panel>
+
+	</div>
+
+</div>

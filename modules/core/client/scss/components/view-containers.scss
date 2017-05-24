@@ -1,0 +1,60 @@
+
+$view-container-border: 1px solid #EEE;
+$view-title-container-bg: #fff;
+
+.view-title-container {
+	@include flexbox();
+	@include flex(0 0 auto);
+	padding: 1.4rem 1.5rem;
+	border-bottom: $view-container-border;
+	background-color: $view-title-container-bg;
+
+	h1 {
+		@include flex(1 1 auto);
+		margin: 0;
+		padding-top: 0.7rem;
+		font-size: 2rem;
+		font-weight: bold;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.mobile-nav-btn {
+		margin-right: 0.5rem;
+	}
+
+	.actions {
+		@include flex(0 0 auto);
+		padding-left: 1rem;
+	}
+}
+
+.view-body-container {
+	@include flex(1 1 auto);
+	padding: 2rem;
+	overflow-y: auto;
+}
+
+@media (min-width: 1020px) {
+	.view-title-container {
+		h1 {
+			padding-top: 0.5rem;
+			font-size: 2.2rem;
+		}
+
+		.mobile-nav-btn {
+			display: none;
+		}
+	}
+}
+
+.view-form {
+    @include flexbox();
+    @include flexdirection(column);
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
