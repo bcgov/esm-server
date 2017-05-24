@@ -405,4 +405,3 @@ module.exports = function (app) {
 		};
 	}
 };
-
