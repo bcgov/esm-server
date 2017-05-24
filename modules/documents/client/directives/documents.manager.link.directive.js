@@ -15,12 +15,19 @@ angular.module('documents')
 				self.busy = true;
 
 				$scope.authentication = Authentication;
-				$scope.project.directoryStructure = $scope.project.directoryStructure || {
+
+				ProjectModel.getProjectDirectory($scope.project)
+				.then( function (dir) {
+					$scope.project.directoryStructure = dir || {
 						id: 1,
 						lastId: 1,
 						name: 'ROOT',
 						published: true
 					};
+					self.rootNode = tree.parse($scope.project.directoryStructure);
+					self.selectNode(self.rootNode);
+					$scope.$apply();
+				});
 
 				// default sort is by name ascending...
 				self.sorting = {
@@ -28,7 +35,7 @@ angular.module('documents')
 					ascending: true
 				};
 
-				self.rootNode = tree.parse($scope.project.directoryStructure);
+			//	self.rootNode = tree.parse($scope.project.directoryStructure);
 				self.selectedNode = undefined;
 				self.currentNode = undefined;
 				self.currentPath = undefined;
@@ -202,8 +209,6 @@ angular.module('documents')
 							}
 						);
 				};
-
-				self.selectNode(self.rootNode.model.id);
 
 			},
 			controllerAs: 'documentMgr'

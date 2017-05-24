@@ -31,6 +31,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// if the comment was modified or redacted this is a pointer to the original
 	//
 	original         : { type:'ObjectId', ref:'Comment', default:null, index:true },
+
+	// For original EAO "Public" PCPs
 	//
 	// the comment itself
 	//
@@ -46,14 +48,18 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	pillars          : [String],
 	topics           : [String],
 
+	// for "Joint PCP"
+	// -------------------------------------------------------------------------
+	//
+	// these are specific to joint comments (Joint PCP)
+	//
+	// -------------------------------------------------------------------------
+	comment2         : { type:String, default:'' },
+	documents2       : [{ type:'ObjectId', ref:'Document' }],
+
 	// ESM-431 - want each comment within a period to have a unique number (not guid)
 	//           for export and sorting
 	commentId: {type: Number},
-	// -------------------------------------------------------------------------
-	//
-	// for public comments
-	//
-	// -------------------------------------------------------------------------
 	//
 	// a free form field for the author to put her name and a flag indicating her
 	// wish to be anonymous or not
@@ -94,6 +100,5 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// if there is a response to this comment, link it here, comments may
 	// share responses
 	//
-	response : { type:'ObjectId', ref:'CommentResponse', default:null, index:true },
+	response : { type:'ObjectId', ref:'CommentResponse', default:null, index:true }
 });
-

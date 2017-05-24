@@ -336,6 +336,7 @@ module.exports = function (app) {
 			return model.getEpicProjectFolderURL(req.body);
 		}));
 
+
 	/*
 	Drop Zone is a special area for proponents to add documents to a project.
 	 */
