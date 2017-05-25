@@ -88,8 +88,16 @@ module.exports = DBModel.extend ({
 		period.vettingRoles = _.uniq(_.concat(period.vettingRoles, ['project-system-admin']));
 		period.classificationRoles = _.uniq(_.concat(period.classificationRoles, ['project-system-admin']));
 
+		// EPIC-932 Joint PCP logic follows...
+		// Note, project-system-admin will not be added in the UI / Client, but we always want them to have the power...
+		// Changes here need should be synced with the UI, don't want them selecting from a different set of roles than they can save.
+		var allowedDownloadRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'proponent-lead', 'proponent-team', 'assessment-ceaa'];
+		period.downloadRoles = _.intersection(period.downloadRoles, allowedDownloadRoles);
+		period.downloadRoles = _.uniq(_.concat(period.downloadRoles, ['project-system-admin']));
+
 		var allroles = _.uniq(period.commenterRoles.concat (
 			period.classificationRoles,
+			period.downloadRoles,
 			period.vettingRoles,
 			['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin']
 		));
@@ -97,6 +105,7 @@ module.exports = DBModel.extend ({
 		//console.log('commentperiod.setRolesPermissions - allroles = ' + JSON.stringify(allroles, null, 4));
 		var dataObj = {
 			vetComments      : period.vettingRoles,
+			downloadComments : period.downloadRoles,
 			classifyComments : period.classificationRoles,
 			listComments     : period.commenterRoles,
 			addComment       : _.uniq(_.concat(period.commenterRoles, defaultWriteDeleteRoles)),
@@ -259,7 +268,17 @@ module.exports = DBModel.extend ({
 				})
 				.then(function(rd) {
 					period.relatedDocuments = rd;
-					return self.getStats(period);
+					return period;
+				})
+				.then(function(p) {
+					return docs.list({_id: {$in: p.relatedDocumentsPackage2} });
+				})
+				.then(function(rd2) {
+					period.relatedDocumentsPackage2 = rd2;
+					return period;
+				})
+				.then(function(p) {
+					return self.getStats(p);
 				})
 				.then(function(data) {
 					resolve(data);
@@ -279,6 +298,14 @@ module.exports = DBModel.extend ({
 							docs.list({_id: {$in: p.relatedDocuments} })
 								.then(function(ds) {
 									p.relatedDocuments = ds;
+								})
+								.then(function() {
+									return docs.list({_id: {$in: p.relatedDocumentsPackage2} });
+								})
+								.then(function(ds2) {
+									p.relatedDocumentsPackage2 = ds2;
+								})
+								.then(function() {
 									resolve(p);
 								});
 						});

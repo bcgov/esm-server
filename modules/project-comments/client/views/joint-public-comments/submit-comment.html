@@ -1,0 +1,31 @@
+
+<div class="modal-header">
+	<button type="button" class="btn btn-default close" ng-click="ctrl.cancel()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<h3 class="modal-title">Submit a Comment</h3>
+</div>
+
+<!-- How it Works (how-it-works.html) -->
+<div class="pcp-comment-step" ng-show="ctrl.step === 1" ng-include="'modules/project-comments/client/views/joint-public-comments/partials/how-it-works.html'"></div>
+
+<!-- Instructions (instructions.html) -->
+<div class="pcp-comment-step" ng-show="ctrl.step === 2" ng-include="'modules/project-comments/client/views/joint-public-comments/partials/instructions.html'"></div>
+
+<!-- Step 1: Enter Your Details (details.html) -->
+<div class="pcp-comment-step" ng-show="ctrl.step === 3" ng-include="'modules/project-comments/client/views/joint-public-comments/partials/details.html'"></div>
+
+<!-- Step 2: Comment on Package 1 (pkg-1.html) -->
+<div class="pcp-comment-step" ng-show="ctrl.step === 4" ng-include="'modules/project-comments/client/views/joint-public-comments/partials/pkg-1.html'"></div>
+
+<!-- Step 3: Comment on Package 1 (pkg-1.html) -->
+<div class="pcp-comment-step" ng-show="ctrl.step === 5" ng-include="'modules/project-comments/client/views/joint-public-comments/partials/pkg-2.html'"></div>
+
+<!-- Step 4: Review (review.html) -->
+<div class="pcp-comment-step" ng-show="ctrl.step === 6" ng-include="'modules/project-comments/client/views/joint-public-comments/partials/review.html'"></div>
+
+<!-- Success (success.html) -->
+<div class="pcp-comment-step" ng-show="ctrl.step === 7" ng-include="'modules/project-comments/client/views/joint-public-comments/partials/success.html'"></div>
+
+<!-- Error (error.html) -->
+<div class="pcp-comment-step" ng-show="ctrl.step === 8" ng-include="'modules/project-comments/client/views/joint-public-comments/partials/error.html'"></div>

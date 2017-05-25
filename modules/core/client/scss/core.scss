@@ -187,10 +187,10 @@ pre {
 	}
 }
 
-textarea {
+textarea.form-control {
 	resize: vertical;
+	padding: 1rem;
 }
-
 
 
 /* MIXINS / UTILITY SELECTORS
@@ -204,31 +204,6 @@ button.close {
 
 .no-margin {
 	margin: 0;
-}
-
-/* Margin Helpers */
-.m-b-0 {
-	margin-bottom: 0 !important;
-}
-
-.m-b-1 { 
-	margin-bottom: 1rem !important;
-}
-
-.m-b-2 {
-	margin-bottom: 2rem !important;
-}
-
-.m-t-0 {
-	margin-top: 0 !important;
-}
-
-.m-t-1 {
-	margin-top: 1rem !important;
-}
-
-.m-t-2 {
-	margin-top: 2rem !important;
 }
 
 /* MIXINS */
@@ -2481,9 +2456,24 @@ form {
 .radio-group {
 	padding-top: 0.7rem;
 
+	label {
+		margin-bottom: 0.5rem;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+
+		+ .help-block {
+			margin-top: -0.5rem;
+			margin-left: 2rem;
+		}
+	}
+
 	/* Fix - Myriad Pro causes an issue with the label offset so we fix it */
 	input[type="radio"] {
-		margin-top: 2px;
+		margin-top: -0.2rem;
+		margin-right: 0.5rem;
+		vertical-align: middle;
 	}
 }
 
@@ -3183,12 +3173,6 @@ section {
 	}
 }
 
-.pcp-comment-count-label {
-	display: inline-block;
-	margin-top: 0.8rem;
-	font-weight: bold;
-}
-
 .pcp-pillar-vc-list {
 	.vc-details {
 		-webkit-flex: 1 1 auto;
@@ -3285,136 +3269,6 @@ section {
 				position: absolute;
 				top: -5.5rem;
 				right: 0;
-			}
-		}
-	}
-}
-
-.public-comment-modal {
-	h4 {
-		margin-top: 0;
-		font-weight: bold;
-	}
-	
-	p {
-		margin: 1.5rem 0;
-		line-height: 2rem;
-		
-		a {
-			text-decoration: underline;
-		}
-	}
-	
-	.control-label,
-	.comment-opt-in label {
-		font-weight: bold;
-		text-shadow: 0 0 1px #FFF;
-	}
-	
-	.comment-opt-in {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-		
-		+ .help-block {
-			margin-top: 0.25rem;
-			font-size: 1.3rem;
-			color: #999;
-			text-shadow: 0 0 1px #FFF;
-		}
-	}
-
-	.comment-review-btns {
-		-webkit-flex: 0 0 auto;
-		flex: 0 0 auto;
-
-		.defer-btn,
-		.publish-btn,
-		.reject-btn {
-			text-shadow: 1px 1px 0 #FFF;
-
-			&.active {
-				color: #FFF;
-				text-shadow: none;
-			}
-		}
-
-		.defer-btn {
-			&.active {
-				background: $info-bg;
-				border-color: $info-border;
-			}
-		}
-
-		.publish-btn {
-			&.active {
-				background: $success-bg;
-				border-color: $success-border;
-			}
-		}
-
-		.reject-btn {
-			&.active {
-				background: $danger-bg;
-				border-color: $danger-border;
-			}
-		}
-	}
-
-	.comment-author-info {
-		margin-bottom: 1rem;
-
-		.author {
-			font-size: 1.4rem;
-		}
-
-		.date {
-			display: block;
-			color: $font-color-grey;
-		}
-	}
-
-	.comment-body {
-		margin: 0;
-		max-height: 40rem;
-		overflow-y: auto;
-
-		pre {
-			padding: 1.5rem;
-			overflow-x: hidden;
-		}
-	}
-
-	.comment-attachments {
-		.comment-review-btns {
-			-webkit-flex: 0 0 auto;
-			flex: 0 0 auto;
-			padding-right: 0.5rem;
-
-			.btn {
-				margin-top: 0.5rem;
-				min-width: 7rem;
-			}
-		}
-	}
-
-	.comment-alert {
-		margin-bottom: 2rem;
-		display: none;
-	}
-
-	.eao-comment-review {
-		.form-group {
-			margin-bottom: 2.5rem;
-
-			&:last-child {
-				margin-bottom: 0;
-			}
-		}
-
-		.comment-review-btns {
-			.btn {
-				min-width: 10rem;
-				padding-top: 0.7rem;
 			}
 		}
 	}

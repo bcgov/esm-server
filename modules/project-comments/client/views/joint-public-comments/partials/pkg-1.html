@@ -1,0 +1,49 @@
+
+<form>
+    <div class="modal-body">
+
+        <section class="m-b-0">
+            <h2><sup>Step 2 of 4</sup>Comment on the {{ctrl.period.informationLabel}}</h2>
+            <p class="m-b-2">The purpose of this comment period is for the public to see EAO’s draft conclusions before a decision is made, and be able to see how their comments in previous public comment periods have been addressed. Following the public comment period, EAO’s draft assessment report and/or conditions may be adjusted, if necessary, in response to the public comments.</p>
+            <div class="form-group">
+                <label class="control-label">Your Comment</label>
+                <textarea class="form-control" placeholder="Enter your comment here..." rows="8" ng-model="ctrl.comment.comment"></textarea>
+            </div>
+            <div class="upload-attachments">
+                <label class="control-label">Add Attachments ({{ctrl.package1.validFiles.length}})</label>
+                <div class="alert alert-danger" ng-show="ctrl.showAlert">
+                    All attachments must be no larger than <strong>5MB</strong>.
+                    <button type="button" class="close">
+                        <span ng-click="ctrl.closeAlert()">&times;</span>
+                    </button>
+                </div>
+                <div class="fb-upload-container">
+                    <div class="fb-upload-target-container">
+                        <div class="fb-upload-target pcp"
+                            ngf-drop
+                            ngf-select
+                            ngf-allow-dir="true"
+                            ng-model="ctrl.package1.files"
+                            ngf-drag-over-class="fb-upload-target-hover"
+                            ngf-multiple="true">
+                            <div class="fb-upload-target-content">
+                                <span class="glyphicon glyphicon-open icon-default"></span>
+                                <span class="fb-upload-target-msg"><b>Drag &amp; Drop</b> or <b>browse files</b> to upload.</span>
+                                <span class="fb-upload-req-msg">Size limited to 5MB.</span>
+                            </div>
+                            <div class="fb-upload-target-border"></div>
+                        </div>
+                        <div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed"></div>
+                    </div>
+                    <div class="m-t-1" ng-if="ctrl.package1.validFiles.length > 0">
+                        <x-file-upload-listing class="pcp-review-files" file-list="ctrl.package1.validFiles"></x-file-upload-listing>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="ctrl.back()">&lsaquo;&nbsp; Back</button>
+        <button class="btn btn-primary" ng-click="ctrl.next()">Next &nbsp;&rsaquo;</button>
+    </div>
+</form>

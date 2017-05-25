@@ -6,99 +6,67 @@
 
 <div class="view-body-container">
 
-	<div class="pcp-alert-container">
-		<div class="pcp-alert">
-			<div class="pcp-alert-info">
-				<h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span></h2>
-				<span class="pcp-dates">{{ period.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ period.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span></div>
-			<div class="pcp-alert-btns">
+	<div class="pcp-banner" ng-if="period.dateStarted">
+		<section class="pcp-info">
+			<h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span></h2>
+			<span class="pcp-dates"><strong>{{ period.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ period.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
+			<span class="pcp-desc">
+				This Public Comment Period is regarding the <strong>{{period.informationLabel}}</strong><span ng-if="period.informationLabelPackage2"> and the <strong>{{period.informationLabelPackage2}}</strong></span>.
+			</span>
+			<div class="pcp-banner-btns">
 				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="period">
 					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
 				</button>
 			</div>
-		</div>
-		<div class="pcp-details">
-			<section class="pcp-about">
-				<h4 class="m-t-0">About this Comment Period...</h4>
-				<p ng-if="!aboutThisPeriod">No Description Available.</p>
-				<p ng-if="aboutThisPeriod" ng-bind-html="aboutThisPeriod"></p>
+		</section>
+		<!--
+		<section class="pcp-addl-info" ng-if="period.additionalText || period.additionalTextPackage2">
+			<h3>Additional Information</h3>
+			<section ng-if="period.additionalText">
+				<h4>{{period.informationLabel}}</h4>
+				<p ng-bind-html="period.additionalText"></p>
 			</section>
-		</div>
+			<section ng-if="period.additionalTextPackage2">
+				<h4>{{period.informationLabelPackage2}}</h4>
+				<p ng-bind-html="period.additionalTextPackage2"></p>
+			</section>
+		</section>
+		-->
 	</div>
 
     <ul class="nav nav-tabs" role="tablist">
-        <li class="active" role="presentation"><a href="#pcpComments" aria-controls="pcpComments" role="tab" data-toggle="tab">Comments</a></li>
-        <li role="presentation"><a href="#pcpDocuments" aria-controls="pcpDocuments" role="tab" data-toggle="tab">Related Documents</a></li>
-		<li role="presentation"><a href="#pcpOpenHouse" aria-controls="pcpOpenHouse" role="tab" data-toggle="tab">Open Houses</a></li>
+		<li class="active" role="presentation"><a href="#pcpDocuments" aria-controls="pcpDocuments" role="tab" data-toggle="tab">Related Documents</a></li>
+        <li role="presentation"><a href="#pcpComments" aria-controls="pcpComments" role="tab" data-toggle="tab">Comments</a></li>
+		<li role="presentation" ng-if="isPublic"><a href="#pcpOpenHouse" aria-controls="pcpOpenHouse" role="tab" data-toggle="tab">Open Houses</a></li>
     </ul>
 
     <div class="pcp-tab-content tab-content">
 
 		<!-- Comments -->
-        <div class="tab-pane active" role="tab-panel" id="pcpComments">
-            <tmpl-public-comment-list x-period="period" x-project="project"></tmpl-public-comment-list>
-        </div><!-- / Comments Tab -->
+		<div class="tab-pane" role="tab-panel" id="pcpComments">
+			<tmpl-public-comment-list x-period="period" x-project="project" x-user-roles="userRoles"></tmpl-public-comment-list>
+		</div><!-- / Comments Tab -->
 
 		<!-- Documents -->
-        <div class="tab-pane" id="pcpDocuments">
-            <div class="fb-body">
-				<div class="fb-list">
-					<div class="column-header">
-						<div class="fb-col-group">
-							<div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
-								<span>Name</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
-							</div>
-							<div class="col type-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('type')">
-								<span>Type</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'type'"></span>
-							</div>
-							<div class="col size-col sortable last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
-								<span>Size</span>
-								<span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
-							</div>
-						</div>
-					</div>
-					<ul>
-						<li class="fb-list-item" ng-if="documentMgr.sortedFiles == 0">
-							<span class="fb-col-group">
-								<span class="col first-col">No Documents Available.</span>
-							</span>
-						</li>
-						<li class="fb-list-item" ng-repeat="doc in documentMgr.sortedFiles">
-							<span class="fb-col-group">
-								<span class="col name-col first-col">
-									<span class="avatar">
-										<span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
-										<span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
-									</span>
-									<a href="/api/document/{{ doc._id }}/fetch" target="_self">{{doc.displayName}}</a>
-								</span>
-								<span class="col type-col">{{ doc.internalExt}}</span>
-								<span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
-								<div class="row-actions visible">
-									<div class="btn-group">
-										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-										</button>
-										<ul class="dropdown-menu pull-right">
-											<li>
-												<a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File" ng-if="doc.userCan.read">
-													<span class="glyphicon glyphicon-download-alt"></span>
-												</a>
-											</li>
-										<ul>
-									</div>
-								</div>
-							</span>
-						</li>
-					</ul>
-				</div>
+		<div class="tab-pane active" id="pcpDocuments">
+			<div class="pcp-related-docs">
+				<section>
+					<h2>{{period.informationLabel}}</h2>
+					<p ng-if="period.informationLabelPackage2">The purpose of this comment period is for the public to see EAO’s draft conclusions before a decision is made, and be able to see how their comments in previous public comment periods have been addressed. Following the public comment period, EAO’s draft assessment report and/or conditions may be adjusted, if necessary, in response to the public comments.</p>
+					<p>{{period.additionalText}}</p>
+					<tmpl-period-documents-list x-file-list="period.relatedDocuments"></tmpl-period-documents-list>
+				</section>
+				<section ng-if="period.informationLabelPackage2">
+					<h2>{{period.informationLabelPackage2}}</h2>
+					<p>EAO will forward comments related to matters of federal concern to the Canadian Environmental Assessment Agency for consideration. CEAA will review all submitted comments before finalizing their report/conditions.</p>
+					<p>{{period.additionalTextPackage2}}</p>
+					<tmpl-period-documents-list ng-if="isJoint" x-file-list="period.relatedDocumentsPackage2"></tmpl-period-documents-list>
+				</section>
 			</div>
-        </div><!-- / Documents Tab -->
+		</div><!-- / Documents Tab -->
 
 		<!-- Open House Dates -->
-		<div class="tab-pane" role="tab-panel" id="pcpOpenHouse">
+		<div class="tab-pane" ng-if="isPublic" role="tab-panel" id="pcpOpenHouse">
 			<div class="table-container">
 				<table class="open-house-table table">
 					<thead>

@@ -28,6 +28,7 @@
 		<div class="fb-body">
 			
 			<!-- FILE BROWSER LIST -->
+			<!-- TODO consider replacing the following div and contents with <x-file-upload-listing> -->
 			<div class="fb-list">
 
 				<div class="column-header">
@@ -38,7 +39,7 @@
 						<span>File Size</span>
 					</div>
 				</div>
-				
+
 				<ul>
 					<li class="fb-list-item" ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
 						<span class="fb-col-group">							

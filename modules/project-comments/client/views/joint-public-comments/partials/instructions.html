@@ -1,0 +1,19 @@
+
+<div class="modal-body">
+    <section>
+        <h2>Before you start...</h2>
+        <p>This is a joint public comment period between the Environmental Assessment Office and the Canadian Environmental Assessment Agency. You will be commenting on the EAO <span>{{ctrl.period.informationLabel}}</span> and the Federal <span>{{ctrl.period.informationLabelPackage2}}</span>.</p>
+        <p>EAO will consider all comments received during the public comment period and may adjust the assessment report and/or table of conditions in response to the public comments.</p>
+        <p class="m-b-2">EAO will forward comments related to matters of federal concern to the Canadian Environmental Assessment Agency for consideration. CEAA will review all submitted comments before finalizing their report/conditions.</p>
+        <p><strong>You will have the option to comment on one or both of the following packages:</strong></p>
+        <ul>
+            <li>{{ctrl.period.informationLabel}}</li>
+            <li>{{ctrl.period.informationLabelPackage2}}</li>
+        </ul>
+    </section>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ctrl.back()">&lsaquo;&nbsp; Back</button>
+    <button class="btn btn-primary" ng-click="ctrl.next()">Next &nbsp;&rsaquo;</button>
+</div>
