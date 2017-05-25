@@ -232,6 +232,7 @@ function directiveMainSearch(SearchService) {
 		templateUrl: 'modules/search/client/views/partials/search-widget.html',
 		controller: function ($scope, $rootScope) {
 			var self = this;
+			self.busy = false;
 			self.searchText = $scope.preload ? SearchService.getSearchText() : '';
 			self.search = search;
 			self.toggleSearch = toggleSearch;
@@ -251,6 +252,7 @@ function directiveMainSearch(SearchService) {
 			}
 
 			function search() {
+				self.busy = true;
 				SearchService.redirectSearchDocuments($scope.project, self.searchText);
 			}
 
