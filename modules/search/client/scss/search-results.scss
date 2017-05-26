@@ -150,6 +150,10 @@ x-search-info-panel {
                         box-shadow: none;
                     }
                 }
+
+                &.no-records {
+                    padding: 1.25rem;
+                }
             }
 
             &.selected {

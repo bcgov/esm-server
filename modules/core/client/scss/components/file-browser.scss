@@ -156,6 +156,7 @@ a.icon-btn {
 
         .back-icon {
             display: none;
+            font-weight: bold;
         }
 
         li {
@@ -276,6 +277,7 @@ a.icon-btn {
         bottom: 0;
         background: $file-browser-bg;
         transform: translateX(100%);
+        z-index: 2;
 
         .fb-details-content {
             width: 100%;
@@ -491,8 +493,8 @@ a.icon-btn {
             }
 
             .dropdown-menu {
-                top: -3px;
-                right: -3px;
+                top: -0.3rem;
+                right: -0.3rem;
                 min-width: 0;
                 padding: 0.2rem;
                 white-space: nowrap;
@@ -990,7 +992,7 @@ $fb-upload-target-border: 2px dashed #BBB;
     }
 
     .dropdown-menu {
-        margin-top: 0.5rem;
+        margin-top: 0.6rem;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
         border-radius: 0;
