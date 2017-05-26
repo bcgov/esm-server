@@ -459,7 +459,7 @@ module.exports = DBModel.extend ({
 					// console.log("dir:", dir);
 					return f.oneIgnoreAccess({_id: dir._id})
 					.then(function (d) {
-						d.parentId = newParentId;
+						d.parentID = newParentId;
 						_dir = d;
 						return self.findById(projectId);
 					});
