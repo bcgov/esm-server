@@ -1,0 +1,157 @@
+<div class="modal-header">
+	<h3 class="modal-title">Day Calculator
+		<span class="pull-right"><small>Enter any two fields to calculate the third</small></span>
+	</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label">Start Date</label>
+				<div class="form-control date-picker" title="{{ dayCalculator.startDate | amDateFormat:'HH:mm:ss' }}"
+					x-modal-date-picker x-selected-date="dayCalculator.startDate" x-hide-time="true" x-header="'Choose a Start Date'">
+					<span ng-if="!dayCalculator.startDate">None</span>
+					{{ dayCalculator.startDate | amDateFormat:'ddd, MMM DD, YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<div ng-show="dayCalculator.startDateAlert" role="alert">
+					<p class="text-danger help-block">{{ dayCalculator.startDateAlert }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label">End Date</label>
+				<div class="form-control date-picker" title="{{ dayCalculator.endDate | amDateFormat:'HH:mm:ss' }}"
+					x-modal-date-picker x-selected-date="dayCalculator.endDate" x-hide-time="true" x-header="'Choose an End Date'">
+					<span ng-if="!dayCalculator.endDate">None</span>
+					{{ dayCalculator.endDate | amDateFormat:'ddd, MMM DD, YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<div ng-show="dayCalculator.endDateAlert" role="alert">
+					<p class="text-danger help-block">{{ dayCalculator.endDateAlert }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label">Number of Days</label>
+				<input class="form-control" type="number" ng-model="dayCalculator.numDays" />
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="form-group">
+				<label class="control-label">Calculation Type</label>
+				<select class="form-control" ng-model="dayCalculator.type" ng-options="t.displayName for t in dayCalculator.types" ng-selected="t === dayCalculator.type">
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-4" ng-show="dayCalculator.type.value === 'suspended'">
+			<div class="form-group">
+				<label class="control-label">Suspension Date</label>
+				<div class="form-control date-picker" title="{{ dayCalculator.suspendDate | amDateFormat:'HH:mm:ss' }}"
+					x-modal-date-picker x-selected-date="dayCalculator.suspendDate" x-hide-time="true" x-header="'Choose a Suspension Date'">
+					<span ng-if="!dayCalculator.suspendDate">None</span>
+					{{ dayCalculator.suspendDate | amDateFormat:'ddd, MMM DD, YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<div ng-show="dayCalculator.suspendDateAlert" role="alert">
+					<p class="text-danger help-block">{{ dayCalculator.suspendDateAlert }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4" ng-show="dayCalculator.type.value === 'suspended'">
+			<div class="form-group">
+				<label class="control-label">Resumption Date</label>
+				<div class="form-control date-picker" title="{{ dayCalculator.resumeDate | amDateFormat:'HH:mm:ss' }}"
+					x-modal-date-picker x-selected-date="dayCalculator.resumeDate" x-hide-time="true" x-header="'Choose a Resumption Date'">
+					<span ng-if="!dayCalculator.resumeDate">None</span>
+					{{ dayCalculator.resumeDate | amDateFormat:'ddd, MMM DD, YYYY' }}
+					<span class="glyphicon glyphicon-calendar"></span>
+				</div>
+				<div ng-show="dayCalculator.resumeDateAlert" role="alert">
+					<p class="text-danger help-block">{{ dayCalculator.resumeDateAlert }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="form-group">
+				<label class="control-label">Description</label>
+				<div ng-show="dayCalculator.type.value === 'regular'">
+					<p class="help-block">Start date is included in calculation.</p>
+				</div>
+				<div ng-show="dayCalculator.type.value === 'suspended'">
+					<p class="help-block">Suspended dates are excluded from calculation.</p>
+				</div>
+				<div ng-show="dayCalculator.type.value === 'dayZero'">
+					<p class="help-block">Start date is excluded from calculation.
+						<a ng-click="dayCalculator.toggleRules(this)"><span ng-hide="dayCalculator.showRules">Show</span><span ng-show="dayCalculator.showRules">Hide</span> Day Zero rules.</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row" ng-show="dayCalculator.showRules" >
+		<div class="col-sm-12"><small>
+			<div><strong>Holidays</strong></div>
+			<div>
+				<ul>
+					<li>If a deadline falls on a holiday the deadline is extended to the next day that is not a holiday. For example, if the deadline for a comment period is December 26, boxing day, the deadline is extended to December 27.</li>
+				</ul>
+			</div>
+			<div><strong>Weekends or Other Office Closures</strong></div>
+			<div>
+				<ul>
+					<li>If a deadline falls on a day when the office is not open (Saturday, Sunday) the deadline is extended to the next day that the office is open. For example, if the deadline for a comment period falls on a Saturday then the deadline is extended to Monday.</li>
+				</ul>
+			</div>
+			<div><strong>Calculation of Days</strong></div>
+			<div>
+				<ul>
+					<li>When calculating periods (for example 30 day comment period) the first day must be excluded and the last day included. For example, a 30 day comment period starts March 1, 2017, the comment period does not end until March 31, 2017.</li>
+					<li>Legislated time periods must be calculated with day -0- eg, Evaluation 30 days, Application Review 180, Ministers Decision 45.</li>
+				</ul>
+			</div>
+			<div><strong>Time of Day</strong></div>
+			<div>
+				<ul>
+					<li>There is no specific mention of time of day in the Interpretation Act so the day would end at midnight. If a comment is received before midnight on the last day of the comment period it would be included in the comment period. If an email was received at 11:59PM it would be received in the comment period or if a written comment was received at an open house before midnight then the comment would also be included in the comment period. However, if the comment were sent in by mail or courier it would need to be received by the office on the last day of the comment period so then our office hours would come into play.</li>
+				</ul>
+			</div>
+			<div><strong>Suspension</strong></div>
+			<div>
+				<ul>
+					<li>Suspending a project during the Application Review period, when the suspension resumes it starts back on the day it was suspended on. If a project is suspended on day 50 of the 180, in accordance with the spirit of the Act, day 49 was the last full day of the Application Review Period, when the project resumes, it would resume on day 50 to allow 180 full days of review.</li>
+				</ul>
+			</div>
+			<div><strong>Interpretation Act</strong></div>
+			<div style="margin-left: 25px;">
+				<p><strong>25</strong>&nbsp;&nbsp;(1) This section applies to an enactment and to a deed, conveyance or other legal instrument unless specifically provided otherwise in the deed, conveyance or other legal instrument.</p>
+				<p>(2) If the time for doing an act falls or expires on a holiday, the time is extended to the next day that is not a holiday.</p>
+				<p>(3) If the time for doing an act in a business office falls or expires on a day when the office is not open during regular business hours, the time is extended to the next day that the office is open.</p>
+				<p>(4) In the calculation of time expressed as clear days, weeks, months or years, or as &quot;at least&quot; or &quot;not less than&quot; a number of days, weeks, months or years, the first and last days must be excluded.</p>
+				<p>(5) In the calculation of time not referred to in subsection (4), the first day must be excluded and the last day included.</p>
+				<p>(6) If, under this section, the calculation of time ends on a day in a month that has no date corresponding to the first day of the period of time, the time ends on the last day of that month.</p>
+				<p>(7) A specified time of day is a reference to Pacific Standard time, or 8 hours behind Greenwich mean time, unless Daylight Saving time is being used or observed on that day.</p>
+				<p>(8) A person reaches a particular age expressed in years at the start of the relevant anniversary of his or her date of birth.</p>
+			</div>
+		</small></div>
+	</div>
+
+	<div class="row" ng-show="dayCalculator.errorAlert" >
+		<div class="col-sm-12">
+			<div role="alert">
+				<p class="text-danger help-block">{{ dayCalculator.errorAlert }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-default" type="button" ng-click="dayCalculator.reset()">Reset</button>
+	<button class="btn btn-primary" type="button" ng-click="dayCalculator.ok()">Close</button>
+	<button class="btn btn-success" type="button" ng-click="dayCalculator.go()">Calculate</button>
+</div>
