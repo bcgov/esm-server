@@ -4526,28 +4526,25 @@ tmpl-template-render {
 	}
 }
 
-/* COMPONENTS
------------------------------ */
-@import "modules/core/client/styles/mixins.scss";
+// GLOBAL
+@import "modules/core/client/scss/global/mixins.scss";
+@import "modules/core/client/scss/global/footer.scss";
 @import "modules/core/client/scss/global/layout.scss";
-@import "modules/core/client/styles/components.scss";
-@import "modules/core/client/styles/spinner.scss";
-@import "modules/core/client/styles/tabs.scss";
+@import "modules/core/client/scss/global/helpers.scss";
 
+// COMPONENTS
 @import "modules/core/client/scss/components/accordion.scss";
+@import "modules/core/client/scss/components/file-browser.scss";
 @import "modules/core/client/scss/components/panel.scss";
+@import "modules/core/client/scss/components/misc.scss";
 @import "modules/core/client/scss/components/recipient-manager.scss";
+@import "modules/core/client/scss/components/spinner.scss";
 @import "modules/core/client/scss/components/table.scss";
+@import "modules/core/client/scss/components/tabs.scss";
 @import "modules/core/client/scss/components/ng-table-overrides.scss";
 @import "modules/core/client/scss/components/view-containers.scss";
 
-/* GLOBAL */
-@import "modules/core/client/scss/global/footer.scss";
-@import "modules/core/client/scss/global/helpers.scss";
-@import "modules/documents/client/styles/file-browser.scss";
-@import "modules/documents/client/styles/pdf-viewer.scss";
-
-/* MODULES */
+// MODULE
 @import "modules/codelists/client/scss/codelist.scss";
 @import "modules/communications/client/scss/communications.scss";
 @import "modules/invitations/client/scss/invitations.scss";
