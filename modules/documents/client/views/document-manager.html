@@ -136,7 +136,7 @@
 				<div class="scroll-container-inner">
 
 					<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
-					<ul>
+					<ul class="fb-folders">
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentDirs">
 							<span class="col checkbox-col" ng-if="authentication.user">
 								<input id="{{doc.model.id}}" type="checkbox" ng-model="doc.selected" ng-click="documentMgr.checkDir(doc)"/>
@@ -161,7 +161,6 @@
 									<span ng-if="doc.model.published" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
 								</span>
 								<div class="row-actions">
-
 									<div class="btn-group">
 										<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 											<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
@@ -239,7 +238,7 @@
 							</span>
 						</li>
 					</ul>
-					<ul>
+					<ul class="fb-files">
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentFiles">
 							<span class="col checkbox-col" ng-if="authentication.user">
 								<input id="{{doc._id}}" type="checkbox" ng-model="doc.selected" ng-click="documentMgr.checkFile(doc)"/>
