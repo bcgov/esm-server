@@ -27,6 +27,7 @@ x-search-info-panel {
         .sr-table {
             @include flexbox();
             @include flexdirection(column);
+            position: absolute;
             width: 100%;
             height: 100%;
 
@@ -55,8 +56,6 @@ x-search-info-panel {
                     border-color: transparent transparent #494949 transparent;
                 }
             }
-
-            
 
             > thead, > tbody, > tfoot {
                 display: block;
