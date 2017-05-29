@@ -42,6 +42,12 @@ angular.module('documents')
 							$scope.datePicker = {
 								opened: false
 							};
+							// Used to remove keywords from the document model
+							$scope.removeKeyword = function (keyword) {
+								_.remove($scope.doc.keywords, function (word) {
+									return word === keyword;
+								});
+							};
 							$scope.dateOpen = function() {
 								$scope.datePicker.opened = true;
 							};
