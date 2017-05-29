@@ -254,6 +254,16 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 						projectList.openPCPArray.push({id: item, title: item});
 				}
 			});
+
+			_.each(projectList.openPCPArray, function(item){
+				if (item.title === "") {
+					var itemIdx = projectList.openPCPArray.indexOf(item);
+					var itemVal = projectList.openPCPArray[itemIdx];
+					projectList.openPCPArray.splice(itemIdx, 1);
+					projectList.openPCPArray.unshift(itemVal); //add the blank element to start of array so that it shows at start for OPENPCP drop downlist
+				}
+			}); 
+
 			//avoid showing unpublished in the model in order to prevent it from appearing in home page
 			_.each(newValue, function(item){
 				if (item.openCommentPeriod === "Unpublished") {
