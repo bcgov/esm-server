@@ -26,7 +26,19 @@ angular.module('core')
 			var list = _.find(data, function(l) { return name.toLowerCase() === l.name.toLowerCase(); });
 			if (list) {
 				var items = list.items || [];
-				return _.sortByOrder(items, ['active', 'displayPriority', 'display'], ['desc', 'desc', 'asc']);
+				var sortedArray = _.sortByOrder(items, ['active', 'displayPriority', 'display'], ['desc', 'desc', 'asc']);
+				//move blank on top of array
+				_.forEach(sortedArray, function (i) {
+					if (i.display === "") {
+						var itemIdx = sortedArray.indexOf(i);
+						var itemVal = sortedArray[itemIdx];
+						if (itemIdx > 0) {
+							sortedArray.splice(itemIdx, 1);
+							sortedArray.unshift(itemVal); //add the element to start of array
+						}
+					}
+				});
+				return sortedArray;
 				//return _.sortBy(items, 'order');
 			}
 			return [];
