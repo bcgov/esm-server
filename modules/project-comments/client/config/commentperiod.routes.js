@@ -61,7 +61,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 							}
 						});
 						if (openPeriod) {
-							// console.log("Found open period:", openPeriod);
 							return openPeriod;
 						} else {
 							return null;
@@ -71,11 +70,9 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 		},
 		controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, CommentPeriodModel, AlertService) {
 			var s = this;
-			//console.log ('periods = ', periods);
 			$scope.activeperiod = null;
 			if (activeperiod) {
 				// Switch on the UI for comment period
-				// console.log("activeperiod:", activeperiod);
 				$scope.activeperiod = activeperiod;
 				$scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
 			}
@@ -193,7 +190,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 		templateUrl: 'modules/project-comments/client/views/period-edit.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
-				// console.log ('editing periodId = ', $stateParams.periodId);
 				return CommentPeriodModel.getForPublic ($stateParams.periodId);
 			},
 			mode: function() {
@@ -237,7 +233,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			}
 		},
 		controller: function ($scope, period, project, userRoles) {
-			//console.log ('period user can: ', JSON.stringify(period.userCan, null, 4));
 			var self = this;
 			var today       = new Date ();
 			var start       = new Date (period.dateStarted);
@@ -293,7 +288,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				})
 				.catch(function (err) {
 					console.error(err);
-					// alert (err.message);
 				});
 			}
 		};
@@ -354,7 +348,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 					if (!rolesChanged(model)) {
 						return;
 					} else {
-						// console.log ('period was saved, roles changed');
 						// save the comments so that we pick up the (potential) changes to the period permissions...
 						return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
 					}
@@ -367,7 +360,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				.catch(function (err) {
 					$scope.busy = false;
 					console.error(err);
-					// alert (err.message);
 				});
 			}
 		};
@@ -558,7 +550,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 		if (!period.rangeType || !period.rangeOption) {
 			period.rangeType = 'custom';
 			period.rangeOption = 'custom';
-			//console.log("defaulting on type and range ");
 		}
 
 		// UI elements .. set to match model values
@@ -672,22 +663,20 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			$scope.save = function () {
 				if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.downloadRoles) === 0) {
 					$scope.hasErrors = true;
-					//$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required. See Roles & Permissions tab.';
 				} else {
 					period.project = project._id;
 					period.phase = project.currentPhase;
 					period.phaseName = project.currentPhase.name;
 
 					CommentPeriodModel.add($scope.period)
-						.then(function (model) {
-							$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
-								reload: true, inherit: false, notify: true
-							});
-						})
-						.catch(function (err) {
-							console.error(err);
-							// alert (err.message);
+					.then(function (model) {
+						$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
+							reload: true, inherit: false, notify: true
 						});
+					})
+					.catch(function (err) {
+						console.error(err);
+					});
 				}
 			};
 		};
@@ -737,31 +726,28 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			$scope.save = function () {
 				if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.downloadRoles) === 0) {
 					$scope.hasErrors = true;
-					//$scope.errorMessage = 'Post, Vet and Download Comments roles are all required.  See Roles & Permissions tab.';
 				} else {
 					$scope.busy = true;
 
 					CommentPeriodModel.save($scope.period)
-						.then(function (model) {
-							if (!rolesChanged(model)) {
-								return;
-							} else {
-								// console.log ('period was saved, roles changed');
-								// save the comments so that we pick up the (potential) changes to the period permissions...
-								return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
-							}
-						})
-						.then(function () {
-							$scope.busy = false;
-							$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
-								reload: true, inherit: false, notify: true
-							});
-						})
-						.catch(function (err) {
-							$scope.busy = false;
-							console.error(err);
-							// alert (err.message);
+					.then(function (model) {
+						if (!rolesChanged(model)) {
+							return;
+						} else {
+							// save the comments so that we pick up the (potential) changes to the period permissions...
+							return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
+						}
+					})
+					.then(function () {
+						$scope.busy = false;
+						$state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
+							reload: true, inherit: false, notify: true
 						});
+					})
+					.catch(function (err) {
+						$scope.busy = false;
+						console.error(err);
+					});
 				}
 			};
 		};
@@ -849,7 +835,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			if (!period.rangeType || !period.rangeOption) {
 				period.rangeType = 'custom';
 				period.rangeOption = 'custom';
-				//console.log("defaulting on type and range ");
 			}
 
 			// UI elements .. set to match model values
@@ -920,16 +905,17 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			}
 		}
 
-		// add X number of days based on (a) but preserve the time in the original (b)
-		function computeDate(a, b, numberOfDaysToAdd) {
-			if (!a)
-				return undefined;
+		// add X number of days based on (firstDate) but preserve the time in the original (secondDate)
+		function computeDate(firstDate, secondDate, numberOfDaysToAdd) {
 			var savedTime;
-			if (b) {
-				var mb = moment(b);
-				savedTime = {hour: mb.hour(), minute: mb.minute(), second: mb.second()};
+			if (!firstDate) {
+				return undefined;
 			}
-			var ms = moment(a);
+			if (secondDate) {
+				var mb = moment(secondDate);
+				savedTime = { hour: mb.hour(), minute: mb.minute(), second: mb.second() };
+			}
+			var ms = moment(firstDate);
 			ms.add(numberOfDaysToAdd, 'days');
 			if (savedTime) {
 				ms.hour(savedTime.hour).minute(savedTime.minute).second(savedTime.second);
@@ -947,7 +933,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			period.instructions = template.replace('%PROJECT_NAME%', PROJECT_NAME)
 				.replace('%INFORMATION_LABEL_PACKAGE_1%', INFORMATION_LABEL_PACKAGE_1)
 				.replace('%INFORMATION_LABEL_PACKAGE_2%', INFORMATION_LABEL_PACKAGE_2);
-				//.replace('%DATE_RANGE%', DATE_RANGE);
 		}
 	} // - End of JointCommentPeriod() -
 }]);
