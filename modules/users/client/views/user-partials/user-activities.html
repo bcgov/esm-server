@@ -36,15 +36,15 @@
                             <th class="phaseCol">Phase</th>
                             <th class="statusCol">Status</th>
                             <th class="actionCol">&nbsp;</th>
+                            <th class="actionCol">&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
                     <tr ng-repeat="project in vm.projects" >
-                        <td class="p-0 rowContainer" colspan="8">
+                        <td class="p-0 rowContainer" colspan="9">
                             <table class="rowNestedTable">
-                                <tr class="projectRow clickable"
-                                    ng-class="{'active': project.selected}"
-                                    ng-click="$event.stopPropagation(); vm.toggleSelect(project._id)">
+                                <tr class="projectRow"
+                                    ng-class="{'active': project.selected}">
                                     <td class="expandCol">
                                         <span ng-if="project.dropZoneFiles.length > 0">
                                             <button class="btn btn-default btn-sm"
@@ -54,13 +54,17 @@
                                             </button>
                                         </span>
                                     </td>
-                                    <td class="nameCol">{{project.name}} <span ng-if="vm.forDevelopmentOnly">{{project.userProjectRoles}}</span>
+                                    <td class="nameCol clickable" >
+                                        <a title="Go To Project" ui-sref="p.detail({projectid: project.code})">
+                                            {{project.name}}
+                                        </a>
+                                    </span>
                                     </td>
                                     <td class="expandCol">
                                         <span class="glyphicon glyphicon-inbox"><sup>{{project.dropZoneFiles.length}}</sup></span>
                                     </td>
                                     <td class="typeCol">
-                                        {{project.type}} <span ng-if="vm.forDevelopmentOnly">{{project._id}}</span>
+                                        {{project.type}}
                                     </td>
                                     <td class="regionCol">{{project.region | regionName}}
                                     </td>
@@ -69,10 +73,6 @@
                                     <td class="statusCol">{{project.status}}
                                     </td>
                                     <td class="actionCol" ng-click="vm.forceSelect(project._id)">
-                                        <button class="btn btn-default btn-sm" title="Open Project"
-                                                ui-sref="p.detail({projectid: project.code})">
-                                            <span class="glyphicon glyphicon-cog"></span> Open
-                                        </button>
                                         <button class="btn btn-default btn-sm" title="Upload Files"
                                                 ng-click="vm.forceSelect(project._id)"
                                                 ng-if="project.userCanUpload"
@@ -81,6 +81,32 @@
                                                 x-target="project.dropZoneFiles">
                                             <span class="glyphicon glyphicon-open"></span> Upload
                                         </button>
+                                    </td>
+                                    <td>
+                                        <div class="fb-menu btn-group">
+                                            <button type="button" class="btn icon-btn dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                                    ng-click="vm.forceSelect(project._id)">
+                                                <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+                                            </button>
+                                            <ul class="dropdown-menu pull-right">
+                                                <li>
+                                                    <a title="Open Project" ui-sref="p.detail({projectid: project.code})">
+                                                        <span class="glyphicon glyphicon-open-file"></span> Open Project
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a title="Upload Files"
+                                                       ng-click="vm.forceSelect(project._id)"
+                                                       ng-if="project.userCanUpload"
+                                                       x-document-drop-zone-upload-modal
+                                                       x-project="project"
+                                                       x-target="project.dropZoneFiles">
+                                                        <span class="glyphicon glyphicon-open"></span> Upload Files
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>
                             </table>
@@ -98,7 +124,7 @@
                                     <li class="dropDocRow" ng-repeat="file in project.dropZoneFiles">
                                         <div>
                                             <div class="dropFileCol docName">
-                                                {{ file.displayName }} <span ng-if="vm.forDevelopmentOnly">{{file._id}}</span>
+                                                {{ file.displayName }}
                                             </div>
                                             <div class="dropFileCol docUploadUser" title="{{ doc.documentAuthor }}">
                                                 {{ file.documentAuthor }}

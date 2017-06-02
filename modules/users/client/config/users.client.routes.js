@@ -143,9 +143,6 @@ angular.module('users').config(['$stateProvider', 'TreeModel', '_',
 					self.projects = projects;
 					self.projectParams = new NgTableParams ({count:50}, {dataset: self.projects});
 
-					// TODO  remove before sumbitting PR.  WIP
-					self.forDevelopmentOnly = true;
-
 					self.toggleExpand = toggleExpand;
 					self.toggleSelect = toggleSelect;
 					self.forceSelect 	= forceSelect;
