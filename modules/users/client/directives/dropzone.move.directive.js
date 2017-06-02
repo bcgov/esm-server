@@ -1,9 +1,8 @@
 'use strict';
 angular.module('documents')
-// x-drop-zone-move
-// TODO clean out needed injections
-	.directive('dropZoneMove', ['$rootScope', '$modal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', 'AlertService',
-		function ($rootScope, $modal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document, AlertService) {
+	// x-drop-zone-move
+	.directive('dropZoneMove', ['$rootScope', '$modal', '_', 'TreeModel', 'ProjectModel', 'Document', 'AlertService',
+		function ($rootScope, $modal, _, TreeModel, ProjectModel, Document, AlertService) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -14,14 +13,22 @@ angular.module('documents')
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
-					$modal.open({
+					ProjectModel.getProjectDirectory(scope.project)
+					.then(function(directoryStructure) {
+						directoryStructure = directoryStructure || {
+								id: 1,
+								lastId: 1,
+								name: 'ROOT',
+								published: true
+							};
+						$modal.open({
 						animation: true,
 						size: 'lg',
 						windowClass: 'fb-browser-modal',
 						templateUrl: 'modules/users/client/views/user-partials/dropzone-move.html',
 						resolve: {},
 						controllerAs: 'moveDlg',
-						controller: function ($rootScope, $scope, $modalInstance) {
+						controller: function ($scope, $modalInstance) {
 							var self = this;
 							var tree = new TreeModel();
 							var project = self.project 	= scope.project;
@@ -30,7 +37,7 @@ angular.module('documents')
 							self.cancel 			= cancelClickHandler;
 							self.select 			= okClickHandler;
 
-							self.rootNode = tree.parse(project.directoryStructure);
+							self.rootNode = tree.parse(directoryStructure);
 							self.selectNode(self.rootNode);
 
 							function selectNode(dir) {
@@ -65,17 +72,14 @@ angular.module('documents')
 									msg = self.doc.displayName + ' could not be moved. Error: ' + err;
 								})
 								.then(function() {
-									return Document.getDropZoneDocuments(self.project._id);
-								})
-								.then(function(dropZoneFiles) {
-									self.project.dropZoneFiles = dropZoneFiles;
+									$rootScope.$broadcast('dropZoneRefresh');
 									self.busy = false;
-									console.log(msg);
 									AlertService.success( msg );
 									$modalInstance.close(msg);
 								});
 							}
 						} // end controller
+					});
 					});
 				});
 			}

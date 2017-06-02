@@ -72,16 +72,18 @@ Dashboard drop zone
     list-style: none;
     padding: 0;
     overflow: auto;
-}
-
-.dropDocAccordian{
-    /* to line up with Project name */
-    padding-left: 6rem;
+    width: 100%
 }
 
 .dropDocAccordian, .dropDocList:hover{
-    background-color: #ffffff;
+    background-color: #eee;
 }
+
+.dropDocList {
+    padding: 1rem 2rem;
+    width: 80%;
+}
+
 .dropDocRow{
     padding-bottom: 1.5rem;
 }
@@ -100,7 +102,11 @@ Dashboard drop zone
     width: 15rem;
 }
 .docActions {
-    width: 5rem;
+    //width: 5rem;
+    ul > li {
+        display: inline;
+        list-style: none;
+    }
 }
 .docDescription {
     width: 80%;
@@ -148,54 +154,155 @@ Dashboard drop zone
     }
 }
 
-.projectsTable,
-.projectsTable > thead,
-.projectsTable > thead > tr,
-.projectsTable > thead > tr > th,
-.projectsTable > tbody,
-.projectsTable > tbody > tr,
-.projectsTable > tbody > tr > td,
-.rowNestedTable,
-.rowNestedTable > tbody,
-.rowNestedTable > tbody > tr,
-.rowNestedTable > tbody > tr > td,
-.rowContainer
-{
-    border: none;
-    padding: 0;
-    margin: 0;
-}
 
-.nameCol {
-    width: 40rem;
+.projectsTable:hover {
+    background-color: #fff;
 }
-
-.typeCol,
-.regionCol,
-.phaseCol,
-.statusCol {
-    width: 20rem;
-}
-.actionCol {
-    width: 10rem;
-}
-.expandCol {
-    width: 5rem;
+.projectsTable tr:hover {
+    background-color: #fff;
 }
 
 
-.hdrRow th,
-.projectRow td
-{
-    /* use important to override the explict table definitions from bootstrap and core */
-    padding-top: 1rem !important;
-    padding-right: 1rem !important;
-    padding-left: 1rem !important;
-    padding-bottom: 1rem !important;
+.projectsTable {
 
+    table-layout: auto !important;
+
+    table {
+        > tbody {
+            > tr {
+                border: none;
+
+                > td {
+                    padding-top: 1.5rem;
+                    padding-bottom: 1.25rem;
+                    border: none;
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+
+    thead {
+        display: table;
+        width: 100%;
+
+        tr {
+            display: table-row;
+        }
+    }
+
+    tr {
+        display: block;
+
+        &.projectRow {
+            @include flexbox();
+            width: 100%;
+        }
+        &.active {
+            background-color: #ddd;
+        }
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: bold;
+    }
+
+    h4 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.4rem;
+        font-weight: bold;
+    }
+
+    td.nameCol {
+        @include flex(1 1 auto);
+    }
+
+    .nameCol {
+        min-width: 40rem;
+        max-width: 40rem;
+    }
+    .typeCol
+    {
+        display: table-cell;
+        min-width: 20rem;
+        max-width: 20rem;
+    }
+    .regionCol,
+    .phaseCol,
+    .statusCol
+    {
+        display: table-cell;
+        min-width: 11rem;
+        max-width: 11rem;
+    }
+    .actionCol {
+        display: table-cell;
+        min-width: 30rem;
+        max-width: 30rem;
+
+        button {
+            display: inline;
+        }
+    }
+    .expandCol {
+        display: table-cell;
+        min-width: 5rem;
+        max-width: 5rem;
+    }
 }
+
+@media (min-width: 640px) {
+    .projectsTable {
+        thead {
+            display: table-header-group;
+
+            .author-col {
+                width: auto;
+            }
+
+        }
+
+        tr {
+            display: table-row;
+
+            &.projectRow {
+                display: table-row;
+            }
+        }
+
+    }
+}
+
+@media (min-width: 1200px) {
+    .projectsTable {
+        .vc-col {
+            display: table-cell;
+            width: 30rem
+        }
+
+        .pillar-col {
+            display: table-cell;
+            width: 10rem;
+        }
+    }
+}
+
+
 
 .dropMoveDialog {
+    .modal-body {
+        padding: 1rem 2rem;
+    }
+
+    .file-browser {
+        height: 28rem;
+    }
+    .description {
+        padding-left: 0;
+    }
     .displayName {
         font-weight: bolder;
         font-family: sans-serif;
@@ -204,5 +311,11 @@ Dashboard drop zone
     .fb-breadcrumbs {
         /* handle long directory names with scroll */
         overflow: auto;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .fb-header .fb-breadcrumbs li {
+        display: inline-block;
     }
 }

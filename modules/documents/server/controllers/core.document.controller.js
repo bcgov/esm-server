@@ -29,6 +29,10 @@ module.exports = DBModel.extend ({
 		if (doc.documentSource === 'COMMENT' || doc.documentSource === 'SIGNATURE' || doc.documentSource === 'DROPZONE') {
 			// We force this ability to write to documents because they are public comments.
 			this.setForce(true);
+			// We add proponent roles for drop zone documents
+			if (doc.documentSource === 'DROPZONE') {
+				doc.read = _.uniq(_.concat(doc.read, ['proponent-lead','proponent-team']));
+			}
 			return doc;
 		}
 		//

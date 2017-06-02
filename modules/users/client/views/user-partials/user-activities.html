@@ -30,6 +30,7 @@
                         <tr class="hdrRow">
                             <th class="expandCol">&nbsp;</th>
                             <th class="nameCol">Name</th>
+                            <th class="expandCol">&nbsp;</th>
                             <th class="typeCol">Type</th>
                             <th class="regionCol">Region</th>
                             <th class="phaseCol">Phase</th>
@@ -39,58 +40,52 @@
                     </thead>
                     <tbody>
                     <tr ng-repeat="project in vm.projects" >
-                        <td class="rowContainer" colspan="6">
+                        <td class="p-0 rowContainer" colspan="8">
                             <table class="rowNestedTable">
-                                <tr class="projectRow">
+                                <tr class="projectRow clickable"
+                                    ng-class="{'active': project.selected}"
+                                    ng-click="$event.stopPropagation(); vm.toggleSelect(project._id)">
                                     <td class="expandCol">
                                         <span ng-if="project.dropZoneFiles.length > 0">
-                                        <a class="toggle collapsed"
-                                           data-toggle="collapse"
-                                           href="#collapse-{{project._id}}"
-                                           aria-expanded="true"
-                                           aria-controls="collapseOne">
-                                            <i class="glyphicon glyphicon-plus open-icon"></i>
-                                            <i class="glyphicon glyphicon-minus close-icon"></i>
-                                        </a>
+                                            <button class="btn btn-default btn-sm"
+                                                    ng-click="$event.stopPropagation(); vm.toggleExpand(project._id)">
+                                                <span class="glyphicon glyphicon-plus open-icon" ng-if="!project.expanded"></span>
+                                                <span class="glyphicon glyphicon-minus close-icon" ng-if="project.expanded"></span>
+                                            </button>
                                         </span>
                                     </td>
-                                    <td data-title="'Name'"
-                                        class="clickable nameCol"
-                                        filter="{'name':'text'}"
-                                        sortable="'name'"
-                                        ui-sref="p.detail({projectid: project.code})"
-                                    >{{project.name}}
+                                    <td class="nameCol">{{project.name}} <span ng-if="vm.forDevelopmentOnly">{{project.userProjectRoles}}</span>
                                     </td>
-                                    <td class="expandColCol">
+                                    <td class="expandCol">
                                         <span class="glyphicon glyphicon-inbox"><sup>{{project.dropZoneFiles.length}}</sup></span>
                                     </td>
-                                    <td class="typeCol"
-                                        data-title="'Type'"
-                                        sortable="'type'">{{project.type}}
+                                    <td class="typeCol">
+                                        {{project.type}} <span ng-if="vm.forDevelopmentOnly">{{project._id}}</span>
                                     </td>
-                                    <td  class="regionCol"
-                                         data-title="'Region'"
-                                         sortable="'region'">{{project.region | regionName}}
+                                    <td class="regionCol">{{project.region | regionName}}
                                     </td>
-                                    <td class="phaseCol"
-                                        data-title="'Phase'"
-                                        sortable="'currentPhase.name'" >{{project.currentPhase.name}}
+                                    <td class="phaseCol">{{project.currentPhase.name}}
                                     </td>
-                                    <td class="statusCol"
-                                        data-title="'Status'"
-                                        sortable="'status'">{{project.status}}
+                                    <td class="statusCol">{{project.status}}
                                     </td>
-                                    <td class="actionCol" data-title="'Upload'" ng-if="project.userCanUpload">
-                                        <button class="btn icon-btn" title="Upload Files"
+                                    <td class="actionCol" ng-click="vm.forceSelect(project._id)">
+                                        <button class="btn btn-default btn-sm" title="Open Project"
+                                                ui-sref="p.detail({projectid: project.code})">
+                                            <span class="glyphicon glyphicon-cog"></span> Open
+                                        </button>
+                                        <button class="btn btn-default btn-sm" title="Upload Files"
+                                                ng-click="vm.forceSelect(project._id)"
+                                                ng-if="project.userCanUpload"
                                                 x-document-drop-zone-upload-modal
                                                 x-project="project"
                                                 x-target="project.dropZoneFiles">
-                                            <span class="glyphicon glyphicon-open"></span>Upload
+                                            <span class="glyphicon glyphicon-open"></span> Upload
                                         </button>
                                     </td>
                                 </tr>
                             </table>
-                            <div class="dropDocAccordian collapse" role="tabpanel" id="collapse-{{project._id}}">
+                            <div class="dropDocAccordian collapse"
+                                 ng-class="{'collapse': !project.expanded}">
                                 <ul class="dropDocList">
                                     <li class="dropDocRow" ng-if="project.dropZoneFiles.length > 0">
                                         <div>
@@ -103,22 +98,30 @@
                                     <li class="dropDocRow" ng-repeat="file in project.dropZoneFiles">
                                         <div>
                                             <div class="dropFileCol docName">
-                                                {{ file.displayName }}
+                                                {{ file.displayName }} <span ng-if="vm.forDevelopmentOnly">{{file._id}}</span>
                                             </div>
                                             <div class="dropFileCol docUploadUser" title="{{ doc.documentAuthor }}">
                                                 {{ file.documentAuthor }}
                                             </div>
                                             <div class="dropFileCol docUploadDate">{{ file.dateUploaded | date : format : timezone }}
                                             </div>
-                                            <!-- TODO ng-if="project.userCan.manageFolders" -->
-                                            <div class="dropFileCol docActions"  ng-if="project.userCanMove">
-                                                <a title="Move File To Documents"
-                                                   x-drop-zone-move
-                                                   x-doc="file"
-                                                   x-project="project"
-                                                >
-                                                    <span class="glyphicon glyphicon-transfer"></span>
-                                                </a>
+
+                                            <div class="dropFileCol  docActions"  >
+                                                <ul class="pull-right">
+                                                    <li>
+                                                        <a class="btn btn-default btn-sm" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download File">
+                                                            <span class="glyphicon glyphicon-download-alt"></span>
+                                                        </a>
+                                                    </li>
+                                                    <li ng-if="project.userCanMove">
+                                                        <button class="btn btn-default btn-sm" title="Move File To Documents"
+                                                           x-drop-zone-move
+                                                           x-doc="file"
+                                                           x-project="project">
+                                                            <span class="glyphicon glyphicon-transfer"></span>
+                                                        </button>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
                                         <div>
