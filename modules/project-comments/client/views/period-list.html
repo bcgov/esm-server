@@ -13,7 +13,7 @@
 			<h2>Public Comment Period <span class="break">is Now Open</span></h2>
 			<span class="pcp-dates"><strong>{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
 			<span class="pcp-desc">
-				This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.informationLabelPackage2"> and the <strong>{{activeperiod.informationLabelPackage2}}</strong></span>.
+				This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.ceaaInformationLabel"> and the <strong>{{activeperiod.ceaaInformationLabel}}</strong></span>.
 			</span>
 			<div class="pcp-banner-btns">
 				<a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
@@ -44,7 +44,7 @@
 				</td>
 				<td class="details-col" header-class="'details-col'" title="'Details'"
 					sortable="'informationLabel'">
-					<strong>{{p.informationLabel}}</strong> <span ng-if="p.informationLabelPackage2">and the <strong>{{p.informationLabelPackage2}}</strong><span>
+					<strong>{{p.informationLabel}}</strong> <span ng-if="p.ceaaInformationLabel">and the <strong>{{p.ceaaInformationLabel}}</strong><span>
 				</td>
 				<td class="status-col" header-class="'status-col'" title="'Status'"
 					sortable="'openState'">

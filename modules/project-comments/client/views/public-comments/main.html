@@ -11,7 +11,7 @@
 			<h2>Public Comment Period is <span ng-if="isBefore">Scheduled</span><span ng-if="isOpen">Now Open</span><span ng-if="isClosed">Now Closed</span></h2>
 			<span class="pcp-dates"><strong>{{ period.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ period.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
 			<span class="pcp-desc">
-				This Public Comment Period is regarding the <strong>{{period.informationLabel}}</strong><span ng-if="period.informationLabelPackage2"> and the <strong>{{period.informationLabelPackage2}}</strong></span>.
+				This Public Comment Period is regarding the <strong>{{period.informationLabel}}</strong><span ng-if="period.ceaaInformationLabel"> and the <strong>{{period.ceaaInformationLabel}}</strong></span>.
 			</span>
 			<div class="pcp-banner-btns">
 				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="period">
@@ -20,15 +20,15 @@
 			</div>
 		</section>
 		<!--
-		<section class="pcp-addl-info" ng-if="period.additionalText || period.additionalTextPackage2">
+		<section class="pcp-addl-info" ng-if="period.additionalText || period.ceaaAdditionalText">
 			<h3>Additional Information</h3>
 			<section ng-if="period.additionalText">
 				<h4>{{period.informationLabel}}</h4>
 				<p ng-bind-html="period.additionalText"></p>
 			</section>
-			<section ng-if="period.additionalTextPackage2">
-				<h4>{{period.informationLabelPackage2}}</h4>
-				<p ng-bind-html="period.additionalTextPackage2"></p>
+			<section ng-if="period.ceaaAdditionalText">
+				<h4>{{period.ceaaInformationLabel}}</h4>
+				<p ng-bind-html="period.ceaaAdditionalText"></p>
 			</section>
 		</section>
 		-->
@@ -52,15 +52,15 @@
 			<div class="pcp-related-docs">
 				<section>
 					<h2>{{period.informationLabel}}</h2>
-					<p ng-if="period.informationLabelPackage2">The purpose of this comment period is for the public to see EAO’s draft conclusions before a decision is made, and be able to see how their comments in previous public comment periods have been addressed. Following the public comment period, EAO’s draft assessment report and/or conditions may be adjusted, if necessary, in response to the public comments.</p>
+					<p ng-if="period.ceaaInformationLabel">The purpose of this comment period is for the public to see EAO’s draft conclusions before a decision is made, and be able to see how their comments in previous public comment periods have been addressed. Following the public comment period, EAO’s draft assessment report and/or conditions may be adjusted, if necessary, in response to the public comments.</p>
 					<p>{{period.additionalText}}</p>
 					<tmpl-period-documents-list x-file-list="period.relatedDocuments"></tmpl-period-documents-list>
 				</section>
-				<section ng-if="period.informationLabelPackage2">
-					<h2>{{period.informationLabelPackage2}}</h2>
+				<section ng-if="period.ceaaInformationLabel">
+					<h2>{{period.ceaaInformationLabel}}</h2>
 					<p>EAO will forward comments related to matters of federal concern to the Canadian Environmental Assessment Agency for consideration. CEAA will review all submitted comments before finalizing their report/conditions.</p>
-					<p>{{period.additionalTextPackage2}}</p>
-					<tmpl-period-documents-list ng-if="isJoint" x-file-list="period.relatedDocumentsPackage2"></tmpl-period-documents-list>
+					<p>{{period.ceaaAdditionalText}}</p>
+					<tmpl-period-documents-list ng-if="isJoint" x-file-list="period.ceaaRelatedDocuments"></tmpl-period-documents-list>
 				</section>
 			</div>
 		</div><!-- / Documents Tab -->

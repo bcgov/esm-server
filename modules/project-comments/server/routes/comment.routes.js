@@ -105,14 +105,14 @@ module.exports = function (app) {
 		.put (routes.setAndRun (CommentPeriod, function (model, req) {
 			return model.resolveCommentPeriod (req.CommentPeriod.ancestor, false);
 		}));
-	
+
 	app.route ('/api/comment/:commentId/documents').all(policy ('guest'))
 	.get (routes.setAndRun (CommentModel, function (model, req) {
 		return model.getCommentDocuments(req.params.commentId);
 	}));
-	app.route ('/api/comment/:commentId/documents2').all(policy ('guest'))
+	app.route ('/api/comment/:commentId/ceaadocuments').all(policy ('guest'))
 	.get (routes.setAndRun (CommentModel, function (model, req) {
-		return model.getCommentDocuments2(req.params.commentId);
+		return model.getCeaaCommentDocuments(req.params.commentId);
 	}));
 
 	// special delete method

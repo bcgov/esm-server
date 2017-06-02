@@ -2,14 +2,14 @@
 <form>
     <div class="modal-body">
         <section class="m-b-0">
-            <h2><sup>Step 3 of 4</sup>Comment on the {{ctrl.period.informationLabelPackage2}}</h2>
+            <h2><sup>Step 3 of 4</sup>Comment on the {{ctrl.period.ceaaInformationLabel}}</h2>
             <p class="m-b-2">EAO will forward comments related to matters of federal concern to the Canadian Environmental Assessment Agency for consideration. CEAA will review all submitted comments before finalizing their report/conditions.</p>
             <div class="form-group">
                 <label class="control-label">Your Comment</label>
-                <textarea class="form-control" placeholder="Enter your comment here..." rows="8" ng-model="ctrl.comment.comment2"></textarea>
+                <textarea class="form-control" placeholder="Enter your comment here..." rows="8" ng-model="ctrl.comment.ceeaComment"></textarea>
             </div>
             <div class="upload-attachments">
-                <label class="control-label">Add Attachments ({{ctrl.package2.validFiles.length}})</label>
+                <label class="control-label">Add Attachments ({{ctrl.ceaaPackage.validFiles.length}})</label>
                 <div class="alert alert-danger" ng-show="ctrl.showAlert">
                     All attachments must be no larger than <strong>5MB</strong>.
                     <button type="button" class="close">
@@ -22,7 +22,7 @@
                             ngf-drop
                             ngf-select
                             ngf-allow-dir="true"
-                            ng-model="ctrl.package2.files"
+                            ng-model="ctrl.ceaaPackage.files"
                             ngf-drag-over-class="fb-upload-target-hover"
                             ngf-multiple="true">
                             <div class="fb-upload-target-content">
@@ -34,8 +34,8 @@
                         </div>
                         <div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed"></div>
                     </div>
-                    <div class="m-t-1" ng-if="ctrl.package2.validFiles.length > 0">
-                        <x-file-upload-listing class="pcp-review-files" file-list="ctrl.package2.validFiles"></x-file-upload-listing>
+                    <div class="m-t-1" ng-if="ctrl.ceaaPackage.validFiles.length > 0">
+                        <x-file-upload-listing class="pcp-review-files" file-list="ctrl.ceaaPackage.validFiles"></x-file-upload-listing>
                     </div>
                 </div>
             </div>

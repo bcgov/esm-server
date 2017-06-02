@@ -655,7 +655,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
 			// Placeholder text for Package 1 (i.e. Provincial) of Joint PCPs
 			period.informationLabel = 'Draft Assessment Report & Draft Conditions';
-			period.informationLabelPackage2 = ' ';
+			period.ceaaInformationLabel = ' ';
 			period.commenterRoles = ['public'];
 
 			commonSetup($timeout, $scope, period, project, CodeLists, CommentPeriodModel);
@@ -759,7 +759,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			$scope.period = period;
 			$scope.project = project;
 
-			var allDocs = $scope.period.relatedDocuments.concat($scope.period.relatedDocumentsPackage2);
+			var allDocs = $scope.period.relatedDocuments.concat($scope.period.ceaaRelatedDocuments);
 			_.each(allDocs, function(d) {
 				if (_.isEmpty(d.displayName)) {
 					d.displayName = d.documentFileName || d.internalOriginalName;
@@ -768,8 +768,8 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
 			// Create functions bound to the specific collection we will be adding files to...
 			// These conform to the signature of the callback expected by the "Link Files" modal dialog
-			$scope.addFilesToPackage1 = function (data) { addFilesToCollection(period.relatedDocuments, data); };
-			$scope.addFilesToPackage2 = function (data) { addFilesToCollection(period.relatedDocumentsPackage2, data); };
+			$scope.addToProvincialPackage = function (data) { addFilesToPackage('EAO', period, data); };
+			$scope.addToFederalPackage = function (data) { addFilesToPackage('CEAA', period, data); };
 
 			// manage the start and end dates plus the controls that set period length based on presets (e.g. 30, 45, etc days)
 			setupUIState($scope);
@@ -780,9 +780,25 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			// on change to start date or end date via date picker...
 			$scope.$on('modalDatePicker.onChange', function () { onPeriodChange($scope); });
 
-			$scope.$watchGroup(['period.dateStarted', 'period.dateCompleted','period.additionalText','period.informationLabel', 'period.additionalTextPackage2', 'period.informationLabelPackage2'], function() {
+			$scope.$watchGroup(['period.dateStarted', 'period.dateCompleted','period.additionalText','period.informationLabel', 'period.ceaaAdditionalText', 'period.ceaaInformationLabel'], function() {
 				instructions(project, period, CommentPeriodModel);
 			});
+		}
+
+		// Joint PCP - generic function to add/link a collection of documents to a package of information
+		function addFilesToPackage(packageName, period, files) {
+			switch (packageName) {
+				case 'EAO':
+					addFilesToCollection(period.relatedDocuments, files);
+					break;
+
+				case 'CEAA':
+					addFilesToCollection(period.ceaaRelatedDocuments, files);
+					break;
+
+				default:
+					break;
+			}
 		}
 
 		function addFilesToCollection(targetCollection, data) {
@@ -928,7 +944,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
 			var PROJECT_NAME = project.name || '%PROJECT_NAME%';
 			var INFORMATION_LABEL_PACKAGE_1 = period.informationLabel || '%INFORMATION_LABEL_PACKAGE_1%';
-			var INFORMATION_LABEL_PACKAGE_2 = period.informationLabelPackage2 || '%INFORMATION_LABEL_PACKAGE_2%';
+			var INFORMATION_LABEL_PACKAGE_2 = period.ceaaInformationLabel || '%INFORMATION_LABEL_PACKAGE_2%';
 
 			period.instructions = template.replace('%PROJECT_NAME%', PROJECT_NAME)
 				.replace('%INFORMATION_LABEL_PACKAGE_1%', INFORMATION_LABEL_PACKAGE_1)

@@ -198,9 +198,9 @@
 										<h4>{{period.informationLabel}}</h4>
 										<span>{{ ::o.comment | maxWords: 50 }}</span>
 									</div>
-									<div class="comment-pkg" ng-if="o.comment2 && (s.filterCommentPackage === 'All' || s.filterCommentPackage === 'Federal')">
-										<h4>{{period.informationLabelPackage2}}</h4>
-										<span class="comment">{{ ::o.comment2 | maxWords: 50 }}</span>
+									<div class="comment-pkg" ng-if="o.ceeaComment && (s.filterCommentPackage === 'All' || s.filterCommentPackage === 'Federal')">
+										<h4>{{period.ceaaInformationLabel}}</h4>
+										<span class="comment">{{ ::o.ceeaComment | maxWords: 50 }}</span>
 									</div>
 								</td>
 							</tr>

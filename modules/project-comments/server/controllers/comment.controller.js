@@ -20,7 +20,7 @@ module.exports = DBModel.extend ({
 	populate : [{ path:'user', select:'_id displayName username email orgName'},
 				{ path:'updatedBy', select:'_id displayName username email orgName'},
 				{ path:'documents', select:'_id eaoStatus'},
-				{ path:'documents2', select:'_id eaoStatus'}
+				{ path:'ceaaDocuments', select:'_id eaoStatus'}
 	],
 	// -------------------------------------------------------------------------
 	//
@@ -61,7 +61,7 @@ module.exports = DBModel.extend ({
 					//console.log('commentPermissions = ' + JSON.stringify(commentPermissions, null, 4));
 					// get all the associated documents and update their permissions as required.
 					return new Promise(function (resolve, reject) {
-						var combined = _.concat(comment.documents, comment.documents2);
+						var combined = _.concat(comment.documents, comment.ceaaDocuments);
 						var q = {_id : {$in : combined }};
 						documentClass.listforaccess ('i do not want to limit my access because public people add comments with docs too.', q)
 							.then(function (data) {
@@ -178,7 +178,7 @@ module.exports = DBModel.extend ({
 			.then(function(commentPermissions) {
 				// get all the associated documents and update their publish permissions as required.
 				return new Promise(function(resolve, reject) {
-					var combined = _.concat(comment.documents, comment.documents2);
+					var combined = _.concat(comment.documents, comment.ceaaDocuments);
 					documentClass.getList(combined)
 						.then(function (data) {
 							resolve({commentPermissions: commentPermissions, docs: data});
@@ -318,8 +318,8 @@ module.exports = DBModel.extend ({
 					break;
 				case 'Federal':
 					query = _.extend({}, query, { $or : [
-						{ comment2: {$ne: ''} },
-						{ documents2: { $gt: [] }  }
+						{ ceeaComment: {$ne: ''} },
+						{ ceaaDocuments: { $gt: [] }  }
 					]});
 					break;
 				//default:
@@ -436,13 +436,13 @@ module.exports = DBModel.extend ({
 				.then (resolve, reject);
 		});
 	},
-	getCommentDocuments2: function(id) {
+	getCeaaCommentDocuments: function(id) {
 		var self = this;
 		var doc = new DocumentClass (this.opts);
 		return new Promise (function (resolve, reject) {
 			self.one({_id : id})
 			.then(function(c) {
-				return doc.getList(c.documents2);
+				return doc.getList(c.ceaaDocuments);
 			})
 			.then (resolve, reject);
 		});

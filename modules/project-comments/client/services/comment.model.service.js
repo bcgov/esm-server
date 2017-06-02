@@ -214,8 +214,8 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 		getDocuments: function(commentId) {
 			return this.get('/api/comment/' + commentId +'/documents');
 		},
-		getDocuments2: function(commentId) {
-			return this.get('/api/comment/' + commentId +'/documents2');
+		getCeaaDocuments: function(commentId) {
+			return this.get('/api/comment/' + commentId +'/ceaadocuments');
 		},
 		updateDocument: function(doc) {
 			return this.put('/api/document/' + doc._id, doc);
@@ -265,7 +265,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 				var header = [];
 				header.push('id');
 				header.push('comment');
-				if (isJoint) header.push('comment2');
+				if (isJoint) { header.push('ceea comment'); }
 				header.push('date added');
 				header.push('author');
 				header.push('location');
@@ -273,11 +273,11 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 				header.push('topics');
 				header.push('status');
 				header.push('attachments');
-				if (isJoint) { header.push('attachments2'); }
+				if (isJoint) { header.push('ceaa attachments'); }
 				if (canSeeRejectedDocs) {
 					header.push('rejected');
 					if (isJoint) {
-						header.push('rejected2');
+						header.push('ceaa rejected');
 					}
 				}
 
@@ -286,7 +286,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 					var a = [];
 					a.push(row.commentId);
 					a.push (commentFormat(row.comment));
-					if (isJoint) a.push (commentFormat(row.comment2));
+					if (isJoint) { a.push (commentFormat(row.ceeaComment)); }
 					var ts = moment(row.dateAdded);
 					var tsStr = ts.format('YYYY-MM-DDThh:mm:ssZZ');
 					a.push (tsStr);
@@ -302,7 +302,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 					a.push (row.eaoStatus);
 					attachmentsAdd(a, row.documents, arrayJoinChar, canSeeRejectedDocs);
 					if (isJoint) {
-						attachmentsAdd(a, row.documents2, arrayJoinChar, canSeeRejectedDocs);
+						attachmentsAdd(a, row.ceaaDocuments, arrayJoinChar, canSeeRejectedDocs);
 					}
 					data += '"' + a.join ('","') + '"' + "\r\n";
 				});

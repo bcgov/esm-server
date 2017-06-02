@@ -7,7 +7,7 @@
 
     <section>
         <h2><sup>Step 4 of 4</sup>Review your Submission</h2>
-        <div class="alert alert-danger" ng-show="!ctrl.isValid()">You have not provided a comment on either the <strong>{{ctrl.period.informationLabel}}</strong> or the <strong>{{ctrl.period.informationLabelPackage2}}</strong>. You must provide a comment for <strong>ONE</strong> of these information packages before your comment can be submitted.</div>
+        <div class="alert alert-danger" ng-show="!ctrl.isValid()">You have not provided a comment on either the <strong>{{ctrl.period.informationLabel}}</strong> or the <strong>{{ctrl.period.ceaaInformationLabel}}</strong>. You must provide a comment for <strong>ONE</strong> of these information packages before your comment can be submitted.</div>
     </section>
 
     <!-- Review Details -->
@@ -34,25 +34,25 @@
             </a>
         </p>
         <p class="m-b-0" ng-if="!ctrl.comment.comment">No Comment</p>
-        <div class="form-group m-t-2 m-b-2" ng-if="ctrl.package1.validFiles.length > 0">
-            <label class="control-label">Attachments ({{ctrl.package1.validFiles.length}})</label>
-            <x-file-upload-listing class="fb-upload-container pcp-review-files" file-list="ctrl.package1.validFiles" ng-if="ctrl.package1.validFiles"></x-file-upload-listing>
+        <div class="form-group m-t-2 m-b-2" ng-if="ctrl.eaoPackage.validFiles.length > 0">
+            <label class="control-label">Attachments ({{ctrl.eaoPackage.validFiles.length}})</label>
+            <x-file-upload-listing class="fb-upload-container pcp-review-files" file-list="ctrl.eaoPackage.validFiles" ng-if="ctrl.eaoPackage.validFiles"></x-file-upload-listing>
         </div>
     </section>
 
     <!-- Review Package  2 -->
     <section>
-        <h3>Comment on the {{ctrl.period.informationLabelPackage2}}</h3>
-        <p class="m-b-0" ng-if="ctrl.comment.comment2" ng-init="toggleComment.desc = (false)">{{ ctrl.comment.comment2 | maxWords:75:toggleComment.desc }}
-            <a class="show-more-link" href ng-if="(ctrl.comment.comment2 | wordCount) > 75" ng-click="toggleComment.desc = !toggleComment.desc">
-                <span ng-if="!toggleComment.desc">Show More ({{ ctrl.comment.comment2 | wordCount }} words)</span>
+        <h3>Comment on the {{ctrl.period.ceaaInformationLabel}}</h3>
+        <p class="m-b-0" ng-if="ctrl.comment.ceeaComment" ng-init="toggleComment.desc = (false)">{{ ctrl.comment.ceeaComment | maxWords:75:toggleComment.desc }}
+            <a class="show-more-link" href ng-if="(ctrl.comment.ceeaComment | wordCount) > 75" ng-click="toggleComment.desc = !toggleComment.desc">
+                <span ng-if="!toggleComment.desc">Show More ({{ ctrl.comment.ceeaComment | wordCount }} words)</span>
                 <span ng-if="toggleComment.desc">Show Less</span>
             </a>
         </p>
-        <p class="m-b-0" ng-if="!ctrl.comment.comment2">No Comment</p>
-        <div class="form-group m-t-2 m-b-1" ng-if="ctrl.package2.validFiles.length > 0">
-            <label class="control-label">Attachments ({{ctrl.package2.validFiles.length}})</label>
-            <x-file-upload-listing class="fb-upload-container pcp-review-files" file-list="ctrl.package2.validFiles" ng-if="ctrl.package2.validFiles"></x-file-upload-listing>
+        <p class="m-b-0" ng-if="!ctrl.comment.ceeaComment">No Comment</p>
+        <div class="form-group m-t-2 m-b-1" ng-if="ctrl.ceaaPackage.validFiles.length > 0">
+            <label class="control-label">Attachments ({{ctrl.ceaaPackage.validFiles.length}})</label>
+            <x-file-upload-listing class="fb-upload-container pcp-review-files" file-list="ctrl.ceaaPackage.validFiles" ng-if="ctrl.ceaaPackage.validFiles"></x-file-upload-listing>
         </div>
     </section>
 </div>

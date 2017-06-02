@@ -39,7 +39,7 @@ angular.module ('comment')
 			s.filterCommentOptions = [
 				{ name: 'All', displayName: 'Show All Comments' },
 				{ name: 'Provincial', displayName: 'Comments on ' + period.informationLabel },
-				{ name: 'Federal', displayName: 'Comments on ' + period.informationLabelPackage2 }
+				{ name: 'Federal', displayName: 'Comments on ' + period.ceaaInformationLabel }
 			];
 
 			s.selectedCommentFilterOption = s.filterCommentOptions[0];
@@ -222,14 +222,14 @@ angular.module ('comment')
 				.then(function (result) {
 					_.each(result.data, function (item) {
 						var publishedCount = function (item) {
-							var combined = item.documents.concat(item.documents2);
+							var combined = item.documents.concat(item.ceaaDocuments);
 							var count = _.reduce(combined, function (total, doc) {
 								return doc.eaoStatus === 'Published' ? total + 1 : total;
 							}, 0);
 
 							return count;
 						};
-						var docCount = item.documents.length + item.documents2.length;
+						var docCount = item.documents.length + item.ceaaDocuments.length;
 						item.publishedDocumentCount = period.userCan.vetComments ? docCount : publishedCount(item);
 						item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
 					});
@@ -328,19 +328,19 @@ angular.module ('comment')
 							// Documents related to the Provincial package within a joint PCP
 							return CommentModel.getDocuments(comment._id);
 						},
-						docs2: function () {
+						ceaaDocs: function () {
 							// Documents related to the Federal package within a joint PCP
 							// Will be an empty array for regular PCP
-							return CommentModel.getDocuments2(comment._id);
+							return CommentModel.getCeaaDocuments(comment._id);
 						}
 					},
-					controller: function ($scope, $modalInstance, docs, docs2) {
+					controller: function ($scope, $modalInstance, docs, ceaaDocs) {
 						var self = this;
 						self.period = period;
 						self.project = project;
 						self.comment = angular.copy(comment);
 						self.comment.documents = angular.copy(docs);
-						self.comment.documents2 = angular.copy(docs2);
+						self.comment.ceaaDocuments = angular.copy(ceaaDocs);
 						self.isJoint = self.period.periodType === 'Joint';
 						self.isPublic = self.period.periodType === 'Public';
 						self.canUpdate = (self.period.userCan.classifyComments || self.period.userCan.vetComments);
@@ -412,7 +412,7 @@ angular.module ('comment')
 					})
 					.then(function () {
 						// Process federal (CEAA) documents
-						return data.documents2.reduce(function (current, value, index) {
+						return data.ceaaDocuments.reduce(function (current, value, index) {
 							return CommentModel.updateDocument(value);
 						}, Promise.resolve());
 					})
@@ -743,26 +743,26 @@ function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $sta
 				// private
 				function setupUIState() {
 					// Make sure all files submitted are under 5MB
-					$scope.$watch('ctrl.package1.files', function (newValue) {
+					$scope.$watch('ctrl.eaoPackage.files', function (newValue) {
 						if (newValue) {
 							ctrl.closeAlert();
 							_.each(newValue, function (file, idx) {
 								if (file.size > ctrl.maxFileSize) {
 									ctrl.openAlert();
 								} else {
-									ctrl.package1.validFiles.push(file);
+									ctrl.eaoPackage.validFiles.push(file);
 								}
 							});
 						}
 					});
-					$scope.$watch('ctrl.package2.files', function (newValue) {
+					$scope.$watch('ctrl.ceaaPackage.files', function (newValue) {
 						if (newValue) {
 							ctrl.closeAlert();
 							_.each(newValue, function (file, idx) {
 								if (file.size > ctrl.maxFileSize) {
 									ctrl.openAlert();
 								} else {
-									ctrl.package2.validFiles.push(file);
+									ctrl.ceaaPackage.validFiles.push(file);
 								}
 							});
 						}
@@ -810,18 +810,18 @@ function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $sta
 					ctrl.isBusy = true;
 					comment.inProgress = false;
 					comment.isAnonymous = !ctrl.makeVisible;
-					if (!comment.comment && ctrl.package1.validFiles.length > 0) {
+					if (!comment.comment && ctrl.eaoPackage.validFiles.length > 0) {
 						comment.comment = "Please see attached";
 					}
-					if (!comment.comment2 && ctrl.package2.validFiles.length > 0) {
-						comment.comment2 = "Please see attached";
+					if (!comment.ceeaComment && ctrl.ceaaPackage.validFiles.length > 0) {
+						comment.ceeaComment = "Please see attached";
 					}
 					var url = '/api/commentdocument/' + comment.project._id + '/upload';
 
 					// Upload the files and submit all captured data to server
-					return uploadFiles(url, ctrl.package1.validFiles, comment.documents)
+					return uploadFiles(url, ctrl.eaoPackage.validFiles, comment.documents)
 					.then(function () {
-						return uploadFiles(url, ctrl.package2.validFiles, comment.documents2);
+						return uploadFiles(url, ctrl.ceaaPackage.validFiles, comment.ceaaDocuments);
 					})
 					.then(function () {
 						// Save the comment
@@ -852,8 +852,8 @@ function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $sta
 					if (!hasNameAndLocation()) {
 						valid = false;
 					}
-					if (!comment.comment && ctrl.package1.validFiles.length === 0 &&
-						!comment.comment2 && ctrl.package2.validFiles.length === 0) {
+					if (!comment.comment && ctrl.eaoPackage.validFiles.length === 0 &&
+						!comment.ceeaComment && ctrl.ceaaPackage.validFiles.length === 0) {
 						valid = false;
 					}
 					return valid;
@@ -874,11 +874,11 @@ function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $sta
 					showAlert: false,
 					makeVisible: false,
 					maxFileSize: 5 * 1024 * 1024, // 5MB
-					package1: {
+					eaoPackage: {
 						files: [],
 						validFiles: []
 					},
-					package2: {
+					ceaaPackage: {
 						files: [],
 						validFiles: []
 					}

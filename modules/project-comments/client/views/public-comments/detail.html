@@ -156,20 +156,20 @@
                 </div>
             </section>
 
-            <section class="m-b-0" ng-if="s.comment.comment2 && (s.filterCommentPackage === 'All' || s.filterCommentPackage === 'Federal')">
-                <h3>Comment on the {{s.period.informationLabelPackage2}}</h3>
-                <p class="m-b-0" ng-init="toggleProject.desc = (false)">{{ s.comment.comment2 | maxWords:75:toggleProject.desc }}
-                    <a class="show-more-link" href ng-if="(s.comment.comment2 | wordCount) > 75" ng-click="toggleProject.desc = !toggleProject.desc">
-                        <span ng-if="!toggleProject.desc">Show More ({{ ::s.comment.comment2 | wordCount }} words)</span>
+            <section class="m-b-0" ng-if="s.comment.ceeaComment && (s.filterCommentPackage === 'All' || s.filterCommentPackage === 'Federal')">
+                <h3>Comment on the {{s.period.ceaaInformationLabel}}</h3>
+                <p class="m-b-0" ng-init="toggleProject.desc = (false)">{{ s.comment.ceeaComment | maxWords:75:toggleProject.desc }}
+                    <a class="show-more-link" href ng-if="(s.comment.ceeaComment | wordCount) > 75" ng-click="toggleProject.desc = !toggleProject.desc">
+                        <span ng-if="!toggleProject.desc">Show More ({{ ::s.comment.ceeaComment | wordCount }} words)</span>
                         <span ng-if="toggleProject.desc">Show Less</span>
                     </a>
                 </p>
-                <div class="pcp-comment-attachments" ng-if="s.comment.documents2.length > 0">
+                <div class="pcp-comment-attachments" ng-if="s.comment.ceaaDocuments.length > 0">
                     <label class="control-label"><span ng-if="s.period.userCan.vetComments">Review </span>Attachments</label>
                     <div class="fb-body">
                         <div class="fb-list">
                             <ul>
-                                <li class="fb-list-item" ng-repeat="file in s.comment.documents2">
+                                <li class="fb-list-item" ng-repeat="file in s.comment.ceaaDocuments">
                                     <div class="col name-col first-col">
                                         <span class="avatar">
                                             <span class="fb-file glyphicon glyphicon-file"></span>

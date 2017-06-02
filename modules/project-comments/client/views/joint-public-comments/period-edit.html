@@ -50,7 +50,7 @@
                             x-project="project"
                             x-target-name="'Provincial Package'"
                             x-published-only="'true'"
-                            x-on-ok="addFilesToPackage1"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
+                            x-on-ok="addToProvincialPackage"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
                 </div>
                 <tmpl-period-documents-list x-can-modify="true" x-file-list="period.relatedDocuments"></tmpl-period-documents-list>
             </div>
@@ -66,7 +66,7 @@
             <h2>2. Federal Content</h2>
             <div class="form-group">
                 <label class="control-label">What Federal information being commented on?</label>
-                <input class="form-control" type="text" ng-model="period.informationLabelPackage2" spellcheck="false"></input>
+                <input class="form-control" type="text" ng-model="period.ceaaInformationLabel" spellcheck="false"></input>
             </div>
             <div class="form-group">
                 <div class="button-bar">
@@ -76,13 +76,13 @@
                             x-project="project"
                             x-target-name="'Federal Package'"
                             x-published-only="'true'"
-                            x-on-ok="addFilesToPackage2"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
+                            x-on-ok="addToFederalPackage"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
                 </div>
-                <tmpl-period-documents-list x-can-modify="true" x-file-list="period.relatedDocumentsPackage2"></tmpl-period-documents-list>
+                <tmpl-period-documents-list x-can-modify="true" x-file-list="period.ceaaRelatedDocuments"></tmpl-period-documents-list>
             </div>
             <div class="form-group">
                 <label class="control-label">Additional Information<em>(Optional)</em></label>
-                <textarea class="form-control" rows="3" type="input" ng-model="period.additionalTextPackage2" spellcheck="false"></textarea>
+                <textarea class="form-control" rows="3" type="input" ng-model="period.ceaaAdditionalText" spellcheck="false"></textarea>
             </div>
         </section>
         <!-- / PACKAGE 2 -->

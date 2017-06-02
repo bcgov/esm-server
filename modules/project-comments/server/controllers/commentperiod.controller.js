@@ -271,10 +271,10 @@ module.exports = DBModel.extend ({
 					return period;
 				})
 				.then(function(p) {
-					return docs.list({_id: {$in: p.relatedDocumentsPackage2} });
+					return docs.list({_id: {$in: p.ceaaRelatedDocuments} });
 				})
 				.then(function(rd2) {
-					period.relatedDocumentsPackage2 = rd2;
+					period.ceaaRelatedDocuments = rd2;
 					return period;
 				})
 				.then(function(p) {
@@ -300,10 +300,10 @@ module.exports = DBModel.extend ({
 									p.relatedDocuments = ds;
 								})
 								.then(function() {
-									return docs.list({_id: {$in: p.relatedDocumentsPackage2} });
+									return docs.list({_id: {$in: p.ceaaRelatedDocuments} });
 								})
 								.then(function(ds2) {
-									p.relatedDocumentsPackage2 = ds2;
+									p.ceaaRelatedDocuments = ds2;
 								})
 								.then(function() {
 									resolve(p);

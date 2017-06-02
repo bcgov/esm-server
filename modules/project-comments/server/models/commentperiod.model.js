@@ -134,10 +134,10 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	//
 	//
 	// -------------------------------------------------------------------------
-	downloadRoles 			 : [ {type:String} ],
-	relatedDocumentsPackage2 : [{type: 'ObjectId', ref: 'Document'}],
-	informationLabelPackage2 : { type:String, default: '' },
-	additionalTextPackage2	 : { type:String, default: '' },
+	downloadRoles            : [ {type:String} ],
+	ceaaRelatedDocuments     : [{type: 'ObjectId', ref: 'Document'}],
+	ceaaInformationLabel     : { type:String, default: '' },
+	ceaaAdditionalText       : { type:String, default: '' },
 	//
 	// a space for holding open house info
 	//

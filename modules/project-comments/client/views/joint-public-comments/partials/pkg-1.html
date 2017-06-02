@@ -10,7 +10,7 @@
                 <textarea class="form-control" placeholder="Enter your comment here..." rows="8" ng-model="ctrl.comment.comment"></textarea>
             </div>
             <div class="upload-attachments">
-                <label class="control-label">Add Attachments ({{ctrl.package1.validFiles.length}})</label>
+                <label class="control-label">Add Attachments ({{ctrl.eaoPackage.validFiles.length}})</label>
                 <div class="alert alert-danger" ng-show="ctrl.showAlert">
                     All attachments must be no larger than <strong>5MB</strong>.
                     <button type="button" class="close">
@@ -23,7 +23,7 @@
                             ngf-drop
                             ngf-select
                             ngf-allow-dir="true"
-                            ng-model="ctrl.package1.files"
+                            ng-model="ctrl.eaoPackage.files"
                             ngf-drag-over-class="fb-upload-target-hover"
                             ngf-multiple="true">
                             <div class="fb-upload-target-content">
@@ -35,8 +35,8 @@
                         </div>
                         <div class="fb-upload-target-status" ng-if="uploadService.actions.busy || uploadService.actions.completed"></div>
                     </div>
-                    <div class="m-t-1" ng-if="ctrl.package1.validFiles.length > 0">
-                        <x-file-upload-listing class="pcp-review-files" file-list="ctrl.package1.validFiles"></x-file-upload-listing>
+                    <div class="m-t-1" ng-if="ctrl.eaoPackage.validFiles.length > 0">
+                        <x-file-upload-listing class="pcp-review-files" file-list="ctrl.eaoPackage.validFiles"></x-file-upload-listing>
                     </div>
                 </div>
             </div>
