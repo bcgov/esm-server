@@ -23,7 +23,7 @@ angular.module('documents')
 							$scope.node = scope.node || scope.root;
 
 							self.entryText = '';
-							self.title = "Rename Folder '" + $scope.node.model.name + "'";
+							self.title = "Rename Folder '" + $scope.node.model.folderObj.displayName + "'";
 							if ($scope.node.model.name === 'ROOT') {
 								$modalInstance.dismiss('cancel');
 							}

@@ -149,8 +149,14 @@ a.icon-btn {
             }
         }
 
+        .root-icon {
+            top: -1px;
+            left: -1px;
+        }
+
         .back-icon {
             display: none;
+            font-weight: bold;
         }
 
         li {
@@ -170,14 +176,13 @@ a.icon-btn {
 
         li:last-child {
             .btn {
-                
                 font-weight: bold;
                 color: $file-browser-breadcrumb-active-color;
 
                 &:hover,
                 &:focus {
                     background: transparent;
-                    border-color: transparent;
+                    //border-color: transparent;
                 }
             }
         }
@@ -272,6 +277,7 @@ a.icon-btn {
         bottom: 0;
         background: $file-browser-bg;
         transform: translateX(100%);
+        z-index: 2;
 
         .fb-details-content {
             width: 100%;
@@ -474,9 +480,8 @@ a.icon-btn {
         }
 
         .row-actions {
-            display: none;
             position: absolute;
-            top: 0.6rem;
+            top: 0.5rem;
             right: 2.5rem;
 
             .btn {
@@ -488,8 +493,8 @@ a.icon-btn {
             }
 
             .dropdown-menu {
-                top: -3px;
-                right: -3px;
+                top: -0.3rem;
+                right: -0.3rem;
                 min-width: 0;
                 padding: 0.2rem;
                 white-space: nowrap;
@@ -505,6 +510,11 @@ a.icon-btn {
 
             .drill-in-btn {
                 display: none;
+                
+                .glyphicon {
+                    top: 0.1rem;
+                    font-weight: bold;
+                }
             }
 
             &.visible {
@@ -564,11 +574,41 @@ a.icon-btn {
     .fb-list {
         .fb-col-group {
             .row-actions {
-                right: 1rem;
+                right: 0.8rem;
 
                 .drill-in-btn {
                     display: inline-block;
                 }
+            }
+        }
+
+        .fb-folders {
+            .fb-col-group {
+                padding-right: 8.5rem;
+            }
+        }
+
+        .fb-files {
+            .fb-col-group {
+                padding-right: 5.5rem;
+            }
+        }
+    }
+}
+
+@media (min-width: 1200px) {
+    .fb-list {
+        .fb-col-group {
+            .row-actions {
+                visibility: hidden;
+            }
+        }
+    }
+
+    .fb-list-item:hover {
+        .fb-col-group {
+            .row-actions {
+                visibility: visible;
             }
         }
     }
@@ -653,11 +693,8 @@ span.avatar {
         opacity: 0;
         z-index: 2;
 
-        &:hover,
-        &:focus {
+        &:hover {
             + label {
-                background: #EEE;
-
                 span {
                     opacity: 0.2rem;
                     visibility: visible;
@@ -955,7 +992,7 @@ $fb-upload-target-border: 2px dashed #BBB;
     }
 
     .dropdown-menu {
-        margin-top: 0.5rem;
+        margin-top: 0.6rem;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
         border-radius: 0;

@@ -176,6 +176,22 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 			return this.get('/api/documents/' + projectId, {'reviewDocsOnly': reviewDocsOnly});
 		},
 
+		getDropZoneDocuments: function(projectId) {
+			return this.get('/api/dropzone/' + projectId + '/list');
+		},
+		getDropZoneDocumentsForProjects: function(projects) {
+			// compose a list of ids and then make the api call.
+			if (!projects || projects.length === 0) {
+				return Promise.resolve([]);
+			}
+			var idList = [];
+			_.forEach(projects, function(project){
+				idList.push(project._id);
+			});
+			var list = idList.join(",");
+			return this.get('/api/dropzone/projects/'+ list);
+		},
+
 		getProjectDocumentTypes: function(projectId, reviewDocsOnly) {
 			return this.get('/api/documents/types/' + projectId, {'reviewDocsOnly': reviewDocsOnly});
 		},

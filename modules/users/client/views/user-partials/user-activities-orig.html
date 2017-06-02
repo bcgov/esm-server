@@ -1,0 +1,167 @@
+
+<div class="spinner-container fixed" ng-show="dashboardLoading">
+    <div class="spinner-new rotating"></div>
+</div>
+
+<!-- MAIN PANEL -->
+<div class="main-panel" ng-hide="dashboardLoading">
+
+    <div class="view-title-container flex-row">
+        <h1>Dashboard</h1>
+        <div class="actions">
+            <a ng-show="application.userCan.createProject" ui-sref="p.edit({projectid:'new'})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span><span>Add New Project</span></a>
+        </div>
+    </div>
+
+    <div class="view-body-container">
+
+        <!-- PROJECTS LIST -->
+        <section>
+            <div class="panel panel-default" style="margin-bottom: 1.5rem;">
+                <div class="panel-heading"><h2>My Projects</h2></div>
+                <table class="projects-table table table-hover"
+                    ng-table="projectParams"
+                    x-show-filter="true">
+                    <tr ng-repeat="o in $data" ui-sref="p.detail({projectid: o.code})" class="clickable">
+                        <td data-title="'Name'"
+                            filter="{'name':'text'}"
+                            sortable="'name'">{{o.name}}
+                        </td>
+                        <td ng-if="environment === 'MEM'"
+                            title="'data-Permit'"
+                            sortable="'memPermitID'">{{o.memPermitID}}
+                        </td>
+                        <td data-title="'Type'"
+                            sortable="'type'">{{o.type}}
+                        </td>
+                        <td data-title="'Region'"
+                            sortable="'region'">{{o.region | regionName}}
+                        </td>
+                        <td data-title="'Phase'"
+                            sortable="'currentPhase.name'" >{{o.currentPhase.name}}
+                        </td>
+                        <td ng-if="environment === 'EAO'"
+                            data-title="'Status'"
+                            sortable="'status'">{{o.status}}
+                        </td>
+                    </tr>
+                    <tr class="no-records" ng-show="!$data || !$data.length">
+                        <td ng-if="environment === 'EAO'" colspan="5">No results match your search.</td>
+                        <td ng-if="environment === 'MEM'" colspan="4">No results match your search.</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!--
+            <div class="panel panel-default">
+                <div class="panel-heading clearfix">
+                    <h2 class="pull-left">Activities</h2>
+                </div>
+                <table class="table table-hover" ng-table="tableParams" show-filter="true">
+                  <tr class="clickable" ng-repeat="o in $data" ui-sref="p.artifact.view({projectid: o.project.code, artifactId:o._id})">
+                    <td class="project-name-col" header-class="'project-name-col'" data-title="'Project'" filter="{'project.name':'text'}" sortable="'project.name'">{{o.project.name}}
+                    </td>
+                    <td class="artifact-name-col" header-class="'artifact-name-col'" data-title="'Name'" filter="{'name':'text'}" sortable="'name'">
+                      {{o.name}}
+                    </td>
+                    <td ng-if="!published" data-title="'Stage'" filter="{'stage':'select'}" filter-data="stageArray" sortable="'stage'">
+                      {{o.stage}}<br/><span class="placeholder-value" ng-if="o.stageRole">({{o.stageRole}})</span>
+                    </td>
+                    <td data-title="'Last Updated'" filter-data="'dateUpdated'" sortable="'dateUpdated'">
+                      {{ o.dateUpdated | amDateFormat:'MMM DD, YYYY' }}
+                    </td>
+                  </tr>
+                  <tr class="no-records" ng-if="(!$data || $data.length === 0)">
+                    <td colspan="4">
+                      <span>No records found.</span>
+                    </td>
+                  </tr>
+                </table>
+            </div>
+           -->
+        </section>
+
+        <!-- ACTIVITIES LIST -->
+        <!--
+        <section class="right-panel activities-container hidden">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>My Activities<span class="hidden">&nbsp;&rsaquo; Project Title</span>&nbsp;<span>(*)</span></h2>
+                </div>
+                <div class="tab-container">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="all-activities">
+                            <a href="#active" aria-controls="active" role="tab" data-toggle="tab">Active (*)</a>
+                        </li>
+                        <li role="all-activities">
+                            <a href="#completed" aria-controls="completed" role="tab" data-toggle="tab">Complete (*)</a>
+                        </li>
+                        <li class="active" role="all-activities">
+                            <a href="#all" aria-controls="all" role="tab" data-toggle="tab">All (*)</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="active" role="tabpanel">
+                            <ul class="activities-list">
+                                <li>
+                                    <h3>Activity</h3>
+                                    <div class="activity-info">
+                                        <small>Project: <span>Project Name</span></small>
+                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                        <small>End Date: <span>MM/DD/YYYY</span></small>
+                                    </div>
+                                    <span class="badge bg-primary">Active</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane" id="completed" role="tabpanel">
+                            <ul class="activities-list list-group">
+                                <li>
+                                    <h3>Activity</h3>
+                                    <div class="activity-info">
+                                        <small>Project: <span>Project Name</span></small>
+                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                        <small>End Date: <span>MM/DD/YYYY</span></small>
+                                    </div>
+                                    <span class="badge success">Complete</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane active" id="all" role="tabpanel">
+                            <ul class="activities-list list-group">
+                                <li>
+                                    <h3>Activity</h3>
+                                    <div class="activity-info">
+                                        <small>Project: <span>Project Name</span></small>
+                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                        <small>End Date: <span>MM/DD/YYYY</span></small>
+                                    </div>
+                                    <span class="badge bg-primary">To Do</span>
+                                </li>
+                                <li>
+                                    <h3>Activity</h3>
+                                    <div class="activity-info">
+                                        <small>Project: <span>Project Name</span></small>
+                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                        <small>End Date: <span>MM/DD/YYYY</span></small>
+                                    </div>
+                                    <span class="badge success">Complete</span>
+                                </li><li>
+                                    <h3>Activity</h3>
+                                    <div class="activity-info">
+                                        <small>Project: <span>Project Name</span></small>
+                                        <small>Start Date: <span>MM/DD/YYYY</span></small>
+                                        <small>End Date: <span>MM/DD/YYYY</span></small>
+                                    </div>
+                                    <span class="badge success">Complete</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        -->
+    </div>
+
+</div>
