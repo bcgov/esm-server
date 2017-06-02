@@ -180,15 +180,15 @@ angular
 	)
 	.constant('EAC_DECISIONS',
 		[
-			'Withdrawn',
-			'Certificate Not Required',
-			'Certificate Issued',
-			'Certificate Expired',
 			'In Progress',
-			'Terminated',
-			'Pre-EA Act Approval',
+			'Certificate Issued',
 			'Certificate Refused',
-			'Further Assessment Required'
+			'Further Assessment Required',
+			'Certificate Not Required',
+			'Certificate Expired',
+			'Withdrawn',
+			'Terminated',
+			'Pre-EA Act Approval'
 		]
 	)
 	.constant('CE_STAGES',
