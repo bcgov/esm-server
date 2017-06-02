@@ -220,6 +220,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 	projectList.typeArray = [];
 	projectList.phaseArray = [];
 	projectList.openPCPArray = [];
+	projectList.sortedPhaseArray = [];
 
 	$scope.$watch('projects', function(newValue) {
 		if (newValue) {
@@ -249,6 +250,30 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 			projs.pluck('currentPhase.name').unique().value().map( function(item) {
 				projectList.phaseArray.push({id: item, title: item});
 			});
+
+			var order  = ["Intake", "Determination", "Scope", "Evaluation", "Review", "Decision", "Post-Certification"];
+			var length = projectList.phaseArray.length;
+
+			order.forEach(function (key) {
+				_.find(projectList.phaseArray, function (item) {
+					if (item.title === key) {   //if the key from order is in proj.list --> add that to the sortedPhase array.
+						projectList.sortedPhaseArray.push(item);
+						length--;  
+						return true;
+					} else
+						return false;
+				});
+			});
+
+			if (length > 0) { //only if the length is greater than zero.. 
+				var newphaseArray = projectList.phaseArray.filter(function (item) {   //if there are additional item in the projectlist.phaseArray (new phase which is not in the order array) this means a new phase is added
+					return order.indexOf(item.title) === -1;
+				});
+				_.each(newphaseArray, function (item) {
+					projectList.sortedPhaseArray.push(item);
+				});
+			}
+
 			projs.pluck('openCommentPeriod').unique().value().map( function(item) {
 				if (item === "" || item === "Pending" || item === "Open" || item === "Completed") { //extract without unpublished commentPeriod
 						projectList.openPCPArray.push({id: item, title: item});
