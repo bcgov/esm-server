@@ -1,6 +1,6 @@
 'use strict';
 angular.module('documents')
-	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', function ($rootScope, $modal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document) {
+	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document','FolderModel', function ($rootScope, $modal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document, FolderModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -222,7 +222,25 @@ angular.module('documents')
 											$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
 											self.busy = false;
 										}
-									);
+									).then(function () {
+									// Go through each of the currently available folders in view, and attach the object
+									// to the model dynamically so that the permissions directive will work by using the
+									// correct x-object=folderObject instead of a doc.
+									FolderModel.lookupForProjectIn($scope.project._id, self.currentNode.model.id)
+									.then(function (folder) {
+										_.each(folder, function (fs) {
+											// We do breadth-first because we like to talk to our neighbours before moving
+											// onto the next level (where we bail for performance reasons).
+											theNode.walk({strategy: 'breadth'}, function (n) {
+												if (n.model.id === fs.directoryID) {
+													n.model.folderObj = fs;
+													return false;
+												}
+											});
+										});
+										$scope.$apply();
+									});
+								});
 							};
 
 
