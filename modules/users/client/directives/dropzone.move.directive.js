@@ -36,6 +36,7 @@ angular.module('documents')
 							self.selectNode 	= selectNode;
 							self.cancel 			= cancelClickHandler;
 							self.select 			= okClickHandler;
+							self.docDescription = self.doc.description;
 
 							self.rootNode = tree.parse(directoryStructure);
 							self.selectNode(self.rootNode);
@@ -65,6 +66,7 @@ angular.module('documents')
 								self.busy = true;
 								var msg = '';
 								self.doc.directoryID = self.currentDir.model.id;
+								self.doc.description = self.docDescription;
 								return Document.save(self.doc)
 								.then(function (result) {
 									msg = self.doc.displayName + ' moved to ' + self.currentPathName;
