@@ -1130,8 +1130,10 @@ module.exports = DBModel.extend ({
 					{directoryID: 0} // not yet moved into the project directory structure
 				]
 			};
+			var sort = { dateUploaded: 'descending'};
 			return new Promise(function(fulfill, reject) {
 				DocumentModel.find (query)
+				.sort(sort)
 				.exec (function(error, data) {
 					if (error) {
 						reject(new Error(error));
