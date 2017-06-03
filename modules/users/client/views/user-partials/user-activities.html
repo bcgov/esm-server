@@ -23,148 +23,120 @@
     <div class="view-body-container">
         <!-- PROJECTS LIST -->
         <section>
-            <div class="panel panel-default" style="margin-bottom: 1.5rem;">
+            <div class="panel panel-default dashboardPanel" style="margin-bottom: 1.5rem;">
                 <div class="panel-heading"><h2>My Projects</h2></div>
-                <table class="projectsTable table table-hover">
-                    <thead>
-                        <tr class="hdrRow">
-                            <th class="expandCol">&nbsp;</th>
-                            <th class="nameCol">Name</th>
-                            <th class="expandCol">&nbsp;</th>
-                            <th class="typeCol">Type</th>
-                            <th class="regionCol">Region</th>
-                            <th class="phaseCol">Phase</th>
-                            <th class="statusCol">Status</th>
-                            <th class="actionCol">&nbsp;</th>
-                            <th class="actionCol">&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="project in vm.projects" >
-                        <td class="p-0 rowContainer" colspan="9">
-                            <table class="rowNestedTable">
-                                <tr class="projectRow"
-                                    ng-class="{'active': project.selected}">
-                                    <td class="expandCol">
-                                        <span ng-if="project.dropZoneFiles.length > 0">
-                                            <button class="btn btn-default btn-sm"
-                                                    ng-click="$event.stopPropagation(); vm.toggleExpand(project._id)">
-                                                <span class="glyphicon glyphicon-plus open-icon" ng-if="!project.expanded"></span>
-                                                <span class="glyphicon glyphicon-minus close-icon" ng-if="project.expanded"></span>
-                                            </button>
-                                        </span>
-                                    </td>
-                                    <td class="nameCol clickable" >
-                                        <a title="Go To Project" ui-sref="p.detail({projectid: project.code})">
-                                            {{project.name}}
-                                        </a>
-                                    </span>
-                                    </td>
-                                    <td class="expandCol">
-                                        <span class="glyphicon glyphicon-inbox"><sup>{{project.dropZoneFiles.length}}</sup></span>
-                                    </td>
-                                    <td class="typeCol">
-                                        {{project.type}}
-                                    </td>
-                                    <td class="regionCol">{{project.region | regionName}}
-                                    </td>
-                                    <td class="phaseCol">{{project.currentPhase.name}}
-                                    </td>
-                                    <td class="statusCol">{{project.status}}
-                                    </td>
-                                    <td class="actionCol" ng-click="vm.forceSelect(project._id)">
-                                        <button class="btn btn-default btn-sm" title="Upload Files"
-                                                ng-click="vm.forceSelect(project._id)"
-                                                ng-if="project.userCanUpload"
-                                                x-document-drop-zone-upload-modal
-                                                x-project="project"
-                                                x-target="project.dropZoneFiles">
-                                            <span class="glyphicon glyphicon-open"></span> Upload
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <div class="fb-menu btn-group">
-                                            <button type="button" class="btn icon-btn dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                                    ng-click="vm.forceSelect(project._id)">
-                                                <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-                                            </button>
-                                            <ul class="dropdown-menu pull-right">
+                <div class="projectsTable">
+                    <div class="projectRow"
+                        ng-class-odd="'oddRow'"
+                        ng-class="{'active': project.selected}"
+                        ng-repeat="project in vm.projects" >
+                        <div class="tableRow projectInfo">
+                            <div class="projectInfoCol expandCol">
+                                <span ng-if="project.dropZoneFiles.length > 0">
+                                    <button class="btn btn-default btn-sm"
+                                            ng-click="$event.stopPropagation(); vm.toggleExpand(project._id)">
+                                        <span class="glyphicon glyphicon-plus open-icon" ng-if="!project.expanded"></span>
+                                        <span class="glyphicon glyphicon-minus close-icon" ng-if="project.expanded"></span>
+                                    </button>
+                                </span>
+                            </div>
+                            <div class="projectInfoCol nameCol" >
+                                <a title="Go To Project" ui-sref="p.detail({projectid: project.code})">
+                                    {{project.name}}
+                                </a>
+                            </div>
+                            <div class="projectInfoCol inboxCol">
+                                <div class="inbox">
+                                    <span class="glyphicon glyphicon-inbox"><sup>{{project.dropZoneFiles.length}}</sup></span>
+                                </div>
+                            </div>
+                            <div class="projectInfoCol actionCol" ng-click="vm.forceSelect(project._id)">
+                                <button class="btn btn-border btn-sm" title="Upload Files"
+                                        ng-click="vm.forceSelect(project._id)"
+                                        ng-if="project.userCanUpload"
+                                        x-document-drop-zone-upload-modal
+                                        x-project="project"
+                                        x-target="project.dropZoneFiles">
+                                    <span class="glyphicon glyphicon-open"></span> Upload
+                                </button>
+                            </div>
+                            <div class="projectInfoCol menuCol fb-menu btn-group">
+                                    <button type="button" class="btn icon-btn dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                            ng-click="vm.forceSelect(project._id)">
+                                        <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li>
+                                            <a title="Open Project" ui-sref="p.detail({projectid: project.code})">
+                                                <span class="glyphicon glyphicon-open-file"></span> Open Project
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a title="Upload Files"
+                                               ng-click="vm.forceSelect(project._id)"
+                                               ng-if="project.userCanUpload"
+                                               x-document-drop-zone-upload-modal
+                                               x-project="project"
+                                               x-target="project.dropZoneFiles">
+                                                <span class="glyphicon glyphicon-open"></span> Upload Files
+                                            </a>
+                                        </li>
+                                    </ul>
+                            </div>
+                        </div>
+                        <div class="dropzoneRow collapse"
+                             ng-class="{'collapse': !project.expanded}">
+                            <ul class="dropDocList">
+                                <li class="dropDocRow" ng-if="project.dropZoneFiles.length > 0">
+                                    <div class="tableRow">
+                                        <div class="dropFileCol docName">File Name</div>
+                                        <div class="dropFileCol docUploadUser">Uploaded By</div>
+                                        <div class="dropFileCol docUploadDate">Upload Date</div>
+                                        <div class="dropFileCol docActions"></div>
+                                    </div>
+                                </li>
+                                <li class="dropDocRow" ng-repeat="file in project.dropZoneFiles">
+                                    <div class="tableRow">
+                                        <div class="dropFileCol docName">
+                                            {{ file.displayName }}
+                                        </div>
+                                        <div class="dropFileCol docUploadUser" title="{{ doc.documentAuthor }}">
+                                            {{ file.documentAuthor }}
+                                        </div>
+                                        <div class="dropFileCol docUploadDate">{{ file.dateUploaded | date : 'medium' }}
+                                        </div>
+
+                                        <div class="dropFileCol  docActions"  >
+                                            <ul class="pull-right">
                                                 <li>
-                                                    <a title="Open Project" ui-sref="p.detail({projectid: project.code})">
-                                                        <span class="glyphicon glyphicon-open-file"></span> Open Project
+                                                    <a class="btn btn-default btn-sm" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download File">
+                                                        <span class="glyphicon glyphicon-download-alt"></span>
                                                     </a>
                                                 </li>
-                                                <li>
-                                                    <a title="Upload Files"
-                                                       ng-click="vm.forceSelect(project._id)"
-                                                       ng-if="project.userCanUpload"
-                                                       x-document-drop-zone-upload-modal
-                                                       x-project="project"
-                                                       x-target="project.dropZoneFiles">
-                                                        <span class="glyphicon glyphicon-open"></span> Upload Files
-                                                    </a>
+                                                <li ng-if="project.userCanMove">
+                                                    <button class="btn btn-default btn-sm" title="Move File To Documents"
+                                                       x-drop-zone-move
+                                                       x-doc="file"
+                                                       x-project="project">
+                                                        <span class="glyphicon glyphicon-transfer"></span>
+                                                    </button>
                                                 </li>
                                             </ul>
                                         </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <div class="dropDocAccordian collapse"
-                                 ng-class="{'collapse': !project.expanded}">
-                                <ul class="dropDocList">
-                                    <li class="dropDocRow" ng-if="project.dropZoneFiles.length > 0">
-                                        <div>
-                                            <div class="dropFileCol docName">File Name</div>
-                                            <div class="dropFileCol docUploadUser">Uploaded By</div>
-                                            <div class="dropFileCol docUploadDate">Upload Date</div>
-                                            <div class="dropFileCol docActions"></div>
-                                        </div>
-                                    </li>
-                                    <li class="dropDocRow" ng-repeat="file in project.dropZoneFiles">
-                                        <div>
-                                            <div class="dropFileCol docName">
-                                                {{ file.displayName }}
-                                            </div>
-                                            <div class="dropFileCol docUploadUser" title="{{ doc.documentAuthor }}">
-                                                {{ file.documentAuthor }}
-                                            </div>
-                                            <div class="dropFileCol docUploadDate">{{ file.dateUploaded | date : format : timezone }}
-                                            </div>
-
-                                            <div class="dropFileCol  docActions"  >
-                                                <ul class="pull-right">
-                                                    <li>
-                                                        <a class="btn btn-default btn-sm" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download File">
-                                                            <span class="glyphicon glyphicon-download-alt"></span>
-                                                        </a>
-                                                    </li>
-                                                    <li ng-if="project.userCanMove">
-                                                        <button class="btn btn-default btn-sm" title="Move File To Documents"
-                                                           x-drop-zone-move
-                                                           x-doc="file"
-                                                           x-project="project">
-                                                            <span class="glyphicon glyphicon-transfer"></span>
-                                                        </button>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="docDescription">{{file.description}}</div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="no-records" ng-show="!vm.projects || !vm.projects.length">
-                        <td colspan="6">No results match your search.</td>
-                    </tr>
-                    </tbody>
-                </table>
+                                    </div>
+                                    <div>
+                                        <div class="docDescription">{{file.description}}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="no-records" ng-show="!vm.projects || !vm.projects.length">
+                        No results match your search.
+                    </div>
+                </div>
             </div>
-
         </section>
     </div>
 

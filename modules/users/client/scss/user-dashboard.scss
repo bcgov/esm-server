@@ -1,0 +1,139 @@
+
+.dashboardPanel {
+  border: 1px solid #fff;
+}
+
+.projectsTable {
+
+  h3 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  .btn-default {
+    color: #333;
+    background-color: transparent;
+    border: none;
+  }
+
+  .btn-border {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+  }
+
+  .tableRow {
+    @extend .flex-row;
+  }
+
+  .tableRow {
+    padding: 1rem;
+  }
+  /* For the project information row */
+  .projectInfoCol {
+    @include flex(0 0 5%);
+  }
+  .nameCol {
+    @include flex(0 0 40%);
+  }
+
+  .projectInfo div:last-child {
+    margin-left: auto;
+  }
+
+
+  /* For the expanded drop zone file information content */
+  .dropFileCol {
+    @include flex(0 0 20%);
+  }
+
+  .docName {
+    @include flex(0 0 20%);
+  }
+
+  .docActions {
+    @include flex(0 0 10%);
+  }
+  .projectInfo:hover {
+    background-color: #ddd;
+  }
+
+  .dropDocRow:hover {
+    background-color: #ddd;
+  }
+  .dropDocRow {
+    padding-left: 2rem;
+  }
+  .dropDocRow ul {
+    padding-left: 0;
+  }
+
+  .oddRow .projectInfo {
+    background-color: #eee;
+  }
+
+  .rowNestedTable {
+    width: 100%
+  }
+
+
+  .menuCol {
+    button {
+      display: inline;
+    }
+  }
+
+  .inbox {
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    line-height: 1.5;
+  }
+
+  .dropzoneRow {
+    ul {
+      li {
+        list-style: none;
+      }
+    }
+  }
+
+  .docActions {
+    ul > li {
+      display: inline;
+      list-style: none;
+    }
+  }
+
+}
+
+
+.dropMoveDialog {
+  .modal-body {
+    padding: 1rem 2rem;
+  }
+
+  .file-browser {
+    height: 28rem;
+  }
+  .description {
+    padding-left: 0;
+  }
+  .displayName {
+    font-weight: bolder;
+    font-family: sans-serif;
+  }
+
+  .fb-breadcrumbs {
+    /* handle long directory names with scroll */
+    overflow: auto;
+  }
+}
