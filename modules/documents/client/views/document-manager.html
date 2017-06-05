@@ -467,6 +467,10 @@
 									<span class="name">Uploaded Date:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
 								</li>
+								<li ng-if="documentMgr.infoPanel.link">
+									<span class="name">Link:</span>
+									<span class="value">{{ documentMgr.infoPanel.link }}</span>
+								</li>
 								<li>
 									<span class="name">Size:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>

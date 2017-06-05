@@ -89,6 +89,7 @@ angular.module('documents')
 						//self.infoPanel.open = false;
 						self.infoPanel.type = 'None';
 						self.infoPanel.data = undefined;
+						self.infoPanel.link = undefined;
 					},
 					setData: function() {
 						self.infoPanel.reset();
@@ -98,6 +99,7 @@ angular.module('documents')
 								self.infoPanel.type = 'File';
 								var file = _.find(self.currentFiles, function(o) { return o._id.toString() === self.lastChecked.fileId; });
 								self.infoPanel.data = file ? file : undefined;
+								self.infoPanel.link =  window.location.protocol + '//' + window.location.host + '/api/document/'+ file._id+'/fetch';
 							} else if (self.lastChecked.directoryID) {
 								self.infoPanel.type = 'Directory';
 								var node =_.find(self.currentDirs, function(o) { return o.model.id === self.lastChecked.directoryID; });
