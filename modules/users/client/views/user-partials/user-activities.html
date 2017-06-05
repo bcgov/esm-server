@@ -99,7 +99,9 @@
                                 <li class="dropDocRow" ng-repeat="file in project.dropZoneFiles">
                                     <div class="tableRow">
                                         <div class="dropFileCol docName">
-                                            {{ file.displayName }}
+                                            <a title="Download / View File" href="/api/document/{{ file._id }}/fetch" target="_blank" >
+                                                {{ file.displayName }}
+                                            </a>
                                         </div>
                                         <div class="dropFileCol docUploadUser" title="{{ doc.documentAuthor }}">
                                             {{ file.documentAuthor }}
@@ -125,7 +127,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="tableRow">
                                         <div class="docDescription">{{file.description}}</div>
                                     </div>
                                 </li>

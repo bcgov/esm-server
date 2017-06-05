@@ -4,6 +4,7 @@
 }
 
 .projectsTable {
+  padding: 0;
 
   h3 {
     margin: 0;
@@ -45,7 +46,13 @@
     @include flex(0 0 40%);
   }
 
+  .projectInfo {
+    // separator between projects
+    border-top: 1px solid #ccc;
+  }
+
   .projectInfo div:last-child {
+    // push right
     margin-left: auto;
   }
 
@@ -66,6 +73,10 @@
     background-color: #ddd;
   }
 
+  .dropDocList {
+    // remove padding around ul element
+    padding: 0;
+  }
   .dropDocRow:hover {
     background-color: #ddd;
   }
