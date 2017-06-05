@@ -1,0 +1,27 @@
+
+<form>
+    <div class="modal-body">
+        <section class="m-b-0">
+            <h2><sup>Step 1 of 4</sup>Enter Your Details</h2>
+            <p class="m-b-2">EAO requires that you provide your name and city/town when making a comment, but in order to have your name displayed with your comment; you must select the 'Make my Name visible to public' option.</p>
+            <div class="form-group">
+                <label class="control-label">Name<em>(Required)</em></label>
+                <input class="form-control" type="text" placeholder="Anonymous" ng-model="ctrl.comment.author" />
+            </div>
+            <div class="form-group">
+                <label class="control-label">Location<em>(Required)</em></label>
+                <input class="form-control" type="text" placeholder="IE: City, Province, etc." ng-model="ctrl.comment.location" />
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="ctrl.makeVisible" />Make my name visible to the public
+                </label>
+                <span class="help-block">If you have entered a name it will be visible on the public website.</span>
+            </div>
+        </section>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-default" ng-click="ctrl.back()">&lsaquo;&nbsp; Back</button>
+        <button class="btn btn-primary" ng-click="ctrl.next()" ng-disabled="!ctrl.hasNameAndLocation()">Next &nbsp;&rsaquo;</button>
+    </div>
+</form>

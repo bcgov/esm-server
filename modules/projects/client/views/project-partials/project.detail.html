@@ -17,22 +17,23 @@
 <div class="view-body-container project-details">
 
 	<!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
-	<div class="pcp-alert-container" ng-if="activeperiod">
-		<div class="pcp-alert clearfix">
-			<div class="pcp-alert-info">
-				<h2>Public Comment Period is Now Open</h2>
-				<span class="pcp-dates">{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
-			</div>
-			<div class="pcp-alert-btns">
+	<div class="pcp-banner" ng-if="activeperiod">
+		<section class="pcp-info">
+			<h2>Public Comment Period <span class="break">is Now Open</span></h2>
+			<span class="pcp-dates"><strong>{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
+			<span class="pcp-desc">
+				This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.ceaaInformationLabel"> and the <strong>{{activeperiod.ceaaInformationLabel}}</strong></span> for the <strong>{{project.name}}</strong> project.
+			</span>
+			<div class="pcp-banner-btns">
 				<a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
 					<span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
 				</a>
-				<span class="pcp-btn-spacer">or</span>
+				<span class="spacer">OR</span>
 				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
 					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
 				</button>
 			</div>
-		</div>
+		</section>
 	</div>
 
 	<!-- PROJECT TIMELINE -->
@@ -94,7 +95,7 @@
 	-->
 
 	<!-- IN PROGRESS CONTENT - removed RE: ESM-674 -->
-	<!-- 
+	<!--
 	<section class="project-artifacts" ng-if="environment === 'EAO' && authentication.user">
 		<div id="anchor-artifacts">
 			<tmpl-artifact-list x-project="project" x-published="false"></tmpl-artifact-list>

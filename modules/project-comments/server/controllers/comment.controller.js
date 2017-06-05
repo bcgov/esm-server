@@ -19,7 +19,9 @@ module.exports = DBModel.extend ({
 	// populate : [{ path:'user', select:'_id displayName username orgCode'}, {path: 'valuedComponents', select: 'name'}],
 	populate : [{ path:'user', select:'_id displayName username email orgName'},
 				{ path:'updatedBy', select:'_id displayName username email orgName'},
-				{ path:'documents', select:'_id eaoStatus'}],
+				{ path:'documents', select:'_id eaoStatus'},
+				{ path:'ceaaDocuments', select:'_id eaoStatus'}
+	],
 	// -------------------------------------------------------------------------
 	//
 	// since public users may be saving comments we should temprarily allow
@@ -52,14 +54,15 @@ module.exports = DBModel.extend ({
 					return self.setModelPermissions(comment, {
 						read: period.vettingRoles,
 						delete: ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-						write: _.uniq(_.concat(period.commenterRoles, period.vettingRoles, period.classificationRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin']))
+						write: _.uniq(_.concat(period.commenterRoles, period.vettingRoles,  period.downloadRoles, period.classificationRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin']))
 					});
 				})
 				.then(function (commentPermissions) {
 					//console.log('commentPermissions = ' + JSON.stringify(commentPermissions, null, 4));
 					// get all the associated documents and update their permissions as required.
 					return new Promise(function (resolve, reject) {
-						var q = {_id : {$in : comment.documents }};
+						var combined = _.concat(comment.documents, comment.ceaaDocuments);
+						var q = {_id : {$in : combined }};
 						documentClass.listforaccess ('i do not want to limit my access because public people add comments with docs too.', q)
 							.then(function (data) {
 								resolve({commentPermissions: commentPermissions, docs: data});
@@ -175,7 +178,8 @@ module.exports = DBModel.extend ({
 			.then(function(commentPermissions) {
 				// get all the associated documents and update their publish permissions as required.
 				return new Promise(function(resolve, reject) {
-					documentClass.getList(comment.documents)
+					var combined = _.concat(comment.documents, comment.ceaaDocuments);
+					documentClass.getList(combined)
 						.then(function (data) {
 							resolve({commentPermissions: commentPermissions, docs: data});
 						});
@@ -283,7 +287,7 @@ module.exports = DBModel.extend ({
 	},
 	getCommentsForPeriod: function(periodId, eaoStatus, proponentStatus, isPublished,
 								   commentId, authorComment, location, pillar, topic,
-								   start, limit, sortby) {
+								   start, limit, sortby, filterCommentPackage) {
 		var self = this;
 
 		var query = {period: periodId};
@@ -301,6 +305,25 @@ module.exports = DBModel.extend ({
 				query = _.extend({}, query, {proponentStatus: 'Classified'});
 			} else {
 				query = _.extend({}, query, {proponentStatus: {$ne: 'Classified'} });
+			}
+		}
+
+		if (filterCommentPackage !== undefined) {
+			switch (filterCommentPackage) {
+				case 'Provincial':
+					query = _.extend({}, query, { $or : [
+						{ comment: {$ne: ''} },
+						{ documents: { $gt: [] }  }
+					]});
+					break;
+				case 'Federal':
+					query = _.extend({}, query, { $or : [
+						{ ceeaComment: {$ne: ''} },
+						{ ceaaDocuments: { $gt: [] }  }
+					]});
+					break;
+				//default:
+				// do nothing
 			}
 		}
 
@@ -413,6 +436,17 @@ module.exports = DBModel.extend ({
 				.then (resolve, reject);
 		});
 	},
+	getCeaaCommentDocuments: function(id) {
+		var self = this;
+		var doc = new DocumentClass (this.opts);
+		return new Promise (function (resolve, reject) {
+			self.one({_id : id})
+			.then(function(c) {
+				return doc.getList(c.ceaaDocuments);
+			})
+			.then (resolve, reject);
+		});
+	},
 	updatePermissionBatch: function(projectId, periodId, skip, limit) {
 		var self = this;
 		var projectCtrl = new ProjectController(this.opts);
@@ -424,7 +458,7 @@ module.exports = DBModel.extend ({
 						// ok, let them find all the comments and update them... make them act like admin...
 						self.isAdmin = true;
 						self.user.roles.push('admin'); // need this so the documents controller in preprocessUpdate will act as admin
-						return self.getCommentsForPeriod(periodId, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, skip, limit, undefined);
+						return self.getCommentsForPeriod(periodId, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, skip, limit, undefined, undefined);
 					} else {
 						// can't createCommentPeriod, so don't allow them to do this comment/document processing...
 						return [];
@@ -460,6 +494,7 @@ module.exports = DBModel.extend ({
 		var limit = 50;
 		var sortby = {};
 
+		var filterCommentPackage;
 		if (body) {
 			// base query / filter
 			if (!_.isEmpty(body.periodId)) {
@@ -494,6 +529,9 @@ module.exports = DBModel.extend ({
 			if (!_.isEmpty(body.topic)) {
 				topic = body.topic;
 			}
+			if (!_.isEmpty(body.filterCommentPackage)) {
+				filterCommentPackage = body.filterCommentPackage;
+			}
 			// pagination stuff
 			try {
 				skip = parseInt(body.start);
@@ -506,7 +544,7 @@ module.exports = DBModel.extend ({
 			}
 		}
 
-		return self.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby);
+		return self.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby, filterCommentPackage);
 	},
 	getPeriodPermsSync: function (body) {
 		var self = this;

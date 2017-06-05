@@ -1,0 +1,63 @@
+
+<div class="modal-body">
+
+    <div class="spinner-container" ng-show="ctrl.isBusy">
+        <div class="spinner-new rotating"></div>
+    </div>
+
+    <section>
+        <h2><sup>Step 4 of 4</sup>Review your Submission</h2>
+        <div class="alert alert-danger" ng-show="!ctrl.isValid()">You have not provided a comment on either the <strong>{{ctrl.period.informationLabel}}</strong> or the <strong>{{ctrl.period.ceaaInformationLabel}}</strong>. You must provide a comment for <strong>ONE</strong> of these information packages before your comment can be submitted.</div>
+    </section>
+
+    <!-- Review Details -->
+    <section>
+        <h3>Your Details</h3>
+        <div class="nv-pair">
+            <label>Name:</label>
+            <span ng-if="ctrl.comment.author">{{ctrl.comment.author}}</span>
+            <span ng-if="!ctrl.comment.author">Anonymous</span>
+        </div>
+        <div class="nv-pair">
+            <label>Location:</label>
+            <span>{{ctrl.comment.location}}</span>
+        </div>
+    </section>
+
+    <!-- Review Package  1 -->
+    <section>
+        <h3>Comment on the {{ctrl.period.informationLabel}}</h3>
+        <p class="m-b-0" ng-if="ctrl.comment.comment" ng-init="toggleComment.desc = (false)">{{ ctrl.comment.comment | maxWords:75:toggleComment.desc }}
+            <a class="show-more-link" href ng-if="(ctrl.comment.comment | wordCount) > 75" ng-click="toggleComment.desc = !toggleComment.desc">
+                <span ng-if="!toggleComment.desc">Show More ({{ ctrl.comment.comment | wordCount }} words)</span>
+                <span ng-if="toggleComment.desc">Show Less</span>
+            </a>
+        </p>
+        <p class="m-b-0" ng-if="!ctrl.comment.comment">No Comment</p>
+        <div class="form-group m-t-2 m-b-2" ng-if="ctrl.eaoPackage.validFiles.length > 0">
+            <label class="control-label">Attachments ({{ctrl.eaoPackage.validFiles.length}})</label>
+            <x-file-upload-listing class="fb-upload-container pcp-review-files" file-list="ctrl.eaoPackage.validFiles" ng-if="ctrl.eaoPackage.validFiles"></x-file-upload-listing>
+        </div>
+    </section>
+
+    <!-- Review Package  2 -->
+    <section>
+        <h3>Comment on the {{ctrl.period.ceaaInformationLabel}}</h3>
+        <p class="m-b-0" ng-if="ctrl.comment.ceeaComment" ng-init="toggleComment.desc = (false)">{{ ctrl.comment.ceeaComment | maxWords:75:toggleComment.desc }}
+            <a class="show-more-link" href ng-if="(ctrl.comment.ceeaComment | wordCount) > 75" ng-click="toggleComment.desc = !toggleComment.desc">
+                <span ng-if="!toggleComment.desc">Show More ({{ ctrl.comment.ceeaComment | wordCount }} words)</span>
+                <span ng-if="toggleComment.desc">Show Less</span>
+            </a>
+        </p>
+        <p class="m-b-0" ng-if="!ctrl.comment.ceeaComment">No Comment</p>
+        <div class="form-group m-t-2 m-b-1" ng-if="ctrl.ceaaPackage.validFiles.length > 0">
+            <label class="control-label">Attachments ({{ctrl.ceaaPackage.validFiles.length}})</label>
+            <x-file-upload-listing class="fb-upload-container pcp-review-files" file-list="ctrl.ceaaPackage.validFiles" ng-if="ctrl.ceaaPackage.validFiles"></x-file-upload-listing>
+        </div>
+    </section>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="ctrl.back()" ng-disabled="ctrl.isBusy">&lsaquo;&nbsp; Back</button>
+    <button class="btn btn-primary" type="submit" ng-click="ctrl.submit()" ng-disabled="ctrl.isBusy || !ctrl.isValid()">Submit</button>
+</div>
