@@ -263,22 +263,31 @@ angular.module ('comment')
 					}
 				};
 
-				var canSeeRejectedDocs = s.period.userCan.vetComments || s.hasCeeaRole;
+				var onlyPublishedComments = true;
+				var canSeeRejectedDocs = false;
 
+				// Only EAO staff (or whoever has permissions to vet comments) should be able to see unpublished comments
+				// For Joint PCPs, CEAA should also be allowed to download rejected comments and docs
+				if (s.period.userCan.vetComments || s.hasCeeaRole) {
+					onlyPublishedComments = undefined;
+					canSeeRejectedDocs = true;
+				}
+
+				// console.log("data:", s.tableParams.data);
 				// Return a promise with the CSV data to download
 				CommentPeriodModel.getForPublic(s.period._id)
 				.then(function (p) {
 					refreshFilterArrays(p);
 					return CommentModel.getCommentsForPeriod(
-						filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
-						filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic,
-						0, s.total, 'commentId', true, s.filterCommentPackage);
+						s.period._id, undefined, undefined, onlyPublishedComments,
+						undefined, undefined, undefined, undefined, undefined,
+						0, s.total, 'commentId', true, undefined);
 				})
 				.then(function (result) {
 					CommentModel.prepareCSV(result.data, isJoint, canSeeRejectedDocs)
 					.then(function (data) {
 						var blob = new Blob([data], { type: 'octet/stream' });
-						var filename = (s.eaoStatus) ? s.eaoStatus + ".csv" : 'tableData.csv';
+						var filename = 'tableData.csv';
 						var browse = getBrowser();
 						if (browse === 'firefox') {
 							var ff = angular.element('<a/>');
