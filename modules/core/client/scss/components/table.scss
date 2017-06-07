@@ -35,6 +35,10 @@ $table-pagination-bg: #fff;
             tr.filter-row {
                 border-top: $table-row-border;
             }
+
+            input, select {
+                font-weight: normal;
+            }
         }
 
         th, td {
@@ -210,5 +214,36 @@ $pgn-btn-color: #000;
                 }
             }
         }
+    }
+}
+
+td.pagination-container {
+    display: block;
+    width: 100%;
+}
+
+.pg-step-btns,
+.pg-display-count-btns {
+    text-align: center;
+}
+
+.pg-display-count-btns {
+    margin-top: 1rem;
+}
+
+@media (min-width: 640px) {
+    td.pagination-container {
+        display: table-cell;
+        width: auto;
+    }
+
+    .pg-step-btns {
+        float: left;
+        text-align: left;
+    }
+
+    .pg-display-count-btns {
+        float: right;
+        margin: 0;
     }
 }

@@ -98,7 +98,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 		},
 		getCommentsForPeriod: function( periodId, eaoStatus, proponentStatus, isPublished,
 									    commentId, authorComment, location, pillar, topic,
-										start, limit, orderBy, reverse) {
+										start, limit, orderBy, reverse, filterCommentPackage) {
 
 			var obj = {
 				// primary query...
@@ -116,7 +116,8 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 				start: start,
 				limit: limit,
 				orderBy: orderBy,
-				reverse: reverse
+				reverse: reverse,
+				filterCommentPackage: filterCommentPackage
 			};
 
 			return this.put ('/api/comments/period/' + periodId + '/paginate', obj);
@@ -213,44 +214,79 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 		getDocuments: function(commentId) {
 			return this.get('/api/comment/' + commentId +'/documents');
 		},
+		getCeaaDocuments: function(commentId) {
+			return this.get('/api/comment/' + commentId +'/ceaadocuments');
+		},
 		updateDocument: function(doc) {
 			return this.put('/api/document/' + doc._id, doc);
 		},
-		prepareCSV: function (tableParams) {
+		prepareCSV: function (tableParams,isJoint, canSeeRejectedDocs) {
 			// console.log("incoming tableparams:", tableParams);
+			function commentFormat(comment) {
+				comment = comment
+				.replace (/\•/g, '-')
+				.replace (/\’/g, "'")
+				.replace (/\r\n/g, "\n")
+				.replace (/\n+/g, "\n")
+				.replace (/\“/g, '"')
+				.replace (/\”/g, '"')
+				.replace (/"/g, '""');
+				// https://support.office.com/en-us/article/Excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3
+				// actual max is 32,767
+				var MAX = 32000;
+				if (comment.length > MAX) {
+					comment = comment.substr (0,MAX) + ' --- TRUNCATED FOR IMPORT TO EXCEL --- ';
+				}
+				return comment;
+			}
+			function attachmentsAdd(csvRow, documents, arrayJoinChar, canSeeRejectedDocs) {
+				var normalDocs = [];
+				var rejectedDocs = [];
+				_.forEach(documents, function (v) {
+					if (v.eaoStatus === "Rejected") {
+						rejectedDocs.push(v);
+					} else {
+						normalDocs.push(v);
+					}
+				});
+				csvRow.push(attachmentFormat(normalDocs, arrayJoinChar));
+				if (canSeeRejectedDocs ) {
+					csvRow.push (attachmentFormat(rejectedDocs,arrayJoinChar));
+				}
+
+			}
+			function attachmentFormat(documents,arrayJoinChar) {
+				return documents.map (function (v) {
+					return '""' + window.location.protocol + '//' + window.location.host + '/api/document/'+v._id+'/fetch""';
+				}).join (arrayJoinChar);
+			}
 			return new Promise (function (resolve, reject) {
 				var data = "";
-				var header = [
-				'id',
-				'comment',
-				'date added',
-				'author',
-				'location',
-				'pillars',
-				'topics',
-				'status',
-				'attachments'
-				];
+				var header = [];
+				header.push('id');
+				header.push('comment');
+				if (isJoint) { header.push('ceea comment'); }
+				header.push('date added');
+				header.push('author');
+				header.push('location');
+				header.push('pillars');
+				header.push('topics');
+				header.push('status');
+				header.push('attachments');
+				if (isJoint) { header.push('ceaa attachments'); }
+				if (canSeeRejectedDocs) {
+					header.push('rejected');
+					if (isJoint) {
+						header.push('ceaa rejected');
+					}
+				}
+
 				data += '"' + header.join ('","') + '"' + "\r\n";
 				_.each (tableParams, function (row) {
 					var a = [];
 					a.push(row.commentId);
-					var comment = row.comment
-					.replace (/\•/g, '-')
-					.replace (/\’/g, "'")
-					.replace (/\r\n/g, "\n")
-					.replace (/\n+/g, "\n")
-					.replace (/\“/g, '"')
-					.replace (/\”/g, '"')
-					.replace (/"/g, '""');
-					// https://support.office.com/en-us/article/Excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3
-					// actual max is 32,767
-					var MAX = 32000;
-					if (comment.length > MAX) {
-						console.log ('comment > '+ MAX);
-						comment = comment.substr (0,MAX) + ' --- TRUNCATED FOR IMPORT TO EXCEL --- ';
-					}
-					a.push (comment);
+					a.push (commentFormat(row.comment));
+					if (isJoint) { a.push (commentFormat(row.ceeaComment)); }
 					var ts = moment(row.dateAdded);
 					var tsStr = ts.format('YYYY-MM-DDThh:mm:ssZZ');
 					a.push (tsStr);
@@ -264,10 +300,10 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 						return v.replace (/"/g, '""');
 					}).join (arrayJoinChar));
 					a.push (row.eaoStatus);
-					a.push (row.documents.map (function (v) {
-						return '""' + window.location.protocol + '//' + window.location.host + '/api/document/'+v._id+'/fetch""';
-					}).join (arrayJoinChar));
-
+					attachmentsAdd(a, row.documents, arrayJoinChar, canSeeRejectedDocs);
+					if (isJoint) {
+						attachmentsAdd(a, row.ceaaDocuments, arrayJoinChar, canSeeRejectedDocs);
+					}
 					data += '"' + a.join ('","') + '"' + "\r\n";
 				});
 				resolve(data);

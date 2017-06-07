@@ -1,6 +1,7 @@
 
 $pcp-alert-bg: #003366;
-$pcp-alert-color: #fff;
+$pcp-alert-color: #ddd;
+$pcp-alert-strong-color: #fff;
 $pcp-btn-border: 1px solid #5091cd;
 $pcp-btn-bg: #5091cd;
 $pcp-btn-hover-bg: #96c0e6;
@@ -12,6 +13,20 @@ $pcp-open-badge-bg: #5091cd;
 $pcp-pending-badge-bg: #666;
 $pcp-closed-badge-bg: #5cb85c;
 $pcp-comment-icon-color: #ccc;
+
+
+// Comment Period View Containers
+.comment-period-view {
+    .pcp-edit-view {
+        @include flexbox();
+        @include flexdirection(column);
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}
 
 .pcp-alert-container {
     margin-bottom: 2rem;
@@ -65,14 +80,14 @@ $pcp-comment-icon-color: #ccc;
     .pcp-table {
         thead {
             background: transparent !important;
-            
+
             tr {
                 position: relative;
                 display: block;
                 margin-bottom: 0.5rem;
                 text-align: right;
             }
-            
+
             th {
                 display: inline-block;
                 width: 50%;
@@ -226,38 +241,74 @@ $pcp-comment-icon-color: #ccc;
     }
 }
 
-
 // Public Comment Period Alert Banner
-.pcp-alert {
-    @include flexbox();
-    flex-direction: column;
-    padding: 2rem;
-    border-radius: 0.25rem;
-	background: $pcp-alert-bg;
-	color: $pcp-alert-color;
+.pcp-banner {
+    position: relative;
+    margin-bottom: 2rem;
 
-    .pcp-alert-info {
-        @include flex(1 1 auto);
+    section {
+        padding: 2rem;
+    }
+
+    .pcp-info {
+       	background: $pcp-alert-bg;
+	    color: $pcp-alert-color;
 
         h2 {
             margin: 0;
+            color: $pcp-alert-strong-color;
             font-size: 2rem;
             font-weight: bold;
         }
 
+        strong {
+            color: $pcp-alert-strong-color;
+        }
+
         .pcp-dates {
-            margin-top: 1rem;
             display: block;
-            color: $pcp-btn-color;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .pcp-desc {
+            display: block;
+            margin-top: 1.5rem;
+            font-size: 1.4rem;
         }
     }
 
-    .pcp-alert-btns {
+    .pcp-addl-info {
+        background: #fff;
+
+        h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        h4 {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        p {
+            margin-top: 1rem;
+            margin-bottom: 0;
+        }
+
+        section {
+            padding-top: 1rem;
+            padding-right: 0;
+            padding-bottom: 0;
+            padding-left: 0;
+        }
+    }
+
+    .pcp-banner-btns {
         @include flexbox();
-        @include flex(0 0 auto);
-        margin-top: 1.5rem;
-        flex-direction: column;
-        text-align: center;
+        @include flexdirection(column);
+        margin-top: 2rem;
 
         .btn {
             @include flex(1 1 auto);
@@ -266,126 +317,99 @@ $pcp-comment-icon-color: #ccc;
             border-radius: 0.25rem;
             background-color: $pcp-btn-bg;
             color: $pcp-btn-color;
-            text-shadow: $pcp-btn-text-shadow;
-            font-size: 1.25rem;
+            text-transform: uppercase;
+            font-size: 1.4rem;
             font-weight: bold;
             transition: background ease-out 0.2s;
 
-            
-            &:hover { 
+            &:hover {
                 background: $pcp-btn-hover-bg;
-            } 
-            
+            }
+
             .glyphicon {
-                margin-top: -0.5rem;
-                margin-right: 0.2rem;
-                margin-left: -0.1rem;
-                vertical-align: middle;
-                font-size: 1.2rem;
+                top: 2px;
+                margin-right: 0.25rem;
+                font-size: 1.5rem;
             }
         }
 
-        .pcp-btn-spacer {
-            @include flex(1 1 auto); 
+        .spacer {
+            @include flex(0 0 auto);
+            padding: 0.5rem;
             text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
     }
 }
 
-@media (min-width: 410px) {
-    .pcp-alert {
-        .pcp-alert-info {
-            h2 {
-                font-size: 2rem;
-            }
-
-            .pcp-dates {
-                margin-top: 0;
-            }
-        }
-
-        .pcp-alert-btns {
-            flex-direction: row;
-            text-align: center;
-
-            .pcp-btn-spacer {
-                margin-top: 1.1rem;
+@media (max-width: 320px) {
+    .pcp-banner {
+        .pcp-info {
+            .break {
+                display: block;
             }
         }
     }
 }
 
 @media (min-width: 700px) {
-    .pcp-alert {
-        flex-direction: row;
-        text-align: left;
-
-        .pcp-alert-info {
-            margin-right: 1rem;
-
+    .pcp-banner {
+        .pcp-info {
             h2 {
-                font-size: 1.8rem;
+                font-size: 2.8rem;
             }
 
             .pcp-dates {
-                margin-top: 0;
-                font-size: 1.6rem;
-            }
-        }
-
-        .pcp-alert-btns {
-            display: block;
-            margin-top: 0;
-
-            .btn {
-                padding: 1.25rem 1.5rem;
+                margin-top: -0.25rem;
+                font-size: 1.8rem;
             }
 
-            .pcp-btn-spacer {
-                margin-right: 0.5rem;
-                margin-left: 0.5rem;
+            .pcp-desc {
+                font-size: 1.5rem;
             }
-        }
-    }
-}
 
-@media (min-width: 760px) {
-    .pcp-alert {
-        .pcp-alert-info {
-            h2 {
-                font-size: 2.1rem;
+            .pcp-banner-btns {
+                @include flexdirection(row);
+
+                .btn {
+                    max-width: 20rem;
+                    font-size: 1.4rem;
+                }
+
+                .spacer {
+                    padding-top: 1.5rem;
+                    width: 3.5rem;
+                }
             }
         }
     }
 }
 
 @media (min-width: 1200px) {
-    .pcp-alert {
-        .pcp-alert-info {
+    .pcp-banner {
+        .pcp-info {
             h2 {
-                font-size: 2.8rem;
+                font-size: 3.2rem;
             }
         }
 
-        .pcp-alert-btns {
-            @include flex(0 0 auto);
+        .pcp-banner-btns {
+            position: absolute;
+            top: 0;
+            right: 0;
             margin-top: 0;
+            padding: 2rem;
 
             .btn {
-                padding: 1.3rem 1.75rem;
-                font-size: 1.55rem;
+                font-size: 1.8rem;
+                padding: 1.25rem;
 
                 .glyphicon {
-                    margin-top: -0.4rem;
-                    margin-right: 0.2rem;
-                    margin-left: -0.1rem;
-                    vertical-align: middle;
+                    top: 2px;
+                    margin-right: 0.25rem;
                     font-size: 1.5rem;
                 }
-            }
-
-            .pcp-btn-spacer {
-                margin: 0 0.5rem;
             }
         }
     }
@@ -406,122 +430,209 @@ $pcp-comment-icon-color: #ccc;
 }
 
 // Comments Table
-.comment-table {
-    .id-col {
-        width: 5rem;
-        text-align: center;
+.pcp-comment-actions-bar {
+    padding-bottom: 1.5rem;
+
+    .pcp-comment-count-label {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: bold;
     }
 
-    .author-col {
-        .author-name {
-            display: block;
-            padding-right: 15rem;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            font-weight: bold;
+    .actions {
+        margin-top: -1rem;
+
+        .btn {
+            padding: 0.65rem 1rem;
         }
-    }  
+    }
+
+    + .tab-pane {
+        padding-top: 0;
+    }
+}
+
+.pcp-comment-filter-bar {
+    padding: 1.25rem;
+    background: #fff;
+
+    label {
+        padding: 0.65rem 0;
+        margin-bottom: 0;
+        margin-right: 1rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1rem;
+    }
+
+    .toggle-tabs {
+        margin-right: 1rem;
+    }
+
+    select {
+        width: 20rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+}
+
+.pcp-comment-header {
+
+    + .tab-pane {
+        padding-top: 0;
+    }
+}
+
+.pcp-comment-table {
+    table-layout: auto !important;
+
+    table {
+        > tbody {
+            > tr {
+                border: none;
+
+                > td {
+                    padding-top: 1.5rem;
+                    padding-bottom: 1.25rem;
+                    border: none;
+                    vertical-align: top;
+                }
+            }
+        }
+    }
+
+    thead {
+        display: table;
+        width: 100%;
+
+        tr {
+            display: table-row;
+        }
+
+        .date-col {
+            text-align: right;
+        }
+    }
+
+    tr {
+        display: block;
+
+        &.pcp-comment-cols {
+            @include flexbox();
+            width: 100%;
+        }
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.6rem;
+        font-weight: bold;
+    }
+
+    h4 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        font-size: 1.4rem;
+        font-weight: bold;
+    }
+
+    .comment-pkg {
+        + .comment-pkg {
+            margin-top: 1.5rem;
+        }
+    }
+
+    td.author-col {
+        @include flex(1 1 auto);
+    }
 
     .date-col {
-        width: 16rem; 
+        width: 16rem;
         text-align: right;
     }
 
-    .attachment-icon {
-        margin-top: -0.4rem;
-        margin-right: 1rem;
-        vertical-align: middle;
-    }
+    td.date-col {
+        @include flex(0 0 auto);
+        white-space: nowrap;
+        font-size: 1.2rem;
 
-    .comment {
-        display: block;
-        margin-top: 1rem;
-    }
-}
-
-@media (max-width: 460px) {
-    .comment-table {
-        id-col {
-            width: 5rem;
+        .attachment-icon {
+            top: 0.2rem;
+            margin-right: 0.75rem;
         }
     }
+
+    .pillar-col,
+    .vc-col,
+    .location-col {
+        display: none;
+    }
+
+    .id-col {
+        width: 7rem;
+        text-indent: 1rem
+    }
+
+    .location-col {
+        width: 20rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
-@media (max-width: 1199px) {
-    .comment-table {
-        display: block;
+@media (min-width: 640px) {
+    .pcp-comment-table {
+        thead {
+            display: table-header-group;
 
-        thead, tfoot {
-            display: table;
-            width: 100%;
+            .author-col {
+                width: auto;
+            }
 
-            tr {
+            .date-col {
+                width: 20rem;
+            }
+        }
+
+        tr {
+            display: table-row;
+
+            &.pcp-comment-cols {
                 display: table-row;
             }
         }
 
-        tbody {
-            display: block;
-
-            tr {
-                position: relative;
-                display: block;
-            }
-        } 
-
-        .location-col,
-        .pillar-col,
-        .vc-col {
-            display: none;
-        }
-
-        td.date-col {
-            position: absolute;
-            top: 0;
-            right: 0;
-
-            .date {
-                margin-top: 1px;
-                font-size: 1.1rem;
-            }
-        }
-    }
-}
-
-@media (min-width: 760px) {
-    .comment-table {
-        .id-col {
-            width: 8rem;
+        .location-col {
+            display: table-cell;
+            width: 18rem;
         }
 
         .date-col {
             width: 20rem;
         }
+
+        td.date-col {
+            font-size: 1.4rem;
+        }
     }
 }
 
 @media (min-width: 1200px) {
-    .comment-table { 
-        .location-col {
-            width: 12rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
+    .pcp-comment-table {
+        .vc-col {
+            display: table-cell;
+            width: 30rem
         }
 
         .pillar-col {
-            width: 11rem;
-        }
-
-        .vc-col {
-            width: 15rem;
+            display: table-cell;
+            width: 10rem;
         }
     }
 }
 
-.pcp-date {
-    max-width: 100%;
-}
 
 // Open House Dates
 .open-house-table {
@@ -545,5 +656,280 @@ $pcp-comment-icon-color: #ccc;
     .date-col {
         width: 18rem;
         font-weight: 700;
+    }
+}
+
+// Related Documents Tab
+.pcp-related-docs {
+    h2 {
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+    }
+
+    P {
+        margin-bottom: 1.5rem;
+    }
+
+    section {
+        margin-bottom: 4rem;
+    }
+}
+
+
+// Joint PCP
+.pcp-joint {
+    .tab-pane {
+        padding-top: 3.5rem;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    section {
+        margin-bottom: 4rem;
+
+        h2 {
+            margin-bottom: 2.5rem;
+            font-size: 2rem;
+
+            + .help-block {
+                margin-top: -1.75rem;
+                margin-bottom: 1rem;
+            }
+        }
+    }
+
+    .set-pcp-date-range {
+        .form-group {
+            margin-right: 2rem;
+            min-width: 17rem;
+        }
+    }
+
+    .form-footer {
+        padding-top: 2.5rem;
+        border-top: 4px solid #ddd;
+    }
+
+    .pcp-role-list {
+        margin-top: 1.5rem;
+        padding: 0;
+        list-style-type: none;
+
+        li {
+            padding: 1.25rem;
+            border-bottom: 1px solid #eee;
+            background: #fff;
+
+            &.no-results {
+                font-weight: bold;
+                background-color: #ddd;
+            }
+        }
+    }
+
+    .pcp-linked-documents {
+        li {
+            &.no-results {
+                font-weight: bold;
+                background-color: #ddd;
+            }
+        }
+    }
+}
+
+.public-comment-modal {
+    section {
+        padding-bottom: 0;
+        border-bottom: 0;
+
+        + section {
+            margin-top: 1.5rem;
+            padding-top: 2rem;
+            border-top: 3px solid #ddd;
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+
+            sup {
+                top: 0;
+                margin-bottom: 0.5rem;
+                display: block;
+                line-height: normal;
+                font-size: 1.6rem;
+            }
+        }
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+    }
+
+    hr {
+        border-top: 3px solid #ddd;
+    }
+
+    .pcp-posted-by-section {
+        position: relative;
+
+        .updated-by {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.65rem;
+            font-weight: bold;
+        }
+    }
+
+    .pcp-posted-by-info {
+        margin-top: 0.25rem;
+        color: #999;
+        font-weight: bold;
+    }
+
+    .pcp-comment-attachments {
+        margin-top: 2rem;
+        margin-bottom: 2.5rem;
+
+        .actions-col {
+            padding: 0 1rem;
+
+            .btn {
+                margin-top: 0.5rem;
+            }
+        }
+        .review-col {
+            padding: 0;
+
+            .btn-group {
+                margin-top: 0.5rem;
+            }
+
+            .btn {
+                min-width: 8rem;
+                min-height: 3.4rem;
+            }
+
+            .label {
+                margin-top: 0.5rem;
+            }
+        }
+    }
+
+    .pcp-comment-state-section {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 3px solid #ddd;
+    }
+
+    .pcp-review-btns {
+        .label {
+            padding: 0.65rem;
+            font-weight: bold;
+            min-width: 8rem;
+        }
+
+        .btn {
+            min-width: 8rem;
+            min-height: 3.4rem;
+        }
+
+        .defer-btn,
+        .publish-btn,
+        .reject-btn {
+            text-shadow: 1px 1px 0 #FFF;
+
+            &.active {
+                color: #FFF;
+                text-shadow: none;
+            }
+        }
+
+        .defer-btn {
+            &.active {
+                background: $info-bg;
+                border-color: $info-border;
+            }
+        }
+
+        .publish-btn {
+            &.active {
+                background: $success-bg;
+                border-color: $success-border;
+            }
+        }
+
+        .reject-btn {
+            &.active {
+                background: $danger-bg;
+                border-color: $danger-border;
+            }
+        }
+    }
+
+	.comment-alert {
+		margin-bottom: 2rem;
+		display: none;
+	}
+
+    .show-more-link {
+        margin-left: 0.25rem;
+        font-weight: bold;
+    }
+
+    .pcp-review-files {
+        display: block;
+
+        .fb-list {
+            .fb-col-group {
+                max-width: 100%;
+            }
+
+            .col + .col {
+                @include flex(0 0 auto);
+                display: inherit;
+                padding-left: 1.5rem;
+            }
+        }
+
+        .file-size-progress-col {
+            width: auto;
+
+            .progress-msg {
+                margin-top: 0.5rem;
+                margin-right: 1.5rem;
+                font-size: 1.4rem;
+            }
+        }
+
+        .progress {
+            display: none;
+        }
+    }
+}
+
+// Submit Comment Form
+.pcp-comment-step {
+    .nv-pair {
+        label {
+            width: 6rem;
+        }
+    }
+
+    .checkbox {
+        label {
+            font-weight: bold;
+
+            + .help-block {
+                margin-top: 0.25rem;
+                font-size: 1.4rem;
+            }
+        }
     }
 }

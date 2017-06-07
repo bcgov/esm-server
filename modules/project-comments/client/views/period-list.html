@@ -8,26 +8,27 @@
 <div class="view-body-container">
 
 	<!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
-	<div class="pcp-alert-container" ng-if="activeperiod">
-		<div class="pcp-alert clearfix">
-			<div class="pcp-alert-info">
-				<h2>Public Comment Period is Now Open</h2>
-				<span class="pcp-dates">{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }} &nbsp;-&nbsp; {{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</span>
-			</div>
-			<div class="pcp-alert-btns">
+	<div class="pcp-banner" ng-if="activeperiod">
+		<section class="pcp-info">
+			<h2>Public Comment Period <span class="break">is Now Open</span></h2>
+			<span class="pcp-dates"><strong>{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
+			<span class="pcp-desc">
+				This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.ceaaInformationLabel"> and the <strong>{{activeperiod.ceaaInformationLabel}}</strong></span>.
+			</span>
+			<div class="pcp-banner-btns">
 				<a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
 					<span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
 				</a>
-				<span class="pcp-btn-spacer">or</span>
+				<span class="spacer">OR</span>
 				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
 					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
 				</button>
 			</div>
-		</div>
+		</section>
 	</div>
 
 	<div class="button-bar" ng-if="project.userCan.createCommentPeriod">
-		<a class="btn btn-default btn-sm" title="Add Comment Period" ui-sref="p.commentperiod.create()">
+		<a class="btn btn-default btn-sm" title="Add Comment Period" x-period-create-modal ng-click="$event.stopPropagation();">
 			<span class="glyphicon glyphicon-plus"></span>
 			<span>Add Comment Period</span>
 		</a>
@@ -36,17 +37,18 @@
 	<div class="table-container">
 		<table class="pcp-table table table-hover" ng-class="{'can-edit': project.userCan.createCommentPeriod}" ng-table="tableParams">
 			<tr ng-repeat="p in $data" ng-if="project.userCan.createCommentPeriod || p.isPublished"  ui-sref="p.commentperiod.detail({periodId:p._id})">
-				<td class="date-col" header-class="'date-col'" title="'Start Date'" 
+				<td class="date-col" header-class="'date-col'" title="'Start Date'"
 					sortable="'dateStarted'">
-					{{ p.dateStarted | date : format : timezone }}
+					<span>{{ p.dateStarted | date : format : timezone }}</span>
+					<span title="To be determined" ng-if="!p.dateStarted">TBD</span>
 				</td>
-				<td class="details-col" header-class="'details-col'" title="'Details'" 
+				<td class="details-col" header-class="'details-col'" title="'Details'"
 					sortable="'informationLabel'">
-					{{p.informationLabel}}
+					<strong>{{p.informationLabel}}</strong> <span ng-if="p.ceaaInformationLabel">and the <strong>{{p.ceaaInformationLabel}}</strong><span>
 				</td>
-				<td class="status-col" header-class="'status-col'" title="'Status'" 
+				<td class="status-col" header-class="'status-col'" title="'Status'"
 					sortable="'openState'">
-					<span class="label" 
+					<span class="label"
 						ng-class="{
 							'open':p.openState.state === 'Open',
 							'pending':p.openState.state === 'Pending',
@@ -56,7 +58,7 @@
 					<span class="glyphicon glyphicon-comment"></span>
 					<span class="count">{{p.stats.totalPublic}}</span>
 				</td>
-				<td class="actions-col" header-class="'actions-col x1'" 
+				<td class="actions-col" header-class="'actions-col x1'"
 					ng-if="project.userCan.createCommentPeriod">
 					<div class="btn-group">
 						<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -64,7 +66,7 @@
 						</button>
 						<ul class="dropdown-menu pull-right">
 							<li ng-if="project.userCan.createCommentPeriod">
-								<a class="btn icon-btn" 
+								<a class="btn icon-btn"
 									ui-sref="p.commentperiod.edit({periodId:p._id})"
 									ng-click="$event.stopPropagation();"><span class="glyphicon glyphicon-pencil"></span></a></li>
 							<li ng-if="!p.isPublished && project.userCan.createCommentPeriod">

@@ -67,6 +67,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	__audit          : true, // who did what when
 	__access: [
 		'vetComments',
+		'downloadComments',
 		'classifyComments',
 		'listComments',
 		'addComment',
@@ -79,7 +80,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	rangeType        : { type:String, enum:['start', 'end', 'custom']},
 	rangeOption      : { type:String, enum:['30', '45', '60', '75', 'custom']},
 
-	periodType       : { type:String, default:'Public', enum:['Working Group', 'Public']},
+	periodType       : { type:String, default:'Public', enum:['Working Group', 'Public', 'Joint']},
 	//
 	// what project and phase this comes under. the milestone actually has all this
 	// information, but putting them all at this level is for query optimization
@@ -127,6 +128,16 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	// -------------------------------------------------------------------------
 	vettingRoles : [ {type:String} ],
 	classificationRoles : [ {type:String} ],
+	// -------------------------------------------------------------------------
+	//
+	// these are specific to joint comments (Joint PCP)
+	//
+	//
+	// -------------------------------------------------------------------------
+	downloadRoles            : [ {type:String} ],
+	ceaaRelatedDocuments     : [{type: 'ObjectId', ref: 'Document'}],
+	ceaaInformationLabel     : { type:String, default: '' },
+	ceaaAdditionalText       : { type:String, default: '' },
 	//
 	// a space for holding open house info
 	//
