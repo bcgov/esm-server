@@ -4,7 +4,11 @@
 </div>
 
 <div class="view-body-container" ng-if="application.userCan.manageCodeLists">
-	
+
+	<div class="spinner-container" ng-if="vm.busy" ng-animate>
+		<div class="spinner-new rotating"></div>
+	</div>
+
 	<div class="code-list-button-bar button-bar">
 		<div class="form-inline">
 			<label>Manage Values for</label>

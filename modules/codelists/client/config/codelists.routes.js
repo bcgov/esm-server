@@ -39,6 +39,7 @@
 
 				// UI selects which code list to work with. Reload the table:
 				vm.changeFieldType = transition;
+				vm.busy = false;
 
 				vm.codelists = codelists;
 
@@ -59,7 +60,7 @@
 					addEditModal($scope, $modal, vm.currentField, item, onSuccess);
 				};
 
-				vm.tableParams = new NgTableParams();
+				vm.tableParams = new NgTableParams({count: 50});
 				vm.tableParams.settings({dataset: vm.fields});
 
 				function onSuccess(item, display, displayPriority, active) {
@@ -88,6 +89,7 @@
 				}
 
 				function transition() {
+					vm.busy = true;
 					var name = vm.currentField.name;
 					$state.transitionTo('admin.codelist.list', {codelistName: name}, {
 						reload: true, inherit: false, notify: true
