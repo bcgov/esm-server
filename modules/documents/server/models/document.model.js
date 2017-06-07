@@ -140,7 +140,7 @@ module.exports = genSchema ('Document', {
 
 	relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],
 	keywords                : [ { type:'String'} ],
-	documentId              : { type:'String', default: null }, // will be used as an id into other systems (ex MEM, MMTI, to be entered manually)
+	documentId              : { type:'String', default: null }, // will be used as an id into other systems (ex MEM, MMTI, to be entered manually) //the documentID is now removed from the UI but it is still available in this model. We do not want to change the model as it affects the database
 
 	// supporting data for various document Types
 	inspectionReport        : { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} } , default: null },
