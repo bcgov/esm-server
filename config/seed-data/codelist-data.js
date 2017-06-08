@@ -107,8 +107,26 @@ var lists = [
 			{ value: 'Mine Manager Response', display: 'Mine Manager Response' },
 			{ value: '', display: '' }
 		]
+	},
+	{
+		name: 'ceaaInvolvementTypes',
+		displayName: 'CEAA Involvement Types',
+		whereUsed: 'Project',
+		items: [
+			{ value: 'None', display: 'None', displayPriority: true  },
+			{ value: 'Comprehensive Study (Pre CEAA 2012)', display: 'Comprehensive Study (Pre CEAA 2012)' },
+			{ value: 'Cooperative (CEAA 2012)', display: 'Cooperative (CEAA 2012)' },
+			{ value: 'Cooperative (Pre CEAA 2012)', display: 'Cooperative (Pre CEAA 2012)' },
+			{ value: 'Coordinated', display:  'Coordinated' },
+			{ value: 'Equivalent (Provincial Lead)', display: 'Equivalent (Provincial Lead)' },
+			{ value: 'Equivalant (Federal Lead)', display: 'Equivalant (Federal Lead)' },
+			{ value: 'Panel (CEAA 2012)', display: 'Panel (CEAA 2012)' },
+			{ value: 'Panel (Pre CEAA 2012)', display: 'Panel (Pre CEAA 2012)' },
+			{ value: 'Screening (Pre CEAA 2012)', display: 'Screening (Pre CEAA 2012)' },
+			{ value: 'Substituted (Federal Lead)', display: 'Substituted (Federal Lead)' },
+			{ value: 'Substituted (Provincial Lead)', display: 'Substituted (Provincial Lead)' }
+		]
 	}
-
 ];
 
 module.exports = {
