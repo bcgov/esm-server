@@ -343,7 +343,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	};
 
 	var goToList = function() {
-		$state.transitionTo('activities', {}, {
+		$state.transitionTo('dashboard', {}, {
 			reload: true, inherit: false, notify: true
 		});
 	};
