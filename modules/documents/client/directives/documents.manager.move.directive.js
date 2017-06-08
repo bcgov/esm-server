@@ -41,7 +41,7 @@ angular.module('documents')
 								ascending: true
 							};
 
-							self.rootNode = tree.parse($scope.node.model);
+							self.rootNode = tree.parse($scope.node.model);  //$scope.project.directoryStructure is not updated with newly created folder and that is the reason $scope.node.model is used. Do not use directoryStructure for this directory
 							self.selectedNode = undefined;
 							self.currentNode = undefined;
 							self.currentPath = undefined;
@@ -144,18 +144,40 @@ angular.module('documents')
 								}
 							};
 
-							self.selectNode = function (nodeId) {
+							self.selectNode = function (nodeId, nodeFolderObj, currentRoot) {
 								self.busy = true;
-								var theNode = self.rootNode.first(function (n) {
-									return n.model.id === nodeId;
-								});
+								var theNode;
+								if (nodeFolderObj) { //we are making sure a node folderObj is defined
+									theNode = currentRoot.first(function (n) {
+										return n.model.id === nodeId;
+									});
+									theNode.model.folderObj = nodeFolderObj;
+								} else{
+									theNode = self.rootNode.first(function (n) {
+										return n.model.id === nodeId;
+									});
+								}
+
 								if (!theNode) {
 									theNode = self.rootNode;
 								}
 
 								self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
 								self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
-								self.currentPath = theNode.getPath() || [];
+								
+								var pathArray = theNode.getPath();
+								_.each(pathArray, function (elem) {
+									if (elem.model.id > 1) { //bail the root node cus we don't need to attatch the folderObj to it
+										if (!elem.model.hasOwnProperty('folderObj')) { //trying to reduce the amount of API calls only by checking if node model does not have folderObj
+											FolderModel.lookup($scope.project._id, elem.model.id)
+												.then(function (folder) {
+													elem.model.folderObj = folder;
+												});
+										}
+									}
+								});
+								self.currentPath = pathArray || [];
+
 								self.unsortedFiles = [];
 								self.unsortedDirs = [];
 								self.currentFiles = [];
@@ -270,15 +292,10 @@ angular.module('documents')
 							self.selectNode($scope.node.model.id);
 
 							// need this for add new folder...
-							$scope.$watch(function (scope) {
-									return scope.node.model;
-								},
-								function (data) {
-									var node = self.currentNode || self.rootNode;
-									self.rootNode = tree.parse(data);
-									self.selectNode(node.model.id);
-								}
-							);
+							$scope.$on('documentMgrRefreshNode', function (event, args) {
+									self.rootNode = tree.parse(args.directoryStructure);
+									self.selectNode(self.currentNode.model.id, self.currentNode.model.folderObj, self.rootNode);
+							});
 						}
 					}).result
 						.then(function (data) {
