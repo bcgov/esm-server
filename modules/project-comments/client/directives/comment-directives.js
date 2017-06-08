@@ -287,7 +287,7 @@ angular.module ('comment')
 					CommentModel.prepareCSV(result.data, isJoint, canSeeRejectedDocs)
 					.then(function (data) {
 						var blob = new Blob([data], { type: 'octet/stream' });
-						var filename = 'tableData.csv';
+						var filename = 'EAO_PCP_Comments.csv';
 						var browse = getBrowser();
 						if (browse === 'firefox') {
 							var ff = angular.element('<a/>');
