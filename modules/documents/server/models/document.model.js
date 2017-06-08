@@ -140,8 +140,6 @@ module.exports = genSchema ('Document', {
 
 	relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],
 	keywords                : [ { type:'String'} ],
-	documentId              : { type:'String', default: null }, // will be used as an id into other systems (ex MEM, MMTI, to be entered manually)
-
 	// supporting data for various document Types
 	inspectionReport        : { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} } , default: null },
 	certificate             : { type: {}, default: null },
