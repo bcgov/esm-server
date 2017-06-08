@@ -309,8 +309,8 @@ function controllerModalDayCalculator($scope, $modalInstance, moment, $modal) {
 
 	var types = [
 		{ displayName: "Day Zero",   value: "dayZero"   },
-		{ displayName: "Regular",    value: "regular"   },
-		{ displayName: "Suspension", value: "suspended" },
+		{ displayName: "Calendar",    value: "regular"   },
+		{ displayName: "Suspension", value: "suspended" }
 	];
 	dayCalculator.types = types;
 	dayCalculator.type = types[0];
