@@ -46,7 +46,9 @@ exports.composeQuery= function (projectId, terms, searchFields) {
 function composeQueryTerm(termArray, searchFields) {
 	var results = [];
 	if (termArray.length === 1) {
-		var re = new RegExp('.*' + termArray[0] + '.*', "i");
+		var term = termArray[0];
+		term = term.replace(/\*/g,'\\*');
+		var re = new RegExp('.*' + term + '.*', "i");
 		_.forEach(searchFields, function (fld) {
 			var x = {};
 			x[fld] = re;
