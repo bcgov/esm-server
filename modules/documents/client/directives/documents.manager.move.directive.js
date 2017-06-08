@@ -41,7 +41,7 @@ angular.module('documents')
 								ascending: true
 							};
 
-							self.rootNode = tree.parse($scope.node.model);
+							self.rootNode = tree.parse($scope.node.model);  //$scope.project.directoryStructure is not updated with newly created folder and that is the reason $scope.node.model is used. Do not use directoryStructure for this directory
 							self.selectedNode = undefined;
 							self.currentNode = undefined;
 							self.currentPath = undefined;
@@ -270,14 +270,13 @@ angular.module('documents')
 							self.selectNode($scope.node.model.id);
 
 							// need this for add new folder...
-							$scope.$watch(function (scope) {
+							$scope.$watch(function ($scope) {
 									return scope.node.model;
 								},
 								function (data) {
 									var node = self.currentNode || self.rootNode;
 									self.rootNode = tree.parse(data);
-									self.selectNode(node.model.id);
-								}
+									self.selectNode(node.model.id);								}
 							);
 						}
 					}).result
