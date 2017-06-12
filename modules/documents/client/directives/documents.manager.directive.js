@@ -89,6 +89,7 @@ angular.module('documents')
 						//self.infoPanel.open = false;
 						self.infoPanel.type = 'None';
 						self.infoPanel.data = undefined;
+						self.infoPanel.link = undefined;
 					},
 					setData: function() {
 						self.infoPanel.reset();
@@ -98,6 +99,7 @@ angular.module('documents')
 								self.infoPanel.type = 'File';
 								var file = _.find(self.currentFiles, function(o) { return o._id.toString() === self.lastChecked.fileId; });
 								self.infoPanel.data = file ? file : undefined;
+								self.infoPanel.link =  window.location.protocol + '//' + window.location.host + '/api/document/'+ file._id+'/fetch';
 							} else if (self.lastChecked.directoryID) {
 								self.infoPanel.type = 'Directory';
 								var node =_.find(self.currentDirs, function(o) { return o.model.id === self.lastChecked.directoryID; });
@@ -291,11 +293,25 @@ angular.module('documents')
 
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
 					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
-					self.currentPath = theNode.getPath() || [];
+					//self.currentPath = theNode.getPath() || [];
 					self.unsortedFiles = [];
 					self.unsortedDirs = [];
 					self.currentFiles = [];
 					self.currentDirs = [];
+
+					var pathArray = theNode.getPath();
+					_.each(pathArray, function (elem) {
+						if (elem.model.id > 1) { //bail the root node cus we don't need to attatch the folderObj to it
+							if (!elem.model.hasOwnProperty('folderObj')) { //trying to reduce the amount of API calls only by checking if node model does not have folderObj
+								FolderModel.lookup($scope.project._id, elem.model.id)
+								.then(function (folder) {
+									elem.model.folderObj = folder;
+								});
+							}
+						}
+					});
+					self.currentPath = pathArray || [];
+
 
 					//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
 					DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
