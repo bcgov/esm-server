@@ -124,8 +124,8 @@ angular.module('users').config(['$stateProvider',
 				templateUrl: 'modules/guidance/client/views/contact.html'
 			})
 			
-			.state('activities', {
-				url: '/activities',
+			.state('dashboard', {
+				url: '/dashboard',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
 				cache: false,
 				resolve: {
