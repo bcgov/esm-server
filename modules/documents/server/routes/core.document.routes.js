@@ -7,9 +7,9 @@
 //
 // =========================================================================
 var DocumentClass  	= require ('../controllers/core.document.controller');
-var routes 			= require ('../../../core/server/controllers/core.routes.controller');
-var policy 			= require ('../../../core/server/controllers/core.policy.controller');
-var fs 				= require('fs');
+var routes 		= require ('../../../core/server/controllers/core.routes.controller');
+var policy 		= require ('../../../core/server/controllers/core.policy.controller');
+var fs 			= require('fs');
 
 var renderNotFound = function (url, res) {
 	res.status(404).format({
@@ -198,6 +198,7 @@ module.exports = function (app) {
 					routes.moveFile (opts)
 					.then (function (newFilePath) {
 						return model.create ({
+							// TODO during a refactor sprint... use the defineModel function defined below
 							// Metadata related to this specific document that has been uploaded.
 							// See the document.model.js for descriptions of the parameters to supply.
 							project                 : req.Project,
@@ -268,6 +269,7 @@ module.exports = function (app) {
 						}
 						console.log("creating model");
 						return model.create ({
+							// TODO during a refactor sprint... use the defineModel function defined below
 							// Metadata related to this specific document that has been uploaded.
 							// See the document.model.js for descriptions of the parameters to supply.
 							project                 : req.Project,
@@ -333,4 +335,67 @@ module.exports = function (app) {
 		.put(routes.setAndRun(DocumentClass, function (model, req) {
 			return model.getEpicProjectFolderURL(req.body);
 		}));
+	/*
+	Drop Zone is a special area for proponents to add documents to a project.
+	 */
+	app.route ('/api/dropzone/:project/upload')
+	.all (policy ('guest'))
+	.post (routes.setAndRun (DocumentClass, function (model, req) {
+		return new Promise (function (resolve, reject) {
+			var file = req.files.file;
+			if (file) {
+				var opts = { oldPath: file.path, projectCode: req.Project.code};
+				routes.moveFile (opts)
+				.then (function (newFilePath) {
+					req.body.directoryid = 0;
+					return  model.create ( defineModel(req, file, newFilePath, 'DROPZONE') );
+				})
+				.then (resolve, reject);
+			}
+			else {
+				reject ("no file to upload");
+			}
+		});
+	}));
+
+	/*
+	Create the data structure to pass to create model.
+	TODO during a refactor sprint reuse this function for the other create model calls above.
+	 */
+	function defineModel(req, file, newFilePath, source){
+		return {
+			// Metadata related to this specific document that has been uploaded.
+			// See the document.model.js for descriptions of the parameters to supply.
+			project                 : req.Project,
+			//projectID             : req.Project._id,
+			projectFolderType       : req.body.documenttype,//req.body.projectfoldertype,
+			projectFolderSubType    : req.body.documentsubtype,//req.body.projectfoldersubtype,
+			projectFolderName       : req.body.documentfoldername,
+			projectFolderURL        : newFilePath,
+			projectFolderDatePosted : Date.now(),
+			// NB                   : In EPIC, projectFolders have authors, not the actual documents.
+			projectFolderAuthor     : req.body.projectfolderauthor,
+			// These are the data as it was shown on the EPIC website.
+			documentAuthor          : req.body.documentauthor,
+			documentFileName        : req.body.documentfilename,
+			documentFileURL         : req.body.documentfileurl,
+			documentFileSize        : req.body.documentfilesize,
+			documentFileFormat      : req.body.documentfileformat,
+			documentIsInReview      : req.body.documentisinreview,
+			documentVersion         : 0,
+			documentSource		: source,
+			description		: req.body.description,
+			// These are automatic as it actually is when it comes into our system
+			internalURL             : newFilePath,
+			internalOriginalName    : file.originalname,
+			internalName            : file.name,
+			internalMime            : file.mimetype,
+			internalExt             : file.extension,
+			internalSize            : file.size,
+			internalEncoding        : file.encoding,
+			directoryID             : req.body.directoryid || 0,
+			displayName             : req.body.displayname || req.body.documentfilename || file.originalname,
+			dateUploaded            : Date.now()
+		};
+	}
 };
