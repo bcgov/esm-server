@@ -7,9 +7,9 @@
 //
 // =========================================================================
 var DocumentClass  	= require ('../controllers/core.document.controller');
-var routes 			= require ('../../../core/server/controllers/core.routes.controller');
-var policy 			= require ('../../../core/server/controllers/core.policy.controller');
-var fs 				= require('fs');
+var routes 		= require ('../../../core/server/controllers/core.routes.controller');
+var policy 		= require ('../../../core/server/controllers/core.policy.controller');
+var fs 			= require('fs');
 
 var renderNotFound = function (url, res) {
 	res.status(404).format({
@@ -383,8 +383,8 @@ module.exports = function (app) {
 			documentFileFormat      : req.body.documentfileformat,
 			documentIsInReview      : req.body.documentisinreview,
 			documentVersion         : 0,
-			documentSource					: source,
-			description							: req.body.description,
+			documentSource		: source,
+			description		: req.body.description,
 			// These are automatic as it actually is when it comes into our system
 			internalURL             : newFilePath,
 			internalOriginalName    : file.originalname,
