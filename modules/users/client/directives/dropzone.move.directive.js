@@ -33,7 +33,7 @@ angular.module('documents')
 							var tree = new TreeModel();
 							var project = self.project 	= scope.project;
 							self.doc 			= scope.doc;
-							self.selectNode 	= selectNode;
+							self.selectNode 		= selectNode;
 							self.cancel 			= cancelClickHandler;
 							self.select 			= okClickHandler;
 							self.docDescription = self.doc.description;
