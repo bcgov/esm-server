@@ -999,7 +999,7 @@ module.exports = DBModel.extend ({
 	mine: function () {
 		var self = this;
 		if (!self.user.username) {
-			console.log("No user name ", self.user);
+			// console.log("No user name ", self.user);
 			return Promise.reject("Unauthorized");
 		}
 		// For comprehensive description of the rules see EPIC-1035
