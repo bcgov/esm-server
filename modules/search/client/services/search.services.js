@@ -47,7 +47,7 @@ function searchService( $http, $state, $rootScope, $timeout, _, ProjectModel, Tr
 			limit: limit,
 			orderBy: orderBy,
 			direction: direction
-		});
+		}, { reload: true });
 	}
 
 	function setupDirectoryTree (project) {
