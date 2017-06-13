@@ -11,6 +11,10 @@ angular.module('core')
 		var documentTypes = [];
 		var projectGroupTypes = [];
 		var inspectionReportFollowUpTypes = [];
+		var ceaaInvolvementTypes = [];
+
+		var serviceDef = {};
+
 
 		var isActive = function(list, value) {
 			var item = _.find(list, function(o) { return o.value === value; });
@@ -51,6 +55,7 @@ angular.module('core')
 			documentTypes = getListItems(lists, 'documentTypes');
 			projectGroupTypes = getListItems(lists, 'projectGroupTypes');
 			inspectionReportFollowUpTypes = getListItems(lists, 'inspectionReportFollowUpTypes');
+			ceaaInvolvementTypes = getListItems(lists, 'ceaaInvolvementTypes');
 		};
 
 		// refresh all the lists, parse and sort the data...
@@ -60,6 +65,7 @@ angular.module('core')
 				$http.get('api/codelists?date=' + new Date().getTime())
 					.then(function(response) {
 						parseLists(response.data);
+						refreshDefs();
 						resolve(lists);
 					}, function(err) {
 						$log.error('codelist refresh error: ', JSON.stringify(err, null, 4));
@@ -106,70 +112,34 @@ angular.module('core')
 			});
 		};
 
-		// initialize the lists from the start up data...
-		//
-		parseLists(InitDataCodeLists);
-
-		return {
-			// management functions
-			refresh: refresh,
-			salutations: {
-				all: salutations,
-				active: _.filter(salutations, function(o) { return o.active === true; }),
-				display: function(value) { return getDisplay(salutations, value); },
-				isActive: function(value) { return isActive(salutations, value); },
-				fetch: function() { return fetch('salutations'); },
+		var define = function (serviceDef, codename, list) {
+			serviceDef[codename] = {
+				all: list,
+				active: _.filter(list, function(o) { return o.active === true; }),
+				display: function(value) { return getDisplay(list, value); },
+				isActive: function(value) { return isActive(list, value); },
+				fetch: function() { return fetch(codename); },
 				update: update
-			},
-			organizationTypes: {
-				all: organizationTypes,
-				active: _.filter(organizationTypes, function(o) { return o.active === true; }),
-				display: function(value) { return getDisplay(organizationTypes, value); },
-				isActive: function(value) { return isActive(organizationTypes, value); },
-				fetch: function() { return fetch('organizationTypes'); },
-				update: update
-			},
-			organizationRegisteredIns: {
-				all: organizationRegisteredIns,
-				active: _.filter(organizationRegisteredIns, function(o) { return o.active === true; }),
-				display: function(value) { return getDisplay(organizationRegisteredIns, value); },
-				isActive: function(value) { return isActive(organizationRegisteredIns, value); },
-				fetch: function() { return fetch('organizationRegisteredIns'); },
-				update: update
-			},
-			emailTemplateGroups: {
-				all: emailTemplateGroups,
-				active: _.filter(emailTemplateGroups, function(o) { return o.active === true; }),
-				display: function(value) { return getDisplay(emailTemplateGroups, value); },
-				isActive: function(value) { return isActive(emailTemplateGroups, value); },
-				fetch: function() { return fetch('emailTemplateGroups'); },
-				update: update
-			},
-			documentTypes: {
-				all: documentTypes,
-				active: _.filter(documentTypes, function(o) { return o.active === true; }),
-				display: function(value) { return getDisplay(documentTypes, value); },
-				isActive: function(value) { return isActive(documentTypes, value); },
-				fetch: function() { return fetch('documentTypes'); },
-				update: update
-			},
-			projectGroupTypes: {
-				all: projectGroupTypes,
-				active: _.filter(projectGroupTypes, function(o) { return o.active === true; }),
-				display: function(value) { return getDisplay(projectGroupTypes, value); },
-				isActive: function(value) { return isActive(projectGroupTypes, value); },
-				fetch: function() { return fetch('projectGroupTypes'); },
-				update: update
-			},
-			inspectionReportFollowUpTypes: {
-				all: inspectionReportFollowUpTypes,
-				active: _.filter(inspectionReportFollowUpTypes, function(o) { return o.active === true; }),
-				display: function(value) { return getDisplay(inspectionReportFollowUpTypes, value); },
-				isActive: function(value) { return isActive(inspectionReportFollowUpTypes, value); },
-				fetch: function() { return fetch('inspectionReportFollowUpTypes'); },
-				update: update
-			}
+			};
 		};
+
+		var refreshDefs = function () {
+			define(serviceDef,'salutations', salutations);
+			define(serviceDef,'organizationTypes', organizationTypes);
+			define(serviceDef,'organizationRegisteredIns', organizationRegisteredIns);
+			define(serviceDef,'emailTemplateGroups', emailTemplateGroups);
+			define(serviceDef,'documentTypes', documentTypes);
+			define(serviceDef,'projectGroupTypes', projectGroupTypes);
+			define(serviceDef,'inspectionReportFollowUpTypes', inspectionReportFollowUpTypes);
+			define(serviceDef,'ceaaInvolvementTypes', ceaaInvolvementTypes);
+		};
+
+		// initialize the lists from the start up data...
+		serviceDef.refresh = refresh;
+		parseLists(InitDataCodeLists);
+		refreshDefs();
+
+		return serviceDef;
 
 	}])
 ;

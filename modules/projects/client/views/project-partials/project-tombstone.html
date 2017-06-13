@@ -58,7 +58,7 @@
 			<div class="col-sm-4 col-md-4" ng-hide="project.CEAAInvolvement == 'None'">
 				<div class="detail-row">
 					<label>CEAA Involvement</label>
-					<span class="value">{{ ::project.CEAAInvolvement }}</span>
+					<span class="value">{{ CodeLists.ceaaInvolvementTypes.display(project.CEAAInvolvement) }}</span>
 				</div>
 			</div>
 			<div class="col-sm-4 col-md-4" ng-if="project.CEAALink">

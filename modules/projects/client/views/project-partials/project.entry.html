@@ -124,7 +124,7 @@
 						<label class="control-label" for="ceaainvolvement">CEAA involvement</label>
 						<select class="form-control" name="ceaainvolvement" id="ceaainvolvement"
 							ng-model="project.CEAAInvolvement"
-							ng-options="opt for opt in CEAA" required>
+							ng-options="item.value as item.display for item in ceaaInvolvementTypes" required>
 						</select>
 					</div>
 					<div class="col-md-8 form-group">

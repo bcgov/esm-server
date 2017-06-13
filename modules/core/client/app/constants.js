@@ -162,22 +162,6 @@ angular
 				'Other'
 			]
 		})
-	.constant('CEAA_TYPES',
-		[
-			'None',
-			'Comprehensive Study (Pre CEAA 2012)',
-			'Cooperative (CEAA 2012)',
-			'Cooperative (Pre CEAA 2012)',
-			'Coordinated',
-			'Equivalent (Provincial Lead)',
-			'Equivalant (Federal Lead)',
-			'Panel (CEAA 2012)',
-			'Panel (Pre CEAA 2012)',
-			'Screening (Pre CEAA 2012)',
-			'Substituted (Federal Lead)',
-			'Substituted (Provincial Lead)'
-		]
-	)
 	.constant('EAC_DECISIONS',
 		[
 			'In Progress',

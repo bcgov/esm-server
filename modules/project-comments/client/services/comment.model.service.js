@@ -273,13 +273,10 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 				header.push('topics');
 				header.push('status');
 				header.push('attachments');
+				if (canSeeRejectedDocs) { header.push('rejected'); }
+				// Attachments for Joint PCP
 				if (isJoint) { header.push('ceaa attachments'); }
-				if (canSeeRejectedDocs) {
-					header.push('rejected');
-					if (isJoint) {
-						header.push('ceaa rejected');
-					}
-				}
+				if (isJoint && canSeeRejectedDocs) { header.push('ceaa rejected'); }
 
 				data += '"' + header.join ('","') + '"' + "\r\n";
 				_.each (tableParams, function (row) {

@@ -123,9 +123,8 @@ angular.module('users').config(['$stateProvider', 'TreeModel', '_',
 				url: '/contact',
 				templateUrl: 'modules/guidance/client/views/contact.html'
 			})
-			// Activities appear as Dashboard to user. Now includes DropZone.
-			.state('activities', {
-				url: '/activities',
+			.state('dashboard', {
+				url: '/dashboard',
 				templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
 				cache: false,
 				resolve: {

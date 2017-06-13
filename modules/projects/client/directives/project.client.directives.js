@@ -74,9 +74,9 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 // DIRECTIVE: Project Tombstone Horizontal
 //
 // -----------------------------------------------------------------------------------
-directiveProjectTombstone.$inject = ['Authentication'];
+directiveProjectTombstone.$inject = ['Authentication','CodeLists'];
 /* @ngInject */
-function directiveProjectTombstone(Authentication) {
+function directiveProjectTombstone(Authentication, CodeLists) {
     var directive = {
         restrict: 'E',
         templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
@@ -86,6 +86,7 @@ function directiveProjectTombstone(Authentication) {
         controller: function($scope, ENV, Authentication) {
             var c = this;
             $scope.environment = ENV;
+            $scope.CodeLists = CodeLists;
             c.isEao = (Authentication.user && Authentication.user.roles.indexOf('eao') > -1);
 			c.isUser = (Authentication.user);
         },

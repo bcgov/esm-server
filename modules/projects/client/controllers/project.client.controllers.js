@@ -178,11 +178,11 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 //
 // -----------------------------------------------------------------------------------
 controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES',
-	'PROJECT_SUB_TYPES', 'CEAA_TYPES', 'EAC_DECISIONS', '_', 'UserModel', 'ProjectModel', 'OrganizationModel',
+	'PROJECT_SUB_TYPES', 'CodeLists', 'EAC_DECISIONS', '_', 'UserModel', 'ProjectModel', 'OrganizationModel',
 	'Authentication', 'codeFromTitle', 'EAO_COMPLIANCE_EMAIL'];
 /* @ngInject */
 function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES,
-	PROJECT_SUB_TYPES, CEAA_TYPES, EAC_DECISIONS, _, UserModel, ProjectModel, OrganizationModel,
+	PROJECT_SUB_TYPES, CodeLists, EAC_DECISIONS, _, UserModel, ProjectModel, OrganizationModel,
 	Authentication, codeFromTitle, EAO_COMPLIANCE_EMAIL) {
 
 	ProjectModel.setModel ($scope.project);
@@ -206,13 +206,14 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 		ProjectModel.modelIsNew = true;
 	}
 
+	$scope.CodeLists = CodeLists;
 	$scope.project = project;
 	$scope.questions = ProjectModel.getProjectIntakeQuestions();
 	$scope.regions = REGIONS;
 	$scope.types = PROJECT_TYPES;
 	$scope.subTypes = PROJECT_SUB_TYPES;
 	$scope._ = _;
-	$scope.CEAA = CEAA_TYPES;
+	$scope.ceaaInvolvementTypes = CodeLists.ceaaInvolvementTypes.active;
 	$scope.eacDecisions = [''];// optional, so give a choice to clear it out...
 	_.each(EAC_DECISIONS, function(item) {
 		$scope.eacDecisions.push(item);
@@ -343,7 +344,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	};
 
 	var goToList = function() {
-		$state.transitionTo('activities', {}, {
+		$state.transitionTo('dashboard', {}, {
 			reload: true, inherit: false, notify: true
 		});
 	};
