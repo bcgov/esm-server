@@ -75,7 +75,7 @@ angular.module('documents')
 		return {
 			restrict: 'E',
 			scope: {
-				project			: '=',
+				project		: '=',
 				description	: '=' // share description via scope with documentDropZoneUploadModal
 			},
 			templateUrl: 'modules/documents/client/views/document-dropzone-upload.html',
