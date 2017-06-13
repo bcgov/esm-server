@@ -2,6 +2,16 @@
 
 var _        = require ('lodash');
 
+// Source: https://github.com/benjamingr/RegExp.escape/blob/master/polyfill.js
+// polyfill for RegExp.escape
+if(!RegExp.escape){
+	RegExp.escape = function(s){
+		var rtn =  String(s).replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
+		console.log('escape ', s, rtn);
+		return rtn;
+	};
+}
+
 /**
  * For a given item determine how relevant it is for the given search terms.
  * @param item
@@ -46,7 +56,9 @@ exports.composeQuery= function (projectId, terms, searchFields) {
 function composeQueryTerm(termArray, searchFields) {
 	var results = [];
 	if (termArray.length === 1) {
-		var re = new RegExp('.*' + termArray[0] + '.*', "i");
+		var term = termArray[0];
+		term = term.replace(/\*/g,'\\*');
+		var re = new RegExp('.*' + term + '.*', "i");
 		_.forEach(searchFields, function (fld) {
 			var x = {};
 			x[fld] = re;
@@ -82,6 +94,8 @@ exports.convertTextToTerms = function (searchText) {
 	if (!_.isString(searchText)) {
 		return {searchTerms: searchTerms, excludeTerms: excludeTerms};
 	}
+
+	searchText = RegExp.escape(searchText);
 
 	// Search for phrases:  searchText = 'apple "pear orange" -fig "rosemary and wine"';
 	// phrases = [ '"pear orange"', '"rosemary and wine"' ]
