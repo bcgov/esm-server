@@ -20,27 +20,89 @@
 			<input class="form-control" id="displayName" name="displayName" type="text" ng-model="doc.displayName" required ng-blur="validate()">
 		</div>
 
-		<div ng-if="doc._schemaName === 'Document'" class="form-group" x-show-errors>
-			<label class="control-label" for="documentType">Document Type</label>
-			<select class="form-control" title="Document Type" id="documentType" name="documentType"
-				ng-model="doc.documentType"
-				ng-options="item.value as item.display for item in types"
-				ng-change="validate()"></select>
+		<div class="form-group" x-show-errors>
+			<label for="documentAuthor" class="control-label">Authors</label>
+			<input class="form-control" id="documentAuthor" name="documentAuthor" type="text" ng-model="doc.documentAuthor" ng-blur="validate()">
 		</div>
 
-		<div ng-show="doc.documentType === 'Inspection Report'">
-			<div class="form-group document-type" x-show-errors>
-				<label for="inspectorInitials" class="control-label">Inspector Initials</label>
-				<input class="form-control" id="inspectorInitials" name="inspectorInitials" type="text" ng-model="doc.inspectionReport.inspectorInitials" ng-blur="validate()">
+		<div class="form-group" x-show-errors>
+			<label for="description" class="control-label">Description</label>
+			<textarea class="form-control" rows="6" id="description" name="description" ng-model="doc.description" ng-blur="validate()"></textarea>
+		</div>
+
+		<div ng-if="doc._schemaName === 'Document'" class="form-group file-type" x-show-errors>
+			<label for="documentId" class="control-label">Document ID</label>
+			<input class="form-control" id="documentId" name="documentId" type="text" ng-model="doc.documentId" ng-blur="validate()">
+		</div>
+
+		<div ng-if="doc._schemaName === 'Document'" class="form-group">
+			<label class="control-label" for="documentCategories">Document Categories</label>
+			<button class="btn btn-default btn-sm" id="documentCategories" x-categories-modal x-doc="doc">Set Categories</button>
+			<span class="value document-categories-list">
+				<ul>
+					<li data-ng-repeat="category in doc.documentCategories">{{category}}</li>
+				</ul>
+			</span>
+		</div>
+
+		<div ng-if="doc._schemaName === 'Document'" class="form-group file-type" x-show-errors>
+			<label for="documentFileName" class="control-label">File Name</label>
+			<input class="form-control" id="documentFileName" name="documentFileName" type="text" ng-model="doc.documentFileName" ng-blur="validate()">
+		</div>
+
+		<div class="row form-group">
+			<div class="col-sm-12">
+				<label for="subComponents" class="control-label">Keywords</label>
+				<div class="tag-list-container form-control clearfix">
+					<ul class="tag-list">
+						<li class="tag" ng-repeat="keyword in doc.keywords">
+							<span class="tag-name">{{keyword}}</span>
+							<button class="btn btn-sm" ng-click="removeKeyword(keyword)"><span class="glyphicon glyphicon-remove"></span></button>
+						</li>
+						<li class="add-tag">
+							<button class="add-btn btn btn-sm"
+											x-document-mgr-add-keyword
+											x-project="project"
+											x-doc="doc">
+								<span class="glyphicon glyphicon-plus"></span>
+							</button>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div ng-show="doc.hasInspectionMeta">
+			<div class="form-group" x-show-errors>
+				<label for="inspectionNumber" class="control-label">Inspection Number</label>
+				<input class="form-control" id="inspectionNumber" name="inspectionNumber" type="text" required ng-model="doc.inspectionReport.inspectionNumber" ng-blur="validate()">
 			</div>
 
-			<div class="form-group" ng-class="{'has-error': editFileForm.followup.$invalid}" x-show-errors>
-				<label for="followup" class="control-label">Follow Up</label>
-				<select class="form-control" title="Document Type" id="followup" name="followup"
-						ng-model="doc.inspectionReport.followup"
-						ng-options="item.value as item.display for item in inspectionReportFollowupTypes"
-						ng-change="validate()"></select>
+			<div class="form-group" x-show-errors>
+				<label for="inspectorName" class="control-label">Inspector Name</label>
+				<input class="form-control" id="inspectorName" name="inspectorName" type="text" required ng-model="doc.inspectionReport.inspectorName" ng-blur="validate()">
 			</div>
+
+			<div class="form-group" x-show-errors>
+				<label for="accompanyingInspectors" class="control-label">Accompanying Inspectors</label>
+				<input class="form-control" id="accompanyingInspectors" name="accompanyingInspectors" type="text" ng-model="doc.inspectionReport.accompanyingInspectors" ng-blur="validate()">
+			</div>
+
+			<div class="form-group" x-show-errors>
+				<label for="mineManager" class="control-label">Mine Manager</label>
+				<input class="form-control" id="mineManager" name="mineManager" type="text" ng-model="doc.inspectionReport.mineManager" ng-blur="validate()">
+			</div>
+
+			<div class="form-group" x-show-errors>
+				<label for="personsContacted" class="control-label">Persons Contacted</label>
+				<input class="form-control" id="personsContacted" name="personsContacted" type="text" ng-model="doc.inspectionReport.personsContacted" ng-blur="validate()">
+			</div>
+
+			<div class="form-group" x-show-errors>
+				<label for="associateAuthorization" class="control-label">Associate Authorization</label>
+				<input class="form-control" id="associateAuthorization" name="associateAuthorization" type="text" ng-model="doc.inspectionReport.associateAuthorization" ng-blur="validate()">
+			</div>
+
 		</div>
 
 		<div class="row">
@@ -75,36 +137,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row form-group">
-			<div class="col-sm-12">
-				<label for="subComponents" class="control-label">Keywords</label>
-				<div class="tag-list-container form-control clearfix">
-					<ul class="tag-list">
-						<li class="tag" ng-repeat="keyword in doc.keywords">
-							<span class="tag-name">{{keyword}}</span>
-							<button class="btn btn-sm" ng-click="removeKeyword(keyword)"><span class="glyphicon glyphicon-remove"></span></button>
-						</li>
-						<li class="add-tag">
-							<button class="add-btn btn btn-sm"
-								x-document-mgr-add-keyword
-								x-project="project"
-								x-doc="doc">
-								<span class="glyphicon glyphicon-plus">
-							</button>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div ng-if="doc._schemaName === 'Document'" class="form-group file-type" x-show-errors>
-			<label for="documentId" class="control-label">Document ID</label>
-			<input class="form-control" id="documentId" name="documentId" type="text" ng-model="doc.documentId" ng-blur="validate()">
-		</div>
 
-		<div class="form-group m-b-0" x-show-errors>
-			<label for="description" class="control-label">Description</label>
-			<textarea class="form-control" rows="6" id="description" name="description" ng-model="doc.description" ng-blur="validate()"></textarea>
-		</div>
 	</div>
 
 	<div class="modal-footer clearfix">

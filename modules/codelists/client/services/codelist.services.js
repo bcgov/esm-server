@@ -8,7 +8,6 @@ angular.module('core')
 		var organizationTypes = [];
 		var emailTemplateGroups = [];
 		var organizationRegisteredIns = [];
-		var documentTypes = [];
 		var projectGroupTypes = [];
 		var inspectionReportFollowUpTypes = [];
 
@@ -38,7 +37,6 @@ angular.module('core')
 			organizationTypes = getListItems(lists, 'organizationTypes');
 			emailTemplateGroups = getListItems(lists, 'emailTemplateGroups');
 			organizationRegisteredIns = getListItems(lists, 'organizationRegisteredIns');
-			documentTypes = getListItems(lists, 'documentTypes');
 			projectGroupTypes = getListItems(lists, 'projectGroupTypes');
 			inspectionReportFollowUpTypes = getListItems(lists, 'inspectionReportFollowUpTypes');
 		};
@@ -133,14 +131,6 @@ angular.module('core')
 				display: function(value) { return getDisplay(emailTemplateGroups, value); },
 				isActive: function(value) { return isActive(emailTemplateGroups, value); },
 				fetch: function() { return fetch('emailTemplateGroups'); },
-				update: update
-			},
-			documentTypes: {
-				all: documentTypes,
-				active: _.filter(documentTypes, function(o) { return o.active === true; }),
-				display: function(value) { return getDisplay(documentTypes, value); },
-				isActive: function(value) { return isActive(documentTypes, value); },
-				fetch: function() { return fetch('documentTypes'); },
 				update: update
 			},
 			projectGroupTypes: {

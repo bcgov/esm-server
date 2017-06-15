@@ -102,6 +102,8 @@ module.exports = genSchema ('Document', {
 
 	displayName             : { type: String, default: ''},
 	description             : { type:String, default:'' },
+
+	// TODO MEM documentDate is empty for all by two documents
 	documentDate            : { type: Date, default: null },
 
 	dateAdded               : { type: Date, default: Date.now },
@@ -121,12 +123,16 @@ module.exports = genSchema ('Document', {
 	documentFileFormat      : { type:String, default:'' },
 	documentVersion         : { type:Number, default:0 }, // Used for keeping track of this documents version.
 	documentIsLatestVersion : { type:Boolean, default:true }, // We assume we are the latest. Default will be false
+	//TODO for MEM all doc source are empty
 	documentSource 			: { type:String, default:'' }, // Source = comments or generic or signature file
 	// when we hook in the reviewable interface which will
 	// decide what is the latest based on approval of such
+	// TODO for MEM documentIsInReview can this be removed?
 	documentIsInReview      : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
 	documentAuthor          : { type:String, default:'' },  // NB: We should add a document author in addition to the folderAuthor.
-	documentType            : { type:String, default: null },
+	// discontinue use of documentType and change to use documentCategories
+	// documentType            : { type:String, default: null },
+	documentCategories      : [ { type:String, default: null } ],
 	internalURL             : { type:String, default:'' },
 	internalOriginalName    : { type:String, default:'' },
 	internalName            : { type:String, default:'' },
@@ -134,22 +140,44 @@ module.exports = genSchema ('Document', {
 	internalExt             : { type:String, default:'' },
 	internalSize            : { type:Number, default:0 },
 	internalEncoding        : { type:String, default:'' },
+	//TODO for MEM all old data is empty
 	oldData                 : { type:String, default:'' },
+	//TODO for MEM all order fields contain 0
 	order                   : { type: Number, default: 0}, // this will be used to sort supporting documents in artifacts, the order will be arbitrary and determined by the user.
+	// TODO for MEM all eaoStatus are empty
 	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] },// for use with Public Comment Attachments...
 
+	// TODO for MEM related docs are empty
 	relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],
+
 	keywords                : [ { type:'String'} ],
 	documentId              : { type:'String', default: null }, // will be used as an id into other systems (ex MEM, MMTI, to be entered manually)
 
-	// supporting data for various document Types
-	inspectionReport        : { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} } , default: null },
-	certificate             : { type: {}, default: null },
-	certificateAmendment    : { type: {}, default: null },
-	permit                  : { type: {}, default: null },
-	permitAmendment         : { type: {}, default: null },
-	mineManagerResponse     : { type: {}, default: null },
-	annualReport            : { type: {}, default: null },
-	annualReclamationReport : { type: {}, default: null },
-	damSafetyInspection     : { type: {}, default: null }
+	// supporting data for inspection document Types
+	// replacing { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} }
+	inspectionReport        : { type: {
+		accompanyingInspectors	: { type:'String', default: null},
+		associatedAuthorization	: { type:'String', default: null}, // free text
+		inspectionNumber				: { type:'String', default: null}, // mandatory
+		inspectorName						: { type:'String', default: null}, // mandatory
+		mineManager							: { type:'String', default: null}, // free text
+		personsContacted				: { type:'String', default: null} // free text multi line
+	} , default: null },
+
+	virtuals__ : [
+		{name:'hasInspectionMeta', get: isInspection}
+	]
 });
+
+function isInspection() {
+	var categories = this.documentCategories || [];
+	var result = false;
+	for(var i = 0; i < categories.length; i++) {
+		var cat = categories[i];
+		if (cat.indexOf("Inspection ") >= 0) {
+			result = true;
+			break;
+		}
+	}
+	return result;
+}

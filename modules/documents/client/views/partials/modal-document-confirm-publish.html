@@ -1,0 +1,32 @@
+<form class="confirm-dialog">
+	<div class="modal-header">
+		<button class="btn btn-default close" type="button" ng-click="confirmDlg.cancel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h3 class="modal-title">Confirm Publish File(s)</h3>
+	</div>
+
+	<div class="modal-body" ng-if="confirmDlg.errMsg">
+		<div>{{confirmDlg.errMsg}}</div>
+	</div>
+
+	<div class="modal-body"  ng-if="!confirmDlg.errMsg">
+		{{confirmDlg.confirmText}}
+		<ul class="confirm-list">
+			<li ng-repeat="t in confirmDlg.publishableFiles">{{t.displayName}}</li>
+		</ul>
+	</div>
+
+	<div class="modal-body"  ng-if="confirmDlg.missingCategory.length > 0">
+		These documents require a document category before they can be published
+		<ul class="confirm-list">
+			<li ng-repeat="t in confirmDlg.missingCategory">{{t.displayName}}</li>
+		</ul>
+	</div>
+
+
+	<div class="modal-footer">
+		<button class="btn btn-default" type="button" ng-click="confirmDlg.cancel()">No</button>
+		<button class="btn btn-primary" type="submit" ng-click="confirmDlg.submit()" ng-disabled="confirmDlg.errMsg">Yes</button>
+	</div>
+</form>

@@ -1,0 +1,39 @@
+
+<div class="docCategoriesResult">
+  <ul>
+    <li data-ng-repeat="category in vm.docCategoriesResult">{{category}}</li>
+  </ul>
+</div>
+
+<div class="categories-control form-control">
+  <ul>
+    <li ng-repeat="level1 in vm.rootNode.children" >
+      <label for="level1-{{level1.id}}">{{level1.name}}</label>
+      <input type="checkbox" id="level1-{{level1.id}}" ng-model="level1.checked" ng-click="vm.click($event)"/>
+      <ul>
+        <li ng-repeat="level2 in level1.children">
+          <label for="level2-{{level2.id}}">{{level2.name}}</label>
+          <input type="checkbox" id="level2-{{level2.id}}" ng-model="level2.checked" ng-click="vm.click($event)"/>
+          <ul>
+            <li ng-repeat="level3 in level2.children">
+              <label for="level3-{{level3.id}}">{{level3.name}}</label>
+              <input type="checkbox" id="level3-{{level3.id}}" ng-model="level3.checked" ng-click="vm.click($event)"/>
+              <ul>
+                <li ng-repeat="level4 in level3.children">
+                  <label for="level4-{{level4.id}}">{{level4.name}}</label>
+                  <input type="checkbox" id="level4-{{level4.id}}" ng-model="level4.checked" ng-click="vm.click($event)"/>
+                  <ul>
+                    <li ng-repeat="level5 in level4.children">
+                      <label for="level5-{{level5.id}}">{{level5.name}}</label>
+                      <input type="checkbox" id="level5-{{level5.id}}" ng-model="level5.checked" ng-click="vm.click($event)"/>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
