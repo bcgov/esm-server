@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('project').config (
+angular.module('project',["ui.router","ui.router.state.events"]).config (
 	['$locationProvider', '$stateProvider', '$urlRouterProvider', '_',
 	function ($locationProvider, $stateProvider, $urlRouterProvider, _) {
 
@@ -14,7 +14,7 @@ angular.module('project').config (
 					return ProjectModel.byCode($stateParams.projectid);
 				}
 			},
-			controller: function ($rootScope, $scope, $location, $stateParams, $state, project) {
+			controller: function ($rootScope, $scope, $location, $stateParams, $state, project, $transitions) {
 				$scope.project = project;
 				$scope.tabs = [
 					{ heading: "Mine Summary", route:"project.overview", active:false, page:'DETAILS' },
@@ -22,6 +22,7 @@ angular.module('project').config (
 					{ heading: "Compliance Oversight", route:"project.compliance", active:false, page:'COMPLIANCE' },
 					{ heading: "Other Documents", route:"project.docs", active:false, page:'DOCS' }
 				];
+				console.log($transitions);
 
 				// Static map generation
 				// Force this false when we enter
@@ -71,11 +72,10 @@ angular.module('project').config (
 					});
 				}
 
-				// when state changes update the tab's active state and reload the external links
-				$scope.$on("$stateChangeSuccess", function() {
+				$transitions.onSuccess({},function(){
 					var activeTab;
-					$scope.tabs.forEach(function(tab) {
-						tab.active =  $state.current.name === tab.route;
+					$scope.tabs.forEach(function (tab) {
+						tab.active = $state.current.name === tab.route;
 						activeTab = tab.active ? tab : activeTab;
 					});
 					if (activeTab) {
