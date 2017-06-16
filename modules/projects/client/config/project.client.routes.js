@@ -22,8 +22,6 @@ angular.module('project',["ui.router","ui.router.state.events"]).config (
 					{ heading: "Compliance Oversight", route:"project.compliance", active:false, page:'COMPLIANCE' },
 					{ heading: "Other Documents", route:"project.docs", active:false, page:'DOCS' }
 				];
-				console.log($transitions);
-
 				// Static map generation
 				// Force this false when we enter
 				$rootScope.isMapActive = false;
