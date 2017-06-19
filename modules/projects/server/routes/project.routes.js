@@ -11,7 +11,8 @@ var routes = require ('../../../core/server/controllers/core.routes.controller')
 var policy = require ('../../../core/server/controllers/core.policy.controller');
 
 module.exports = function (app) {
-	routes.setCRUDRoutes (app, 'project', Project, policy);
+	// Open up the "query" endpoint to public users. It is restricted to authenticated users by default.
+	routes.setCRUDRoutes (app, 'project', Project, policy, null, { all: 'user', get: 'guest', paginate: 'guest', query: 'guest' });
 
 	//
 	// add a phase to a project (from base phase)
