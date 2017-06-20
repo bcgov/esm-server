@@ -75,12 +75,12 @@
 		<div ng-show="doc.hasInspectionMeta">
 			<div class="form-group" x-show-errors>
 				<label for="inspectionNumber" class="control-label">Inspection Number</label>
-				<input class="form-control" id="inspectionNumber" name="inspectionNumber" type="text" required ng-model="doc.inspectionReport.inspectionNumber" ng-blur="validate()">
+				<input class="form-control" id="inspectionNumber" name="inspectionNumber" type="text" ng-required="doc.hasInspectionMeta" ng-model="doc.inspectionReport.inspectionNumber" ng-blur="validate()">
 			</div>
 
 			<div class="form-group" x-show-errors>
 				<label for="inspectorName" class="control-label">Inspector Name</label>
-				<input class="form-control" id="inspectorName" name="inspectorName" type="text" required ng-model="doc.inspectionReport.inspectorName" ng-blur="validate()">
+				<input class="form-control" id="inspectorName" name="inspectorName" type="text" ng-required="doc.hasInspectionMeta" ng-model="doc.inspectionReport.inspectorName" ng-blur="validate()">
 			</div>
 
 			<div class="form-group" x-show-errors>
