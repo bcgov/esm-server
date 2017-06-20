@@ -37,7 +37,7 @@
 
 		<div ng-if="doc._schemaName === 'Document'" class="form-group">
 			<label class="control-label" for="documentCategories">Document Categories</label>
-			<button class="btn btn-default btn-sm" id="documentCategories" x-categories-modal x-doc="doc">Set Categories</button>
+			<button class="btn btn-default btn-sm" id="documentCategories" x-categories-modal x-doc="doc" ng-blur="validate()">Set Categories</button>
 			<span class="value document-categories-list">
 				<ul>
 					<li data-ng-repeat="category in doc.documentCategories">{{category}}</li>

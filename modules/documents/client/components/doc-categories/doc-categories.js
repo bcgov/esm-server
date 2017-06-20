@@ -150,6 +150,9 @@ function categorySelectControllerImpl(CategoriesFactory, _, $scope) {
 	// initDocCategories: initialize check state for incoming categories set
 	function initDocCategories(initialDocCategories) {
 		self.rootNode.walk( function (child) {
+			child.checked = false;
+		});
+		self.rootNode.walk( function (child) {
 			var dt = composeCategoriesForNode(child);
 			_.forEach( initialDocCategories, function (idt) {
 				if (idt === dt) {
