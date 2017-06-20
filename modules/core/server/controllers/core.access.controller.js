@@ -1152,7 +1152,7 @@ exports.routes = {
 	// -------------------------------------------------------------------------
 	allusers: function (req, res) {
 		var User = mongoose.model ('User');
-		return runPromise (res, Promise.resolve(User.find ({}).exec ()));
+		return runPromise (res, Promise.resolve(User.find ({}, '-salt -password').exec ()));
 	},
 	getContextUsers: function (req, res) {
 		// console.log('getContextUsers ', req.params.context);
@@ -1168,7 +1168,7 @@ exports.routes = {
 			})
 			.then(function(u) {
 				// console.log('u = ' , JSON.stringify(u, null, 4));
-				return User.find ({username: {$in: u}}).exec ();
+				return User.find ({username: {$in: u}}, '-salt -password').exec ();
 			})
 			.then(function(ul) {
 				// console.log('ul = ' , JSON.stringify(ul, null, 4));
@@ -1222,7 +1222,7 @@ exports.routes = {
 			//
 			.then (function (defaultProjectRoleSpec) {
 				defaultProjectRoles = defaultProjectRoleSpec;
-				return User.find ({}).exec ();
+				return User.find ({}, '-salt -password').exec ();
 			})
 			.then (function (users) {
 				var part;
