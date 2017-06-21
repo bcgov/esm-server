@@ -149,6 +149,26 @@ _.extend (DBModel.prototype, {
 		// console.log ('my roles are:', this.roles);
 		// console.log ('base query is:', this.baseQ);
 	},
+	// Trim salt/pass from responses.
+	sanitizeData : function (obj) {
+		var cleanFunc = function (c) {
+			if (c._schemaName === 'User') {
+				c.salt		= null;
+				c.password	= null;
+			}
+		};
+		return new Promise (function (resolve, reject) {
+			// Check if array or single.
+			if (obj instanceof Array) {
+				_.each(obj, function (o) {
+					cleanFunc(o);
+				});
+			} else {
+				cleanFunc(obj);
+			}
+			resolve(obj);
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// sets up everything to do with roles, filtering queries, security, etc.
@@ -255,6 +275,7 @@ _.extend (DBModel.prototype, {
 		//console.log('findById =  ', id)
 		return this.findOne ({_id : id})
 			.then (this.permissions)
+			.then (this.sanitizeData)
 			.then (this.decorate);
 	},
 	// -------------------------------------------------------------------------
@@ -277,6 +298,7 @@ _.extend (DBModel.prototype, {
 			.populate (self.populate)
 			.select (fields)
 			.exec ()
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'findone'));
 			if (self.resetAccess) {
 				self.resetAccess = false;
@@ -315,6 +337,7 @@ _.extend (DBModel.prototype, {
 			.populate (self.populate)
 			.select (fields)
 			.exec ()
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'findmany'));
 			if (self.resetAccess) {
 				self.resetAccess = false;
@@ -335,6 +358,7 @@ _.extend (DBModel.prototype, {
 			.populate (self.populate)
 			.select (fields)
 			.exec ()
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'findfirst'));
 			if (self.resetAccess) {
 				self.resetAccess = false;
@@ -360,6 +384,7 @@ _.extend (DBModel.prototype, {
 			var q = _.extend ({}, self.baseQ, query);
 			self.model.distinct (field, q)
 			.exec ()
+			.then(self.sanitizeData)
 			.then (resolve, self.complete (reject, 'distinct'));
 		});
 	},
@@ -796,6 +821,7 @@ _.extend (DBModel.prototype, {
 			self.saveDocument (doc)
 			.then (self.permissions)
 			.then (self.decorate)
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'saveAndReturn'));
 		});
 	},
@@ -870,6 +896,7 @@ _.extend (DBModel.prototype, {
 			.then (self.permissions)
 			.then (self.postprocessUpdate)
 			.then (self.decorate)
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'update'));
 		});
 	},
@@ -911,6 +938,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			self.permissions (model)
 			.then (self.decorate)
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'read'));
 		});
 	},
@@ -928,6 +956,7 @@ _.extend (DBModel.prototype, {
 			self.findMany (q, f, s)
 			.then (self.permissions)
 			.then (self.decorateAll)
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'list'));
 		});
 	},
@@ -946,6 +975,7 @@ _.extend (DBModel.prototype, {
 			self.findOne (q, f)
 			.then (self.permissions)
 			.then (self.decorate)
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'one'));
 		});
 	},
@@ -968,6 +998,7 @@ _.extend (DBModel.prototype, {
 			self.findMany (q, f)
 				.then (self.permissions)
 				.then (self.decorateAll)
+				.then (self.sanitizeData)
 				.then (resolve, self.complete (reject, 'listwrite'));
 		});
 	},
@@ -981,6 +1012,7 @@ _.extend (DBModel.prototype, {
 			self.findMany (q, f)
 				.then (self.permissions)
 				.then (self.decorateAll)
+				.then (self.sanitizeData)
 				.then (resolve, self.complete (reject, 'listforaccess'));
 		});
 	},
@@ -994,6 +1026,7 @@ _.extend (DBModel.prototype, {
 			self.findMany (q, f)
 			.then (self.permissions)
 			.then (self.decorateAll)
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'listIgnoreAccess'));
 		});
 	},
@@ -1008,6 +1041,7 @@ _.extend (DBModel.prototype, {
 			self.findOne (q, f)
 			.then (self.permissions)
 			.then (self.decorate)
+			.then (self.sanitizeData)
 			.then (resolve, self.complete (reject, 'oneIgnoreAccess'));
 		});
 	},
@@ -1065,7 +1099,10 @@ _.extend (DBModel.prototype, {
 								self.complete(reject, 'search');
 							} else {
 								if (debug) console.log('search.count.completed. total = ', c);
-								resolve({data: data, count: c});
+								self.sanitizeData(data)
+								.then(function (sanitizedData) {
+									resolve({data: sanitizedData, count: c});
+								});
 							}
 						});
 					} else {
@@ -1120,7 +1157,10 @@ _.extend (DBModel.prototype, {
 						sorted = sorted.slice(skip, skip + limit);
 
 						// return the paginated results with the total count
-						resolve({data: sorted, count: cnt});
+						self.sanitizeData(sorted)
+						.then(function (sanitizedData) {
+							resolve({data: sanitizedData, count: cnt});
+						});
 					} else {
 						console.log('search.error = ' + JSON.stringify(error));
 						self.complete(reject, 'search');
