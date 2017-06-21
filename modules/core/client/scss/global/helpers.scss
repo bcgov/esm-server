@@ -66,3 +66,7 @@
 		@include flex(0 0 auto);
 	}
 }
+
+.break-all {
+	word-break: break-all;
+}

@@ -65,6 +65,17 @@
 											</button>
 											<ul class="dropdown-menu pull-right">
 												<li>
+													<button class="btn icon-btn" title="Copy Link to Clipboard"
+																	ngclipboard
+																	data-clipboard-text="{{ item.link }}"
+																	data-doc-name="{{ item.displayName }}"
+																	ngclipboard-success="vm.copyClipboardSuccess(e);"
+																	ngclipboard-error="vm.copyClipboardError(e);"
+													>
+														<span class="glyphicon glyphicon-copy"></span>
+													</button>
+												</li>
+												<li>
 													<button class="btn icon-btn" title="Properties" ng-click="vm.toggleInfoPanel();$event.stopPropagation();">
 														<span class="glyphicon glyphicon-info-sign"></span>
 													</button>
