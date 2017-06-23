@@ -152,7 +152,7 @@ _.extend (DBModel.prototype, {
 	// Trim salt/pass from responses.
 	sanitizeData : function (obj) {
 		var cleanFunc = function (c) {
-			if (c._schemaName === 'User') {
+			if (c && c._schemaName === 'User') {
 				c.salt		= null;
 				c.password	= null;
 			}
