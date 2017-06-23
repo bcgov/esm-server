@@ -67,7 +67,6 @@ angular.module('documents')
 				self.checkedFiles = [];
 				self.lastChecked = {fileId: undefined, directoryID: undefined};
 
-				self.unsortedFiles = [];
 				self.unsortedDirs = [];
 
 				self.currentFiles = [];
@@ -134,54 +133,27 @@ angular.module('documents')
 				};
 
 				self.applySort = function() {
-					// sort ascending first...
-					self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
-						// more making sure that the displayName is set...
-						if (_.isEmpty(f.displayName)) {
-							f.displayName = f.documentFileName || f.internalOriginalName;
-						}
-						f.order = f.order || 0;
-
-						if (self.sorting.column === 'name') {
-							return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-						} else if (self.sorting.column === 'author') {
-							return _.isEmpty(f.documentAuthor) ? null : f.documentAuthor.toLowerCase();
-						} else if (self.sorting.column === 'type') {
-							return _.isEmpty(f.internalExt) ? null : f.internalExt.toLowerCase();
-						} else if (self.sorting.column === 'size') {
-							return _.isEmpty(f.internalExt) ? 0 : f.internalSize;
-						} else if (self.sorting.column === 'date') {
-							//date uploaded
-							return _.isEmpty(f.dateUploaded) ? 0 : f.dateUploaded;
-						} else if (self.sorting.column === 'pub') {
-							//is published...
-							return !f.isPublished;
-						}
-						// by name if none specified... or we incorrectly identified...
-						return _.isEmpty(f.displayName) ? null : f.displayName.toLowerCase();
-					}).sortBy(function (f) {
-						return f.order;
-					}).value();
-
-					// directories always/only sorted by name
-					self.currentDirs = _(self.unsortedDirs).chain().sortBy(function (d) {
-						if (_.isEmpty(d.model.name)) {
-							return null;
-						}
-						d.model.order = d.model.order || 0;
-						return d.model.name.toLowerCase();
-					}).sortBy(function (d) {
-						return d.model.order;
-					}).value();
-
-					if (!self.sorting.ascending) {
-						// and if we are not supposed to be ascending... then reverse it!
-						self.currentFiles = _(self.currentFiles).reverse().value();
-						if (self.sorting.column === 'name') {
-							// name is the only sort that applies to Directories.
-							// so if descending on name, then we need to reverse it.
-							self.currentDirs = _(self.currentDirs).reverse().value();
-						}
+					var direction = self.sorting.ascending ? 1 : -1;
+					var collator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+					function naturalSort(d1, d2) {
+						var v = collator.compare(d1.displayName, d2.displayName);
+						return v * direction;
+					}
+					if (self.sorting.column === 'name') {
+						self.currentFiles.sort(naturalSort);
+						self.currentDirs.sort(naturalSort);
+					} else if (self.sorting.column === 'date') {
+						self.currentFiles.sort(function(doc1, doc2){
+							var d1 = doc1.dateUploaded || 0;
+							var d2 = doc2.dateUploaded || 0;
+							return (new Date(d1) - new Date(d2)) * direction;
+						});
+					} else if (self.sorting.column === 'pub') {
+						self.currentFiles.sort(function(doc1, doc2){
+							var d1 = doc1.isPublished ? 1 : 0;
+							var d2 = doc2.isPublished ? 1 : 0;
+							return (d1 - d2) * direction;
+						});
 					}
 				};
 
@@ -251,7 +223,6 @@ angular.module('documents')
 					self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
 					self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
 					//self.currentPath = theNode.getPath() || [];
-					self.unsortedFiles = [];
 					self.unsortedDirs = [];
 					self.currentFiles = [];
 					self.currentDirs = [];
@@ -276,7 +247,7 @@ angular.module('documents')
 						function (result) {
 							//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
 
-							self.unsortedFiles = _.map(result.data, function(f) {
+							self.currentFiles = _.map(result.data, function(f) {
 								// making sure that the displayName is set...
 								if (_.isEmpty(f.displayName)) {
 									f.displayName = f.documentFileName || f.internalOriginalName;
@@ -301,7 +272,7 @@ angular.module('documents')
 
 							if (docID) {
 								// search in the folder's document list to locate the target document
-								_.each(self.unsortedFiles, function(doc) {
+								_.each(self.currentFiles, function(doc) {
 									if (doc._id === docID) {
 										self.selectFile(doc);
 										return;
