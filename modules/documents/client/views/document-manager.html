@@ -136,6 +136,7 @@
 				<div class="scroll-container-inner">
 
 					<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
+					
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentDirs">
 							<span class="col checkbox-col" ng-if="authentication.user">
@@ -158,7 +159,8 @@
 								<span hidden class="col author-col">---</span>
 								<span class="col date-added-col">---</span>
 								<span class="col status-col last-col" ng-if="authentication.user">
-									<span ng-if="doc.model.published" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
+									<span class="label label-success" ng-if="doc.model.published" title="Published">Published</span>
+									<span class="label label-unpublished" ng-if="!doc.model.published">Unpublished</span>
 								</span>
 								<div class="row-actions">
 
@@ -263,7 +265,8 @@
 								</span>
 								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
 								<span class="col status-col last-col" ng-if="authentication.user">
-									<span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span>
+									<span class="label label-success" ng-if="doc.isPublished" title="Published">Published</span>
+									<span class="label label-unpublished" ng-if="!doc.isPublished">Not Published</span>
 								</span>
 								<div class="row-actions">
 
@@ -448,7 +451,7 @@
 									<span class="name">Status:</span>
 									<span class="value">
 										<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished">Published</span>
-										<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Not Published</span>
+										<span class="label label-default" ng-if="!documentMgr.infoPanel.data.isPublished">Unpublished</span>
 									</span>
 								</li>
 								<li>
