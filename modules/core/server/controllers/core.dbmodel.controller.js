@@ -151,8 +151,12 @@ _.extend (DBModel.prototype, {
 	},
 	// Trim salt/pass from responses.
 	sanitizeData : function (obj) {
+		if (! obj ) {
+			// this happens when searching for an object that does not exist.
+			return Promise.resolve();
+		}
 		var cleanFunc = function (c) {
-			if (c && c._schemaName === 'User') {
+			if (c._schemaName === 'User') {
 				c.salt		= null;
 				c.password	= null;
 			}
