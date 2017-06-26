@@ -7,7 +7,7 @@ angular.module('core')
 		link: function (scope, element) {
 			MovableModalService.movableModal($document, element);
 		}
-	}
+	};
 }]);
 
 function movableModalService() {
