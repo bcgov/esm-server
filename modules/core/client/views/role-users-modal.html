@@ -34,19 +34,29 @@
 			<tmpl-role-new context="s.context" class="new-role-btn" ng-if="s.context.userCan.createRole"></tmpl-role-new>
 		</div>
 		<div class="panel panel-default">
-			<ul class="list-group">
-				<li class="list-group-item" ng-repeat="role in s.allRoles">
-					<div class="checkbox">
-						<label>
-							<input type="checkbox"
-								ng-disabled="!s.currentUser"
+			<div class="table-container">
+				<table class="user-search-table table table-hover">
+					<tr ng-class="{'active': s.roleSelect(s.currentUser, role)}"
+						ng-repeat="role in s.allRoles">
+						<td class="col checkbox-col"
+							header-class="'col checkbox-col'">
+							<div>
+								<input type="checkbox"
+								ng-model="s.userRoleIndex.user[s.currentUser.username][role]"
 								ng-change="s.clickRole(s.currentUser, role, s.userRoleIndex.user[s.currentUser.username][role])"
-								ng-model="s.userRoleIndex.user[s.currentUser.username][role]">{{ role }}
-							</input>
-						</label>
-					</div>
-				</li>
-			</ul>
+								ng-disabled="!s.currentUser"
+								id="{{role}}"/>
+								<label for="{{role}}">
+									<span class="glyphicon glyphicon-ok"></span>
+								</label>
+							</div>
+						</td>
+						<td class="name-col">
+							{{ role }}
+						</td>
+					</tr>
+				</table>
+			</div>
 		</div>
 	</div>
 
@@ -68,21 +78,30 @@
 			</button>
 		</div>
 		<div class="panel panel-default">
-			<ul class="list-group">
-				<li class="list-group-item" ng-repeat="u in s.allUsers | orderBy: 'lastName'">
-					<div class="checkbox">
-						<label>
-              				<input type="checkbox"
+			<div class="table-container">
+				<table class="user-search-table table table-hover">
+					<tr ng-class="{'active': s.userSelect(u, s.currentRole)}"
+						ng-repeat="u in s.allUsers | orderBy: 'lastName'">
+						<td class="col checkbox-col"
+							header-class="'col checkbox-col'">
+							<div>
+								<input type="checkbox" 
+								ng-model="s.userRoleIndex.role[s.currentRole][u.username]"
 								ng-disabled="!s.currentRole"
-                     			ng-change="s.clickUser(u, s.currentRole, s.userRoleIndex.role[s.currentRole][u.username])"
-                     			ng-model="s.userRoleIndex.role[s.currentRole][u.username]">
-              				</input>{{u.lastName}},&nbsp;{{u.firstName}}
-            			</label>
-					</div>
-				</li>
-			</ul>
+								ng-change="s.clickUser(u, s.currentRole, s.userRoleIndex.role[s.currentRole][u.username])"
+								id="{{u}}"/>
+								<label for="{{u}}">
+									<span class="glyphicon glyphicon-ok"></span>
+								</label>
+							</div>
+						</td>
+						<td class="name-col">
+							{{u.lastName}},&nbsp;{{u.firstName}}
+						</td>
+					</tr>
+				</table>
+			</div>	
 		</div>
-	</div>
 	<!-- SET BY ROLE -->
 
 </div>

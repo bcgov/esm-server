@@ -4,20 +4,36 @@
 </div>
 
 <div class="modal-body">
-	<section class="panel panel-default no-margin">
-		<table class="table table-scroll add-vc-table" ng-table="tableParams" show-filter="false">
-			<tr ng-repeat="t in s.items">
-				<td class="name-col select"
-					header-class="'name-col'"
-				 	data-title="'Name'">
-					<input type="checkbox" ng-click="s.select(t._id)" ng-checked="s.isSelected(t._id)"/>{{ t.name }}</td>
-				<td data-title="'Group'">{{t.group}}</td>
+	<div class="table-container">
+		<table class="table table-hover table-scroll select-email-template" ng-class="{'no-records': !s.items || s.items.length === 0}" ng-table="self.tableParams">
+			<tr ng-class="{'active': s.isSelected(t._id)}"
+				ng-repeat="t in s.items"
+				ng-click="s.select(t._id)">
+				<td class="col checkbox-col"
+					header-class="'col checkbox-col'">
+					<div>
+						<input id="{{t._id}}" type="checkbox" ng-checked="s.isSelected(t._id)"/>
+						<label for="{{t._id}}">
+							<span class="glyphicon glyphicon-ok"></span>
+						</label>
+					</div>
+				</td>
+				<td class="name-col"
+					data-title="'Name'">
+					{{t.name}}
+				</td>
+				<td class="group-col"
+					data-title="'Group'">
+					{{t.group}}
+				</td>
 			</tr>
-      <tr ng-show="!s.items" class="text-center">
-        <td colspan="3">No Email Templates found.</td>
-      </tr>
-    </table>
-	</section>
+			<tr class="no-records" ng-if="!s.items || s.items.length === 0">
+				<td colspan="3">
+					No Email Templates found.
+				</td>
+			</tr>  
+		</table>
+	</div>
 </div>
 
 <div class="modal-footer">

@@ -184,6 +184,18 @@ angular.module('core')
 							setPermissionRole(s.permissionRoleIndex, permission, role, value);
 						};
 						
+						//function used to check for selected permissions for a role
+						//this function works with the checkboxes of Manage Permissions for Role
+						s.selectedPermission = function (permission, role) {
+							return (permission && s.permissionRoleIndex.permission.hasOwnProperty(permission))? s.permissionRoleIndex.permission[permission][role] : undefined;
+						};
+
+						//function used to check for selected roles for a permisson
+						//this function works with the checkboxes of Manage Roles for permission
+						s.selectedRole = function (permission,role) {
+							return (role && s.permissionRoleIndex.role.hasOwnProperty(role))? s.permissionRoleIndex.role[role][permission] : undefined;
+						};
+						
 						s.cancel = function () {
 							$modalInstance.dismiss('cancel');
 						};
@@ -481,6 +493,22 @@ angular.module('core')
 							s.dirty = true;
 							setUserRole(s.userRoleIndex, user.username, role, value);
 						};
+
+						//function used to check for selected roles for a user
+						//this function works with the checkboxes of Manage Roles for User
+						s.roleSelect = function (user, role) {
+							return(user && s.userRoleIndex.user.hasOwnProperty(user.username)) ? s.userRoleIndex.user[user.username][role] : undefined;
+						};
+						//function used to check for selected users for a role
+						//this function works with the checkboxes of Manage Users for Role
+						s.userSelect = function (user,role) {
+							return (role && s.userRoleIndex.role.hasOwnProperty(role)) ? s.userRoleIndex.role[role][user.username] : undefined;
+						};
+
+						s.cancel = function () {
+							$modalInstance.dismiss('cancel');
+						};
+
 						s.cancel = function () {
 							$modalInstance.dismiss('cancel');
 						};
