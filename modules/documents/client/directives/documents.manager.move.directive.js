@@ -41,7 +41,7 @@ angular.module('documents')
 								ascending: true
 							};
 
-							self.rootNode = tree.parse($scope.project.directoryStructure);
+							self.rootNode = tree.parse($scope.node.model);
 							self.selectedNode = undefined;
 							self.currentNode = undefined;
 							self.currentPath = undefined;
@@ -213,7 +213,7 @@ angular.module('documents')
 											self.applySort();
 											// since we loaded this, make it the selected node
 											self.selectedNode = self.currentNode;
-											self.selectedName = self.selectedNode.model.name === 'ROOT' ? $scope.project.name : self.selectedNode.model.name;
+											self.selectedName = self.selectedNode.model.name === 'ROOT' ? $scope.project.name : self.selectedNode.model.folderObj.displayName;
 											self.title = self.titleText + " to '" + self.selectedName + "'";
 
 											self.busy = false;
@@ -271,7 +271,7 @@ angular.module('documents')
 
 							// need this for add new folder...
 							$scope.$watch(function (scope) {
-									return scope.project.directoryStructure;
+									return scope.node.model;
 								},
 								function (data) {
 									var node = self.currentNode || self.rootNode;
