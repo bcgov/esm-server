@@ -34,9 +34,9 @@ function directiveSearchInfoPanel(Authentication, CodeLists) {
 	};
 }
 
-searchResultsDocumentDirective.$inject = ['_', 'SearchService', 'SearchResultsService', '$rootScope', 'Authentication',  'ProjectModel'];
+searchResultsDocumentDirective.$inject = ['_', 'AlertService', 'SearchService', 'SearchResultsService', '$rootScope', 'Authentication',  'ProjectModel'];
 /* @ngInject */
-function searchResultsDocumentDirective(_, SearchService, SearchResultsService, $rootScope, Authentication, ProjectModel) {
+function searchResultsDocumentDirective(_, AlertService, SearchService, SearchResultsService, $rootScope, Authentication, ProjectModel) {
 	return {
 		restrict: 'E',
 		scope: {
@@ -64,6 +64,15 @@ function searchResultsDocumentDirective(_, SearchService, SearchResultsService, 
 			self.sortBy = sortBy;
 			self.toggleInfoPanel = toggleInfoPanel;
 
+			self.copyClipboardSuccess = function(e) {
+				var txt = e.trigger.getAttribute('data-doc-name');
+				AlertService.success('Link copied for ' + txt);
+				e.clearSelection();
+			};
+
+			self.copyClipboardError = function(e) {
+				AlertService.error('Copy link failed.');
+			};
 			// init
 			reload($scope.results);
 			// end of configuration
@@ -89,6 +98,7 @@ function searchResultsDocumentDirective(_, SearchService, SearchResultsService, 
 					var displayItem = {};
 					displayItem.isFile = true;
 					displayItem.id = item._id;
+					displayItem.link = window.location.protocol + "//" + window.location.host + "/api/document/" + displayItem.id  + "/fetch";
 					displayItem.path = SearchService.composeFilePath(item.directoryID, item.displayName);
 					displayItem.displayName = item.displayName;
 					displayItem.description = item.description;

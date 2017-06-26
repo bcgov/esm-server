@@ -29,11 +29,14 @@
     "angular-resizable": "latest",
     "pdfjs-dist": "latest",
     "ng-pdfviewer": "^0.2.1",
-    "tree-model-bower" : "git://github.com/BCDevOps/tree-model-bower",
-    "angular-smart-table": "2.1.8"
+    "tree-model-bower": "git://github.com/BCDevOps/tree-model-bower",
+    "angular-smart-table": "2.1.8",
+    "ngclipboard": "^1.1.1",
+    "clipboard": "^1.7.1"
   },
   "resolutions": {
     "angular": "^1.5.9",
-    "lodash": "4.5.1"
+    "lodash": "4.5.1",
+    "clipboard": "^1.7.1"
   }
 }

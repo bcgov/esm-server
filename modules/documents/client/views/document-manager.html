@@ -286,6 +286,17 @@
 													<span class="glyphicon glyphicon-edit"></span>
 												</button>
 											</li>
+											<li>
+												<button class="btn icon-btn" title="Copy Link to Clipboard"
+													ngclipboard
+													data-clipboard-text="{{ doc.link }}"
+													data-doc-name="{{ doc.displayName }}"
+													ngclipboard-success="copyClipboardSuccess(e);"
+													ngclipboard-error="copyClipboardError(e);"
+													>
+													<span class="glyphicon glyphicon-copy"></span>
+												</button>
+											</li>
 											<li ng-if="doc.userCan.publish && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
 														x-confirm-dialog
@@ -368,6 +379,15 @@
 						<h2 title="{{documentMgr.infoPanel.data.displayName | removeExtension}}">{{documentMgr.infoPanel.data.displayName | removeExtension }}</h2>
 					</div>
 					<div class="title-panel-btns">
+						<button class="btn btn-sm btn-default" title="Copy Link to Clipboard"
+										ngclipboard
+										data-doc-name="documentMgr.infoPanel.data.displayName"
+										data-clipboard-text="{{ documentMgr.infoPanel.data.link }}"
+										ngclipboard-success="copyClipboardSuccess(e);"
+										ngclipboard-error="copyClipboardError(e);"
+						>
+							<span class="glyphicon glyphicon-copy"></span>
+						</button>
 						<a ng-if="documentMgr.infoPanel.data.userCan.read"
 						   class="btn btn-sm btn-default"
 						   href="/api/document/{{ documentMgr.infoPanel.data._id }}/fetch"
@@ -459,9 +479,9 @@
 									<span class="name">Uploaded Date:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
 								</li>
-								<li ng-if="documentMgr.infoPanel.link">
+								<li>
 									<span class="name">Link:</span>
-									<span class="value">{{ documentMgr.infoPanel.link }}</span>
+									<span class="value break-all"><a href="{{documentMgr.infoPanel.data.link}}" target="_blank">{{ documentMgr.infoPanel.data.link }}</a></span>
 								</li>
 								<li>
 									<span class="name">Size:</span>

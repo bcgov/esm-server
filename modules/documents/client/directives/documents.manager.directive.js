@@ -17,6 +17,16 @@ angular.module('documents')
 				self.requestOpenDir = null;
 				self.requestOpenFileID = null;
 
+				$scope.copyClipboardSuccess = function(e) {
+					var txt = e.trigger.getAttribute('data-doc-name');
+					AlertService.success('Link copied for ' + txt);
+					e.clearSelection();
+				};
+
+				$scope.copyClipboardError = function(e) {
+					AlertService.error('Copy link failed.');
+				};
+
 				if ($scope.file) {
 					self.requestOpenFileID = $scope.file; // objectId
 				}
@@ -281,6 +291,8 @@ angular.module('documents')
 								if (_.isEmpty(f.displayName)) {
 									f.displayName = f.documentFileName || f.internalOriginalName;
 								}
+								f.link =  window.location.protocol + '//' + window.location.host + '/api/document/'+ f._id+'/fetch';
+
 								if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
 									var od = JSON.parse(f.oldData);
 									//console.log(od);
