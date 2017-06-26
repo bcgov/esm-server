@@ -224,3 +224,14 @@ $fixed-alert-width: 60rem;
         font-size: 1.5rem;
     }
 }
+
+
+// Labels 
+.label {
+    text-transform: uppercase;
+
+    &.label-unpublished {
+        color: #fff;
+        background:#ccc;
+    }
+}

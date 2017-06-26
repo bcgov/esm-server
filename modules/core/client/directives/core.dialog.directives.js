@@ -11,7 +11,8 @@ angular.module('core')
 				cancelText: '=',
 				onOk: '=',
 				onCancel: '=',
-				okArgs: '='
+				okArgs: '=',
+				warnText: '='
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
@@ -107,6 +108,7 @@ angular.module('core')
 						self.okText = _.isEmpty(scope.okText) ? 'OK' : scope.okText;
 						self.cancelText = _.isEmpty(scope.cancelText) ? 'Cancel' : scope.cancelText;
 						self.confirmText = _.isEmpty(scope.confirmText) ? 'Are you sure you want to do this?' : scope.confirmText;
+						self.warnText = scope.warnText;
 						var items = _.isEmpty(scope.confirmItems) ? [] : scope.confirmItems;
 						// turn the strings into objects for ng-repeat
 						var id = 1;

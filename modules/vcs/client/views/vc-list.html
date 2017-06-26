@@ -32,7 +32,7 @@
 					data-title="'Status'"
 					sortable="'artifact.isPublished'">
 					<span class="label label-success" ng-if="o.artifact.isPublished">Published</span>
-					<span class="label label-default" ng-if="!o.artifact.isPublished">Unpublished</span>
+					<span class="label label-unpublished" ng-if="!o.artifact.isPublished">Unpublished</span>
 				</td>
 				<td class="actions-col" header-class="'actions-col x2'">
 					<div class="btns">
