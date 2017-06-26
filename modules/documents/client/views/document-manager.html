@@ -62,13 +62,11 @@
 					<li>
 						<a title="Publish"
 							ng-hide="documentMgr.publishSelected.publishableFiles.length === 0"
-							x-confirm-dialog
-							x-title-text="'Publish File(s)'"
-							x-ok-text="documentMgr.publishSelected.okText"
-							x-cancel-text="documentMgr.publishSelected.cancelText"
-							x-confirm-text="'Are you sure you want to publish the selected file(s)?'"
-							x-confirm-items="documentMgr.publishSelected.confirmItems"
-							x-on-ok="documentMgr.publishSelected.publish"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
+							x-confirm-publish
+							x-publisher="documentMgr.publishFiles"
+							x-docs="documentMgr.checkedFiles">
+							<span class="glyphicon glyphicon-ok-circle"></span> Publish
+						</a>
 					</li>
 					<li>
 						<a title="Unpublish"
@@ -297,14 +295,9 @@
 											</li>
 											<li ng-if="doc.userCan.publish && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
-														x-confirm-dialog
-														x-title-text="'Publish File(s)'"
-														x-ok-text="'Yes'"
-														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to publish the selected file?'"
-														x-confirm-items="[doc.displayName]"
-														x-on-ok="documentMgr.publishFile"
-														x-ok-args="doc">
+														x-confirm-publish
+														x-publisher="documentMgr.publishFiles"
+														x-docs="doc">
 													<span class="glyphicon glyphicon-ok-circle"></span>
 												</button>
 											</li>
@@ -447,7 +440,7 @@
 						<h2>File Details</h2>
 						<section ng-if="documentMgr.infoPanel.data.description">
 							<h3>Description</h3>
-							<div class="value">{{ documentMgr.infoPanel.data.description }}</div>
+							<div class="value document-description">{{ documentMgr.infoPanel.data.description }}</div>
 						</section>
 						<section>
 							<h3>Properties</h3>
@@ -460,42 +453,95 @@
 									</span>
 								</li>
 								<li>
+									<span class="name">Display Name:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.displayName }}</span>
+								</li>
+                <li ng-if="documentMgr.infoPanel.data.documentAuthor">
+                  <span class="name">Authors:</span>
+                  <span class="value">{{ documentMgr.infoPanel.data.documentAuthor }}</span>
+                </li>
+								<li ng-if="documentMgr.infoPanel.data.documentDate">
 									<span class="name">Document Date:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.documentDate | date : format : timezone }}</span>
 								</li>
-								<li>
-									<span class="name">Uploaded Date:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
-								</li>
+                <li ng-if="documentMgr.infoPanel.data.documentId">
+                  <span class="name">Document ID:</span>
+                  <span class="value">{{ documentMgr.infoPanel.data.documentId }}</span>
+                </li>
+                <li>
+                  <span class="name">Document Categories:</span>
+                  <span class="value">
+										<ul>
+											<li data-ng-repeat="category in documentMgr.infoPanel.data.documentCategories">{{category}}</li>
+										</ul>
+									</span>
+                </li>
+                <li>
+                  <span class="name">File Name:</span>
+                  <span class="value">{{ documentMgr.infoPanel.data.documentFileName }}</span>
+                </li>
+                <li class="doc-keywords-list" ng-if="documentMgr.infoPanel.data.keywords">
+                  <span class="name">Keywords:</span>
+                  <ul>
+                    <li data-ng-repeat="keyword in documentMgr.infoPanel.data.keywords">{{ keyword }}</li>
+                  </ul>
+                </li>
 								<li ng-if="documentMgr.infoPanel.link">
 									<span class="name">Link:</span>
-									<span class="value">{{ documentMgr.infoPanel.link }}</span>
+									<span class="value break-all">{{ documentMgr.infoPanel.link }}</span>
 								</li>
 								<li>
 									<span class="name">Size:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>
 								</li>
-								<li>
-									<span class="name">Type:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.internalExt }}</span>
+								<hr ng-if="documentMgr.infoPanel.data.hasInspectionMeta "/>
+								<li ng-if="documentMgr.infoPanel.data.hasInspectionMeta && documentMgr.infoPanel.data.inspectionReport.inspectionNumber">
+									<span class="name">Inspection Number:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.inspectionNumber }}</span>
 								</li>
-								<li ng-if="documentMgr.infoPanel.data.documentId">
-									<span class="name">Document ID:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.documentId }}</span>
+								<li ng-if="documentMgr.infoPanel.data.hasInspectionMeta && documentMgr.infoPanel.data.inspectionReport.inspectorName">
+									<span class="name">Inspector Name:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.inspectorName }}</span>
 								</li>
-								<li ng-if="documentMgr.infoPanel.data.documentType">
-									<span class="name">Document Type:</span>
-									<span class="value">{{ documentTypes.display(documentMgr.infoPanel.data.documentType) }}</span>
+								<li ng-if="documentMgr.infoPanel.data.hasInspectionMeta && documentMgr.infoPanel.data.inspectionReport.accompanyingInspectors">
+									<span class="name">Accompanying Inspectors:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.accompanyingInspectors }}</span>
 								</li>
-								<li ng-if="documentMgr.infoPanel.data.documentType ==='Inspection Report' && documentMgr.infoPanel.data.inspectionReport">
-									<span class="name">Inspector Initials:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.inspectorInitials }}</span>
+								<li ng-if="documentMgr.infoPanel.data.hasInspectionMeta && documentMgr.infoPanel.data.inspectionReport.mineManager">
+									<span class="name">Mine Manager:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.mineManager }}</span>
 								</li>
-								<li ng-if="documentMgr.infoPanel.data.documentType ==='Inspection Report' && documentMgr.infoPanel.data.inspectionReport">
-									<span class="name">Follow up:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.followup }}</span>
+								<li ng-if="documentMgr.infoPanel.data.hasInspectionMeta && documentMgr.infoPanel.data.inspectionReport.personsContacted">
+									<span class="name">Persons Contacted:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.personsContacted }}</span>
+								</li>
+								<li ng-if="documentMgr.infoPanel.data.hasInspectionMeta && documentMgr.infoPanel.data.inspectionReport.associatedAuthorization">
+									<span class="name">Associated Authorizations:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.associatedAuthorization }}</span>
 								</li>
 
+								<hr/>
+								<li>
+									<span class="name">Document Date:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.documentDate | date : format : timezone }}</span>
+								</li>
+								<li>
+									<span class="name">Last Change Date:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.dateUpdated | date : format : timezone }}</span>
+								</li>
+								<li>
+									<span class="name">Last Change By:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.updatedBy.displayName }}</span>
+								</li>
+
+								<li>
+									<span class="name">Uploaded Date:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.dateAdded | date : format : timezone }}</span>
+								</li>
+								<li>
+									<span class="name">Uploaded By:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.addedBy.displayName }}</span>
+								</li>
 							</ul>
 						</section>
 

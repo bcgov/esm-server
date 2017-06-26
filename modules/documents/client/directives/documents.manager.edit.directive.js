@@ -28,7 +28,6 @@ angular.module('documents')
 							self.busy = true;
 
 							$scope.project = scope.project;
-							$scope.types = CodeLists.documentTypes.active;
 							$scope.inspectionReportFollowupTypes = CodeLists.inspectionReportFollowUpTypes.active;
 
 							$scope.dateOptions = {
@@ -58,62 +57,6 @@ angular.module('documents')
 							$scope.dateUploadedOpen = function() {
 								$scope.dateUploadedPicker.opened = true;
 							};
-
-							$scope.$watch('doc.documentType',
-								function (data) {
-									if (data) {
-										switch(data) {
-											case 'Inspection Report':
-												if (!$scope.doc.inspectionReport) {
-													$scope.doc.inspectionReport = { inspectorInitials: null, followup: null };
-												}
-												break;
-											case 'Certificate':
-												if (!$scope.doc.certificate) {
-													$scope.doc.certificate = {};
-												}
-												break;
-											case 'Certificate Amendment':
-												if (!$scope.doc.certificateAmendment) {
-													$scope.doc.certificateAmendment = {};
-												}
-												break;
-											case 'Permit':
-												if (!$scope.doc.permit) {
-													$scope.doc.permit = {};
-												}
-												break;
-											case 'Permit Amendment':
-												if (!$scope.doc.permitAmendment) {
-													$scope.doc.permitAmendment = {};
-												}
-												break;
-											case 'Mine Manager Response':
-												if (!$scope.doc.mineManagerResponse) {
-													$scope.doc.mineManagerResponse = {};
-												}
-												break;
-											case 'Annual Report':
-												if (!$scope.doc.annualReport) {
-													$scope.doc.annualReport = {};
-												}
-												break;
-											case 'Annual Reclamation Report':
-												if (!$scope.doc.annualReclamationReport) {
-													$scope.doc.annualReclamationReport = {};
-												}
-												break;
-											case 'Dam Safety Inspection':
-												if (!$scope.doc.damSafetyInspection) {
-													$scope.doc.damSafetyInspection = {};
-												}
-												break;
-											default:
-												break;
-										}
-									}
-								}
-							);
 
 							$scope.validate = function() {
 								$scope.$broadcast('show-errors-check-validity', 'editFileForm');

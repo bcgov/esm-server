@@ -1,0 +1,13 @@
+<div class="modal-header">
+  <button class="btn btn-default close" ng-click="vmm.cancel()"><span aria-hidden="true">×</span></button>
+  <h3 class="modal-title">Categories Selection</h3>
+</div>
+
+<div class="modal-body">
+  <x-categories-selector x-categories="vmm.categories"></x-categories-selector>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-default" ng-click="vmm.cancel()">Cancel</button>
+  <button class="btn btn-primary" ng-click="vmm.ok()">OK</button>
+</div>
