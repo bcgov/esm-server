@@ -646,6 +646,7 @@ function directiveModalDayCalculator($modal) {
 					controller: 'controllerModalDayCalculator',
 					controllerAs: 'dayCalculator',
 					size: 'md',
+					backdrop: 'static'
 				});
 			});
 		}
