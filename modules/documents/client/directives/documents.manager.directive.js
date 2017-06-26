@@ -250,7 +250,7 @@ angular.module('documents')
 					self.currentPath = pathArray || [];
 					// path is published IFF all nodes are not unpublished.  This find returns first unpublished element.
 					self.currentPathIsPublished = (undefined === _.find(self.currentPath, function(p) { return ! p.model.published; }));
-					self.currentPathIsPublishedWarning = self.currentPathIsPublished ? null : "Warning. You will need to publish all parent folders to fully publish these document(s).";
+					self.currentPathIsPublishedWarning = self.currentPathIsPublished ? null : "You will need to publish all parent folders to fully publish these document(s).";
 
 					//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
 					DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)

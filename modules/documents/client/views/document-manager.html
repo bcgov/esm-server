@@ -160,7 +160,7 @@
 								<span class="col date-added-col">---</span>
 								<span class="col status-col last-col" ng-if="authentication.user">
 									<span class="label label-success" ng-if="doc.model.published" title="Published">Published</span>
-									<span class="label label-unpublished" ng-if="!doc.model.published">Unpublished</span>
+									<span class="label label-unpublished" ng-if="!doc.model.published" title="Unpublished">Unpublished</span>
 								</span>
 								<div class="row-actions">
 
@@ -267,7 +267,7 @@
 								<span class="col status-col last-col" ng-if="authentication.user">
 									<span class="label label-success" ng-if="doc.isPublished && documentMgr.currentPathIsPublished" title="Published">Published</span>
 									<span class="label label-unpublished" ng-if="doc.isPublished && !documentMgr.currentPathIsPublished" title="Published">Published</span>
-									<span class="label label-unpublished" ng-if="!doc.isPublished">Unpublished</span>
+									<span class="label label-unpublished" ng-if="!doc.isPublished" title="Unpublished">Unpublished</span>
 								</span>
 								<div class="row-actions">
 
@@ -296,8 +296,7 @@
 													data-clipboard-text="{{ doc.link }}"
 													data-doc-name="{{ doc.displayName }}"
 													ngclipboard-success="copyClipboardSuccess(e);"
-													ngclipboard-error="copyClipboardError(e);"
-													>
+													ngclipboard-error="copyClipboardError(e);">
 													<span class="glyphicon glyphicon-copy"></span>
 												</button>
 											</li>
@@ -389,8 +388,7 @@
 										data-doc-name="documentMgr.infoPanel.data.displayName"
 										data-clipboard-text="{{ documentMgr.infoPanel.data.link }}"
 										ngclipboard-success="copyClipboardSuccess(e);"
-										ngclipboard-error="copyClipboardError(e);"
-						>
+										ngclipboard-error="copyClipboardError(e);">
 							<span class="glyphicon glyphicon-copy"></span>
 						</button>
 						<a ng-if="documentMgr.infoPanel.data.userCan.read"
@@ -398,11 +396,6 @@
 						   href="/api/document/{{ documentMgr.infoPanel.data._id }}/fetch"
 						   target="_blank"
 						   title="Download File"><span class="glyphicon glyphicon-download-alt"></span></a>
-						<button ng-if="documentMgr.infoPanel.data.userCan.read && documentMgr.infoPanel.data.internalMime === 'application/pdf'"
-								x-modal-pdf-viewer
-								x-pdfobject="documentMgr.infoPanel.data"
-								title="View File"
-								class="btn btn-sm btn-default">View</button>
 						<button class="btn btn-sm btn-default" ng-if="documentMgr.infoPanel.data.userCan.write"
 								x-document-mgr-edit
 								x-project="project"
@@ -472,9 +465,9 @@
 								<li ng-if="authentication.user">
 									<span class="name">Status:</span>
 									<span class="value">
-										<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished && documentMgr.currentPathIsPublished">Published</span>
-										<span class="label label-unpublished" ng-if="documentMgr.infoPanel.data.isPublished && !documentMgr.currentPathIsPublished">Published</span>
-										<span class="label label-unpublished" ng-if="!documentMgr.infoPanel.data.isPublished">Unpublished</span>
+										<span class="label label-success" ng-if="documentMgr.infoPanel.data.isPublished && documentMgr.currentPathIsPublished" title="Published">Published</span>
+										<span class="label label-unpublished" ng-if="documentMgr.infoPanel.data.isPublished && !documentMgr.currentPathIsPublished" title="Published">Published</span>
+										<span class="label label-unpublished" ng-if="!documentMgr.infoPanel.data.isPublished" title="Unpublished">Unpublished</span>
 									</span>
 								</li>
 								<li>
@@ -509,7 +502,6 @@
 									<span class="name">Follow up:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.followup }}</span>
 								</li>
-
 							</ul>
 						</section>
 
