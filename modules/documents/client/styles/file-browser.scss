@@ -108,10 +108,15 @@ a.icon-btn {
 
     span.name {
         width: 15rem;
+        min-width: 15rem;
     }
 
     span.value {
         @include flex(1 1 auto);
+
+        ul {
+            padding-left: 0;
+        }
     }
 }
 
@@ -1006,6 +1011,16 @@ $fb-upload-target-border: 2px dashed #BBB;
             font-style: italic;
             color: #666;
         }
+    }
+}
+
+.file-browser {
+    .doc-keywords-list ul {
+        padding-left: 0;
+    }
+    .document-description {
+        overflow-y: hidden;
+        overflow-wrap: break-word;
     }
 }
 

@@ -583,7 +583,7 @@ angular.module('documents')
 								});
 								msg = 'This action cannot be completed as the following documents are published: ' + theDocs + '.  Please unpublish each document and attempt your action again.';
 							} else {
-								msg = "Could complete operation.";
+								msg = "Couldn't complete operation.";
 							}
 							self.busy = false;
 							AlertService.error(msg);
