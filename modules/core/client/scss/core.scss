@@ -4148,28 +4148,6 @@ tmpl-template-render {
 	}
 }
 
-.add-vc-table {
-	tbody {
-		height: 35rem;
-	}
-
-	td:first-child {
-		position: relative;
-		padding-left: 4rem;
-
-		input[type="checkbox"] {
-			position: absolute;
-			margin: 0;
-			top: 1rem;
-			left: 1.5rem;
-		}
-	}
-
-	.pillar-col {
-		width: 30%;
-	}
-}
-
 .vc-details-panel-body {
 	padding-bottom: 0;
 }
@@ -4432,4 +4410,5 @@ tmpl-template-render {
 @import "modules/users/client/scss/user-search-chooser.scss";
 @import "modules/vcs/client/scss/vc-list.scss";
 @import "modules/users/client/scss/user-dashboard.scss";
+@import "modules/email-templates/client/scss/email-templates.scss";
 

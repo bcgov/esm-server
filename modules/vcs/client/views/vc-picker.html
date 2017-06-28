@@ -1,13 +1,31 @@
 <div class="modal-header">
 	<h3 class="modal-title">Assign Valued Components</h3>
 </div>
+
 <div class="modal-body">
-	<ul class="list-group check-list">
-		<li class="list-group-item" ng-repeat="vc in s.vcs | orderBy" ng-click="s.dealwith (vc)">
-			<input type="checkbox" ng-checked="s.findById(vc._id) != -1"></input>{{ vc.title }} ({{ vc.pillar }})
-		</li>
-	</ul>
+	<div class="table-container">
+		<table class="table table-hover table-scroll">
+			<tr ng-class="{'active': (s.findById(vc._id)!= -1)}"
+				ng-repeat="vc in s.vcs | orderBy"
+				ng-click="s.dealwith (vc)">
+				<td class="col checkbox-col"
+					header-class="'col checkbox-col'">
+					<div>
+						<input id="{{vc._id}}" type="checkbox" ng-checked="s.findById(vc._id) != -1"/>
+						<label for="{{vc._id}}">
+							<span class="glyphicon glyphicon-ok"></span>
+						</label>
+					</div>
+				</td>
+				<td class="name-col">
+					{{ vc.title }} ({{ vc.pillar }})
+				</td>
+			</tr>
+		</table>
+	</div>
 </div>
+
+
 <div class="modal-footer">
  	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
 	<button class="btn btn-primary" ng-click="s.ok()">OK</span></button>
