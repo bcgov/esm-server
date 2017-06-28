@@ -136,7 +136,7 @@ var loginUser = function (req, user) {
 
 
 exports.signIn = function (req, res) {
-	var redirectPath = '/';
+	var redirectPath = '/dashboard';
 	var siteMinder;
 	parseSm(req)
 		.then(function (sm) {
@@ -166,7 +166,7 @@ exports.signIn = function (req, res) {
 exports.acceptInvitation = function (req, res) {
 	//console.log('acceptInvitation > token = ', req.params.token);
 	//console.log('acceptInvitation > user = ', JSON.stringify(req.user));
-	var redirectPath = '/';
+	var redirectPath = '/dashboard';
 	var invite, siteMinder, user;
 
 	(new Invitation({user: req.user, context: 'application'})).acceptInvitation(req)
