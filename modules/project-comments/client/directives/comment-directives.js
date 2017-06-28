@@ -359,6 +359,7 @@ angular.module ('comment')
 						self.userRoles = userRoles;
 						self.hasRole = function(role) { return _.includes(self.userRoles, role); };
 						self.hasCeeaRole = self.hasRole('assessment-ceaa');
+						self.attachmentStatus = true;
 
 						self.showAlert = false;
 						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
@@ -388,6 +389,7 @@ angular.module ('comment')
 
 						self.statusChange = function (status) {
 							self.comment.eaoStatus = status;
+							self.fileStatusSync();
 						};
 
 						self.fileStatusChange = function (status, file) {
@@ -397,7 +399,27 @@ angular.module ('comment')
 							} else {
 								file.eaoStatus = status;
 							}
+							self.fileStatusSync();
 						};
+
+						self.fileStatusSync = function() {
+							var oneUnvetted = false;
+							_.forEach(self.comment.documents, function(file) {
+								file.vetted = file.eaoStatus === 'Published' || file.eaoStatus === 'Rejected';
+								oneUnvetted = file.vetted === false ? true : oneUnvetted;
+							});
+							_.forEach(self.comment.ceaaDocuments, function(file) {
+								file.vetted = file.eaoStatus === 'Published' || file.eaoStatus === 'Rejected';
+								oneUnvetted = file.vetted === false ? true : oneUnvetted;
+							});
+							self.attachmentStatus = !oneUnvetted;
+							self.commentForm.$setValidity('attachmentStatus', self.attachmentStatus);
+						};
+
+						// called by the ng-init in the form to pass the form into this controller for validation of attachments
+						self.setForm = function (form) {
+							self.commentForm = form;
+						}
 
 						self.submitForm = function (isValid) {
 							// check to make sure the form is completely valid
