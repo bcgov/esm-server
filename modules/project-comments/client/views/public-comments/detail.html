@@ -79,7 +79,7 @@
                                     {{ file.internalOriginalName }}
                                 </div>
                                 <div class="col review-col" ng-if="s.period.userCan.vetComments">
-                                    <div class="btn-group">
+                                    <div class="pcp-review-btns btn-group">
                                         <button class="reject-btn btn btn-default btn-sm" type="button" title="Reject attachment"
                                             ng-class="{'active':file.eaoStatus === 'Rejected'}"
                                             ng-click="s.fileStatusChange('Rejected', file)">Reject
@@ -259,8 +259,8 @@
                 <textarea class="form-control" name="publishedNotes" ng-model="s.comment.publishedNotes" ng-required="false" rows="4"></textarea>
             </div>
 
-            <div class="comment-status form-group m-t-2 m-b-0" ng-class="{ 'has-error' : s.attachmentStatus === false}" ng-show="s.attachmentStatus === false">
-                <label class="control-label">Must publish or reject all attachments before proceeding.</label>
+            <div class="comment-status form-group m-t-2 m-b-0" ng-class="{ 'has-error' : s.totalStatus === false}" ng-show="s.totalStatus === false">
+                <label class="control-label">{{ s.errorMessage }}</label>
             </div>
 
         </section><!-- / SET COMMENT STATUS -->
