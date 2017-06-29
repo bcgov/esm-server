@@ -293,3 +293,7 @@ $sw-form-font-size: 1.3rem;
         }
     }
 }
+
+.sw-input::-ms-clear { 
+    display: none;
+}

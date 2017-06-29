@@ -170,7 +170,7 @@
 										</button>
 										<ul class="dropdown-menu pull-right">
 											<li ng-if="project.userCan.manageFolders">
-												<button class="btn icon-btn" title="Edit FFF" ng-click="$event.stopPropagation();"
+												<button class="btn icon-btn" title="Edit" ng-click="$event.stopPropagation();"
 														x-document-mgr-edit
 														x-project="project"
 														x-doc="doc"
@@ -464,7 +464,7 @@
 						<h2>File Details</h2>
 						<section ng-if="documentMgr.infoPanel.data.description">
 							<h3>Description</h3>
-							<div class="value">{{ documentMgr.infoPanel.data.description }}</div>
+							<div class="value document-description">{{ documentMgr.infoPanel.data.description }}</div>
 						</section>
 						<section>
 							<h3>Properties</h3>
