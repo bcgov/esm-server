@@ -1,4 +1,10 @@
 'use strict';
+
+var PLEASE_SEE = "Please see attached";
+var NO_COMMENT = "No comment";
+var MUST_VET_ATTACHMENTS = "Must publish or reject all attachments before proceeding.";
+var MUST_HAVE_PUBLISHABLE = "To publish need a comment or published attachment";
+
 // =========================================================================
 //
 // Directives to do with comments either public or working group
@@ -359,6 +365,10 @@ angular.module ('comment')
 						self.userRoles = userRoles;
 						self.hasRole = function(role) { return _.includes(self.userRoles, role); };
 						self.hasCeeaRole = self.hasRole('assessment-ceaa');
+						self.totalStatus = true;
+						self.attachmentStatus = true;
+						self.oneDocPublished = false;
+						self.oneCeaaPublished = false;
 
 						self.showAlert = false;
 						if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
@@ -388,6 +398,7 @@ angular.module ('comment')
 
 						self.statusChange = function (status) {
 							self.comment.eaoStatus = status;
+							self.statusSync();
 						};
 
 						self.fileStatusChange = function (status, file) {
@@ -397,11 +408,66 @@ angular.module ('comment')
 							} else {
 								file.eaoStatus = status;
 							}
+							self.statusSync();
+						};
+
+						self.statusSync = function() {
+							var oneUnvetted = false;
+							console.log("status sync");
+							self.totalStatus = true;
+							self.hasPublishableComment = false;
+							self.hasPublishableCeaaComment = false;
+							self.oneDocPublished = false;
+							self.oneCeaaPublished = false;
+							self.errorMessage = '';
+							_.forEach(self.comment.documents, function(file) {
+								file.vetted = file.eaoStatus === 'Published' || file.eaoStatus === 'Rejected';
+								oneUnvetted = file.vetted === false ? true : oneUnvetted;
+								self.oneDocPublished = file.eaoStatus === 'Published' ? true : self.oneDocPublished;
+							});
+							_.forEach(self.comment.ceaaDocuments, function(file) {
+								file.vetted = file.eaoStatus === 'Published' || file.eaoStatus === 'Rejected';
+								oneUnvetted = file.vetted === false ? true : oneUnvetted;
+								self.oneCeaaPublished = file.eaoStatus === 'Published' ? true : self.oneCeaaPublished;
+							});
+							self.attachmentStatus = !oneUnvetted;
+
+							if (self.oneDocPublished || self.comment.comment !== PLEASE_SEE) {
+								self.hasPublishableComment = true;
+							}
+							if (self.oneCeaaPublished || self.comment.ceeaComment !== PLEASE_SEE) {
+								self.hasPublishableCeaaComment = true;
+							}
+							if (self.comment.eaoStatus === 'Published') {
+								if (!self.attachmentStatus) {
+									self.errorMessage = MUST_VET_ATTACHMENTS;
+									self.totalStatus = false;
+								} if (self.hasPublishableComment || self.hasPublishableCeaaComment) {
+									// no op .. this is good.
+								} else {
+									self.errorMessage = MUST_HAVE_PUBLISHABLE;
+									self.totalStatus = false;
+								}
+							}
+							// console.log("status ", self.totalStatus, self.errorMessage);
+							self.commentForm.$setValidity('totalStatus', self.totalStatus);
+						};
+
+						// called by the ng-init in the form to pass the form into this controller for validation of attachments
+						self.setForm = function (form) {
+							self.commentForm = form;
 						};
 
 						self.submitForm = function (isValid) {
 							// check to make sure the form is completely valid
 							if (isValid) {
+								// replace "please see" with "no comment" if there are no published attachments
+								if (!self.oneDocPublished && self.comment.comment === PLEASE_SEE) {
+									self.comment.comment = NO_COMMENT;
+								}
+								if (!self.oneCeaaPublished && self.comment.ceeaComment === PLEASE_SEE) {
+									self.comment.ceeaComment = NO_COMMENT;
+								}
 								$modalInstance.close(self.comment);
 							}
 						};
@@ -651,7 +717,7 @@ function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $st
 					s.comment.inProgress = false;
 					comment.isAnonymous = !comment.makeVisible;
 					if (!s.comment.comment) {
-						s.comment.comment = "Please see attached"; //if the comment is empty and has attachment
+						s.comment.comment = PLEASE_SEE; //if the comment is empty and has attachment
 					}
 					var docCount = s.fileList.length;
 
@@ -820,10 +886,10 @@ function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $sta
 					comment.inProgress = false;
 					comment.isAnonymous = !ctrl.makeVisible;
 					if (!comment.comment && ctrl.eaoPackage.validFiles.length > 0) {
-						comment.comment = "Please see attached";
+						comment.comment = PLEASE_SEE;
 					}
 					if (!comment.ceeaComment && ctrl.ceaaPackage.validFiles.length > 0) {
-						comment.ceeaComment = "Please see attached";
+						comment.ceeaComment = PLEASE_SEE;
 					}
 					var url = '/api/commentdocument/' + comment.project._id + '/upload';
 
