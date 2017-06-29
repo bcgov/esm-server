@@ -79,10 +79,10 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 		// load a query result from the server, set the local and resolve it
 		//
 		// -------------------------------------------------------------------------
-		getQuery: function (q) {
+		getQuery: function (q, fields) {
 			var self = this;
 			return new Promise (function (resolve, reject) {
-				self.query (q).then (function (res) {
+				self.query (q, fields).then (function (res) {
 					self.collection = res;
 					resolve (res);
 				}).catch (reject);
@@ -197,7 +197,18 @@ angular.module('core').factory ('ModelBase', ['$http', '_', function ($http, _) 
 		add : function (obj) {
 			return this.post (this.urlall, obj);
 		},
-		query : function (obj) {
+		// -------------------------------------------------------------------------
+		//
+		// Returns a list of models matching the criteria sent in the query
+		// @param q - the query to execute; e.g. { name: 'foo' }
+		// @param fields - which fields to include or exclude in the response (also known as the query "projection")
+		//
+		// A projection must be either inclusive or exclusive. You must either list the fields to include
+		// (which excludes all others), or list the fields to exclude (which implies all other fields are included).
+		//
+		// -------------------------------------------------------------------------
+		query : function (q, fields) {
+			var obj = { q: q, fields: fields };
 			return this.put (this.urlquery, obj);
 		},
 		paginate: function(start, limit, filterBy, filterByFields, orderBy, reverse, fields, populate, userCan) {
