@@ -7,13 +7,13 @@
 		<h3 class="modal-title">{{confirmDlg.titleText}}</h3>
 	</div>
 
-	<div class="modal-body" ng-if="confirmDlg.warnText">
-		{{confirmDlg.warnText}}
-	</div>
-
 	<div ng-show="confirmDlg.errorMsg">{{confirmDlg.errorMsg}}</div>
 	
 	<div class="modal-body">
+		<div class="alert alert-warning" ng-if="confirmDlg.warnText">
+			{{confirmDlg.warnText}}
+		</div>
+
 		{{confirmDlg.confirmText}}		
 		<ul class="confirm-list">
 			<li ng-repeat="t in confirmDlg.confirmItems">{{t.value}}</li>
