@@ -626,15 +626,15 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 			return ms.toDate();
 		}
 
-		// Convert to number when type is not "custom". Period includes start and end date subtract one
+		// Convert to number when type is not "custom". Period uses day zero rules excludes start and includes end date
 		var numberOfDaysToAdd;
 		switch (type) {
 			case 'start':
-				numberOfDaysToAdd = (rOption - 1);
+				numberOfDaysToAdd = (rOption);
 				period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
 				break;
 			case 'end':
-				numberOfDaysToAdd = -1 * (rOption - 1);
+				numberOfDaysToAdd = -1 * (rOption);
 				period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
 				break;
 			case 'custom':
@@ -908,15 +908,15 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
 			var type = period.rangeType;
 
-			// Convert to number when type is not "custom". Period includes start and end date subtract one
+			// Convert to number when type is not "custom". Period uses day zero rules excludes start and includes end date
 			var numberOfDaysToAdd;
 			switch (type) {
 				case 'start':
-					numberOfDaysToAdd = (rOption - 1);
+					numberOfDaysToAdd = (rOption);
 					period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
 					break;
 				case 'end':
-					numberOfDaysToAdd = -1 * (rOption - 1);
+					numberOfDaysToAdd = -1 * (rOption);
 					period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
 					break;
 				case 'custom':

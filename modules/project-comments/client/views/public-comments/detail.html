@@ -1,5 +1,5 @@
 <form name="commentForm" ng-submit="s.submitForm(commentForm.$valid)" novalidate>
-
+    <div ng-init="s.setForm(commentForm);"></div>
     <div class="modal-header">
         <button type="button" class="btn btn-default close" aria-label="Close" ng-click="s.cancel()">
             <span aria-hidden="true">&times;</span>
@@ -70,7 +70,8 @@
                 <div class="fb-body">
                     <div class="fb-list">
                         <ul>
-                            <li class="fb-list-item" ng-repeat="file in s.comment.documents">
+                            <li class="fb-list-item" ng-repeat="file in s.comment.documents"
+                                ng-class="{'has-error' : file.vetted === false && s.attachmentStatus === false }">
                                 <div class="col name-col first-col">
                                     <span class="avatar">
                                         <span class="fb-file glyphicon glyphicon-file"></span>
@@ -78,7 +79,7 @@
                                     {{ file.internalOriginalName }}
                                 </div>
                                 <div class="col review-col" ng-if="s.period.userCan.vetComments">
-                                    <div class="btn-group">
+                                    <div class="pcp-review-btns btn-group">
                                         <button class="reject-btn btn btn-default btn-sm" type="button" title="Reject attachment"
                                             ng-class="{'active':file.eaoStatus === 'Rejected'}"
                                             ng-click="s.fileStatusChange('Rejected', file)">Reject
@@ -115,7 +116,8 @@
                     <div class="fb-body">
                         <div class="fb-list">
                             <ul>
-                                <li class="fb-list-item" ng-repeat="file in s.comment.documents">
+                                <li class="fb-list-item" ng-repeat="file in s.comment.documents"
+                                    ng-class="{'has-error' : file.vetted === false && s.attachmentStatus === false }">
                                     <div class="col name-col first-col">
                                         <span class="avatar">
                                             <span class="fb-file glyphicon glyphicon-file"></span>
@@ -169,7 +171,8 @@
                     <div class="fb-body">
                         <div class="fb-list">
                             <ul>
-                                <li class="fb-list-item" ng-repeat="file in s.comment.ceaaDocuments">
+                                <li class="fb-list-item" ng-repeat="file in s.comment.ceaaDocuments"
+                                    ng-class="{'has-error' : file.vetted === false && s.attachmentStatus === false }">
                                     <div class="col name-col first-col">
                                         <span class="avatar">
                                             <span class="fb-file glyphicon glyphicon-file"></span>
@@ -255,6 +258,11 @@
                 <label class="control-label">Notes<em>(Optional)</em></label>
                 <textarea class="form-control" name="publishedNotes" ng-model="s.comment.publishedNotes" ng-required="false" rows="4"></textarea>
             </div>
+
+            <div class="comment-status form-group m-t-2 m-b-0" ng-class="{ 'has-error' : s.totalStatus === false}" ng-show="s.totalStatus === false">
+                <label class="control-label">{{ s.errorMessage }}</label>
+            </div>
+
         </section><!-- / SET COMMENT STATUS -->
 
     </div>
