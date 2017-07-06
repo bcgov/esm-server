@@ -1,15 +1,12 @@
 #!/bin/bash
 
-pushd ${HOME}
+# Besides the tar command, all other output to standard out must 
+# be surpressed.  Otherwise, the tar stream will be corrupted.
 
-echo HOME is ${HOME}
-echo "save-artifacts---> current directory is" `pwd`
-echo "---> Listing stuff that is in the current dir..."
-
-ls -la
+pushd ${HOME}>/dev/null
 
 if [ -d node_modules ]; then
-    # all deps contents to tar stream
-    tar cf - node_modules
+    # node.js modules and bower libs are saved for the next build.
+    tar cf - ./node_modules ./public/lib
 fi
-popd
+popd >/dev/null
