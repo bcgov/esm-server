@@ -2,7 +2,7 @@
 
 angular.module('documents')
 // document-drop-zone-upload-modal
-	.directive('documentDropZoneUploadModal',['$modal', '$rootScope', 'DocumentsUploadService', 'Document', '_', function ($modal, $rootScope, DocumentsUploadService, Document, _){
+	.directive('documentDropZoneUploadModal',['$modal', '$rootScope', 'DocumentsUploadService', 'Document', '_', 'DnDBackgroundBlockService', function ($modal, $rootScope, DocumentsUploadService, Document, _, DnDBackgroundBlockService){
 		return {
 			restrict: 'A',
 			scope: {
@@ -10,6 +10,7 @@ angular.module('documents')
 				target	: '='
 			},
 			link: function (scope, element, attrs) {
+				DnDBackgroundBlockService.addEventListeners();
 				element.on('click', function (event) {
 					event.stopPropagation();
 					$modal.open({
@@ -65,6 +66,13 @@ angular.module('documents')
 								DocumentsUploadService.startUploads(self.url, 0, false, new Date(), description);
 							}
 						}
+					}).result.then(function (data) {
+						DnDBackgroundBlockService.removeEventListeners();
+						//$log.debug(data);
+					})
+					.catch(function (err) {
+						DnDBackgroundBlockService.removeEventListeners();
+						//$log.error(err);
 					});
 				}); // end element on click
 			} // end link

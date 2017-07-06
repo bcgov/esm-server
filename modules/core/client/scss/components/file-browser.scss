@@ -872,6 +872,12 @@ $fb-upload-target-border: 2px dashed #BBB;
     }
 }
 
+.dragover {
+    background: $fb-upload-target-hover-bg;
+    border: $fb-upload-target-border;
+    border-color: #CCC;
+}
+
 .fb-upload-target-content {
     position: absolute;
     top: 3.85rem;
