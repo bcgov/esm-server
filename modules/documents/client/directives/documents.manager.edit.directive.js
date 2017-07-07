@@ -133,9 +133,17 @@ angular.module('documents')
 												// somewhere here we need to tell document manager to refresh it's document...
 												if (scope.onUpdate) {
 													scope.onUpdate(result);
+													DocumentMgrService.renameDirectory($scope.project, scope.doc, $scope.doc.displayName)
+														.then(
+														function (result) {
+															self.busy = false;
+															$modalInstance.close(result.data);
+														},
+														function (err) {
+															AlertService.error("Could not rename folder");
+														}
+														); 
 												}
-												self.busy = false;
-												$modalInstance.close(result);
 											} else {
 												self.busy = false;
 												AlertService.error("Sorry, folder already exists.  Please choose another name.");
