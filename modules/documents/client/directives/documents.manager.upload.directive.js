@@ -1,6 +1,7 @@
 'use strict';
 angular.module('documents')
-	.directive('documentMgrUploadModal',['$rootScope', '$modal', '$log', '$timeout', '_', 'DocumentsUploadService', 'DocumentMgrService', function ($rootScope, $modal, $log, $timeout, _, DocumentsUploadService, DocumentMgrService){
+	.directive('documentMgrUploadModal',['$rootScope', '$modal', '$log', '$timeout', '_', 'DocumentsUploadService', 'DocumentMgrService', 'DnDBackgroundBlockService',
+		function ($rootScope, $modal, $log, $timeout, _, DocumentsUploadService, DocumentMgrService, DnDBackgroundBlockService){
 		return {
 			restrict: 'A',
 			scope: {
@@ -11,6 +12,7 @@ angular.module('documents')
 				parentId: '='
 			},
 			link: function (scope, element, attrs) {
+				DnDBackgroundBlockService.addEventListeners();
 				element.on('click', function () {
 					$modal.open({
 						animation: true,
@@ -70,9 +72,11 @@ angular.module('documents')
 
 						}
 					}).result.then(function (data) {
+						DnDBackgroundBlockService.removeEventListeners();
 							//$log.debug(data);
 						})
 						.catch(function (err) {
+							DnDBackgroundBlockService.removeEventListeners();
 							//$log.error(err);
 						});
 				});

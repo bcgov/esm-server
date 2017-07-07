@@ -535,7 +535,7 @@ angular.module ('comment')
 // add a public comment
 //
 // -------------------------------------------------------------------------
-.directive ('addPublicComment', function ($modal, CommentModel, Upload, $timeout, _, $state) {
+.directive ('addPublicComment', function ($modal, CommentModel, Upload, $timeout, _, $state, DnDBackgroundBlockService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -543,16 +543,16 @@ angular.module ('comment')
 			period : '='
 		},
 		link : function(scope, element, attrs) {
+			DnDBackgroundBlockService.addEventListeners();
 			element.on('click', function () {
 				// Either regular PCP or joint PCP
 				var modal;
 				if (scope.period.periodType === 'Joint') {
-					modal = new JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs);
-					modal.show();
+					modal = new JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService);
 				} else if (scope.period.periodType === 'Public') {
-					modal = new PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs);
-					modal.show();
+					modal = new PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService);
 				}
+				modal.show();
 			});
 		}
 	};
@@ -614,8 +614,8 @@ angular.module ('comment')
 })
 
 /*
-	Validate the PCP before publishing.
-*/
+ Validate the PCP before publishing.
+ */
 .directive('pcpvalidationDialog', ['ConfirmService','AlertService', function (ConfirmService, AlertService) {
 	return {
 		restrict: 'A',
@@ -636,23 +636,23 @@ angular.module ('comment')
 				var startdate = period.dateStarted;
 				var end_date = period.dateCompleted;
 				if (!period.informationLabel){
-				 AlertService.error('Related documents information is empty');
+					AlertService.error('Related documents information is empty');
 				}
 				else if (startdate > end_date){
-					 AlertService.error('Start Date is greater than End Date. Please correct the Start Date');
+					AlertService.error('Start Date is greater than End Date. Please correct the Start Date');
 				}
 				else if (!startdate){
-					 AlertService.error('Start Date is empty. Please choose Start Date');
+					AlertService.error('Start Date is empty. Please choose Start Date');
 				}
 				else if (!end_date){
-					 AlertService.error('End Date is empty. Please choose End Date');
+					AlertService.error('End Date is empty. Please choose End Date');
 				}
 				else {
 					/*
 					 It is assumed the scope has been set up for the confirm dialog service. We just need to populate the okArg
 					 */
-					 scope.okArgs = scope.period;
-					 ConfirmService.confirmDialog(scope);
+					scope.okArgs = scope.period;
+					ConfirmService.confirmDialog(scope);
 				}
 			});
 		}
@@ -660,8 +660,9 @@ angular.module ('comment')
 }])
 ;
 
-function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs) {
+function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService) {
 	this.show = function () {
+		DnDBackgroundBlockService.addEventListeners();
 		$modal.open({
 			animation: true,
 			templateUrl: 'modules/project-comments/client/views/public-comments/add.html',
@@ -786,19 +787,22 @@ function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $st
 			}
 		})
 		.result.then(function (data) {
+			DnDBackgroundBlockService.removeEventListeners();
 			// Redirect to full PCP page
 			$state.transitionTo('p.commentperiod.detail', { projectid: scope.project.code, periodId: data.period._id }, {
 				reload: true, inherit: false, notify: true
 			});
 		})
 		.catch (function (err) {
+			DnDBackgroundBlockService.removeEventListeners();
 			console.error(err);
 		});
 	};
 }
 
-function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs) {
+function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService) {
 	this.show = function () {
+		DnDBackgroundBlockService.addEventListeners();
 		$modal.open({
 			animation: true,
 			templateUrl: 'modules/project-comments/client/views/joint-public-comments/submit-comment.html',
@@ -975,12 +979,14 @@ function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $sta
 			}
 		})
 		.result.then(function (data) {
+			DnDBackgroundBlockService.removeEventListeners();
 			// Redirect to full PCP page
 			$state.transitionTo('p.commentperiod.detail', { projectid: scope.project.code, periodId: data.period._id }, {
 				reload: true, inherit: false, notify: true
 			});
 		})
 		.catch(function (err) {
+			DnDBackgroundBlockService.removeEventListeners();
 			console.error(err);
 		});
 	};
