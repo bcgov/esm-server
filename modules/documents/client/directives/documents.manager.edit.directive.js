@@ -130,12 +130,17 @@ angular.module('documents')
 										})
 										.then(function (result) {
 											if (result) {
-												// somewhere here we need to tell document manager to refresh it's document...
-												if (scope.onUpdate) {
-													scope.onUpdate(result);
-												}
-												self.busy = false;
-												$modalInstance.close(result);
+												DocumentMgrService.renameDirectory($scope.project, scope.doc, $scope.doc.displayName)
+												.then(function (result) {
+													// somewhere here we need to tell document manager to refresh it's document...
+													if (scope.onUpdate) {
+														scope.onUpdate(result);
+													}
+													self.busy = false;
+													$modalInstance.close(result);
+												}, function (err) {
+													AlertService.error("Could not rename folder");
+												});
 											} else {
 												self.busy = false;
 												AlertService.error("Sorry, folder already exists.  Please choose another name.");
