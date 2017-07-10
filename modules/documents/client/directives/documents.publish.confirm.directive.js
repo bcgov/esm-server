@@ -46,7 +46,7 @@ angular.module('documents')
 						var last = fldNames.pop();
 						var prefix = fldNames.length > 0 ? fldNames.join(', ') + " and " : '';
 						var msg = prefix + last;
-						var suffix = self.docs.length > 1 ? ' to publish these document(s).' : ' to publish this document';
+						var suffix = self.docs.length > 1 ? ' to publish these documents.' : ' to publish this document';
 						if (fldNames.length > 0) {
 							self.errMsg = "You need to publish parent folders " + msg + suffix;
 						} else {
