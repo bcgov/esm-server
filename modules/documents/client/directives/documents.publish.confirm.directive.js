@@ -42,7 +42,7 @@ angular.module('documents')
 					if (unpublishedFolders.length > 0) {
 						self.showSubmit = false;
 						self.cancelText = 'OK';
-						var fldNames = _.map(unpublishedFolders, function (fld) { return fld.model.name});
+						var fldNames = _.map(unpublishedFolders, function (fld) { return fld.model.name; });
 						var last = fldNames.pop();
 						var prefix = fldNames.length > 0 ? fldNames.join(', ') + " and " : '';
 						var msg = prefix + last;
