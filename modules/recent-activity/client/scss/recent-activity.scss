@@ -1,0 +1,30 @@
+.activity-table {
+    > tbody {
+        > tr {
+            td {
+                vertical-align: top;
+            }
+        }
+    }
+
+    .pin-col {
+        width: 8rem;
+        text-align: right;
+    }
+
+    .priority-col {
+        width: 10rem;
+    }
+
+    .status-col {
+        width: 10rem;
+    }
+
+    .pin-btn {
+        color: #ccc;
+
+        &.active {
+            color: #5cb85c;
+        }
+    }
+}
