@@ -61,14 +61,13 @@
 					</li>
 					<li>
 						<a title="Publish"
-							ng-hide="documentMgr.publishSelected.publishableFiles.length === 0"
-							x-confirm-dialog
-							x-title-text="'Publish File(s)'"
-							x-ok-text="documentMgr.publishSelected.okText"
-							x-cancel-text="documentMgr.publishSelected.cancelText"
-							x-confirm-text="'Are you sure you want to publish the selected file(s)?'"
-							x-confirm-items="documentMgr.publishSelected.confirmItems"
-							x-on-ok="documentMgr.publishSelected.publish"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
+							 ng-hide="documentMgr.publishSelected.publishableFiles.length === 0"
+							 x-confirm-publish
+							 x-publisher="documentMgr.publishFiles"
+							 x-current-node="documentMgr.currentNode"
+							 x-docs="documentMgr.checkedFiles">
+							<span class="glyphicon glyphicon-ok-circle"></span> Publish
+						</a>
 					</li>
 					<li>
 						<a title="Unpublish"
@@ -302,15 +301,10 @@
 											</li>
 											<li ng-if="doc.userCan.publish && !doc.isPublished">
 												<button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
-														x-confirm-dialog
-														x-title-text="'Publish File(s)'"
-														x-ok-text="'Yes'"
-														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to publish the selected file?'"
-														x-confirm-items="[doc.displayName]"
-														x-warn-text="documentMgr.currentPathIsPublishedWarning"
-														x-on-ok="documentMgr.publishFile"
-														x-ok-args="doc">
+													x-confirm-publish
+													x-publisher="documentMgr.publishFiles"
+													x-current-node="documentMgr.currentNode"
+													x-docs="doc">
 													<span class="glyphicon glyphicon-ok-circle"></span>
 												</button>
 											</li>
