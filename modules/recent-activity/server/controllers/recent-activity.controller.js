@@ -14,6 +14,7 @@ var ProjectModel       = mongoose.model ('Project');
 module.exports = DBModel.extend ({
 	name : 'RecentActivity',
 	plural : 'recentactivities',
+	populate: [{path: 'project', select: { 'code': 1, 'name': 1}}],
 	// -------------------------------------------------------------------------
 	//
 	// get activities which are active, sorted by Public Comment period, then
