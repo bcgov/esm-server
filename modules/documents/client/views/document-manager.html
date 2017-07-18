@@ -496,6 +496,10 @@
 									<span class="name">Follow up:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.followup }}</span>
 								</li>
+								<li ng-if="authentication.user">
+									<span class="name">File Name:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.documentFileName }}</span>
+								</li>
 							</ul>
 						</section>
 
