@@ -3,16 +3,17 @@
     <div class="file-browser">
         <label>Select one or more files to link to this content</label>
         <div class="fb-header">
-            <ul class="fb-breadcrumbs">
-                <li ng-repeat="node in documentMgr.currentPath">
-                    <button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
-                        <span class="root-icon glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></span>
-                        <span class="back-icon glyphicon glyphicon-menu-left"></span>
-                        <span ng-show="node.model.name != 'ROOT'">{{ node.model.name }}</span>
-                    </button>
-                </li>
-            </ul>
-            <div class="file-batch-actions">
+            <div class="fb-header-path">
+                <div class="fb-path" 
+					ng-class="{'root':node.model.name == 'ROOT'}" 
+					ng-repeat="node in documentMgr.currentPath">
+					<span class="fb-path-arrow" ng-if="node.model.name != 'ROOT'">&rsaquo;</span>
+					<button class="btn icon-btn" title="{{ node.model.name }}" 
+						ng-click="documentMgr.selectNode(node.model.id)">
+						<i class="glyphicon glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></i>
+						<span class="btn-txt" ng-if="node.model.name != 'ROOT'">{{ node.model.name }}</span>
+					</button>
+				</div>
             </div>
         </div>
 

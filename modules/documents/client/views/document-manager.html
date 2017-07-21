@@ -1,16 +1,18 @@
 <div class="file-browser">
 
 	<div class="fb-header">
-		<ul class="fb-breadcrumbs">
-			<li ng-repeat="node in documentMgr.currentPath">
-				<button class="btn icon-btn" ng-click="documentMgr.selectNode(node.model.id)">
-					<span class="root-icon glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'" title="Document Home"></span>
-					<span class="back-icon glyphicon glyphicon-menu-left"></span>
-					<span ng-show="node.model.name != 'ROOT'">{{ node.model.folderObj.displayName }}</span>
+		<div class="fb-header-path">
+			<div class="fb-path" 
+				ng-class="{'root':node.model.name == 'ROOT'}" 
+				ng-repeat="node in documentMgr.currentPath">
+				<span class="fb-path-arrow" ng-if="node.model.name != 'ROOT'">&rsaquo;</span>
+				<button class="btn icon-btn" title="{{ node.model.folderObj.displayName }}" ng-click="documentMgr.selectNode(node.model.id)">
+					<i class="glyphicon glyphicon glyphicon-home" ng-if="node.model.name == 'ROOT'"></i>
+					<span class="btn-txt" ng-if="node.model.name != 'ROOT'">{{ node.model.folderObj.displayName }}</span>
 				</button>
-			</li>
-		</ul>
-		<div class="file-batch-actions">
+			</div>
+		</div>
+		<div class="fb-header-actions">
 			<button class="btn icon-btn" title="Add New Folder"
 					ng-if="project.userCan.manageFolders"
 					ng-disabled="!documentMgr.selectedNode"
@@ -448,13 +450,12 @@
 				</div>
 				<div class="scroll-container">
 					<section class="fb-details-section">
-						<h2>File Details</h2>
 						<section ng-if="documentMgr.infoPanel.data.description">
 							<h3>Description</h3>
 							<div class="value document-description">{{ documentMgr.infoPanel.data.description }}</div>
 						</section>
 						<section>
-							<h3>Properties</h3>
+							<h3>File Details</h3>
 							<ul class="nv-pair">
 								<li ng-if="authentication.user">
 									<span class="name">Status:</span>
@@ -503,20 +504,6 @@
 							</ul>
 						</section>
 
-						<!-- FILE KEYWORDS -->
-						<!--
-						<section>
-							<h3>Keywords</h3>
-							<ul class="comma-separated-list">
-								<li>Keyword 1</li>
-								<li>Keyword 2</li>
-								<li>Keyword 3</li>
-								<li>Keyword 4</li>
-							</ul>
-						</section>
-						-->
-						<!-- / FILE KEYWORDS -->
-
 					</section>
 				</div>
 			</div><!-- / FILE DETAILS -->
@@ -532,7 +519,12 @@
 					</div>
 				</div>
 				<div class="scroll-container">
+					<section ng-if="documentMgr.infoPanel.data.folderObj.description">
+						<h3>Description</h3>
+						<div class="value document-description">{{documentMgr.infoPanel.data.folderObj.description}}</div>
+					</section>
 					<section>
+						<h3>Folder Details</h3>
 						<ul class="nv-pair">
 							<li ng-if="authentication.user">
 								<span class="name">Status:</span>
@@ -541,10 +533,6 @@
 									<span class="label label-unpublished" ng-if="documentMgr.infoPanel.data.folderObj.isPublished && !documentMgr.currentPathIsPublished">Published</span>
 									<span class="label label-unpublished" ng-if="!documentMgr.infoPanel.data.folderObj.isPublished">Unpublished</span>
 								</span>
-							</li>
-							<li>
-								<span class="name">Description:</span>
-								<span class="value">{{documentMgr.infoPanel.data.folderObj.description}}</span>
 							</li>
 							<li>
 								<span class="name">Date Created:</span>
