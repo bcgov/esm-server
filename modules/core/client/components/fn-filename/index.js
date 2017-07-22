@@ -6,6 +6,7 @@
 	var NO_PERIOD_OR_SPACE = "Names shouldn't begin with a period or spaces";
 	var RESERVED = 'Can not use reserved file names like COM0, PRN, etc';
 	var NO_ALL_PERIOD = 'Names can not be just periods';
+	var NO_TRAILING_SPACE = 'Names can not end with spaces';
 	var REQUIRED = 'Required';
 
 	angular.module('core')
@@ -58,6 +59,7 @@
 			var windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
 			var leadingRe = /^[\.\s]+/; // no names beginning with . or whitespace
 			var reservedRe = /^\.+$/; // no names like ".", ".."
+			var reservedEnd = /\s+$/; // no names with spaces before extension or at end without extension
 			var result = '';
 			if (input.match(illegalRe)) {
 				result = NOT_ALLOWED;
@@ -65,6 +67,8 @@
 				result = NO_CONTROL;
 			} else if (input.match(leadingRe)) {
 				result = NO_PERIOD_OR_SPACE;
+			} else if (input.match(reservedEnd)) {
+				result = NO_TRAILING_SPACE;
 			} else if (!extension && input.match(windowsReservedRe)) {
 				result = RESERVED;
 			} else if (input.match(reservedRe)) {
