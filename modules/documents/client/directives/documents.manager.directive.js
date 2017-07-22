@@ -652,40 +652,53 @@ angular.module('documents')
 							} else {
 								self.busy = true;
 
-								var dirPromises = _.map(self.moveSelected.moveableFolders, function (d) {
-									return DocumentMgrService.moveDirectory($scope.project, d, destination);
-								});
-
 								var filePromises = _.map(self.moveSelected.moveableFiles, function (f) {
 									f.directoryID = destination.model.id;
 									return Document.save(f);
 								});
-
 								var directoryStructure;
-
-								return Promise.all(dirPromises)
-									.then(function (result) {
-										//$log.debug('Dir results ', JSON.stringify(result));
-										if (!_.isEmpty(result)) {
-											var last = _.last(result);
-											directoryStructure = last.data;
-										}
-										return Promise.all(filePromises);
-									})
-									.then(function (result) {
-										//$log.debug('File results ', JSON.stringify(result));
-										if (directoryStructure) {
-											//$log.debug('Setting the new directory structure...');
-											$scope.project.directoryStructure = directoryStructure;
-											$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-										}
-										//$log.debug('select and refresh destination directory...');
-										self.selectNode(destination.model.id);
-										AlertService.success('The selected items were moved.');
-									}, function (err) {
-										self.busy = false;
-										AlertService.error("The selected items could not be moved.");
-									});
+								// promise to move files and folders
+								return new Promise(function (resolve, reject) {
+									var promise = Promise.resolve(null);
+									var count = _.size(self.moveSelected.moveableFolders);
+									if (count > 0) { // we have this counter to check if there is only files that need to be moved i.e execute only if the folder array size > 0
+										//loop to move files sequentially
+										self.moveSelected.moveableFolders.forEach(function (value) {
+											promise = promise.then(function () {
+												return DocumentMgrService.moveDirectory($scope.project, value, destination);
+											})
+											.then(function (newValue) {
+												count--;
+												if (count === 0) {
+													resolve(newValue);
+												}
+											});
+										});
+									}
+									else {
+										resolve(null); //if no folders 
+									}
+								})
+								.then(function (result) {
+									if (!_.isEmpty(result)) {
+										directoryStructure = result.data;
+									}
+									return Promise.all(filePromises);
+								})
+								.then(function (result) {
+									//$log.debug('File results ', JSON.stringify(result));
+									if (directoryStructure) {
+										//$log.debug('Setting the new directory structure...');
+										$scope.project.directoryStructure = directoryStructure;
+										$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+									}
+									//$log.debug('select and refresh destination directory...');
+									self.selectNode(destination.model.id);
+									AlertService.success('The selected items were moved.');
+								}, function (err) {
+									self.busy = false;
+									AlertService.error("The selected items could not be moved.");
+								});
 							}
 						}
 					},
