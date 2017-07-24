@@ -17,7 +17,7 @@ x-search-info-panel {
         bottom: 1.5rem;
         left: 1.5rem;
 
-        .fb-breadcrumbs {
+        .fb-result-count {
             padding: 0.65rem;
             font-weight: bold;
         }
@@ -244,7 +244,7 @@ x-search-info-panel {
     }
 
     .status-col {
-        width: 8rem;
+        width: 10rem;
 
         .glyphicon {
             font-size: 1.8rem;
@@ -295,7 +295,7 @@ and (max-device-width: 1024px)  {
         }
 
         .status-col {
-            width: 11rem;
+            width: 12rem;
         }
     }
 }

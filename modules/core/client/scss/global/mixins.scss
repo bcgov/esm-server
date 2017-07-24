@@ -31,3 +31,7 @@
 	display: -webkit-flex;
 	display: flex;
 }
+
+@mixin userselect($values) {
+    user-select: $values;
+}

@@ -22,20 +22,21 @@
 			</div>
 		</div>
 
-
 		<div class="m-b-1">Project <span class="displayName"> {{ moveDlg.project.name }} </span></div>
 
 		<div class="file-browser">
 			<div class="fb-header">
-				<ul class="fb-breadcrumbs">
-					<li ng-repeat="dir in moveDlg.currentPath">
-						<button class="btn icon-btn" ng-click="!$last && moveDlg.selectNode(dir)">
-							<span class="root-icon glyphicon glyphicon-home" ng-if="dir.model.name == 'ROOT'"></span>
-							<span class="back-icon glyphicon glyphicon-menu-left"></span>
-							<span ng-show="dir.model.name != 'ROOT'">{{ dir.model.name }}</span>
+				<div class="fb-header-path">
+					<div class="fb-path" 
+						ng-class="{'root': dir.model.name == 'ROOT'}" 
+						ng-repeat="dir in moveDlg.currentPath">
+						<span class="fb-path-arrow" ng-if="dir.model.name != 'ROOT'">&rsaquo;</span>
+						<button class="btn icon-btn" title="{{ dir.model.folderObj.displayName }}" ng-click="!$last && moveDlg.selectNode(dir)">
+							<i class="glyphicon glyphicon glyphicon-home" ng-if="dir.model.name == 'ROOT'"></i>
+							<span class="btn-txt" ng-if="dir.model.name != 'ROOT'">{{ dir.model.name }}</span>
 						</button>
-					</li>
-				</ul>
+					</div>
+				</div>
 			</div>
 
 			<div id="fbBody" class="fb-body">

@@ -17,13 +17,12 @@
 	<div class="scroll-container">
 		<span ng-if="!vm.doc.displayName">Select a file to view details</span>
 		<section class="fb-details-section" ng-if="vm.doc.displayName">
-			<h2>File Details</h2>
 			<section ng-if="vm.item.description">
 				<h3>Description</h3>
 				<div class="value">{{ vm.doc.description }}</div>
 			</section>
 			<section>
-				<h3>Properties</h3>
+				<h3>File Details</h3>
 				<ul class="nv-pair">
 					<li ng-if="vm.authentication.user">
 						<span class="name">Status:</span>
