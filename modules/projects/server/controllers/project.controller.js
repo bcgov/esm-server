@@ -917,8 +917,8 @@ module.exports = DBModel.extend ({
 			// add a news item
 			//
 			self.postMessage ({
-				headline: 'New Assessment: '+project.name,
-				content: 'New Environmental Assessment: '+project.name+'\n'+project.description,
+				headline: project.name,
+				content: project.description,
 				project: project._id,
 				type: 'News'
 			});
