@@ -28,9 +28,6 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 				} else if (project.code === 'kemess-underground') {
 					window.location = "http://www.eao.gov.bc.ca/pcp/comments/kemess_underground_comments.html";
 					return null;
-				} else if (project.code === 'ajax-mine') {
-					window.location = "https://ajax.projects.eao.gov.bc.ca/public/project/569d3edbbfa11d0c009f92ee";
-					return null;
 				}
 
 				return CommentPeriodModel.forProject (project._id);
@@ -229,6 +226,11 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 		templateUrl: 'modules/project-comments/client/views/period-view.html',
 		resolve: {
 			period: function ($stateParams, CommentPeriodModel) {
+				// Search specifically for the old AJAX pcp link (hardcoded in the DB)
+				if ($stateParams.periodId === '569d3edbbfa11d0c009f92ee') {
+					window.location = "https://ajax.projects.eao.gov.bc.ca/public/project/569d3edbbfa11d0c009f92ee";
+					return null;
+				}
 				return CommentPeriodModel.getForPublic ($stateParams.periodId);
 			},
 			userRoles: function(project, UserModel) {
