@@ -54,12 +54,15 @@
 		};
 
 		function validateFilename(input, extension) {
+			// Validation can happen twice. Once without the file extension and once with.
+			// Make sure the tests work in both cases.
 			var illegalRe = /[\/\?<>\\:\*\|":]/g; // basic illegal filename characters
 			var controlRe = /[\x00-\x1f\x80-\x9f]/g; // no control characters
 			var windowsReservedRe = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i;
 			var leadingRe = /^[\.\s]+/; // no names beginning with . or whitespace
 			var reservedRe = /^\.+$/; // no names like ".", ".."
-			var reservedEnd = /\s+$/; // no names with spaces before extension or at end without extension
+			var reservedEnd = /\s+$/; // no names with spaces at end without extension
+			var reservedEndWExt = extension ? new RegExp('\\s+\\.' + extension + '$') : undefined; // no names with spaces before extension
 			var result = '';
 			if (input.match(illegalRe)) {
 				result = NOT_ALLOWED;
@@ -68,6 +71,8 @@
 			} else if (input.match(leadingRe)) {
 				result = NO_PERIOD_OR_SPACE;
 			} else if (input.match(reservedEnd)) {
+				result = NO_TRAILING_SPACE;
+			} else if (extension && input.match(reservedEndWExt)) {
 				result = NO_TRAILING_SPACE;
 			} else if (!extension && input.match(windowsReservedRe)) {
 				result = RESERVED;
