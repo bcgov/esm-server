@@ -57,6 +57,8 @@ module.exports = function(app) {
 								url: prjCode ? myHost + "/p/" + prjCode + "/detail" : "",
 								description: item.content,
 								title: item.headline,
+								contentUrl: item.contentUrl,
+								documentUrl: item.documentUrl
 								// custom_elements: [{
 								// 	'dateAdded': item.dateAdded
 								// }, {
