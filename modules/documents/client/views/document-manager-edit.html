@@ -24,7 +24,7 @@
 				<span class="text-danger " id="fileNameExtError" ng-show="editFileForm.documentFileName.$invalid"></span>
 			</label>
 			<input class="form-control" id="documentFileName" name="documentFileName" type="text" ng-model="doc.documentFileName"
-						 fn-filename fn-extension="{{extension}}" fn-error="fileNameExtError">
+						 fn-filename ng-trim=false fn-extension="{{extension}}" fn-error="fileNameExtError">
 		</div>
 		<div ng-if="doc._schemaName === 'Document'" class="form-group" x-show-errors>
 			<label class="control-label" for="documentType">Document Type</label>

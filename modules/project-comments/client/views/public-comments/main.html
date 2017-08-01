@@ -36,8 +36,10 @@
 
     <ul class="nav nav-tabs" role="tablist">
 		<li class="active" role="presentation"><a href="#pcpDocuments" aria-controls="pcpDocuments" role="tab" data-toggle="tab">Related Documents</a></li>
-        <li role="presentation"><a href="#pcpComments" aria-controls="pcpComments" role="tab" data-toggle="tab">Comments</a></li>
-		<li role="presentation" ng-if="isPublic"><a href="#pcpOpenHouse" aria-controls="pcpOpenHouse" role="tab" data-toggle="tab">Open Houses</a></li>
+		<!-- Data from legacy site -->
+        <li ng-if="period._id !== '597fbce24407212bac9f3303'" role="presentation"><a href="#pcpComments" aria-controls="pcpComments" role="tab" data-toggle="tab">Comments</a></li>
+		<!-- Data from legacy site -->
+		<li ng-if="period._id !== '597fbce24407212bac9f3303'" role="presentation" ng-if="isPublic"><a href="#pcpOpenHouse" aria-controls="pcpOpenHouse" role="tab" data-toggle="tab">Open Houses</a></li>
     </ul>
 
     <div class="pcp-tab-content tab-content">

@@ -37,9 +37,11 @@ angular.module('documents')
 
 							$scope.originalName = obj.displayName || obj.documentFileName || obj.internalOriginalName;
 							$scope.doc = obj;
-							// Only set the filename extension attribute (fn-extension) if there is an extension.
-							var parts = $scope.doc.documentFileName.split('.');
-							$scope.extension = parts.length > 1 ? parts.pop() : undefined;
+							if ($scope.doc._schemaName === "Document") {
+								// Only set the filename extension attribute (fn-extension) if there is an extension.
+								var parts = $scope.doc.documentFileName.split('.');
+								$scope.extension = parts.length > 1 ? parts.pop() : undefined;
+							}
 							// any dates going to the datepicker need to be javascript Date objects...
 							$scope.doc.documentDate = _.isEmpty(obj.documentDate) ? null : moment(obj.documentDate).toDate();
 							$scope.datePicker = {
