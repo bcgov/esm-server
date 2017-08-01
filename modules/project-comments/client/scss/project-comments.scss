@@ -736,8 +736,18 @@ $pcp-comment-icon-color: #ccc;
                 background-color: #ddd;
             }
         }
+
     }
 }
+/*
+Set the width on the related documents list, just for PCP, to handle very long file names.
+Without this the layout is busted.
+Don't want to apply this to all uses of fb-col-group.
+ */
+.pcp-linked-documents .fb-col-group {
+    width: 100%
+}
+
 
 .public-comment-modal {
     section {
