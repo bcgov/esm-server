@@ -45,7 +45,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		permissions: ['application.listOrganizations']
 	});
 	Menus.addMenuItem('systemMenu', {
-		title: 'News & Announcements',
+		title: 'Activities & Updates',
 		state: 'admin.recentactivity.list',
 		permissions: ['application.listNews']
 	});

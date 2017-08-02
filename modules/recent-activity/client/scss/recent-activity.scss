@@ -7,24 +7,36 @@
         }
     }
 
+    th.pin-col {
+        .glyphicon {
+            vertical-align: middle;
+            font-size: 1.5rem;
+        }
+    }
+
     .pin-col {
-        width: 8rem;
-        text-align: right;
-    }
-
-    .priority-col {
-        width: 10rem;
-    }
-
-    .status-col {
-        width: 10rem;
+        padding-top: 0.5rem;
+        width: 5.5rem;
+        text-align: left;
     }
 
     .pin-btn {
         color: #ccc;
 
         &.active {
-            color: #5cb85c;
+            color: #003366;
         }
+    }
+
+    .date-col,
+    .priority-col,
+    .status-col {
+        width: 16rem;
+    }
+}
+
+.activity-edit-form {
+    .help-block {
+        font-size: 1.4rem;
     }
 }

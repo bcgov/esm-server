@@ -1,3 +1,7 @@
+<script type="text/ng-template" id="pin-header.html">
+	<span class="glyphicon glyphicon-pushpin"></span><span class="sort-indicator"></span>
+</script>
+
 <div class="main-panel">
 
 	<div class="view-title-container">
@@ -6,40 +10,31 @@
 
 	<div class="view-body-container news-admin-view">
 		<div class="button-bar clearfix">
-			<a  ng-if="application.userCan.createNews" class="btn btn-default btn-sm pull-left" ui-sref="admin.recentactivity.create()">
+			<a ng-if="application.userCan.createNews" class="btn btn-default btn-sm pull-left" ui-sref="admin.recentactivity.create()">
 				<span class="glyphicon glyphicon-plus"></span>
 				<span>Add Activity or Update</span>
 			</a>
-			<div class="pull-right">
-				<!-- <show-filter x-toggle-filter="toggleFilter"></show-filter> -->
-			</div>
 		</div>
 		<div class="table-container">
 			<table class="activity-table table table-hover" ng-table="tableParams" x-show-filter="true">
 				<!-- NEWS ROW ITEM TEMPLATE -->
 				<tr ng-repeat="o in $data" ui-sref="admin.recentactivity.edit({recentActivityId:o._id})">
-					<td data-title="'Headline'" filter="{'headline':'text'}" sortable="'headline'">
-						{{o.headline}}
-						<!--
-            			<h2 class="news-title" ng-class="{clickable: o.project}" ng-click="s.onNewsClick(o, $event)">{{o.headline}}</h2>
-						-->
-						<!--
-						<div ng-init="toggleProject.desc = (false)">
-							<p class="news-content">{{ o.content | maxWords:30:toggleProject.desc }}</p>
-							<div class="show-more" ng-if="(o.content | wordCount) > 30">
-								<a href ng-click="toggleProject.desc = !toggleProject.desc">
-									<span ng-show="!toggleProject.desc">Show More ({{ o.content | wordCount }} words)<span class="caret"></span></span>
-									<span ng-show="toggleProject.desc">Show Less <span class="caret caret-up"></span></span>
-								</a>
-							</div>
-						</div>
-						-->
+					<td class="pin-col" header-class="'pin-col'" header="'pin-header.html'"
+						data-title="'Pinned'"
+						sortable="'pinned'">
+						<button class="btn icon-btn pin-btn" ng-class="{'active': o.pinned}" 
+							title="Pinned items will appear on the Public Home Page"
+							ng-click="$event.stopPropagation();s.onPinActivity(o);">
+							<span class="glyphicon glyphicon-pushpin"></span>
+						</button>
 					</td>
-					<td class="type-col"
-						header-class="'type-col'"
+					<td data-title="'Headline'" filter="{'headline':'text'}" sortable="'headline'">{{o.headline}}
+					</td>
+					<td class="project-col"
+						header-class="'project-col'"
 						data-title="'Project'"
-						filter="{'projectName':'text'}"
-						sortable="'projectName'">{{o.projectName}}</td>
+						filter="{'project.name':'text'}"
+						sortable="'project.name'">{{o.project.name}}</td>
 					<td class="type-col"
 						header-class="'type-col'"
 						data-title="'Type'"
@@ -64,20 +59,6 @@
 						sortable="'activeDesc'">
 							<span class="label label-success" ng-if="o.activeDesc == 'Active'">ACTIVE</span>
 							<span class="label label-unpublished" ng-if="o.activeDesc == 'Inactive'">INACTIVE</span>
-					</td>
-					<td class="pin-col" header-class="'pin-col'"
-						data-title="'Pinned'"
-						sortable="'isPinned'">
-						<button class="btn icon-btn pin-btn" ng-class="{'active': o.pinned}" ng-click="$event.stopPropagation();s.onPinActivity(o);">
-							<span class="glyphicon glyphicon-pushpin"></span>
-						</button>
-						<!--
-						<a ng-if="application.userCan.createNews" class="btn icon-btn" title="Edit News Item"
-							ng-click="$event.stopPropagation()"
-							ui-sref="admin.recentactivity.edit({recentActivityId:o._id})">
-							<span class="glyphicon glyphicon-pencil"></span>
-						</a>
-						-->
 					</td>
 				</tr><!-- / NEWS ROW ITEM TEMPLATE -->
 

@@ -1,5 +1,5 @@
 
-<form class="view-form" name="recentActivityForm" ng-submit="save(recentActivityForm.$valid)" novalidate>
+<form class="view-form activity-edit-form" name="recentActivityForm" ng-submit="save(recentActivityForm.$valid)" novalidate>
 
 	<div class="view-title-container flex-row">
 		<h1>Create/Edit Activity & Update</h1>
@@ -80,11 +80,13 @@
 
 		<section>
 			<div class="form-group" ng-if="recentActivity.type == 'Public Comment Period'">
-				<label for="priority" class="control-label">Comment Period URL</label>
+				<label for="priority" class="control-label">Comment Period URL <em>(Optional)</em></label>
+				<div class="help-block m-b-1">Provide a URL for a specific Comment Period</div>
 				<input class="form-control" type="form-control" ng-model="recentActivity.contentUrl"/>
 			</div>
 			<div class="form-group">
-				<label for="priority" class="control-label">Document URL</label>
+				<label for="priority" class="control-label">Document URL <em>(Optional)</em></label>
+				<div class="help-block m-b-1">Provide a URL for a specific document or folder</div>
 				<input class="form-control" type="form-control" ng-model="recentActivity.documentUrl"/>
 			</div>
 		</section>
