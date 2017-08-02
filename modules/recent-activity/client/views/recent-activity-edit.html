@@ -94,7 +94,12 @@
 				<div class="col-sm-2">
 					<div class="form-group">
 						<label for="priority" class="control-label">Set Priority Order</label>
-						<select class="form-control" id="priority" name="priority" ng-model="recentActivity.priority">
+						<select
+							class="form-control"
+							id="priority"
+							name="priority"
+							ng-model="recentActivity.priority"
+							ng-init="recentActivity.priority = recentActivity.priority" convert-to-number>
 							<option value="0">Critical</option>
 							<option value="1">Top</option>
 							<option value="2">Normal</option>
