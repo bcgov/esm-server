@@ -16,6 +16,11 @@ module.exports = function(app) {
 	//
 	// all active activities
 	//
+	app.route ('/api/recentactivity/togglepin/:activityId')
+		.all (policy ('user'))
+		.put (routes.setAndRun (RecentActivity, function (model, req) {
+			return model.pinActivity (req.params.activityId);
+		}));
 	app.route('/api/recentactivity/active/list')
 		.all (policy ('guest'))
 		.get (routes.setAndRun (RecentActivity, function (model, req) {

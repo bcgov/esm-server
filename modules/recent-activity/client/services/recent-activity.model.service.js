@@ -15,6 +15,9 @@ angular.module('recent-activity').factory ('RecentActivityModel', function (Mode
 		urlName : 'recentactivity',
 		getRecentActivityActive : function() {
 			return this.get ('/api/recentactivity/active/list');
+		},
+		togglePinnedActivity: function (activity) {
+			return this.put ('/api/recentactivity/togglepin/' + activity._id);
 		}
 	});
 	return new Class ();

@@ -4372,12 +4372,6 @@ tmpl-template-render {
 	}
 }
 
-.form-footer {
-	.btn {
-		min-width: 8rem;
-	}
-}
-
 // MIXINS & HELPERS
 @import "modules/core/client/scss/global/mixins.scss";
 @import "modules/core/client/scss/global/helpers.scss";
@@ -4412,4 +4406,5 @@ tmpl-template-render {
 @import "modules/vcs/client/scss/vc-list.scss";
 @import "modules/users/client/scss/user-dashboard.scss";
 @import "modules/email-templates/client/scss/email-templates.scss";
+@import "modules/recent-activity/client/scss/recent-activity.scss";
 

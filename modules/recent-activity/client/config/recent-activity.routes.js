@@ -66,7 +66,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				});
 			}
 		},
-		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects) {
+		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects, RecentActivityModel, $modal) {
 			$scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
 
 			var s = this;
@@ -93,6 +93,37 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				} else {
 					$state.go('p.detail', {projectid: projects[activity.project].code });
 				}
+			};
+
+			this.onPinActivity = function (activity) {
+				// Update this record
+				RecentActivityModel.togglePinnedActivity(activity)
+				.then(function (data) {
+					// Update scope.
+					$state.go($state.current, {}, {reload: true});
+				}, function (err) {
+					// Error
+					$modal.open({
+						animation: true,
+						templateUrl: 'modules/recent-activity/client/views/pinned-warning.html',
+						controller: function ($scope, $state, $modalInstance, _) {
+							var self = this;
+
+							self.msg = err.message;
+
+							self.ok = function () {
+								$modalInstance.close('ok');
+							};
+
+							self.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+						},
+						controllerAs: 'self',
+						scope: $scope,
+						size: 'lg'
+					});
+				});
 			};
 		},
 		controllerAs: 's'
