@@ -10,7 +10,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	headline : { type: String, default:'' },
 	content  : { type: String, default:'' },
 	project  : { type: 'ObjectId', ref:'Project', index:true, default:null },
-	active   : { type: Boolean, default: true },
+	active   : { type: Boolean, default: false },
 	priority : { type: Number, default: 2, index:true },
 	type     : { type: String, default:'' }, // news | public comment period
     contentUrl  : {type: String, default:''},
