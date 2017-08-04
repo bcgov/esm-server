@@ -41,24 +41,33 @@ angular.module('documents')
 				$scope.authentication = Authentication;
 				$scope.documentTypes = CodeLists.documentTypes;
 
-				ProjectModel.getProjectDirectory($scope.project)
-				.then( function (dir) {
-					$scope.project.directoryStructure = dir || {
-						id: 1,
-						lastId: 1,
-						name: 'ROOT',
-						published: true
-					};
-					self.rootNode = tree.parse($scope.project.directoryStructure);
-					if (self.requestOpenDir) {
-						self.selectNode(self.requestOpenDir);
-					} else if (self.requestOpenFileID) {
-						self.gotoDoc(self.requestOpenFileID);
-					} else {
-						self.selectNode(self.rootNode);
-					}
+				getTree().then(function(root) {
+					self.rootNode = root;
+					// self.newRoot = root;
+					// ProjectModel.getProjectDirectory($scope.project)
+					// .then(function (dir) {
+					// 	$scope.project.directoryStructure = dir || {
+					// 		id: 1,
+					// 		lastId: 1,
+					// 		name: 'ROOT',
+					// 		published: true
+					// 	};
+					// 	self.rootNode = tree.parse($scope.project.directoryStructure);
+					// 	self.originalRoot = self.rootNode;
+					// 	self.rootNode = self.newRoot;
+					// 	console.log("originalRoot", self.originalRoot);
+					// 	console.log('newRoot', self.newRoot)
 
-					$scope.$apply();
+						if (self.requestOpenDir) {
+							self.selectNode(self.requestOpenDir);
+						} else if (self.requestOpenFileID) {
+							self.gotoDoc(self.requestOpenFileID);
+						} else {
+							self.selectNode(self.rootNode);
+						}
+
+						$scope.$apply();
+					// });
 				});
 
 				// default sort is by name ascending...
@@ -762,10 +771,57 @@ angular.module('documents')
 						// Refresh the node
 						self.selectNode(args.nodeId);
 					} else {
-						self.rootNode = tree.parse(args.directoryStructure);
-						self.selectNode(self.currentNode.model.id);
+						getTree().then(function(root) {
+							self.rootNode = root;
+							self.selectNode(self.currentNode.model.id);
+						});
 					}
 				});
+				function getTree() {
+					return FolderModel.getAllFoldersForProject($scope.project._id).then(function (results) {
+						var root = _.find(results, function (folder) {
+							return folder.directoryID === 1;
+						});
+						var childFolders = _.filter(results, function (folder) {
+							return folder.directoryID !== 1;
+						});
+						var map = _.groupBy(childFolders, function (folder) {
+							return folder.parentID;
+						});
+						var tNode = createTreeNode(root);
+						prepTree(tNode);
+
+						return tree.parse(tNode);
+
+						function createTreeNode(folder) {
+							return {
+								id: folder.directoryID,
+								name: folder.displayName,
+								lastId: folder.directoryID,
+								published: folder.isPublished,
+								folderObj: folder
+							};
+						}
+
+						var cnt = 0; // recursion safety
+						function prepTree(parentNode) {
+							if (cnt > results.length) {
+								console.log("BAIL RECURSION");
+								return;
+							}
+							cnt++;
+							var children = map[parentNode.id];
+							if (children) {
+								parentNode.children = [];
+								_.forEach(children, function (child) {
+									var childNode = createTreeNode(child);
+									parentNode.children.push(childNode);
+									prepTree(childNode);
+								})
+							}
+						}
+					});
+				}
 			},
 			controllerAs: 'documentMgr'
 		};
