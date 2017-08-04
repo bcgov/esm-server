@@ -9,6 +9,12 @@
 	</div>
 
 	<div class="view-body-container news-admin-view">
+
+		<div class="spinner-container" ng-if="s.busy">
+			<div class="spinner-new rotating"></div>
+		</div>
+
+
 		<div class="button-bar clearfix">
 			<a ng-if="application.userCan.createNews" class="btn btn-default btn-sm pull-left" ui-sref="admin.recentactivity.create()">
 				<span class="glyphicon glyphicon-plus"></span>
