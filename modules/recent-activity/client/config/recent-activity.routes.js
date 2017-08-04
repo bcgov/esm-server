@@ -73,6 +73,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 			s.typeArray = [];
 			s.priorityDescArray = [];
 			s.activeDescArray = [];
+			s.busy = false;
 
 			var items = _(angular.copy(recentActivity)).chain().flatten();
 			items.pluck('type').unique().value().map( function(item) {
@@ -97,12 +98,13 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 
 			this.onPinActivity = function (activity) {
 				// Update this record
+				s.busy = true;
 				RecentActivityModel.togglePinnedActivity(activity)
 				.then(function (data) {
-					// Update scope.
 					$state.go($state.current, {}, {reload: true});
 				}, function (err) {
 					// Error
+					s.busy = false;
 					$modal.open({
 						animation: true,
 						templateUrl: 'modules/recent-activity/client/views/pinned-warning.html',
