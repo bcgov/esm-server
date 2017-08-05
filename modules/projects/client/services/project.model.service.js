@@ -5,7 +5,7 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
+angular.module('project').factory ('ProjectModel', function (ModelBase, _, FolderModel, TreeModel) {
 	//
 	// build the project model by extending the base model. the base model will
 	// have all the basic crud stuff built in
@@ -54,6 +54,53 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		},
 		unpublishDirectory: function (project, directoryId) {
 			return this.put ('/api/project/' + project._id + '/directory/unpublish/' + directoryId);
+		},
+		getProjectDirectoryStructure: function (projectId) {
+			var tree = new TreeModel();
+			return FolderModel.getAllFoldersForProject(projectId).then(function (results) {
+				var cnt = 0; // recursion safety
+				var root = _.find(results, function (folder) {
+					return folder.directoryID === 1;
+				});
+				var childFolders = _.filter(results, function (folder) {
+					return folder.directoryID !== 1;
+				});
+				var map = _.groupBy(childFolders, function (folder) {
+					return folder.parentID;
+				});
+				var tNode = createTreeNode(root);
+				prepTree(tNode, map);
+
+				return tree.parse(tNode);
+
+				function createTreeNode(folder) {
+					return {
+						id: folder.directoryID,
+						name: folder.displayName,
+						lastId: folder.directoryID,
+						published: folder.isPublished,
+						folderObj: folder
+					};
+				}
+
+				function prepTree(parentNode, folderMap) {
+					// TODO remove recursion guard once everything is solid.
+					if (cnt > results.length) {
+						console.log("BAIL RECURSION");
+						return;
+					}
+					cnt++;
+					var children = folderMap[parentNode.id];
+					if (children) {
+						parentNode.children = [];
+						_.forEach(children, function (child) {
+							var childNode = createTreeNode(child);
+							parentNode.children.push(childNode);
+							prepTree(childNode, folderMap);
+						});
+					}
+				}
+			});
 		},
 		// -------------------------------------------------------------------------
 		//

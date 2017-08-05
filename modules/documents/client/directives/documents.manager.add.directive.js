@@ -45,8 +45,8 @@ angular.module('documents')
 							};
 
 						}
-					}).result.then(function (data) {
-						$rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
+					}).result.then(function () {
+						$rootScope.$broadcast('documentMgrRefreshNode');
 					})
 					.catch(function (err) {
 						//$log.error(err);

@@ -51,16 +51,8 @@ function searchService( $http, $state, $rootScope, $timeout, _, ProjectModel, Tr
 	}
 
 	function setupDirectoryTree (project) {
-		var tree = new TreeModel();
-		return ProjectModel.getProjectDirectory(project)
-		.then(function (dir) {
-			project.directoryStructure = dir || {
-					id: 1,
-					lastId: 1,
-					name: 'ROOT',
-					published: true
-				};
-			self.rootNode = tree.parse(project.directoryStructure);
+		ProjectModel.getProjectDirectoryStructure(project._id).then(function(root) {
+			self.rootNode = root;
 			return self.rootNode;
 		});
 	}

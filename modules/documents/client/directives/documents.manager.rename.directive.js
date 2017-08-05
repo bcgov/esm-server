@@ -46,9 +46,8 @@ angular.module('documents')
 							};
 
 						}
-					}).result.then(function (data) {
-						console.log("deleted data:", data);
-						$rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
+					}).result.then(function () {
+						$rootScope.$broadcast('documentMgrRefreshNode');
 					})
 					.catch(function (err) {
 						//$log.error(err);

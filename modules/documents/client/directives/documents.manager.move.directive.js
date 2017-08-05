@@ -287,8 +287,10 @@ angular.module('documents')
 
 							// need this for add new folder...
 							$scope.$on('documentMgrRefreshNode', function (event, args) {
-									self.rootNode = tree.parse(args.directoryStructure);
+								return ProjectModel.getProjectDirectoryStructure($scope.project._id).then(function(root) {
+									self.rootNode = root;
 									self.selectNode(self.currentNode.model.id, self.currentNode.model.folderObj);
+								});
 							});
 						}
 					}).result

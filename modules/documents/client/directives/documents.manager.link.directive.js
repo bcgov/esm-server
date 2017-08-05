@@ -1,5 +1,6 @@
 'use strict';
 angular.module('documents')
+//document-mgr-link
 	.directive('documentMgrLink', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'TreeModel', 'ProjectModel', 'Document', function (_, moment, Authentication, DocumentMgrService, AlertService, TreeModel, ProjectModel, Document) {
 		return {
 			restrict: 'E',
@@ -16,15 +17,8 @@ angular.module('documents')
 
 				$scope.authentication = Authentication;
 
-				ProjectModel.getProjectDirectory($scope.project)
-				.then( function (dir) {
-					$scope.project.directoryStructure = dir || {
-						id: 1,
-						lastId: 1,
-						name: 'ROOT',
-						published: true
-					};
-					self.rootNode = tree.parse($scope.project.directoryStructure);
+				ProjectModel.getProjectDirectoryStructure($scope.project._id).then(function(root) {
+					self.rootNode = root;
 					self.selectNode(self.rootNode);
 					$scope.$apply();
 				});
