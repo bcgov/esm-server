@@ -561,7 +561,7 @@ angular.module('documents')
 							return refreshDirectory();
 						})
 					.then(function () {
-							// $scope.$apply();
+							$scope.$apply();
 							AlertService.success(folder.model.name + ' folder successfully un-published.');
 						}, function (docs) {
 							var theDocs = [];
@@ -637,41 +637,27 @@ angular.module('documents')
 							var dirs = _.size(self.checkedDirs);
 							var files = _.size(self.checkedFiles);
 							if (dirs === 0 && files === 0) {
+								console.log("Nothing selected to move. Done");
 								return Promise.resolve();
 							} else {
 								self.busy = true;
 
 								var filePromises = _.map(self.moveSelected.moveableFiles, function (f) {
+									console.log("moving a file");
 									f.directoryID = destination.model.id;
 									return Document.save(f);
 								});
-								var directoryStructure;
-								// promise to move files and folders
-								return new Promise(function (resolve, reject) {
-									var promise = Promise.resolve(null);
-									var count = _.size(self.moveSelected.moveableFolders);
-									if (count > 0) { // we have this counter to check if there is only files that need to be moved i.e execute only if the folder array size > 0
-										//loop to move files sequentially
-										self.moveSelected.moveableFolders.forEach(function (value) {
-											promise = promise.then(function () {
-												return DocumentMgrService.moveDirectory($scope.project, value, destination);
-											})
-											.then(function (newValue) {
-												count--;
-												if (count === 0) {
-													resolve(newValue);
-												}
-											});
-										});
-									}
-									else {
-										resolve(null); //if no folders 
-									}
-								})
+								var directoryPromises = _.map(self.moveSelected.moveableFolders, function (f) {
+									console.log("moving a folder ", f, " to ", destination);
+									return DocumentMgrService.moveDirectory($scope.project, f, destination);
+								});
+								return Promise.all(directoryPromises)
 								.then(function (result) {
+									console.log("folders moved now move the selected files");
 									return Promise.all(filePromises);
 								})
 								.then(function() {
+									console.log("refresh the directory structure");
 									return refreshDirectory();
 								})
 								.then(function () {

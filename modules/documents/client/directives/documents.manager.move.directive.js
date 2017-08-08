@@ -274,11 +274,13 @@ angular.module('documents')
 
 							self.move = function () {
 								// call back into the main document manager and get it to do the moving etc...
+								console.log("call back into the main document manager and get it to do the moving etc...");
 								$scope.moveSelected.ok(self.selectedNode)
 									.then(function (ok) {
 											$modalInstance.close(self.selectedNode);
 										},
 										function (err) {
+										console.log("Error while moving ", err);
 										});
 							};
 
@@ -295,9 +297,13 @@ angular.module('documents')
 						}
 					}).result
 						.then(function (data) {
+							console.log("move modal dialog done ", data);
 							//$log.debug(data);
 						})
 						.catch(function (err) {
+							if (err !== 'cancel') {
+								console.log("move modal dialog ERROR ", err);
+							}
 							//$log.error(err);
 						});
 				});
