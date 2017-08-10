@@ -4,6 +4,9 @@
 angular.module('folders').factory ('FolderModel', function (ModelBase, _) {
     var Class = ModelBase.extend ({
         urlName : 'folders',
+        getAllFoldersForProject: function (projectId, parentid) {
+            return this.get('/api/folders/for/project/' + projectId + '/all');
+        },
         lookupForProjectIn: function (projectId, parentid) {
             return this.get('/api/folders/for/project/' + projectId + '/in/' + parentid);
         },

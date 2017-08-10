@@ -20,13 +20,22 @@ angular.module('documents')
 								} else {
 									return FolderModel.lookup(scope.project._id, scope.doc.model.id);
 								}
+							},
+							projectFolders : function(FolderModel) {
+								if (scope.doc._schemaName === "Document") {
+									return null;
+								} else {
+									return FolderModel.getAllFoldersForProject(scope.project._id)
+								}
+
 							}
 						},
 						controllerAs: 'editFileProperties',
-						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, obj, CodeLists, FolderModel, AlertService) {
+						controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, obj, projectFolders, CodeLists, FolderModel, AlertService) {
 							var self = this;
 							self.busy = true;
 
+							console.log("project folders", projectFolders)
 							$scope.project = scope.project;
 							$scope.types = CodeLists.documentTypes.active;
 							$scope.inspectionReportFollowupTypes = CodeLists.inspectionReportFollowUpTypes.active;
@@ -112,47 +121,42 @@ angular.module('documents')
 											self.busy = false;
 										});
 									} else {
-										// Check if the foldername already exists.
-										FolderModel.lookupForProjectIn($scope.project._id, $scope.doc.parentID)
-										.then(function (fs) {
-											if ($scope.originalName === $scope.doc.displayName) {
-												// Skip if we detect the user didn't change the name.
+										var renaming = $scope.originalName !== $scope.doc.displayName;
+										Promise.resolve()
+										.then(function() {
+											if (!renaming) {
+												// just changing properties not changing name
 												return FolderModel.save($scope.doc);
-											} else {
-												var found = null;
-												_.each(fs, function (foldersInDirectory) {
-													if (foldersInDirectory.displayName === $scope.doc.displayName) {
-														found = true;
-														return false;
-													}
+											}
+											else {
+												console.log("Renaming folder from to", $scope.originalName, $scope.doc.displayName);
+												var found = _.filter(projectFolders, function (fldr) {
+													return (fldr.displayName === $scope.doc.displayName)
 												});
-												if (found) {
+												if (found.length > 0) {
+													AlertService.error("Sorry, folder already exists.  Please choose another name.");
 													return null;
 												} else {
-													return FolderModel.save($scope.doc);
+													return DocumentMgrService.renameDirectory($scope.project, scope.doc, $scope.doc.displayName)
+													.then(function () {
+														$rootScope.$broadcast('documentMgrRefreshNode');
+														return FolderModel.save($scope.doc);
+													});
 												}
 											}
 										})
 										.then(function (result) {
-											if (result) {
-												DocumentMgrService.renameDirectory($scope.project, scope.doc, $scope.doc.displayName)
-												.then(function (result) {
-													// somewhere here we need to tell document manager to refresh it's document...
-													if (scope.onUpdate) {
-														scope.onUpdate(result);
-													}
-													self.busy = false;
-													$modalInstance.close(result);
-												}, function (err) {
-													AlertService.error("Could not rename folder");
-												});
-											} else {
-												self.busy = false;
-												AlertService.error("Sorry, folder already exists.  Please choose another name.");
-											}
-										}, function(error) {
-											console.log(error);
 											self.busy = false;
+											$modalInstance.close(result);
+										})
+										.catch(function(err) {
+											var msg = "Something didn't work as expected.";
+											if (err && err.data && err.data.message) {
+												msg = err.data.message;
+											}
+											console.log(msg);
+											self.busy = false;
+											$modalInstance.close();
 										});
 									}
 								}

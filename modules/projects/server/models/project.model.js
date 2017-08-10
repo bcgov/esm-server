@@ -145,5 +145,6 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	commodity            : { type: String, default: '' },
 	tailingsImpoundments : { type: String, default: '' },
 	epicStream 			 : { type: String, default: '' },
-	directoryStructure   : { type: Object, default: null }
+	directoryStructure   : { type: Object, default: null },
+	lastDirectoryId      : { type: Number, default: 1 }
 });

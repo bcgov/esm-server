@@ -39,16 +39,19 @@ angular.module('documents')
 											$modalInstance.close(result.data);
 										},
 										function (err) {
-											//$log.error('renameDirectory error: ', JSON.stringify(err));
-											AlertService.error("Could not rename folder");
+											var msg = "Could not rename folder";
+											if (err && err.data && err.data.message) {
+												msg = err.data.message;
+											}
+											console.log(msg);
+											AlertService.error(msg);
 										}
 									);
 							};
 
 						}
-					}).result.then(function (data) {
-						console.log("deleted data:", data);
-						$rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
+					}).result.then(function () {
+						$rootScope.$broadcast('documentMgrRefreshNode');
 					})
 					.catch(function (err) {
 						//$log.error(err);

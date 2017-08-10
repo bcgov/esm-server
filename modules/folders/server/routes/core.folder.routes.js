@@ -19,6 +19,11 @@ module.exports = function (app) {
 		.get (routes.setAndRun (FolderClass, function (model, req) {
 			return model.getFoldersForProject (req.params.projectid, req.params.parentid);
 		}));
+	app.route ('/api/folders/for/project/:projectid/all')
+		.all (policy ('guest'))
+		.get (routes.setAndRun (FolderClass, function (model, req) {
+			return model.getAllFoldersForProject (req.params.projectid);
+		}));
 	app.route ('/api/folders/for/project/:projectid/:folderid')
 		.all (policy ('guest'))
 		.get (routes.setAndRun (FolderClass, function (model, req) {

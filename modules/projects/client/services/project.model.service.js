@@ -5,7 +5,7 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
+angular.module('project').factory ('ProjectModel', function (ModelBase, _, FolderModel, TreeModel) {
 	//
 	// build the project model by extending the base model. the base model will
 	// have all the basic crud stuff built in
@@ -46,14 +46,70 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _) {
 		forProponent: function(id) {
 			return this.get ('/api/projects/proponent/' + id);
 		},
-		getProjectDirectory: function (project) {
-			return this.get ('/api/project/' + project._id + '/directory/list');
-		},
 		publishDirectory: function (project, directoryId) {
 			return this.put ('/api/project/' + project._id + '/directory/publish/' + directoryId);
 		},
 		unpublishDirectory: function (project, directoryId) {
 			return this.put ('/api/project/' + project._id + '/directory/unpublish/' + directoryId);
+		},
+		getProjectDirectoryStructure: function (projectId) {
+			var tree = new TreeModel();
+			return FolderModel.getAllFoldersForProject(projectId).then(function (results) {
+				if ( results.length === 0 ) {
+					// new empty project
+					return tree.parse({id: 1, name: 'ROOT', lastId: 1});
+				}
+				var root = _.find(results, function (folder) {
+					return folder.directoryID === 1;
+				});
+				// remove root if present in results
+				var childFolders = _.filter(results, function (folder) {
+					return folder.directoryID !== 1;
+				});
+				// map by parentID to create the tree
+				var map = _.groupBy(childFolders, function (folder) {
+					return folder.parentID;
+				});
+				if ( !root ) {
+					// newer project that doesn't create a root folder object in the db.
+					root = {directoryID: 1, parentID: 1,  displayName: 'ROOT', isPublished: true};
+				}
+				var tNode = createTreeNode(root);
+				console.log("created tNode from root", tNode, root);
+				var cnt = 0; // recursion safety
+				prepTree(tNode, map);
+
+				var rootNode =  tree.parse(tNode);
+				return rootNode;
+
+				function createTreeNode(folder) {
+					return {
+						id: folder.directoryID,
+						name: folder.displayName,
+						lastId: folder.directoryID,
+						published: folder.isPublished,
+						folderObj: folder
+					};
+				}
+
+				function prepTree(parentNode, folderMap) {
+					// TODO remove recursion guard once everything is solid.
+					if (cnt > results.length) {
+						console.log("BAIL RECURSION");
+						return;
+					}
+					cnt++;
+					var children = folderMap[parentNode.id];
+					if (children) {
+						parentNode.children = [];
+						_.forEach(children, function (child) {
+							var childNode = createTreeNode(child);
+							parentNode.children.push(childNode);
+							prepTree(childNode, folderMap);
+						});
+					}
+				}
+			});
 		},
 		// -------------------------------------------------------------------------
 		//

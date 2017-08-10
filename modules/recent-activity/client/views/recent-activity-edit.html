@@ -1,8 +1,8 @@
 
-<form class="view-form" name="recentActivityForm" ng-submit="save(recentActivityForm.$valid)" novalidate>
+<form class="view-form activity-edit-form" name="recentActivityForm" ng-submit="save(recentActivityForm.$valid)" novalidate>
 
 	<div class="view-title-container flex-row">
-		<h1><span>Add/Edit Recent News</span><span ng-show="recentActivity.headline">&nbsp; &rsaquo; &nbsp;{{ recentActivity.headline }}</span></h1>
+		<h1>Create/Edit Activity & Update</h1>
 		<div class="actions">
 			<button class="btn btn-default btn-sm" ui-sref="admin.recentactivity.list">Cancel</button>
 			<button class="btn btn-primary btn-sm" type="submit">Save</button>
@@ -10,105 +10,129 @@
 	</div>
 
 	<div class="view-body-container">
-		<div class="row hidden">
-			<div class="col-sm-12 text-right">
-				<button class="btn btn-xs btn-link" ui-sref="admin.recentactivity.list">Cancel</button>
-				<button class="btn btn-xs btn-link" href type="submit">Save</button>
-			</div>
+		<div class="alert alert-info" ng-if="recentActivitye.isPinned">
+			This item is currently pinned to the EAO Public Website.
 		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group" x-show-errors>
-					<label for="headline" class="control-label">Headline</label>
-					<input id="headline" name="headline" type="text" class="form-control" ng-model="recentActivity.headline" required>
-						<div ng-messages="recentActivityForm.headline.$error" role="alert">
-							<p class="help-block error-text" ng-message="required">Headline is required.</p>
-						</div>
+		<section>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group" x-show-errors>
+						<label for="headline" class="control-label">Headline</label>
+						<input id="headline" name="headline" type="text" class="form-control" ng-model="recentActivity.headline" required>
+							<div ng-messages="recentActivityForm.headline.$error" role="alert">
+								<p class="help-block error-text" ng-message="required">Headline is required.</p>
+							</div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group" x-show-errors>
-					<label for="content" class="control-label">Content</label>
-					<textarea id="content" rows="6" name="content" class="form-control" ng-model="recentActivity.content" required></textarea>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group" x-show-errors>
+						<label for="content" class="control-label">Content</label>
+						<textarea id="content" rows="6" name="content" class="form-control" ng-model="recentActivity.content" required></textarea>
 						<div ng-messages="recentActivityForm.content.$error" role="alert">
 							<p class="help-block error-text" ng-message="required">Content is required.</p>
 						</div>
-				</div>
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="project" class="control-label">Project</label>
-					<select id="project"
-						name="project"
-						class="form-control"
-						ng-model="recentActivity.project"
-						ng-options="v._id as v.name group by v.region for (k, v) in projects"></select>
-				</div>
-			</div>
-			<div class="col-sm-3">
-				<div class="form-group">
-					<label for="dateAdded" class="control-label">Date Added</label>
-
-					<div class="input-group">
-						<input type="text"
-							id="dateAdded"
-							name="dateAdded"
-							class="form-control text-center "
-							ng-model="recentActivity.dateAdded"
-							ng-disabled="1"/>
-						<div x-modal-date-picker
-							x-selected-date="recentActivity.dateAdded"
-							class="input-group-addon btn-default">
-						<i class="glyphicon glyphicon-calendar"></i></div>
 					</div>
-
 				</div>
 			</div>
-			<div class="col-sm-3">
-				<div class="form-group" x-show-errors>
-					<label for="type" class="control-label">Type</label>
-					<select id="type"
-						name="type"
-						class="form-control"
-						ng-model="recentActivity.type"
-						required>
-						<option>Public Comment Period</option>
-						<option>News</option>
-					</select>
+
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label for="project" class="control-label">Project</label>
+						<select id="project"
+							name="project"
+							class="form-control"
+							ng-model="recentActivity.project"
+							ng-options="v._id as v.name group by v.region for (k, v) in projects">
+							<option value="">{{ recentActivity.project.name }}</option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="form-group" x-show-errors>
+						<label for="type" class="control-label">Type</label>
+						<select id="type"
+							name="type"
+							class="form-control"
+							ng-model="recentActivity.type"
+							required>
+							<option>Public Comment Period</option>
+							<option>News</option>
+						</select>
 						<div ng-messages="recentActivityForm.type.$error" role="alert">
 							<p class="help-block error-text" ng-message="required">Type is required.</p>
 						</div>
-				</div>
-			</div>
-			<div class="col-sm-2">
-				<div class="form-group">
-					<label for="priority" class="control-label">Priority</label>
-					<select id="priority"
-						name="priority"
-						class="form-control"
-						ng-model="recentActivity.priority">
-						<option value="0">Critical</option>
-						<option value="1">Top</option>
-						<option value="2">Normal</option>
-						<option value="4">Low</option>
-					</select>
-				</div>
-			</div>
-			<div class="col-sm-1">
-				<div class="form-group">
-					<div class="checkbox control-with-label">
-						<label>
-							<input id="active" name="active" type="checkbox" ng-model="recentActivity.active"> Active
-						</label>
 					</div>
 				</div>
+				<div class="col-md-3">
+					<label class="control-label">Date Added</label>
+					<div class="form-control pcp-date date-picker" 
+                        x-modal-date-picker 
+						x-selected-date="recentActivity.dateAdded">
+                        {{ recentActivity.dateAdded | amDateFormat:'MMMM DD, YYYY' }}
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </div>
+				</div>
+			</div>
+		</section>
+
+		<section>
+			<div class="form-group" ng-if="recentActivity.type == 'Public Comment Period'">
+				<label for="priority" class="control-label">Comment Period URL <em>(Optional)</em></label>
+				<div class="help-block m-b-1">Provide a URL for a specific Comment Period</div>
+				<input class="form-control" type="form-control" ng-model="recentActivity.contentUrl"/>
+			</div>
+			<div class="form-group">
+				<label for="priority" class="control-label">Document URL <em>(Optional)</em></label>
+				<div class="help-block m-b-1">Provide a URL for a specific document or folder</div>
+				<input class="form-control" type="form-control" ng-model="recentActivity.documentUrl"/>
+			</div>
+		</section>
+
+		<section>
+			<div class="row">
+				<div class="col-sm-2">
+					<div class="form-group">
+						<label for="priority" class="control-label">Set Priority Order</label>
+						<select
+							class="form-control"
+							id="priority"
+							name="priority"
+							ng-model="recentActivity.priority"
+							ng-init="recentActivity.priority = recentActivity.priority" convert-to-number>
+							<option value="0">Critical</option>
+							<option value="1">Top</option>
+							<option value="2">Normal</option>
+							<option value="4">Low</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label class="control-label">Set Status</label>
+						<div class="radio">
+							<label>
+								<input name="active" type="radio" value="true" ng-checked="recentActivity.active == true" ng-model="recentActivity.active">Active (Visible to the Public)
+							</label>
+						</div>
+						<div class="radio">
+							<label>
+								<input name="active" type="radio" value="false" ng-checked="recentActivity.active == false" ng-model="recentActivity.active">Inactive (Not visible to the Public)
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="form-footer clearfix">
+			<div class="pull-right">
+				<button class="btn btn-default btn-sm" ui-sref="admin.recentactivity.list">Cancel</button>
+				<button class="btn btn-primary btn-sm" type="submit">Save</button>
 			</div>
 		</div>
 	</div>
 </form>
-

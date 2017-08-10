@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, TreeModel, ProjectModel, Document, FolderModel) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'ProjectModel', 'Document', 'FolderModel', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, ProjectModel, Document, FolderModel) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -11,7 +11,6 @@ angular.module('documents')
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
 			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document) {
-				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
 				self.requestOpenDir = null;
@@ -41,15 +40,9 @@ angular.module('documents')
 				$scope.authentication = Authentication;
 				$scope.documentTypes = CodeLists.documentTypes;
 
-				ProjectModel.getProjectDirectory($scope.project)
-				.then( function (dir) {
-					$scope.project.directoryStructure = dir || {
-						id: 1,
-						lastId: 1,
-						name: 'ROOT',
-						published: true
-					};
-					self.rootNode = tree.parse($scope.project.directoryStructure);
+				// Construct directory structure ...
+				ProjectModel.getProjectDirectoryStructure($scope.project._id).then(function(root) {
+					self.rootNode = root;
 					if (self.requestOpenDir) {
 						self.selectNode(self.requestOpenDir);
 					} else if (self.requestOpenFileID) {
@@ -57,7 +50,6 @@ angular.module('documents')
 					} else {
 						self.selectNode(self.rootNode);
 					}
-
 					$scope.$apply();
 				});
 
@@ -67,7 +59,6 @@ angular.module('documents')
 					ascending: true
 				};
 
-				// self.rootNode = tree.parse($scope.project.directoryStructure);
 				self.selectedNode = undefined;
 				self.currentNode = undefined;
 				self.currentPath = undefined;
@@ -379,9 +370,10 @@ angular.module('documents')
 				self.deleteDir = function(doc) {
 					self.busy = true;
 					return DocumentMgrService.removeDirectory($scope.project, doc)
-						.then(function (result) {
-							$scope.project.directoryStructure = result.data;
-							$scope.$broadcast('documentMgrRefreshNode', {directoryStructure: result.data});
+					.then(function() {
+						return refreshDirectory();
+					})
+					.then(function () {
 							self.busy = false;
 							AlertService.success('The selected folder was deleted.');
 						}, function(docs) {
@@ -395,6 +387,8 @@ angular.module('documents')
 							} else {
 								msg = "Could not delete folder, there are still files in the folder.";
 							}
+							// OK some error happened ... get the latest directory in case it helps.
+							refreshDirectory();
 
 							$log.error('DocumentMgrService.removeDirectory error: ', msg);
 							self.busy = false;
@@ -448,23 +442,13 @@ angular.module('documents')
 
 							var directoryStructure;
 							return Promise.all(dirPromises)
-								.then(function(result) {
-									//$log.debug('Dir results ', JSON.stringify(result));
-									if (!_.isEmpty(result)) {
-										var last = _.last(result);
-										directoryStructure = last.data;
-									}
+								.then(function() {
 									return Promise.all(filePromises);
 								})
-								.then(function(result) {
-									//$log.debug('File results ', JSON.stringify(result));
-									if (directoryStructure) {
-										//$log.debug('Setting the new directory structure...');
-										$scope.project.directoryStructure = directoryStructure;
-										$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-									}
-									//$log.debug('Refreshing current directory...');
-									self.selectNode(self.currentNode.model.id);
+								.then(function() {
+									return refreshDirectory();
+								})
+								.then(function() {
 									self.busy = false;
 									AlertService.success('The selected items were deleted.');
 								}, function(err) {
@@ -557,12 +541,15 @@ angular.module('documents')
 				self.publishFolder = function(folder) {
 					self.busy = true;
 					return ProjectModel.publishDirectory($scope.project, folder.model.id)
-						.then(function (directoryStructure) {
-							$scope.project.directoryStructure = directoryStructure;
-							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+						.then(function() {
+							return refreshDirectory();
+						})
+						.then(function () {
+							// $scope.$apply();
+							// self.busy = false;
 							AlertService.success(folder.model.name + ' folder successfully published.');
 						}, function () {
-							self.busy = false;
+							$scope.$apply();
 							AlertService.error('The selected folder could not be published.');
 						});
 				};
@@ -570,9 +557,11 @@ angular.module('documents')
 				self.unpublishFolder = function(folder) {
 					self.busy = true;
 					return ProjectModel.unpublishDirectory($scope.project, folder.model.id)
-						.then(function (directoryStructure) {
-							$scope.project.directoryStructure = directoryStructure;
-							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+						.then(function() {
+							return refreshDirectory();
+						})
+					.then(function () {
+							$scope.$apply();
 							AlertService.success(folder.model.name + ' folder successfully un-published.');
 						}, function (docs) {
 							var theDocs = [];
@@ -648,50 +637,30 @@ angular.module('documents')
 							var dirs = _.size(self.checkedDirs);
 							var files = _.size(self.checkedFiles);
 							if (dirs === 0 && files === 0) {
+								console.log("Nothing selected to move. Done");
 								return Promise.resolve();
 							} else {
 								self.busy = true;
 
 								var filePromises = _.map(self.moveSelected.moveableFiles, function (f) {
+									console.log("moving a file");
 									f.directoryID = destination.model.id;
 									return Document.save(f);
 								});
-								var directoryStructure;
-								// promise to move files and folders
-								return new Promise(function (resolve, reject) {
-									var promise = Promise.resolve(null);
-									var count = _.size(self.moveSelected.moveableFolders);
-									if (count > 0) { // we have this counter to check if there is only files that need to be moved i.e execute only if the folder array size > 0
-										//loop to move files sequentially
-										self.moveSelected.moveableFolders.forEach(function (value) {
-											promise = promise.then(function () {
-												return DocumentMgrService.moveDirectory($scope.project, value, destination);
-											})
-											.then(function (newValue) {
-												count--;
-												if (count === 0) {
-													resolve(newValue);
-												}
-											});
-										});
-									}
-									else {
-										resolve(null); //if no folders 
-									}
-								})
+								var directoryPromises = _.map(self.moveSelected.moveableFolders, function (f) {
+									console.log("moving a folder ", f, " to ", destination);
+									return DocumentMgrService.moveDirectory($scope.project, f, destination);
+								});
+								return Promise.all(directoryPromises)
 								.then(function (result) {
-									if (!_.isEmpty(result)) {
-										directoryStructure = result.data;
-									}
+									console.log("folders moved now move the selected files");
 									return Promise.all(filePromises);
 								})
-								.then(function (result) {
-									//$log.debug('File results ', JSON.stringify(result));
-									if (directoryStructure) {
-										//$log.debug('Setting the new directory structure...');
-										$scope.project.directoryStructure = directoryStructure;
-										$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-									}
+								.then(function() {
+									console.log("refresh the directory structure");
+									return refreshDirectory();
+								})
+								.then(function () {
 									//$log.debug('select and refresh destination directory...');
 									self.selectNode(destination.model.id);
 									AlertService.success('The selected items were moved.');
@@ -757,15 +726,21 @@ angular.module('documents')
 				};
 
 				$scope.$on('documentMgrRefreshNode', function (event, args) {
-					console.log('documentMgrRefreshNode...', args.directoryStructure);
-					if (args.nodeId) {
+					console.log('documentMgrRefreshNode...');
+					if (args && args.nodeId) {
 						// Refresh the node
 						self.selectNode(args.nodeId);
 					} else {
-						self.rootNode = tree.parse(args.directoryStructure);
-						self.selectNode(self.currentNode.model.id);
+						refreshDirectory();
 					}
 				});
+
+				function refreshDirectory() {
+					return ProjectModel.getProjectDirectoryStructure($scope.project._id).then(function(root) {
+						self.rootNode = root;
+						self.selectNode(self.currentNode.model.id);
+					});
+				}
 			},
 			controllerAs: 'documentMgr'
 		};
