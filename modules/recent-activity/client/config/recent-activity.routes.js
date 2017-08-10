@@ -66,13 +66,14 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				});
 			}
 		},
-		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects) {
+		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects, RecentActivityModel, $modal) {
 			$scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
 
 			var s = this;
 			s.typeArray = [];
 			s.priorityDescArray = [];
 			s.activeDescArray = [];
+			s.busy = false;
 
 			var items = _(angular.copy(recentActivity)).chain().flatten();
 			items.pluck('type').unique().value().map( function(item) {
@@ -93,6 +94,38 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				} else {
 					$state.go('p.detail', {projectid: projects[activity.project].code });
 				}
+			};
+
+			this.onPinActivity = function (activity) {
+				// Update this record
+				s.busy = true;
+				RecentActivityModel.togglePinnedActivity(activity)
+				.then(function (data) {
+					$state.go($state.current, {}, {reload: true});
+				}, function (err) {
+					// Error
+					s.busy = false;
+					$modal.open({
+						animation: true,
+						templateUrl: 'modules/recent-activity/client/views/pinned-warning.html',
+						controller: function ($scope, $state, $modalInstance, _) {
+							var self = this;
+
+							self.msg = err.message;
+
+							self.ok = function () {
+								$modalInstance.close('ok');
+							};
+
+							self.cancel = function () {
+								$modalInstance.dismiss('cancel');
+							};
+						},
+						controllerAs: 'self',
+						scope: $scope,
+						size: 'lg'
+					});
+				});
 			};
 		},
 		controllerAs: 's'

@@ -1,0 +1,42 @@
+.activity-table {
+    > tbody {
+        > tr {
+            td {
+                vertical-align: top;
+            }
+        }
+    }
+
+    th.pin-col {
+        .glyphicon {
+            vertical-align: middle;
+            font-size: 1.5rem;
+        }
+    }
+
+    .pin-col {
+        padding-top: 0.5rem;
+        width: 5.5rem;
+        text-align: left;
+    }
+
+    .pin-btn {
+        color: #ccc;
+
+        &.active {
+            color: #003366;
+        }
+    }
+
+    .date-col,
+    .priority-col,
+    .status-col {
+        width: 16rem;
+    }
+}
+
+.activity-edit-form {
+    .help-block {
+        font-size: 1.4rem;
+    }
+}

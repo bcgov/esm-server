@@ -3695,72 +3695,8 @@ section.project-info {
 }
 
 
-/* NEWS PAGE VIEW
------------------------------- */
-.news-admin-view,
-.news-public-view {
-	.panel {
-		margin-bottom: 0;
-	}
-
-	.table {
-		table-layout: fixed;
-		
-		td {
-			padding: 1.5rem 0.5rem;
-		}
-
-		.date-col {
-			width: 11rem;
-		}
-		
-		.type-col {
-			width: 14rem;
-		}
-		
-		.actions-col {
-			padding-top: 0.3rem;
-
-			.btn {
-				margin-top: 0.6rem;
-			}
-		}
-	}
-	
-	.news-title {
-		margin-top: 0;
-		margin-bottom: 0.75rem;
-		font-size: 1.6rem;
-		font-weight: bold;
-		color: $app-base-color;
-	}
-	
-	.news-content {
-		max-width: 70rem;
-		margin: 0;
-	}
-	
-	.show-more {
-		margin-top: 1rem;
-		font-size: 1.2rem;
-		font-weight: bold;
-	}
-}
-
-@media (min-width: 769px) {
-	.news-admin-view,
-	.news-public-view {
-		.type-col {
-			width: 25%;
-		}
-	}
-}
-
-
 /* MAP
 ------------------------------ */
-
-
 .map-popup {
 	max-width: 30rem;
 	font-family: $font-family-sans-serif;
@@ -4372,12 +4308,6 @@ tmpl-template-render {
 	}
 }
 
-.form-footer {
-	.btn {
-		min-width: 8rem;
-	}
-}
-
 // MIXINS & HELPERS
 @import "modules/core/client/scss/global/mixins.scss";
 @import "modules/core/client/scss/global/helpers.scss";
@@ -4412,4 +4342,5 @@ tmpl-template-render {
 @import "modules/vcs/client/scss/vc-list.scss";
 @import "modules/users/client/scss/user-dashboard.scss";
 @import "modules/email-templates/client/scss/email-templates.scss";
+@import "modules/recent-activity/client/scss/recent-activity.scss";
 

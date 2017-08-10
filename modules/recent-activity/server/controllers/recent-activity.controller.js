@@ -10,6 +10,7 @@ var _           = require ('lodash');
 var mongoose    = require ('mongoose');
 var Model       = mongoose.model ('RecentActivity');
 var ProjectModel       = mongoose.model ('Project');
+var RecentActivityClass = require (path.resolve('./modules/recent-activity/server/controllers/recent-activity.controller'));
 
 module.exports = DBModel.extend ({
 	name : 'RecentActivity',
@@ -63,6 +64,32 @@ module.exports = DBModel.extend ({
 
 				resolve(pcp.concat(news));
 			}, reject);
+		});
+	},
+	// Make this activity pinned.
+	pinActivity: function (activityId) {
+		var self = this;
+		return self.findById(activityId)
+		.then(function (a) {
+			// Find the activity
+			a.pinned = !a.pinned;
+			return a;
+		})
+		.then(function (activity) {
+			// Pinning or not
+			if (activity.pinned) {
+				return self.findMany({pinned: true})
+				.then(function (activities) {
+					if (activities.length >= 4) {
+						return Promise.reject(new Error ("You are only allowed a maximum of four (4) pinned items in this list. Please remove one before assigning another pinned item."));
+					} else {
+						return activity.save();
+					}
+				});
+			} else {
+				// Just save it, we're un-pin mode.
+				return activity.save();
+			}
 		});
 	}
 });
