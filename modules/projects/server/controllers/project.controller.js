@@ -229,6 +229,11 @@ module.exports = DBModel.extend ({
 				return f.findOne({directoryID: parentId, project: project._id})
 				.then(function (parent) {
 					if (!parent) {
+						if (parseInt(parentId) === 1) {
+							// the root folder sometimes exists and sometimes doesn't
+							console.log('This project does not have a root folder. This is probably OK but monitor it.', project._id);
+							return project;
+						}
 						return Promise.reject(new Error("Can't find parent folder"));
 					} else {
 						return project;
@@ -307,27 +312,18 @@ module.exports = DBModel.extend ({
 			DocumentModel.find({directoryID: parseInt(directoryId), project: projectId})
 			.then(function (children) {
 				if (children.length !== 0) {
-					// bail - this folder contains content.
 					return reject(children);
 				}
-				return _dir;
+				return FolderModel.find({parentID: parseInt(directoryId), project: projectId});
 			})
-			.then(function() {
-				console.log({parentID: parseInt(directoryId), project: projectId})
-				FolderModel.find({parentID: parseInt(directoryId), project: projectId})
-				.then(function (children) {
-					if (children.length !== 0) {
-						// bail - this folder contains content.
-						return reject(children);
-					}
-					return _dir;
-				});
+			.then(function (children) {
+				if (children.length !== 0) {
+					return reject(children);
+				}
+				return fldr.delete(_dir);
 			})
-			.then(function() {
-				fldr.delete(_dir)
-				.then(function () {
-					resolve(project);
-				});
+			.then(function () {
+				resolve(project);
 			});
 		});
 	},

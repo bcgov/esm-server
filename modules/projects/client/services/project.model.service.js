@@ -55,20 +55,32 @@ angular.module('project').factory ('ProjectModel', function (ModelBase, _, Folde
 		getProjectDirectoryStructure: function (projectId) {
 			var tree = new TreeModel();
 			return FolderModel.getAllFoldersForProject(projectId).then(function (results) {
-				var cnt = 0; // recursion safety
+				if ( results.length === 0 ) {
+					// new empty project
+					return tree.parse({id: 1, name: 'ROOT', lastId: 1});
+				}
 				var root = _.find(results, function (folder) {
 					return folder.directoryID === 1;
 				});
+				// remove root if present in results
 				var childFolders = _.filter(results, function (folder) {
 					return folder.directoryID !== 1;
 				});
+				// map by parentID to create the tree
 				var map = _.groupBy(childFolders, function (folder) {
 					return folder.parentID;
 				});
+				if ( !root ) {
+					// newer project that doesn't create a root folder object in the db.
+					root = {directoryID: 1, parentID: 1,  displayName: 'ROOT', isPublished: true};
+				}
 				var tNode = createTreeNode(root);
+				console.log("created tNode from root", tNode, root);
+				var cnt = 0; // recursion safety
 				prepTree(tNode, map);
 
-				return tree.parse(tNode);
+				var rootNode =  tree.parse(tNode);
+				return rootNode;
 
 				function createTreeNode(folder) {
 					return {
