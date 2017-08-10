@@ -13,9 +13,18 @@ var mongoose 	= require ('mongoose');
 var DocumentModel 	= mongoose.model ('Document');
 
 module.exports = DBModel.extend ({
-	name : 'Document',
-	plural : 'documents',
-	populate: [{ path: 'addedBy', select: '_id displayName username email orgName' }, { path: 'updatedBy', select: '_id displayName username email orgName' }],
+	name     : 'Document',
+	plural   : 'documents',
+	populate : [{
+		path   : 'addedBy',
+		select : '_id displayName username email orgName'
+	}, {
+		path   : 'updatedBy',
+		select : '_id displayName username email orgName'
+	}, {
+		path   : 'collections',
+		select : '_id displayName type'
+	}],
 	// -------------------------------------------------------------------------
 	//
 	// this is what happens before hte new document is saved, any last minute

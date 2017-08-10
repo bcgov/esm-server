@@ -51,7 +51,8 @@ module.exports = {
 				'public/lib/tree-model-bower/dist/TreeModel-min.js',
 				'public/lib/angular-smart-table/dist/smart-table.js',
 				'public/lib/clipboard/dist/clipboard.min.js',
-				'public/lib/ngclipboard/dist/ngclipboard.min.js'
+				'public/lib/ngclipboard/dist/ngclipboard.min.js',
+				'public/lib/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min.js'
 			],
 			tests: ['public/lib/angular-mocks/angular-mocks.js']
 		},

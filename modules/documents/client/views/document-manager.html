@@ -1,9 +1,9 @@
-<div class="file-browser">
+	<div class="file-browser">
 
 	<div class="fb-header">
 		<div class="fb-header-path">
-			<div class="fb-path" 
-				ng-class="{'root':node.model.name == 'ROOT'}" 
+			<div class="fb-path"
+				ng-class="{'root':node.model.name == 'ROOT'}"
 				ng-repeat="node in documentMgr.currentPath">
 				<span class="fb-path-arrow" ng-if="node.model.name != 'ROOT'">&rsaquo;</span>
 				<button class="btn icon-btn" title="{{ node.model.folderObj.displayName }}" ng-click="documentMgr.selectNode(node.model.id)">
@@ -83,6 +83,14 @@
 							x-on-ok="documentMgr.publishSelected.unpublish"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
 					</li>
 					<li>
+						<a title="Collections"
+							ng-show="project.userCan.manageFolders"
+							x-collection-chooser
+							x-project="project"
+							x-docs="documentMgr.checkedFiles"
+							x-on-ok="documentMgr.updateCollections"><span class="glyphicon glyphicon-list-alt"></span> Collections</a>
+					</li>
+					<li>
 						<a title="Move Folders & Files"
 						   ng-hide="documentMgr.moveSelected.moveableFiles.length === 0 && documentMgr.moveSelected.moveableFolders.length === 0"
 						   x-document-mgr-move
@@ -137,7 +145,7 @@
 				<div class="scroll-container-inner">
 
 					<div class="empty-directory-msg" ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.</div>
-					
+
 					<ul>
 						<li class="fb-list-item" ng-class="{'selected': doc.selected}" ng-repeat="doc in documentMgr.currentDirs">
 							<span class="col checkbox-col" ng-if="authentication.user">
@@ -362,7 +370,7 @@
 			</div>
 
 		</div>
-		
+
 		<div class="fb-details-panel">
 			<!-- Load the File/Folder Details -->
 			<div class="spinner-container" ng-show="documentMgr.busy">
@@ -436,6 +444,14 @@
 									   x-on-ok="documentMgr.unpublishFile"
 									   x-ok-args="documentMgr.infoPanel.data"><span class="glyphicon glyphicon-ban-circle"></span> Unpublish</a>
 								</li>
+								<li ng-if="project.userCan.manageFolders">
+									<a title="Collections"
+										x-collection-chooser
+										x-project="project"
+										x-docs="documentMgr.infoPanel.data"
+										x-current="documentMgr.infoPanel.data.collections"
+										x-on-ok="documentMgr.updateCollections"><span class="glyphicon glyphicon-list-alt"></span> Update Collections</a>
+								</li>
 								<li>
 									<a title="Edit Permissions" ng-if="project.userCan.manageDocumentPermissions"
 										x-role-permissions-modal
@@ -500,6 +516,12 @@
 								<li ng-if="authentication.user">
 									<span class="name">File Name:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.documentFileName }}</span>
+								</li>
+								<li ng-if="project.userCan.manageFolders && documentMgr.infoPanel.data.collections.length > 0">
+									<span class="name">Collection(s):</span>
+									<ul class="value">
+										<li data-ng-repeat="collection in documentMgr.infoPanel.data.collections">{{ collection.displayName }}</li>
+									</ul>
 								</li>
 							</ul>
 						</section>

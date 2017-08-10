@@ -1,0 +1,36 @@
+
+<div class="view-title-container">
+  <h1>Collections</h1>
+</div>
+
+<div class="view-body-container">
+  <div class="button-bar">
+    <a class="btn btn-default btn-sm" ui-sref="p.collection.create()">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span>Add Collection</span>
+    </a>
+  </div>
+  <div class="table-container">
+    <table class="table table-hover" ng-table="tableParams" show-filter="true">
+      <tr ng-repeat="c in $data" ui-sref="p.collection.detail({ collectionId: c._id })">
+        <td data-title="'Name'"      title:'Name'      filter="{'displayName':'text'}" sortable="'displayName'">{{ c.displayName }}</td>
+        <td data-title="'Type'"      title:'Type'      filter="{'type':'select'}"      sortable="'type'"  filter-data="types">{{ c.type }}</td>
+        <td data-title="'Date'"      title:'Date'      filter="{'date':'text'}"        sortable="'date'">{{ c.date | amDateFormat:'MMMM DD, YYYY' }}</td>
+        <td data-title="'Status'" title:'Status' filter="{'isPublished':'text'}" sortable="'isPublished'">
+          <span class="label label-success" ng-if="c.isPublished">PUBLISHED</span>
+          <span class="label label-default" ng-if="!c.isPublished">UNPUBLISHED</span>
+        </td>
+        <td class="actions-col x1" header-class="'actions-col x1'">
+          <a class="btn icon-btn" ng-click="$event.stopPropagation()" ui-sref="p.collection.edit({ collectionId: c._id })">
+            <span class="glyphicon glyphicon-pencil"></span>
+          </a>
+        </td>
+      </tr>
+      <tr ng-if="!$data || $data.length === 0">
+        <td colspan="5">
+          No collections found.
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
