@@ -140,6 +140,9 @@ module.exports = genSchema ('Document', {
 
 	relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],
 	keywords                : [ { type:'String'} ],
+
+	collections             : [ { type: 'ObjectId', ref: 'Collection' } ],
+
 	// supporting data for various document Types
 	inspectionReport        : { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} } , default: null },
 	certificate             : { type: {}, default: null },

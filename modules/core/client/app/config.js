@@ -24,7 +24,8 @@ var ApplicationConfiguration = (function () {
     'ngPDFViewer',
     'ngCookies',
 		'smart-table',
-		'ngclipboard'
+		'ngclipboard',
+    'dndLists'
   ];
 
 

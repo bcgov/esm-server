@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
 
-	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, TreeModel, ProjectModel, Document, FolderModel) {
+	.directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', 'CollectionModel', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, TreeModel, ProjectModel, Document, FolderModel, CollectionModel) {
 		return {
 			restrict: 'E',
 			scope: {
@@ -10,7 +10,7 @@ angular.module('documents')
 				folder: '='
 			},
 			templateUrl: 'modules/documents/client/views/document-manager.html',
-			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document) {
+			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document, CollectionModel) {
 				var tree = new TreeModel();
 				var self = this;
 				self.busy = true;
@@ -676,7 +676,7 @@ angular.module('documents')
 										});
 									}
 									else {
-										resolve(null); //if no folders 
+										resolve(null); //if no folders
 									}
 								})
 								.then(function (result) {
@@ -754,6 +754,49 @@ angular.module('documents')
 					// should refresh the table and the info panel...
 					//console.log('onDocumentUpdate...');
 					self.selectNode(self.currentNode.model.id);
+				};
+
+				self.updateCollections = function(collections, documents) {
+					var promises = [];
+					if (_.isArray(documents)) {
+						// Add the documents to the selected collections
+						_.each(documents, function(d) {
+							_.each(collections, function(c) {
+								// This is have no effect if the document is already in the collection.
+								promises.push(CollectionModel.addOtherDocument(c._id, d._id));
+							});
+						});
+						Promise.all(promises).then(function() {
+							AlertService.success('The document' + (documents.length > 1 ? 's were' : ' was') + ' successfully added to the collection' + (collections.length > 1 ? 's.' : '.'));
+						}, function(err) {
+							AlertService.error('The document' + (documents.length > 1 ? 's were' : ' was') + ' not added to the collection' + (collections.length > 1 ? 's: ' : ': ') + err.message);
+						});
+					} else {
+						// Update (add/remove) the collections for this document
+						var original = documents.collections;
+
+						// Find added collections
+						var added = _.filter(collections, function(c) {
+							return !_.find(original, function(o) { return o._id === c._id; });
+						});
+
+						// Find removed collections
+						var removed = _.filter(original, function(o) {
+							return !_.find(collections, function(c) { return o._id === c._id; });
+						});
+
+						promises = _.union(_.map(added, function(c) {
+							return CollectionModel.addOtherDocument(c._id, documents._id);
+						}), _.map(removed, function(c) {
+							return CollectionModel.removeOtherDocument(c._id, documents._id);
+						}));
+
+						Promise.all(promises).then(function() {
+							AlertService.success('The document\'s collections were successfully updated.');
+						}, function(err) {
+							AlertService.error('The document\'s collections were not successfully updated: '+ err.message);
+						});
+					}
 				};
 
 				$scope.$on('documentMgrRefreshNode', function (event, args) {

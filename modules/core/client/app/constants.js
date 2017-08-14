@@ -183,6 +183,15 @@ angular
 			'Decommissioning'
 		]
 	)
+	.constant('COLLECTION_TYPES',
+		[
+			'Inspection Report',
+			'Certificate',
+			'Certificate Amendment',
+			'Management Plan',
+			'Proponent Self Report'
+		]
+	)
 	.constant('DOCUMENT_TEMPLATE_TYPES',
 		[
 			'Project Description',

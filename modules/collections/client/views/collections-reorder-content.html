@@ -1,0 +1,23 @@
+<div class="dnd-drag-target-top" dnd-scroll-area dnd-region="top" dnd-scroll-container="collectionList"></div>
+
+<div class="dnd-scroll-container" id="collectionList">
+    <ul dnd-list dnd-drop="vm.onDrop(item, index)">
+        <li class="dnd-row" ng-repeat="item in vm.list" id="{{'dc0-' + item.document._id}}" ng-class="{'selected': item.selected}"
+            dnd-draggable="vm.getSelectedItemsIncluding(item)" 
+            dnd-dragstart="vm.onDragstart( event, 'dc0-')" 
+            dnd-moved="vm.onMoved()"
+            dnd-dragend="vm.onDragend(event)" 
+            dnd-selected="item.selected = !item.selected" 
+            ng-hide="vm.dragging && item.selected">
+            <div class="collection-document">
+                <div class="name">{{ item.document.displayName }}</div>
+                <div class="date">{{ item.document.documentDate | date: 'y-MM-dd' }}</div>
+                <div class="status">
+                    <span class="label label-default" ng-class="{'label-success' : item.document.isPublished }">{{ item.document.isPublished ? 'PUBLISHED' : 'UNPUBLISHED' }}</span>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="dnd-drag-target-bottom" dnd-scroll-area dnd-region="bottom" dnd-scroll-container="collectionList"></div>

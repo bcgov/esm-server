@@ -128,6 +128,7 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 	Menus.addMenu('projectMenu', {
 		permissions: [
 			'context.listDocuments',
+			'context.manageFolders',
 			'context.listValuedComponents',
 			'context.listProjectRoles',
 			'context.listInspectionReports',
@@ -144,6 +145,11 @@ angular.module('core').run(['Menus','ENV', function (Menus, ENV) {
 		permissions: ['context.listDocuments']
 	});
 	if (ENV === 'EAO') {
+		Menus.addMenuItem('projectMenu', {
+			title: 'Collections',
+			state: 'p.collection.list',
+			permissions: ['context.manageFolders']
+		});
 		Menus.addMenuItem('projectMenu', {
 			title: 'Invitations',
 			state: 'p.invitation.list',

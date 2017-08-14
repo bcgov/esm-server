@@ -32,7 +32,8 @@
     "tree-model-bower": "git://github.com/BCDevOps/tree-model-bower",
     "angular-smart-table": "2.1.8",
     "ngclipboard": "^1.1.1",
-    "clipboard": "^1.7.1"
+    "clipboard": "^1.7.1",
+    "angular-drag-and-drop-lists": "^2.1.0"
   },
   "resolutions": {
     "angular": "^1.5.9",
