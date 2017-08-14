@@ -25,7 +25,7 @@ angular.module('documents')
 								if (scope.doc._schemaName === "Document") {
 									return null;
 								} else {
-									return FolderModel.getAllFoldersForProject(scope.project._id)
+									return FolderModel.getAllFoldersForProject(scope.project._id);
 								}
 
 							}
@@ -35,7 +35,7 @@ angular.module('documents')
 							var self = this;
 							self.busy = true;
 
-							console.log("project folders", projectFolders)
+							console.log("project folders", projectFolders);
 							$scope.project = scope.project;
 							$scope.types = CodeLists.documentTypes.active;
 							$scope.inspectionReportFollowupTypes = CodeLists.inspectionReportFollowUpTypes.active;
@@ -131,7 +131,7 @@ angular.module('documents')
 											else {
 												console.log("Renaming folder from to", $scope.originalName, $scope.doc.displayName);
 												var found = _.filter(projectFolders, function (fldr) {
-													return (fldr.displayName === $scope.doc.displayName)
+													return (fldr.displayName === $scope.doc.displayName);
 												});
 												if (found.length > 0) {
 													AlertService.error("Sorry, folder already exists.  Please choose another name.");
