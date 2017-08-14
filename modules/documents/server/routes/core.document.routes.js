@@ -118,21 +118,7 @@ module.exports = function (app) {
 		if (req.Document.internalURL.match (/^(http|ftp)/)) {
 			res.redirect (req.Document.internalURL);
 		} else {
-			// ETL fixing - if the name was brought in without a filename, and we have their document
-			// file format, affix the type as an extension to the original name so they have a better
-			// chance and opening up the file on double-click.
-			String.prototype.endsWith = String.prototype.endsWith || function (str){
-				return new RegExp(str + "$").test(str);
-			};
-			console.log("downloading:",req.Document.internalOriginalName,":", req.Document.documentFileFormat);
-			var name = req.Document.internalOriginalName;
-			if (req.Document.documentFileFormat && !req.Document.internalOriginalName.endsWith(req.Document.documentFileFormat)) {
-				name = req.Document.internalOriginalName + "." + req.Document.documentFileFormat;
-			}
-			// Double check if the filename has displayName set, if so use that instead.
-			if (req.Document.displayName !== "") {
-				name = req.Document.displayName;
-			}
+			var name = documentDownloadName(req);
 
 			if (fs.existsSync(req.Document.internalURL)) {
 				routes.streamFile (res, {
@@ -146,6 +132,27 @@ module.exports = function (app) {
 			}
 		}
 	});
+	function documentDownloadName(req) {
+		// ETL fixing - if the name was brought in without a filename, and we have their document
+		// file format, affix the type as an extension to the original name so they have a better
+		// chance and opening up the file on double-click.
+		String.prototype.endsWith = String.prototype.endsWith || function (str){
+			return new RegExp(str + "$").test(str);
+		};
+
+		var doc = req.Document;
+		var format = req.Document.documentFileFormat;
+		var name = doc.documentFileName || doc.displayName || doc.internalOriginalName;
+		if (format && !name.endsWith(format)) {
+			console.log("Add extension to download name ",name, format);
+			name += "." + format;
+		}
+		// keep the console log statments until after we run an ETL that resets the filename extensions.
+		// these will help verify the ETL once it is done
+		// They may help in the future if those file extensions disappear again.
+		console.log("Download filename: ",name);
+		return name;
+	}
 	//
 	// fetch a document (download multipart stream)
 	//
@@ -155,21 +162,9 @@ module.exports = function (app) {
 		if (req.Document.internalURL.match (/^(http|ftp)/)) {
 			res.redirect (req.Document.internalURL);
 		} else {
-			// ETL fixing - if the name was brought in without a filename, and we have their document
-			// file format, affix the type as an extension to the original name so they have a better
-			// chance and opening up the file on double-click.
-			String.prototype.endsWith = String.prototype.endsWith || function (str){
-				return new RegExp(str + "$").test(str);
-			};
-			console.log("fetching:",req.Document.internalOriginalName,":", req.Document.documentFileFormat);
-			var name = req.Document.internalOriginalName;
-			if (req.Document.documentFileFormat && !req.Document.internalOriginalName.endsWith(req.Document.documentFileFormat)) {
-				name = req.Document.internalOriginalName + "." + req.Document.documentFileFormat;
-			}
-			// Double check if the filename has displayName set, if so use that instead.
-			if (req.Document.displayName !== "") {
-				name = req.Document.displayName;
-			}
+
+			var name = documentDownloadName(req);
+
 			if (fs.existsSync(req.Document.internalURL)) {
 				var stream 		= fs.createReadStream(req.Document.internalURL);
 				var filename 	= encodeURIComponent(name);
