@@ -333,8 +333,8 @@ module.exports = DBModel.extend ({
 		var self = this;
 		return self.directoryAction(projectId, directoryId, "rename folder", function (_dir, fldr, project, resolve, reject)
 		{
-			// Check if the folder name already exists.
-			return fldr.findOne({project: projectId, displayName: newName})
+			// Check if the folder name already exists in the current folder
+			return fldr.findOne({project: projectId, parentID: _dir.parentID, displayName: newName})
 			.then(function (folder) {
 				if (folder) {
 					return reject(new Error("Folder name already exists."));
