@@ -185,7 +185,7 @@ angular
 	)
 	.constant('COLLECTION_TYPES',
 		[
-			'Inspection Report',
+			'Inspection Record',
 			'Certificate',
 			'Certificate Amendment',
 			'Management Plan',

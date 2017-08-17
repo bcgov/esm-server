@@ -61,7 +61,7 @@ angular.module('collections').config(['$stateProvider', function($stateProvider)
 						$scope.collection.parentType = 'Authorizations';
 						break;
 
-					case 'Inspection Report':
+					case 'Inspection Record':
 						$scope.collection.parentType = 'Compliance and Enforcement';
 						break;
 
@@ -727,7 +727,7 @@ angular.module('collections').config(['$stateProvider', function($stateProvider)
 						$scope.collection.parentType = 'Authorizations';
 						break;
 
-					case 'Inspection Report':
+					case 'Inspection Record':
 						$scope.collection.parentType = 'Compliance and Enforcement';
 						break;
 
