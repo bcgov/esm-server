@@ -91,10 +91,8 @@
                     <div class="table-container">
                         <table class="table" ng-table="otherTableParams">
                             <tr ng-repeat="d in $data" ng-click="goToDocument(d.document)">
-                                <td data-title="'Sort'" ng-show="false" title='Sort' sortable="'Sort'">{{ d.document.sortOrder}}</td>
                                 <td data-title="'Name'" title='Name' sortable="'Name'">{{ d.document.displayName | removeExtension }}</td>
                                 <td data-title="'Date'" title='Date' sortable="'Date'">{{ d.document.documentDate | amDateFormat:'MMMM DD, YYYY' }}</td>
-                                <td data-title="'Uploaded'" title='Uploaded' sortable="'Uploaded'">{{ d.document.dateUploaded | amDateFormat:'MMMM DD, YYYY' }}</td>
                                 <td class="actions-col" header-class="'actions-col x1'">
                                     <a class="btn icon-btn" title="Remove Other Document" ng-click="removeOtherDocument(d.document)">
                                         <span class="glyphicon glyphicon-trash"></span>
