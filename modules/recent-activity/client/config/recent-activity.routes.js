@@ -17,6 +17,11 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 		abstract:true,
 		url: '/recentactivity',
 		template: '<ui-view></ui-view>',
+		resolve: {
+			publishedProjects: function (ProjectModel) {
+				return ProjectModel.published();
+			}
+		},
 		controller: function ($scope, projectsLookup) {
 			$scope.projects = projectsLookup;
 		}
@@ -197,7 +202,8 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				return RecentActivityModel.getNew ();
 			}
 		},
-		controller: function ($scope, $state, Authentication, recentActivity, RecentActivityModel, $filter) {
+		controller: function ($scope, $state, Authentication, recentActivity, RecentActivityModel, $filter, publishedProjects) {
+			$scope.publishedProjects = publishedProjects;
 			$scope.recentActivity = recentActivity;
 			$scope.recentActivity.addedBy = Authentication.user._id;
 			var which = 'add';
@@ -234,7 +240,8 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				return RecentActivityModel.getModel ($stateParams.recentActivityId);
 			}
 		},
-		controller: function ($scope, $state, recentActivity, RecentActivityModel, $filter) {
+		controller: function ($scope, $state, recentActivity, RecentActivityModel, $filter, publishedProjects) {
+			$scope.publishedProjects = publishedProjects;
 			$scope.recentActivity = recentActivity;
 			var which = 'edit';
 			$scope.save = function (isValid) {
