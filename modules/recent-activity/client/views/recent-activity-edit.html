@@ -45,8 +45,8 @@
 							name="project"
 							class="form-control"
 							ng-model="recentActivity.project"
-							ng-options="v._id as v.name group by v.region for (k, v) in projects">
-							<option value="">{{ recentActivity.project.name }}</option>
+							ng-options="opt as opt.name for opt in projects track by opt._id">
+							<option></option>
 						</select>
 					</div>
 				</div>
