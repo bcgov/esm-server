@@ -166,12 +166,11 @@ module.exports = function (app) {
 			var name = documentDownloadName(req);
 
 			if (fs.existsSync(req.Document.internalURL)) {
-				var stream 		= fs.createReadStream(req.Document.internalURL);
-				var filename 	= encodeURIComponent(name);
-				var stat = fs.statSync(req.Document.internalURL);
+				var stream 	= fs.createReadStream(req.Document.internalURL);
+				var stat 	= fs.statSync(req.Document.internalURL);
 				res.setHeader('Content-Length', stat.size);
 				res.setHeader('Content-Type', req.Document.internalMime);
-				res.setHeader('Content-Disposition', 'inline;filename="' + filename + '"');
+				res.setHeader('Content-Disposition', 'inline;filename="' + name + '"');
 				stream.pipe(res);
 			} else {
 				console.log("User asked for a file that doesn't exist:", req.Document.internalURL);
