@@ -39,8 +39,7 @@ angular.module('documents')
 											$modalInstance.close(result.data);
 										},
 										function (err) {
-											//$log.error('renameDirectory error: ', JSON.stringify(err));
-											AlertService.error("Could not rename folder");
+											AlertService.error("Could not rename folder: " + err.data.message);
 										}
 									);
 							};
