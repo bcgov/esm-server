@@ -31,6 +31,7 @@ _.extend (DBModel.prototype, {
 	name             : 'Application',     // required : name of the model
 	baseQuery        : {},            // optional : base query to be applied to all queries
 	decorate         : emptyPromise,  // optional : extra decoration function
+	validate         : emptyPromise,  // optional : business rules validation function
 	preprocessAdd    : emptyPromise,  // optional : pre-processing
 	postprocessAdd   : emptyPromise,  // optional : post-processing
 	preprocessUpdate : emptyPromise,  // optional : pre-processing
@@ -103,7 +104,12 @@ _.extend (DBModel.prototype, {
 			'getModelPermissionDefaults',
 			'complete',
 			'search',
-			'paginate'
+			'paginate',
+			'decorate',
+			'validate',
+			'sanitizeData',
+			'postprocessAdd',
+			'postprocessUpdate'
 		]);
 		//
 		// allows the extended classes to also bind
@@ -904,6 +910,7 @@ _.extend (DBModel.prototype, {
 		return new Promise (function (resolve, reject) {
 			self.setDocument (oldDoc, newDoc)
 			.then (self.preprocessUpdate)
+			.then (self.validate)
 			.then (self.saveDocument)
 			.then (self.permissions)
 			.then (self.postprocessUpdate)
@@ -1057,7 +1064,7 @@ _.extend (DBModel.prototype, {
 			.then (resolve, self.complete (reject, 'oneIgnoreAccess'));
 		});
 	},
-	
+
 	// -------------------------------------------------------------------------
 	//
 	// lets decide to save some time debugging and just finally overload this puppy

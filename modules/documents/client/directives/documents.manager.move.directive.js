@@ -1,6 +1,6 @@
 'use strict';
 angular.module('documents')
-	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document','FolderModel', function ($rootScope, $modal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document, FolderModel) {
+	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function ($rootScope, $modal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document, FolderModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -22,8 +22,10 @@ angular.module('documents')
 							var self = this;
 							var tree = new TreeModel();
 
-							self.view = 'select'; // select or mvoe
+							self.view = 'select'; // select or move
 							self.busy = false;
+							self.showWarning = false; // whether to show a warning when published content is moved to UNpublished folders
+							self.canMoveContent = true; // whether content can be moved to a destination folder. True by default.
 
 							$scope.project = scope.project;
 							$scope.node = scope.node || scope.root;
@@ -41,7 +43,7 @@ angular.module('documents')
 								ascending: true
 							};
 
-							self.rootNode = tree.parse($scope.node.model);  
+							self.rootNode = tree.parse($scope.node.model);
 							self.selectedNode = undefined;
 							self.currentNode = undefined;
 							self.currentPath = undefined;
@@ -50,13 +52,28 @@ angular.module('documents')
 							self.allChecked = false;
 							self.checkedDirs = [];
 							self.checkedFiles = [];
-							self.lastChecked = {fileId: undefined, directoryID: undefined};
+							self.lastChecked = { fileId: undefined, directoryID: undefined };
 
 							self.unsortedFiles = [];
 							self.unsortedDirs = [];
 
 							self.currentFiles = [];
 							self.currentDirs = [];
+
+							// constants
+							var MIXED_CONTENT = 'mixed';
+							var ONLY_UNPUBLISHED_CONTENT = 'only-unpublished';
+							var ONLY_PUBLISHED_CONTENT = 'only-published';
+
+							determineContentType();
+
+							self.selectPromptText = "Select a destination folder";
+							if (self.contentType === MIXED_CONTENT) {
+								self.selectPromptText += " suitable for some published content";
+							} else if (self.contentType === ONLY_PUBLISHED_CONTENT) {
+								self.selectPromptText += " suitable for published content";
+							}
+
 
 							self.sortBy = function (column) {
 								//is this the current column?
@@ -71,6 +88,34 @@ angular.module('documents')
 								self.applySort();
 							};
 
+							function determineContentType() {
+								var dp = _.find($scope.moveSelected.moveableFiles, function (doc) {
+									return doc.isPublished;
+								});
+								var fp = _.find($scope.moveSelected.moveableFolders, function (fld) {
+									return fld.model.folderObj.isPublished;
+								});
+								var du = _.find($scope.moveSelected.moveableFiles, function (doc) {
+									return !doc.isPublished;
+								});
+								var fu = _.find($scope.moveSelected.moveableFolders, function (fld) {
+									return !fld.model.folderObj.isPublished;
+								});
+								var movingPublishedContent = !!(dp || fp);
+								var movingUnPublishedContent = !!(du || fu);
+
+								self.contentType = ONLY_UNPUBLISHED_CONTENT;
+								self.selectPromptText = "Select a destination folder";
+								if (movingPublishedContent) {
+									if (movingUnPublishedContent) {
+										self.selectPromptText += " suitable for some published content";
+										self.contentType = MIXED_CONTENT;
+									} else {
+										self.selectPromptText += " suitable for published content";
+										self.contentType = ONLY_PUBLISHED_CONTENT;
+									}
+								}
+							}
 							self.applySort = function () {
 								// sort ascending first...
 								self.currentFiles = _(self.unsortedFiles).chain().sortBy(function (f) {
@@ -151,114 +196,155 @@ angular.module('documents')
 								});
 								if (nodeFolderObj) { //we are making sure a node folderObj is defined. The reason adding folderObj at this point is because the Node(current folder) does not have the folderObj
 									theNode.model.folderObj = nodeFolderObj;
-								} 
+								}
 								if (!theNode) {
 									theNode = self.rootNode;
 								}
 
 								self.currentNode = theNode; // this is the current Directory in the bread crumb basically...
 								self.folderURL = window.location.protocol + "//" + window.location.host + "/p/" + $scope.project.code + "/docs?folder=" + self.currentNode.model.id;
-								
-								var pathArray = theNode.getPath();
-								_.each(pathArray, function (elem) {
-									if (elem.model.id > 1) { //bail the root node cus we don't need to attatch the folderObj to it
-										if (!elem.model.hasOwnProperty('folderObj')) { //trying to reduce the amount of API calls only by checking if node model does not have folderObj
-											FolderModel.lookup($scope.project._id, elem.model.id)
-												.then(function (folder) {
-													elem.model.folderObj = folder;
-												});
-										}
-									}
-								});
-								self.currentPath = pathArray || [];
 
 								self.unsortedFiles = [];
 								self.unsortedDirs = [];
 								self.currentFiles = [];
 								self.currentDirs = [];
 
-								//$log.debug('currentNode (' + self.currentNode.model.name + ') get documents...');
-								DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id)
-									.then(
-										function (result) {
-											//$log.debug('...currentNode (' + self.currentNode.model.name + ') got '+ _.size(result.data ) + '.');
+								var pathArray = theNode.getPath();
+								self.currentPath = pathArray || [];
 
-											self.unsortedFiles = _.map(result.data, function (f) {
-												// making sure that the displayName is set...
-												if (_.isEmpty(f.displayName)) {
-													f.displayName = f.documentFileName || f.internalOriginalName;
-												}
-												if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
-													var od = JSON.parse(f.oldData);
-													//console.log(od);
-													try {
-														f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
-													} catch (ex) {
-														console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
-													}
-												}
-												return _.extend(f, {
-													selected: (_.find(self.checkedFiles, function (d) {
-														return d._id.toString() === f._id.toString();
-													}) !== undefined), type: 'File', disabled: true
-												});
-											});
+								// retrieve folder details from back-end API as a set of promises
+								var folderPromises = _.map(pathArray, function(elem) {
+									// bail the root node cuz we don't need to attatch the folderObj to it
+									if (elem.model.id === 1) {
+										return Promise.resolve();
+									}
 
-											self.unsortedDirs = _.map(self.currentNode.children, function (n) {
-												var isSourceDir, isCheckedDir = false;
-												var sourceDir = _.find($scope.moveSelected.moveableFolders, function (d) {
-													return d.model.id === n.model.id;
-												});
-												if (sourceDir) {
-													isSourceDir = true;
-												}
-												var checkedDir = _.find(self.checkedDirs, function (d) {
-													return d.model.id === n.model.id;
-												});
-												if (checkedDir) {
-													isCheckedDir = true;
-												}
+									// trying to reduce the amount of API calls only by checking if node model does not have folderObj
+									if (elem.model.hasOwnProperty('folderObj')) {
+										return Promise.resolve();
+									}
 
-												return _.extend(n, {
-													selected: isCheckedDir,
-													sourceDir: isSourceDir,
-													type: 'Directory'
-												});
-											});
+									// attach folder details object to the client-side models
+									return FolderModel.lookup($scope.project._id, elem.model.id)
+									.then(function (folder) {
+										elem.model.folderObj = folder;
+									});
+								});
 
-											self.applySort();
-											// since we loaded this, make it the selected node
-											self.selectedNode = self.currentNode;
-											self.selectedName = self.selectedNode.model.name === 'ROOT' ? $scope.project.name : self.selectedNode.model.folderObj.displayName;
-											self.title = self.titleText + " to '" + self.selectedName + "'";
-
-											self.busy = false;
-										},
-										function (error) {
-											$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
-											self.busy = false;
-										}
-									).then(function () {
+								return Promise.all(folderPromises)
+								.then(function () {
+									// flag whether the target (destination) folder is published or not...
+									// this will drive logic to exclude some items from the move operation
+									self.targetDirectoryIsPublished = self.currentNode.model.name === 'ROOT' ? true : self.currentNode.model.folderObj.isPublished;
+								})
+								.then(function () {
 									// Go through each of the currently available folders in view, and attach the object
 									// to the model dynamically so that the permissions directive will work by using the
 									// correct x-object=folderObject instead of a doc.
-									FolderModel.lookupForProjectIn($scope.project._id, self.currentNode.model.id)
-									.then(function (folder) {
-										_.each(folder, function (fs) {
-											// We do breadth-first because we like to talk to our neighbours before moving
-											// onto the next level (where we bail for performance reasons).
-											theNode.walk({strategy: 'breadth'}, function (n) {
-												if (n.model.id === fs.directoryID) {
-													n.model.folderObj = fs;
-													return false;
-												}
+									return FolderModel.lookupForProjectIn($scope.project._id, self.currentNode.model.id)
+										.then(function (folders) {
+											_.each(folders, function (fs) {
+												// We do breadth-first because we like to talk to our neighbours before moving
+												// onto the next level (where we bail for performance reasons).
+												theNode.walk({ strategy: 'breadth' }, function (n) {
+													if (n.model.id === fs.directoryID) {
+														n.model.folderObj = fs;
+														return false;
+													}
+												});
 											});
 										});
-										$scope.$apply();
+								})
+								.then(function () {
+									return DocumentMgrService.getDirectoryDocuments($scope.project, self.currentNode.model.id);
+								})
+								.then(function (result) {
+									self.unsortedFiles = _.map(result.data, function (f) {
+										// making sure that the displayName is set...
+										if (_.isEmpty(f.displayName)) {
+											f.displayName = f.documentFileName || f.internalOriginalName;
+										}
+										if (_.isEmpty(f.dateUploaded) && !_.isEmpty(f.oldData)) {
+											var od = JSON.parse(f.oldData);
+											try {
+												f.dateUploaded = moment(od.WHEN_CREATED, "MM/DD/YYYY HH:mm").toDate();
+											} catch (ex) {
+												console.log('Error parsing WHEN_CREATED from oldData', JSON.stringify(f.oldData));
+											}
+										}
+										return _.extend(f, {
+											selected: (_.find(self.checkedFiles, function (d) {
+												return d._id.toString() === f._id.toString();
+											}) !== undefined),
+											type: 'File',
+											disabled: true,
+											moveDisabled: f.isPublished && !self.targetDirectoryIsPublished
+										});
 									});
+
+									self.unsortedDirs = _.map(self.currentNode.children, function (n) {
+										var isSourceDir, isCheckedDir = false;
+										var sourceDir = _.find($scope.moveSelected.moveableFolders, function (d) {
+											return d.model.id === n.model.id;
+										});
+										if (sourceDir) {
+											isSourceDir = true;
+										}
+										var checkedDir = _.find(self.checkedDirs, function (d) {
+											return d.model.id === n.model.id;
+										});
+										if (checkedDir) {
+											isCheckedDir = true;
+										}
+
+										return _.extend(n, {
+											selected: isCheckedDir,
+											sourceDir: isSourceDir,
+											type: 'Folder',
+											disabled: false,
+											moveDisabled: n.model.folderObj.isPublished && !self.targetDirectoryIsPublished
+										});
+									});
+
+									self.applySort();
+									// since we loaded this, make it the selected node
+									self.selectedNode = self.currentNode;
+									self.selectedName = self.selectedNode.model.name === 'ROOT' ? $scope.project.name : self.selectedNode.model.folderObj.displayName;
+									self.title = self.titleText + " to '" + self.selectedName + "'";
+
+									self.busy = false;
+								})
+								.then(function () {
+									// flag content that shouldn't be moved (as per EPIC-1155)
+									// we want to block the move of published content into UNpublished folders
+									$scope.moveSelected.moveableFolders = _.map($scope.moveSelected.moveableFolders, function (fld) {
+										return _.extend(fld, {
+											moveDisabled: fld.model.folderObj.isPublished && !self.targetDirectoryIsPublished
+										});
+									});
+
+									$scope.moveSelected.moveableFiles = _.map($scope.moveSelected.moveableFiles, function (doc) {
+										return _.extend(doc, {
+											moveDisabled: doc.isPublished && !self.targetDirectoryIsPublished
+										});
+									});
+
+									// show a warning when trying to move published content into UNpublished folders
+									var allContent = ($scope.moveSelected.moveableFolders || []).concat($scope.moveSelected.moveableFiles);
+									self.showWarning = _.some(allContent, 'moveDisabled', true);
+
+									// flag whether there's anything allowed to be moved (or not)
+									self.canMoveContent = self.targetDirectoryIsPublished || self.contentType !== ONLY_PUBLISHED_CONTENT;
+								})
+								.then(function () {
+									// trigger an UI update with all data changes pulled from the back-end
+									$scope.$apply();
+								})
+								.catch(function (error) {
+									$log.error('getDirectoryDocuments error: ', JSON.stringify(error));
+									self.busy = false;
 								});
 							};
-
 
 							self.cancel = function () {
 								$modalInstance.dismiss('cancel');
@@ -273,13 +359,19 @@ angular.module('documents')
 							};
 
 							self.move = function () {
+								// filter out content that shouldn't be moved...
+								$scope.moveSelected.moveableFolders = _.filter($scope.moveSelected.moveableFolders, 'moveDisabled', false);
+								$scope.moveSelected.moveableFiles = _.filter($scope.moveSelected.moveableFiles, 'moveDisabled', false);
+
 								// call back into the main document manager and get it to do the moving etc...
 								$scope.moveSelected.ok(self.selectedNode)
 									.then(function (ok) {
-											$modalInstance.close(self.selectedNode);
-										},
-										function (err) {
-										});
+										$modalInstance.close(self.selectedNode);
+									})
+									.catch(function (err) {
+										// we want to dismiss the move dialog when an error is thrown by the server-side API
+										$modalInstance.close(self.selectedNode);
+									});
 							};
 
 							// initialize the view
@@ -287,8 +379,8 @@ angular.module('documents')
 
 							// need this for add new folder...
 							$scope.$on('documentMgrRefreshNode', function (event, args) {
-									self.rootNode = tree.parse(args.directoryStructure);
-									self.selectNode(self.currentNode.model.id, self.currentNode.model.folderObj);
+								self.rootNode = tree.parse(args.directoryStructure);
+								self.selectNode(self.currentNode.model.id, self.currentNode.model.folderObj);
 							});
 						}
 					}).result
@@ -302,4 +394,4 @@ angular.module('documents')
 			}
 		};
 	}])
-;
+	;

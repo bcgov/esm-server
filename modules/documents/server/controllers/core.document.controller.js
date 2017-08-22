@@ -9,6 +9,7 @@ var DBModel   = require (path.resolve('./modules/core/server/controllers/core.db
 var _         = require ('lodash');
 var CSVParse 	= require ('csv-parse');
 var Project    = require (path.resolve('./modules/projects/server/controllers/project.controller'));
+var Folder    = require (path.resolve('./modules/folders/server/controllers/core.folder.controller'));
 var mongoose 	= require ('mongoose');
 var DocumentModel 	= mongoose.model ('Document');
 
@@ -116,6 +117,37 @@ module.exports = DBModel.extend ({
 				break;
 		}
 		return doc;
+	},
+	// -------------------------------------------------------------------------
+	//
+	// ensures that business rules apply before documents are saved/updated
+	// e.g. published documents should NOT be moved into UNpublished folders...
+	//
+	// -------------------------------------------------------------------------
+	validate: function(doc) {
+		return this.canMoveDocument(doc, doc.directoryID)
+		.then(function () {
+			// all business rules are satisfied. return the document
+			return doc;
+		});
+	},
+	// -------------------------------------------------------------------------
+	//
+	// BUSINESS RULE:
+	// "Published documents should NOT be moved into UNpublished folders..."
+	//
+	// -------------------------------------------------------------------------
+	canMoveDocument: function(doc, directoryId) {
+		var f = new Folder(this.opts);
+		return f.findOne({ directoryID: directoryId, project: doc.project })
+		.then(function (folder) {
+			if (!folder) {
+				throw new Error('Cannot move document. Destination folder not found'); // <-- this will reject the entire promise chain
+			}
+			if (doc.isPublished && !folder.isPublished) {
+				throw new Error('Cannot move published content into unpublished folder'); // <-- this will reject the promise chain
+			}
+		});
 	},
 	// -------------------------------------------------------------------------
 	//
