@@ -423,14 +423,11 @@
 								<li ng-if="documentMgr.infoPanel.data.userCan.publish && !documentMgr.infoPanel.data.isPublished">
 									<a title="Publish File"
 									   ng-click="$event.stopPropagation();"
-									   x-confirm-dialog
-									   x-title-text="'Publish File'"
-									   x-ok-text="'Yes'"
-									   x-cancel-text="'No'"
-									   x-confirm-text="'Are you sure you want to publish the selected file?'"
-									   x-confirm-items="[documentMgr.infoPanel.data.displayName]"
-									   x-on-ok="documentMgr.publishFile"
-									   x-ok-args="documentMgr.infoPanel.data"><span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
+                     x-confirm-publish
+                     x-publisher="documentMgr.publishFiles"
+                     x-current-node="documentMgr.currentNode"
+                     x-docs="documentMgr.infoPanel.data">
+                    <span class="glyphicon glyphicon-ok-circle"></span> Publish</a>
 								</li>
 								<li ng-if="documentMgr.infoPanel.data.userCan.unPublish && documentMgr.infoPanel.data.isPublished">
 									<a title="Unpublish File"
