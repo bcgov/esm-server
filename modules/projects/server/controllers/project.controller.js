@@ -389,7 +389,7 @@ module.exports = DBModel.extend ({
 				})
 				.then(function (project) {
 					// Check if the folder name already exists.
-					return f.findOne({parentID: _dir.parentID, project: projectId, displayName: newName})
+					return f.findOne({parentID: folderId, project: projectId, displayName: newName})
 					.then(function (folder) {
 						if (folder) {
 							return Promise.reject(new Error("Folder name already exists."));

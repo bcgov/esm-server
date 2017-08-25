@@ -144,7 +144,7 @@ angular.module('documents')
 													self.busy = false;
 													$modalInstance.close(result);
 												}, function (err) {
-													AlertService.error("Could not rename folder: " + err.data.message);
+													AlertService.error("Could not rename folder");
 												});
 											} else {
 												self.busy = false;
