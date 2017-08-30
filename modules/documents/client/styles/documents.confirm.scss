@@ -1,0 +1,49 @@
+// For the Delete files and folders confirmation directive
+
+// some styling can be found in file-browser.scss. Not the file with that name adjacent to this stylesheet
+// It's in the file in core/client/scss/components
+/*
+.confirm-dialog .confirm-list {
+  margin-top: 1rem;
+  margin-bottom: 0;
+  font-weight: bold; }
+*/
+
+.confirm-dialog ul {
+  list-style-type: none;
+  padding-left: 0;
+
+  &>li {
+    background-color: #fff;
+    padding: 2rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+  }
+  .disabled {
+    color: #ddd;
+  }
+}
+
+
+
+.confirm-list .avatar {
+  font-weight: normal;
+  flex: 0 0 5%;
+}
+
+.confirm-list .item {
+  font-weight: normal;
+  flex: 1 1 45%;
+}
+
+.confirm-list .reason {
+  font-weight: normal;
+  color: red;
+  flex: 0 1 50%;
+  text-align: right;
+}
+
+
+

@@ -52,14 +52,14 @@
 					</li>
 					<li>
 						<a title="Delete"
-						   ng-hide="documentMgr.deleteSelected.confirmItems.length === 0"
-						   x-confirm-dialog
-						   x-title-text="documentMgr.deleteSelected.titleText"
-						   x-ok-text="documentMgr.deleteSelected.okText"
-						   x-cancel-text="documentMgr.deleteSelected.cancelText"
-						   x-confirm-text="documentMgr.deleteSelected.confirmText"
-						   x-confirm-items="documentMgr.deleteSelected.confirmItems"
-						   x-on-ok="documentMgr.deleteSelected.ok"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+              ng-hide="documentMgr.deleteSelected.confirmItems.length === 0"
+              x-confirm-delete
+              x-delete-callback="documentMgr.deleteFilesAndDirs"
+              x-current-node="documentMgr.currentNode"
+              x-project="project"
+              x-folders="documentMgr.checkedDirs"
+              x-files="documentMgr.checkedFiles">
+              <span class="glyphicon glyphicon-trash"></span> Delete</a>
 					</li>
 					<li>
 						<a title="Publish"
@@ -215,14 +215,11 @@
 											</li>
 											<li ng-if="project.userCan.manageFolders">
 												<button class="btn icon-btn" title="Delete Folder" ng-click="$event.stopPropagation();"
-														x-confirm-dialog
-														x-title-text="'Delete Folder'"
-														x-ok-text="'Yes'"
-														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to delete this folder? This action cannot be undone.'"
-														x-confirm-items="[doc.model.folderObj.displayName]"
-														x-on-ok="documentMgr.deleteDir"
-												        x-ok-args="doc">
+                          x-confirm-delete
+                          x-delete-callback="documentMgr.deleteFilesAndDirs"
+                          x-current-node="documentMgr.currentNode"
+                          x-project="project"
+                          x-folders="doc">
 													<span class="glyphicon glyphicon-trash"></span>
 												</button>
 											</li>
@@ -333,14 +330,11 @@
 											</li>
 											<li ng-if="doc.userCan.delete">
 												<button class="btn icon-btn" title="Delete File" ng-click="$event.stopPropagation();"
-														x-confirm-dialog
-														x-title-text="'Delete File(s)'"
-														x-ok-text="'Yes'"
-														x-cancel-text="'No'"
-														x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone.'"
-														x-confirm-items="[doc.displayName]"
-														x-on-ok="documentMgr.deleteFile"
-														x-ok-args="doc">
+                          x-confirm-delete
+                          x-current-node="documentMgr.currentNode"
+                          x-project="project"
+                          x-delete-callback="documentMgr.deleteFilesAndDirs"
+                          x-files="doc">
 													<span class="glyphicon glyphicon-trash"></span>
 												</button>
 											</li>
@@ -410,15 +404,13 @@
 							<ul class="dropdown-menu pull-right">
 								<li ng-if="documentMgr.infoPanel.data.userCan.delete">
 									<a title="Delete File"
-									   ng-click="$event.stopPropagation();"
-									   x-confirm-dialog
-									   x-title-text="'Delete File(s)'"
-									   x-ok-text="'Yes'"
-									   x-cancel-text="'No'"
-									   x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone.'"
-									   x-confirm-items="[documentMgr.infoPanel.data.displayName]"
-									   x-on-ok="documentMgr.deleteFile"
-									   x-ok-args="documentMgr.infoPanel.data"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                    ng-click="$event.stopPropagation();"
+                    x-confirm-delete
+                    x-current-node="documentMgr.currentNode"
+                    x-project="project"
+                    x-delete-callback="documentMgr.deleteFilesAndDirs"
+                    x-files="documentMgr.infoPanel.data">
+                    <span class="glyphicon glyphicon-trash"></span> Delete</a>
 								</li>
 								<li ng-if="documentMgr.infoPanel.data.userCan.publish && !documentMgr.infoPanel.data.isPublished">
 									<a title="Publish File"

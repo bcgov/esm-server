@@ -376,144 +376,62 @@ angular.module('documents')
 						});
 				};
 
-				self.deleteDir = function(doc) {
-					self.busy = true;
-					return DocumentMgrService.removeDirectory($scope.project, doc)
-						.then(function (result) {
-							$scope.project.directoryStructure = result.data;
-							$scope.$broadcast('documentMgrRefreshNode', {directoryStructure: result.data});
-							self.busy = false;
-							AlertService.success('The selected folder was deleted.');
-						}, function(docs) {
-							var msg = "";
-							var theDocs = [];
-							if (docs.data.message && docs.data.message[0] && docs.data.message[0].documentFileName) {
-								_.each(docs.data.message, function (d) {
-									theDocs.push(d.documentFileName);
-								});
-								msg = 'This action cannot be completed as the following documents are in the folder: ' + theDocs + '.';
-							} else {
-								msg = "Could not delete folder, there are still files in the folder.";
-							}
-
-							$log.error('DocumentMgrService.removeDirectory error: ', msg);
-							self.busy = false;
-							AlertService.error(msg);
-						});
-				};
-
-				self.deleteFile = function(doc) {
-					self.busy = true;
-					return self.deleteDocument(doc._id)
-						.then(function(result) {
-							self.selectNode(self.currentNode.model.id); // will mark as not busy...
-							var name = doc.displayName || doc.documentFileName || doc.internalOriginalName;
-							AlertService.success('Delete File', 'The selected file was deleted.');
-						}, function(error) {
-							$log.error('deleteFile error: ', JSON.stringify(error));
-							self.busy = false;
-							AlertService.error('The selected file could not be deleted.');
-						});
-				};
-
 				self.deleteSelected = {
-					titleText: 'Delete File(s)',
-					okText: 'Yes',
-					cancelText: 'No',
-					ok: function() {
-						/*
-							Here the user has selected OK on the confirm dialog. We need to show the progress which is behind the
-							confirm dialog. To do this we'll place the long running task in a setImmediate and return from this
-							ok method.
-						*/
-						var dirs = _.size(self.checkedDirs);
-						var files = _.size(self.checkedFiles);
-						if (dirs === 0 && files === 0) {
-							return Promise.resolve();
-						} else {
-							$timeout(doDelete, 10);
-							return Promise.resolve();
-						}
-						// do the work ....
-						function doDelete() {
-							self.busy = true;
-
-							var dirPromises = _.map(self.deleteSelected.deleteableFolders, function(d) {
-								return DocumentMgrService.removeDirectory($scope.project, d);
-							});
-
-							var filePromises = _.map(self.deleteSelected.deleteableFiles, function(f) {
-								return self.deleteDocument(f._id);
-							});
-
-							var directoryStructure;
-							return Promise.all(dirPromises)
-								.then(function(result) {
-									//$log.debug('Dir results ', JSON.stringify(result));
-									if (!_.isEmpty(result)) {
-										var last = _.last(result);
-										directoryStructure = last.data;
-									}
-									return Promise.all(filePromises);
-								})
-								.then(function(result) {
-									//$log.debug('File results ', JSON.stringify(result));
-									if (directoryStructure) {
-										//$log.debug('Setting the new directory structure...');
-										$scope.project.directoryStructure = directoryStructure;
-										$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-									}
-									//$log.debug('Refreshing current directory...');
-									self.selectNode(self.currentNode.model.id);
-									self.busy = false;
-									AlertService.success('The selected items were deleted.');
-								}, function(err) {
-									self.busy = false;
-									AlertService.error('The selected items could not be deleted.');
-								});
-						}
-					},
-					cancel: undefined,
-					confirmText:  'Are you sure you want to delete the selected item(s)?',
 					confirmItems: [],
-					deleteableFolders: [],
-					deleteableFiles: [],
 					setContext: function() {
 						self.deleteSelected.confirmItems = [];
-						self.deleteSelected.titleText = 'Delete selected';
-						self.deleteSelected.confirmText = 'Are you sure you want to delete the following the selected item(s)?';
-						var dirs = _.size(self.checkedDirs);
-						var files = _.size(self.checkedFiles);
-						if (dirs > 0 && files > 0) {
-							self.deleteSelected.titleText = 'Delete Folder(s) and File(s)';
-							self.deleteSelected.confirmText = 'Are you sure you want to delete the following ('+ dirs +') folders and ('+ files +') files?';
-						} else if (dirs > 0) {
-							self.deleteSelected.titleText = 'Delete Folder(s)';
-							self.deleteSelected.confirmText = 'Are you sure you want to delete the following ('+ dirs +') selected folders?';
-						} else if (files > 0) {
-							self.deleteSelected.titleText = 'Delete File(s)';
-							self.deleteSelected.confirmText = 'Are you sure you want to delete the following ('+ files +') selected files?';
-						}
-
-						self.deleteSelected.confirmItems = [];
-						self.deleteSelected.deleteableFolders = [];
-						self.deleteSelected.deleteableFiles = [];
-
 						_.each(self.checkedDirs, function(o) {
 							if ($scope.project.userCan.manageFolders) {
 								self.deleteSelected.confirmItems.push(o.model.name);
-								self.deleteSelected.deleteableFolders.push(o);
 							}
 						});
 						_.each(self.checkedFiles, function(o) {
 							if (o.userCan.delete) {
-								var name = o.displayName || o.documentFileName || o.internalOriginalName;
-								self.deleteSelected.confirmItems.push(name);
-								self.deleteSelected.deleteableFiles.push(o);
+								self.deleteSelected.confirmItems.push(o.displayName);
 							}
 						});
-
 					}
+				};
+
+				// callback invoked by delete directive once user confirms delete
+				self.deleteFilesAndDirs = function(deletableFolders, deletableFiles) {
+					self.busy = true;
+
+					var dirPromises = _.map(deletableFolders, function(d) {
+						return DocumentMgrService.removeDirectory($scope.project, d);
+					});
+
+					var filePromises = _.map(deletableFiles, function(f) {
+						return self.deleteDocument(f._id);
+					});
+
+					var directoryStructure;
+					return Promise.all(dirPromises)
+					.then(function(result) {
+						// console.log("Delete folders result", result);
+						//$log.debug('Dir results ', JSON.stringify(result));
+						if (!_.isEmpty(result)) {
+							var last = _.last(result);
+							directoryStructure = last.data;
+						}
+						return Promise.all(filePromises);
+					})
+					.then(function(result) {
+						//$log.debug('File results ', JSON.stringify(result));
+						if (directoryStructure) {
+							//$log.debug('Setting the new directory structure...');
+							$scope.project.directoryStructure = directoryStructure;
+							$scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
+						}
+						//$log.debug('Refreshing current directory...');
+						self.selectNode(self.currentNode.model.id);
+						self.busy = false;
+						AlertService.success('The selected items were deleted.');
+					}, function(err) {
+						console.log("err result", err);
+						self.busy = false;
+						AlertService.error('The selected items could not be deleted.');
+					});
 				};
 
 				self.publishFiles = function(files) {

@@ -35,14 +35,12 @@
 						<li ng-if="infoPanel.data.userCan.delete">
 							<a title="Delete File"
 								 ng-click="$event.stopPropagation();"
-								 x-confirm-dialog
-								 x-title-text="'Delete File(s)'"
-								 x-ok-text="'Yes'"
-								 x-cancel-text="'No'"
-								 x-confirm-text="'Are you sure you want to delete this file? This action cannot be undone.'"
-								 x-confirm-items="[infoPanel.data.displayName]"
-								 x-on-ok="documentMgr.deleteFile"
-								 x-ok-args="infoPanel.data"><span class="glyphicon glyphicon-trash"></span> Delete</a>
+                 x-confirm-delete
+                 x-current-node="documentMgr.currentNode"
+                 x-project="project"
+                 x-delete-callback="documentMgr.deleteFilesAndDirs"
+                 x-folders="infoPanel.data">
+                <span class="glyphicon glyphicon-trash"></span> Delete</a>
 						</li>
 						<li ng-if="infoPanel.data.userCan.publish && !infoPanel.data.isPublished">
 							<a title="Publish File"
