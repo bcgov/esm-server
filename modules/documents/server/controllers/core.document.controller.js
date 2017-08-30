@@ -136,6 +136,42 @@ module.exports = DBModel.extend ({
 			internalOriginalName : 1
 		});
 	},
+	sortDocumentsForProjectFolder : function( projectId, directoryId, idList) {
+		var self = this;
+		return this.list ({project: projectId, directoryID: directoryId},{order:1})
+		.then(function (documents) {
+			if (!idList || !Array.isArray(idList) || idList.length === 0) { throw new Error('Missing id list'); }
+			if (documents.length === 0) { throw new Error('No documents in directory ' + directoryId); }
+			// shallow copy array
+			var toSortList = documents.slice();
+			var document, index = 0;
+			idList.forEach(function (id) {
+				var foundIndex = toSortList.findIndex(function (item) {
+					return item._id.toString() === id;
+				});
+				if (foundIndex > -1) {
+					document = toSortList[foundIndex];
+					// update the document
+					document.order = index++;
+					document.save();
+					// remove the found item from the temporary list
+					toSortList.splice(foundIndex, 1);
+				}
+			});
+			if (toSortList.length > 0) {
+				/*
+						Handle items not in the passed in list of ids.  E.g. Two users working on collection.
+						One is sorting the other is adding or removing documents. Both start from the same list but the second
+						user submits the new document list before the first user finishes sorting.  We make sure the newly added
+						documents are at the bottom of the new list.
+				 */
+				toSortList.forEach(function (document) {
+					document.order = index++;
+					document.save();
+				});
+			}
+		});
+	},
 	// -------------------------------------------------------------------------
 	//
 	// get document types for a project, returns an array of unique groups

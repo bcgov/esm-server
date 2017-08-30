@@ -79,6 +79,7 @@ angular.module('documents')
 
 				self.currentFiles = [];
 				self.currentDirs = [];
+				self.customSorter = {};
 
 				self.batchMenuEnabled = false;
 
@@ -163,6 +164,17 @@ angular.module('documents')
 							var d1 = doc1.isPublished ? 1 : 0;
 							var d2 = doc2.isPublished ? 1 : 0;
 							return (d1 - d2) * direction;
+						});
+					} else if (self.sorting.column === 'custom') {
+						self.currentFiles.sort(function(doc1, doc2){
+							return (doc1.order - doc2.order);
+						});
+						self.currentDirs.sort(function(doc1, doc2){
+							var f1 = doc1.model.folderObj, f2 = doc2.model.folderObj;
+							if (f1 && f2) {
+								return (f1.order - f2.order);
+							}
+							return 0;
 						});
 					}
 				};
@@ -281,7 +293,12 @@ angular.module('documents')
 								return _.extend(n,{selected: (_.find(self.checkedDirs, function(d) { return d.model.id === n.model.id; }) !== undefined), type: 'Directory'});
 							});
 
-							self.applySort();
+							if (self.currentNode.model && self.currentNode.model.folderObj) {
+								var sortField = self.currentNode.model.folderObj.defaultSortField || 'date';
+								var sortDirection = self.currentNode.model.folderObj.defaultSortDirection || 'desc';
+								self.sorting.column = sortField;
+								self.sorting.ascending = sortDirection === 'asc';
+							}
 
 							if (docID) {
 								// search in the folder's document list to locate the target document
@@ -296,6 +313,11 @@ angular.module('documents')
 								self.selectedNode = self.currentNode;
 							}
 
+							// update the custom sorted ready for it to be opened
+							self.customSorter.documents = self.currentFiles;
+							self.customSorter.folders = self.currentDirs;
+							self.customSorter.sorting = self.sorting;
+
 							// see what is currently checked
 							self.syncCheckedItems();
 							self.busy = false;
@@ -308,7 +330,7 @@ angular.module('documents')
 						// Go through each of the currently available folders in view, and attach the object
 						// to the model dynamically so that the permissions directive will work by using the
 						// correct x-object=folderObject instead of a doc.
-						FolderModel.lookupForProjectIn($scope.project._id, self.currentNode.model.id)
+						return FolderModel.lookupForProjectIn($scope.project._id, self.currentNode.model.id)
 						.then(function (folder) {
 							_.each(folder, function (fs) {
 								// We do breadth-first because we like to talk to our neighbours before moving
@@ -320,9 +342,24 @@ angular.module('documents')
 									}
 								});
 							});
+							// useful to display the full tree ...
+							// self.rootNode.walk( function (child) {
+							// 	console.log("child: "+ child.model.name + " --- " + (child.model.folderObj ? child.model.folderObj.displayName: ""));
+							// });
+
 							$scope.$apply();
 						});
+					})
+					.then(function() {
+						// everything is ready.  In particular the directoryStructure models have the most current folderObj
+						// so we can perform custom sort if needed.
+						self.applySort();
 					});
+				};
+
+				self.defaultSortOrderChanged = function() {
+					// console.log("need to refresh docs and folders to get them sorted");
+					self.selectNode(self.currentNode.model.id);
 				};
 
 				self.syncCheckedItems = function(doc) {

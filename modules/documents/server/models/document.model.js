@@ -135,7 +135,7 @@ module.exports = genSchema ('Document', {
 	internalSize            : { type:Number, default:0 },
 	internalEncoding        : { type:String, default:'' },
 	oldData                 : { type:String, default:'' },
-	order                   : { type: Number, default: 0}, // this will be used to sort supporting documents in artifacts, the order will be arbitrary and determined by the user.
+	order                   : { type: Number, default: Date.now},
 	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] },// for use with Public Comment Attachments...
 
 	relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],

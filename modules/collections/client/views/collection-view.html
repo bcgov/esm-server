@@ -85,12 +85,12 @@
                                 title="Reorder"
                                 x-reorder-collection-modal x-collection="collection" x-on-save="otherDocsReordered">
                             <span class="glyphicon glyphicon-sort"></span>
-                            <span>Reorder</span>
+                            <span>Re-order Documents</span>
                         </button>
                     </div>
                     <div class="table-container">
                         <table class="table" ng-table="otherTableParams">
-                            <tr ng-repeat="d in $data" ng-click="goToDocument(d.document)">
+                            <tr ng-repeat="d in $data">
                                 <td data-title="'Name'" title='Name' sortable="'Name'">{{ d.document.displayName | removeExtension }}</td>
                                 <td data-title="'Date'" title='Date' sortable="'Date'">{{ d.document.documentDate | amDateFormat:'MMMM DD, YYYY' }}</td>
                                 <td class="actions-col" header-class="'actions-col x1'">

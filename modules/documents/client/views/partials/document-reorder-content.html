@@ -1,0 +1,44 @@
+<!-- <div class="dnd-drag-target-top"></div> -->
+
+<ul id="{{'dnd-' + vm._id}}" 
+    dnd-list 
+    dnd-allowed-types="vm.list.allowedTypes"
+    dnd-drop="vm.onDrop(item, index)">
+
+    <li class="dnd-row" ng-class="{'selected': item.selected}"
+        ng-repeat       = "item in vm.list.items"
+        id              = "{{'dc0-' + item._id}}"
+        dnd-draggable   = "vm.getSelectedItemsIncluding(item)"
+        dnd-type        = "item.type"
+        dnd-effect-allowed ="move"
+        dnd-dragstart   = "vm.onDragstart( event, 'dc0-')"
+        dnd-moved       = "vm.onMoved()"
+        dnd-dragend     = "vm.onDragend(event)"
+        dnd-selected    = "vm.onSelect(item)"
+        dnd-disable-if  = "!vm.parent.customSorting"
+        ng-hide         = "vm.dragging && item.selected">
+
+        <div class="dnd-row-inner">
+            <span class="dnd-handle">
+                <span class="glyphicon glyphicon-sort"></span>
+            </span>
+
+            <!-- Custom Content -->
+            <span class="dnd-content">
+                <span class="col avatar">
+                    <span class="fb-folder glyphicon glyphicon-folder-close" ng-if="item.type === 'folder'"></span>
+                    <span class="fb-file glyphicon glyphicon-file" ng-if="item.type === 'document'"></span>
+                </span>
+                <span class="col name">{{ item.displayName }}</span>
+                <span class="col date">{{ item.documentDate |  date : format : timezone }}</span>
+                <span class="col status">
+                    <span class="label label-unpublished" ng-if="!item.isPublished">{{ item.isPublished ? 'PUBLISHED' : 'UNPUBLISHED' }}</span>
+                    <span class="label label-success" ng-if="item.isPublished">{{ item.isPublished ? 'PUBLISHED' : 'UNPUBLISHED' }}</span>
+                </span>
+
+            </span>
+        </div>
+    </li>
+    <li class="dndPlaceholder"><span class="glyphicon glyphicon-arrow-right"></span> Move here<li>
+</ul>
+

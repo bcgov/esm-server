@@ -211,7 +211,11 @@ angular.module('documents').factory('Document', function (ModelBase, _) {
 		},
 		unpublish: function (document) {
 			return this.put('/api/unpublish/document/' + document._id);
-		}
+		},
+		sortDocuments: function (projectId, parentid, idList) {
+			return this.put('/api/documents/for/project/' + projectId + '/in/' + parentid + '/sort', idList);
+		},
+
 	});
 	return new Class();
 });

@@ -1,0 +1,98 @@
+$dnd-row-border: 1px solid #eee;
+$dnd-selected-color: #FFF;
+$dnd-selected-bg: #5091cd;
+$dnd-selected-hover-bg: #4187c9;
+$dnd-selected-border: 1px solid #4187c9;
+$dnd-placeholder-height: 0.5rem;
+$dnd-drag-target-height: 2.5rem;
+$dnd-drag-target-bg: #fff;
+
+.dnd-sort-list {
+    .dnd-drag-target-top {
+        @include flex(0 0 auto);
+    }
+
+    .dnd-drag-target-bottom  {
+        @include flex(0 0 auto);
+    }
+}
+
+ul[dnd-list] {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    .dndDraggingSource {
+        display: none;
+    }
+
+    &.dndDragover {
+        .dnd-row {
+            &:hover {
+                background-color: transparent;
+            }
+        }
+    }
+}
+
+.dnd-row {
+    @include userselect(none);
+    border-bottom: $dnd-row-border;
+
+    .dnd-row-inner {
+        @include flexbox();
+    
+        .dnd-handle {
+            @include flex(0);
+            position: relative;
+            padding: 1.25rem 0;
+            width: 0;
+            opacity: 0;
+            text-align: center;
+            transition: flex ease-out 0.25s;
+            border-right: $dnd-row-border; 
+        }
+
+        .dnd-content {
+            @include flex(1 1 auto);
+            @include flexbox();
+        }
+    }
+
+    &.selected {
+        color: $dnd-selected-color;
+        border-bottom: $dnd-selected-border;
+        background-color: $dnd-selected-bg;
+
+        .dnd-row-inner {
+            .dnd-handle {
+                border-right: $dnd-selected-border;
+            }
+        }
+
+        &:hover {
+            background-color: $dnd-selected-hover-bg;
+        }
+    }
+
+    &[draggable = true] {
+        cursor: move;
+
+        .dnd-handle {
+            @include flex(0 1 5rem);
+            opacity: 1;
+        }
+    }
+}
+
+.dndPlaceholder {
+    padding: 1.5rem 2rem;
+    color: $dnd-selected-color;
+    border-bottom: 1px solid $dnd-selected-bg;
+    background: $dnd-selected-bg !important;
+    font-weight: bold;
+
+    .glyphicon {
+        margin-right: 1rem;
+    }
+}

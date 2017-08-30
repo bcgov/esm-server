@@ -1,0 +1,29 @@
+// Full Screen Modal Variant
+.fs-modal {
+    .modal-dialog {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+        margin: 0;
+        overflow: hidden;
+        width: auto;
+
+        .modal-content {
+            @include flexbox();
+            @include flexdirection(column);
+            height: 100%;
+
+            .modal-header,
+            .modal-footer {
+                @include flex(0 0 auto);
+            }
+
+            .modal-body {
+                @include flex(1 1 auto);
+                position: relative;
+            }
+        }
+    }
+}

@@ -32,5 +32,11 @@ module.exports = function (app) {
 		.put(routes.setAndRun(FolderClass, function (model, req) {
 			return model.unpublish(req.Folder);
 		}));
+	app.route('/api/folders/for/project/:projectid/in/:parentid/sort')
+		.all(policy('user'))
+		.put(routes.setAndRun(FolderClass, function(model, req) {
+			return model.sortFolders(req.params.projectid, req.params.parentid, req.body);
+	}));
+
 };
 

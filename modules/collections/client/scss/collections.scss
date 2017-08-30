@@ -1,20 +1,4 @@
-
-.collections-view {
-    section {
-        margin-bottom: 3rem;
-
-        h2 {
-            font-size: 2rem;
-        }
-    }
-
-    .main-doc-section {
-        .ng-table-pager {
-            display: none;
-        }
-    }
-}
-
+.collections-view,
 .collections-edit {
     section {
         margin-bottom: 3rem;
@@ -31,12 +15,13 @@
     }
 }
 
-/**
- * An element with .dndPlaceholder class will be
- * added to the dnd-list while the user is dragging
- * over it.
- */
-
+.collections-edit {
+    .main-doc-section {
+        .ng-table-pager {
+            display: none;
+        }
+    }
+}
 
 .collection-header {
     background-color: #fff;
@@ -48,65 +33,10 @@
     padding: 10px 15px;
 }
 
-.sort-icon:hover {
-    background: #fff;
-}
-
-.sort-icon {
-    display: inline-block;
-    margin-top: -2px;
-    margin-left: 0.25rem;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 5px 5px 0 5px;
-    border-color: #494949 transparent transparent transparent;
-    vertical-align: middle;
-}
-
-.sort-icon-descending {
-    border-width: 0 5px 5px 5px;
-    border-color: transparent transparent #494949 transparent;
-}
-
 .collection-document {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-}
-
-.collection-document .rank {
-    flex: 0 0 2rem;
-}
-
-.collection-document .name {
-    flex: 1 1 20%;
-}
-
-.collection-document .date {
-    flex: 0 1 10%;
-}
-.collection-document .status {
-    flex: 0 1 8%;
-}
-.collection-document .actions {
-    flex: 0 1 5%;
-}
-
-@media (min-width: 768px) {
-    .collection-document .name {
-        flex: 1 1 20rem;
-    }
-
-    .collection-document .date {
-        flex: 0 1 15rem;
-    }
-    .collection-document .status {
-        flex: 0 1 15rem;
-    }
-    .collection-document .actions {
-        flex: 0 1 2rem;
-    }
 }
 
 @media (max-width: 480px) {
@@ -115,112 +45,18 @@
     }
 }
 
-$dnd-selected-color: #FFF;
-$dnd-selected-bg: #5091cd;
-$dnd-selected-hover-bg: #4187c9;
-$dnd-selected-border: 1px solid #4187c9;
+@media (min-width: 768px) {
+    .collection-document {
+        .date {
+            flex: 0 1 15rem;
+        }
 
-$dnd-placeholder-height: 0.5rem;
-$dnd-drag-target-height: 2.5rem;
+        .name {
+            flex: 1 1 auto;
+        }
 
-.fs-modal {
-    .modal-dialog {
-        position: fixed;
-        top: 2rem;
-        right: 2rem;
-        bottom: 2rem;
-        left: 2rem;
-        margin: 0;
-        overflow: hidden;
-        width: auto;
-
-        .modal-content {
-            @include flexbox();
-            @include flexdirection(column);
-            height: 100%;
-
-            .modal-header,
-            .modal-footer {
-                @include flex(0 0 auto);
-            }
-
-            .modal-body {
-                @include flex(1 1 auto);
-                position: relative;
-            }
+        .status {
+            flex: 0 1 15rem;
         }
     }
-}
-
-.dnd-sort-list {
-    @include flexbox();
-    @include flexdirection(column);
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-
-    [class^="dnd-drag-target"] {
-        height: $dnd-drag-target-height;
-        background: #ddd;
-        //opacity: 0.5;
-    }
-
-    .dnd-drag-target-top {
-        @include flex(0 0 auto);
-        background: #eee;
-        //margin-bottom: calc( #{$dnd-drag-target-height} * -1);
-    }
-
-    .dnd-scroll-container {
-        @include flex(1 1 auto);
-        overflow-y: auto;
-        background: #fff;
-
-        ul {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-        }
-    }
-
-    .dnd-row {
-        padding: 2rem;
-        border-bottom: 1px solid #eee;
-
-        &.selected {
-            color: $dnd-selected-color;
-            border-bottom: $dnd-selected-border;
-            background-color: $dnd-selected-bg;
-
-            &:hover {
-                background-color: $dnd-selected-hover-bg;
-            }
-        }
-    }
-
-    .dnd-drag-target-bottom  {
-        @include flex(0 0 auto);
-       // margin-top: calc( #{$dnd-drag-target-height} * -1);
-    }
-}
-
-.dndDragging {
-    padding: 0;
-    color: $dnd-selected-color;
-    background-color: $dnd-selected-bg;
-    opacity: 1 !important;
-}
-
-.dndDraggingSource {
-    display: none;
-}
-
-.dndPlaceholder {
-    padding: 2rem;
-    //margin: -1rem 0;
-    //height: 2rem;
-    background: #5091cd !important;
-    opacity: 0.5;
 }
