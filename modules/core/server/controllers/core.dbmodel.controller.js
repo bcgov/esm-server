@@ -466,6 +466,9 @@ _.extend (DBModel.prototype, {
 	deleteDocument : function (doc) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
+			if((doc._schemaName === "Document" || doc._schemaName === "Folder" ) && doc.isPublished) {
+				return reject (new Error ('Cannot delete published content'));
+			}
 			doc.remove ().then (resolve, self.complete (reject, 'deletedocument'));
 		});
 	},

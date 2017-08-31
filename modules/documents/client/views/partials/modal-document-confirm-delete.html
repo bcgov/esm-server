@@ -1,0 +1,39 @@
+<div class="spinner-container" ng-show="confirmDlg.busy">
+  <div class="spinner-new rotating"></div>
+</div>
+
+<form class="confirm-dialog">
+	<div class="modal-header">
+		<button class="btn btn-default close" type="button" ng-click="confirmDlg.cancel()">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<h3 class="modal-title">{{confirmDlg.title}}</h3>
+	</div>
+
+	<div class="modal-body" ng-if="confirmDlg.errMsg">
+		<div class="alert alert-danger" >{{confirmDlg.errMsg}}</div>
+	</div>
+
+  <div class="modal-body"  ng-if="!confirmDlg.errMsg">
+    <div class="alert alert-danger" ng-if="confirmDlg.hasBlockedContent">{{confirmDlg.bannerText}}</div>
+
+		{{confirmDlg.confirmText}}
+		<ul class="confirm-list">
+			<li  ng-repeat="item in confirmDlg.combindedList">
+        <span class="avatar" ng-class="{'disabled': !item.canBeDeleted}">
+          <span class="fb-folder glyphicon glyphicon-folder-close" ng-if="item.type === 'Folder'"></span>
+          <span class="fb-file glyphicon glyphicon-file" ng-if="item.type === 'File'"></span>
+          <span class="fb-img glyphicon glyphicon-picture" ng-if="item.type === 'Picture'"></span>
+        </span>
+        <span class="item" ng-class="{'disabled': !item.canBeDeleted}" >{{item.displayName}}</span>
+        <span class="reason" ng-show="!item.canBeDeleted">{{item.reason}}</span>
+      </li>
+		</ul>
+	</div>
+
+	<div class="modal-footer">
+		<button class="btn btn-default" type="button" ng-click="confirmDlg.cancel()">{{confirmDlg.cancelText}}</button>
+		<button class="btn btn-primary" type="submit" ng-click="confirmDlg.submit()"
+			ng-show="confirmDlg.showSubmit" ng-disabled="confirmDlg.errMsg">Yes</button>
+	</div>
+</form>
