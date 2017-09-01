@@ -66,6 +66,22 @@
 							<span class="label label-success" ng-if="o.activeDesc == 'Active'">ACTIVE</span>
 							<span class="label label-unpublished" ng-if="o.activeDesc == 'Inactive'">INACTIVE</span>
 					</td>
+					<td class="actions-col"
+						header-class="'actions-col x1'">
+						<button class="btn icon-btn"
+							title="Delete Activity/Update"
+							ng-if="application.userCan.createNews && !o.active"
+							ng-click="$event.stopPropagation();"
+							x-confirm-dialog
+							x-title-text="'Delete Activity/Update'"
+							x-ok-text="'Yes'"
+							x-cancel-text="'No'"
+							x-confirm-text="s.confirmText(o)"
+							x-on-ok="s.deleteActivity"
+							x-ok-args="o">
+							<span class="glyphicon glyphicon-trash"></span>
+						</button>
+					</td>
 				</tr><!-- / NEWS ROW ITEM TEMPLATE -->
 
 				<tr ng-if="!$data || $data.length === 0">
