@@ -1,47 +1,85 @@
-.collections-view,
-.collections-edit {
+.edit-collection-form {
     section {
-        margin-bottom: 3rem;
+        padding: 0;
+        border: none;
+    }
+}
 
-        h2 {
-            font-size: 2rem;
-        }
+.collection-table {
+    .date-col {
+        width: 13rem;
     }
 
-    .main-doc-section {
-        .ng-table-pager {
-            display: none;
+    .status-col {
+        width: 12rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .collection-table {
+        .date-col {
+            width: 17%;
+        }
+
+        .status-col {
+            width: 12%;
         }
     }
 }
 
-.collections-edit {
-    .main-doc-section {
-        .ng-table-pager {
-            display: none;
-        }
+.collection-docs {
+    .ng-table-pager {
+        display: none;
     }
 }
 
-.collection-header {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    display: block;
-    margin-bottom: -1px;
-    padding: 10px 15px;
+.collection-document-table {
+    td {
+        vertical-align: top !important;
+    }
+
+    .date-col {
+        width: 13rem;
+    }
+    .date-uploaded-col {
+        width: 14rem;
+    }
+
+    .status-col {
+        width: 12rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .collection-document-table {
+        .date-col {
+            width: 17%;
+        }
+        .date-uploaded-col {
+            width: 17%;
+        }
+
+        .status-col {
+            width: 12%;
+        }
+    }
 }
 
 .collection-document {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-}
 
-@media (max-width: 480px) {
-    .collection-document {
-        flex-direction: column;
+    .date {
+        flex: 0 1 10%;
+    }
+    
+    .name {
+        flex: 1 1 20%;
+    }
+
+    .status {
+        flex: 0 1 8%; 
     }
 }
 
@@ -50,9 +88,9 @@
         .date {
             flex: 0 1 15rem;
         }
-
+        
         .name {
-            flex: 1 1 auto;
+            flex: 1 1 20rem;  
         }
 
         .status {
