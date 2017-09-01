@@ -61,6 +61,11 @@ module.exports = function (app) {
 		.get (routes.setAndRun (DocumentClass, function (model, req) {
 			return model.getDocumentsForProject (req.params.projectid, req.headers.reviewdocsonly);
 		}));
+	app.route ('/api/documents/for/project/:projectid/in/:directoryid/sort')
+		.all (policy ('guest'))
+		.put (routes.setAndRun (DocumentClass, function (model, req) {
+			return model.sortDocumentsForProjectFolder (req.params.projectid, req.params.directoryid, req.body);
+	}));
 	//
 	// getProjectDocumentTypes         : '/api/documents/types/' + projectId
 	//

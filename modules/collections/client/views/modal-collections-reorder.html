@@ -1,11 +1,20 @@
 
 <div class="modal-header">
     <button class="btn btn-default close" ng-click="vmm.cancel()"><span aria-hidden="true">×</span></button>
-    <h3 class="modal-title">Select and drag files to re-order</h3>
+    <h3 class="modal-title">Set Document Order</h3>
 </div>
 
 <div class="modal-body">
-    <x-reorder-collection-content class="dnd-sort-list" x-list="vmm.list"></x-reorder-collection-content>
+    <div class="doc-sort-header fb-list">
+        <div class="column-header">
+            <div class="col name">Name</div>
+            <div class="col date">Document Date</div>
+            <div class="col status">Status</div>
+        </div>
+    </div>
+    <div class="doc-sort-scroll-container">
+        <x-reorder-collection-content class="dnd-sort-list" x-list="vmm.list"></x-reorder-collection-content>
+    </div>
 </div>
 
 <div class="modal-footer">
