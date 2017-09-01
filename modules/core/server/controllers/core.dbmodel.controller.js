@@ -466,7 +466,12 @@ _.extend (DBModel.prototype, {
 	deleteDocument : function (doc) {
 		var self = this;
 		return new Promise (function (resolve, reject) {
+			// MBL: When deleting documents, check which model they are as we have some business rules around
+			// what can be deleted and when.  Error message gets sent back to the caller.
 			if((doc._schemaName === "Document" || doc._schemaName === "Folder" ) && doc.isPublished) {
+				return reject (new Error ('Cannot delete published content'));
+			}
+			if(doc._schemaName === "RecentActivity" && doc.active) {
 				return reject (new Error ('Cannot delete published content'));
 			}
 			doc.remove ().then (resolve, self.complete (reject, 'deletedocument'));

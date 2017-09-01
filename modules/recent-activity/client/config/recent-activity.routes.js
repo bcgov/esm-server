@@ -71,7 +71,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				});
 			}
 		},
-		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects, RecentActivityModel, $modal) {
+		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects, RecentActivityModel, $modal, AlertService) {
 			$scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
 
 			var s = this;
@@ -92,6 +92,21 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				s.activeDescArray.push({id: id, title: item});
 			});
 
+			this.confirmText = function(o) {
+				return 'Are you sure you would like to permanently delete activity "' + o.headline + '"?';
+			};
+			this.deleteActivity = function (o) {
+				return RecentActivityModel.deleteId(o._id)
+				.then(
+					function (result) {
+						$state.reload();
+						AlertService.success('Activity/Update '+ o.headline + ' was deleted!');
+					},
+					function (error) {
+						$state.reload();
+						AlertService.error('Activity/Update '+ o.headline + ' could not be deleted! ' + error.message);
+					});
+			};
 
 			this.onNewsClick = function(activity, event) {
 				if (!activity.project) {
