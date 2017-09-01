@@ -1,117 +1,101 @@
-
-.collections-view {
+.edit-collection-form {
     section {
-        margin-bottom: 3rem;
-
-        h2 {
-            font-size: 2rem;
-        }
-    }
-
-    .main-doc-section {
-        .ng-table-pager {
-            display: none;
-        }
+        padding: 0;
+        border: none;
     }
 }
 
-.collections-edit {
-    section {
-        margin-bottom: 3rem;
-
-        h2 {
-            font-size: 2rem;
-        }
+.collection-table {
+    .date-col {
+        width: 13rem;
     }
 
-    .main-doc-section {
-        .ng-table-pager {
-            display: none;
+    .status-col {
+        width: 12rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .collection-table {
+        .date-col {
+            width: 17%;
+        }
+
+        .status-col {
+            width: 12%;
         }
     }
 }
 
-/**
- * An element with .dndPlaceholder class will be
- * added to the dnd-list while the user is dragging
- * over it.
- */
-
-
-.collection-header {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    display: block;
-    margin-bottom: -1px;
-    padding: 10px 15px;
+.collection-docs {
+    .ng-table-pager {
+        display: none;
+    }
 }
 
-.sort-icon:hover {
-    background: #fff;
+.collection-document-table {
+    td {
+        vertical-align: top !important;
+    }
+
+    .date-col {
+        width: 13rem;
+    }
+    .date-uploaded-col {
+        width: 14rem;
+    }
+
+    .status-col {
+        width: 12rem;
+    }
 }
 
-.sort-icon {
-    display: inline-block;
-    margin-top: -2px;
-    margin-left: 0.25rem;
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 5px 5px 0 5px;
-    border-color: #494949 transparent transparent transparent;
-    vertical-align: middle;
-}
+@media (min-width: 1200px) {
+    .collection-document-table {
+        .date-col {
+            width: 17%;
+        }
+        .date-uploaded-col {
+            width: 17%;
+        }
 
-.sort-icon-descending {
-    border-width: 0 5px 5px 5px;
-    border-color: transparent transparent #494949 transparent;
+        .status-col {
+            width: 12%;
+        }
+    }
 }
 
 .collection-document {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
-}
 
-.collection-document .rank {
-    flex: 0 0 2rem;
-}
+    .date {
+        flex: 0 1 10%;
+    }
+    
+    .name {
+        flex: 1 1 20%;
+    }
 
-.collection-document .name {
-    flex: 1 1 20%;
-}
-
-.collection-document .date {
-    flex: 0 1 10%;
-}
-.collection-document .status {
-    flex: 0 1 8%;
-}
-.collection-document .actions {
-    flex: 0 1 5%;
+    .status {
+        flex: 0 1 8%; 
+    }
 }
 
 @media (min-width: 768px) {
-    .collection-document .name {
-        flex: 1 1 20rem;
-    }
-
-    .collection-document .date {
-        flex: 0 1 15rem;
-    }
-    .collection-document .status {
-        flex: 0 1 15rem;
-    }
-    .collection-document .actions {
-        flex: 0 1 2rem;
-    }
-}
-
-@media (max-width: 480px) {
     .collection-document {
-        flex-direction: column;
+        .date {
+            flex: 0 1 15rem;
+        }
+        
+        .name {
+            flex: 1 1 20rem;  
+        }
+
+        .status {
+            flex: 0 1 15rem;
+        }
     }
 }
 
