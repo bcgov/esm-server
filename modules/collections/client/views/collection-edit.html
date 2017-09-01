@@ -1,131 +1,151 @@
-<form class="view-form" name="collectionForm" ng-submit="save(collectionForm.$valid)" novalidate>
+<form class="view-form edit-collection-form" name="collectionForm" ng-submit="save(collectionForm.$valid)" novalidate>
 
-  <div class="view-title-container flex-row">
-    <h1 ng-if="collection.addedBy">Edit Collection</h1>
-    <h1 ng-if="!collection.addedBy">Add Collection</h1>
-    <div class="actions">
-      <button class="btn btn-default btn-sm" ng-if="!collection.addedBy" ui-sref="p.collection.list">Cancel</button>
-      <button class="btn btn-default btn-sm" ng-if="collection.addedBy" ng-click="goToDetail()">Cancel</button>
-      <button class="btn btn-success btn-sm" ng-if="collection.addedBy && !collection.isPublished" ng-click="publish()" type="button"><span class="glyphicon glyphicon-ok"></span><span>Publish</span></button>
-      <button class="btn btn-default btn-sm" ng-if="collection.addedBy && collection.isPublished" ng-click="unpublish()" type="button"><span class="glyphicon glyphicon-ban-circle"></span><span>Unpublish</span></button>
-      <button class="btn btn-danger btn-sm" ng-if="collection.addedBy" ng-click="delete()" type="button"><span class="glyphicon glyphicon-trash"></span><span>Delete</span></button>
-      <button class="btn btn-primary btn-sm" type="submit">Save</button>
+    <div class="view-title-container flex-row">
+        <h1 ng-if="collection.addedBy">Edit Collection</h1>
+        <h1 ng-if="!collection.addedBy">Add Collection</h1>
+        <div class="actions">
+            <button class="btn btn-default btn-sm" 
+                ng-if="!collection.addedBy" ui-sref="p.collection.list">
+                Cancel
+            </button>
+            <button class="btn btn-default btn-sm" 
+                ng-if="collection.addedBy" ng-click="goToDetail()">
+                Cancel
+            </button>
+            <button class="btn btn-default btn-sm" 
+                ng-if="collection.addedBy && !collection.isPublished" ng-click="publish()" type="button">
+                <span class="glyphicon glyphicon-ok-circle"></span><span>Publish</span>
+            </button>
+            <button class="btn btn-default btn-sm" 
+                ng-if="collection.addedBy && collection.isPublished" ng-click="unpublish()" type="button">
+                <span class="glyphicon glyphicon-ban-circle"></span><span>Unpublish</span>
+            </button>
+            <button class="btn btn-primary btn-sm" type="submit">
+                Save
+            </button>
+            <button class="btn btn-default btn-sm" 
+                ng-if="collection.addedBy" ng-click="delete()" type="button">
+                <span class="glyphicon glyphicon-trash"></span><span>Delete</span>
+            </button>
+        </div>
     </div>
-  </div>
 
-  <div class="view-body-container">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="form-group" x-show-errors>
-          <label for="displayName" class="control-label">Name</label>
-          <input id="displayName" name="displayName" ng-model='collection.displayName' class="form-control" required>
-          <div ng-messages="collectionForm.displayName.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Name is required.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group">
-          <label for="type" class="control-label">Type</label>
-          <select id="type" ng-model='collection.type' class="form-control" ng-options="t.id as t.title for t in types"></select>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="form-group" x-show-errors>
-          <label for="date" class="control-label">Date</label>
-          <div class="form-control date-picker" name="date" title="{{ collection.date | amDateFormat:'HH:mm:ss' }}"
-            x-modal-date-picker x-selected-date="collection.date" x-header="'Choose a Date'">
-            <span ng-if="!collection.date">None</span>
-            {{ collection.date | amDateFormat:'ddd, MMM DD, YYYY' }}
-            <span class="glyphicon glyphicon-calendar"></span>
-          </div>
-          <div ng-messages="collectionForm.date.$error" role="alert">
-            <p class="help-block error-text" ng-message="required">Date is required.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="form-group">
-          <label for="description" class="control-label">Description</label>
-          <textarea id="description" name="description" type="text" class="form-control" ng-model="collection.description" rows=3></textarea>
-        </div>
-      </div>
-    </div>
-    <div ng-if="collection.addedBy">
-        <section class="main-doc-section">
+    <div class="view-body-container">
+        <section>
             <div class="row">
-                <div class="col-sm-12">
-                    <h2>Main Document</h2>
-                    <div class="button-bar">
-                        <button class="btn btn-default btn-sm" title="Link Main Document"
-                            x-document-mgr-link-modal x-project="project"
-                            x-target="linkedMainDocument"
-                            x-target-name="collection.displayName"
-                            x-on-ok="updateMainDocument"><span class="glyphicon glyphicon-link"></span><span>Link Main Document</span>
-                        </button>
+                <div class="col-md-3">
+                    <div class="form-group" x-show-errors>
+                        <label class="control-label" for="displayName">Name</label>
+                        <input class="form-control" id="displayName" name="displayName" ng-model='collection.displayName' required>
+                        <div ng-messages="collectionForm.displayName.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Name is required.</p>
+                        </div>
                     </div>
-                    <div class="table-container">
-                        <table class="table" ng-table="mainTableParams">
-                            <tr ng-repeat="d in $data" ng-click="goToDocument(d.document)">
-                                <td data-title="'Name'" title: 'Name'>{{ d.document.displayName | removeExtension }}</td>
-                                <td data-title="'Date'" title: 'Date'>{{ d.document.documentDate | amDateFormat:'MMMM DD, YYYY' }}</td>
-                                <td data-title="'Uploaded'" title: 'Uploaded'>{{ d.document.dateUploaded | amDateFormat:'MMMM DD, YYYY' }}</td>
-                                <td class="actions-col" header-class="'actions-col x1'">
-                                    <a class="btn icon-btn" title="Remove Main Document" ng-click="removeMainDocument(d.document)">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="no-results" ng-if="!$data || $data.length === 0">
-                                <td colspan="4">No document found.</td>
-                            </tr>
-                        </table>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label class="control-label" for="type">Type</label>
+                        <select class="form-control" id="type" ng-model='collection.type' ng-options="t.id as t.title for t in types"></select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group" x-show-errors>
+                        <label for="date" class="control-label">Date</label>
+                        <div class="form-control date-picker" name="date" x-modal-date-picker
+                            x-selected-date="collection.date" x-header="'Choose a Date'">
+                            <span ng-if="!collection.date">None</span> {{ collection.date | amDateFormat:'YYYY-MM-DD'}}
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                        <div ng-messages="collectionForm.date.$error" role="alert">
+                            <p class="help-block error-text" ng-message="required">Date is required.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
-        <section>
             <div class="row">
                 <div class="col-sm-12">
-                    <h2>Other Documents</h2>
+                    <label class="control-label" for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="3" ng-model="collection.description"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section ng-if="collection.addedBy">
+            <section>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Main Document</h2>
                         <div class="button-bar">
-                            <button class="btn btn-default btn-sm" title="Link Other Documents"
-                                x-document-mgr-link-modal x-project="project"
-                                x-target="linkedOtherDocuments"
-                                x-target-name="collection.displayName"
-                                x-on-ok="updateOtherDocuments"><span class="glyphicon glyphicon-link"></span><span>Link Other Documents</span>
-                            </button>
-                            <button class="btn btn-default btn-sm"
-                                    title="Reorder"
-                                    x-reorder-collection-modal x-collection="collection" x-on-save="otherDocsReordered">
-                                <span class="glyphicon glyphicon-sort"></span>
-                                <span>Reorder</span>
+                            <button class="btn btn-default btn-sm" title="Link main document to this collection" x-document-mgr-link-modal x-project="project" x-target="linkedMainDocument"
+                                x-target-name="collection.displayName" x-on-ok="updateMainDocument"><span class="glyphicon glyphicon-link"></span><span>Link Main Document</span>
                             </button>
                         </div>
-                        <div class="table-container">
-                            <table class="table" ng-table="otherTableParams">
-                                <tr ng-repeat="d in $data" ng-click="goToDocument(d.document)">
-                                    <td data-title="'Sort'" ng-show="false" title='Sort' sortable="'Sort'">{{ d.document.sortOrder}}</td>
-                                    <td data-title="'Name'" title='Name' sortable="'Name'">{{ d.document.displayName | removeExtension }}</td>
-                                    <td data-title="'Date'" title='Date' sortable="'Date'">{{ d.document.documentDate | amDateFormat:'MMMM DD, YYYY' }}</td>
-                                    <td data-title="'Uploaded'" title='Uploaded' sortable="'Uploaded'">{{ d.document.dateUploaded | amDateFormat:'MMMM DD, YYYY' }}</td>
+                        <div class="table-container collection-docs">
+                            <table class="table collection-document-table" ng-table="mainTableParams">
+                                <tr ng-repeat="d in $data">
+                                    <td header-class="'name-col'" data-title="'Name'" title: 'Name'>{{ d.document.displayName | removeExtension }}</td>
+                                    <td header-class="'date-col'"  data-title="'Document Date'" title: 'Date'>{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD' }}</td>
+                                    <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'" title: 'Uploaded'>{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
+                                    <td header-class="'status-col'" data-title="'Status'" title: 'Uploaded'>
+                                        <span class="label label-success" ng-if="d.document.isPublished == true">PUBLISHED</span>
+                                        <span class="label label-unpublished" ng-if="d.document.isPublished == false">UNPUBLISHED</span>
+                                    </td>
                                     <td class="actions-col" header-class="'actions-col x1'">
-                                        <a class="btn icon-btn" title="Remove Other Document" ng-click="removeOtherDocument(d.document)">
+                                        <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeMainDocument(d.document)">
                                             <span class="glyphicon glyphicon-trash"></span>
                                         </a>
                                     </td>
                                 </tr>
                                 <tr class="no-results" ng-if="!$data || $data.length === 0">
-                                    <td colspan="4">No documents found.</td>
+                                    <td colspan="5">No document found.</td>
                                 </tr>
                             </table>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+            <section>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Other Documents</h2>
+                        <div class="button-bar">
+                            <button class="btn btn-default btn-sm" title="Link other documents to this collection" x-document-mgr-link-modal x-project="project" x-target="linkedOtherDocuments"
+                                x-target-name="collection.displayName" x-on-ok="updateOtherDocuments"><span class="glyphicon glyphicon-link"></span><span>Link Other Documents</span>
+                            </button>
+                            <button class="btn btn-default btn-sm" 
+                                title="Set the default order documents will be displayed" 
+                                x-reorder-collection-modal x-collection="collection" 
+                                x-on-save="otherDocsReordered">
+                                <span class="glyphicon glyphicon-sort"></span>
+                                <span>Set Document Order</span>
+                            </button>
+                        </div>
+                        <div class="table-container collection-docs">
+                            <table class="table collection-document-table" ng-table="otherTableParams">
+                                <tr ng-repeat="d in $data">
+                                    <td header-class="'name-col'" data-title="'Name'" sortable="'Name'">{{ d.document.displayName | removeExtension }}</td>
+                                    <td header-class="'date-col'" data-title="'Document Date'" sortable="'Date'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD' }}</td>
+                                    <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'" sortable="'Uploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
+                                    <td header-class="'status-col'" data-title="'Status'" title: 'Uploaded'>
+                                        <span class="label label-success" ng-if="d.document.isPublished == true">PUBLISHED</span>
+                                        <span class="label label-unpublished" ng-if="d.document.isPublished == false">UNPUBLISHED</span>
+                                    </td>
+                                    <td class="actions-col" header-class="'actions-col x1'">
+                                        <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeOtherDocument(d.document)">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr class="no-results" ng-if="!$data || $data.length === 0">
+                                    <td colspan="5">No documents found.</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </section>
+
     </div>
-  </div>
+
 </form>
