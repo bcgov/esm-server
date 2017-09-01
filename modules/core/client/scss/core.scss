@@ -2135,45 +2135,6 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 }
 
 
-/* DATE PICKER
-Implementing this as a stop-gap solution to a proper control.
------------------------------- */
-.date-picker {
-	min-width: 17rem;
-	max-width: 17rem;
-	position: relative;
-	padding-top: 0.8rem;
-	padding-right: 4rem;
-	font-size: 1.3rem;
-	cursor: pointer;
-
-	strong {
-		margin-right: 1.5rem;
-	}
-
-	.glyphicon {
-		position: absolute;
-		top: 0.8rem;
-		right: 1rem;
-		font-size: 1.6rem;
-	}
-}
-
-
-/* DATE RANGE CONTROL
------------------------------- */
-.date-range-control {
-	.spacer {
-		padding: 0 1rem;
-		line-height: 3.4rem;
-	}
-}
-
-.input-group.date-range {
-	width: 16rem;
-}
-
-
 /* DROPDOWN CARET
 ------------------------------ */
 .caret-up {
@@ -2381,109 +2342,6 @@ $file-browser-item-active: #2b5580;
 
 .has-error .mce-tinymce {
 	border: 1px solid red;
-}
-
-
-/* FORM CONTROLS
------------------------------- */
-form {
-	section {
-		margin-bottom: 2rem;
-		padding-bottom: 1rem;
-		border-bottom: 1px solid #DDD;
-	}
-
-	.help-block {
-		margin-top: 0.5rem;
-		margin-bottom: 0;
-		font-size: 1.2rem;
-	}
-}
-
-.form-container {
-	padding: 0 2rem;
-}
-
-.form-group {
-	margin-bottom: 2rem;
-
-	&.no-margin {
-		margin-bottom: 0;
-	}
-}
-
-.form-validation-msg {
-	margin-left: 0.25rem;
-	font-size: 1.2rem;
-	font-weight: normal;
-	color: #999;
-}
-
-.form-control-static {
-	padding: 6px 8px;
-	background: #EEE;
-	border: 1px solid #DDD;
-	border-radius: 4px;
-}
-
-.checkbox-row {
-	margin-top: 0.6rem;
-
-	label {
-		font-weight: normal;
-	}
-}
-
-.checkbox,
-.checkbox-inline {
-	margin-right: 2rem;
-
-	input {
-		margin-top: 2px;
-	}
-}
-
-.control-label {
-	em {
-		@extend .form-validation-msg;
-	}
-
-	em.required {
-		display: none;
-	}
-}
-
-.radio-group {
-	padding-top: 0.7rem;
-
-	label {
-		margin-bottom: 0.5rem;
-
-		&:last-child {
-			margin-bottom: 0;
-		}
-
-		+ .help-block {
-			margin-top: -0.5rem;
-			margin-left: 2rem;
-		}
-	}
-
-	/* Fix - Myriad Pro causes an issue with the label offset so we fix it */
-	input[type="radio"] {
-		margin-top: -0.2rem;
-		margin-right: 0.5rem;
-		vertical-align: middle;
-	}
-}
-
-.has-error {
-	.control-label {
-		em.required {
-			display: inline;
-			color: $danger-text;
-		}
-	}
 }
 
 
@@ -2843,6 +2701,10 @@ section {
 		margin-bottom: 1rem;
 		font-size: 1.6rem;
 		font-weight: bold;
+	}
+
+	+ section {
+		margin-top: 3rem;
 	}
 }
 
@@ -4317,6 +4179,7 @@ tmpl-template-render {
 @import "modules/core/client/scss/components/buttons.scss";
 @import "modules/core/client/scss/components/drag-and-drop.scss";
 @import "modules/core/client/scss/components/file-browser.scss";
+@import "modules/core/client/scss/components/forms.scss";
 @import "modules/core/client/scss/components/modal.scss";
 @import "modules/core/client/scss/components/panel.scss";
 @import "modules/core/client/scss/components/misc.scss";

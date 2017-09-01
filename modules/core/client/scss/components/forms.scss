@@ -1,4 +1,127 @@
+form {
+	section {
+		margin-bottom: 2rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid #DDD;
+	}
+	
+	.help-block {
+		margin-top: 0.5rem;
+		margin-bottom: 0;
+		font-size: 1.2rem;
+	}
+}
 
 textarea {
 	resize: vertical;
+}
+
+.form-container {
+	padding: 0 2rem;
+}
+
+.form-group {
+	margin-bottom: 2rem;
+
+	&.no-margin {
+		margin-bottom: 0;
+	}
+}
+
+.form-control[readonly] {
+	box-shadow: none;
+
+	&:active,
+	&:focus {
+		border-color: #ccc;
+		box-shadow: none;
+		outline: none;
+	}
+}
+
+.form-control-static {
+	padding: 6px 12px;
+	background: #EEE;
+	border: 1px solid #DDD;
+	border-radius: 4px;
+}
+
+.form-validation-msg {
+	margin-left: 0.25rem;
+	font-size: 1.2rem;
+	font-weight: normal;
+	color: #999;
+}
+
+.control-label {
+	em {
+		@extend .form-validation-msg;
+	}
+
+	em.required {
+		display: none;
+	}
+}
+
+.checkbox-row {
+	margin-top: 0.6rem;
+
+	label {
+		font-weight: normal;
+	}
+}
+
+.checkbox,
+.checkbox-inline {
+	margin-right: 2rem;
+	
+	input {
+		margin-top: 2px;
+	}
+}
+
+.date-picker {
+	position: relative;
+	padding-right: 4rem;
+	min-width: 17rem;
+	max-width: 17rem;
+
+	strong {
+		margin-right: 1.5rem;
+	}
+
+	.glyphicon {
+		position: absolute;
+		top: 0.8rem;
+		right: 1rem;
+		font-size: 1.6rem;
+	}
+}
+
+.date-range-control {
+	.spacer {
+		padding: 0 1rem;
+		line-height: 3.4rem;
+	}
+}
+
+.input-group.date-range {
+	width: 16rem;
+}
+
+.radio-group {
+	padding-top: 0.7rem;
+	
+	input[type="radio"] {
+		margin-top: 2px;
+	}
+}
+
+.has-error {
+	.control-label {
+		em.required {
+			display: inline;
+			color: $danger-text;
+		}
+	}
 }
