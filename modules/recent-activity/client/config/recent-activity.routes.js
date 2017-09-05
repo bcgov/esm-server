@@ -48,23 +48,6 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 							item.code = proj ? proj.code : '';
 							item.projectName = proj ? proj.name : '';
 						}
-						switch(item.priority) {
-							case 0:
-								item.priorityDesc = 'Critical';
-								break;
-							case 1:
-								item.priorityDesc = 'Top';
-								break;
-							case 2:
-								item.priorityDesc = 'Normal';
-								break;
-							case 4:
-								item.priorityDesc = 'Low';
-								break;
-							default:
-								item.priorityDesc = '';
-								break;
-						}
 						item.activeDesc = item.active ? 'Active' : 'Inactive';
 					});
 					return data;
@@ -76,16 +59,12 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 
 			var s = this;
 			s.typeArray = [];
-			s.priorityDescArray = [];
 			s.activeDescArray = [];
 			s.busy = false;
 
 			var items = _(angular.copy(recentActivity)).chain().flatten();
 			items.pluck('type').unique().value().map( function(item) {
 				s.typeArray.push({id: item, title: item});
-			});
-			items.pluck('priorityDesc').unique().value().map( function (item) {
-				s.priorityDescArray.push({id: item, title: item});
 			});
 			items.pluck('activeDesc').unique().value().map( function(item) {
 				var id = 'Active' === item ? true : false;
@@ -165,23 +144,6 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 							var proj = projects[item.project];
 							item.code = proj ? proj.code : '';
 							item.projectName = proj ? proj.name : '';
-						}
-						switch(item.priority) {
-							case 0:
-								item.priorityDesc = 'Critical';
-								break;
-							case 1:
-								item.priorityDesc = 'Top';
-								break;
-							case 2:
-								item.priorityDesc = 'Normal';
-								break;
-							case 4:
-								item.priorityDesc = 'Low';
-								break;
-							default:
-								item.priorityDesc = '';
-								break;
 						}
 						item.activeDesc = item.active ? 'Active' : 'Inactive';
 					});
