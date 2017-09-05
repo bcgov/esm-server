@@ -54,9 +54,7 @@
 					<td class="priority-col"
 						header-class="'priority-col'"
 						data-title="'Priority'"
-						filter="{priorityDesc:'select'}"
-						filter-data="s.priorityDescArray"
-						sortable="'priorityDesc'" >{{o.priorityDesc}}</td>
+						sortable="'priority'" >{{o.priority}}</td>
 					<td class="status-col"
 						header-class="'status-col'"
 						data-title="'Status'"
@@ -79,6 +77,11 @@
 							x-confirm-text="s.confirmText(o)"
 							x-on-ok="s.deleteActivity"
 							x-ok-args="o">
+							<span class="glyphicon glyphicon-trash"></span>
+						</button>
+						<button class="btn icon-btn disabled"
+							title="Activity/Update must be inactive before you can delete."
+							ng-if="application.userCan.createNews && o.active">
 							<span class="glyphicon glyphicon-trash"></span>
 						</button>
 					</td>
