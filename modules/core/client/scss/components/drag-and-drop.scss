@@ -43,7 +43,7 @@ ul[dnd-list] {
         @include flexbox();
     
         .dnd-handle {
-            @include flex(0);
+            @include flex(0 0 auto);
             position: relative;
             padding: 1.25rem 0;
             width: 0;
@@ -79,7 +79,7 @@ ul[dnd-list] {
         cursor: move;
 
         .dnd-handle {
-            @include flex(0 1 5rem);
+            @include flex(0 0 5rem);
             opacity: 1;
         }
     }
