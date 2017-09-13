@@ -68,7 +68,7 @@
                     <table class="table collection-document-table" ng-table="mainTableParams">
                         <tr ng-repeat="d in $data">
                             <td header-class="'name-col'" data-title="'Name'">{{ d.document.displayName | removeExtension }}</td>
-                            <td header-class="'date-col'" data-title="'Document Date'">{{ d.document.documentDate }}</td>
+                            <td header-class="'date-col'" data-title="'Document Date'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD'}}</td>
                             <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
                             <td class="actions-col" header-class="'actions-col x1'">
                                 <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeMainDocument(d.document)">
@@ -108,7 +108,7 @@
                         <table class="table collection-document-table" ng-table="otherTableParams">
                             <tr ng-repeat="d in $data">
                                 <td header-class="'name-col'" data-title="'Name'" sortable="'Name'">{{ d.document.displayName | removeExtension }}</td>
-                                <td header-class="'date-col'" data-title="'Document Date'" sortable="'Document Date'">{{ d.document.documentDate }}</td>
+                                <td header-class="'date-col'" data-title="'Document Date'" sortable="'Document Date'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD' }}</td>
                                 <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'" sortable="'Uploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
                                 <td class="actions-col" header-class="'actions-col x1'">
                                     <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeOtherDocument(d.document)">
