@@ -518,7 +518,7 @@
 								<li ng-if="project.userCan.manageFolders && documentMgr.infoPanel.data.collections.length > 0">
 									<span class="name">Collection(s):</span>
 									<ul class="value">
-										<li data-ng-repeat="collection in documentMgr.infoPanel.data.collections">{{ collection.displayName }}</li>
+										<li data-ng-repeat="collection in documentMgr.infoPanel.data.collections"><a ui-sref="p.collection.detail({ collectionId: collection._id })">{{ collection.displayName }}</a></li>
 									</ul>
 								</li>
 							</ul>
