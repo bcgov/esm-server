@@ -355,6 +355,39 @@ _.extend (DBModel.prototype, {
 			}
 		});
 	},
+	searchMany : function (keywords, dateRangeStart, dateRangeEnd, project, fields, sortby) {
+		// console.log ('dbmodel.findMany:', keywords, fields);
+		var sort = sortby || this.sort;
+		var self = this;
+		return new Promise (function (resolve, reject) {
+			if (self.err) return reject (self.err);
+			var q = {};
+			if (keywords) {
+				q = _.extend ({}, self.baseQ, { $text: { $search: keywords }});
+			}
+			if (dateRangeStart) {
+				q = _.extend (q, {"documentDate" : { $gte : new Date(dateRangeStart) }});
+			}
+			if (dateRangeEnd) {
+				q = _.extend (q, {"documentDate" : { $lte : new Date(dateRangeEnd) }});
+			}
+			if (project) {
+				q = _.extend (q, {"project" : project});
+			}
+			console.log("q:", q);
+
+			self.model.find (q)
+			.sort (sort)
+			.populate (self.populate)
+			.select (fields)
+			.exec ()
+			.then (resolve, self.complete (reject, 'findmany'));
+			if (self.resetAccess) {
+				self.resetAccess = false;
+				self.setAccess ('read');
+			}
+		});
+	},
 	findFirst : function (query, fields, sort) {
 		var self = this;
 		query = query || {};
