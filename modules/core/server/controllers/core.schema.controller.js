@@ -267,6 +267,12 @@ var genSchema = function (name, definition) {
 		});
 	}
 
+	// Enable FTS on documents
+	if (schema.obj._schemaName.default === "Document") {
+		console.log("Enabling Full Text Search on Document Model.");
+		schema.index({"$**":"text"});
+	}
+
 	//
 	// return
 	//
