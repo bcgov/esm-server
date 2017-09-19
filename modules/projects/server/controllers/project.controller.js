@@ -289,7 +289,7 @@ module.exports = DBModel.extend ({
 					// bail - this folder contains published files.
 					return Promise.reject(doc);
 				}
-				return self.findById(projectId); 
+				return self.findById(projectId);
 			})
 			.then(function (project) {
 				//create the tree model
@@ -449,68 +449,94 @@ module.exports = DBModel.extend ({
 				});
 		});
 	},
+	canMoveDirectory: function (projectId, folderId, newParentId) {
+		var f = new FolderClass(this.opts);
+		var dir = null;
+
+		// find folder to move
+		return f.findOne({ directoryID: folderId, project: projectId })
+		.then(function (folder) {
+			dir = folder;
+			if (!dir) {
+				throw new Error('Folder not found'); // <-- this will reject the entire promise chain
+			}
+
+			// find destination folder
+			return f.findOne({ directoryID: newParentId, project: projectId });
+		})
+		.then(function (destination) {
+			if (dir.isPublished && !destination.isPublished) {
+				throw new Error('Cannot move published content into unpublished folder'); // <-- this will reject the entire promise chain
+			}
+		});
+	},
 	moveDirectory: function (projectId, folderId, newParentId) {
 		var self = this;
-		return new Promise(function(resolve, reject) {
-			var f = new FolderClass (self.opts);
-			var _dir = null;
-			return f.findOne({directoryID: folderId, project: projectId})
-				.then(function (dir) {
-					// console.log("dir:", dir);
-					return f.oneIgnoreAccess({_id: dir._id})
-					.then(function (d) {
-						d.parentID = newParentId;
-						_dir = d;
-						return self.findById(projectId);
-					});
-				})
-				.then(function (project) {
-					// check for manageFolders permission
-					if (!project.userCan.manageFolders) {
-						return Promise.reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
-					} else {
-						return project;
-					}
-				})
-				.then(function (project) {
-					//console.log("current structure:", project.directoryStructure);
-					var tree = new TreeModel();
-					if (!project.directoryStructure) {
-						return project;
-					}
-					var root = tree.parse(project.directoryStructure);
-					// Walk until the right folder is found
-					var theNode = root.first(function (node) {
-						return node.model.id === parseInt(folderId);
-					});
-					var theParent = root.first(function(node) {
-						return node.model.id === parseInt(newParentId);
-					});
-					// If we found it, rename it as long as it's not the root.
-					if (theParent && theNode && !theNode.isRoot()) {
-						//console.log("found node:", theNode.model.id);
-						//console.log("found new parent:", theParent.model.id);
-						var newKid = theNode.drop();
-						theParent.addChild(newKid);
-					}
-					project.directoryStructure = {};
-					project.directoryStructure = root.model;
-					//console.log("new structure:", project.directoryStructure);
-					return project.save();
-				})
-				.then(function (p) {
-					if (p) {
-						_dir.save()
-						.then(function () {
-							resolve(p.directoryStructure);
+
+		// EPIC-1155 Check that the folder can be moved before actually moving it...
+		return this.canMoveDirectory(projectId, folderId, newParentId)
+		.then(function () {
+			return new Promise(function(resolve, reject) {
+				var f = new FolderClass (self.opts);
+				var _dir = null;
+				return f.findOne({directoryID: folderId, project: projectId})
+					.then(function (dir) {
+						// console.log("dir:", dir);
+						return f.oneIgnoreAccess({_id: dir._id})
+						.then(function (d) {
+							d.parentID = newParentId;
+							_dir = d;
+							return self.findById(projectId);
 						});
-					} else {
+					})
+					.then(function (project) {
+						// check for manageFolders permission
+						if (!project.userCan.manageFolders) {
+							return Promise.reject(new Error ("User is not permitted to manage folders for '" + project.name + "'."));
+						} else {
+							return project;
+						}
+					})
+					.then(function (project) {
+						//console.log("current structure:", project.directoryStructure);
+						var tree = new TreeModel();
+						if (!project.directoryStructure) {
+							return project;
+						}
+						var root = tree.parse(project.directoryStructure);
+						// Walk until the right folder is found
+						var theNode = root.first(function (node) {
+							return node.model.id === parseInt(folderId);
+						});
+						var theParent = root.first(function(node) {
+							return node.model.id === parseInt(newParentId);
+						});
+						// If we found it, rename it as long as it's not the root.
+						if (theParent && theNode && !theNode.isRoot()) {
+							//console.log("found node:", theNode.model.id);
+							//console.log("found new parent:", theParent.model.id);
+							var newKid = theNode.drop();
+							theParent.addChild(newKid);
+						}
+						project.directoryStructure = {};
+						project.directoryStructure = root.model;
+						//console.log("new structure:", project.directoryStructure);
+						return project.save();
+					})
+					.then(function (p) {
+						if (p) {
+							_dir.save()
+							.then(function () {
+								resolve(p.directoryStructure);
+							});
+						} else {
+							reject(new Error("ERR: Couldn't move directory."));
+						}
+					})
+					.catch(function () {
 						reject(new Error("ERR: Couldn't move directory."));
-					}
-				})
-				.catch(function () {
-					reject(new Error("ERR: Couldn't move directory."));
-				});
+					});
+			});
 		});
 	},
 	getDirectoryStructure: function (projectId) {
@@ -717,7 +743,7 @@ module.exports = DBModel.extend ({
 					});
 
 				project.phases.splice(insertIndex, 0, phase);
-				
+
 				return project;
 			})
 			.then(function(project) {
