@@ -155,7 +155,7 @@
       <span>Published files and folders cannot be moved into unpublished folders. Any content showing a warning will not be moved.</span>
     </div>
 
-    <div class="m-b-2">
+    <div class="m-b-2" ng-if="moveDlg.canMoveContent">
       Are you sure you want to move the following items to '<strong>{{moveDlg.selectedName}}</strong>'?
     </div>
 
