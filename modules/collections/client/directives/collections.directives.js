@@ -12,7 +12,8 @@ function directiveCollectionsChooser(CollectionModel, $modal, _) {
 			project: '=',
 			docs: '=',
 			current: '=',
-			onOk: '='
+			onOk: '=',
+			onUpdate: '='
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
@@ -66,7 +67,19 @@ function directiveCollectionsChooser(CollectionModel, $modal, _) {
 					}
 				}).result.then(function(collections) {
 					if (scope.onOk) {
-						scope.onOk(collections, scope.docs);
+						scope.onOk(collections, scope.docs)
+						.then(function() {
+							// on ok, we refresh the document and its info panel here
+							if (scope.onUpdate) {
+								var theDocument;
+								if (_.isArray(scope.docs)) {
+									theDocument = scope.docs[0];
+								} else {
+									theDocument = scope.docs;
+								}
+								scope.onUpdate(theDocument);
+							}
+						});
 					}
 				})
 				.catch (function(err) {});

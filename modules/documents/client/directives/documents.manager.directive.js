@@ -721,7 +721,7 @@ angular.module('documents')
 								promises.push(CollectionModel.addOtherDocument(c._id, d._id));
 							});
 						});
-						Promise.all(promises).then(function() {
+						return Promise.all(promises).then(function() {
 							AlertService.success('The document' + (documents.length > 1 ? 's were' : ' was') + ' successfully added to the collection' + (collections.length > 1 ? 's.' : '.'));
 						}, function(err) {
 							AlertService.error('The document' + (documents.length > 1 ? 's were' : ' was') + ' not added to the collection' + (collections.length > 1 ? 's: ' : ': ') + err.message);
@@ -746,7 +746,7 @@ angular.module('documents')
 							return CollectionModel.removeOtherDocument(c._id, documents._id);
 						}));
 
-						Promise.all(promises).then(function() {
+						return Promise.all(promises).then(function() {
 							AlertService.success('The document\'s collections were successfully updated.');
 						}, function(err) {
 							AlertService.error('The document\'s collections were not successfully updated: '+ err.message);

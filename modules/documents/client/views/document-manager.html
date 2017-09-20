@@ -448,7 +448,8 @@
 										x-project="project"
 										x-docs="documentMgr.infoPanel.data"
 										x-current="documentMgr.infoPanel.data.collections"
-										x-on-ok="documentMgr.updateCollections"><span class="glyphicon glyphicon-list-alt"></span> Update Collections</a>
+										x-on-ok="documentMgr.updateCollections"
+										x-on-update="documentMgr.onDocumentUpdate"><span class="glyphicon glyphicon-list-alt"></span> Update Collections</a>
 								</li>
 								<li>
 									<a title="Edit Permissions" ng-if="project.userCan.manageDocumentPermissions"
