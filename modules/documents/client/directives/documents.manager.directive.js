@@ -294,8 +294,8 @@ angular.module('documents')
 							});
 
 							if (self.currentNode.model && self.currentNode.model.folderObj) {
-								var sortField = self.currentNode.model.folderObj.defaultSortField || 'date';
-								var sortDirection = self.currentNode.model.folderObj.defaultSortDirection || 'desc';
+								var sortField = self.currentNode.model.folderObj.defaultSortField || 'name';
+								var sortDirection = self.currentNode.model.folderObj.defaultSortDirection || 'asc';
 								self.sorting.column = sortField;
 								self.sorting.ascending = sortDirection === 'asc';
 							}
