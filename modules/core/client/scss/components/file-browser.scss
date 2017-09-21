@@ -418,6 +418,15 @@ a.icon-btn {
                 margin-top: 1rem;
                 font-size: 1.2rem;
                 visibility: visible;
+                opacity: 0.5;
+            }
+
+            &:hover {
+                background: $file-browser-table-header-hover-bg;
+
+                .glyphicon {
+                    opacity: 1;
+                }
             }
         }
     }
@@ -654,22 +663,21 @@ span.avatar {
         opacity: 0;
         z-index: 2;
 
-        &:hover,
-        &:focus {
+        &:hover {
             + label {
                 span {
-                    opacity: 0.2rem;
+                    opacity: 0.5;
                     visibility: visible;
                 }
             }
         }
-    }
 
-    input[type='checkbox']:checked {
-        + label {
-            span {
-                opacity: 1;
-                visibility: visible;
+        &:checked {
+            + label {
+                span {
+                    opacity: 1;
+                    visibility: visible;
+                }
             }
         }
     }
