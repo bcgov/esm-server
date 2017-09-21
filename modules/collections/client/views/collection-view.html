@@ -70,6 +70,11 @@
                             <td header-class="'name-col'" data-title="'Name'">{{ d.document.displayName | removeExtension }}</td>
                             <td header-class="'date-col'" data-title="'Document Date'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD'}}</td>
                             <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
+                            <td header-class="'status-col'" data-title="'Status'">
+                                <span class="label" ng-class="{true: 'label-success', false: 'label-unpublished'}[d.document.isPublished]">
+                                    {{d.document.isPublished | publishLabel }}
+                                </span>
+                            </td>
                             <td class="actions-col" header-class="'actions-col x1'">
                                 <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeMainDocument(d.document)">
                                     <span class="glyphicon glyphicon-trash"></span>
@@ -110,6 +115,11 @@
                                 <td header-class="'name-col'" data-title="'Name'" sortable="'Name'">{{ d.document.displayName | removeExtension }}</td>
                                 <td header-class="'date-col'" data-title="'Document Date'" sortable="'Document Date'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD' }}</td>
                                 <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'" sortable="'Uploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
+                                <td header-class="'status-col'" data-title="'Status'">
+                                    <span class="label" ng-class="{true: 'label-success', false: 'label-unpublished'}[d.document.isPublished]">
+                                        {{d.document.isPublished | publishLabel }}
+                                    </span>
+                                </td>
                                 <td class="actions-col" header-class="'actions-col x1'">
                                     <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeOtherDocument(d.document)">
                                         <span class="glyphicon glyphicon-trash"></span>

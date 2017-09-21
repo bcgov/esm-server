@@ -16,6 +16,7 @@ angular.module('utils')
 	.filter('wordCount', filterWordCount)
 	.filter('safeHtml', filterSafeHtml)
 	.filter('titleCase', filterTitleCase)
+	.filter('publishLabel', filterPublishLabel)
 	.filter('chunk', filterChunk);
 
 // -----------------------------------------------------------------------------------
@@ -38,6 +39,19 @@ function filterAdvancedFilter($filter) {
 		return data;
 	};
 }
+
+filterPublishLabel.$inject = [];
+/* @ngInject */
+function filterPublishLabel() {
+	return function(input) {
+		if (input) {
+			return 'Published';
+		} else {
+			return 'Unpublished';
+		}
+	};
+}
+
 // -----------------------------------------------------------------------------------
 //
 // FILTER: Projects Phases - mark up the project to show what group owns it.
