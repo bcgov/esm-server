@@ -24,7 +24,9 @@ module.exports = function (app) {
                     var projectQuery = {};
                     // TODO: Make sure this is a valid objectID, wrap with try/catches.
                     if (req.query.project) {
-                        projectQuery = { _id: req.query.project };
+                        projects = req.query.project.split(',');
+                        projectQuery = _.extend (projectQuery, { "_id": {$in : projects}});
+                        console.log("project query:", projectQuery);
                     }
                     // TBD
                     // if (req.query.oweneroperator) {
