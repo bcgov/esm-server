@@ -742,10 +742,15 @@ angular.module('documents')
 							return !_.find(collections, function(c) { return o._id === c._id; });
 						});
 
+						// Updating collections:
+						// Addition - only other documents
+						// Removal - check main and other documents
 						promises = _.union(_.map(added, function(c) {
 							return CollectionModel.addOtherDocument(c._id, documents._id);
 						}), _.map(removed, function(c) {
 							return CollectionModel.removeOtherDocument(c._id, documents._id);
+						}), _.map(removed, function(c) {
+							return CollectionModel.removeMainDocument(c._id, documents._id);
 						}));
 
 						return Promise.all(promises).then(function() {
