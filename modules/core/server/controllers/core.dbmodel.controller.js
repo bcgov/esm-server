@@ -372,7 +372,10 @@ _.extend (DBModel.prototype, {
 				q = _.extend (q, {"documentDate" : { $lte : new Date(dateRangeEnd) }});
 			}
 			if (project) {
-				q = _.extend (q, {"project" : project});
+				var projects = project.split(',');
+				if (projects.length > 0) {
+					q = _.extend(q, { "project": {$in : projects}});
+				}
 			}
 			console.log("q:", q);
 
