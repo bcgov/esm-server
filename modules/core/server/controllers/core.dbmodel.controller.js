@@ -355,7 +355,7 @@ _.extend (DBModel.prototype, {
 			}
 		});
 	},
-	searchMany : function (keywords, dateRangeStart, dateRangeEnd, project, fields, sortby) {
+	searchMany : function (keywords, dateRangeStart, dateRangeEnd, project, proponent, ownership, fields, sortby) {
 		// console.log ('dbmodel.findMany:', keywords, fields);
 		var sort = sortby || this.sort;
 		var self = this;
@@ -377,6 +377,14 @@ _.extend (DBModel.prototype, {
 					q = _.extend(q, { "project": {$in : projects}});
 				}
 			}
+			if (proponent) {
+				var orgs = proponent.split(',');
+				q = _.extend (q, { "proponent": {$in : orgs}});
+			}
+			if (ownership) {
+				var owns = ownership.split(',');
+				q = _.extend (q, { "ownership": { $text: { $search: ownership }}});
+			}
 			console.log("q:", q);
 
 			self.model.find (q)
@@ -390,7 +398,7 @@ _.extend (DBModel.prototype, {
 				self.setAccess ('read');
 			}
 		});
-	},
+},
 	findFirst : function (query, fields, sort) {
 		var self = this;
 		query = query || {};
