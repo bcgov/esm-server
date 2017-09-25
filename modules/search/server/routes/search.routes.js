@@ -18,6 +18,8 @@ module.exports = function (app) {
                 // console.log("req:", JSON.stringify(req.query));
                 if (req.query.types === 'document') {
                     var docController = new DocumentController(opts);
+                    var page = 0;
+                    var limit = 15;
                     var results = [];
                     var projects = null;
                     var p = new ProjectController(opts);
@@ -26,28 +28,34 @@ module.exports = function (app) {
                     if (req.query.project) {
                         projects = req.query.project.split(',');
                         projectQuery = _.extend (projectQuery, { "_id": {$in : projects}});
-                        console.log("project query:", projectQuery);
+                        // console.log("project query:", projectQuery);
                     }
                     if (req.query.projectcode) {
                         var codes = req.query.projectcode.split(',');
                         projectQuery = _.extend (projectQuery, { "code": {$in : codes}});
-                        console.log("project query:", projectQuery);
+                        // console.log("project query:", projectQuery);
                     }
                     // operator filtering (objectID's are coming in)
                     if (req.query.proponent) {
                         var ops = req.query.proponent.split(',');
                         projectQuery = _.extend (projectQuery, { "proponent": {$in : ops}});
-                        console.log("organization query:", projectQuery);
+                        // console.log("organization query:", projectQuery);
                     }
                     // owner filtering (strings are coming in)
                     if (req.query.ownership) {
                         projectQuery = _.extend (projectQuery, { $text: { $search: req.query.ownership }});
-                        console.log("ownership query:", projectQuery);
+                        // console.log("ownership query:", projectQuery);
+                    }
+                    if (req.query.page) {
+                        page = parseInt(req.query.page, 10);
+                    }
+                    if (req.query.limit) {
+                        limit = parseInt(req.query.limit, 10);
                     }
                     // We're filtering our searches on project and orgs
                     return p.findMany(projectQuery,"_id type name code ownership proponent")
                     .then(function (pdata) {
-                        console.log("projects:", pdata.length);
+                        // console.log("projects:", pdata.length);
                         projects = pdata;
                         if (projects && projects.length > 0) {
                             return docController.searchMany(req.query.search,
@@ -56,7 +64,11 @@ module.exports = function (app) {
                                                 req.query.project,
                                                 null, // not on this one - we already filtered on the org
                                                 null, // not on this one - we already filtered on the ownership
-                                                req.query.fields);
+                                                req.query.fields,
+                                                null, // sort by
+                                                page,
+                                                limit);
+
                         } else {
                             return [];
                         }
@@ -65,16 +77,16 @@ module.exports = function (app) {
                         _.each(docs, function (doc) {
                             results.push(doc);
                         });
-                        console.log("docs", docs.length);
+                        // console.log("docs", docs.length);
                         return results;
                     })
                     .then(function () {
-                        console.log("prjs:", projects.length);
+                        // console.log("prjs:", projects.length);
 
                         _.each(results, function (r) {
-                            var found = _.find(projects, "_id", r.project);
+                            var found = _.find(projects, {_id: r.project});
                             if (found) {
-                                console.log("found the project, binding to document object:", found.code);
+                                // console.log("found the project, binding to document object:", found.code);
                                 r.project = found;
                             }
                         });
