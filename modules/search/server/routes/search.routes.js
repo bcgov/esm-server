@@ -33,7 +33,7 @@ module.exports = function (app) {
                     if (req.query.projectcode) {
                         var codes = req.query.projectcode.split(',');
                         projectQuery = _.extend (projectQuery, { "code": {$in : codes}});
-                        console.log("project query:", projectQuery);
+                        // console.log("project query:", projectQuery);
                     }
                     // operator filtering (objectID's are coming in)
                     if (req.query.proponent) {
@@ -57,11 +57,23 @@ module.exports = function (app) {
                     .then(function (pdata) {
                         console.log("projects:", pdata.length);
                         projects = pdata;
+
                         if (projects && projects.length > 0) {
+                            // This ensures we don't find docs that are in other projects not part
+                            // of the codes lookup if no objectID's are specified.
+                            var prjArray = [];
+                            _.each(projects, function (pp) {
+                                prjArray += pp._id + ",";
+                            });
+                            if (prjArray) {
+                                prjArray = prjArray.replace(/,*$/, "");
+                            }
+                            var pjs = req.query.project || prjArray;
+
                             return docController.searchMany(req.query.search,
                                                 req.query.datestart,
                                                 req.query.dateend,
-                                                req.query.project,
+                                                pjs,
                                                 null, // not on this one - we already filtered on the org
                                                 null, // not on this one - we already filtered on the ownership
                                                 req.query.fields,
@@ -77,16 +89,16 @@ module.exports = function (app) {
                         _.each(docs, function (doc) {
                             results.push(doc);
                         });
-                        console.log("docs", docs.length);
+                        // console.log("docs", docs.length);
                         return results;
                     })
                     .then(function () {
-                        console.log("prjs:", projects.length);
+                        // console.log("prjs:", projects.length);
 
                         _.each(results, function (r) {
                             var found = _.find(projects, {_id: r.project});
                             if (found) {
-                                console.log("found the project, binding to document object:", found.code);
+                                // console.log("found the project, binding to document object:", found.code);
                                 r.project = found;
                             }
                         });
