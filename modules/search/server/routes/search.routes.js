@@ -33,7 +33,7 @@ module.exports = function (app) {
                     if (req.query.projectcode) {
                         var codes = req.query.projectcode.split(',');
                         projectQuery = _.extend (projectQuery, { "code": {$in : codes}});
-                        // console.log("project query:", projectQuery);
+                        console.log("project query:", projectQuery);
                     }
                     // operator filtering (objectID's are coming in)
                     if (req.query.proponent) {
@@ -55,7 +55,7 @@ module.exports = function (app) {
                     // We're filtering our searches on project and orgs
                     return p.findMany(projectQuery,"_id type name code ownership proponent")
                     .then(function (pdata) {
-                        // console.log("projects:", pdata.length);
+                        console.log("projects:", pdata.length);
                         projects = pdata;
                         if (projects && projects.length > 0) {
                             return docController.searchMany(req.query.search,
@@ -77,16 +77,16 @@ module.exports = function (app) {
                         _.each(docs, function (doc) {
                             results.push(doc);
                         });
-                        // console.log("docs", docs.length);
+                        console.log("docs", docs.length);
                         return results;
                     })
                     .then(function () {
-                        // console.log("prjs:", projects.length);
+                        console.log("prjs:", projects.length);
 
                         _.each(results, function (r) {
                             var found = _.find(projects, {_id: r.project});
                             if (found) {
-                                // console.log("found the project, binding to document object:", found.code);
+                                console.log("found the project, binding to document object:", found.code);
                                 r.project = found;
                             }
                         });
