@@ -30,7 +30,7 @@ angular.module('core').factory('ContextService', ['$interval', '$log', '$http', 
 
 		var currentUserId = Authentication.user ? Authentication.user._id : 0;
 		var userMatch = $window.application.user === currentUserId;
-		$cookies.put('loggedIn', currentUserId !== 0);
+		$cookies.put('loggedIn', currentUserId !== 0, {domain: window.location.hostname});
 
 		var result = contextMatch && userMatch;
 		//$log.debug('ContextService.contextMatch ($cookies.get('context')=' + $cookies.get('context')+', context=' + toContext + ') = ', contextMatch);
