@@ -139,12 +139,17 @@ module.exports = DBModel.extend ({
 	// -------------------------------------------------------------------------
 	canMoveDocument: function(doc, directoryId) {
 		var f = new Folder(this.opts);
+		// ROOT folder (directoryId:1) and Drop Zone (directoryId:0) are hardcoded folder, NOT on the database!
+		if (directoryId <= 1) {
+			return Promise.resolve();
+		}
+
 		return f.findOne({ directoryID: directoryId, project: doc.project })
 		.then(function (folder) {
 			if (!folder) {
 				throw new Error('Cannot move document. Destination folder not found'); // <-- this will reject the entire promise chain
 			}
-			if (doc.isPublished && !folder.isPublished) {
+			if (doc.isPublished && (!folder.isPublished)) {
 				throw new Error('Cannot move published content into unpublished folder'); // <-- this will reject the promise chain
 			}
 		});
