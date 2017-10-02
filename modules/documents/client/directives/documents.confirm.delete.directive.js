@@ -30,11 +30,8 @@ angular.module('documents')
 				controllerAs: 'confirmDlg',
 				controller: function ($scope, $modalInstance) {
 					var NO_AUTH         = "Not authorized to delete";
-					var WONT_PUBLISHED  = "Published content will not be deleted";
-					var CANT_PUBLISHED  = "Published content cannot be deleted";
-					var WONT_CONTENT    = "Folders with content will not be deleted";
-					var CANT_CONTENT    = "Folders with content cannot be deleted";
-					var UNDELETABLE     = 'Any content showing a warning will not be deleted.';
+					var HAS_CONTENT = "Folder is not empty";
+					var IS_PUBLISHED = "Published content cannot be deleted";
 
 					var self = this;
 					/*
@@ -100,10 +97,11 @@ angular.module('documents')
 						});
 						return results;
 					}
-
 					function checkFoldersForContent() {
 						var promises = [];
-						_.forEach(self.deletableFolders, function(fldr) {
+						//We check all folders (instead of just deletable folders) since a folder can be published and can have children
+                        //In that case, we need to display two warnings
+						_.forEach(self.folders, function(fldr) {
 							// Does the folder have child folders? ....
 							var node = self.currentNode.first(function (child) {
 								return (child.model.id === fldr.model.id);
@@ -139,27 +137,23 @@ angular.module('documents')
 						var fileCnt            = self.files.length;
 						var deletableFolderCnt = self.deletableFolders.length;
 						var deletableFileCnt   = self.deletableFiles.length;
+						var CONFIRM_DELETE     = "Confirm Delete File(s) and/or Folder(s)";
+						var CANNOT_DELETE      = "Cannot Delete File(s) and/or Folder(s)";
+						var INFO_DELETE        = "Files and folders must be unpublished before they can be deleted. <br/> Folders with content cannot be deleted.";
 						self.allBlocked        = false;
 						self.hasBlockedContent = false;
 
 						if (deletableFolderCnt > 0 || deletableFileCnt > 0) {
+							self.title           = CONFIRM_DELETE;
+							self.confirmText     = "Are you sure you want to permanently delete the following file(s) and/or folder(s)? This action CANNOT be undone.";
 							if (folderCnt > deletableFolderCnt || fileCnt > deletableFileCnt ) {
 								self.hasBlockedContent = true;
-								self.bannerText = "Some content has been published. Content MUST be unpublished before it can be deleted";
-								self.confirmText  += " " + UNDELETABLE;
-							}
-							var fText            = deletableFileCnt > 1 ? "Files" : deletableFileCnt === 1 ? "File" : "";
-							var fldrText         = deletableFolderCnt > 1 ? "Folders" : deletableFolderCnt === 1 ? "Folder" : "";
-							var combinedText     = fText + ((fText && fldrText) ? " and " : "") + fldrText;
-							var confirmText      = 'Are you sure you want to permanently delete the following ' + combinedText.toLowerCase() + '?';
-							var warning          = 'This action CANNOT be undone.';
-							self.title           = "Confirm Delete " + combinedText;
-							self.confirmText     = confirmText + " " + warning;
-							if (self.hasBlockedContent) {
-								self.confirmText   += " " + UNDELETABLE;
+								self.bannerText        = INFO_DELETE;
+								self.title             = CONFIRM_DELETE + " / " + CANNOT_DELETE;
+								self.confirmText      += " <br/> Published content and folders with content will not be deleted.";
 							}
 							self.showSubmit      = true;
-							self.cancelText      = 'No';
+							self.cancelText      = 'Cancel';
 						} else {
 							// No files and no folders can be deleted
 							self.allBlocked           = true;
@@ -169,11 +163,11 @@ angular.module('documents')
 								self.cancelText    = 'cancel';
 
 							} else {
-								self.title         = "Published content cannot be deleted";
-								self.showSubmit    = false;
-								self.cancelText    = 'OK';
+								self.title             = CANNOT_DELETE;
+								self.showSubmit        = false;
+								self.cancelText        = 'OK';
 								self.hasBlockedContent = true;
-								self.bannerText    = "Content MUST be unpublished before it can be deleted";
+								self.bannerText    = INFO_DELETE;
 							}
 						}
 						// update the text why a user can not delete an item...
@@ -188,9 +182,9 @@ angular.module('documents')
 					function setReasonForItem(item) {
 						if (!item.canBeDeleted) {
 							item.reason = (
-								!item.userCanDelete   ? NO_AUTH :
-								item.isPublished      ? (self.allBlocked ? CANT_PUBLISHED : WONT_PUBLISHED) :
-								item.hasChildren      ? (self.allBlocked ? CANT_CONTENT : WONT_CONTENT)     : ""
+								!item.userCanDelete   ? NO_AUTH : 
+								item.isPublished	? (item.hasChildren	? HAS_CONTENT + "<br/> "+ IS_PUBLISHED : IS_PUBLISHED) :
+								item.hasChildren	? HAS_CONTENT :  ""
 							);
 						}
 					}

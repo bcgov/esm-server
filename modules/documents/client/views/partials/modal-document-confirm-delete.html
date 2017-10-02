@@ -7,17 +7,17 @@
 		<button class="btn btn-default close" type="button" ng-click="confirmDlg.cancel()">
 			<span aria-hidden="true">&times;</span>
 		</button>
-		<h3 class="modal-title">{{confirmDlg.title}}</h3>
+		<h3 class="modal-title" ng-bind-html="confirmDlg.title">{{confirmDlg.title}}</h3>
 	</div>
 
 	<div class="modal-body" ng-if="confirmDlg.errMsg">
-		<div class="alert alert-danger" >{{confirmDlg.errMsg}}</div>
+		<div class="alert alert-danger"  >{{confirmDlg.errMsg}}</div>
 	</div>
 
   <div class="modal-body"  ng-if="!confirmDlg.errMsg">
-    <div class="alert alert-danger" ng-if="confirmDlg.hasBlockedContent">{{confirmDlg.bannerText}}</div>
+    <div class="alert alert-danger" ng-if="confirmDlg.hasBlockedContent" ng-bind-html="confirmDlg.bannerText">{{confirmDlg.bannerText}}</div>
 
-		{{confirmDlg.confirmText}}
+		<div ng-bind-html="confirmDlg.confirmText">{{confirmDlg.confirmText}}</div> 
 		<ul class="confirm-list">
 			<li  ng-repeat="item in confirmDlg.combindedList">
         <span class="avatar" ng-class="{'disabled': !item.canBeDeleted}">
@@ -26,7 +26,7 @@
           <span class="fb-img glyphicon glyphicon-picture" ng-if="item.type === 'Picture'"></span>
         </span>
         <span class="item" ng-class="{'disabled': !item.canBeDeleted}" >{{item.displayName}}</span>
-        <span class="reason" ng-show="!item.canBeDeleted">{{item.reason}}</span>
+        <span class="reason" ng-show="!item.canBeDeleted"  ng-bind-html="item.reason">{{item.reason}}</span>
       </li>
 		</ul>
 	</div>
@@ -34,6 +34,6 @@
 	<div class="modal-footer">
 		<button class="btn btn-default" type="button" ng-click="confirmDlg.cancel()">{{confirmDlg.cancelText}}</button>
 		<button class="btn btn-primary" type="submit" ng-click="confirmDlg.submit()"
-			ng-show="confirmDlg.showSubmit" ng-disabled="confirmDlg.errMsg">Yes</button>
+			ng-show="confirmDlg.showSubmit" ng-disabled="confirmDlg.errMsg">Delete</button>
 	</div>
 </form>
