@@ -1,253 +1,276 @@
+// Colors
+$primary:              			#003366;
+$gold:                 			#fcba19;
 
-$header-height: 6.2rem;
-$header-height-sm: 5.2rem;
+// Header
+$header-height: 	   			64px;
+$header-bg:			   			#003366;
+$header-font-color:	   			#fff;
 
-.app-header {
-	position: relative;
-	margin-bottom: 0;
-	height: $header-height-sm;
-	min-height: $header-height-sm;
-	background-color: $corp-blue;
-	border-bottom: 2px solid $corp-gold;
-	
+// Main Navigation
+$mn-font-size:                  1.3rem; //14px
+$mn-dropdown-menu-size:         0.875rem; //13px
+$mn-color:                      #fff;
+$mn-border-color:               #5f79a2;
+$mn-hover-bg:                   #002663;
+$mn-hover-color:                #fff;
+$mn-toggle-color:               $gold;
+$mn-dropdown-bg:                #002663;
+$mn-dropdown-hover-color:		$gold;
+
+
+header {
+    &.app-header {
+        @include clearfix;
+        border-bottom: 4px solid $gold;
+        background: $header-bg;
+        color: $header-font-color;
+	}
+
 	.navbar {
-		border: none;
-		border-radius: 0;
-	}
-	
-	.navbar-header {
-		float: left;
-	}
-	
-	.navbar-brand {
-		padding: 0;
-		width: 116px;
-		overflow: hidden;
+		&-toggle {
+			margin-top: 10px;
+			margin-right: 12px;
+			padding: 9px;
+			width: 41px;
+			height: 36px;
+			border: 2px solid $gold;
 
-		a {		
+			.icon-bar {
+				width: auto;
+				background-color: $gold;
+				
+				+ .icon-bar {
+					margin-top: 3px;
+				}
+			}
+
+			&.collapsed {
+				border: 2px solid transparent;
+
+				.icon-bar {
+					background-color: $mn-color;
+				}
+			}
+		}
+
+		&-brand {
 			display: block;
-			width: 270px;
-			height: 5rem;
-			overflow: hidden;
-			border: 1px solid transparent;
-			background-image: url('/modules/core/client/img/brand/eao-banner-img-lg.png');
+			padding: 0;
+			width: 255px;
+			height: 55px;
+			background-image: url("/modules/core/client/images/bcgov-eao-horiz-sm.png");
 			background-position: center;
 			background-repeat: no-repeat;
 		}
 
-	}
-	
-	.navbar-nav {
-		margin: 0;
-		float: right;
-		
-		> li {
-			width: 4rem;
-			display: inline-block;
+		&-collapse {
+			padding: 0;
+			box-shadow: none;
 		}
-		
-		> li > a {
-			width: 4rem;
-			height: 4rem;
-			overflow: hidden;
-		}
-		
-		.glyphicon {
-			color: #FFF;
-			
-			+ span {
-				display: none;
-			}
-		}
-	}
-}
 
-@media (min-width: 480px) {
-	.app-header {
-		.navbar-brand {
-			width: auto;
-		}
-	}
-}
-
-@media (min-width: 900px) {
-	.app-header {
-		height: $header-height;
-		
-		.navbar {
-			height: $header-height;
+		&-nav {
+			@include flexbox();
+			@include flexflow(column nowrap);
 			margin: 0;
-		}
+			margin-top: 0.65rem;
 
-		.navbar-brand {
-			a {		
-				width: 370px;
-				height: 6rem;
-				background-image: url('/modules/core/client/img/brand/eao-banner-img-lg.png');
-				background-position: center;
-			}
-		}
-		
-		.navbar-nav {
-			margin: 1rem;
-			float: right;
-			
-			> li > a,
-			> li > a:hover,
-			> li > a:focus {
-				padding: 1rem 1.5rem;
-				color: #FFF;
-				border: none;
-				background: transparent;
-			}
-		}
-		
-		.nav {
-			> .open > a,
-			> .open > a:hover,
-			> .open > a:focus {
-				background: transparent;
-			}
-		}
-		
-		.dropdown-menu {
-			border-radius: 0;
-		}
-		
-		.vert-pipe {
-			border-left: 1px solid #FFF;
-			height: 2.5rem;
-			margin-top: 0.7rem;
-			opacity: 0.5;
-			margin-left: 1rem;
-			margin-right: 1rem;
-		}
-		
-		.user-menu {
-			margin-right: 1rem;
-		}
-	}
-}
-
-// Custom Navigation
-.custom-nav {
-	float: right;
-	margin-top: 0.7rem;
-	margin-right: 1rem;
-	margin-left: 1rem;
-	margin-bottom: 0;
-	padding: 0;
-	list-style-type: none;
+			> li {
+				@include flex(1 1 auto);
+				line-height: auto;	
 	
-	.custom-nav-item {
-		display: inline-block;
-		
-		a {
-			display: block;
-			min-width: 3.75rem;
-			padding: 0.75rem 0;
-			font-size: 1.3rem;
-			color: #FFF;
-			text-align: center;
-			text-decoration: none;
-			border: 1px solid transparent;
-			border-radius: 0.4rem;
+				> a {
+					padding: 1.35rem 1.5rem;
+					color: $mn-color;
+					letter-spacing: 0.07rem;
+					text-transform: uppercase;
+					font-size: $mn-font-size;
+					font-weight: 700;
+					cursor: pointer;
 
-			&:focus {
-				border: 1px solid $header-focus-border-color;
-			}
-		}
+					&:hover,
+					&:focus {
+						color: $mn-hover-color;
+						background: $mn-hover-bg; 
+					}
 
-		.glyphicon {
-			+ span {
-				display: none;
-			}
-		}
-	}
+				}
 	
-	.dropdown-menu {
-		margin-top: 1.5rem;
-		padding: 0;
-		border: none;
-		border-radius: 0;
-		background: #FFF;
-		
-		li {
-			display: block;
-			
+				> .dropdown-menu {
+					padding: 0;
+					border: none;
+					border-radius: 0;
+					background-color: $mn-dropdown-bg;
+
+					> li {
+						a {
+							padding: 1rem 1.25rem;
+							color: $mn-color;
+							white-space: normal;
+	
+							strong {
+								display: block;
+							}
+	
+							&:hover,
+							&:focus {
+								color: $gold;
+								background: $mn-hover-bg; 
+
+								.main-nav__menu-item--description {
+									color: $mn-color;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	.nav {
+		.open {
 			a {
-				padding: 0.7rem 1.5rem;
-				font-size: 1.3rem;
-				color: #003366;
-				text-align: left;
-				border: 1px solid transparent;
-				border-radius: 0;
+				background: $mn-hover-bg; 
 
+				&:hover,
 				&:focus {
-					text-shadow: 1px 1px #FFF;
-					border: 1px solid transparent;
-				}
-			}
-
-			.glyphicon {
-				display: table-cell;
-
-				+ span {
-					display: table-cell;
-					padding-left: 1rem;
+					background: $mn-hover-bg; 
 				}
 			}
 		}
 	}
-	
-	.open {
-		.dropdown-toggle {
-			background: #1c2b4f;
-			box-shadow: 0 0 1rem #11203a inset;
+
+}
+
+.main-nav {
+	&__menu-item {
+
+		&--description {
+			display: block;
+			min-width: 24rem;
+			opacity: 0.5;
+			font-size: 1.2rem;
 		}
 	}
-	
-	.dashboard-item {
-		margin-right: 0.4rem;
+
+	&__vert-pipe {
+		div {
+			margin-top: 1.25rem;
+			margin-right: 0.5rem;
+			margin-left: 0.5rem;
+			display: block;
+			width: 1px;
+			height: 40px;
+			background-color: $mn-border-color;
+		}
 	}
 }
 
-@media (min-width: 900px) {
-	.custom-nav {
-		float: right;
-		margin-top: 1.3rem;
-		margin-right: 1rem;
-		margin-left: 1rem;
-		margin-bottom: 0;
-		
-		.custom-nav-item {
-			display: inline-block;
-			
-			a {
-				display: block;
-				padding: 0.75rem;
-				color: #FFF;
-				text-decoration: none;
+@media (max-width: 1199px) {
+	header {
+		.navbar {
+			&-header {
+				float: none;
 			}
 
-			.glyphicon {
-				display: none;
-				
-				+ span {
-					display: inline;
+			&-nav {
+				float: none;
+
+				> li {
+					> a {
+						border-top: 1px solid $mn-border-color;
+					}
+
+					&.main-nav__vert-pipe {
+						display: none;
+					}
+				}
+
+				.open {
+					.dropdown-toggle {
+						color: $gold;
+					}
+
+					.dropdown-menu {
+						position: static;
+						float: none;
+						margin-top: -0.5rem;
+						padding-bottom: 0.5rem;
+						width: 100%;
+						background-color: $mn-dropdown-bg;
+						
+
+						> li {
+							> a {
+								padding: 1rem 1.35rem;
+							}
+						}
+					}
+				}
+			}
+
+			&-toggle {
+				display: block !important;
+			}
+
+			&-collapse {
+				&.collapse {
+					display: none !important;
+					
+					&.in {
+						display: block !important;
+					}	
 				}
 			}
 		}
+	}
+
+}
+
+@media (min-width: 1200px) {
+	header {
+		.navbar {
+			&-brand {
+				margin-bottom: 2px;
+				margin-left: 2px;
+				width: 305px;
+				height: $header-height;
+				background-image: url('/modules/core/client/images/bcgov-eao-horiz-lg.png');
+			}
+
+			&-nav {
+				@include flexflow(row nowrap);
+				margin-top: 0;
+				float: right;
 		
-		.dropdown-menu {
-			margin: 0;
-			border: none;
-			border-radius: 0;
-			background: #FFF;
-		}
+				> li {
+					@include flex(1 1 auto);
 		
-		.dashboard-item {
-			margin-right: 0;
+					> a {
+						padding-top: 22px;
+						height: 66px;
+						color: $mn-color;
+					}
+
+					> .dropdown-menu {
+						padding: 0.5rem;
+					}
+				}
+
+				.dropdown {
+					&:hover {
+						.dropdown-toggle {
+							background: $mn-hover-bg;  
+						}
+
+						.dropdown-menu {
+							display: block;
+						}
+					}
+				}
+			}
 		}
 	}
 }

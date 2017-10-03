@@ -1,6 +1,11 @@
 @font-face {
 	font-family: 'Myriad-Pro';
 	src: url('../fonts/MyriadWebPro.ttf');
+	src: url('../fonts/MyriadWebPro.eot'); /* IE9 Compat Modes */
+	src: url('../fonts/MyriadWebPro.woff2') format('woff2'), /* Super Modern Browsers */
+		 url('../fonts/MyriadWebPro.woff') format('woff'), /* Pretty Modern Browsers */
+		 url('../fonts/MyriadWebPro.ttf')  format('truetype'), /* Safari, Android, iOS */
+		 url('../fonts/MyriadWebPro.svg#MyriadProRegular') format('svg'); /* Legacy iOS */
 }
 
 /* ----- Colors ----- */
@@ -77,6 +82,7 @@ $panel-footer-bg: 			#FFF;
 $sidenav-bg: 				#FFF;
 $sidenav-color: 			$link-color;
 $sidenav-width:				18rem;
+$sidenav-hover-bg:			#F7F8FA;
 
 /* Tables */
 $table-bg: 					#FFF;
@@ -137,7 +143,7 @@ html {
 body {
 	padding: 0;
 	min-height: 100%;
-	font-family: $font-family-sans-serif;
+	font-family: 'Myriad-Pro';
 	font-size: 1.4rem;
 	color: $app-base-color;
 	background: $app-bg;
@@ -155,7 +161,7 @@ hr {
 pre {
 	margin: 0;
 	padding: 0;
-	font-family: $font-family-sans-serif;
+	font-family: 'Myriad-Pro';
 	font-size: $app-base-font-size;
 	background-color: transparent;
 	border: 0;
@@ -1041,7 +1047,6 @@ h2.page-title {
 	font-size: 1em;
 	margin: 0 2px 0;
 }
-.navbar-nav > li > a {padding-top:10px !important; padding-bottom:10px !important;}
 
 .well hr {
 	border-top: 1px solid $border-grey;
@@ -1595,135 +1600,6 @@ h2.page-title {
 }
 
 
-/* HEADER
------------------------------- */
-$header-height: 6.2rem;
-$header-height-sm: 5.2rem;
-
-.app-header {
-	position: relative;
-	margin-bottom: 0;
-	height: $header-height-sm;
-	min-height: $header-height-sm;
-	background-color: $corp-blue;
-	border-bottom: 2px solid $corp-gold;
-
-	.navbar {
-		border: none;
-		border-radius: 0;
-	}
-
-	.navbar-header {
-		float: left;
-	}
-
-	.navbar-brand {
-		padding: 0;
-		width: 116px;
-		overflow: hidden;
-
-		a {
-			text-decoration: none;
-			border: 1px solid transparent;
-		}
-
-		img {
-			margin-top: 4px;
-			height: 42px;
-		}
-	}
-
-	.navbar-nav {
-		margin: 0;
-		float: right;
-
-		> li {
-			width: 4rem;
-			display: inline-block;
-		}
-
-		> li > a {
-			width: 4rem;
-			height: 4rem;
-			overflow: hidden;
-		}
-
-		.glyphicon {
-			color: #FFF;
-
-			+ span {
-				display: none;
-			}
-		}
-	}
-}
-
-@media (min-width: 480px) {
-	.app-header {
-		.navbar-brand {
-			width: auto;
-		}
-	}
-}
-
-@media (min-width: 900px) {
-	.app-header {
-		height: $header-height;
-
-		.navbar {
-			height: $header-height;
-			margin: 0;
-		}
-
-		.navbar-brand {
-			img {
-				margin-top: 2px;
-				height: 55px;
-			}
-		}
-
-		.navbar-nav {
-			margin: 1rem;
-			float: right;
-
-			> li > a,
-			> li > a:hover,
-			> li > a:focus {
-				padding: 1rem 1.5rem;
-				color: #FFF;
-				border: none;
-				background: transparent;
-			}
-		}
-
-		.nav {
-			> .open > a,
-			> .open > a:hover,
-			> .open > a:focus {
-				background: transparent;
-			}
-		}
-
-		.dropdown-menu {
-			border-radius: 0;
-		}
-
-		.vert-pipe {
-			border-left: 1px solid #FFF;
-			height: 2.5rem;
-			margin-top: 0.7rem;
-			opacity: 0.5;
-			margin-left: 1rem;
-			margin-right: 1rem;
-		}
-
-		.user-menu {
-			margin-right: 1rem;
-		}
-	}
-}
-
-
 /* CUSTOM NAV
 ------------------------------ */
 .custom-nav {
@@ -1848,7 +1724,6 @@ $header-height-sm: 5.2rem;
 	}
 }
 
-
 /* SIDE NAVIGATION
 ------------------------------ */
 $sidenav-shadow: 0 0 0.4rem #CCC;
@@ -1880,6 +1755,10 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 					padding-left: 0.7rem;
 				}
 			}
+
+			&:hover {
+				background: $sidenav-hover-bg;
+			}
 		}
 	}
 
@@ -1899,36 +1778,24 @@ $sidenav-text-shadow: 0 0 2px #FFF;
 
 	.project-home-link {
 		display: block;
-		width: 100%;
-		min-height: 6.2rem;
-		padding-top: 2.2rem;
-		padding-right: 1.5rem;
-		padding-left: 4.25rem;
-		padding-bottom: 2.2rem;
-		font-weight: bold;
 		color: #1a5a96;
 		text-decoration: none;
-		line-height: 1.5rem;
+		line-height: 1.75rem;
+		font-weight: bold;
 		background: #EEE;
 
-		.glyphicon {
-			position: absolute;
-			top: 1.8rem;
-			left: 1rem;
-			font-size: 2.4rem;
+		&__inner-container {
+			display: table;
+			width: 100%;
+		}
+
+		&__project-name {
+			display: table-cell;
+			padding: 1.5rem;
+			vertical-align: middle;
+			height: 6.4rem;
 		}
 	}
-}
-
-
-
-.breadcrumbs {
-	padding: 1.5rem 2.5rem;
-	padding-bottom: 0;
-}
-
-.breadcrumbs + .view-title-container {
-	padding-top: 1.5rem;
 }
 
 
@@ -4193,6 +4060,7 @@ tmpl-template-render {
 @import "modules/core/client/scss/components/view-containers.scss";
 
 // GLOBAL
+@import "modules/core/client/scss/global/header.scss";
 @import "modules/core/client/scss/global/footer.scss";
 @import "modules/core/client/scss/global/layout.scss";
 

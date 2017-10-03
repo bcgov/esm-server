@@ -1,5 +1,5 @@
 <div class="sidenav" id="menu-side">
-
+		
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll  href="#anchor-map">Map</a></li>
@@ -35,24 +35,25 @@
 	<div ng-if="(menu.context === 'project' || menu.context === 'activity')">
 
 		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" onclick="toggleSideNav();" title="Project Details">
-			<span class="glyphicon glyphicon-map-marker"></span>
-			<span>{{project.name}}</span>
-			<span ng-if="!project.name">Untitled Project</span>
+			<span class="project-home-link__inner-container">
+				<span class="project-home-link__project-name">{{project.name}}</span>
+				<span class="project-home-link__project-name" ng-if="!project.name">Untitled Project</span>
+			</span>
 		</a>
 
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->
 		<ul class="nav nav-pills nav-stacked">
 			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);"
-			    ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
-			    <a ui-sref="{{item.state}}" ng-bind="item.title" title="{{item.title}}" onclick="toggleSideNav();"></a>
+				ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
+				<a ui-sref="{{item.state}}" ng-bind="item.title" title="{{item.title}}" onclick="toggleSideNav();"></a>
 			</li>
 		</ul><!-- / PROJECT CLIENT MENUS -->
 
 		<ul class="nav nav-pills nav-stacked">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'"
-			    ng-if="item.shouldRender(menu.authentication.user, menu.project);"
+				ng-if="item.shouldRender(menu.authentication.user, menu.project);"
 					ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
-				  <a ui-sref="{{item.state}}" ui-sref-opts="{reload: true}" ng-bind="item.title" onclick="toggleSideNav();" title="{{item.title}}"></a>
+					<a ui-sref="{{item.state}}" ui-sref-opts="{reload: true}" ng-bind="item.title" onclick="toggleSideNav();" title="{{item.title}}"></a>
 			</li>
 		</ul>
 
@@ -75,8 +76,6 @@
 		</div>
 		<!-- / ROLES & PERMISSIONS -->
 
-  </div><!-- / PROJECT MENU - AUTHENTICATED -->
+	</div><!-- / PROJECT MENU - AUTHENTICATED -->
 
-</div>
-
-
+</div>		

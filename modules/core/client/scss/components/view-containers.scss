@@ -6,6 +6,7 @@ $view-title-container-bg: #fff;
 	@include flexbox();
 	@include flex(0 0 auto);
 	padding: 1.4rem 1.5rem;
+	height: 6.4rem;
 	border-bottom: $view-container-border;
 	background-color: $view-title-container-bg;
 

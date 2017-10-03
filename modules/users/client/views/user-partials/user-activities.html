@@ -10,7 +10,7 @@
 <div class="main-panel" ng-if="vm.authentication.user" ng-hide="dashboardLoading">
 
     <div class="view-title-container flex-row">
-        <h1>Dashboard</h1>
+        <h1>My Projects</h1>
         <div class="actions">
             <a class="btn btn-primary btn-sm"
                ng-show="application.userCan.createProject"
@@ -23,7 +23,6 @@
     <div class="view-body-container">
         <!-- PROJECTS LIST -->
         <div class="panel panel-default dzf-container">
-            <div class="panel-heading"><h2>My Projects</h2></div>
             <div class="dzf-project-row" ng-class="{'active': project.selected}" ng-repeat="project in vm.projects">
                 <table class="table dzf-table">
                     <td class="expand-col">

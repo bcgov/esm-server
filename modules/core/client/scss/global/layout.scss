@@ -84,7 +84,7 @@ ui-view {
     }
 }
 
-@media (min-width: 1020px) {
+@media (min-width: 992px) {
     .app-main {
         @include flexbox();
         flex-direction: row;
@@ -109,6 +109,7 @@ ui-view {
             .sidenav {
                 position: absolute;
                 transform: translateX(0);
+                width: 22rem;
             }
 
             .sidenav-overlay {
