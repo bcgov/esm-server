@@ -100,7 +100,7 @@ angular.module('documents')
 					function checkFoldersForContent() {
 						var promises = [];
 						//We check all folders (instead of just deletable folders) since a folder can be published and can have children
-                        //In that case, we need to display two warnings
+                        			//In that case, we need to display two warnings
 						_.forEach(self.folders, function(fldr) {
 							// Does the folder have child folders? ....
 							var node = self.currentNode.first(function (child) {
