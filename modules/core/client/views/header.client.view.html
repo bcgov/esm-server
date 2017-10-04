@@ -1,41 +1,129 @@
-<div class="app-header">
+
+<header class="app-header">
+	<div class="navbar-header">
+		<button class="navbar-toggle collapsed" type="button" 
+			data-target="#mainNav"
+			data-toggle="collapse"  
+			aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="http://www.esm-master.pathfinder.gov.bc.ca"></a>
+	</div>
+	<div class="collapse navbar-collapse" id="mainNav">
+		<ul class="main-nav nav navbar-nav">
+			<li class="dropdown">
+				<a class="dropdown-toggle" id="findProjects" data-toggle="dropdown" 
+					ng-click="$event.preventDefault();"
+					aria-haspopup="true"
+					aria-expanded="true">Find EA Projects <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu pull-right" aria-labelledby="findProjects">
+					<li class="main-nav__menu-item">
+						<a href="http://www.esm-master.pathfinder.gov.bc.ca/project">
+							<strong>Find Projects by List</strong>
+							<span class="main-nav__menu-item--description">View a list of Environmental Assessment Office projects in British Columbia</span>
+						</a>
+					</li>
+					<li class="main-nav__menu-item">
+						<a href="http://www.esm-master.pathfinder.gov.bc.ca/map" target="_self">
+							<strong>Find Projects by Map</strong>
+							<span class="main-nav__menu-item--description">Use our interactive map to locate Environmental Assessment Office projects across British Columbia</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="http://www.esm-master.pathfinder.gov.bc.ca/news">
+					<span>Activities & Updates</span>
+				</a>
+			</li>
+			<li class="dropdown">
+				<a class="dropdown-toggle" id="eaProcess" data-toggle="dropdown" 
+					ng-click="$event.preventDefault();"
+					aria-haspopup="true"
+					aria-expanded="true">The EA Process <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu pull-right" aria-labelledby="eaProcess">
+					<li class="main-nav__menu-item">
+						<a href="http://www.esm-master.pathfinder.gov.bc.ca/legislation">
+							<strong>Legislation</strong>
+							<span class="main-nav__menu-item--description">Learn about the legislation and regulations that apply to environmental assessments in the province of British Columbia.</span>
+						</a>
+					</li>
+					<li class="main-nav__menu-item">
+						<a href="http://www.esm-master.pathfinder.gov.bc.ca/process" target="_self">
+							<strong>Process & Procedures</strong>
+							<span class="main-nav__menu-item--description">Learn more about how the Environmental Assessment Office neutrally administers a process that holds all participants accountable.</span>
+						</a>
+					</li>
+					<li class="main-nav__menu-item">
+						<a href="http://www.esm-master.pathfinder.gov.bc.ca/compliance-oversight" target="_self">	
+							<strong>Compliance Oversight</strong>
+							<span class="main-nav__menu-item--description">Learn about how we collaborate with other agencies to coordinate oversight of environmental assessment projects.</span>
+						</a>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="http://www.esm-master.pathfinder.gov.bc.ca/contact">
+					<span>CONTACT</span>
+				</a>
+			</li>
+			<li ng-if="authentication.user">
+				<a ui-sref="dashboard">My Projects </a>
+			</li>
+			<li ng-if="authentication.user">
+				<a x-modal-day-calculator>Calculator</a>
+			</li>
+			<li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user)">
+				<a class="dropdown-toggle" 
+					ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" 
+					aria-haspopup="true"
+					aria-expanded="true">System <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
+					<li class="main-nav__menu-item" 
+						ng-repeat="item in systemMenu.items | orderBy: 'position'" 
+						ng-if="item.shouldRender(authentication.user);"
+						ng-class="{'active': $state.includes(item.state)}">
+						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+					</li>
+					<li class="main-nav__menu-item" ng-if="application.userCan.manageRoles">
+						<a href x-role-users-modal x-context="application">Edit System Roles</a>
+					</li>
+					<li class="main-nav__menu-item" ng-if="application.userCan.managePermissions">
+						<a href x-role-permissions-modal x-context="application" x-object="application">Edit System Permissions</a>
+					</li>
+				</ul>
+			</li>
+			<li ng-if="!authentication.user">
+				<a ui-sref="authentication.signin">
+					<span>Log In</span>
+				</a>
+			</li>
+			<li class="dropdown" ng-if="authentication.user">
+				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="true">{{ authentication.user.displayName }} <span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
+					<li><a x-modal-edit-my-profile href><strong>Edit Profile</strong></a></li>
+					<li><a href="/api/auth/signout" target="_self"><strong>Log Out</strong></a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</header>
+
+<!--
+<div class="app-header hidden">
 	<nav class="navbar">
 
-		<div class="navbar-header">
-			<div class="navbar-brand">
-				<a ui-sref="projects" href>
-					<img class="app-brand-img" src="{{logo}}" alt="EAO Project Information & Collaboration" title="EAO Project Information & Collaboration">
-				</a>
-			</div>
-		</div>
-
-		<span ng-if="false">
-		<!-- \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-		NAVBAR MENU RENDER
-
-		This is where the navigation navbar renders, this is mostly application context content
-		and things that are present throughout a session like user profile, logout, admin functions
-		and that sort of thing
-
-		\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ -->
-		</span>
-
+		
 		<ul class="custom-nav">
-			<li class="custom-nav-item">
-				<a href ui-sref="projects">
-					<span class="glyphicon glyphicon-home"></span>
-					<span>HOME</span>
-				</a>
-			</li>
-
-			<li class="custom-nav-item" ng-if="ENV === 'EAO'" ng-show="authentication.user">
-				<a href ui-sref="dashboard">
-					<span class="glyphicon glyphicon-dashboard"></span>
-					<span>DASHBOARD</span>
-				</a>
-			</li>
-
 			<li class="custom-nav-item dropdown" ng-if="ENV === 'EAO' && systemMenu.shouldRender(authentication.user)">
 				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="true" title="System Configuration">
@@ -57,74 +145,8 @@
 				</ul>
 			</li>
 
-			<li class="custom-nav-item dropdown" ng-show="authentication.user">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownToolsMenu" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="true" title="Tools">
-					<span class="glyphicon glyphicon-cog"></span>
-					<span>TOOLS</span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownToolsMenu">
-					<li>
-						<a href x-modal-day-calculator>Day Calculator</a>
-					</li>
-				</ul>
-			</li>
-
-			<!--
-		  this is meant to be a temporary option, strictly limited to the admin role, apis are locked to admin role.
-		  once project is loaded and running, this option can be removed.
-	    -->
-			<li class="custom-nav-item dropdown" ng-if="ENV === 'EAO' && (authentication.user && authentication.user.roles.indexOf ('admin') !== -1)">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="true" title="Administration">
-					<span class="glyphicon glyphicon-cog"></span>
-					<span>ADMIN</span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
-					<li>
-						<a href x-modal-project-import x-project="import">Import</a>
-					</li>
-				</ul>
-			</li>
-
-			<li class="custom-nav-item">
-				<a href ui-sref="contact">
-					<span class="glyphicon glyphicon glyphicon-envelope"></span>
-					<span>CONTACT</span>
-				</a>
-			</li>
-
-			<li class="custom-nav-item">
-				<a href ui-sref="guidance">
-					<span class="glyphicon glyphicon-question-sign"></span>
-					<span>GUIDANCE</span>
-				</a>
-			</li>
-
-			<li class="custom-nav-item user-menu" ng-show="!authentication.user">
-				<a ui-sref="authentication.signin">
-					<span class="glyphicon glyphicon-log-in"></span>
-					<span>LOG IN</span>
-				</a>
-			</li>
-
-			<li class="custom-nav-item user-menu dropdown" ng-show="authentication.user">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="true">
-					<span class="glyphicon glyphicon-user"></span>
-					<span>{{ authentication.user.displayName }}</span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
-					<li><a x-modal-edit-my-profile href>Edit Profile</a></li>
-					<!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
-					<li><a href="/api/auth/signout" target="_self">Logout</a></li>
-				</ul>
-			</li>
 		</ul>
-
-
+	
 	</nav>
 </div>
+-->
