@@ -741,18 +741,25 @@ angular.module('documents')
 						var removed = _.filter(original, function(o) {
 							return !_.find(collections, function(c) { return o._id === c._id; });
 						});
-
 						// Updating collections:
 						// Addition - only other documents
 						// Removal - check main and other documents
 						promises = _.union(_.map(added, function(c) {
 							return CollectionModel.addOtherDocument(c._id, documents._id);
 						}), _.map(removed, function(c) {
-							return CollectionModel.removeOtherDocument(c._id, documents._id);
-						}), _.map(removed, function(c) {
 							return CollectionModel.removeMainDocument(c._id, documents._id);
 						}));
-
+						// EPIC - 1215 Collections (info panel) do not get updated when removed from the document
+						// Dealing seperately with removal of documents (associated with the appropriate collections) here 
+						// because saving documents after removing collections
+						// does not take into consideration the fact that the collections could be updated by something else
+						//Therefore, we serialize promises such that removal of one document only happens after the removal of another document.
+						var chain = _.reduce(removed, function(previousPromise, currentCollectionElement) {
+							return prev.then(function() {
+								return CollectionModel.removeOtherDocument(currentCollectionElement._id, documents._id);
+							});
+						}, Promise.resolve());
+						promises.push(chain);
 						return Promise.all(promises).then(function() {
 							AlertService.success('The document\'s collections were successfully updated.');
 						}, function(err) {
