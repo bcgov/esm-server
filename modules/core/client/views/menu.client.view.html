@@ -32,7 +32,7 @@
 	</div>
 
 	<!-- PROJECT MENU - AUTHENTICATED -->
-	<div ng-if="(menu.context === 'project' || menu.context === 'activity')">
+	<div class="sidenav__inner-container" ng-if="(menu.context === 'project' || menu.context === 'activity')">
 
 		<a class="project-home-link" ui-sref="p.detail({projectid: menu.project.code})" onclick="toggleSideNav();" title="Project Details">
 			<span class="project-home-link__inner-container">
