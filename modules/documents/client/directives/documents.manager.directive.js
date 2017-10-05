@@ -755,7 +755,7 @@ angular.module('documents')
 						// does not take into consideration the fact that the collections could be updated by something else
 						//Therefore, we serialize promises such that removal of one document only happens after the removal of another document.
 						var chain = _.reduce(removed, function(previousPromise, currentCollectionElement) {
-							return prev.then(function() {
+							return previousPromise.then(function() {
 								return CollectionModel.removeOtherDocument(currentCollectionElement._id, documents._id);
 							});
 						}, Promise.resolve());
