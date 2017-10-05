@@ -55,13 +55,11 @@ ui-view {
             background-color: $view-panel-bg;
             transform: translateX(-22rem);
             transition: all 0.3s ease-out 0.1s;
-        }
+            z-index: 2;
 
-        .sidenav-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: transparent;
+            &__inner-container {
+                width: 22rem;
+            }
         }
 
         &.open {

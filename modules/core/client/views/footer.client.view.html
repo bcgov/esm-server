@@ -1,20 +1,33 @@
-<div class="app-footer clearfix" ng-cloak>
-	<div id="main-foot-content">
-			<div class="pull-left">
-		<span ng-if="footer.environment === 'MEM'">Ministry of Energy and Mines, Province of British Columbia</span>
-      </div>
-			<div class="pull-left">
-				<a href="/" title="Home">Home</a> |
-				<a target="_new" href="http://www.gov.bc.ca/com/copyright.html" title="BC Government Copyright Information">Copyright</a> |
-				<a target="_new" href="http://www.gov.bc.ca/com/disclaimer.html" title="BC Government Warranty Disclaimer and Limitation of Liabilities Information">Disclaimer</a> |
-				<a target="_new" href="http://www.gov.bc.ca/com/privacy.html" title="BC Government Privacy Information">Privacy</a> |
-				<a target="_new" href="http://www.gov.bc.ca/com/accessibility.html" title="BC Government Accessibility Information">Accessibility</a> |
-				<a href ui-sref="contact" title="Contact Us">Contact Us</a> | 
-				<a ng-show="!footer.authentication.user" ui-sref="authentication.signin">Log In (Siteminder)</a>
-        <span ng-show="!footer.authentication.user"> | </span> <a ng-show="!footer.authentication.user" href ui-sref="authentication.local">Log In (local)</a>
-        <!-- TODO: Siteminder! get the Siteminder logout url and set it here -->
-        <a ng-show="footer.authentication.user" href="/api/auth/signout" target="_self">Logout</a>
-    </div>
-</div>
-</div>
+<div class="app-footer clearfix" id="app-footer" ng-cloak>
+	<nav class="app-footer__nav" aria-controls="footerNav">
+		<ul>
+			<li>
+				<a href="/" title="Home">Home</a>
+			</li>
+			<li>
+				<a title="BC Government Copyright Information" href="http://www.gov.bc.ca/com/copyright.html">Copyright</a>
+			</li>
+			<li>
+				<a title="BC Government Warranty Disclaimer and Limitation of Liabilities Information" href="http://www.gov.bc.ca/com/disclaimer.html">Disclaimer</a>
+			</li>
+			<li>
+				<a title="BC Government Privacy Information" href="http://www.gov.bc.ca/com/privacy.html">Privacy</a>
+			</li>
+			<li>
+				<a title="BC Government Accessibility Information" href="http://www.gov.bc.ca/com/accessibility.html">Accessibility</a>
+			</li>
+			<li>
+				<a title="Contact the BC Environmental Assessment Office" href="http://www.esm-master.pathfinder.gov.bc.ca/contact">Contact Us</a>
+			</li>
+			<li ng-show="!footer.authentication.user">
+				<a ui-sref="authentication.signin">Log In (Siteminder)</a>
+			</li>
+			<li ng-show="!footer.authentication.user">
+				<a href ui-sref="authentication.local">Log In (Local)</a>
+			</li>
+			<li ng-show="footer.authentication.user">
+				<a href="/api/auth/signout" target="_self">Log Out</a>
+			</li>
+		</ul>
+	</nav>
 </div>

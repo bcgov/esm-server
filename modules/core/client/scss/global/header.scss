@@ -193,7 +193,8 @@ header {
 						color: $gold;
 					}
 
-					.dropdown-menu {
+
+					> .dropdown-menu {
 						position: static;
 						float: none;
 						margin-top: -0.5rem;
@@ -267,6 +268,26 @@ header {
 
 						.dropdown-menu {
 							display: block;
+						}
+					}
+
+					&.open {
+						.dropdown-toggle {
+							background: transparent;
+						}
+
+						.dropdown-menu {
+							display: none;
+						}
+
+						&:hover {
+							.dropdown-toggle {
+								background: $mn-hover-bg; 
+							}
+
+							.dropdown-menu {
+								display: block;
+							}
 						}
 					}
 				}

@@ -1724,80 +1724,6 @@ h2.page-title {
 	}
 }
 
-/* SIDE NAVIGATION
------------------------------- */
-$sidenav-shadow: 0 0 0.4rem #CCC;
-$sidenav-text-shadow: 0 0 2px #FFF;
-
-.sidenav {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: $sidenav-width;
-
-	.nav-pills {
-		a {
-			padding: 0.8rem 1.5rem;
-			font-size: 1.3rem;
-			font-weight: normal;
-			color: $link-color;
-			text-shadow: $sidenav-text-shadow;
-			border: 1px solid transparent;
-			border-radius: 0;
-
-			.glyphicon {
-				top: 0.3rem;
-				display: table-cell;
-				font-size: 1.6rem;
-
-				+ span {
-					display: table-cell;
-					padding-left: 0.7rem;
-				}
-			}
-
-			&:hover {
-				background: $sidenav-hover-bg;
-			}
-		}
-	}
-
-	h4 {
-		margin-left: 1.5rem;
-		margin-right: 1.5rem;
-		padding-top: 1rem;
-		font-size: 1.3rem;
-		font-weight: bold;
-		color: $link-color;
-		text-transform: uppercase;
-	}
-
-	hr {
-		margin: 0.7rem 1.5rem;
-	}
-
-	.project-home-link {
-		display: block;
-		color: #1a5a96;
-		text-decoration: none;
-		line-height: 1.75rem;
-		font-weight: bold;
-		background: #EEE;
-
-		&__inner-container {
-			display: table;
-			width: 100%;
-		}
-
-		&__project-name {
-			display: table-cell;
-			padding: 1.5rem;
-			vertical-align: middle;
-			height: 6.4rem;
-		}
-	}
-}
-
 
 /* ALERTS
 ------------------------------ */
@@ -4063,6 +3989,7 @@ tmpl-template-render {
 @import "modules/core/client/scss/global/header.scss";
 @import "modules/core/client/scss/global/footer.scss";
 @import "modules/core/client/scss/global/layout.scss";
+@import "modules/core/client/scss/global/sidenav.scss";
 
 // MODULES
 @import "modules/codelists/client/scss/codelist.scss";
