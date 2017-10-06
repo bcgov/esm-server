@@ -63,13 +63,19 @@ angular.module('documents')
 							return item.canBeDeleted;
 						});
 						checkFoldersForContent()
-						.then (function () {
+						.then(function () {
 							// repeat filter on folders
 							self.deletableFolders  = _.filter(self.folders, function (item) {
 								return item.canBeDeleted;
 							});
 							updateText();
 							self.busy = false;
+							$scope.$apply();
+						}).catch(function (err) {
+							self.busy = false;
+							self.errMsg = err.message;
+							$scope.$apply();
+							return reject(err);
 						});
 					}
 
