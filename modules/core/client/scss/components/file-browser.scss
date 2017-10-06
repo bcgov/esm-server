@@ -121,7 +121,7 @@ a.icon-btn {
   .fb-path:first-child:nth-last-child(#{$i}),
   .fb-path:first-child:nth-last-child(#{$i}) ~ .fb-path:not(:last-child) {
     max-width: 15rem; }
- } 
+ }
 
 .file-browser {
     @include flexbox();
@@ -314,7 +314,7 @@ a.icon-btn {
 
     .fb-list-item {
         @include flexbox();
-        @include flexdirection(row); 
+        @include flexdirection(row);
         border-bottom: $file-browser-row-border;
 
         .row-actions {
@@ -401,7 +401,7 @@ a.icon-btn {
                 height: 0;
                 border-style: solid;
                 border-width: 5px 5px 0 5px;
-                border-color: #494949 transparent transparent transparent; 
+                border-color: #494949 transparent transparent transparent;
                 vertical-align: middle;
             }
 
@@ -442,9 +442,9 @@ a.icon-btn {
         }
     }
 
-    @media only screen 
+    @media only screen
         and (max-device-width: 1024px) {
-        
+
         .scroll-container {
             .scroll-container-inner {
                 margin-right: 0;
@@ -517,7 +517,7 @@ a.icon-btn {
         }
     }
 
-    
+
     .col {
         &.first-col {
             padding-left: 1.5rem;
@@ -561,7 +561,7 @@ a.icon-btn {
     }
 }
 
-@media only screen 
+@media only screen
     and (max-device-width: 1024px) {
     .fb-list {
         .fb-col-group {
@@ -583,7 +583,7 @@ span.avatar {
 
 .col {
     &.author-col {
-        @include flex(0 0 18%); 
+        @include flex(0 0 18%);
     }
 
     &.name-col {
@@ -620,6 +620,10 @@ span.avatar {
     @include flex(0 0 13%)
 }
 
+.col.date-col {
+    @include flex(0 0 13%);
+}
+
 .col.status-col {
     @include flex(0 0 26%);
 }
@@ -653,7 +657,7 @@ span.avatar {
         right: 0;
         bottom: 0;
         left: 0;
-        margin: 0; 
+        margin: 0;
         width: 100%;
         height: 100%;
     }
