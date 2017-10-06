@@ -87,6 +87,23 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
 });
 
+// Ensures all modals can only be closed by clicking X or buttons
+angular.module('ui.bootstrap').config(function($provide) {
+	$provide.decorator('$modal', function($delegate) {
+		var open = $delegate.open;
+
+		$delegate.open = function(options) {
+			options = angular.extend(options || {}, {
+				backdrop: 'static',
+				keyboard: false
+			});
+			return open(options);
+		};
+
+		return $delegate;
+	});
+});
+
 //Then define the init function for starting up the application
 angular.element(document).ready(function () {
 	//Fixing facebook bug with redirect
