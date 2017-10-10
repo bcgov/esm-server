@@ -15,6 +15,8 @@ var Invitation = require(path.resolve('./modules/invitations/server/controllers/
 // ensure that we have come through Siteminder...
 var parseSm = function (req) {
 	return new Promise(function (fulfill, reject) {
+		console.Log("THIS IS THE HEADERS FOR SITEMINDER!!!")
+		console.Log(req.headers)
 		var userGuid = req.headers.smgov_userguid;
 		var userType = req.headers.smgov_usertype;
 		var universalId = req.headers.sm_universalid; // if we need to add in IDIR or BCEID, get from sm_authdirname
