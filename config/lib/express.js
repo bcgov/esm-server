@@ -82,6 +82,17 @@ module.exports.initMiddleware = function (app) {
 
 		// Disable views cache
 		app.set('view cache', false);
+
+		// Enable CORS Wildcard
+		console.log("Enable CORS Wildcard.");
+		app.use (function (req, res, next) {
+			res.set ({
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+				'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
+			});
+			next();
+		});
 	} else if (process.env.NODE_ENV === 'production') {
 		app.locals.cache = 'memory';
 	}
@@ -105,22 +116,6 @@ module.exports.initMiddleware = function (app) {
 		dest: uploaddir,
 		inMemory: false
 	}));
-
-	// cc: added middleware for adding cors response headers
-	// app.use (function (req, res, next) {
-	//   // console.log ('++++++ middleware is running');
-	//   res.set ({
-	//     'Access-Control-Allow-Origin': '*',
-	//     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-	//     'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
-	//   });
-	//   next();
-	// });
-	//
-	// cc: middleware to deal with context
-	//
-
-
 };
 
 /**
