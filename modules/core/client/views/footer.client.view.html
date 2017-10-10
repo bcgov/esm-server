@@ -2,7 +2,7 @@
 	<nav class="app-footer__nav" aria-controls="footerNav">
 		<ul>
 			<li>
-				<a href="/" title="Home">Home</a>
+				<a ui-sref="projects" title="Home">Home</a>
 			</li>
 			<li>
 				<a title="BC Government Copyright Information" href="http://www.gov.bc.ca/com/copyright.html">Copyright</a>
@@ -17,7 +17,7 @@
 				<a title="BC Government Accessibility Information" href="http://www.gov.bc.ca/com/accessibility.html">Accessibility</a>
 			</li>
 			<li>
-				<a title="Contact the BC Environmental Assessment Office" href="http://www.esm-master.pathfinder.gov.bc.ca/contact">Contact Us</a>
+				<a title="Contact the BC Environmental Assessment Office" ui-sref="contact">Contact Us</a>
 			</li>
 			<li ng-show="!footer.authentication.user">
 				<a ui-sref="authentication.signin">Log In (Siteminder)</a>

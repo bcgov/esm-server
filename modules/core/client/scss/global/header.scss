@@ -94,6 +94,9 @@ header {
 						background: $mn-hover-bg; 
 					}
 
+					&.user-details {
+						text-transform: none;
+					}
 				}
 	
 				> .dropdown-menu {

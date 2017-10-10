@@ -11,10 +11,11 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="http://www.esm-master.pathfinder.gov.bc.ca"></a>
+		<a class="navbar-brand" ui-sref="projects"></a>
 	</div>
 	<div class="collapse navbar-collapse" id="mainNav">
 		<ul class="main-nav nav navbar-nav">
+			<!--
 			<li class="dropdown">
 				<a class="dropdown-toggle" id="findProjects" data-toggle="dropdown" 
 					ng-click="$event.preventDefault();"
@@ -68,16 +69,12 @@
 					</li>
 				</ul>
 			</li>
-			<li>
-				<a href="http://www.esm-master.pathfinder.gov.bc.ca/contact">
-					<span>CONTACT</span>
-				</a>
+			-->
+			<li ui-sref="projects">
+				<a ui-sref="dashboard">Home</a>
 			</li>
 			<li ng-if="authentication.user">
-				<a ui-sref="dashboard">My Projects </a>
-			</li>
-			<li ng-if="authentication.user">
-				<a x-modal-day-calculator>Calculator</a>
+				<a ui-sref="dashboard">My Projects</a>
 			</li>
 			<li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user)">
 				<a class="dropdown-toggle" 
@@ -100,13 +97,26 @@
 					</li>
 				</ul>
 			</li>
+			<li ng-if="authentication.user">
+				<a x-modal-day-calculator>Calculator</a>
+			</li>
+			<li>
+				<a ui-sref="contact">
+					<span>Contact</span>
+				</a>
+			</li>
+			<li>
+				<a ui-sref="guidance">
+					<span>Guidance</span>
+				</a>
+			</li>
 			<li ng-if="!authentication.user">
 				<a ui-sref="authentication.signin">
 					<span>Log In</span>
 				</a>
 			</li>
 			<li class="dropdown" ng-if="authentication.user">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
+				<a class="dropdown-toggle user-details" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="true">{{ authentication.user.displayName }} <span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
@@ -117,36 +127,3 @@
 		</ul>
 	</div>
 </header>
-
-<!--
-<div class="app-header hidden">
-	<nav class="navbar">
-
-		
-		<ul class="custom-nav">
-			<li class="custom-nav-item dropdown" ng-if="ENV === 'EAO' && systemMenu.shouldRender(authentication.user)">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="true" title="System Configuration">
-					<span class="glyphicon glyphicon-cog"></span>
-					<span>SYSTEM</span>
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
-					<li ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);" ng-class="{ active: $state.includes(item.state) }"
-						class="{{item.class}}">
-						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-					</li>
-					<li ng-if="application.userCan.manageRoles">
-						<a href x-role-users-modal x-context="application">Edit System Roles</a>
-					</li>
-					<li ng-if="application.userCan.managePermissions">
-						<a href x-role-permissions-modal x-context="application" x-object="application">Edit System Permissions</a>
-					</li>
-				</ul>
-			</li>
-
-		</ul>
-	
-	</nav>
-</div>
--->
