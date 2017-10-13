@@ -123,7 +123,6 @@ angular.module('documents')
 									return resolve(fldr);
 								})
 								.catch(function (err) {
-									console.log("Error", err);
 									return reject(err);
 								});
 							}));
