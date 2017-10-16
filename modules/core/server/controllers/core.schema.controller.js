@@ -272,6 +272,11 @@ var genSchema = function (name, definition) {
 		console.log("Enabling Full Text Search on Document Model.");
 		schema.index({"$**":"text"});
 	}
+	// Enable FTS on organizations
+	if (schema.obj._schemaName.default === "Organization") {
+		console.log("Enabling Full Text Search on Organization Model.");
+		schema.index({"$**":"text"});
+	}
 
 	//
 	// return

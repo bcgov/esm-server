@@ -5,6 +5,7 @@ var routes = require('../../../core/server/controllers/core.routes.controller');
 var policy = require('../../../core/server/controllers/core.policy.controller');
 var DocumentController = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 var ProjectController = require (path.resolve('./modules/projects/server/controllers/project.controller'));
+var OrgController = require (path.resolve('./modules/organizations/server/controllers/organization.controller'));
 var _        = require ('lodash');
 var ObjectId = require('mongodb').ObjectId;
 
@@ -23,6 +24,7 @@ module.exports = function (app) {
                     var results = [];
                     var projects = null;
                     var p = new ProjectController(opts);
+                    var o = new OrgController(opts);
                     var projectQuery = {};
                     // Project Filtering (objectID's are coming in).
                     if (req.query.project) {
@@ -53,7 +55,25 @@ module.exports = function (app) {
                         limit = parseInt(req.query.limit, 10);
                     }
                     // We're filtering our searches on project and orgs
-                    return p.findMany(projectQuery,"_id type name code ownership proponent")
+                    var orgQ = {};
+                    if (req.query.proponentstring) {
+                        orgQ = { $text: { $search: req.query.proponentstring }};
+                    }
+                    return o.findMany(orgQ)
+                    .then(function (orgs) {
+                        var ops = [];
+                        _.each(orgs, function (theOrg) {
+                            ops.push(theOrg._id);
+                        });
+                        if (ops.length > 0) {
+                            projectQuery = _.extend (projectQuery, { "proponent": {$in : ops}});
+                        }
+                        return;
+                    })
+                    .then(function () {
+                        console.log("projectQuery: ", projectQuery);
+                        return p.findMany(projectQuery,"_id type name code ownership proponent");
+                    })
                     .then(function (pdata) {
                         console.log("projects:", pdata.length);
                         projects = pdata;
