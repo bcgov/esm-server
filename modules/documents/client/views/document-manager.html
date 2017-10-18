@@ -173,7 +173,7 @@
 						ng-if="documentMgr.currentDirs.length == 0 && documentMgr.currentFiles.length == 0">This folder is empty.
 					</div>
 
-					<ul>
+					<ul class="folder-list">
 						<li class="fb-list-item" 
 							ng-class="{'selected': doc.selected}" 
 							ng-repeat="doc in documentMgr.currentDirs">
@@ -292,7 +292,7 @@
 						</li>
 					</ul>
 
-					<ul>
+					<ul class="file-list">
 						<li class="fb-list-item" 
 							ng-class="{'selected': doc.selected}" 
 							ng-repeat="doc in documentMgr.currentFiles">

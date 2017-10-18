@@ -1,0 +1,48 @@
+.document-manager-link {
+    section {
+        + section {
+            margin-top: 2rem;
+        }
+    }
+
+    h4 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+
+    .file-browser {
+        .folder-list {
+            .col {
+                &.name-col {
+                    .name {
+                        right: 10rem;
+                    }
+                }
+            }
+        }
+
+        .file-list {
+            .col {
+                &.name-col {
+                    .name {
+                        right: 5rem;
+                    }
+                }
+            }
+        }
+
+        .row-actions {
+            display: block;
+        }
+
+        &.select-files {
+            height: 40rem;
+        }
+
+        &.linked-files {
+            max-height: 40rem;
+            overflow-y: auto;
+        }
+    }
+}
