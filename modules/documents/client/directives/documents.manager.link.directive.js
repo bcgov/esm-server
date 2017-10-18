@@ -229,7 +229,6 @@ angular.module('documents')
 					$modal.open({
 						animation: true,
 						size: 'lg',
-						windowClass: 'fb-browser-modal',
 						templateUrl: 'modules/documents/client/views/document-manager-link-modal.html',
 						resolve: {},
 						controllerAs: 'linkModal',
