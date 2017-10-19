@@ -24,7 +24,6 @@ angular.module('documents')
 						$modal.open({
 						animation: true,
 						size: 'lg',
-						windowClass: 'fb-browser-modal',
 						templateUrl: 'modules/users/client/views/user-partials/dropzone-move.html',
 						resolve: {},
 						controllerAs: 'moveDlg',

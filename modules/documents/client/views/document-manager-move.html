@@ -1,5 +1,5 @@
 <!-- SELECTION DIALOG (step 1) -->
-<div ng-if="moveDlg.view === 'select'">
+<div class="document-manager-move" ng-if="moveDlg.view === 'select'">
   <div class="modal-header">
     <button type="button" class="btn btn-default close" ng-click="moveDlg.cancel()">
       <span aria-hidden="true">&times;</span>
@@ -9,7 +9,7 @@
 
   <div class="modal-body">
 
-    <div class="m-b-2">{{moveDlg.selectPromptText}}</div>
+    <div class="m-b-1">{{moveDlg.selectPromptText}}</div>
 
     <div class="file-browser">
       <div class="fb-header">
@@ -140,7 +140,7 @@
 <!-- / SELECTION DIALOG (step 1) -->
 
 <!-- CONFIRMATION DIALOG (step 2) -->
-<div class="confirm-dialog" ng-if="moveDlg.view === 'move'">
+<div class="document-manager-move confirm-dialog" ng-if="moveDlg.view === 'move'">
   <div class="modal-header">
     <button type="button" class="btn btn-default close" ng-click="moveDlg.cancel()">
       <span aria-hidden="true">&times;</span>

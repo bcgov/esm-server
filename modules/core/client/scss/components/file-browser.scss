@@ -455,7 +455,6 @@ a.icon-btn {
     .fb-list-item {
         @include flexbox();
         @include flex(1 1 auto);
-        @include userselect(none);
         position: relative;
 
         .avatar {
@@ -1061,19 +1060,6 @@ $fb-upload-target-border: 2px dashed #BBB;
 .fb-browser-modal {
     .fb-link-select-files {
         margin-bottom: 2rem;
-    }
-
-    .file-browser {
-        height: 40rem;
-    }
-
-    .linked-files-container {
-        max-height: 40rem;
-        overflow-y: auto;
-
-        .row-actions {
-            display: block;
-        }
     }
 }
 

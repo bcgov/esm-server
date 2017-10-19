@@ -1,6 +1,38 @@
 @import "modules/core/client/scss/global/mixins.scss";
 @import "modules/core/client/scss/global/helpers.scss";
 
+.document-manager {
+    position: relative;
+
+    .file-browser {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        bottom: 1rem;
+        left: 1rem;
+
+        .folder-list {
+            .col {
+                &.name-col {
+                    .name {
+                        right: 10rem;
+                    }
+                }
+            }
+        }
+
+        .file-list {
+            .col {
+                &.name-col {
+                    .name {
+                        right: 5rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
 .doc-sort-order-modal {
     .modal-body {
         @include flexbox();
