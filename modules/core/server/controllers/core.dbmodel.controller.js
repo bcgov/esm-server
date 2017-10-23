@@ -365,11 +365,12 @@ _.extend (DBModel.prototype, {
 			if (keywords) {
 				q = _.extend ({}, self.baseQ, { $text: { $search: keywords }});
 			}
-			if (dateRangeStart) {
-				q = _.extend (q, {"documentDate" : { $gte : new Date(dateRangeStart) }});
-			}
-			if (dateRangeEnd) {
+			if (dateRangeStart && dateRangeEnd) {
+				q = _.extend (q, { $and: [{ "documentDate": { $gte : new Date(dateRangeStart) }},{ "documentDate": { $lte : new Date(dateRangeEnd) }}]});
+			} else if (dateRangeEnd) {
 				q = _.extend (q, {"documentDate" : { $lte : new Date(dateRangeEnd) }});
+			} else if (dateRangeStart) {
+				q = _.extend (q, {"documentDate" : { $gte : new Date(dateRangeStart) }});
 			}
 			if (project) {
 				var projects = project.split(',');
