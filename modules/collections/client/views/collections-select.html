@@ -3,25 +3,37 @@
   <h3 class="modal-title" ng-if="!s.multiple">Update Collections</h3>
 	<h3 class="modal-title" ng-if="s.multiple">Add Documents to Collections</h3>
 </div>
-
 <div class="modal-body">
-	<section class="panel panel-default no-margin">
-		<table class="table table-scroll add-vc-table" ng-table="tableParams" show-filter="false">
-			<tr ng-repeat="c in s.items">
-				<td class="name-col select"
-					header-class="'name-col'"
-				 	data-title="'Name'">
-					<input type="checkbox" ng-click="s.select(c._id)" ng-checked="s.isSelected(c._id)"/>{{ c.displayName }}</td>
-				<td data-title="'Type'">{{ c.type }}</td>
-			</tr>
-      <tr ng-show="!s.items" class="text-center">
-        <td colspan="3">No collections found.</td>
-      </tr>
-    </table>
-	</section>
+		<div class="table-container">
+			<table class="user-search-table table table-hover table-scroll" ng-table="tableParams" show-filter="false">
+				<tr ng-repeat="c in s.items" ng-class="{'active':s.isSelected(c._id)}">
+					<td class="col checkbox-col"
+						header-class="'col checkbox-col'">
+						<div>
+							<input type="checkbox" 
+								ng-click="s.select(c._id)" 
+								ng-checked="s.isSelected(c._id)" 
+								id="select"/>
+							<label for="select">
+								<span class="glyphicon glyphicon-ok"></span>
+							</label>
+						</div>
+					</td>
+					<td data-title= "'Name'">
+						{{ c.displayName }}
+					</td>
+					<td data-title="'Type'">
+						{{ c.type }}
+					</td>
+				</tr>	
+				<tr ng-show="!s.items" class="text-center">
+					<td colspan="3">No collections found.</td>
+				</tr>
+			</table>
+	</div>
 </div>
-
 <div class="modal-footer">
 	<button class="btn btn-default" ng-click="s.cancel()">Cancel</button>
 	<button class="btn btn-primary" ng-disabled="s.multiple && !(s.selected && s.selected.length > 0)" ng-click="s.ok()">OK</span></button>
 </div>
+
