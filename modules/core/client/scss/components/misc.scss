@@ -193,35 +193,53 @@ $tag-height: 3rem;
 }
 
 
-// Fixed Alert
-$fixed-alert-width: 60rem;
-
-.welcome-alert {
+// Welcome Modal
+.welcome-dialog {
     position: fixed;
-    top: 3rem;
-    left: 50%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
     z-index: 999;
-    box-shadow: 0.5rem 0.5rem 1rem rgba(#000, 0.2);
-    margin-left: calc(#{$fixed-alert-width} * -0.5);
-    padding: 2rem;
-    width: 60rem;
-    background-color: #FFF;
-    color: #494949;
+    padding: 0;
+    overflow-y: auto;
 
-    h2, p {
-        margin-bottom: 2rem;
-    }
+    &__content {
+        margin: 1.5rem;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: #fff;
+        -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+        box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 
-    p {
-        + p {
+        h3 {
             margin-top: 0;
+            margin-bottom: 2rem;
+        }
+    
+        p { 
+            margin-top: 0;
+            margin-bottom: 0;
+
+            + p {
+                margin-top: 2rem;
+            }
+        }
+    
+        .buttons {
+            margin-top: 1.5rem;
         }
     }
+}
 
-    .btn {
-        padding: 0.75rem 1rem;
-        width: 10rem;
-        font-size: 1.5rem;
+@media (min-width: 768px) {
+    .welcome-dialog {
+        top: 3rem;
+        left: 50%;
+        bottom: auto;
+        margin-left: -30rem;
+        width: 60rem;
     }
 }
 
