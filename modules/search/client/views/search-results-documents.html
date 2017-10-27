@@ -26,7 +26,7 @@
 						<th class="name-col sortable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('name')">Name
 							<span class="sort-icon" ng-show="vm.sorting.column === 'name'"></span>
 						</th>
-						<th class="date-added-col sortable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('date')">Uploaded
+						<th class="date-col sortable" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('date')">Document Date
 							<span class="sort-icon" ng-show="vm.sorting.column === 'date'"></span>
 						</th>
 						<th class="status-col sortable" ng-if="vm.authentication.user" ng-class="vm.sorting.ascending" ng-click="vm.sortBy('status')">Status
@@ -53,8 +53,8 @@
 											</div>
 										</div>
 									</td>
-									<td class="date-added-col">
-										{{ item.dateUploaded | date : format : timezone }}
+									<td class="date-col">
+										{{ item.doc.documentDate | date : format : timezone }}
 									</td>
 									<td class="status-col" ng-if="vm.authentication.user">
 										<span class="label label-success" ng-if="item.isPublished" title="Published">Published</span>

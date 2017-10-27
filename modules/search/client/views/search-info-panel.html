@@ -28,8 +28,16 @@
 						<span class="name">Status:</span>
 						<span class="value">
 							<span class="label label-success" ng-if="vm.doc.isPublished">Published</span>
-							<span class="label label-default" ng-if="!vm.doc.isPublished">Not Published</span>
+							<span class="label label-unpublished" ng-if="!vm.doc.isPublished">Unpublished</span>
 						</span>
+					</li>
+					<li>
+						<span class="name">Name:</span>
+						<span class="value">{{ vm.doc.displayName | removeExtension }}</span>
+					</li>
+					<li ng-if="vm.doc.documentType">
+						<span class="name">Document Type:</span>
+						<span class="value">{{ vm.documentTypes.display(vm.doc.documentType) }}</span>
 					</li>
 					<li>
 						<span class="name">Document Date:</span>
@@ -39,17 +47,17 @@
 						<span class="name">Uploaded Date:</span>
 						<span class="value">{{ vm.doc.dateUploaded | date : format : timezone }}</span>
 					</li>
+					<li ng-if="vm.authentication.user">
+						<span class="name">File Name:</span>
+						<span class="value">{{ vm.doc.documentFileName }}</span>
+					</li>
 					<li>
-						<span class="name">Size:</span>
+						<span class="name">File Size:</span>
 						<span class="value">{{ vm.doc.internalSize | bytes:2 }}</span>
 					</li>
 					<li>
-						<span class="name">Type:</span>
+						<span class="name">File Type:</span>
 						<span class="value">{{ vm.doc.internalExt }}</span>
-					</li>
-					<li ng-if="vm.doc.documentType">
-						<span class="name">Document Type:</span>
-						<span class="value">{{ vm.documentTypes.display(vm.doc.documentType) }}</span>
 					</li>
 					<li ng-if="vm.doc.documentType ==='Inspection Report' && vm.doc.inspectionReport">
 						<span class="name">Inspector Initials:</span>

@@ -552,15 +552,6 @@ a.icon-btn {
 }
 
 @media only screen
-    and (max-device-width: 768px) {
-    .fb-list {
-        .col + .col {
-            display: none;
-        }
-    }
-}
-
-@media only screen
     and (max-device-width: 1024px) {
     .fb-list {
         .fb-col-group {
@@ -601,14 +592,6 @@ span.avatar {
     &.size-col {
         @include flex(0 0 18%)
     }
-
-    &.status-col {
-        @include flex(0 0 18%)
-    }
-
-    &.status-col {
-        @include flex(0 0 26%)
-    }
 }
 
 .col.size-col{
@@ -625,10 +608,6 @@ span.avatar {
 
 .col.status-col {
     @include flex(0 0 26%);
-}
-
-.col.date-added-col {
-    @include flex(0 0 24%);
 }
 
 
@@ -771,7 +750,8 @@ span.avatar {
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    font-size: 2.2rem;
+                    font-size: 2rem;
+                    font-weight: bold;
                 }
 
                 .close {
@@ -792,7 +772,7 @@ span.avatar {
         }
 
         .title-panel-btns {
-            padding-top: 1.5rem;
+            padding-top: 1.75rem;
         }
 
         section {
@@ -810,7 +790,7 @@ span.avatar {
             h3 {
                 margin-top: 0;
                 margin-bottom: 1rem;
-                font-size: 1.6rem;
+                font-size: 1.4rem;
                 font-weight: bold;
                 border-bottom: none;
             }

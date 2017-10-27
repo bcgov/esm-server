@@ -151,10 +151,10 @@
 						<span>Name</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
 					</div>
-					<div class="col date-added-col sortable" 
+					<div class="col date-col sortable" 
 						ng-class="{'descending': !documentMgr.sorting.ascending}" 
 						ng-click="documentMgr.sortBy('date')">
-						<span>Uploaded</span>
+						<span>Document Date</span>
 						<span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
 					</div>
 					<div class="col status-col last-col sortable" 
@@ -196,8 +196,7 @@
 										{{ doc.model.folderObj.displayName }}
 									</span>
 								</span>
-								<span class="col author-col" hidden>---</span>
-								<span class="col date-added-col">---</span>
+								<span class="col date-col">---</span>
 								<span class="col status-col last-col" 
 									ng-if="authentication.user">
 									<span class="label label-success" title="Published" 
@@ -321,10 +320,7 @@
 										{{ doc.displayName | removeExtension }}
 									</span>
 								</span>
-								<span class="col author-col" title="{{ doc.documentAuthor }}" hidden>
-									{{ doc.documentAuthor }}
-								</span>
-								<span class="col date-added-col">{{ doc.dateUploaded | date : format : timezone }}</span>
+								<span class="col date-col">{{ doc.documentDate | date : format : timezone }}</span>
 								<span class="col status-col last-col" 
 									ng-if="authentication.user">
 									<span class="label label-success" title="Published"
@@ -552,6 +548,14 @@
 									</span>
 								</li>
 								<li>
+									<span class="name">Name:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.displayName | removeExtension }}</span>
+								</li>
+								<li ng-if="documentMgr.infoPanel.data.documentType">
+									<span class="name">Document Type:</span>
+									<span class="value">{{ documentTypes.display(documentMgr.infoPanel.data.documentType) }}</span>
+								</li>
+								<li>
 									<span class="name">Document Date:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.documentDate | date : format : timezone }}</span>
 								</li>
@@ -559,23 +563,17 @@
 									<span class="name">Uploaded Date:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.dateUploaded | date : format : timezone }}</span>
 								</li>
-								<li>
-									<span class="name">Link:</span>
-									<span class="value break-all">
-										<a href="{{documentMgr.infoPanel.data.link}}" target="_blank">{{ documentMgr.infoPanel.data.link }}</a>
-									</span>
+								<li ng-if="authentication.user">
+									<span class="name">File Name:</span>
+									<span class="value">{{ documentMgr.infoPanel.data.documentFileName }}</span>
 								</li>
 								<li>
-									<span class="name">Size:</span>
+									<span class="name">File Size:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.internalSize | bytes:2 }}</span>
 								</li>
 								<li>
-									<span class="name">Type:</span>
+									<span class="name">File Type:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.internalExt }}</span>
-								</li>
-								<li ng-if="documentMgr.infoPanel.data.documentType">
-									<span class="name">Document Type:</span>
-									<span class="value">{{ documentTypes.display(documentMgr.infoPanel.data.documentType) }}</span>
 								</li>
 								<li ng-if="documentMgr.infoPanel.data.documentType ==='Inspection Report' && documentMgr.infoPanel.data.inspectionReport">
 									<span class="name">Inspector Initials:</span>
@@ -585,9 +583,11 @@
 									<span class="name">Follow up:</span>
 									<span class="value">{{ documentMgr.infoPanel.data.inspectionReport.followup }}</span>
 								</li>
-								<li ng-if="authentication.user">
-									<span class="name">File Name:</span>
-									<span class="value">{{ documentMgr.infoPanel.data.documentFileName }}</span>
+								<li>
+									<span class="name">Link:</span>
+									<span class="value break-all">
+										<a href="{{documentMgr.infoPanel.data.link}}" target="_blank">{{ documentMgr.infoPanel.data.link }}</a>
+									</span>
 								</li>
 								<li ng-if="project.userCan.manageFolders && documentMgr.infoPanel.data.collections.length > 0">
 									<span class="name">Collection(s):</span>
