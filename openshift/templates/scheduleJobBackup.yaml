@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: mongodb-backup-template
+  annotations:
+    description: 'Template for MongoDB container backup job'
+    tags: 'database,mongodb'
+parameters:
+  - name: MONGODB_BACKUP_KEEP
+    description: 'Number of backups to retain'
+    value: '15'
+  - name: MONGODB_BACKUP_SCHEDULE
+    description: 'Cron-like schedule expression. Default: Every day at 1am'
+    value: '0 1 * * *'
+  - name: MONGODB_BACKUP_VOLUME_CLAIM
+    description: 'Name of the volume claim to be used as storage'
+    value: 'mongodb-backup'
+  - name: MONGODB_ADMIN_PASSWORD
+    description: 'MongoDB admin user''s password. Required.'
+    value: ''
+  - name: MONGODB_HOST
+    description: 'MongoDB host to connect to. Required.'
+    value: ''
+  - name: MONGODB_PORT
+    description: 'MongoDB port - default 27017.'
+    value: '27017'
+  - name: JSON_PAYLOAD
+    description: 'Content to send with the notification to the channel.'
+    value: '{"text":"Backup Job Completed Successfully!"}'
+  - name: CHANNEL_ENDPOINT
+    description: 'HTTPS endpoint that receives the notification.'
+    value: ''
+objects:
+  - apiVersion: batch/v2alpha1
+    kind: ScheduledJob
+    metadata:
+      name: mongodb-backup
+    spec:
+      schedule: ${MONGODB_BACKUP_SCHEDULE}
+      concurrencyPolicy: Forbid
+      jobTemplate:
+        spec:
+          template:
+            metadata:
+              labels:
+                parent: 'mongodb-backup'
+            spec:
+              volumes:
+                - name: mongodb-backup
+                  persistentVolumeClaim:
+                    claimName: ${MONGODB_BACKUP_VOLUME_CLAIM}
+              containers:
+                - name: mongodb-backup
+                  image: 'registry.access.redhat.com/rhscl/mongodb-32-rhel7'
+                  command:
+                    - 'bash'
+                    - '-c'
+                    - 'ls -rdt /data/dump-* | head -n -$MONGODB_BACKUP_KEEP | xargs rm -rf; DIR=/data/dump-`date +%F-%T`; mongodump -j 1 -u admin -p ${MONGODB_ADMIN_PASSWORD} --host ${MONGODB_HOST} --authenticationDatabase=admin --gzip --out=$DIR && echo "Backup complete" && curl -X POST -H "Content-type: application/json" --data "${JSON_PAYLOAD}" ${CHANNEL_ENDPOINT}'
+                  env:
+                    - name: MONGODB_BACKUP_KEEP
+                      value: ${MONGODB_BACKUP_KEEP}
+                    - name: MONGODB_ADMIN_PASSWORD
+                      value: ${MONGODB_ADMIN_PASSWORD}
+                  volumeMounts:
+                    - name: mongodb-backup
+                      mountPath: /data
+              restartPolicy: Never
