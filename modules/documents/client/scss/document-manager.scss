@@ -10,23 +10,62 @@
         right: 1rem;
         bottom: 1rem;
         left: 1rem;
+    }
+}
 
-        .folder-list {
+@media (max-width: 768px) {
+    .document-manager {
+        .file-browser {
             .col {
-                &.name-col {
-                    .name {
-                        right: 10rem;
+                &.date-col,
+                &.status-col {
+                    display: none;
+                }
+            }
+
+            .folder-list {
+                .col {
+                    &.name-col {
+                        .name {
+                            right: 10rem;
+                        }
+                    }
+                }
+            }
+    
+            .file-list {
+                .col {
+                    &.name-col {
+                        .name {
+                            right: 5rem;
+                        }
                     }
                 }
             }
         }
+    }
+}
 
-        .file-list {
+@media (min-width: 1024px) {
+    .document-manager {
+        .file-browser {
             .col {
-                &.name-col {
-                    .name {
-                        right: 5rem;
-                    }
+                &.date-col,
+                &.status-col {
+                    @include flexbasis(25%); 
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1600px) {
+    .document-manager {
+        .file-browser {
+            .col {
+                &.date-col,
+                &.status-col {
+                   @include flexbasis(20%); 
                 }
             }
         }

@@ -32,12 +32,8 @@
                         <span class="sort-icon" ng-show="documentMgr.sorting.column === 'name'"></span>
                     </div>
                     <div class="col date-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('date')">
-                        <span>Uploaded</span>
+                        <span>Document Date</span>
                         <span class="sort-icon" ng-show="documentMgr.sorting.column === 'date'"></span>
-                    </div>
-                    <div class="col size-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('size')">
-                        <span>Size</span>
-                        <span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
                     </div>
                     <div class="col status-col last-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')" ng-if="authentication.user && publishedOnly !== 'true'">
                         <span>Status</span>
@@ -63,9 +59,7 @@
                                     </span>
                                 </span>
                                 <span class="col date-col">---</span>
-                                <span class="col size-col">---</span>
                                 <span class="col status-col last-col" ng-if="authentication.user && publishedOnly !== 'true'">---</span>
-                                <div class="row-actions"></div>
                             </span>
                         </li>
                     </ul>
@@ -88,8 +82,7 @@
                                         {{ doc.displayName | removeExtension }}
                                     </span>
                                 </span>
-                                <span class="col date-col">{{ doc.dateUploaded | date }}</span>
-                                <span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
+                                <span class="col date-col">{{ doc.documentDate | date }}</span>
                                 <span class="col status-col last-col" ng-if="authentication.user && publishedOnly !== 'true'">
                                     <span class="label label-success" ng-if="doc.isPublished == true">PUBLISHED</span>
                                     <span class="label label-unpublished" ng-if="doc.isPublished == false">UNPUBLISHED</span>

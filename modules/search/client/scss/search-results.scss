@@ -125,10 +125,6 @@ x-search-info-panel {
                         visibility: visible;
                     }
                 }
-
-                &.actions-col.x1 {
-                    width: 6.7rem;
-                }
             }
         }
     }
@@ -141,8 +137,7 @@ x-search-info-panel {
                 padding: 0;
                 vertical-align: top;
 
-                &.actions-col.x1 {
-                    width: 5rem;
+                &.actions-col {
                     text-align: initial;
 
                     .dropdown-menu {
@@ -238,19 +233,6 @@ x-search-info-panel {
             background-color: blue;
         }
     }
-
-    .date-added-col {
-        width: 11rem;
-    }
-
-    .status-col {
-        width: 10rem;
-
-        .glyphicon {
-            font-size: 1.8rem;
-            vertical-align: top;
-        }
-    }
 }
 
 @media (orientation: portrait)
@@ -276,26 +258,33 @@ and (max-device-width: 768px)  {
 @media (orientation: landscape)
 and (max-device-width: 1024px)  {
     .sr-table {
-        thead {
-            > tr {
-                > th {
-                    &.actions-col.x1 {
-                        width: 5rem;
-                    }
-                }
-            }
+        .actions-col {
+            width: 5rem;
+        }
+
+        .date-col{
+            width: 25%;
+        }
+
+        .status-col {
+            width: 20%;
         }
     }
 }
 
 @media (min-width: 1200px) {
     .sr-table {
-        .date-added-col {
-            width: 20rem;
+        thead {
+            padding-right: 17px;
         }
 
+        .actions-col {
+            width: 5rem;
+        }
+
+        .date-col,
         .status-col {
-            width: 12rem;
+            width: 20%;
         }
     }
 }

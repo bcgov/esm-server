@@ -30,6 +30,12 @@
 	flex-direction: $values;
 }
 
+@mixin flexbasis($values) {
+	-webkit-flex-basis: $values;
+	-ms-flex-basis: $values;
+	flex-basis: $values;
+}
+
 @mixin flexflow($values) {
 	-webkit-flex-flow: $values;
 	-ms-flex-flow: $values;

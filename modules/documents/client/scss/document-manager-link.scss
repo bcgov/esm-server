@@ -12,6 +12,13 @@
     }
 
     .file-browser {
+        .col {
+            &.date-col,
+            &.status-col {
+                @include flexbasis(18rem); 
+            }
+        }
+
         .folder-list {
             .col {
                 &.name-col {
