@@ -1,0 +1,45 @@
+.edit-valued-component-view {
+	.form-group {
+		margin-bottom: 2rem;
+	}
+}
+
+.vc-chooser-view {
+	.list-group {
+		margin-bottom: 0;
+	}
+}
+
+.vc-details-panel-body {
+	padding-bottom: 0;
+}
+
+.vc-rtf-editor {
+	.mce-tinymce {
+		border: 1px solid #FFF;
+	}
+
+	.mce-panel {
+		background: #FFF;
+	}
+}
+
+.vc-list {
+	.status-col {
+		width: 10rem;
+
+		.label {
+			width: 100%;
+		}
+	}
+}
+
+.add-vc-table {
+	tbody {
+		height: 35rem;
+	}
+
+	.pillar-col {
+		width: 30rem;
+	}
+}

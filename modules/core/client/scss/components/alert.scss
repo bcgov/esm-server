@@ -1,0 +1,86 @@
+.alert {
+	h2 {
+		font-size: 2.2rem;
+		margin: 0;
+	}
+	
+	.close {
+		margin-top: -0.9rem;
+		color: #FFF;
+		opacity: 0.5;
+
+		&:hover,
+		&:focus {
+			color: #FFF;
+			opacity: 1;
+		}
+	}
+
+	&.flex-row {
+		.alert-icon {
+			padding-right: 1rem;
+			font-size: 1.6rem;
+			-webkit-flex: 0 0 auto;
+			flex: 0 0 auto;
+
+			.glyphicon {
+				margin-top: 2px;
+			}
+		}
+
+		.alert-msg {
+			-webkit-flex: 0 0 auto;
+			flex: 1 1 auto;
+
+			.alert-msg-title,
+			.alert-msg-details {
+				display: block;
+			}
+
+			.alert-msg-title {
+				font-size: 1.6rem;
+				font-weight: bold;
+			}
+
+			.alert-msg-details {
+				margin-top: 0.25rem;
+			}
+		}
+	}
+}
+
+.alert-info {
+	color: #FFF;
+	background: $info-bg;
+	border: 1px solid $info-border;
+}
+
+.alert-danger {
+	color: #FFF;
+	background: $danger-bg;
+	border: 1px solid $danger-border;
+}
+
+.alert-success {
+	color: #FFF;
+	background: $success-bg;
+	border: 0 solid $success-border;
+}
+
+.alert-warning {
+	color: #FFF;
+	background: $warning-bg;
+	border: 1px solid $warning-border;
+}
+
+.error-text {
+	display: none;
+}
+
+.has-error .help-block.error-text {
+	display: block;
+}
+
+.text-danger {
+	color: $danger-text !important;
+}

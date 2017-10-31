@@ -1,8 +1,82 @@
-$tab-active-bg: #5091cd;
-$tab-active-border: #4187c9;
-$tab-active-color: #fff;
+// TAB NAVIGATION
+.nav-tabs {
+	border-bottom: 4px solid $nav-tab-inactive-border-color;
+	
+	> li {
+		margin-bottom: -4px;
+
+		> a {
+			position: relative;
+			margin: 0;
+			padding: 0.7rem 1.5rem;
+			font-size: 1.6rem;
+			font-weight: bold;
+			color: $nav-tab-inactive-color;
+			border: none;
+			border-bottom: 4px solid $nav-tab-inactive-border-color;
+
+			&:hover {
+				background: transparent;
+			}
+
+			.glyphicon {
+				position: absolute;
+				top: 0.9rem;
+				left: 1rem;
+				display: none;
+				font-size: 1.6rem;
+			}
+		}
+
+		&.has-error {
+			> a {
+				padding-left: 3.5rem;
+			}
+
+			.glyphicon {
+				display: inline-block;
+			}
+		}
+
+		&.active {
+			> a {
+				color: $nav-tab-active-color;
+				background: transparent;
+				border: none;
+				border-bottom: 4px solid $nav-tab-active-border-color;
+			}
+
+			> a:hover,
+			> a:focus {
+				color: $nav-tab-active-color;
+				background: transparent;
+				border: none;
+				border-bottom: 4px solid $nav-tab-active-border-color;
+			}
+
+			&.has-error {
+				> a {
+					color: $danger-text;
+					border-bottom-color: $danger-border;
+					opacity: 1;
+				}
+
+				> a:hover,
+				> a:focus {
+					color: $danger-text;
+					border-bottom-color: $danger-border;
+				}
+			}
+		}
+	}
+}
+
+.tab-pane {
+	padding-top: 2.5rem;
+}
 
 
+// TOGGLE TABS
 .toggle-tabs {
     display: inline-block;
     margin: 0;
@@ -41,9 +115,9 @@ $tab-active-color: #fff;
             z-index: 2;
 
             .btn {
-                background: $tab-active-bg;
-                border-color: $tab-active-border;
-                color: $tab-active-color;
+                background: $toggle-tab-active-bg;
+                border-color: $toggle-tab-active-border;
+                color: $toggle-tab-active-color;
             }
         }
     }

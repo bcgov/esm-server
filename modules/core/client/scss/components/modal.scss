@@ -1,4 +1,51 @@
-// Full Screen Modal Variant
+.modal {
+    &-header {
+        padding: 1.25rem 2rem;
+        border: none;
+
+        h3 {
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .close {
+            margin-right: -1rem;
+            font-size: 2.1rem;
+        }
+    }
+
+    &-footer {
+        padding: 1.5rem 2rem;
+        border: none;
+
+        .btn {
+            min-width: 8rem;
+        }
+    }
+
+    &-body {
+        padding: 2rem;
+        background: $modal-body-bg;
+    }
+
+    &-alert {
+        .modal-content {
+            border: none;
+        }
+    
+        .alert {
+            margin-bottom: 0;
+        }
+        
+        &-backdrop {
+            background: transparent;
+        }
+    }
+}
+
+// FULL SCREEN VARIANT
 .fs-modal {
     .modal-dialog {
         position: fixed;
@@ -26,4 +73,25 @@
             }
         }
     }
+}
+
+// TEMP OVERLAY
+.temp-overlay {
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1000;
+	background: rgba(0,0,0,0.5);
+}
+
+.modal.fade {
+	~ .temp-overlay {
+		display: none;
+	}
+
+	&.in ~ .temp-overlay {
+		position: fixed;
+		display: block;
+	}
 }

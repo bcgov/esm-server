@@ -1,0 +1,26 @@
+.badge {
+    padding-bottom: 0.4rem;
+    border-radius: 0.4rem;
+    text-transform: uppercase;
+	padding: 0.5rem 1rem 0.4rem 1rem;
+	font-size: 1.2rem;
+    font-weight: normal;
+    
+    &.success {
+        color: $badge-success-color;
+        background: $badge-success-bg;
+    }
+}
+
+.label {
+	display: inline-block;
+    padding-top: 0.5rem;
+    text-transform: uppercase;
+	font-size: 1.2rem;
+    font-weight: normal;
+    
+    &.label-unpublished {
+        color: $badge-unpublished-color;
+        background: $badge-unpublished-bg;
+    }
+}

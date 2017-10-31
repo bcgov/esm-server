@@ -1,22 +1,200 @@
-$view-panel-bg: #FFF;
-$view-panel-border: 1px solid #EEE;
-
-tmpl-header,
-tmpl-footer {
-    @include flex(0 0 auto);
-	display: block;
+html, body {
+	height: 100%;
+	overflow-y: hidden;
 }
 
-ui-view {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    overflow-y: auto;
+html {
+	min-height: 100%;
 }
 
-// Application
+body {
+	padding: 0;
+	min-height: 100%;
+	color: $app-base-color;
+	background-color: $app-bg;
+	font-family: $font-family-sans-serif;
+	font-size: 1.4rem;
+	-ms-overflow-style: scrollbar;
+}
+
+section {
+	h2 {
+		margin-top: 0;
+		margin-bottom: 1rem;
+		font-size: 1.6rem;
+		font-weight: bold;
+	}
+
+	+ section {
+		margin-top: 3rem;
+	}
+}
+
+// SIDENAV
+.sidenav {
+    z-index: 2;
+
+    &-overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        z-index: 1;
+
+        &.open {
+            visibility: visible;
+            
+            .sidenav {
+                transform: translateX(0);
+            }
+        }
+    }
+
+	.nav-pills {
+		a {
+			padding: 0.8rem 1.5rem;
+			font-size: 1.4rem;
+			font-weight: normal;
+			color: $link-color;
+			border: 1px solid transparent;
+			border-radius: 0;
+
+			.glyphicon {
+				top: 0.3rem;
+				display: table-cell;
+				font-size: 1.6rem;
+
+				+ span {
+					display: table-cell;
+					padding-left: 0.7rem;
+				}
+			}
+
+			&:hover {
+				background: $sidenav-hover-bg;
+			}
+		}
+    }
+
+	h4 {
+		margin-left: 1.5rem;
+		margin-right: 1.5rem;
+		padding-top: 1rem;
+		font-size: 1.3rem;
+		font-weight: bold;
+		color: $link-color;
+		text-transform: uppercase;
+	}
+
+	hr {
+		margin: 0.7rem 1.5rem;
+	}
+
+	.project-home-link {
+		display: block;
+		color: #1a5a96;
+		text-decoration: none;
+		line-height: 1.75rem;
+		font-weight: bold;
+		background: #EEE;
+
+		&__inner-container {
+			display: table;
+			width: 100%;
+		}
+
+		&__project-name {
+			display: table-cell;
+			padding: 1.5rem;
+			vertical-align: middle;
+			height: 6.4rem;
+		}
+	}
+}
+
+// VIEW CONTAINERS
+.view-body-container,
+.view-body-insert,
+.view-footer-container {
+	padding: 2rem;
+}
+
+.view-title-container {
+	height: 6.4rem;
+	padding: 1.5rem 2rem;
+	border-bottom: 1px solid #EEE;
+	background: #FFF;
+	min-width: 0;
+
+    h1 {
+        margin: 0;
+        padding-top: 0.4rem;
+		font-size: 2.4rem;
+		font-weight: bold;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+    }
+
+	&.flex-row {
+		h1 {
+			-webkit-flex: 1 1 auto;
+			-ms-flex: 1 1 auto;
+			flex: 1 1 auto;
+		}
+
+		.actions {
+			-webkit-flex: 0 0 auto;
+			-ms-flex: 0 0 auto;
+			flex: 0 0 auto;
+
+			.btn {
+				min-width: 8rem;
+			}
+		}
+
+		.actions-group {
+			display: inline-block;
+		}
+	}
+
+	.actions {
+		padding-left: 2rem;
+
+		.permission-btn {
+			.btn {
+				min-width: 3rem;
+			}
+		}
+	}
+}
+
+.view-body-container {
+	overflow-y: auto;
+}
+
+.view-content {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    flex-flow: row nowrap;
+	
+	section:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.view-fix,
+.view-form {
+    @include flexbox();
+    @include flexflow(column nowrap);
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+// APPLICATION
 .app-container {
     @include flexbox();
     @include flexflow(column nowrap);
@@ -72,7 +250,6 @@ ui-view {
     }
 
     .main-panel {
-        @include flexbox();
         position: absolute;
         top: 0;
         bottom: 0;
@@ -82,7 +259,7 @@ ui-view {
     }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1020px) {
     .app-main {
         @include flexbox();
         flex-direction: row;
@@ -107,7 +284,6 @@ ui-view {
             .sidenav {
                 position: absolute;
                 transform: translateX(0);
-                width: 22rem;
             }
 
             .sidenav-overlay {
@@ -120,7 +296,6 @@ ui-view {
         }
     }
 }
-
 
 // Main Panel Layout
 ui-view {
@@ -136,15 +311,53 @@ ui-view {
 .main-panel {
     @include flexbox();
     @include flexdirection(column);
+
+    .view-title-container {
+        @include flexbox();
+        @include flex(0 0 auto);
+        padding: 1.5rem 2rem;
+	    border-bottom: $view-panel-border;
+	    background-color: $view-panel-bg;
+
+        h1 {
+            @include flex(1 1 auto);
+            margin: 0;
+            padding-top: 0.7rem;
+            font-size: 2rem;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mobile-nav-btn {
+            margin-right: 0.75rem;
+            margin-left: -0.5rem;
+        }
+
+        .actions {
+            @include flex(0 0 auto);
+        }
+    }
+
+    .view-body-container {
+        @include flex(1 1 auto);
+        padding: 2rem;
+        overflow-y: auto;
+    }
 }
 
-// View Form
-.view-form {
-    @include flexbox();
-    @include flexdirection(column);
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+@media (min-width: 1020px) {
+    .main-panel {
+        .view-title-container {
+            h1 {
+                padding-top: 0.4rem;
+                font-size: 2.4rem;
+            }
+
+            .mobile-nav-btn {
+                display: none;
+            }
+        }
+    }
 }

@@ -1,34 +1,42 @@
-// Show More link
-.show-more-link {
-    font-weight: bold;
+hr {
+	border-top: 1px solid #DDD;
 }
 
-/* LIST VARIATIONS */
-.comma-separated-list {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+pre {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+	background-color: transparent;
+	white-space: pre-wrap;
+	word-break: keep-all;
+	font-family: $font-family-sans-serif;
+	font-size: $app-base-font-size;
 
-    li {
-        position: relative;
-        display: inline-block;
+	p {
+		display: inline-block;
+		margin-bottom: 0.5rem;
+		line-height: inherit;
 
-        &:after {
-            display: inline-block;
-            content: ',';
-        }
-    }
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 
-    li:last-child {
-        &:after {
-            display: none;
-        }
-    }
+	ul {
+		margin-bottom: 0;
+	}
+
+	li {
+		margin-top: -2rem;
+
+		&:last-child {
+			margin-bottom: -2rem;
+		}
+	}
 }
 
-
-/* TAG LIST 
------------------------------- */
+// TAG LIST
 $tag-height: 3rem;
 
 .tag-list-container {
@@ -106,8 +114,7 @@ $tag-height: 3rem;
 	}
 }
 
-
-/* Date Picker Popup */
+// DATE PICKER POPUP
 .datepicker {
     .datepicker-input {
         position: relative;
@@ -192,7 +199,6 @@ $tag-height: 3rem;
     }
 }
 
-
 // Welcome Modal
 .welcome-dialog {
     position: fixed;
@@ -211,6 +217,7 @@ $tag-height: 3rem;
         border-radius: 0.5rem;
         background: #fff;
         -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+        -moz-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
         box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
 
         h3 {
@@ -240,16 +247,5 @@ $tag-height: 3rem;
         bottom: auto;
         margin-left: -30rem;
         width: 60rem;
-    }
-}
-
-
-// Labels 
-.label {
-    text-transform: uppercase;
-
-    &.label-unpublished {
-        color: #fff;
-        background:#ccc;
     }
 }
