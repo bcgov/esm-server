@@ -1,4 +1,3 @@
-
 $pcp-alert-bg: #003366;
 $pcp-alert-color: #ddd;
 $pcp-alert-strong-color: #fff;
@@ -194,7 +193,6 @@ $pcp-comment-icon-color: #ccc;
         }
     }
 }
-
 
 @media (min-width: 760px) {
     .pcp-table {
@@ -480,7 +478,6 @@ $pcp-comment-icon-color: #ccc;
 }
 
 .pcp-comment-header {
-
     + .tab-pane {
         padding-top: 0;
     }
@@ -635,7 +632,6 @@ $pcp-comment-icon-color: #ccc;
     }
 }
 
-
 // Open House Dates
 .open-house-table {
     thead {
@@ -669,14 +665,51 @@ $pcp-comment-icon-color: #ccc;
     }
 
     P {
-        margin-bottom: 1.5rem;
-    }
-
-    section {
-        margin-bottom: 4rem;
+        margin-bottom: 2rem;
     }
 }
 
+// LINKED DOCUMENTS
+.pcp-linked-documents {
+    .col {
+        &.size-col {
+            flex-basis: 14%;
+        }
+
+        &.status-col {
+            flex-basis: 20%;
+        }
+
+        &.type-col {
+            flex-basis: 12%;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .pcp-linked-documents {
+        .col {
+            &.status-col,
+            &.type-col {
+                display: none;
+            }
+
+            &.size-col {
+                flex-basis: 11rem;
+            }
+        }
+    }
+}
+
+// EDIT DETAILS
+.edit-pcp-details {
+    max-width: 1280px;
+
+    .date-picker {
+        min-width: 100%;
+        max-width: 100%;
+    }
+}
 
 // Joint PCP
 .pcp-joint {
@@ -738,7 +771,6 @@ $pcp-comment-icon-color: #ccc;
                 background-color: #ddd;
             }
         }
-
     }
 }
 /*

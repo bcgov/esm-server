@@ -113,6 +113,9 @@ textarea {
 .date-picker {
 	position: relative;
 	padding-right: 4rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	min-width: 17rem;
 	max-width: 17rem;
 
@@ -143,7 +146,17 @@ textarea {
 	padding-top: 0.7rem;
 	
 	input[type="radio"] {
-		margin-top: 2px;
+		margin-top: -0.2rem;
+		margin-right: 0.2rem;
+		vertical-align: middle;
+	}
+
+	&.inline {
+		.control-label {
+			+ .control-label {
+				margin-left: 2rem;
+			}
+		}
 	}
 }
 

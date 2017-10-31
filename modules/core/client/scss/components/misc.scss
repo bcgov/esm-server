@@ -249,3 +249,17 @@ $tag-height: 3rem;
         width: 60rem;
     }
 }
+
+.table-center table {
+	margin: 0 auto;
+}
+
+a.return-link {
+	text-decoration: none;
+	font-size: 14px;
+	color: #333333;
+}
+
+a.return-link:hover {
+	text-decoration: none;
+}
