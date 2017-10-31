@@ -33,6 +33,8 @@ $pcp-comment-icon-color: #ccc;
 }
 
 .pcp-table {
+    table-layout: fixed;
+
     td {
         &.date-col {
             font-weight: bold;
@@ -949,4 +951,36 @@ Don't want to apply this to all uses of fb-col-group.
     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     border: 1px solid #a94442;
+}
+
+// TOPIC CLOUD CONTAINER
+.topic-cloud-container {
+	width: 100%;
+	height: calc(100% - 5.6rem);
+	overflow: hidden;
+
+	svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.modal.img-view-modal {
+	padding-left: 0 !important;
+	overflow: hidden;
+
+	.modal-header {
+		color: #FFF;
+
+		.close {
+			font-size: 2.2rem;
+			color: #FFF;
+			text-shadow: none;
+			opacity: 1;
+		}
+	}
+
+	& ~ .temp-overlay {
+		background: rgba(0,0,0,0.8);
+	}
 }

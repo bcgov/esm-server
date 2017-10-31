@@ -1,0 +1,58 @@
+// PERMISSIONS INTERFACE
+.permissions-settings-table {
+	.permissions-col {
+		width: 8rem;
+		text-align: center;
+	}
+}
+
+.permissions-modal {
+	.form-group.manage-permission {
+		.btn {
+			margin-bottom: 1rem;
+		}
+	}
+
+	.select-permission {
+		.form-control {
+			margin-bottom: 0.5rem;
+		}
+	}
+
+	.panel {
+		margin-bottom: 0;
+		height: 30rem;
+		overflow-y: auto;
+		border: 1px solid #CCC;
+	}
+
+	.list-group {
+		.checkbox {
+			margin: 0;
+		}
+
+		.list-group-item {
+			padding: 0;
+		}
+
+		.list-group-item:hover {
+			background-color: #EEE;
+		}
+
+		label {
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			padding-left: 3.5rem;
+			display: block;
+		}
+	}
+
+	.btn-link {
+		font-weight: bold;
+	}
+
+	.new-role-btn {
+		margin-top: -0.4rem;
+		margin-bottom: -0.4rem;
+	}
+}

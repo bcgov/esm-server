@@ -1,0 +1,220 @@
+// ANCHOR LIST
+.anchor-list {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+
+	a {
+		margin-right: 0.5rem;
+		text-decoration: underline;
+	}
+
+	+ .btn {
+		margin-top: 0.8rem;
+	}
+}
+
+// CHECK LIST
+.check-list {
+	.list-group-item {
+		padding-left: 3.5rem;
+		cursor: pointer;
+
+		input {
+			position: absolute;
+			left: 1.5rem;
+			top: 1.2rem;
+			margin: 0;
+		}
+	}
+}
+
+// COMMA SEPARATED
+.comma-separated-list {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    li {
+        position: relative;
+        display: inline-block;
+
+        &:after {
+            display: inline-block;
+            content: ',';
+        }
+    }
+
+    li:last-child {
+        &:after {
+            display: none;
+        }
+    }
+}
+
+// CUSTOM SELECT LIST
+.custom-select-list {
+	li {
+		display: inline-block;
+		margin-right: 0.4rem;
+		padding-top: 0;
+
+		.btn {
+			padding: 0.3rem 1rem;
+			font-size: 1.2rem;
+			font-weight: normal;
+		}
+	}
+}
+
+// LIST GROUP
+.list-group {
+	&.no-border {
+		.list-group-item {
+			border-left: none;
+			border-right: none;
+		}
+
+		.list-group-item:first-child {
+			border-top: none;
+			border-top-left-radius: 0;
+			border-top-right-radius: 0;
+		}
+		.list-group-item:last-child {
+			border-bottom: none;
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
+		}
+	}
+
+	+ .btn {
+		margin-top: 1rem;
+	}
+}
+
+.list-group-item {
+	&.flex-row {
+		padding: 0;
+
+		.icon {
+			flex: 0 0 auto;
+			padding-left: 1.25rem;
+
+			.glyphicon {
+				margin-top: 0.8rem;
+				font-size: 1.8rem;
+			}
+
+			+ .title {
+				padding-left: 0.75rem;
+			}
+		}
+
+		.title {
+			flex: 1 1 auto;
+			padding: 1rem 1.5rem;
+
+			.details {
+				display: block;
+				color: #888;
+			}
+		}
+
+		.actions {
+			flex: 0 0 auto;
+			padding-right: 0.5rem;
+
+			.btn-default {
+				margin-top: 0.5rem;
+				min-width: 3rem;
+				min-height: 3rem;
+				background: transparent;
+				border-color: transparent;
+
+				&:hover,
+				&:focus {
+					background: $btn-focus-bg-color;
+					border-color: $btn-focus-border-color;
+				}
+			}
+
+			.file-progress {
+				margin-top: 0.9rem;
+				margin-right: 0.5rem;
+				width: 14rem;
+
+				.progress {
+					margin: 0;
+				}
+			}
+		}
+	}
+}
+
+// PICK LIST
+.pick-list {
+	display: block;
+	padding: 1px;
+	border: 1px solid #DDD;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	
+	.btn {
+		display: block;
+		margin: 1px;
+		font-weight: normal;
+		text-align: left;
+		border: none;
+		border-radius: 0;
+		box-shadow: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	
+	label {
+		margin-bottom: 0;
+		font-weight: normal;
+		text-align: left;
+	}
+	
+	label:active, label:focus {
+		color: #FFF;
+		background: $pick-list-active-item-bg;
+		border-color: $pick-list-active-item-bg;
+	}
+	
+	.active, .active:hover, .active:focus {
+		color: #FFF;
+		background: $pick-list-active-item-bg;
+		border-color: $pick-list-active-item-bg;
+		box-shadow: none;
+	}
+}
+
+// TASK LIST
+.task-list {
+	margin-bottom: 0;
+
+	li {
+		padding-top: 5px;
+		position: relative;
+
+		&:first-child {
+			padding-top: 0;
+			position: relative;
+		}
+
+		&.task-current-status {
+			font-weight: 700;
+		}
+
+		button {
+			white-space: normal;
+			position: relative;
+			text-align: left;
+
+			&.btn-layer {
+				white-space: normal;
+			}
+		}
+	}
+}

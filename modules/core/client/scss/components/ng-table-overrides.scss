@@ -1,11 +1,3 @@
-
-$table-bg: #fff;
-$table-header-bg: #f7f8fa;
-$table-header-hover-bg: #EEE;
-$table-row-border: 1px solid #EEE;
-$table-row-hover-bg: #f7f8fa;
-$table-pagination-bg: #fff;
-
 .table {
     margin-bottom: 0;
     //background-color: $table-bg;
@@ -151,15 +143,6 @@ td.has-actions {
     }
 }
 
-// Pagination Control
-$pgn-container-bg: #f7f8fa;
-$pgn-btn-active-bg: #5091cd;
-$pgn-btn-active-color: #fff;
-
-$pgn-btn-border: 1px solid #ccc;
-$pgn-btn-color: #000;
-
-
 .ng-table-pager {
     padding: 1rem;
     overflow: hidden;
@@ -233,4 +216,34 @@ $pgn-btn-color: #000;
             }
         }
     }
+}
+
+.ng-table-page-btn {
+	color: $app-base-color;
+	border: $pgn-btn-border;
+}
+
+.ng-table-page-btn-active {
+	color: $pgn-btn-active-color;
+	background: $pgn-btn-active-bg;
+	border-color: $pgn-btn-active-bg;
+}
+
+.ng-table-pagination,
+.ng-table-counts {
+	margin-bottom: 1rem;
+}
+
+.ng-table-pagination {
+	display: block;
+	float: left;
+}
+
+.ng-table-counts {
+	.btn-default {
+		&.active,
+		&.active:hover {
+			@extend .ng-table-page-btn-active;
+		}
+	}
 }

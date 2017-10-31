@@ -1,7 +1,86 @@
-$radio-btn-bg: #fff;
-$radio-btn-border-color: #ccc;
-$radio-btn-active-color: #fff;
-$radio-btn-active-bg: #5091cd;
+button {
+    &.close {
+	margin-right: -1rem;
+	width: 3.4rem;
+	padding: 0.7rem;
+    font-weight: normal;
+    }
+}
+
+.btn {
+	font-size: $btn-font-size;
+    font-weight: bold;
+    
+    .glyphicon {
+		top: 1px;
+		font-size: 1.2rem;
+
+		+ span {
+			margin-left: 0.7rem;
+		}
+	}
+
+	&:active { 
+        box-shadow: none;
+    }
+
+    &-primary {
+        background: $btn-primary-bg;
+        &:hover,
+        &:active,
+        &:focus  { 
+            background: $btn-primary-focus-bg;
+        }
+    }
+
+    &-link {
+        &:hover,
+        &:focus {
+            color: $link-color;
+        }
+    }
+
+    &-link,
+    &-default {
+        &:focus {
+            border-color: $btn-focus-border-color;
+        }
+    }
+
+    &-sm {
+        font-size: $btn-sm-font-size;
+    }
+
+    &-sm,
+    &-xs {
+        font-size: $btn-sm-font-size;
+
+        .glyphicon {
+            top: 2px;
+    
+            + span {
+                margin-left: 0.5rem;
+            }
+        }
+    }
+}
+
+// BACK BUTTON
+.back-btn {
+	font-weight: bold;
+	text-decoration: underline;
+	
+	.glyphicon {
+		margin-top: 0;
+		margin-left: -0.5rem;
+		margin-right: 0.5rem;
+	}
+}
+
+// ICON BUTTON
+.icon-btn {
+	min-width: 3.4rem;
+}
 
 .radio-btn-group {
     @include clearfix();
@@ -52,5 +131,15 @@ $radio-btn-active-bg: #5091cd;
 
     + .radio-btn-group {
         margin-left: 1rem;
+    }
+}
+
+// BUTTON BAR
+.button-bar {
+    padding-bottom: 1.5rem;
+
+    &.bottom {
+        padding-top: 1.5rem;
+        padding-bottom: 0;
     }
 }
