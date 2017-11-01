@@ -394,11 +394,13 @@ angular.module('documents')
 				};
 
 				self.deleteDocument = function(documentID) {
+					var collections = null;
 					return Document.lookup(documentID)
-						.then( function (doc) {
+						.then(function(doc) {
+							collections = doc.collections;
 							return Document.getProjectDocumentVersions(doc._id);
 						})
-						.then( function (docs) {
+						.then(function(docs) {
 							// Are there any prior versions?  If so, make them the latest and then delete
 							// otherwise delete
 							if (docs.length > 0) {
@@ -407,9 +409,22 @@ angular.module('documents')
 								return null;
 							}
 						})
-						.then( function () {
-							// Delete it from the system.
+						.then(function() {
+							// EPIC-1259: If there are there any collections associated with this document,
+							// then delete the collection document reference in the collections as well.
+							var promises = _.union(_.map(collections, function(c) {
+								return CollectionModel.removeOtherDocument(c._id, documentID);
+							}), _.map(collections, function(c) {
+								return CollectionModel.removeMainDocument(c._id, documentID);
+							}));
+							return Promise.all(promises);
+						})
+						.then(function () {
+							// Delete the document from the system.
 							return Document.deleteDocument(documentID);
+						})
+						.catch (function(err) {
+							AlertService.error('The document could not be deleted.');
 						});
 				};
 
