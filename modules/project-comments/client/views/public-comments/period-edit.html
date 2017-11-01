@@ -1,4 +1,3 @@
-
 <div class="view-title-container flex-row">
     <h1><span ng-show="project.name">Add/Edit Comment Period</h1>
     <div class="actions">
@@ -38,72 +37,74 @@
 
     <!-- DETAILS TAB CONTENT -->
     <div class="tab-pane" ng-show="form.curTab === 'pcpDetails'">
-        <div class="row">
-            <div class="col-md-6 form-group">
+        <div class="edit-pcp-details">
+            <div class="form-group">
                 <label class="control-label">Comment Period Type</label>
                 <select ng-change="changeType()" ng-model="period.periodType" class="form-control">
                     <option ng-selected="selected">Public</option>
                 </select>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label">Set Date Range by</label>
-                    <select class="form-control"
-                        ng-change="typeChange()"
-                        ng-model="ui.rType"
-                        ng-options="t.displayName for t in rangeTypes"
-                        ng-selected="t === ui.rType">
-                    </select>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">Set Date Range by</label>
+                        <select class="form-control"
+                            ng-change="typeChange()"
+                            ng-model="ui.rType"
+                            ng-options="t.displayName for t in rangeTypes"
+                            ng-selected="t === ui.rType">
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label">Date Range</label>
-                    <select class="form-control"
-                        ng-disabled="!rangePickerEnabled"
-                        ng-change="periodChange()"
-                        ng-model="ui.rOption"
-                        ng-options="p.displayName for p in rangeOptions"
-                        ng-selected="p === ui.rOption">
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label">Start Date</label>
-                    <div class="form-control pcp-date date-picker"
-                        ng-disabled="!startPickerEnabled" x-max="period.dateCompleted"
-                        x-modal-date-picker x-selected-date="period.dateStarted" x-picker-enabled="startPickerEnabled"
-                        title="{{ period.dateStarted | amDateFormat:'HH:mm:ss' }}">
-                        <span ng-if="!period.dateStarted">Start Date</span>
-                        {{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
-                        <span class="glyphicon glyphicon-calendar"></span>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">Date Range</label>
+                        <select class="form-control"
+                            ng-disabled="!rangePickerEnabled"
+                            ng-change="periodChange()"
+                            ng-model="ui.rOption"
+                            ng-options="p.displayName for p in rangeOptions"
+                            ng-selected="p === ui.rOption">
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label">End Date</label>
-                    <div class="form-control pcp-date date-picker"
-                        ng-disabled="!endPickerEnabled" x-min="period.dateStarted"
-                        x-modal-date-picker x-selected-date="period.dateCompleted" x-picker-enabled="endPickerEnabled"
-                        title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}">
-                        <span ng-if="!period.dateCompleted">End Date</span>
-                        {{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
-                        <span class="glyphicon glyphicon-calendar"></span>
+            <div class="row">
+                <div class="col-sm-6 col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">Start Date</label>
+                        <div class="form-control date-picker"
+                            ng-disabled="!startPickerEnabled" x-max="period.dateCompleted"
+                            x-modal-date-picker x-selected-date="period.dateStarted" x-picker-enabled="startPickerEnabled"
+                            title="{{ period.dateStarted | amDateFormat:'HH:mm:ss' }}">
+                            <span ng-if="!period.dateStarted">Start Date</span>
+                            {{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="form-group">
+                        <label class="control-label">End Date</label>
+                        <div class="form-control date-picker"
+                            ng-disabled="!endPickerEnabled" x-min="period.dateStarted"
+                            x-modal-date-picker x-selected-date="period.dateCompleted" x-picker-enabled="endPickerEnabled"
+                            title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}">
+                            <span ng-if="!period.dateCompleted">End Date</span>
+                            {{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Description</label>
-            <textarea class="form-control" disabled ng-bind-html="period.instructions"></textarea>
-        </div>
-        <div class="form-group">
-            <label class="control-label">Additional Text</label>
-            <input class="form-control" type="input" ng-model="period.additionalText" spellcheck="false"></input>
+            <div class="form-group">
+                <label class="control-label">Description</label>
+                <textarea class="form-control" disabled ng-bind-html="period.instructions"></textarea>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Additional Text</label>
+                <input class="form-control" type="input" ng-model="period.additionalText" spellcheck="false"></input>
+            </div>
         </div>
     </div>
     <!-- / DETAILS TAB CONTENT -->
@@ -124,7 +125,7 @@
                     x-on-ok="addLinkedFiles"><span class="glyphicon glyphicon-link"></span><span>Link Documents</span></button>
         </div>
         <div class="fb-body">
-            <div class="fb-list">
+            <div class="fb-list pcp-linked-documents">
                 <div class="column-header">
                     <div class="fb-col-group">
                         <div class="col name-col first-col sortable" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('name')">
@@ -139,7 +140,7 @@
                             <span>Size</span>
                             <span class="sort-icon" ng-show="documentMgr.sorting.column === 'size'"></span>
                         </div>
-                        <div class="col size-col sortable last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')">
+                        <div class="col status-col sortable last-col" ng-class="{'descending': !documentMgr.sorting.ascending}" ng-click="documentMgr.sortBy('pub')">
                             <span>Status</span>
                             <span class="sort-icon" ng-show="documentMgr.sorting.column === 'pub'"></span>
                         </div>
@@ -158,11 +159,14 @@
                                     <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
                                     <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
                                 </span>
-                                <a href="/api/document/{{ doc._id }}/fetch" target="_self">{{doc.displayName}}</a>
+                                <a class="name" href="/api/document/{{ doc._id }}/fetch" target="_self">{{doc.displayName}}</a>
                             </span>
                             <span class="col type-col">{{ doc.internalExt}}</span>
                             <span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
-                            <span class="col status-col"><span ng-if="doc.isPublished" title="Published"><span class="glyphicon glyphicon-ok-circle"></span></span></span>
+                            <span class="col status-col">
+                                <span class="label label-success" ng-if="doc.isPublished" title="Published">Published</span>
+                                <span class="label label-unpublished" ng-if="!doc.isPublished" title="Unpublished">Unpublished</span>
+                            </span>
                             <span class="row-actions visible">
                                 <div class="btn-group">
                                     <button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
