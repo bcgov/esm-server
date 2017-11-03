@@ -55,7 +55,7 @@ objects:
                   command:
                     - 'bash'
                     - '-c'
-                    - 'ls -rdt /data/dump-* | head -n -$MONGODB_BACKUP_KEEP | xargs rm -rf; DIR=/data/dump-`date +%F-%T`; mongodump -j 1 -u admin -p ${MONGODB_ADMIN_PASSWORD} --host ${MONGODB_HOST} --authenticationDatabase=admin --gzip --out=$DIR && echo "Backup complete" && curl -X POST -H "Content-type: application/json" --data "${JSON_PAYLOAD}" ${CHANNEL_ENDPOINT}'
+                    - 'ls -rdt /data/dump-* | head -n -$MONGODB_BACKUP_KEEP | xargs rm -rf; DIR=/data/dump-`date +%F-%T`; mongodump -j 1 -u admin -p ${MONGODB_ADMIN_PASSWORD} --host ${MONGODB_HOST} --authenticationDatabase=admin --gzip --out=$DIR && echo "Backup complete" && curl -X POST -H "Content-type: application/json" --data ''${JSON_PAYLOAD}'' ${CHANNEL_ENDPOINT}'
                   env:
                     - name: MONGODB_BACKUP_KEEP
                       value: ${MONGODB_BACKUP_KEEP}
