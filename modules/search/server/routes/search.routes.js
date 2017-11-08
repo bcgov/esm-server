@@ -71,11 +71,11 @@ module.exports = function (app) {
             return;
           })
           .then(function () {
-            console.log("projectQuery: ", projectQuery);
+            // console.log("projectQuery: ", projectQuery);
             return p.findMany(projectQuery,"_id type name code ownership proponent");
           })
           .then(function (pdata) {
-            console.log("projects:", pdata.length);
+            // console.log("projects:", pdata.length);
             projects = pdata;
 
             if (projects && projects.length > 0) {
@@ -114,7 +114,6 @@ module.exports = function (app) {
           })
           .then(function () {
             // console.log("prjs:", projects.length);
-
             _.each(results, function (r) {
               var found = _.find(projects, {_id: r.project});
               if (found) {
@@ -191,11 +190,11 @@ module.exports = function (app) {
             return;
           })
           .then(function () {
-            console.log("projectQuery: ", projectQuery);
+            // console.log("projectQuery: ", projectQuery);
             return p.findMany(projectQuery,"_id type name code ownership proponent");
           })
           .then(function (pdata) {
-            console.log("projects:", pdata.length);
+            // console.log("projects:", pdata.length);
             projects = pdata;
 
             if (projects && projects.length > 0) {
@@ -223,7 +222,7 @@ module.exports = function (app) {
                         true); // include the count
 
             } else {
-              return [];
+              return { count: 0, results: [] };
             }
           })
           .then(function(data) {
@@ -236,7 +235,6 @@ module.exports = function (app) {
           })
           .then(function () {
             // console.log("prjs:", projects.length);
-
             _.each(results, function (r) {
               var found = _.find(projects, {_id: r.project});
               if (found) {
