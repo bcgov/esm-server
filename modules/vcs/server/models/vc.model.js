@@ -16,7 +16,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
 	__access      : [      // read / write / delete are automatic
 	    'publish',
 		'unPublish'],
-	__codename			: 'unique',
+	name				: { type: String, default: ''},
+	description			: { type: String, default: ''},	
 	title				: { type:String, default:'', index:true },
 	type				: { type:String, default:'', index:true },
 	topiccode			: { type:String, default:'', index:true },
