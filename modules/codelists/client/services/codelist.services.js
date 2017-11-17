@@ -1,3 +1,4 @@
+// jshint latedef: false
 'use strict';
 
 angular.module('core')

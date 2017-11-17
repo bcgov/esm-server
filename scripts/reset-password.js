@@ -1,3 +1,5 @@
+'use strict';
+
 var nodemailer = require('nodemailer'),
   mongoose = require('mongoose'),
   chalk = require('chalk'),
