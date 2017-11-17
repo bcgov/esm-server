@@ -7,7 +7,8 @@ var config = require('../config'),
   chalk = require('chalk'),
   path = require('path'),
   mongoose = require('mongoose');
-
+  // mongoose's promise library is deprecated, make use of the native promises instead
+  mongoose.Promise = Promise;
 // Load the mongoose models
 module.exports.loadModels = function () {
   // Globbing model files

@@ -5,6 +5,11 @@ angular.module('documents')
 
 		var inProgressFiles = [];
 
+		var setAllowedActions = function(service) {
+			service.actions.allowStart = (service.counts.total > 0 && !service.actions.busy && !service.actions.started) && (service.counts.uploading === 0, service.counts.failed === 0 && service.counts.cancelled === 0 && service.counts.uploaded === 0); // can't upload until last batch cleared...
+			service.actions.allowStop = (service.counts.total > 0 && service.actions.busy && service.actions.started);
+			service.actions.allowReset = (service.counts.total > 0 && !service.actions.busy && !service.actions.started); // clear ok when not uploading and we have files to remove
+		};
 
 		var initialize = function(service) {
 			if (service.actions.busy) {
@@ -39,11 +44,7 @@ angular.module('documents')
 			}
 		};
 
-		var setAllowedActions = function(service) {
-			service.actions.allowStart = (service.counts.total > 0 && !service.actions.busy && !service.actions.started) && (service.counts.uploading === 0, service.counts.failed === 0 && service.counts.cancelled === 0 && service.counts.uploaded === 0); // can't upload until last batch cleared...
-			service.actions.allowStop = (service.counts.total > 0 && service.actions.busy && service.actions.started);
-			service.actions.allowReset = (service.counts.total > 0 && !service.actions.busy && !service.actions.started); // clear ok when not uploading and we have files to remove
-		};
+
 
 		var addSingleFile = function(service, f) {
 			if (service.actions.busy) {
