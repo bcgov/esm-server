@@ -1,4 +1,3 @@
-
 <header class="app-header">
 	<div class="navbar-header">
 		<button class="navbar-toggle collapsed" type="button" 
@@ -11,11 +10,10 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" ui-sref="projects"></a>
+		<a class="navbar-brand" href="http://www.projects.eao.gov.bc.ca"></a>
 	</div>
 	<div class="collapse navbar-collapse" id="mainNav">
 		<ul class="main-nav nav navbar-nav">
-			<!--
 			<li class="dropdown">
 				<a class="dropdown-toggle" id="findProjects" data-toggle="dropdown" 
 					ng-click="$event.preventDefault();"
@@ -24,13 +22,13 @@
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="findProjects">
 					<li class="main-nav__menu-item">
-						<a href="http://www.esm-master.pathfinder.gov.bc.ca/project">
+						<a href="http://www.projects.eao.gov.bc.ca/project">
 							<strong>Find Projects by List</strong>
 							<span class="main-nav__menu-item--description">View a list of Environmental Assessment Office projects in British Columbia</span>
 						</a>
 					</li>
 					<li class="main-nav__menu-item">
-						<a href="http://www.esm-master.pathfinder.gov.bc.ca/map" target="_self">
+						<a href="http://www.projects.eao.gov.bc.ca/map" target="_self">
 							<strong>Find Projects by Map</strong>
 							<span class="main-nav__menu-item--description">Use our interactive map to locate Environmental Assessment Office projects across British Columbia</span>
 						</a>
@@ -38,7 +36,7 @@
 				</ul>
 			</li>
 			<li>
-				<a href="http://www.esm-master.pathfinder.gov.bc.ca/news">
+				<a href="http://www.projects.eao.gov.bc.ca/news">
 					<span>Activities & Updates</span>
 				</a>
 			</li>
@@ -50,31 +48,35 @@
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="eaProcess">
 					<li class="main-nav__menu-item">
-						<a href="http://www.esm-master.pathfinder.gov.bc.ca/legislation">
+						<a href="http://www.projects.eao.gov.bc.ca/legislation">
 							<strong>Legislation</strong>
 							<span class="main-nav__menu-item--description">Learn about the legislation and regulations that apply to environmental assessments in the province of British Columbia.</span>
 						</a>
 					</li>
 					<li class="main-nav__menu-item">
-						<a href="http://www.esm-master.pathfinder.gov.bc.ca/process" target="_self">
+						<a href="http://www.projects.eao.gov.bc.ca/process" target="_self">
 							<strong>Process & Procedures</strong>
 							<span class="main-nav__menu-item--description">Learn more about how the Environmental Assessment Office neutrally administers a process that holds all participants accountable.</span>
 						</a>
 					</li>
 					<li class="main-nav__menu-item">
-						<a href="http://www.esm-master.pathfinder.gov.bc.ca/compliance-oversight" target="_self">	
+						<a href="http://www.projects.eao.gov.bc.ca/compliance-oversight" target="_self">	
 							<strong>Compliance Oversight</strong>
 							<span class="main-nav__menu-item--description">Learn about how we collaborate with other agencies to coordinate oversight of environmental assessment projects.</span>
 						</a>
 					</li>
 				</ul>
 			</li>
-			-->
-			<li ui-sref="projects">
-				<a ui-sref="dashboard">Home</a>
+			<li>
+				<a href="http://www.projects.eao.gov.bc.ca/contact">
+					<span>CONTACT</span>
+				</a>
 			</li>
 			<li ng-if="authentication.user">
-				<a ui-sref="dashboard">My Projects</a>
+				<a ui-sref="dashboard">My Projects </a>
+			</li>
+			<li ng-if="authentication.user">
+				<a x-modal-day-calculator>Calculator</a>
 			</li>
 			<li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user)">
 				<a class="dropdown-toggle" 
@@ -97,26 +99,13 @@
 					</li>
 				</ul>
 			</li>
-			<li ng-if="authentication.user">
-				<a x-modal-day-calculator>Calculator</a>
-			</li>
-			<li>
-				<a ui-sref="contact">
-					<span>Contact</span>
-				</a>
-			</li>
-			<li>
-				<a ui-sref="guidance">
-					<span>Guidance</span>
-				</a>
-			</li>
 			<li ng-if="!authentication.user">
 				<a ui-sref="authentication.signin">
 					<span>Log In</span>
 				</a>
 			</li>
 			<li class="dropdown" ng-if="authentication.user">
-				<a class="dropdown-toggle user-details" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
+				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="true">{{ authentication.user.displayName }} <span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
@@ -127,3 +116,4 @@
 		</ul>
 	</div>
 </header>
+	
