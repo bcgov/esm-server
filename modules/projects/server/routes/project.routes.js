@@ -122,6 +122,11 @@ module.exports = function (app) {
   //  p.list ().then (routes.success(res), routes.failure(res));
   // });
 
+  app.route('/api/projects/public')
+    .get(routes.setAndRun(Project, function(model, req) {
+      return model.public();
+    }));
+
   app.route ('/api/projects/published')
     .get (routes.setAndRun (Project, function (model, req) {
       return model.published ();
