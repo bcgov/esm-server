@@ -116,7 +116,7 @@ module.exports.initMiddleware = function (app) {
 	app.use(multer({
 		dest: uploaddir,
 		inMemory: false
-	}));
+	}).any());
 };
 
 /**
