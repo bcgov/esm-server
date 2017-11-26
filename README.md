@@ -9,7 +9,7 @@ Built through the Office's EAO Systems Modernization Project (ESM), in alignment
 The features provided by the web-based EPIC application include:
 
 * Greater transparency, understanding and public participation in the Environmental Assessment (EA) process
-* Comprehensive project details, status, important dates, contact information and other relevant information
+* Comprehensive project details, status, important dates, contact information, and other relevant information
 * Public-facing view of documents related to proposed and ongoing development projects
 * Maps showing exactly where projects are located within the province
 
@@ -37,13 +37,13 @@ EPIC has been built using MongoDB, Express, AngularJS and NodeJS.  See http://me
 * git
 
 ## Installation
-    
+
 Development mode:
 
     git clone https://github.com/bcgov/esm-server.git
     npm install
     grunt build && node server.js
-    
+
 Production Mode:
 
     git clone https://github.com/bcgov/esm-server.git
@@ -66,7 +66,7 @@ Feel free to create pull requests from the default "master" branch, click here t
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at 
+    You may obtain a copy of the License at
 
        http://www.apache.org/licenses/LICENSE-2.0
 
@@ -75,4 +75,4 @@ Feel free to create pull requests from the default "master" branch, click here t
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-   
+
