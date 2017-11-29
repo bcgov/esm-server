@@ -49,7 +49,7 @@
     "morgan": "1.9.0",
     "multer": "0.1.8",
     "node-pre-gyp": "0.6.39",
-    "nodemailer": "4.4.0",
+    "nodemailer": "2.3.2",
     "passport": "0.4.0",
     "passport-github": "1.1.0",
     "passport-local": "1.0.0",
