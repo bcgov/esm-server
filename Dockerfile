@@ -5,11 +5,11 @@ MAINTAINER Shea Phillips, shea.phillips@cloudcompass.ca
 WORKDIR /home/mean
 
 # Install Mean.JS Prerequisites
-RUN npm install -g grunt-cli bower forever
+RUN npm install -g grunt-cli bower forever yarn
 
 # Install Mean.JS packages
 ADD package.json /home/mean/package.json
-RUN git config --global url."https://".insteadOf git:// && npm install
+RUN git config --global url."https://".insteadOf git:// && yarn install
 
 # Manually trigger bower. Why doesnt this work via npm install?
 ADD .bowerrc /home/mean/.bowerrc
