@@ -10,7 +10,7 @@
     "url": "https://github.com/meanjs/mean.git"
   },
   "engines": {
-    "node": ">=4.8.6",
+    "node": ">=4.6.2",
     "npm": ">=2.15.1",
     "yarn": ">=1.0.0"
   },
