@@ -19,7 +19,7 @@ RUN git config --global url."https://".insteadOf git:// && bower install --confi
 # Make everything available for start
 ADD . /home/mean
 
-RUN grunt buildprods
+RUN grunt buildprod
 
 # Set environment  to production
 ENV NODE_ENV production
