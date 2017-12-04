@@ -51,6 +51,7 @@ if [ -n "$NPM_MIRROR" ]; then
 fi
 
 echo "---> Building your Node application from source"
+npm install yarn -g
 yarn install
 
 # Fix source directory permissions
