@@ -690,14 +690,18 @@ function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $st
 				comment.makeVisible = false;
 				s.fileList = [];
 				s.showAlert = false;
+				s.showExtensionAlert = false;
+				var acceptedExtentions = new RegExp('\.pdf$|\.png$|\.gif$|\.jpg$|\.jpeg$|\.bmp$'); // Whitelist for file extensions accpeted in comments.
 
 				$scope.$watch('s.comment.files', function (newValue) {
 					if (newValue) {
 						s.showAlert = false;
 						s.comment.inProgress = false;
-						_.each(newValue, function (file, idx) {
+						_.each(newValue, function (file, idx) {							
 							if (file.size > maxFileSize) {
 								s.showAlert = true;
+							} else if (!file.name.match(acceptedExtentions)){
+								s.showExtensionAlert = true;
 							} else {
 								s.fileList.push(file);
 							}
@@ -709,7 +713,10 @@ function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $st
 					_.remove(s.fileList, f);
 				};
 
-				s.closeAlert = function () { s.showAlert = false; };
+				s.closeAlert = function () { 
+					s.showAlert = false;
+					s.showExtensionAlert = false;
+				};
 				s.cancel = function () { $modalInstance.dismiss('cancel'); };
 				s.next = function () { s.step++; };
 				s.ok = function () { $modalInstance.close(s.comment); };
