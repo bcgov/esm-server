@@ -691,7 +691,7 @@ function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $st
 				s.fileList = [];
 				s.showAlert = false;
 				s.showExtensionAlert = false;
-				var acceptedExtentions = new RegExp('\.pdf|\.png|\.gif|\.jpg|\.jpeg|\.bmp'); // Whitelist for file extensions accpeted in comments.
+				var acceptedExtentions = new RegExp('\.pdf$|\.png$|\.gif$|\.jpg$|\.jpeg$|\.bmp$'); // Whitelist for file extensions accpeted in comments.
 
 				$scope.$watch('s.comment.files', function (newValue) {
 					if (newValue) {
