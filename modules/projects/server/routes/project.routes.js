@@ -175,6 +175,18 @@ module.exports = function (app) {
         });
     }));
 
+  app.route ('/api/projects/picklist/public')
+    .all(policy('guest'))
+    .get(routes.setAndRun(Project, function(model, req) {
+      return model.list({ isPublished: true }, { _id: 1, code: 1, name: 1 })
+        .then(function(res) {
+          // Remove user permissions and redundant id
+          _.each(res, function(project) {
+            project.userCan = undefined;
+          });
+          return res;
+        });
+    }));
 
   app.route ('/api/projects/regions')
     .all (policy ('user'))
