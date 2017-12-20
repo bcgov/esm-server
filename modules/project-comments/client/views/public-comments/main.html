@@ -1,7 +1,7 @@
 
 <div class="view-title-container flex-row">
 	<a class="btn icon-btn mobile-nav-btn" ui-sref="p.commentperiod.list"><span class="glyphicon glyphicon-chevron-left"></span></a>
-    <h1>Public Comment Period</h1>
+	<h1>Public Comment Period</h1>
 </div>
 
 <div class="view-body-container">
@@ -34,23 +34,28 @@
 		-->
 	</div>
 
-    <ul class="nav nav-tabs" role="tablist">
-		<li class="active" role="presentation"><a href="#pcpDocuments" aria-controls="pcpDocuments" role="tab" data-toggle="tab">Related Documents</a></li>
+	<ul class="nav nav-tabs" role="tablist" ng-init="form.curTab= 'pcpComments'">
+		<li ng-class="{'active':form.curTab === 'pcpDocuments'}" role="presentation">
+			<a href="#pcpDocuments" ng-click="form.curTab = 'pcpDocuments'" aria-controls="pcpDocuments" role="tab" data-toggle="tab">Related Documents</a>
+		</li>
 		<!-- Data from legacy site -->
-        <li ng-if="period._id !== '597fbce24407212bac9f3303'" role="presentation"><a href="#pcpComments" aria-controls="pcpComments" role="tab" data-toggle="tab">Comments</a></li>
+		<li ng-if="period._id !== '597fbce24407212bac9f3303'" role="presentation" ng-class="{'active':form.curTab === 'pcpComments'}">
+			<a href="#pcpComments" ng-click="form.curTab = 'pcpComments'" aria-controls="pcpComments" role="tab" data-toggle="tab">Comments</a>
+		</li>
 		<!-- Data from legacy site -->
-		<li ng-if="period._id !== '597fbce24407212bac9f3303'" role="presentation" ng-if="isPublic"><a href="#pcpOpenHouse" aria-controls="pcpOpenHouse" role="tab" data-toggle="tab">Open Houses</a></li>
-    </ul>
+		<li ng-if="period._id !== '597fbce24407212bac9f3303'" role="presentation" ng-if="isPublic" ng-class="{'active':form.curTab === 'pcpOpenHouse'}">
+			<a href="#pcpOpenHouse" ng-click="form.curTab = 'pcpOpenHouse'" aria-controls="pcpOpenHouse" role="tab" data-toggle="tab">Open Houses</a>
+		</li>
+	</ul>
 
-    <div class="pcp-tab-content tab-content">
-
+	<div class="pcp-tab-content tab-content">
 		<!-- Comments -->
-		<div class="tab-pane" role="tab-panel" id="pcpComments">
+		<div class="tab-pane active" role="tab-panel" id="pcpComments" ng-show="form.curTab === 'pcpComments'">
 			<tmpl-public-comment-list x-period="period" x-project="project" x-user-roles="userRoles"></tmpl-public-comment-list>
 		</div><!-- / Comments Tab -->
 
 		<!-- Documents -->
-		<div class="tab-pane active" id="pcpDocuments">
+		<div class="tab-pane" id="pcpDocuments" ng-show="form.curTab === 'pcpDocuments'">
 			<div class="pcp-related-docs">
 				<section>
 					<h2>{{period.informationLabel}}</h2>
@@ -68,7 +73,7 @@
 		</div><!-- / Documents Tab -->
 
 		<!-- Open House Dates -->
-		<div class="tab-pane" ng-if="isPublic" role="tab-panel" id="pcpOpenHouse">
+		<div class="tab-pane" ng-if="isPublic" role="tab-panel" id="pcpOpenHouse" ng-show="form.curTab === 'pcpOpenHouse'">
 			<div class="table-container">
 				<table class="open-house-table table">
 					<thead>
@@ -89,6 +94,6 @@
 				</table>
 			</div>
 		</div><!-- / Open House Dates -->
-    </div>
+	</div>
 
 </div>
