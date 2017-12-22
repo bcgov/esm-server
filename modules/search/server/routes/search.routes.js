@@ -1,12 +1,12 @@
 'use strict';
 
-var path          = require ('path');
+var path = require ('path');
 var routes = require('../../../core/server/controllers/core.routes.controller');
 var policy = require('../../../core/server/controllers/core.policy.controller');
 var DocumentController = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
 var ProjectController = require (path.resolve('./modules/projects/server/controllers/project.controller'));
 var OrgController = require (path.resolve('./modules/organizations/server/controllers/organization.controller'));
-var _        = require ('lodash');
+var _ = require ('lodash');
 var ObjectId = require('mongodb').ObjectId;
 
 module.exports = function (app) {
@@ -45,7 +45,7 @@ module.exports = function (app) {
           }
           // owner filtering (strings are coming in)
           if (req.query.ownership) {
-            projectQuery = _.extend (projectQuery, { $text: { $search: req.query.ownership }});
+            projectQuery = _.extend (projectQuery, { $text: { $search: '\"' + req.query.ownership + '\"' }});
             // console.log("ownership query:", projectQuery);
           }
           if (req.query.page) {
@@ -57,7 +57,7 @@ module.exports = function (app) {
           // We're filtering our searches on project and orgs
           var orgQ = {};
           if (req.query.proponentstring) {
-            orgQ = { $text: { $search: req.query.proponentstring }};
+            orgQ = { $text: { $search: '\"' + req.query.proponentstring + '\"' }};
           }
           return o.findMany(orgQ)
           .then(function (orgs) {
@@ -68,9 +68,12 @@ module.exports = function (app) {
             if (ops.length > 0) {
               projectQuery = _.extend (projectQuery, { "proponent": {$in : ops}});
             }
-            return;
+            return ops.length;
           })
-          .then(function () {
+          .then(function (opsCount) {
+            // console.log("opsCount: ", opsCount);
+            // If no proponents then we're done.
+            if (opsCount === 0) return [];
             // console.log("projectQuery: ", projectQuery);
             return p.findMany(projectQuery,"_id type name code ownership proponent");
           })
@@ -164,7 +167,7 @@ module.exports = function (app) {
           }
           // owner filtering (strings are coming in)
           if (req.query.ownership) {
-            projectQuery = _.extend (projectQuery, { $text: { $search: req.query.ownership }});
+            projectQuery = _.extend (projectQuery, { $text: { $search: '\"' + req.query.ownership + '\"' }});
             // console.log("ownership query:", projectQuery);
           }
           if (req.query.page) {
@@ -176,7 +179,7 @@ module.exports = function (app) {
           // We're filtering our searches on project and orgs
           var orgQ = {};
           if (req.query.proponentstring) {
-            orgQ = { $text: { $search: req.query.proponentstring }};
+            orgQ = { $text: { $search: '\"' + req.query.proponentstring + '\"' }};
           }
           return o.findMany(orgQ)
           .then(function (orgs) {
@@ -187,9 +190,12 @@ module.exports = function (app) {
             if (ops.length > 0) {
               projectQuery = _.extend (projectQuery, { "proponent": {$in : ops}});
             }
-            return;
+            return ops.length;
           })
-          .then(function () {
+          .then(function (opsCount) {
+            // console.log("opsCount: ", opsCount);
+            // If no proponents then we're done.
+            if (opsCount === 0) return [];
             // console.log("projectQuery: ", projectQuery);
             return p.findMany(projectQuery,"_id type name code ownership proponent");
           })
