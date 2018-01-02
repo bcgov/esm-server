@@ -1,4 +1,4 @@
-# EAO Project Information & Collaboration System (EPIC) 
+# EAO Project Information & Collaboration System (EPIC)
 
 EPIC is the BC Environmental Assessment Office's web-based project information and collaboration system, a tool to improve the efficiency and transparency of the provincial environmental assessment process by providing citizens and stakeholders with more intuitive access to project data and information.
 
