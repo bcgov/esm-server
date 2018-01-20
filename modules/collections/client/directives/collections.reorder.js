@@ -1,7 +1,7 @@
 "use strict";
 angular.module('control')
 // x-reorder-collection-modal attribute of a button
-.directive("reorderCollectionModal",['$modal', '_', 'CollectionModel', 'AlertService', reorderCollectionModal])
+.directive("reorderCollectionModal",['$uibModal', '_', 'CollectionModel', 'AlertService', reorderCollectionModal])
 // x-reorder-collection-content element in the modal
 .directive('reorderCollectionContent', [reorderCollectionContent ])
 // dnd-scroll-area a region above and below the reordering list that helps scrolling the list
@@ -9,7 +9,7 @@ angular.module('control')
 .controller("collectionsSortingController", collectionsSortingController)
 ;
 
-function reorderCollectionModal($modal, _, CollectionModel, AlertService) {
+function reorderCollectionModal($uibModal, _, CollectionModel, AlertService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -18,13 +18,13 @@ function reorderCollectionModal($modal, _, CollectionModel, AlertService) {
 		},
 		link: function (scope, element, attributes) {
 			element.on('click', function () {
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/collections/client/views/modal-collections-reorder.html',
 					controllerAs: 'vmm',
 					size: 'lg',
 					windowClass: 'doc-sort-order-modal fs-modal',
-					controller: function ($modalInstance) {
+					controller: function ($uibModalInstance) {
 						var vmm = this;
 						vmm.busy = false;
 						vmm.ok = submit;
@@ -38,7 +38,7 @@ function reorderCollectionModal($modal, _, CollectionModel, AlertService) {
 						});
 
 						function cancel () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						}
 						function submit () {
 							vmm.busy = true;
@@ -49,17 +49,17 @@ function reorderCollectionModal($modal, _, CollectionModel, AlertService) {
 							});
 							CollectionModel.sortOtherDocuments(vmm.collection._id, ids)
 							.then(function(sortedDocs) {
-								AlertService.success('"'+ vmm.collection.displayName +'"' + ' was reordered successfully.');
+								AlertService.success('"'+ vmm.collection.displayName +'"' + ' was reordered successfully.', 4000);
 								if (sortedDocs) {
 									vmm.collection.otherDocuments = sortedDocs;
 								}
-								$modalInstance.close(sortedDocs);
+								$uibModalInstance.close(sortedDocs);
 							})
 							.catch(function(res) {
 								console.log("Error:", res);
 								var failure = _.has(res, 'message') ? res.message : undefined;
 								AlertService.error('"'+ vmm.collection.displayName +'"' + ' was not reordered');
-								$modalInstance.close();
+								$uibModalInstance.close();
 							});
 						}
 					}

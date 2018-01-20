@@ -100,9 +100,9 @@ function controllerPanelSort($scope, $filter) {
 // CONTROLLER: Project Research Detail
 //
 // -----------------------------------------------------------------------------------
-controllerModalResearchDetail.$inject = ['$scope', 'Utils', '$modalInstance'];
+controllerModalResearchDetail.$inject = ['$scope', 'Utils', '$uibModalInstance'];
 /* @ngInject */
-function controllerModalResearchDetail($scope, Utils, $modalInstance) {
+function controllerModalResearchDetail($scope, Utils, $uibModalInstance) {
 	var rd = this;
 
 	$scope.$watchGroup(['seed', 'term'], function(newValue) {
@@ -115,7 +115,7 @@ function controllerModalResearchDetail($scope, Utils, $modalInstance) {
 		}
 	});
 
-	rd.cancel = function () { $modalInstance.dismiss('cancel'); };
+	rd.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //
@@ -157,9 +157,9 @@ function controllerRolesSelect($scope, Utils, _) {
 // CONTROLLER: Users Select
 //
 // -----------------------------------------------------------------------------------
-controllerUsersSelect.$inject = ['$scope', '$modal'];
+controllerUsersSelect.$inject = ['$scope', '$uibModal'];
 /* @ngInject */
-function controllerUsersSelect($scope, $modal) {
+function controllerUsersSelect($scope, $uibModal) {
 	var utilUsersSelect = this;
 
 	utilUsersSelect.users = [];
@@ -173,7 +173,7 @@ function controllerUsersSelect($scope, $modal) {
 	});
 
 	utilUsersSelect.userChooser = function() {
-		var modalUsersView = $modal.open({
+		var modalUsersView = $uibModal.open({
 			animation: true,
 			templateUrl: 'modules/utils/client/views/partials/modal-users-select.html',
 			controller: 'controllerModalUsersSelect',
@@ -202,9 +202,9 @@ function controllerUsersSelect($scope, $modal) {
 // CONTROLLER: Roles Select
 //
 // -----------------------------------------------------------------------------------
-controllerModalUsersSelect.$inject = ['$scope', 'users', 'orgs', 'project', 'config', '$modalInstance', 'Utils', 'OrganizationModel', '_'];
+controllerModalUsersSelect.$inject = ['$scope', 'users', 'orgs', 'project', 'config', '$uibModalInstance', 'Utils', 'OrganizationModel', '_'];
 /* @ngInject */
-function controllerModalUsersSelect($scope, users, orgs, project, config, $modalInstance, Utils, OrganizationModel, _) {
+function controllerModalUsersSelect($scope, users, orgs, project, config, $uibModalInstance, Utils, OrganizationModel, _) {
 	var utilUsers = this;
 
 	$scope._ = _;
@@ -264,8 +264,8 @@ function controllerModalUsersSelect($scope, users, orgs, project, config, $modal
 		// and resolve later on.
 	};
 
-	utilUsers.ok = function () { $modalInstance.close(utilUsers.selected); };
-	utilUsers.cancel = function () { $modalInstance.dismiss('cancel'); };
+	utilUsers.ok = function () { $uibModalInstance.close(utilUsers.selected); };
+	utilUsers.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 
 
 	// utilRolesSelect.toggleAccess = function(role) {
@@ -285,9 +285,9 @@ function controllerModalUsersSelect($scope, users, orgs, project, config, $modal
 // CONTROLLER: Modal Day Calculator
 //
 // -----------------------------------------------------------------------------------
-controllerModalDayCalculator.$inject = ['$scope', '$modalInstance', 'moment', '$modal'];
+controllerModalDayCalculator.$inject = ['$scope', '$uibModalInstance', 'moment', '$uibModal'];
 /* @ngInject */
-function controllerModalDayCalculator($scope, $modalInstance, moment, $modal) {
+function controllerModalDayCalculator($scope, $uibModalInstance, moment, $uibModal) {
 	var dayCalculator = this;
 
 	dayCalculator.startDate = "";
@@ -421,7 +421,7 @@ function controllerModalDayCalculator($scope, $modalInstance, moment, $modal) {
 		dayCalculator.resumeDateAlert = getDateAlert(newDate);
 	});
 
-	dayCalculator.ok = function() { $modalInstance.dismiss('cancel'); };
+	dayCalculator.ok = function() { $uibModalInstance.dismiss('cancel'); };
 
 	dayCalculator.reset = function() {
 		dayCalculator.startDate = "";
@@ -586,9 +586,9 @@ function controllerRequirementCalculation($scope, _) {
 // CONTROLLER: Modal: Show a list of user records and allow them to be copied
 //
 // -----------------------------------------------------------------------------------
-controllerModalRecipientList.$inject = ['$modalInstance', 'rUsers', '_'];
+controllerModalRecipientList.$inject = ['$uibModalInstance', 'rUsers', '_'];
 /* @ngInject */
-function controllerModalRecipientList($modalInstance, rUsers, _) {
+function controllerModalRecipientList($uibModalInstance, rUsers, _) {
 	var utilRecipientList = this;
 
 	// put all the users into a string and display in a textarea
@@ -598,30 +598,30 @@ function controllerModalRecipientList($modalInstance, rUsers, _) {
 		utilRecipientList.users += '"' + user.displayName + '","' + user.address1 + ' ' + user.address2 + '","' + user.city + '","' + user.province.toUpperCase() + '","' + user.postalCode + '"\n';
 	});
 
-	utilRecipientList.cancel = function () { $modalInstance.dismiss('cancel'); };
+	utilRecipientList.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: Show a list of user records and allow them to be copied
 //
 // -----------------------------------------------------------------------------------
-controllerModalUserContactInfo.$inject = ['$modalInstance', 'user'];
+controllerModalUserContactInfo.$inject = ['$uibModalInstance', 'user'];
 /* @ngInject */
-function controllerModalUserContactInfo($modalInstance, user) {
+function controllerModalUserContactInfo($uibModalInstance, user) {
 	var utilUserContactInfo = this;
 
 	utilUserContactInfo.user = user;
 
-	utilUserContactInfo.cancel = function () { $modalInstance.dismiss('cancel'); };
+	utilUserContactInfo.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Select Items
 //
 // -----------------------------------------------------------------------------------
-controllerModalSelectItems.$inject = ['$modalInstance', 'rAllItems', 'rSelectedItems', 'rItemName', 'rSingle', 'rUnique', '_'];
+controllerModalSelectItems.$inject = ['$uibModalInstance', 'rAllItems', 'rSelectedItems', 'rItemName', 'rSingle', 'rUnique', '_'];
 /* @ngInject */
-function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, rItemName, rSingle, rUnique, _) {
+function controllerModalSelectItems($uibModalInstance, rAllItems, rSelectedItems, rItemName, rSingle, rUnique, _) {
 	var selectItems = this;
 
 	// constrain selection to just one.  Directive needs to have x-single=true
@@ -701,14 +701,14 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 	selectItems.cancel = function () {
 		// since we took a copy of the rSelectedItems, no need to overwrite originals, just cancel it.
 		//selectItems.selectedItems = angular.copy(rSelectedItems);
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 	//
 	//
 	//
 	selectItems.ok = function () {
 		// saving so pass back new data and a reference to the destination
-		$modalInstance.close(selectItems.selectedItems, rSelectedItems);
+		$uibModalInstance.close(selectItems.selectedItems, rSelectedItems);
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -716,9 +716,9 @@ function controllerModalSelectItems($modalInstance, rAllItems, rSelectedItems, r
 // CONTROLLER: Modal: Add Anon Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDatePicker.$inject = ['$modalInstance', 'rChosenDate', 'rHeader', 'moment', 'mindate', 'maxdate', 'showTime'];
+controllerModalDatePicker.$inject = ['$uibModalInstance', 'rChosenDate', 'rHeader', 'moment', 'mindate', 'maxdate', 'showTime'];
 /* @ngInject */
-function controllerModalDatePicker($modalInstance, rChosenDate, rHeader, moment, mindate, maxdate, showTime) {
+function controllerModalDatePicker($uibModalInstance, rChosenDate, rHeader, moment, mindate, maxdate, showTime) {
 	var modalDatePick = this;
 
 	modalDatePick.chosenDate = rChosenDate || moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0});
@@ -749,7 +749,7 @@ function controllerModalDatePicker($modalInstance, rChosenDate, rHeader, moment,
 		modalDatePick.showSelector = true;
 	};
 
-	modalDatePick.ok = function () { $modalInstance.close(modalDatePick.chosenDate); };
-	modalDatePick.cancel = function () { $modalInstance.dismiss('cancel'); };
+	modalDatePick.ok = function () { $uibModalInstance.close(modalDatePick.chosenDate); };
+	modalDatePick.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 	modalDatePick.none = function() { modalDatePick.chosenDate = undefined; };
 }

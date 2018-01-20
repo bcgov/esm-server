@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('organizations')
-	.directive('orgSearchChooser', function ($filter, $modal, NgTableParams, ProjectGroupModel, OrganizationModel, _) {
+	.directive('orgSearchChooser', function ($filter, $uibModal, NgTableParams, ProjectGroupModel, OrganizationModel, _) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -11,12 +11,12 @@ angular.module('organizations')
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
-					$modal.open({
+					$uibModal.open({
 						animation: true,
 						templateUrl: 'modules/organizations/client/views/org-search-chooser.html',
 						size: 'lg',
 						controllerAs: 's',
-						controller: function ($filter, $scope, $modalInstance, _) {
+						controller: function ($filter, $scope, $uibModalInstance, _) {
 							var s = this;
 							s.title = scope.title;
 							$scope.cur = scope.destination;
@@ -46,11 +46,11 @@ angular.module('organizations')
 							};
 
 							s.cancel = function () {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							};
 
 							s.ok = function () {
-								$modalInstance.close($scope.cur);
+								$uibModalInstance.close($scope.cur);
 							};
 						}
 					}).result.then(function (data) {
@@ -109,7 +109,7 @@ function directiveOrgEntry(_) {
 			control: '=',
 			srefReturn: '='
 		},
-		controller: function ($scope, $attrs, $state, $filter, $modal, _, NgTableParams, Authentication, CodeLists, OrganizationModel, UserModel, ProjectModel) {
+		controller: function ($scope, $attrs, $state, $filter, $uibModal, _, NgTableParams, Authentication, CodeLists, OrganizationModel, UserModel, ProjectModel) {
 
 			$scope.CodeLists = CodeLists;
 			$scope.organizationTypes = CodeLists.organizationTypes;
@@ -131,18 +131,18 @@ function directiveOrgEntry(_) {
 			};
 
 			$scope.showSuccess = function (msg, transitionCallback, title) {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/utils/client/views/partials/modal-success.html',
-					controller: function ($scope, $state, $modalInstance, _) {
+					controller: function ($scope, $state, $uibModalInstance, _) {
 						var self = this;
 						self.title = title || 'Success';
 						self.msg = msg;
 						self.ok = function () {
-							$modalInstance.close($scope.org);
+							$uibModalInstance.close($scope.org);
 						};
 						self.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',
@@ -160,18 +160,18 @@ function directiveOrgEntry(_) {
 			};
 
 			$scope.showError = function (msg, errorList, transitionCallback, title) {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/utils/client/views/partials/modal-error.html',
-					controller: function ($scope, $state, $modalInstance, _) {
+					controller: function ($scope, $state, $uibModalInstance, _) {
 						var self = this;
 						self.title = title || 'An error has occurred';
 						self.msg = msg;
 						self.ok = function () {
-							$modalInstance.close($scope.user);
+							$uibModalInstance.close($scope.user);
 						};
 						self.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',
@@ -209,18 +209,18 @@ function directiveOrgEntry(_) {
 			}
 
 			$scope.internalControl.deleteOrg = function () {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
-					controller: function ($scope, $state, $modalInstance, _) {
+					controller: function ($scope, $state, $uibModalInstance, _) {
 						var self = this;
 						self.dialogTitle = "Delete Organization";
 						self.name = $scope.org.name;
 						self.ok = function () {
-							$modalInstance.close($scope.user);
+							$uibModalInstance.close($scope.user);
 						};
 						self.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',

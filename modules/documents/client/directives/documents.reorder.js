@@ -1,12 +1,12 @@
 "use strict";
 angular.module('control')
 .directive("reorderDocumentsModal", // x-reorder-documents-modal
-		['$modal', '$timeout', '_', 'AlertService', 'ConfirmService', 'moment', 'FolderModel', 'Document', reorderDocumentsModal])
+		['$uibModal', '$timeout', '_', 'AlertService', 'ConfirmService', 'moment', 'FolderModel', 'Document', reorderDocumentsModal])
 .directive('reorderDocumentsContent', // x-reorder-documents-content
 		[reorderDocumentsContent ])
 .controller("documentsSortingController", documentsSortingController);
 
-function reorderDocumentsModal($modal, $timeout, _,  AlertService, ConfirmService, moment, FolderModel, Document) {
+function reorderDocumentsModal($uibModal, $timeout, _,  AlertService, ConfirmService, moment, FolderModel, Document) {
 	var CUSTOM     = 'custom',
 		DATE         = 'date',
 		NAME         = 'name',
@@ -30,7 +30,7 @@ function reorderDocumentsModal($modal, $timeout, _,  AlertService, ConfirmServic
 		},
 		link: function (scope, element, attributes) {
 			element.on('click', function () {
-				$modal.open({
+				$uibModal.open({
 					animation:     true,
 					templateUrl:   'modules/documents/client/views/partials/modal-document-reorder.html',
 					controllerAs:  'vmm',
@@ -38,7 +38,7 @@ function reorderDocumentsModal($modal, $timeout, _,  AlertService, ConfirmServic
 					backdrop:      'static',
 					keyboard:      false,
 					windowClass:   'doc-sort-order-modal fs-modal',
-					controller: function ($modalInstance) {
+					controller: function ($uibModalInstance) {
 						var self                  = this;
 						self.busy                 = false;
 						self.ok                   = submit;
@@ -267,7 +267,7 @@ function reorderDocumentsModal($modal, $timeout, _,  AlertService, ConfirmServic
 									titleText: WARNING,
 									confirmText: CONFIRM_CUST,
 									onOk: function () {
-										$modalInstance.dismiss('cancel');
+										$uibModalInstance.dismiss('cancel');
 										return Promise.resolve();
 									},
 									onCancel: function () {
@@ -275,7 +275,7 @@ function reorderDocumentsModal($modal, $timeout, _,  AlertService, ConfirmServic
 									}
 								});
 							} else {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							}
 						}
 
@@ -358,19 +358,19 @@ function reorderDocumentsModal($modal, $timeout, _,  AlertService, ConfirmServic
 								}
 							})
 							.then(function(result) {
-								AlertService.success('Folder changes saved');
+								AlertService.success('Folder changes saved', 4000);
 								if (self.onSaveCallback) {
 									self.onSaveCallback();
 								}
 								self.busy = false;
-								$modalInstance.close(self.folder);
+								$uibModalInstance.close(self.folder);
 							})
 							.catch(function(res) {
 								console.log("Error:", res);
 								var failure = _.has(res, 'message') ? res.message : '';
 								AlertService.error('Changes not saved. ' + failure);
 								self.busy = false;
-								$modalInstance.close();
+								$uibModalInstance.close();
 							});
 						}
 					}

@@ -49,8 +49,8 @@ angular.module ('vcs')
 }])
 
 .controller ('controllerAddTopicModal',
-	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS', 'ArtifactModel',
-	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS, ArtifactModel) {
+	['NgTableParams','$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS', 'ArtifactModel',
+	function (NgTableParams, $uibModalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS, ArtifactModel) {
 
 		var self = this;
 		self.current = [];
@@ -129,7 +129,7 @@ angular.module ('vcs')
 							savedArray.push(obj);
 							if (idx === self.currentObjs.length-1) {
 								// Return the collection back to the caller
-								$modalInstance.close(savedArray);
+								$uibModalInstance.close(savedArray);
 								// since we are closing, this doesn't matter...
 								self.okDisabled = _.size(self.currentObjs) === 0;
 								self.cancelDisabled = false;
@@ -148,7 +148,7 @@ angular.module ('vcs')
 
 		this.cancel = function () {
 			// console.log ('cancel clicked');
-			$modalInstance.dismiss('cancel');
+			$uibModalInstance.dismiss('cancel');
 		};
 }])
 
@@ -158,8 +158,8 @@ angular.module ('vcs')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerEditVcModal',
-	['$modalInstance', '$scope', '_', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
-	function ($modalInstance, $scope, _, codeFromTitle, VcModel, TopicModel, PILLARS) {
+	['$uibModalInstance', '$scope', '_', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
+	function ($uibModalInstance, $scope, _, codeFromTitle, VcModel, TopicModel, PILLARS) {
 
 	// console.log ('controllerEditVcModal is running');
 
@@ -190,22 +190,22 @@ angular.module ('vcs')
 	this.ok = function () {
 		if (this.mode === 'add') {
 			VcModel.saveModel ().then (function (result) {
-				$modalInstance.close(result);
+				$uibModalInstance.close(result);
 			});
 		}
 		else if (this.mode === 'edit') {
 			VcModel.saveModel ().then (function (result) {
 				$scope.vc = _.cloneDeep (result);
-				$modalInstance.close(result);
+				$uibModalInstance.close(result);
 			});
 		}
 		else {
-			$modalInstance.dismiss ('cancel');
+			$uibModalInstance.dismiss ('cancel');
 		}
 	};
 	this.cancel = function () {
 		// console.log ('cancel clicked');
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 
 	//

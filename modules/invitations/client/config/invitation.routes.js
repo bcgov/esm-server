@@ -17,7 +17,7 @@ angular.module('core').config(['$stateProvider', 'RELEASE', function ($stateProv
 						return CommunicationModel.forProject(project._id);
 					}
 				},
-				controller: function ($scope, $modal, $state, Authentication, NgTableParams, _, project, communications) {
+				controller: function ($scope, $uibModal, $state, Authentication, NgTableParams, _, project, communications) {
 					// let's just filter it out here...
 					var invitationCommunications = _.filter(communications, function (o) {
 						return o.type === 'Invitation';

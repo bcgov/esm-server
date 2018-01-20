@@ -67,9 +67,9 @@ function directiveDocumentsLink() {
 	return directive;
 }
 
-directiveModalPdfViewer.$inject = ['$modal'];
+directiveModalPdfViewer.$inject = ['$uibModal'];
 /* @ngInject */
-function directiveModalPdfViewer($modal) {
+function directiveModalPdfViewer($uibModal) {
 	var directive = {
 		restrict:'A',
 		scope: {
@@ -77,7 +77,7 @@ function directiveModalPdfViewer($modal) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					resolve: {
 						pdfobject: function() { return scope.pdfobject; }
 					},
@@ -166,7 +166,7 @@ function directiveDocumentsList() {
 // CONTROLLER: Document Browser
 //
 // -----------------------------------------------------------------------------------
-directiveDocumentsBrowser.$inject = ['$modal'];
+directiveDocumentsBrowser.$inject = ['$uibModal'];
 /* @ngInject */
 function directiveDocumentsBrowser() {
 
@@ -193,7 +193,7 @@ function directiveDocumentsBrowser() {
 // CONTROLLER: Documents for Approval
 //
 // -----------------------------------------------------------------------------------
-directiveDocumentsApprovals.$inject = ['$modal'];
+directiveDocumentsApprovals.$inject = ['$uibModal'];
 /* @ngInject */
 function directiveDocumentsApprovals() {
 
@@ -218,14 +218,14 @@ function directiveDocumentsApprovals() {
 // DIRECTIVE: Modal document viewer
 //
 // -----------------------------------------------------------------------------------
-directiveModalDocumentViewer.$inject = ['$modal'];
+directiveModalDocumentViewer.$inject = ['$uibModal'];
 /* @ngInject */
-function directiveModalDocumentViewer($modal) {
+function directiveModalDocumentViewer($uibModal) {
 	var directive = {
 		restrict:'A',
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/documents/client/views/partials/modal_document_viewer.html',
 					controller: 'controllerModalDocumentViewer',
@@ -243,9 +243,9 @@ function directiveModalDocumentViewer($modal) {
 // DIRECTIVE: Link in a modal
 //
 // -----------------------------------------------------------------------------------
-directiveModalDocumentLink.$inject = ['$modal', '$rootScope'];
+directiveModalDocumentLink.$inject = ['$uibModal', '$rootScope'];
 /* @ngInject */
-function directiveModalDocumentLink($modal, $rootScope) {
+function directiveModalDocumentLink($uibModal, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope: {
@@ -258,7 +258,7 @@ function directiveModalDocumentLink($modal, $rootScope) {
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
 				// console.log("Docs Current: ",attrs.current);
-				var modalDocLink = $modal.open({
+				var modalDocLink = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/documents/client/views/partials/modal-document-link.html',
 					controller: 'controllerModalDocumentLink',
@@ -291,9 +291,9 @@ function directiveModalDocumentLink($modal, $rootScope) {
 // DIRECTIVE: Upload in a modal
 //
 // -----------------------------------------------------------------------------------
-directiveModalDocumentUploadClassify.$inject = ['$modal', '$rootScope'];
+directiveModalDocumentUploadClassify.$inject = ['$uibModal', '$rootScope'];
 /* @ngInject */
-function directiveModalDocumentUploadClassify($modal, $rootScope) {
+function directiveModalDocumentUploadClassify($uibModal, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope: {
@@ -304,7 +304,7 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocUpload = $modal.open({
+				var modalDocUpload = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify.html',
 					controller: 'controllerModalDocumentUploadClassify',
@@ -336,9 +336,9 @@ function directiveModalDocumentUploadClassify($modal, $rootScope) {
 // DIRECTIVE: Upload in a modal
 //
 // -----------------------------------------------------------------------------------
-directiveModalDocumentUploadClassifyMem.$inject = ['$modal', '$rootScope'];
+directiveModalDocumentUploadClassifyMem.$inject = ['$uibModal', '$rootScope'];
 /* @ngInject */
-function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
+function directiveModalDocumentUploadClassifyMem($uibModal, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope: {
@@ -346,7 +346,7 @@ function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocUpload = $modal.open({
+				var modalDocUpload = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/documents/client/views/partials/modal-document-upload-classify-mem.html',
 					controller: 'controllerModalDocumentUploadClassify',
@@ -369,9 +369,9 @@ function directiveModalDocumentUploadClassifyMem($modal, $rootScope) {
 // DIRECTIVE: Upload in a modal
 //
 // -----------------------------------------------------------------------------------
-directiveModalDocumentUploadReview.$inject = ['$modal', '$rootScope'];
+directiveModalDocumentUploadReview.$inject = ['$uibModal', '$rootScope'];
 /* @ngInject */
-function directiveModalDocumentUploadReview($modal, $rootScope) {
+function directiveModalDocumentUploadReview($uibModal, $rootScope) {
 	var directive = {
 		restrict:'A',
 		scope: {
@@ -379,7 +379,7 @@ function directiveModalDocumentUploadReview($modal, $rootScope) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocUpload = $modal.open({
+				var modalDocUpload = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/documents/client/views/partials/modal-document-upload-review.html',
 					controller: 'controllerModalDocumentUploadReview',
@@ -402,9 +402,9 @@ function directiveModalDocumentUploadReview($modal, $rootScope) {
 // // DIRECTIVE: Modal document Tags
 // //
 // // -----------------------------------------------------------------------------------
-// directiveModalDocumentBuckets.$inject = ['$modal'];
+// directiveModalDocumentBuckets.$inject = ['$uibModal'];
 // /* @ngInject */
-// function directiveModalDocumentBuckets($modal) {
+// function directiveModalDocumentBuckets($uibModal) {
 //     var directive = {
 //         restrict:'A',
 //         scope: {
@@ -413,7 +413,7 @@ function directiveModalDocumentUploadReview($modal, $rootScope) {
 //         },
 //         link : function(scope, element, attrs) {
 //             element.on('click', function() {
-//                 var modalDocBuckets = $modal.open({
+//                 var modalDocBuckets = $uibModal.open({
 //                     animation: true,
 //                     templateUrl: 'modules/documents/client/views/partials/modal_document_buckets.html',
 //                     controller: 'controllerModalDocumentBuckets',
@@ -440,9 +440,9 @@ function directiveModalDocumentUploadReview($modal, $rootScope) {
 // DIRECTIVE: Display instructions for user
 //
 // -----------------------------------------------------------------------------------
-directiveModalDocumentInstructions.$inject = ['$modal'];
+directiveModalDocumentInstructions.$inject = ['$uibModal'];
 /* @ngInject */
-function directiveModalDocumentInstructions($modal) {
+function directiveModalDocumentInstructions($uibModal) {
 	var directive = {
 		restrict:'A',
 		scope: {
@@ -450,7 +450,7 @@ function directiveModalDocumentInstructions($modal) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocInstructions = $modal.open({
+				var modalDocInstructions = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/documents/client/views/partials/modal-document-instructions.html',
 					controller: 'controllerModalDocumentInstructions',

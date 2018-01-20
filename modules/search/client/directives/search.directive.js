@@ -66,7 +66,7 @@ function searchResultsDocumentDirective(_, AlertService, SearchService, SearchRe
 
 			self.copyClipboardSuccess = function(e) {
 				var txt = e.trigger.getAttribute('data-doc-name');
-				AlertService.success('Link copied for ' + txt);
+				AlertService.success('Link copied for ' + txt, 4000);
 				e.clearSelection();
 			};
 
@@ -280,16 +280,16 @@ function directiveMainSearch(SearchService) {
 // DIRECTIVE: Display instructions for user
 //
 // -----------------------------------------------------------------------------------
-directiveModalSearchInstructions.$inject = ['$modal'];
+directiveModalSearchInstructions.$inject = ['$uibModal'];
 /* @ngInject */
-function directiveModalSearchInstructions($modal) {
+function directiveModalSearchInstructions($uibModal) {
 	var directive = {
 		restrict: 'A',
 		scope: {
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				var modalInstructions = $modal.open({
+				var modalInstructions = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/search/client/views/partials/modal-search-instructions.html',
 					controller: 'controllerModalSearchInstructions',

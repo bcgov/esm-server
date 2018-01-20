@@ -9,12 +9,12 @@ angular.module('search')
 // CONTROLLER: Modal: View Instructions for Search Page
 //
 // -----------------------------------------------------------------------------------
-controllerModalSearchInstructions.$inject = ['$modalInstance'];
+controllerModalSearchInstructions.$inject = ['$uibModalInstance'];
 /* @ngInject */
-function controllerModalSearchInstructions($modalInstance) {
+function controllerModalSearchInstructions($uibModalInstance) {
 	var modal = this;
 
 	modal.continue = function () {
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 }

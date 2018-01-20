@@ -13,9 +13,9 @@ angular.module('project')
 // DIRECTIVE: Modal Project Schedule
 //
 // -----------------------------------------------------------------------------------
-directiveProjectSchedule.$inject = ['$modal'];
+directiveProjectSchedule.$inject = ['$uibModal'];
 /* @ngInject */
-function directiveProjectSchedule($modal) {
+function directiveProjectSchedule($uibModal) {
 	var directive = {
 		restrict: 'E',
 		templateUrl: 'modules/projects/client/views/project-partials/project-schedule.html',
@@ -33,9 +33,9 @@ function directiveProjectSchedule($modal) {
 // DIRECTIVE: Modal Project Entry
 //
 // -----------------------------------------------------------------------------------
-directiveModalProjectImport.$inject = ['$modal', '$state', '$rootScope', 'ProjectModel'];
+directiveModalProjectImport.$inject = ['$uibModal', '$state', '$rootScope', 'ProjectModel'];
 /* @ngInject */
-function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) {
+function directiveModalProjectImport($uibModal, $state, $rootScope, sProjectModel) {
 	var directive = {
 		restrict:'A',
 		scope : {
@@ -43,7 +43,7 @@ function directiveModalProjectImport($modal, $state, $rootScope, sProjectModel) 
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalProjectEntry = $modal.open({
+				var modalProjectEntry = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-import.html',
 					controller: 'controllerModalProjectImport',

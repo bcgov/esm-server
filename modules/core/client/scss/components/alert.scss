@@ -1,3 +1,18 @@
+$alert-width: 64rem;
+
+.alert-container-fixed {
+	position: fixed;
+	top: 4rem;
+	left: 50%;
+	margin-left: calc(#{$alert-width} / -2);
+	z-index: 999;
+	width: $alert-width;
+
+	.alert {
+		box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+	}
+}
+
 .alert {
 	h2 {
 		font-size: 2.2rem;

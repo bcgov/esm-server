@@ -54,7 +54,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				});
 			}
 		},
-		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects, RecentActivityModel, $modal, AlertService) {
+		controller: function (_, $scope, $state, NgTableParams, recentActivity, projects, RecentActivityModel, $uibModal, AlertService) {
 			$scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
 
 			var s = this;
@@ -79,7 +79,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				.then(
 					function (result) {
 						$state.reload();
-						AlertService.success('Activity/Update '+ o.headline + ' was deleted!');
+						AlertService.success('Activity/Update '+ o.headline + ' was deleted!', 4000);
 					},
 					function (error) {
 						$state.reload();
@@ -104,20 +104,20 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 				}, function (err) {
 					// Error
 					s.busy = false;
-					$modal.open({
+					$uibModal.open({
 						animation: true,
 						templateUrl: 'modules/recent-activity/client/views/pinned-warning.html',
-						controller: function ($scope, $state, $modalInstance, _) {
+						controller: function ($scope, $state, $uibModalInstance, _) {
 							var self = this;
 
 							self.msg = err.message;
 
 							self.ok = function () {
-								$modalInstance.close('ok');
+								$uibModalInstance.close('ok');
 							};
 
 							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							};
 						},
 						controllerAs: 'self',

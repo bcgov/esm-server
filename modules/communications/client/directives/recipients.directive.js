@@ -15,7 +15,7 @@ angular.module('communications')
 				showMail: '='
 			},
 			templateUrl: 'modules/communications/client/views/recipients-manager.html',
-			controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, AlertService, ConfirmService, ProjectModel, CommunicationModel, UserModel) {
+			controller: function ($scope, $filter, $log, $uibModal, $timeout, _, moment, Authentication, AlertService, ConfirmService, ProjectModel, CommunicationModel, UserModel) {
 
 				// targets for adding new or existing recipients...
 				$scope.adhocTo = undefined;

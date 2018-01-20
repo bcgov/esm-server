@@ -126,7 +126,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 			}
         },
 		controllerAs: 'orgEditControl',
-		controller: function ($scope, $state, NgTableParams, org, users, projects, OrganizationModel, CodeLists, $filter, $modal, _, UserModel) {
+		controller: function ($scope, $state, NgTableParams, org, users, projects, OrganizationModel, CodeLists, $filter, $uibModal, _, UserModel) {
             $scope.org = org;
 			$scope.users = users;
 			$scope.projects = projects;
@@ -240,7 +240,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				}
 			},
 			controllerAs: 'userEditControl',
-			controller: function ($scope, $state, $filter, $modal, Authentication, user, org) {
+			controller: function ($scope, $state, $filter, $uibModal, Authentication, user, org) {
 				$scope.user = user;
 				$scope.org = org;
 				$scope.mode = 'add';
@@ -288,7 +288,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				}
 			},
 			controllerAs: 'userEditControl',
-			controller: function ($scope, $state, $filter, $modal, Authentication, user, org) {
+			controller: function ($scope, $state, $filter, $uibModal, Authentication, user, org) {
 				$scope.user = user;
 				$scope.mode = 'edit';
 				$scope.readonly = false;
@@ -336,7 +336,7 @@ angular.module('organizations').config(['$stateProvider', function ($stateProvid
 				}
 			},
 			controllerAs: 'userEditControl',
-			controller: function ($scope, $state, $filter, $modal, Authentication, user, org) {
+			controller: function ($scope, $state, $filter, $uibModal, Authentication, user, org) {
 				$scope.user = user;
 				$scope.org = org;
 				$scope.mode = 'edit';
