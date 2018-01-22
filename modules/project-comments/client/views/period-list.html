@@ -1,139 +1,139 @@
 
 
 <div class="view-title-container flex-row">
-	<button class="btn icon-btn mobile-nav-btn" onclick="toggleSideNav();"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
-	<h1>Comment Periods</h1>
+  <button class="btn icon-btn mobile-nav-btn" onclick="toggleSideNav();"><span class="glyphicon glyphicon-menu-hamburger"></span></button>
+  <h1>Comment Periods</h1>
 </div>
 
 <div class="view-body-container">
 
-	<!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
-	<div class="pcp-banner" ng-if="activeperiod">
-		<section class="pcp-info">
-			<h2>Public Comment Period <span class="break">is Now Open</span></h2>
-			<span class="pcp-dates"><strong>{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
-			<span class="pcp-desc">
-				This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.ceaaInformationLabel"> and the <strong>{{activeperiod.ceaaInformationLabel}}</strong></span>.
-			</span>
-			<div class="pcp-banner-btns">
-				<a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
-					<span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
-				</a>
-				<span class="spacer">OR</span>
-				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
-					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
-				</button>
-			</div>
-		</section>
-	</div>
+  <!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
+  <div class="pcp-banner" ng-if="activeperiod">
+    <section class="pcp-info">
+      <h2>Public Comment Period <span class="break">is Now Open</span></h2>
+      <span class="pcp-dates"><strong>{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
+      <span class="pcp-desc">
+        This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.ceaaInformationLabel"> and the <strong>{{activeperiod.ceaaInformationLabel}}</strong></span>.
+      </span>
+      <div class="pcp-banner-btns">
+        <a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
+          <span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
+        </a>
+        <span class="spacer">OR</span>
+        <button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
+          <span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
+        </button>
+      </div>
+    </section>
+  </div>
 
-	<div class="button-bar" ng-if="project.userCan.createCommentPeriod">
-		<a class="btn btn-default btn-sm" title="Add Comment Period" x-period-create-modal ng-click="$event.stopPropagation();">
-			<span class="glyphicon glyphicon-plus"></span>
-			<span>Add Comment Period</span>
-		</a>
-	</div>
+  <div class="button-bar" ng-if="project.userCan.createCommentPeriod">
+    <a class="btn btn-default btn-sm" title="Add Comment Period" x-period-create-modal ng-click="$event.stopPropagation();">
+      <span class="glyphicon glyphicon-plus"></span>
+      <span>Add Comment Period</span>
+    </a>
+  </div>
 
-	<div class="table-container">
-		<table class="pcp-table table table-hover" ng-class="{'can-edit': project.userCan.createCommentPeriod}" ng-table="tableParams">
-			<tr ng-repeat="p in $data" ng-if="project.userCan.createCommentPeriod || p.isPublished"  ui-sref="p.commentperiod.detail({periodId:p._id})">
-				<td class="date-col" header-class="'date-col'" title="'Start Date'"
-					sortable="'dateStarted'">
-					<span>{{ p.dateStarted | date : format : timezone }}</span>
-					<span title="To be determined" ng-if="!p.dateStarted">TBD</span>
-				</td>
-				<td class="details-col" header-class="'details-col'" title="'Details'"
-					sortable="'informationLabel'">
-					<strong>{{p.informationLabel}}</strong> <span ng-if="p.ceaaInformationLabel">and the <strong>{{p.ceaaInformationLabel}}</strong><span>
-				</td>
-				<td class="status-col" header-class="'status-col'" title="'Status'"
-					sortable="'openState'">
-					<span class="label"
-						ng-class="{
-							'open':p.openState.state === 'Open',
-							'pending':p.openState.state === 'Pending',
-							'completed':p.openState.state === 'Completed'}">{{ p.openState.state}}</span>
-				</td>
-				<td class="count-col" header-class="'count-col'" title="'Comments'">
-					<span class="glyphicon glyphicon-comment"></span>
-					<span class="count">{{p.stats.totalPublic}}</span>
-				</td>
-				<td class="actions-col" header-class="'actions-col x1'"
-					ng-if="project.userCan.createCommentPeriod">
-					<div class="btn-group">
-						<button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-						</button>
-						<ul class="dropdown-menu pull-right">
-							<li ng-if="project.userCan.createCommentPeriod">
-								<a class="btn icon-btn"
-									ui-sref="p.commentperiod.edit({periodId:p._id})"
-									ng-click="$event.stopPropagation();"><span class="glyphicon glyphicon-pencil"></span></a></li>
-							<li ng-if="!p.isPublished && project.userCan.createCommentPeriod">
-								<button class="btn icon-btn"
-									title="Publish Comment"
-									ng-click="$event.stopPropagation();"
-									x-pcpvalidation-dialog
-									x-title-text="'Publish Comment Period'"
-									x-ok-text="'Yes'"
-									x-cancel-text="'No'"
-									x-confirm-text="'Are you sure you want to publish this comment period?'"
-									x-on-ok="s.publishCommentPeriod"
-									x-period="p">
-									<span class="glyphicon glyphicon-ok-circle"></span>
-								</button>
-							</li>
-							<li ng-if="p.isPublished && project.userCan.createCommentPeriod">
-								<button class="btn icon-btn"
-									title="Unpublish Comment"
-									ng-click="$event.stopPropagation();"
-									ng-disabled="p.openForComment"
-									x-confirm-dialog
-									x-title-text="'Unpublish Comment Period'"
-									x-ok-text="'Yes'"
-									x-cancel-text="'No'"
-									x-confirm-text="'Are you sure you want to unpublish this comment period?'"
-									x-on-ok="s.unpublishCommentPeriod"
-									x-ok-args="p">
-									<span class="glyphicon glyphicon-ban-circle"></span>
-								</button>
-							</li>
-							<li ng-if="project.userCan.createCommentPeriod && p.openForComment">
-								<button class="btn icon-btn"
-									title="Delete Comment Period"
-									ng-click="$event.stopPropagation();"
-									x-confirm-dialog
-									x-title-text="'Delete Comment Period'"
-									x-ok-text="'Yes'"
-									x-cancel-text="'No'"
-									x-confirm-text="'This comment period is currently open for public comment, are you sure you would like to permanently delete this comment period and all its content?'"
-									x-on-ok="s.deletePeriod"
-									x-ok-args="p">
-									<span class="glyphicon glyphicon-trash"></span>
-								</button>
-							</li>
-							<li ng-if="project.userCan.createCommentPeriod && !p.openForComment">
-								<button class="btn icon-btn"
-									title="Delete Comment Period"
-									ng-click="$event.stopPropagation();"
-									x-confirm-dialog
-									x-title-text="'Delete Comment Period'"
-									x-ok-text="'Yes'"
-									x-cancel-text="'No'"
-									x-confirm-text="'Are you sure you would like to permanently delete this comment period and all its content?'"
-									x-on-ok="s.deletePeriod"
-									x-ok-args="p">
-									<span class="glyphicon glyphicon-trash"></span>
-								</button>
-							</li>
-						</div>
-					</div>
-				</td>
-			</tr>
-			<tr class="no-records" ng-if="!$data || $data.length === 0">
-				<td colspan="4">No records found.</td>
-			</tr>
-		</table>
-	</div>
+  <div class="table-container">
+    <table class="pcp-table table table-hover" ng-class="{'can-edit': project.userCan.createCommentPeriod}" ng-table="tableParams">
+      <tr ng-repeat="p in $data" ng-if="project.userCan.createCommentPeriod || p.isPublished"  ui-sref="p.commentperiod.detail({periodId:p._id})">
+        <td class="date-col" header-class="'date-col'" title="'Start Date'"
+          sortable="'dateStarted'">
+          <span>{{ p.dateStarted | date : format : timezone }}</span>
+          <span title="To be determined" ng-if="!p.dateStarted">TBD</span>
+        </td>
+        <td class="details-col" header-class="'details-col'" title="'Details'"
+          sortable="'informationLabel'">
+          <strong>{{p.informationLabel}}</strong> <span ng-if="p.ceaaInformationLabel">and the <strong>{{p.ceaaInformationLabel}}</strong><span>
+        </td>
+        <td class="status-col" header-class="'status-col'" title="'Status'"
+          sortable="'openState'">
+          <span class="label"
+            ng-class="{
+              'open':p.openState.state === 'Open',
+              'pending':p.openState.state === 'Pending',
+              'completed':p.openState.state === 'Completed'}">{{ p.openState.state}}</span>
+        </td>
+        <td class="count-col" header-class="'count-col'" title="'Published Comments'">
+          <span class="glyphicon glyphicon-comment"></span>
+          <span class="count">{{p.stats.totalPublic}}</span>
+        </td>
+        <td class="actions-col" header-class="'actions-col x1'"
+          ng-if="project.userCan.createCommentPeriod">
+          <div class="btn-group">
+            <button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+              <li ng-if="project.userCan.createCommentPeriod">
+                <a class="btn icon-btn"
+                  ui-sref="p.commentperiod.edit({periodId:p._id})"
+                  ng-click="$event.stopPropagation();"><span class="glyphicon glyphicon-pencil"></span></a></li>
+              <li ng-if="!p.isPublished && project.userCan.createCommentPeriod">
+                <button class="btn icon-btn"
+                  title="Publish Comment"
+                  ng-click="$event.stopPropagation();"
+                  x-pcpvalidation-dialog
+                  x-title-text="'Publish Comment Period'"
+                  x-ok-text="'Yes'"
+                  x-cancel-text="'No'"
+                  x-confirm-text="'Are you sure you want to publish this comment period?'"
+                  x-on-ok="s.publishCommentPeriod"
+                  x-period="p">
+                  <span class="glyphicon glyphicon-ok-circle"></span>
+                </button>
+              </li>
+              <li ng-if="p.isPublished && project.userCan.createCommentPeriod">
+                <button class="btn icon-btn"
+                  title="Unpublish Comment"
+                  ng-click="$event.stopPropagation();"
+                  ng-disabled="p.openForComment"
+                  x-confirm-dialog
+                  x-title-text="'Unpublish Comment Period'"
+                  x-ok-text="'Yes'"
+                  x-cancel-text="'No'"
+                  x-confirm-text="'Are you sure you want to unpublish this comment period?'"
+                  x-on-ok="s.unpublishCommentPeriod"
+                  x-ok-args="p">
+                  <span class="glyphicon glyphicon-ban-circle"></span>
+                </button>
+              </li>
+              <li ng-if="project.userCan.createCommentPeriod && p.openForComment">
+                <button class="btn icon-btn"
+                  title="Delete Comment Period"
+                  ng-click="$event.stopPropagation();"
+                  x-confirm-dialog
+                  x-title-text="'Delete Comment Period'"
+                  x-ok-text="'Yes'"
+                  x-cancel-text="'No'"
+                  x-confirm-text="'This comment period is currently open for public comment, are you sure you would like to permanently delete this comment period and all its content?'"
+                  x-on-ok="s.deletePeriod"
+                  x-ok-args="p">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </li>
+              <li ng-if="project.userCan.createCommentPeriod && !p.openForComment">
+                <button class="btn icon-btn"
+                  title="Delete Comment Period"
+                  ng-click="$event.stopPropagation();"
+                  x-confirm-dialog
+                  x-title-text="'Delete Comment Period'"
+                  x-ok-text="'Yes'"
+                  x-cancel-text="'No'"
+                  x-confirm-text="'Are you sure you would like to permanently delete this comment period and all its content?'"
+                  x-on-ok="s.deletePeriod"
+                  x-ok-args="p">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </button>
+              </li>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="no-records" ng-if="!$data || $data.length === 0">
+        <td colspan="4">No records found.</td>
+      </tr>
+    </table>
+  </div>
 </div>
 
