@@ -54,14 +54,14 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 	.state('p.vc.list', {
 		url: '/list',
 		templateUrl: 'modules/vcs/client/views/vc-list.html',
-		controller: function ($scope, NgTableParams, vcs, project, $modal, $state, Authentication) {
+		controller: function ($scope, NgTableParams, vcs, project, $uibModal, $state, Authentication) {
 			// EPIC-745 Sort by Name [alpha], then by Title [alpha] inside the name
 			var sortedVcs = _.sortByOrder(vcs, ['name', 'title']);
 			$scope.tableParams = new NgTableParams ({count:10}, {dataset: sortedVcs});
 			$scope.project = project;
 			$scope.authentication = Authentication;
 			$scope.openAddTopic = function() {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/vcs/client/views/topic-modal-select.html',
 					controller: 'controllerAddTopicModal',
@@ -139,7 +139,7 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 				return VcModel.deleteCheck (vc._id);
 			}
 		},
-		controller: function ($scope, $state, vc, canDeleteVc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES, $modal, canSeeInternalDocuments) {
+		controller: function ($scope, $state, vc, canDeleteVc, project, VcModel, PILLARS, TopicModel, art, ArtifactModel, _, vclist, vcs, VCTYPES, $uibModal, canSeeInternalDocuments) {
 			// console.log ('vc = ', vc);
 			$scope.vc = vc;
 
@@ -176,16 +176,16 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 					// do NOT allow the state change yet.
 					event.preventDefault();
 
-					$modal.open({
+					$uibModal.open({
 						animation: true,
 						templateUrl: 'modules/vcs/client/views/vc-modal-confirm-cancel.html',
-						controller: function($scope, $state, $modalInstance) {
+						controller: function($scope, $state, $uibModalInstance) {
 							var self = this;
 							self.ok = function() {
-								$modalInstance.close();
+								$uibModalInstance.close();
 							};
 							self.cancel = function() {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							};
 						},
 						controllerAs: 'self',
@@ -222,20 +222,20 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 			};
 
 			$scope.showError = function(msg, errorList, transitionCallback, title) {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/vcs/client/views/vc-modal-error.html',
-					controller: function($scope, $state, $modalInstance, _) {
+					controller: function($scope, $state, $uibModalInstance, _) {
 						var self = this;
 						self.vc = $scope.vc;
 						self.title = title || 'An error has occurred';
 						self.msg = msg;
 						self.errors = errorList;
 						self.ok = function() {
-							$modalInstance.close(vc);
+							$uibModalInstance.close(vc);
 						};
 						self.cancel = function() {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',
@@ -249,19 +249,19 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 			};
 
 			$scope.showSuccess = function(msg, transitionCallback, title) {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/vcs/client/views/vc-modal-success.html',
-					controller: function($scope, $state, $modalInstance, _) {
+					controller: function($scope, $state, $uibModalInstance, _) {
 						var self = this;
 						self.vc = $scope.vc;
 						self.title = title || 'Success';
 						self.msg = msg;
 						self.ok = function() {
-							$modalInstance.close(vc);
+							$uibModalInstance.close(vc);
 						};
 						self.cancel = function() {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',
@@ -275,17 +275,17 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 			};
 
 			$scope.delete = function() {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/vcs/client/views/vc-modal-confirm-delete.html',
-					controller: function($scope, $state, $modalInstance, VcModel, _) {
+					controller: function($scope, $state, $uibModalInstance, VcModel, _) {
 						var self = this;
 						self.vc = $scope.vc;
 						self.ok = function() {
-							$modalInstance.close(vc);
+							$uibModalInstance.close(vc);
 						};
 						self.cancel = function() {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',
@@ -323,17 +323,17 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
 			};
 
 			$scope.publish = function() {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/vcs/client/views/vc-modal-confirm-publish.html',
-					controller: function($scope, $state, $modalInstance, VcModel, _) {
+					controller: function($scope, $state, $uibModalInstance, VcModel, _) {
 						var self = this;
 						self.vc = $scope.vc;
 						self.ok = function() {
-							$modalInstance.close(vc);
+							$uibModalInstance.close(vc);
 						};
 						self.cancel = function() {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',

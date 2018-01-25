@@ -48,7 +48,7 @@ angular.module('emailtemplate').config(['$stateProvider', function ($stateProvid
 					.then(
 						function (result) {
 							$state.reload();
-							AlertService.success('Email Template was deleted!');
+							AlertService.success('Email Template was deleted!', 4000);
 						},
 						function (error) {
 							$state.reload();

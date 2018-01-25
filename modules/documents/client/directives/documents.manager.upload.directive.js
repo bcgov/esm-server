@@ -1,7 +1,7 @@
 'use strict';
 angular.module('documents')
-	.directive('documentMgrUploadModal',['$rootScope', '$modal', '$log', '$timeout', '_', 'DocumentsUploadService', 'DocumentMgrService', 'DnDBackgroundBlockService',
-		function ($rootScope, $modal, $log, $timeout, _, DocumentsUploadService, DocumentMgrService, DnDBackgroundBlockService){
+	.directive('documentMgrUploadModal',['$rootScope', '$uibModal', '$log', '$timeout', '_', 'DocumentsUploadService', 'DocumentMgrService', 'DnDBackgroundBlockService',
+		function ($rootScope, $uibModal, $log, $timeout, _, DocumentsUploadService, DocumentMgrService, DnDBackgroundBlockService){
 		return {
 			restrict: 'A',
 			scope: {
@@ -14,14 +14,14 @@ angular.module('documents')
 			link: function (scope, element, attrs) {
 				DnDBackgroundBlockService.addEventListeners();
 				element.on('click', function () {
-					$modal.open({
+					$uibModal.open({
 						animation: true,
 						size: 'lg',
 						templateUrl: 'modules/documents/client/views/document-manager-upload-modal.html',
 						resolve: {},
 						backdrop: 'static',
 						controllerAs: 'uploadModal',
-						controller: function ($rootScope, $scope, $modalInstance) {
+						controller: function ($rootScope, $scope, $uibModalInstance) {
 							var self = this;
 
 							$scope.uploadService = DocumentsUploadService;
@@ -53,7 +53,7 @@ angular.module('documents')
 
 							self.cancel = function () {
 								$scope.uploadService.reset();
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							};
 
 							self.startUploads = function () {

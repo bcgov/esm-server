@@ -8,9 +8,9 @@ angular.module('activity')
 // CONTROLLER: Activity EAO
 //
 // -----------------------------------------------------------------------------------
-controllerActivity.$inject = ['$scope', '$state', '$modal', 'sActivity', 'Project', '$stateParams'];
+controllerActivity.$inject = ['$scope', '$state', '$uibModal', 'sActivity', 'Project', '$stateParams'];
 /* @ngInject */
-function controllerActivity($scope, $state, $modal, sActivity, Project, $stateParams) {
+function controllerActivity($scope, $state, $uibModal, sActivity, Project, $stateParams) {
 	var actBase = this;
 	//
 	// Get Activity

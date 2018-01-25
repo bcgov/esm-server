@@ -72,8 +72,8 @@ angular.module('core').config (
 	// 	$stateProvider.state (name, {
 	// 		url: opts.url,
 	// 		resolve: opts.resolve || {},
-	// 		onEnter: function ($modal, $state) {
-	// 			modalInstance = $modal.open (opts);
+	// 		onEnter: function ($uibModal, $state) {
+	// 			modalInstance = $uibModal.open (opts);
 	// 			modalInstance.result['finally'](function () {
 	// 				modalInstance = null;
 	// 				if ($state.$current.name === name) $state.go ('^');

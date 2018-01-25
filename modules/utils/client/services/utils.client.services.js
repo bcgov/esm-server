@@ -7,9 +7,9 @@ angular.module('utils')
 // Service: Util Services
 //
 // -----------------------------------------------------------------------------------
-serviceUtils.$inject = ['$http', '$modal'];
+serviceUtils.$inject = ['$http', '$uibModal'];
 /* @ngInject */
-function serviceUtils($http, $modal) {
+function serviceUtils($http, $uibModal) {
 	var getQuickLinks = function(req) {
 		return $http({method:'GET',url: 'api/project'});
 	};
@@ -40,11 +40,11 @@ function serviceUtils($http, $modal) {
 			}, obj);
 		};
 		
-		var modal = $modal.open({
+		var modal = $uibModal.open({
 			animation: true,
 			templateUrl: 'modules/utils/client/views/partials/entity-select-modal.html',
 			size: 'md',
-			controller: function ($scope, $modalInstance, _, NgTableParams) {
+			controller: function ($scope, $uibModalInstance, _, NgTableParams) {
 				$scope.current = angular.copy(selected);
 				$scope.tableParams = new NgTableParams({}, {dataset: entities});
 				$scope.valueString = valueString;
@@ -65,11 +65,11 @@ function serviceUtils($http, $modal) {
 				};
 				
 				$scope.ok = function () {
-					$modalInstance.close($scope.current);
+					$uibModalInstance.close($scope.current);
 				};
 				
 				$scope.cancel = function () {
-					$modalInstance.dismiss('cancel');
+					$uibModalInstance.dismiss('cancel');
 				};
 			}
 		});

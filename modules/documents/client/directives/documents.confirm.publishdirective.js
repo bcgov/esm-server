@@ -16,16 +16,16 @@ angular.module('documents')
 		}
 	};
 }])
-.service('ConfirmPublishService', ['$rootScope', '$modal', '_', function ($rootScope, $modal, _) {
+.service('ConfirmPublishService', ['$rootScope', '$uibModal', '_', function ($rootScope, $uibModal, _) {
 	var service = this;
 	service.confirmDialog = function(scope) {
 		return new Promise(function(fulfill, reject) {
-			var modal = $modal.open({
+			var modal = $uibModal.open({
 				animation: true,
 				templateUrl: 'modules/documents/client/views/partials/modal-document-confirm-publish.html',
 				resolve: {},
 				controllerAs: 'confirmDlg',
-				controller: function ($scope, $modalInstance) {
+				controller: function ($scope, $uibModalInstance) {
 					var self = this;
 					// caller may have batch or single file
 					self.docs = Array.isArray(scope.docs) ? scope.docs : [ scope.docs ];
@@ -69,13 +69,13 @@ angular.module('documents')
 					}
 
 					function cancel() {
-						$modalInstance.dismiss('cancel');
+						$uibModalInstance.dismiss('cancel');
 					}
 
 					function submit () {
 						self.publisher(self.publishableFiles)
 						.then(function (result) {
-							$modalInstance.close(result);
+							$uibModalInstance.close(result);
 						}, function (err) {
 							self.errMsg = err.message;
 							$scope.$apply();

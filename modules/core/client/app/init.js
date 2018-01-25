@@ -25,7 +25,7 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 	}
 ]);
 
-angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, $uibModalStack, Authentication, _, $cookies, Application, ContextService) {
+angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, $uibModalStack, Authentication, _, $cookies, Application, ContextService, AlertService) {
 
 	// Check authentication before changing state
 	$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
@@ -85,16 +85,17 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
 
 	$rootScope.$on('$stateChangeError', console.log.bind(console));
 
-	// Close modals when navigating away from the current page (e.g.: browser back)
+	// Close modals/alerts when navigating away from the current page (e.g.: browser back)
 	$rootScope.$on('$locationChangeStart', function() {
 		$uibModalStack.dismissAll();
+		AlertService.dismissAll();
 	});
 
 });
 
 // Ensures all modals can only be closed by clicking X or buttons
 angular.module('ui.bootstrap').config(function($provide) {
-	$provide.decorator('$modal', function($delegate) {
+	$provide.decorator('$uibModal', function($delegate) {
 		var open = $delegate.open;
 
 		$delegate.open = function(options) {

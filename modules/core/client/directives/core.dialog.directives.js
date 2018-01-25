@@ -1,6 +1,6 @@
 'use strict';
 angular.module('core')
-	.directive('confirmDialog', ['$rootScope', '$modal', '$log', '_', 'ConfirmService', function ($rootScope, $modal, $log, _, ConfirmService) {
+	.directive('confirmDialog', ['$rootScope', '$uibModal', '$log', '_', 'ConfirmService', function ($rootScope, $uibModal, $log, _, ConfirmService) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -21,88 +21,17 @@ angular.module('core')
 			}
 		};
 	}])
-	.service('AlertService', ['$rootScope', '$timeout', '$log', '$modal', '_', 'Authentication', function ($rootScope, $timeout, $log, $modal, _) {
-
-		var service = this;
-
-		service.alert = function(type, message) {
-
-			return new Promise(function(fulfill, reject) {
-				var modal = $modal.open({
-					animation: true,
-					templateUrl: 'modules/core/client/views/dialogs/alert.html',
-					controller: function ($scope, $state, $modalInstance, _) {
-						var self = this;
-
-						switch (type) {
-							case 'info':
-								self.alertType = 'alert-info';
-								break;
-							case 'warning':
-								self.alertType = 'alert-warning';
-								break;
-							case 'error':
-								self.alertType = 'alert-danger';
-								break;
-							default:
-								self.alertType = 'alert-success';
-								break;
-						}
-
-						self.msg = message;
-
-						self.ok = function () {
-							$modalInstance.close('ok');
-						};
-
-						self.cancel = function () {
-							$modalInstance.dismiss('cancel');
-						};
-					},
-					controllerAs: 'alertDlg',
-					size: 'md',
-					windowClass: 'modal-alert',
-					backdropClass: 'modal-alert-backdrop'
-				});
-
-				// do not care how this modal is closed, if a callback is provided, call it..
-				modal.result
-					.then(function (result) {
-						fulfill(result);
-					}, function (error) {
-						fulfill(error);
-					});
-			});
-		};
-
-		service.info = function(message) {
-			return service.alert('info', message);
-		};
-
-		service.warning = function(message) {
-			return service.alert('warning', message);
-		};
-
-		service.error = function(message) {
-			return service.alert('error', message);
-		};
-
-		service.success = function(message) {
-			return service.alert('success', message);
-		};
-
-	}])
-	.service('ConfirmService', ['$rootScope', '$modal', '$log', '_', function ($rootScope, $modal, $log, _) {
+	.service('ConfirmService', ['$rootScope', '$uibModal', '$log', '_', function ($rootScope, $uibModal, $log, _) {
 		var service = this;
 		service.confirmDialog = function(scope) {
 
 			return new Promise(function(fulfill, reject) {
-				var modal = $modal.open({
+				var modal = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/core/client/views/dialogs/confirm.html',
 					resolve: {},
 					controllerAs: 'confirmDlg',
-					controller: function ($scope, $modalInstance) {
+					controller: function ($scope, $uibModalInstance) {
 						var self = this;
 						self.titleText = _.isEmpty(scope.titleText) ? '' : scope.titleText;
 						self.okText = _.isEmpty(scope.okText) ? 'OK' : scope.okText;
@@ -121,12 +50,12 @@ angular.module('core')
 							if (scope.onCancel) {
 								scope.onCancel()
 									.then(function (result) {
-										$modalInstance.dismiss('cancel');
+										$uibModalInstance.dismiss('cancel');
 									}, function (err) {
 										self.errorMsg = err.message;
 									});
 							} else {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							}
 						};
 
@@ -134,13 +63,13 @@ angular.module('core')
 							if (scope.onOk) {
 								scope.onOk(scope.okArgs)
 									.then(function (result) {
-										$modalInstance.close(result);
+										$uibModalInstance.close(result);
 									}, function (err) {
 										self.errorMsg = err.message;
 										$scope.$apply();
 									});
 							} else {
-								$modalInstance.close({});
+								$uibModalInstance.close({});
 							}
 						};
 

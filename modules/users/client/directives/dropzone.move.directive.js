@@ -1,8 +1,8 @@
 'use strict';
 angular.module('documents')
 	// x-drop-zone-move
-	.directive('dropZoneMove', ['$rootScope', '$modal', '_', 'TreeModel', 'ProjectModel', 'Document', 'AlertService',
-		function ($rootScope, $modal, _, TreeModel, ProjectModel, Document, AlertService) {
+	.directive('dropZoneMove', ['$rootScope', '$uibModal', '_', 'TreeModel', 'ProjectModel', 'Document', 'AlertService',
+		function ($rootScope, $uibModal, _, TreeModel, ProjectModel, Document, AlertService) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -21,13 +21,13 @@ angular.module('documents')
 								name: 'ROOT',
 								published: true
 							};
-						$modal.open({
+						$uibModal.open({
 						animation: true,
 						size: 'lg',
 						templateUrl: 'modules/users/client/views/user-partials/dropzone-move.html',
 						resolve: {},
 						controllerAs: 'moveDlg',
-						controller: function ($scope, $modalInstance) {
+						controller: function ($scope, $uibModalInstance) {
 							var self = this;
 							var tree = new TreeModel();
 							var project = self.project 	= scope.project;
@@ -58,7 +58,7 @@ angular.module('documents')
 							}
 
 							function cancelClickHandler() {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							}
 
 							function okClickHandler () {
@@ -75,8 +75,8 @@ angular.module('documents')
 								.then(function() {
 									$rootScope.$broadcast('dropZoneRefresh');
 									self.busy = false;
-									AlertService.success( msg );
-									$modalInstance.close(msg);
+									AlertService.success(msg, 4000);
+									$uibModalInstance.close(msg);
 								});
 							}
 						} // end controller

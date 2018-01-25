@@ -29,9 +29,9 @@ function directiveLowercase() {
 // DIRECTIVE: Modal Select Items
 //
 // -----------------------------------------------------------------------------------
-directiveModalUserList.$inject = ['$modal'];
+directiveModalUserList.$inject = ['$uibModal'];
 /* @ngInject */
-function directiveModalUserList($modal) {
+function directiveModalUserList($uibModal) {
     var directive = {
        	restrict:'A',
        	scope : {
@@ -40,7 +40,7 @@ function directiveModalUserList($modal) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalUserList = $modal.open({
+				var modalUserList = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/users/client/views/users-partials/modal-user-list.html',
 					controller: 'controllerModalUserList',

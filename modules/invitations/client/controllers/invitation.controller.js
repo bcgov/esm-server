@@ -2,7 +2,7 @@
 
 angular
 	.module('invitations', [])
-	.controller('EditInvitationController', ['$scope', '$state', '$modal', 'AlertService', 'Authentication', 'NgTableParams',  '_', 'CommunicationModel', 'project', 'communication', 'mode', function EditInvitationController($scope, $state, $modal, AlertService, Authentication, NgTableParams,  _, CommunicationModel, project, communication, mode) {
+	.controller('EditInvitationController', ['$scope', '$state', '$uibModal', 'AlertService', 'Authentication', 'NgTableParams',  '_', 'CommunicationModel', 'project', 'communication', 'mode', function EditInvitationController($scope, $state, $uibModal, AlertService, Authentication, NgTableParams,  _, CommunicationModel, project, communication, mode) {
 		$scope.project = project;
 		$scope.authentication = Authentication;
 		$scope.mode = mode;
@@ -91,16 +91,16 @@ angular
 					// do NOT allow the state change yet.
 					event.preventDefault();
 
-					$modal.open({
+					$uibModal.open({
 						animation: true,
 						templateUrl: 'modules/vcs/client/views/vc-modal-confirm-cancel.html',
-						controller: function($scope, $state, $modalInstance) {
+						controller: function($scope, $state, $uibModalInstance) {
 							var self = this;
 							self.ok = function() {
-								$modalInstance.close();
+								$uibModalInstance.close();
 							};
 							self.cancel = function() {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							};
 						},
 						controllerAs: 'self',
@@ -159,19 +159,19 @@ angular
 		);
 
 		$scope.showError = function(msg, errorList, transitionCallback, title) {
-			var modalDocView = $modal.open({
+			var modalDocView = $uibModal.open({
 				animation: true,
 				templateUrl: 'modules/vcs/client/views/vc-modal-error.html',
-				controller: function($scope, $state, $modalInstance, _) {
+				controller: function($scope, $state, $uibModalInstance, _) {
 					var self = this;
 					self.title = title || 'An error has occurred';
 					self.msg = msg;
 					self.errors = errorList;
 					self.ok = function() {
-						$modalInstance.close();
+						$uibModalInstance.close();
 					};
 					self.cancel = function() {
-						$modalInstance.dismiss('cancel');
+						$uibModalInstance.dismiss('cancel');
 					};
 				},
 				controllerAs: 'self',
@@ -185,18 +185,18 @@ angular
 		};
 
 		$scope.showSuccess = function(msg, transitionCallback, title) {
-			var modalDocView = $modal.open({
+			var modalDocView = $uibModal.open({
 				animation: true,
 				templateUrl: 'modules/vcs/client/views/vc-modal-success.html',
-				controller: function($scope, $state, $modalInstance, _) {
+				controller: function($scope, $state, $uibModalInstance, _) {
 					var self = this;
 					self.title = title || 'Success';
 					self.msg = msg;
 					self.ok = function() {
-						$modalInstance.close();
+						$uibModalInstance.close();
 					};
 					self.cancel = function() {
-						$modalInstance.dismiss('cancel');
+						$uibModalInstance.dismiss('cancel');
 					};
 				},
 				controllerAs: 'self',
@@ -214,17 +214,17 @@ angular
 				AlertService.error('Must have at least one recipient to send.');
 				return;
 			}
-			var modalDocView = $modal.open({
+			var modalDocView = $uibModal.open({
 				animation: true,
 				templateUrl: 'modules/invitations/client/views/confirm-send.html',
-				controller: function($scope, $state, $modalInstance, CommunicationModel, _) {
+				controller: function($scope, $state, $uibModalInstance, CommunicationModel, _) {
 					var self = this;
 					self.message = "Are you sure you want send '" + communication.name + "' to " + communication.recipients.length + " recipients?";
 					self.ok = function() {
-						$modalInstance.close();
+						$uibModalInstance.close();
 					};
 					self.cancel = function() {
-						$modalInstance.dismiss('cancel');
+						$uibModalInstance.dismiss('cancel');
 					};
 				},
 				controllerAs: 'self',
@@ -296,18 +296,18 @@ angular
 		};
 
 		$scope.delete = function(communication) {
-			var modalDocView = $modal.open({
+			var modalDocView = $uibModal.open({
 				animation: true,
 				templateUrl: 'modules/invitations/client/views/confirm-delete.html',
-				controller: function($scope, $state, $modalInstance, CommunicationModel, _) {
+				controller: function($scope, $state, $uibModalInstance, CommunicationModel, _) {
 					var self = this;
 					self.communication = communication;
 					self.message = "Are you sure you want to delete '" + communication.name + "' from this project?";
 					self.ok = function() {
-						$modalInstance.close(communication);
+						$uibModalInstance.close(communication);
 					};
 					self.cancel = function() {
-						$modalInstance.dismiss('cancel');
+						$uibModalInstance.dismiss('cancel');
 					};
 				},
 				controllerAs: 'self',

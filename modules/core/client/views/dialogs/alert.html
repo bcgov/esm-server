@@ -1,4 +1,8 @@
-<div class="alert" ng-class="alertDlg.alertType">
-	<button class="close" ng-click="alertDlg.cancel()"><span aria-hidden="true">×</span></button>
-	{{alertDlg.msg}}
+<div class="alert-container-fixed">
+  <div uib-alert ng-repeat="alert in alertDlg.alerts"
+       ng-class="'alert-' + (alert.type || 'warning')"
+       ng-attr-dismiss-on-timeout="{{alert.fadeTimeout}}"
+       close="alertDlg.closeAlert($index)">
+    <div ng-bind-html="alert.message"></div>
+  </div>
 </div>

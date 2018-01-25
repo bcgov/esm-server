@@ -31,9 +31,9 @@
 // DIRECTIVE: Modal Edit Project
 //
 // -----------------------------------------------------------------------------------
-// directiveModalProjectEdit.$inject = ['$modal'];
+// directiveModalProjectEdit.$inject = ['$uibModal'];
 // /* @ngInject */
-// function directiveModalProjectEdit($modal) {
+// function directiveModalProjectEdit($uibModal) {
 // 	var directive = {
 // 		restrict:'A',
 // 		scope : {
@@ -41,7 +41,7 @@
 // 		},
 // 		link : function(scope, element, attrs) {
 // 			element.on('click', function() {
-// 				var modalMilestoneView = $modal.open({
+// 				var modalMilestoneView = $uibModal.open({
 // 					animation: true,
 // 					templateUrl: 'modules/projects/client/views/project-partials/modal-edit-project.html',
 // 					controller: 'controllerModalProjectEdit',
@@ -64,9 +64,9 @@
 // DIRECTIVE: Modal Edit Project Phases
 //
 // -----------------------------------------------------------------------------------
-//  directiveModalProjectEditPlanMilestones.$inject = ['$modal'];
+//  directiveModalProjectEditPlanMilestones.$inject = ['$uibModal'];
 //  /* @ngInject */
-//  function directiveModalProjectEditPlanMilestones($modal) {
+//  function directiveModalProjectEditPlanMilestones($uibModal) {
 //      var directive = {
 //          restrict:'A',
 //          scope : {
@@ -74,7 +74,7 @@
 //          },
 		// link : function(scope, element, attrs) {
 		// 	element.on('click', function() {
-		// 		var modalMilestoneView = $modal.open({
+		// 		var modalMilestoneView = $uibModal.open({
 		// 			animation: true,
 		// 			templateUrl: 'components/project/project-eao/partials/modal-edit-plan-milestones.html',
 		// 			controller: 'controllerModalProjectEditPlanMilestones',
@@ -97,9 +97,9 @@
 // DIRECTIVE: Modal Edit Project Phases
 //
 // -----------------------------------------------------------------------------------
-// directiveModalProjectEditPlanSchedule.$inject = ['$modal'];
+// directiveModalProjectEditPlanSchedule.$inject = ['$uibModal'];
 // /* @ngInject */
-// function directiveModalProjectEditPlanSchedule($modal) {
+// function directiveModalProjectEditPlanSchedule($uibModal) {
 // 	var directive = {
 // 		restrict:'A',
 // 		scope : {
@@ -107,7 +107,7 @@
 // 		},
 // 		link : function(scope, element, attrs) {
 // 			element.on('click', function() {
-// 				var modalDocView = $modal.open({
+// 				var modalDocView = $uibModal.open({
 // 					animation: true,
 // 					templateUrl: 'modules/projects/client/views/project-partials/modal-edit-plan-schedule.html',
 // 					controller: 'controllerModalProjectEditPlanSchedule',
@@ -130,9 +130,9 @@
 // DIRECTIVE: Modal Edit Project Team
 //
 // -----------------------------------------------------------------------------------
-// directiveModalProjectContacts.$inject = ['$modal'];
+// directiveModalProjectContacts.$inject = ['$uibModal'];
 // /* @ngInject */
-// function directiveModalProjectContacts($modal) {
+// function directiveModalProjectContacts($uibModal) {
 // 	var directive = {
 // 		restrict:'A',
 // 		scope : {
@@ -140,7 +140,7 @@
 // 		},
 // 		link : function(scope, element, attrs) {
 // 			element.on('click', function() {
-// 				var modalDocView = $modal.open({
+// 				var modalDocView = $uibModal.open({
 // 					animation: true,
 // 					templateUrl: 'modules/projects/client/views/project-partials/modal-project-contacts.html',
 // 					controller: 'controllerModalProjectContacts',

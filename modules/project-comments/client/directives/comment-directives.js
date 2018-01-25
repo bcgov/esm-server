@@ -16,7 +16,7 @@ angular.module ('comment')
 // list of public comments from the point of view of the public
 //
 // -------------------------------------------------------------------------
-.directive ('tmplPublicCommentList', function ($modal, _) {
+.directive ('tmplPublicCommentList', function ($uibModal, _) {
 	return {
 		scope: {
 			period    : '=',
@@ -332,7 +332,7 @@ angular.module ('comment')
 			//
 			// -------------------------------------------------------------------------
 			s.detail = function (comment, filterCommentPackage) {
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
 					controllerAs: 's',
@@ -349,7 +349,7 @@ angular.module ('comment')
 							return CommentModel.getCeaaDocuments(comment._id);
 						}
 					},
-					controller: function ($scope, $modalInstance, docs, ceaaDocs) {
+					controller: function ($scope, $uibModalInstance, docs, ceaaDocs) {
 						var self = this;
 						self.period = period;
 						self.project = project;
@@ -391,8 +391,8 @@ angular.module ('comment')
 							self.showAlert = !_.isEmpty(self.alertType);
 						}
 
-						self.cancel = function () { $modalInstance.dismiss('cancel'); };
-						self.ok = function () { $modalInstance.close(self.comment); };
+						self.cancel = function () { $uibModalInstance.dismiss('cancel'); };
+						self.ok = function () { $uibModalInstance.close(self.comment); };
 						self.pillars = self.comment.pillars.map(function (e) { return e; });
 						self.vcs = self.comment.valuedComponents.map(function (e) { return e.name; });
 
@@ -468,7 +468,7 @@ angular.module ('comment')
 								if (!self.oneCeaaPublished && self.comment.ceeaComment === PLEASE_SEE) {
 									self.comment.ceeaComment = NO_COMMENT;
 								}
-								$modalInstance.close(self.comment);
+								$uibModalInstance.close(self.comment);
 							}
 						};
 					},
@@ -535,7 +535,7 @@ angular.module ('comment')
 // add a public comment
 //
 // -------------------------------------------------------------------------
-.directive ('addPublicComment', function ($modal, CommentModel, Upload, $timeout, _, $state, DnDBackgroundBlockService) {
+.directive ('addPublicComment', function ($uibModal, CommentModel, Upload, $timeout, _, $state, DnDBackgroundBlockService) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -548,9 +548,9 @@ angular.module ('comment')
 				// Either regular PCP or joint PCP
 				var modal;
 				if (scope.period.periodType === 'Joint') {
-					modal = new JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService);
+					modal = new JointCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService);
 				} else if (scope.period.periodType === 'Public') {
-					modal = new PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService);
+					modal = new PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService);
 				}
 				modal.show();
 			});
@@ -562,7 +562,7 @@ angular.module ('comment')
 // add an open house thingamabob
 //
 // -------------------------------------------------------------------------
-.directive ('editOpenHouse', function ($modal) {
+.directive ('editOpenHouse', function ($uibModal) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -578,13 +578,13 @@ angular.module ('comment')
 					scope.$apply();
 				}
 				else {
-					$modal.open ({
+					$uibModal.open ({
 						animation: true,
 						templateUrl: 'modules/project-comments/client/views/public-comments/open-house-edit.html',
 						controllerAs: 's',
 						size: 'md',
 						windowClass: 'public-comment-modal',
-						controller: function ($scope, $modalInstance) {
+						controller: function ($scope, $uibModalInstance) {
 							var s     = this;
 							s.period = scope.period;
 							s.project = scope.project;
@@ -595,12 +595,12 @@ angular.module ('comment')
 									description : ''
 								};
 							}
-							s.cancel  = function () { $modalInstance.dismiss ('cancel'); };
+							s.cancel  = function () { $uibModalInstance.dismiss ('cancel'); };
 							s.ok      = function () {
 								if (scope.mode === 'add') {
 									scope.period.openHouses.push (s.openHouse);
 								}
-								$modalInstance.close ();
+								$uibModalInstance.close ();
 							};
 						}
 					})
@@ -660,10 +660,10 @@ angular.module ('comment')
 }])
 ;
 
-function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService) {
+function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService) {
 	this.show = function () {
 		DnDBackgroundBlockService.addEventListeners();
-		$modal.open({
+		$uibModal.open({
 			animation: true,
 			templateUrl: 'modules/project-comments/client/views/public-comments/add.html',
 			controllerAs: 's',
@@ -675,7 +675,7 @@ function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $st
 					return CommentModel.getNew();
 				}
 			},
-			controller: function ($rootScope, $scope, $modalInstance, comment) {
+			controller: function ($rootScope, $scope, $uibModalInstance, comment) {
 				var s = this;
 
 				$scope.project = scope.project;
@@ -717,9 +717,9 @@ function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $st
 					s.showAlert = false;
 					s.showExtensionAlert = false;
 				};
-				s.cancel = function () { $modalInstance.dismiss('cancel'); };
+				s.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 				s.next = function () { s.step++; };
-				s.ok = function () { $modalInstance.close(s.comment); };
+				s.ok = function () { $uibModalInstance.close(s.comment); };
 
 				s.submit = function () {
 					s.comment.inProgress = false;
@@ -807,10 +807,10 @@ function PublicCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $st
 	};
 }
 
-function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService) {
+function JointCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService) {
 	this.show = function () {
 		DnDBackgroundBlockService.addEventListeners();
-		$modal.open({
+		$uibModal.open({
 			animation: true,
 			templateUrl: 'modules/project-comments/client/views/joint-public-comments/submit-comment.html',
 			controllerAs: 'ctrl',
@@ -822,7 +822,7 @@ function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $sta
 					return CommentModel.getNew();
 				}
 			},
-			controller: function ($rootScope, $scope, $modalInstance, comment) {
+			controller: function ($rootScope, $scope, $uibModalInstance, comment) {
 
 				var ctrl = this;
 
@@ -857,8 +857,8 @@ function JointCommentPeriodModal($modal, CommentModel, Upload, $timeout, _, $sta
 
 				function openAlert() { ctrl.showAlert = true; }
 				function closeAlert() { ctrl.showAlert = false; }
-				function cancel() { $modalInstance.dismiss('cancel'); }
-				function ok() { $modalInstance.close(ctrl.comment); }
+				function cancel() { $uibModalInstance.dismiss('cancel'); }
+				function ok() { $uibModalInstance.close(ctrl.comment); }
 				function back() { if (ctrl.step > 1) { ctrl.step--; } }
 				function next() { ctrl.step++; }
 				function removeFile(fileList, f) { _.remove(fileList, f); }

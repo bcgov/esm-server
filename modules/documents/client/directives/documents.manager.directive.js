@@ -10,7 +10,7 @@ angular.module('documents')
         folder: '='
       },
       templateUrl: 'modules/documents/client/views/document-manager.html',
-      controller: function ($scope, $filter, $log, $modal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document, CollectionModel) {
+      controller: function ($scope, $filter, $log, $uibModal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document, CollectionModel) {
         var tree = new TreeModel();
         var self = this;
         self.busy = true;
@@ -19,7 +19,7 @@ angular.module('documents')
 
         $scope.copyClipboardSuccess = function(e) {
           var txt = e.trigger.getAttribute('data-doc-name');
-          AlertService.success('Link copied for ' + txt);
+          AlertService.success('Link copied for ' + txt, 4000);
           e.clearSelection();
         };
 
@@ -478,11 +478,11 @@ angular.module('documents')
             //$log.debug('Refreshing current directory...');
             self.selectNode(self.currentNode.model.id);
             self.busy = false;
-            AlertService.success('The selected items were deleted.');
+            AlertService.success('The selected items were deleted.', 4000);
           }, function(err) {
             console.log("err result", err);
             self.busy = false;
-            AlertService.error('The selected items could not be deleted.');
+            AlertService.error('The selected items could not be deleted.', 4000);
           });
         };
 
@@ -498,7 +498,7 @@ angular.module('documents')
               var published = _.map(result, function(o) { if (o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
               var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
               self.selectNode(self.currentNode.model.id);
-              AlertService.success(_.size(published) + ' of ' + _.size(files) + ' files successfully published.');
+              AlertService.success(_.size(published) + ' of ' + _.size(files) + ' files successfully published.', 4000);
             }, function(err) {
               self.busy = false;
               AlertService.error('The selected files could not be published.');
@@ -517,7 +517,7 @@ angular.module('documents')
               var published = _.map(result, function(o) { if (o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
               var unpublished = _.map(result, function(o) { if (!o.isPublished) return o.displayName || o.documentFileName || o.internalOriginalName; });
               self.selectNode(self.currentNode.model.id);
-              AlertService.success(_.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.');
+              AlertService.success(_.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.', 4000);
             }, function(err) {
               self.busy = false;
               AlertService.error('The selected files could not be unpublished.');
@@ -530,7 +530,7 @@ angular.module('documents')
             .then(function (directoryStructure) {
               $scope.project.directoryStructure = directoryStructure;
               $scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-              AlertService.success(folder.model.name + ' folder successfully published.');
+              AlertService.success(folder.model.name + ' folder successfully published.', 4000);
             }, function () {
               self.busy = false;
               AlertService.error('The selected folder could not be published.');
@@ -543,7 +543,7 @@ angular.module('documents')
             .then(function (directoryStructure) {
               $scope.project.directoryStructure = directoryStructure;
               $scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-              AlertService.success(folder.model.name + ' folder successfully un-published.');
+              AlertService.success(folder.model.name + ' folder successfully un-published.', 4000);
             }, function (docs) {
               var theDocs = [];
               var msg = "";
@@ -674,11 +674,11 @@ angular.module('documents')
                     }
                     //$log.debug('select and refresh destination directory...');
                     self.selectNode(destination.model.id);
-                    AlertService.success('The selected items were moved.');
+                    AlertService.success('The selected items were moved.', 4000);
                   })
                   .catch(function (err) {
                     self.busy = false;
-                    AlertService.error("The selected items could not be moved.");
+                    AlertService.error('The selected items could not be moved.', 4000);
                   });
                 }
               } 
@@ -749,7 +749,7 @@ angular.module('documents')
               });
             });
             return Promise.all(promises).then(function() {
-              AlertService.success('The document' + (documents.length > 1 ? 's were' : ' was') + ' successfully added to the collection' + (collections.length > 1 ? 's.' : '.'));
+              AlertService.success('The document' + (documents.length > 1 ? 's were' : ' was') + ' successfully added to the collection' + (collections.length > 1 ? 's.' : '.'), 4000);
             }, function(err) {
               AlertService.error('The document' + (documents.length > 1 ? 's were' : ' was') + ' not added to the collection' + (collections.length > 1 ? 's: ' : ': ') + err.message);
             });
@@ -786,7 +786,7 @@ angular.module('documents')
             }, Promise.resolve());
             promises.push(chain);
             return Promise.all(promises).then(function() {
-              AlertService.success('The document\'s collections were successfully updated.');
+              AlertService.success('The document\'s collections were successfully updated.', 4000);
             }, function(err) {
               AlertService.error('The document\'s collections were not successfully updated: '+ err.message);
             });

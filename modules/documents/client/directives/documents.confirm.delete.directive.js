@@ -18,17 +18,17 @@ angular.module('documents')
 		}
 	};
 }])
-.service('ConfirmDeleteService', ['$rootScope', '$modal', '_', '$timeout', 'DocumentMgrService', function ($rootScope, $modal, _, $timeout, DocumentMgrService) {
+.service('ConfirmDeleteService', ['$rootScope', '$uibModal', '_', '$timeout', 'DocumentMgrService', function ($rootScope, $uibModal, _, $timeout, DocumentMgrService) {
 	var service = this;
 	service.confirmDialog = function(scope) {
 		return new Promise(function(fulfill, reject) {
-			$modal.open({
+			$uibModal.open({
 				animation: true,
 				templateUrl: 'modules/documents/client/views/partials/modal-document-confirm-delete.html',
 				resolve: {},
 				size: 'lg',
 				controllerAs: 'confirmDlg',
-				controller: function ($scope, $modalInstance) {
+				controller: function ($scope, $uibModalInstance) {
 					var NO_AUTH         = "Not authorized to delete";
 					var HAS_CONTENT = "Folder is not empty";
 					var IS_PUBLISHED = "Published content cannot be deleted";
@@ -193,7 +193,7 @@ angular.module('documents')
 					}
 
 					function cancel() {
-						$modalInstance.dismiss('cancel');
+						$uibModalInstance.dismiss('cancel');
 					}
 
 					function submit () {
@@ -203,7 +203,7 @@ angular.module('documents')
 						self.deleteCallback(folders,files)
 						.then(function (result) {
 							self.busy = false;
-							$modalInstance.close(result);
+							$uibModalInstance.close(result);
 						}, function (err) {
 							self.busy = false;
 							self.errMsg = err.message;
