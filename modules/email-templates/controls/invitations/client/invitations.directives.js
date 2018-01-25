@@ -25,9 +25,9 @@ function directiveProcessInvitations() {
     return directive;
 }
 
-directiveEmailTemplateChooser.$inject = ['EmailTemplateModel', '$modal', '_'];
+directiveEmailTemplateChooser.$inject = ['EmailTemplateModel', '$uibModal', '_'];
 /* @ngInject */
-function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
+function directiveEmailTemplateChooser(EmailTemplateModel, $uibModal, _) {
     return {
         restrict: 'A',
         scope: {
@@ -38,7 +38,7 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
         },
         link : function(scope, element, attrs) {
             element.on('click', function () {
-                $modal.open ({
+                $uibModal.open ({
                     animation: true,
                     templateUrl: 'modules/email-templates/client/views/email-template-chooser.html',
                     controllerAs: 's',
@@ -48,7 +48,7 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
                             return EmailTemplateModel.getSorted ('group name');
                         }
                     },
-					controller: function ($scope, $modalInstance, items) {
+					controller: function ($scope, $uibModalInstance, items) {
 						var s = this;
 
 						if (scope.groupAllowed) {
@@ -87,10 +87,10 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
 							}
 						};
 
-						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
 
 						s.ok = function () {
-							$modalInstance.close (s.selected);
+							$uibModalInstance.close (s.selected);
 						};
 
 						// if current, then we need to select
@@ -118,9 +118,9 @@ function directiveEmailTemplateChooser(EmailTemplateModel, $modal, _) {
 }
 
 
-directiveAddNewRecipient.$inject = ['$modal', '_'];
+directiveAddNewRecipient.$inject = ['$uibModal', '_'];
 /* @ngInject */
-function directiveAddNewRecipient($modal, _) {
+function directiveAddNewRecipient($uibModal, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -129,26 +129,26 @@ function directiveAddNewRecipient($modal, _) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open ({
+				$uibModal.open ({
 					animation: true,
 					templateUrl: 'modules/email-templates/client/views/add-new-recipient-modal.html',
 					controllerAs: 's',
 					size: 'md',
 					resolve: {
 					},
-					controller: function ($scope, $modalInstance) {
+					controller: function ($scope, $uibModalInstance) {
 						var s = this;
 						s.name = undefined;
 						s.email = undefined;
 
-						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
 
 						s.submit = function (isValid) {
 							if (!isValid) {
 								$scope.$broadcast('show-errors-check-validity', 'newRecipientForm');
 								return false;
 							}
-							$modalInstance.close ({name: s.name, email: s.email});
+							$uibModalInstance.close ({name: s.name, email: s.email});
 						};
 					}
 				}).result.then (function (data) {

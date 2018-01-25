@@ -59,7 +59,7 @@ angular.module('topics').config(['$stateProvider', function ($stateProvider) {
 					.then(
 						function (result) {
 							$state.reload();
-							AlertService.success('Value Component '+ vc.name + ' ' + vc.pillar + ' was deleted!');
+							AlertService.success('Value Component '+ vc.name + ' ' + vc.pillar + ' was deleted!', 4000);
 						},
 						function (error) {
 							$state.reload();

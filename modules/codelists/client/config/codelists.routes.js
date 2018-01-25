@@ -34,7 +34,7 @@
 			url: '/:codelistName',
 			templateUrl: 'modules/codelists/client/views/codelist-list.html',
 			controllerAs: 'vm',
-			controller: function ($scope, $state, $stateParams, $modal, _, NgTableParams, AlertService, CodeListModel, codelists, CodeLists) {
+			controller: function ($scope, $state, $stateParams, $uibModal, _, NgTableParams, AlertService, CodeListModel, codelists, CodeLists) {
 				var vm = this;
 
 				// UI selects which code list to work with. Reload the table:
@@ -57,7 +57,7 @@
 
 				// UI invokes add or edit item within current codelist
 				vm.openAddEdit = function (item) {
-					addEditModal($scope, $modal, vm.currentField, item, onSuccess);
+					addEditModal($scope, $uibModal, vm.currentField, item, onSuccess);
 				};
 
 				vm.tableParams = new NgTableParams({count: 50});
@@ -99,12 +99,12 @@
 		});
 	}]);
 
-	function addEditModal($scope, $modal, currentField, item, onSuccess) {
-		$modal.open({
+	function addEditModal($scope, $uibModal, currentField, item, onSuccess) {
+		$uibModal.open({
 			animation: true,
 			templateUrl: 'modules/codelists/client/views/codelist-add-edit-modal.html',
 			controllerAs: 'vm',
-			controller: function ($scope, $modalInstance, _) {
+			controller: function ($scope, $uibModalInstance, _) {
 				var vm = this;
 				vm.title = item ? "Edit" : "Add";
 				vm.okText = item ? "Save" : "Add";
@@ -123,7 +123,7 @@
 				});
 
 				vm.cancel = function () {
-					$modalInstance.dismiss('cancel');
+					$uibModalInstance.dismiss('cancel');
 				};
 
 				$scope.$watch('vm.display', function (newVal, oldVal) {
@@ -147,7 +147,7 @@
 
 				vm.ok = function () {
 					onSuccess(item, vm.display, vm.displayPriority, vm.active);
-					$modalInstance.close();//{resource: s.object._id, data: s.permissionRoleIndex});
+					$uibModalInstance.close();//{resource: s.object._id, data: s.permissionRoleIndex});
 				};
 
 				// validate on the existing content

@@ -623,9 +623,9 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentLink.$inject = ['$rootScope', '$modalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_', 'rDocumentsControl'];
+controllerModalDocumentLink.$inject = ['$rootScope', '$uibModalInstance', '$scope', 'rProject', 'rCurrent', 'rDocLocationCode', 'rArtifact', '_', 'rDocumentsControl'];
 /* @ngInject */
-function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _, rDocumentsControl) {
+function controllerModalDocumentLink($rootScope, $uibModalInstance, $scope, rProject, rCurrent, rDocLocationCode, rArtifact, _, rDocumentsControl) {
 	var docLink = this;
 	docLink.linkFiles = [];
 	docLink.project = rProject;
@@ -670,7 +670,7 @@ function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProjec
 		if (rDocumentsControl && rDocumentsControl.update) {
 			rDocumentsControl.update(docLink.current);
 		}
-		$modalInstance.close();
+		$uibModalInstance.close();
 	};
 
 	docLink.cancel = function () {
@@ -679,13 +679,13 @@ function controllerModalDocumentLink($rootScope, $modalInstance, $scope, rProjec
 		if (rDocumentsControl && rDocumentsControl.reset) {
 			rDocumentsControl.reset(docLink.savedCurrent);
 		}
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 }
 
-controllerModalPdfViewer.$inject = ['$modalInstance', '$scope', 'PDFViewerService', 'pdfobject', 'Document'];
+controllerModalPdfViewer.$inject = ['$uibModalInstance', '$scope', 'PDFViewerService', 'pdfobject', 'Document'];
 /* @ngInject */
-function controllerModalPdfViewer($modalInstance, $scope, pdf, pdfobject, Document) {
+function controllerModalPdfViewer($uibModalInstance, $scope, pdf, pdfobject, Document) {
 	var pdfViewer = this;
 	$scope.pdfURL = window.location.protocol + "//" + window.location.host + "/api/document/" + pdfobject._id + "/fetch";
 	$scope.instance = pdf.Instance("viewer");
@@ -723,16 +723,16 @@ function controllerModalPdfViewer($modalInstance, $scope, pdf, pdfobject, Docume
 		$scope.$apply();
 	};
 
-	$scope.closeWindow = function () { $modalInstance.close(); };
+	$scope.closeWindow = function () { $uibModalInstance.close(); };
 }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentUploadClassify.$inject = ['$modalInstance', '$scope', 'rProject', 'rDocLocationCode', 'rArtifact', '$rootScope', 'rDocumentsControl'];
+controllerModalDocumentUploadClassify.$inject = ['$uibModalInstance', '$scope', 'rProject', 'rDocLocationCode', 'rArtifact', '$rootScope', 'rDocumentsControl'];
 /* @ngInject */
-function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject, rDocLocationCode, rArtifact, $rootScope, rDocumentsControl) {
+function controllerModalDocumentUploadClassify($uibModalInstance, $scope, rProject, rDocLocationCode, rArtifact, $rootScope, rDocumentsControl) {
 	var docUploadModal = this;
 	docUploadModal.uploading = false;
 
@@ -762,7 +762,7 @@ function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject,
 
 	// Document upload complete so close and continue.
 	$scope.$on('documentUploadCompleteF', function() {
-		$modalInstance.close();
+		$uibModalInstance.close();
 	});
 
 	$scope.$on('enableUpload', function (event, args) {
@@ -778,7 +778,7 @@ function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject,
 		docUploadModal.uploading = true;
 	};
 	docUploadModal.cancel = function () {
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -786,14 +786,14 @@ function controllerModalDocumentUploadClassify($modalInstance, $scope, rProject,
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentUploadReview.$inject = ['$modalInstance', '$scope', 'rProject'];
+controllerModalDocumentUploadReview.$inject = ['$uibModalInstance', '$scope', 'rProject'];
 /* @ngInject */
-function controllerModalDocumentUploadReview($modalInstance, $scope, rProject) {
+function controllerModalDocumentUploadReview($uibModalInstance, $scope, rProject) {
 	var docUploadModalReview = this;
 
 	// Document upload complete so close and continue.
 	$scope.$on('documentUploadComplete', function() {
-		$modalInstance.close();
+		$uibModalInstance.close();
 	});
 
 	docUploadModalReview.project = rProject;
@@ -802,7 +802,7 @@ function controllerModalDocumentUploadReview($modalInstance, $scope, rProject) {
 		$scope.$broadcast('documentUploadStart', true);
 	};
 	docUploadModalReview.cancel = function () {
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -810,33 +810,33 @@ function controllerModalDocumentUploadReview($modalInstance, $scope, rProject) {
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentViewer.$inject = ['$modalInstance'];
+controllerModalDocumentViewer.$inject = ['$uibModalInstance'];
 /* @ngInject */
-function controllerModalDocumentViewer($modalInstance) {
+function controllerModalDocumentViewer($uibModalInstance) {
 	var md = this;
-	md.ok = function () { $modalInstance.close(); };
-	md.cancel = function () { $modalInstance.dismiss('cancel'); };
+	md.ok = function () { $uibModalInstance.close(); };
+	md.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: View Documents Comment
 //
 // -----------------------------------------------------------------------------------
-// controllerModalDocumentBuckets.$inject = ['$modalInstance'];
+// controllerModalDocumentBuckets.$inject = ['$uibModalInstance'];
 // /* @ngInject */
-// function controllerModalDocumentBuckets($modalInstance) {
+// function controllerModalDocumentBuckets($uibModalInstance) {
 // 	var docBuckets = this;
-// 	docBuckets.ok = function () { $modalInstance.close(); };
-// 	docBuckets.cancel = function () { $modalInstance.dismiss('cancel'); };
+// 	docBuckets.ok = function () { $uibModalInstance.close(); };
+// 	docBuckets.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 // }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Modal: Signature Upload for User
 //
 // -----------------------------------------------------------------------------------
-controllerSignatureUpload.$inject = ['UserModel', '$rootScope', '$scope', 'Upload', '$timeout', 'Document', '_', 'ENV', '$modalInstance'];
+controllerSignatureUpload.$inject = ['UserModel', '$rootScope', '$scope', 'Upload', '$timeout', 'Document', '_', 'ENV', '$uibModalInstance'];
 /* @ngInject */
-function controllerSignatureUpload(UserModel, $rootScope, $scope, Upload, $timeout, Document, _, ENV, $modalInstance) {
+function controllerSignatureUpload(UserModel, $rootScope, $scope, Upload, $timeout, Document, _, ENV, $uibModalInstance) {
 	var sigUp = this;
 
 	$scope.environment = ENV;
@@ -856,7 +856,7 @@ function controllerSignatureUpload(UserModel, $rootScope, $scope, Upload, $timeo
 
 	$scope.$on('documentUploadComplete', function () {
 		$rootScope.$broadcast('refreshSig');
-		$modalInstance.close();
+		$uibModalInstance.close();
 	});
 
 	$scope.$watch('files', function (newValue) {
@@ -915,13 +915,13 @@ function controllerSignatureUpload(UserModel, $rootScope, $scope, Upload, $timeo
 // CONTROLLER: Modal: View Instructions for Documents Page
 //
 // -----------------------------------------------------------------------------------
-controllerModalDocumentInstructions.$inject = ['$modalInstance'];
+controllerModalDocumentInstructions.$inject = ['$uibModalInstance'];
 /* @ngInject */
-function controllerModalDocumentInstructions($modalInstance) {
+function controllerModalDocumentInstructions($uibModalInstance) {
 	var modal = this;
 
 	modal.continue = function () {
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 }
 // -----------------------------------------------------------------------------------

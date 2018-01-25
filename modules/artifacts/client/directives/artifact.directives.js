@@ -8,7 +8,7 @@ angular.module('artifacts')
 // interacting with a list of artifacts
 //
 // -------------------------------------------------------------------------
-.directive('tmplArtifactList', function ($state, $modal, ArtifactModel) {
+.directive('tmplArtifactList', function ($state, $uibModal, ArtifactModel) {
 	return {
 		restrict: 'E',
 		templateUrl: 'modules/artifacts/client/views/artifact-list.html',
@@ -36,7 +36,7 @@ angular.module('artifacts')
 
 			s.openAddTypes = function () {
 				
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/artifacts/client/views/artifact-type-chooser.html',
 					resolve: {
@@ -48,7 +48,7 @@ angular.module('artifacts')
 							return [];
 						}
 					},
-					controller: function ($modalInstance, $scope, NgTableParams, Authentication, PhaseBaseModel, _, $stateParams, ArtifactModel, artifactTypes, phases) {
+					controller: function ($uibModalInstance, $scope, NgTableParams, Authentication, PhaseBaseModel, _, $stateParams, ArtifactModel, artifactTypes, phases) {
 						var chooser = this;
 						chooser.current = [];
 						chooser.currentObjs = [];
@@ -63,12 +63,12 @@ angular.module('artifacts')
 								savedArray.push(obj);
 								if (idx === chooser.currentObjs.length - 1) {
 									// Return the collection back to the caller
-									$modalInstance.close(savedArray);
+									$uibModalInstance.close(savedArray);
 								}
 							});
 						};
 						chooser.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 
 						chooser.toggleItem = function (item) {
@@ -291,7 +291,7 @@ angular.module('artifacts')
 // a document type, in either edit or view mode for each
 //
 // -------------------------------------------------------------------------
-.directive('artifactDisplayModal', function ($modal) {
+.directive('artifactDisplayModal', function ($uibModal) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -301,16 +301,16 @@ angular.module('artifacts')
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/artifacts/client/views/artifact-display-modal.html',
 					size: 'lg',
-					controller: function ($scope, $modalInstance) {
+					controller: function ($scope, $uibModalInstance) {
 						$scope.project = scope.project;
 						$scope.artifact = scope.artifact;
 						$scope.mode = scope.mode;
 						$scope.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					}
 				});
@@ -325,7 +325,7 @@ angular.module('artifacts')
 // so, essentially an artifact chooser
 //
 // -------------------------------------------------------------------------
-.directive('artifactChooser', function ($modal, ArtifactModel, _) {
+.directive('artifactChooser', function ($uibModal, ArtifactModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -334,7 +334,7 @@ angular.module('artifacts')
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/artifacts/client/views/artifact-chooser.html',
 					controllerAs: 's',
@@ -344,15 +344,15 @@ angular.module('artifacts')
 							return ArtifactModel.forProject(scope.project._id);
 						}
 					},
-					controller: function ($scope, $modalInstance, artifacts) {
+					controller: function ($scope, $uibModalInstance, artifacts) {
 						var s = this;
 						s.artifacts = artifacts;
 						s.selected = scope.artifact._id;
 						s.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
-							$modalInstance.close(s.selected);
+							$uibModalInstance.close(s.selected);
 						};
 					}
 				})
@@ -368,7 +368,7 @@ angular.module('artifacts')
 		}
 	};
 })
-.directive('artifactVc', function ($modal, ArtifactModel, _, VcModel) {
+.directive('artifactVc', function ($uibModal, ArtifactModel, _, VcModel) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -378,7 +378,7 @@ angular.module('artifacts')
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/artifacts/client/views/artifact-vc.html',
 					controllerAs: 's',
@@ -389,17 +389,17 @@ angular.module('artifacts')
 							return ArtifactModel.forProjectGetType(scope.project._id, "valued-component");
 						}
 					},
-					controller: function ($scope, $modalInstance, artifacts) {
+					controller: function ($scope, $uibModalInstance, artifacts) {
 						var s = this;
 						s.artifacts = artifacts;
 						// console.log("current:",scope.current);
 						s.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
 							// Selected artifact is:
 							// console.log("Selected:",s.selected);
-							$modalInstance.close(s.selected);
+							$uibModalInstance.close(s.selected);
 						};
 					}
 				})
@@ -424,7 +424,7 @@ angular.module('artifacts')
 		}
 	};
 })
-.directive ('artifactListChooser', function ($modal, ArtifactModel, _) {
+.directive ('artifactListChooser', function ($uibModal, ArtifactModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -434,7 +434,7 @@ angular.module('artifacts')
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open ({
+				$uibModal.open ({
 					animation: true,
 					templateUrl: 'modules/artifacts/client/views/artifact-list-chooser.html',
 					controllerAs: 's',
@@ -456,7 +456,7 @@ angular.module('artifacts')
 							});
 						}
 					},
-					controller: function ($scope, $modalInstance, items) {
+					controller: function ($scope, $uibModalInstance, items) {
 						var s = this;
 
 						var isArray = _.isArray(scope.current);
@@ -486,10 +486,10 @@ angular.module('artifacts')
 							}
 						};
 
-						s.cancel = function () { $modalInstance.dismiss ('cancel'); };
+						s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
 
 						s.ok = function () {
-							$modalInstance.close (s.selected);
+							$uibModalInstance.close (s.selected);
 						};
 
 						// if current, then we need to select

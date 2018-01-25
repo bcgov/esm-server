@@ -66,21 +66,21 @@
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-// controllerModalProjectEdit.$inject = ['$modalInstance', 'rProject', 'Utils', 'Project'];
+// controllerModalProjectEdit.$inject = ['$uibModalInstance', 'rProject', 'Utils', 'Project'];
 // /* @ngInject */
-// function controllerModalProjectEdit($modalInstance, rProject, Utils, Project) {
+// function controllerModalProjectEdit($uibModalInstance, rProject, Utils, Project) {
 // 	var projectEdit = this;
 
 // 	// set local var to passed project
 // 	projectEdit.project = angular.copy(rProject);
 
 // 	projectEdit.cancel = function () {
-// 		$modalInstance.dismiss('cancel');
+// 		$uibModalInstance.dismiss('cancel');
 // 	};
 // 	projectEdit.ok = function () {
 // 		rProject = angular.copy(projectEdit.project);
 // 		Project.saveProject(rProject);
-// 		$modalInstance.close();
+// 		$uibModalInstance.close();
 // 	};
 // }
 // -----------------------------------------------------------------------------------
@@ -88,9 +88,9 @@
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-// controllerModalProjectEditPlanMilestones.$inject = ['$modalInstance', 'rProject', 'Utils', '_'];
+// controllerModalProjectEditPlanMilestones.$inject = ['$uibModalInstance', 'rProject', 'Utils', '_'];
 // /* @ngInject */
-// function controllerModalProjectEditPlanMilestones($modalInstance, rProject, Utils, _) {
+// function controllerModalProjectEditPlanMilestones($uibModalInstance, rProject, Utils, _) {
 // 	var pestag = this;
 
 // 	// remove a milestone from the temporary list.
@@ -121,11 +121,11 @@
 // 		pestag.allMilestones = res.data;
 // 	});
 
-// 	pestag.cancel = function () { $modalInstance.dismiss('cancel'); };
+// 	pestag.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 // 	pestag.ok = function () {
 // 		// saving so write the new data.
 // 		rProject.milestones = angular.copy(pestag.projectMilestones);
-// 		$modalInstance.close();
+// 		$uibModalInstance.close();
 // 	};
 // }
 // -----------------------------------------------------------------------------------
@@ -133,9 +133,9 @@
 // CONTROLLER: Modal: Edit Project Schedule
 //
 // -----------------------------------------------------------------------------------
-// controllerModalProjectEditPlanSchedule.$inject = ['$modalInstance', 'rProject', 'Project', '_'];
+// controllerModalProjectEditPlanSchedule.$inject = ['$uibModalInstance', 'rProject', 'Project', '_'];
 // /* @ngInject */
-// function controllerModalProjectEditPlanSchedule($modalInstance, rProject, Project, _) {
+// function controllerModalProjectEditPlanSchedule($uibModalInstance, rProject, Project, _) {
 // 	var pesched = this;
 
 // 	var original = angular.copy(rProject.milestones);
@@ -145,7 +145,7 @@
 
 // 	pesched.cancel = function () {
 // 		pesched.project.milestones = original;
-// 		$modalInstance.dismiss('cancel');
+// 		$uibModalInstance.dismiss('cancel');
 // 	};
 // 	pesched.ok = function () {
 // 		// saving so write the new data.
@@ -156,6 +156,6 @@
 // 			}
 // 		});
 
-// 		$modalInstance.close();
+// 		$uibModalInstance.close();
 // 	};
 // }

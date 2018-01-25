@@ -17,15 +17,15 @@ angular.module('project')
 // CONTROLLER: Modal: View Project Schedule
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectSchedule.$inject = ['$modalInstance', 'PhaseModel', '_', 'rProject'];
+controllerModalProjectSchedule.$inject = ['$uibModalInstance', 'PhaseModel', '_', 'rProject'];
 /* @ngInject */
-function controllerModalProjectSchedule($modalInstance,  PhaseModel, _, rProject) {
+function controllerModalProjectSchedule($uibModalInstance,  PhaseModel, _, rProject) {
 	var projSched = this;
 
 	var savedOriginal = angular.copy(rProject.phases);
 	projSched.phases = rProject.phases;
 
-	projSched.cancel = function () { $modalInstance.dismiss('cancel'); };
+	projSched.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 	projSched.ok = function () {
 		// save each phase.
 		_.each(projSched.phases, function(item) {
@@ -33,10 +33,10 @@ function controllerModalProjectSchedule($modalInstance,  PhaseModel, _, rProject
 			PhaseModel.saveModel().then( function(res) {
 				// console.log('saved');
 			}).catch( function(err) {
-				$modalInstance.dismiss('cancel');
+				$uibModalInstance.dismiss('cancel');
 			});
 		});
-		$modalInstance.close();
+		$uibModalInstance.close();
 	};
 }
 // -----------------------------------------------------------------------------------
@@ -44,9 +44,9 @@ function controllerModalProjectSchedule($modalInstance,  PhaseModel, _, rProject
 // CONTROLLER: Modal: View Project VC
 //
 // -----------------------------------------------------------------------------------
-controllerProjectVC.$inject = ['$scope', 'rProjectVC', '_', '$modalInstance', 'VCModel'];
+controllerProjectVC.$inject = ['$scope', 'rProjectVC', '_', '$uibModalInstance', 'VCModel'];
 /* @ngInject */
-function controllerProjectVC($scope, rProjectVC, _, $modalInstance, sVCModel) {
+function controllerProjectVC($scope, rProjectVC, _, $uibModalInstance, sVCModel) {
 		var projectVC = this;
 
 		projectVC.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
@@ -61,9 +61,9 @@ function controllerProjectVC($scope, rProjectVC, _, $modalInstance, sVCModel) {
 
 		// on save, pass complete permission structure to the server
 		projectVC.ok = function () {
-				$modalInstance.close();
+				$uibModalInstance.close();
 		};
-		projectVC.cancel = function () { $modalInstance.dismiss('cancel'); };
+		projectVC.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 
 }
 // -----------------------------------------------------------------------------------
@@ -71,9 +71,9 @@ function controllerProjectVC($scope, rProjectVC, _, $modalInstance, sVCModel) {
 // CONTROLLER: Modal: View Project VC Entry
 //
 // -----------------------------------------------------------------------------------
-controllerProjectVCEntry.$inject = ['rProjectVCEntry', '_', '$modalInstance'];
+controllerProjectVCEntry.$inject = ['rProjectVCEntry', '_', '$uibModalInstance'];
 /* @ngInject */
-function controllerProjectVCEntry(rProjectVCEntry, _, $modalInstance) {
+function controllerProjectVCEntry(rProjectVCEntry, _, $uibModalInstance) {
 	var projectVCEntryModal = this;
 
 	projectVCEntryModal.roles = ['admin', 'project-team', 'working-group', 'first-nations', 'consultant'];
@@ -83,18 +83,18 @@ function controllerProjectVCEntry(rProjectVCEntry, _, $modalInstance) {
 
 	// on save, pass complete permission structure to the server
 	projectVCEntryModal.ok = function () {
-		$modalInstance.close();
+		$uibModalInstance.close();
 	};
-	projectVCEntryModal.cancel = function () { $modalInstance.dismiss('cancel'); };
+	projectVCEntryModal.cancel = function () { $uibModalInstance.dismiss('cancel'); };
 }
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: Project Entry Tombstone
 //
 // -----------------------------------------------------------------------------------
-controllerModalProjectImport.$inject = ['Upload', '$modalInstance', '$timeout', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_', 'ENV'];
+controllerModalProjectImport.$inject = ['Upload', '$uibModalInstance', '$timeout', '$scope', '$state', 'Project',  'ProjectModel', 'rProject', 'REGIONS', 'PROJECT_TYPES', '_', 'ENV'];
 /* @ngInject */
-function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, $state, sProject, ProjectModel, rProject, REGIONS, PROJECT_TYPES, _, ENV) {
+function controllerModalProjectImport(Upload, $uibModalInstance, $timeout, $scope, $state, sProject, ProjectModel, rProject, REGIONS, PROJECT_TYPES, _, ENV) {
 	var projectImport = this;
 	$scope.environment = ENV;
 
@@ -117,12 +117,12 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 	});
 
 	$scope.$on('importUploadComplete', function() {
-		$modalInstance.close();
+		$uibModalInstance.close();
 	});
 
 	$scope.$on('importUploadStart', function(event) {
 		projectImport.upload();
-		$modalInstance.dismiss();
+		$uibModalInstance.dismiss();
 	});
 
 	projectImport.ok = function () {
@@ -134,7 +134,7 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 	};
 
 	projectImport.cancel = function () {
-		$modalInstance.dismiss();
+		$uibModalInstance.dismiss();
 	};
 
 	// Standard save make sure documents are uploaded before save.
@@ -177,11 +177,11 @@ function controllerModalProjectImport(Upload, $modalInstance, $timeout, $scope, 
 // Used.
 //
 // -----------------------------------------------------------------------------------
-controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$modal', 'project', 'REGIONS', 'PROJECT_TYPES',
+controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$uibModal', 'project', 'REGIONS', 'PROJECT_TYPES',
 	'PROJECT_SUB_TYPES', 'CodeLists', 'EAC_DECISIONS', '_', 'UserModel', 'ProjectModel', 'OrganizationModel',
 	'Authentication', 'codeFromTitle', 'EAO_COMPLIANCE_EMAIL'];
 /* @ngInject */
-function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, REGIONS, PROJECT_TYPES,
+function controllerProjectEntry ($scope, $state, $stateParams, $uibModal, project, REGIONS, PROJECT_TYPES,
 	PROJECT_SUB_TYPES, CodeLists, EAC_DECISIONS, _, UserModel, ProjectModel, OrganizationModel,
 	Authentication, codeFromTitle, EAO_COMPLIANCE_EMAIL) {
 
@@ -294,18 +294,18 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	};
 
 	$scope.showSuccess = function(msg, transitionCallback, title) {
-		var modalDocView = $modal.open({
+		var modalDocView = $uibModal.open({
 			animation: true,
 			templateUrl: 'modules/utils/client/views/partials/modal-success.html',
-			controller: function($scope, $state, $modalInstance, _) {
+			controller: function($scope, $state, $uibModalInstance, _) {
 				var self = this;
 				self.title = title || 'Success';
 				self.msg = msg;
 				self.ok = function() {
-					$modalInstance.close($scope.project);
+					$uibModalInstance.close($scope.project);
 				};
 				self.cancel = function() {
-					$modalInstance.dismiss('cancel');
+					$uibModalInstance.dismiss('cancel');
 				};
 			},
 			controllerAs: 'self',
@@ -319,18 +319,18 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	};
 
 	$scope.showError = function(msg, errorList, transitionCallback, title) {
-		var modalDocView = $modal.open({
+		var modalDocView = $uibModal.open({
 			animation: true,
 			templateUrl: 'modules/utils/client/views/partials/modal-error.html',
-			controller: function($scope, $state, $modalInstance, _) {
+			controller: function($scope, $state, $uibModalInstance, _) {
 				var self = this;
 				self.title = title || 'An error has occurred';
 				self.msg = msg;
 				self.ok = function() {
-					$modalInstance.close($scope.project);
+					$uibModalInstance.close($scope.project);
 				};
 				self.cancel = function() {
-					$modalInstance.dismiss('cancel');
+					$uibModalInstance.dismiss('cancel');
 				};
 			},
 			controllerAs: 'self',
@@ -354,18 +354,18 @@ function controllerProjectEntry ($scope, $state, $stateParams, $modal, project, 
 	};
 
 	$scope.deleteProject = function() {
-		var modalDocView = $modal.open({
+		var modalDocView = $uibModal.open({
 			animation: true,
 			templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
-			controller: function($scope, $state, $modalInstance, _) {
+			controller: function($scope, $state, $uibModalInstance, _) {
 				var self = this;
 				self.dialogTitle = "Delete Project";
 				self.name = $scope.project.name;
 				self.ok = function() {
-					$modalInstance.close($scope.project);
+					$uibModalInstance.close($scope.project);
 				};
 				self.cancel = function() {
-					$modalInstance.dismiss('cancel');
+					$uibModalInstance.dismiss('cancel');
 				};
 			},
 			controllerAs: 'self',

@@ -47,7 +47,7 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				}
 			},
 			controllerAs: 'userEditControl',
-			controller: function ($scope, $state, $filter, $modal, Authentication, user) {
+			controller: function ($scope, $state, $filter, $uibModal, Authentication, user) {
 				$scope.user = user;
 				$scope.groupsAndRoles = {};
 				$scope.mode = 'add';
@@ -91,7 +91,7 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				}
 			},
 			controllerAs: 'userEditControl',
-			controller: function ($scope, $state, $filter, $modal, Authentication, user, groupsAndRoles) {
+			controller: function ($scope, $state, $filter, $uibModal, Authentication, user, groupsAndRoles) {
 				$scope.user = user;
 				$scope.groupsAndRoles = groupsAndRoles;
 				$scope.mode = 'edit';
@@ -135,7 +135,7 @@ angular.module('users.admin.routes').config(['$stateProvider', '_', function ($s
 				}
 			},
 			controllerAs: 'userEditControl',
-			controller: function ($scope, $state, $filter, $modal, Authentication, user, groupsAndRoles) {
+			controller: function ($scope, $state, $filter, $uibModal, Authentication, user, groupsAndRoles) {
 				$scope.user = user;
 				$scope.groupsAndRoles = groupsAndRoles;
 				$scope.mode = 'view';

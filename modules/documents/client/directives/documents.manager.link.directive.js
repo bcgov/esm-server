@@ -214,7 +214,7 @@ angular.module('documents')
 			controllerAs: 'documentMgr'
 		};
 	}])
-	.directive('documentMgrLinkModal',['$rootScope', '$modal', '$log', '$timeout', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', function ($rootScope, $modal, $log, $timeout, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document){
+	.directive('documentMgrLinkModal',['$rootScope', '$uibModal', '$log', '$timeout', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', function ($rootScope, $uibModal, $log, $timeout, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document){
 		return {
 			restrict: 'A',
 			scope: {
@@ -226,13 +226,13 @@ angular.module('documents')
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
-					$modal.open({
+					$uibModal.open({
 						animation: true,
 						size: 'lg',
 						templateUrl: 'modules/documents/client/views/document-manager-link-modal.html',
 						resolve: {},
 						controllerAs: 'linkModal',
-						controller: function ($rootScope, $scope, $modalInstance) {
+						controller: function ($rootScope, $scope, $uibModalInstance) {
 							var self = this;
 
 							$scope.project = scope.project;
@@ -247,12 +247,12 @@ angular.module('documents')
 							self.publishedOnly = scope.publishedOnly;
 
 							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							};
 
 							self.ok = function () {
 								// return the data in the selected list...
-								$modalInstance.close(self.linkedFiles);
+								$uibModalInstance.close(self.linkedFiles);
 							};
 
 						}

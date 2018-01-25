@@ -3,9 +3,9 @@
 angular.module('control')
 	.directive('collectionChooser', directiveCollectionsChooser);
 
-directiveCollectionsChooser.$inject = ['CollectionModel', '$modal', '_'];
+directiveCollectionsChooser.$inject = ['CollectionModel', '$uibModal', '_'];
 
-function directiveCollectionsChooser(CollectionModel, $modal, _) {
+function directiveCollectionsChooser(CollectionModel, $uibModal, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -17,7 +17,7 @@ function directiveCollectionsChooser(CollectionModel, $modal, _) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				$modal.open ({
+				$uibModal.open ({
 					animation: true,
 					templateUrl: 'modules/collections/client/views/collections-select.html',
 					controllerAs: 's',
@@ -27,7 +27,7 @@ function directiveCollectionsChooser(CollectionModel, $modal, _) {
 							return CollectionModel.lookupProject(scope.project.code);
 						}
 					},
-					controller: function($scope, $modalInstance, collections) {
+					controller: function($scope, $uibModalInstance, collections) {
 						var s = this;
 
 						s.items = collections;
@@ -52,10 +52,10 @@ function directiveCollectionsChooser(CollectionModel, $modal, _) {
 							}
 						};
 
-						s.cancel = function() { $modalInstance.dismiss('cancel'); };
+						s.cancel = function() { $uibModalInstance.dismiss('cancel'); };
 
 						s.ok = function() {
-							$modalInstance.close(s.selected);
+							$uibModalInstance.close(s.selected);
 						};
 
 						// if current, then we need to select

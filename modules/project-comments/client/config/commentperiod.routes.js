@@ -92,7 +92,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
           .then(
             function(result) {
               $state.reload();
-              AlertService.success('Comment Period was deleted!');
+              AlertService.success('Comment Period was deleted!', 4000);
             },
             function(error){
               $state.reload();
@@ -105,7 +105,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
           .then(
             function(result) {
               $state.reload();
-              AlertService.success('Comment Period was published!');
+              AlertService.success('Comment Period was published!', 4000);
             },
             function(error){
               $state.reload();
@@ -117,7 +117,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
           .then(
             function(result) {
               $state.reload();
-              AlertService.success('Comment Period was unpublished!');
+              AlertService.success('Comment Period was unpublished!', 4000);
             },
             function(error){
               $state.reload();

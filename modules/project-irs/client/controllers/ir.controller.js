@@ -55,8 +55,8 @@ angular.module ('irs')
 //
 // -------------------------------------------------------------------------
 .controller ('controllerEditIrModal',
-	['$modalInstance', '$scope', '_', 'codeFromTitle', 'IrModel', 'TopicModel', 'PILLARS',
-	function ($modalInstance, $scope, _, codeFromTitle, IrModel, TopicModel, PILLARS) {
+	['$uibModalInstance', '$scope', '_', 'codeFromTitle', 'IrModel', 'TopicModel', 'PILLARS',
+	function ($uibModalInstance, $scope, _, codeFromTitle, IrModel, TopicModel, PILLARS) {
 
 	// console.log ('controllerEditIrModal is running');
 
@@ -90,22 +90,22 @@ angular.module ('irs')
 		// console.log ('new code = ', this.ir.code);
 		if (this.mode === 'add') {
 			IrModel.saveModel ().then (function (result) {
-				$modalInstance.close(result);
+				$uibModalInstance.close(result);
 			});
 		}
 		else if (this.mode === 'edit') {
 			IrModel.saveModel ().then (function (result) {
 				$scope.ir = _.cloneDeep (result);
-				$modalInstance.close(result);
+				$uibModalInstance.close(result);
 			});
 		}
 		else {
-			$modalInstance.dismiss ('cancel');
+			$uibModalInstance.dismiss ('cancel');
 		}
 	};
 	this.cancel = function () {
 		// console.log ('cancel clicked');
-		$modalInstance.dismiss('cancel');
+		$uibModalInstance.dismiss('cancel');
 	};
 
 	//
@@ -130,8 +130,8 @@ angular.module ('irs')
 	}
 }])
 .controller ('controllerAddArtifactModal',
-	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel',
-	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel) {
+	['NgTableParams','$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel',
+	function (NgTableParams, $uibModalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel) {
 
 		var self = this;
 		self.current = [];
@@ -187,17 +187,17 @@ angular.module ('irs')
 				//console.log("scope.ir:", $scope.ir);
 				$scope.ir.conditionArtifacts.push(obj);
 			});
-			$modalInstance.close($scope.ir.conditionArtifacts);
+			$uibModalInstance.close($scope.ir.conditionArtifacts);
 		};
 
 		this.cancel = function () {
 			// console.log ('cancel clicked');
-			$modalInstance.dismiss('cancel');
+			$uibModalInstance.dismiss('cancel');
 		};
 }])
 .controller ('controllerAddEditEnforcementActionModal',
-	['NgTableParams','$modalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel', 'EnforcementModel','current',
-	function (NgTableParams, $modalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel, EnforcementModel, current) {
+	['NgTableParams','$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel', 'EnforcementModel','current',
+	function (NgTableParams, $uibModalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel, EnforcementModel, current) {
 
 		var self = this;
 		self.ir = $scope.ir;
@@ -209,12 +209,12 @@ angular.module ('irs')
 		});
 
 		this.ok = function () {
-			$modalInstance.close($scope.selected);
+			$uibModalInstance.close($scope.selected);
 		};
 
 		this.cancel = function () {
 			// console.log ('cancel clicked');
-			$modalInstance.dismiss('cancel');
+			$uibModalInstance.dismiss('cancel');
 		};
 }])
 ;

@@ -31,7 +31,7 @@ function directiveUserEntry(_) {
 			control: '=',
 			srefReturn: '='
 		},
-		controller: function ($scope, $attrs, $state, $filter, $modal, _, Authentication, CodeLists, UserModel) {
+		controller: function ($scope, $attrs, $state, $filter, $uibModal, _, Authentication, CodeLists, UserModel) {
 			$scope.CodeLists = CodeLists;
 			$scope.salutations = $scope.readonly === true ? CodeLists.salutations.all : CodeLists.salutations.active;
 			$scope.internalControl = $scope.control || {};
@@ -78,18 +78,18 @@ function directiveUserEntry(_) {
 			};
 
 			$scope.showSuccess = function (msg, transitionCallback, title) {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/utils/client/views/partials/modal-success.html',
-					controller: function ($scope, $state, $modalInstance, _) {
+					controller: function ($scope, $state, $uibModalInstance, _) {
 						var self = this;
 						self.title = title || 'Success';
 						self.msg = msg;
 						self.ok = function () {
-							$modalInstance.close($scope.user);
+							$uibModalInstance.close($scope.user);
 						};
 						self.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',
@@ -107,18 +107,18 @@ function directiveUserEntry(_) {
 			};
 
 			$scope.showError = function (msg, errorList, transitionCallback, title) {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/utils/client/views/partials/modal-error.html',
-					controller: function ($scope, $state, $modalInstance, _) {
+					controller: function ($scope, $state, $uibModalInstance, _) {
 						var self = this;
 						self.title = title || 'An error has occurred';
 						self.msg = msg;
 						self.ok = function () {
-							$modalInstance.close($scope.user);
+							$uibModalInstance.close($scope.user);
 						};
 						self.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',
@@ -156,18 +156,18 @@ function directiveUserEntry(_) {
 			}
 
 			$scope.internalControl.deleteUser = function () {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/utils/client/views/partials/modal-confirm-delete.html',
-					controller: function ($scope, $state, $modalInstance, _) {
+					controller: function ($scope, $state, $uibModalInstance, _) {
 						var self = this;
 						self.dialogTitle = "Delete Contact";
 						self.name = $scope.user.displayName;
 						self.ok = function () {
-							$modalInstance.close($scope.user);
+							$uibModalInstance.close($scope.user);
 						};
 						self.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 					},
 					controllerAs: 'self',
@@ -230,9 +230,9 @@ function directiveUserEntry(_) {
 // DIRECTIVE: User Entry Form
 //
 // -----------------------------------------------------------------------------------
-directiveEditMyProfile.$inject = ['$modal', '_'];
+directiveEditMyProfile.$inject = ['$uibModal', '_'];
 /* @ngInject */
-function directiveEditMyProfile($modal, _) {
+function directiveEditMyProfile($uibModal, _) {
 	var directive = {
 		restrict:'A',
 		scope : {
@@ -240,7 +240,7 @@ function directiveEditMyProfile($modal, _) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocView = $modal.open({
+				var modalDocView = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/users/client/views/user-edit-modal.html',
 					controllerAs: 'userEditControl',
@@ -252,7 +252,7 @@ function directiveEditMyProfile($modal, _) {
 							return UserModel.groupsAndRoles(Authentication.user._id);
 						}
 					},
-					controller: function($scope, $filter, $modalInstance, user, groupsAndRoles) {
+					controller: function($scope, $filter, $uibModalInstance, user, groupsAndRoles) {
 						$scope.user = user;
 						$scope.groupsAndRoles = groupsAndRoles;
 						$scope.mode = 'edit';
@@ -270,10 +270,10 @@ function directiveEditMyProfile($modal, _) {
 						var userEditControl = this;
 						userEditControl.title = 'Edit Profile';
 						userEditControl.cancel = function() {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 						userEditControl.onSave = function() {
-							$modalInstance.close();
+							$uibModalInstance.close();
 						};
 						// we pass this to the user entry directive/controller for communication between the two...
 						$scope.userEntryControl = {
@@ -290,14 +290,14 @@ function directiveEditMyProfile($modal, _) {
 	};
 	return directive;
 }
-directiveSetSignature.$inject = ['$modal', '$rootScope', 'ENV'];
+directiveSetSignature.$inject = ['$uibModal', '$rootScope', 'ENV'];
 /* @ngInject */
-function directiveSetSignature($modal, $rootScope, ENV) {
+function directiveSetSignature($uibModal, $rootScope, ENV) {
 	var directive = {
 		restrict:'A',
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalDocUpload = $modal.open({
+				var modalDocUpload = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/documents/client/views/partials/document-upload-signature.html',
 					controllerAs: 'sigUp',

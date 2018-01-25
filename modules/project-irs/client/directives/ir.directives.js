@@ -21,7 +21,7 @@ angular.module ('irs')
 // directive for adding or editing a ir
 //
 // -------------------------------------------------------------------------
-.directive ('editIrModal', ['$modal','$rootScope', function ($modal, $rootScope) {
+.directive ('editIrModal', ['$uibModal','$rootScope', function ($uibModal, $rootScope) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -32,7 +32,7 @@ angular.module ('irs')
 		link : function (scope, element, attrs) {
 			// console.log('editIrModal is running');
 			element.on ('click', function () {
-				var modalView = $modal.open ({
+				var modalView = $uibModal.open ({
 					animation    : true,
 					templateUrl  : 'modules/project-irs/client/views/ir-edit.html',
 					controller   : 'controllerEditIrModal',

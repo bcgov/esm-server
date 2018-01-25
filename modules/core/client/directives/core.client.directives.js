@@ -14,7 +14,7 @@ angular.module('core')
 // and thingamajig
 //
 // -------------------------------------------------------------------------
-.directive('rolePermissionsModal', function ($state, $modal, Authentication, Application, AccessModel, _, ArtifactModel, VcModel) {
+.directive('rolePermissionsModal', function ($state, $uibModal, Authentication, Application, AccessModel, _, ArtifactModel, VcModel) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -36,7 +36,7 @@ angular.module('core')
 					_callback = scope.callback;
 				}
 
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/core/client/views/role-permissions-modal.html',
 					controllerAs: 's',
@@ -56,7 +56,7 @@ angular.module('core')
 							return AccessModel.globalProjectRoles();
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, roleUsers, globalProjectRoles, permissionRoleIndex) {
+					controller: function ($scope, $uibModalInstance, allRoles, roleUsers, globalProjectRoles, permissionRoleIndex) {
 						var s = this;
 
 
@@ -197,11 +197,11 @@ angular.module('core')
 						};
 						
 						s.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 						
 						s.ok = function () {
-							$modalInstance.close({resource: s.object._id, data: s.permissionRoleIndex});
+							$uibModalInstance.close({resource: s.object._id, data: s.permissionRoleIndex});
 						};
 					}
 				})
@@ -301,7 +301,7 @@ angular.module('core')
 // interacting with a list of roles and users for a given context
 //
 // -------------------------------------------------------------------------
-.directive('roleUsersModal', function ($state, $modal, Authentication, Application, AccessModel, ProjectModel, _) {
+.directive('roleUsersModal', function ($state, $uibModal, Authentication, Application, AccessModel, ProjectModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -323,7 +323,7 @@ angular.module('core')
 					_callback = scope.callback;
 				}
 
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/core/client/views/role-users-modal.html',
 					controllerAs: 's',
@@ -343,7 +343,7 @@ angular.module('core')
 							return AccessModel.globalProjectRoles();
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles, userRoleIndex, userList, globalProjectRoles) {
+					controller: function ($scope, $uibModalInstance, allRoles, userRoleIndex, userList, globalProjectRoles) {
 						var s = this;
 
 						var contextRoles = _.filter(allRoles, function(r) {
@@ -506,11 +506,11 @@ angular.module('core')
 						};
 
 						s.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 
 						s.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 
 						s.ok = function () {
@@ -598,7 +598,7 @@ angular.module('core')
 									.then(function (result) {
 										s.progressMsg = 'Complete';
 										s.busy = false;
-										$modalInstance.close();
+										$uibModalInstance.close();
 									}, function(err) {
 										console.log('error saving roles, ', err);
 										s.busy = false;
@@ -619,7 +619,7 @@ angular.module('core')
 										s.progressMsg = 'Complete';
 										s.busy = false;
 										s.progressMsg = '';
-										$modalInstance.close();
+										$uibModalInstance.close();
 									}, function(err) {
 										console.log('error saving roles, ', err);
 										s.busy = false;
@@ -697,7 +697,7 @@ angular.module('core')
 // A simple modal and its little icon thingsy for adding roles to a context
 //
 // -------------------------------------------------------------------------
-.directive('addUserToContextModal', function ($modal, Authentication, Application, AccessModel, UserModel, _) {
+.directive('addUserToContextModal', function ($uibModal, Authentication, Application, AccessModel, UserModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -706,7 +706,7 @@ angular.module('core')
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/core/client/views/add-user-context-modal.html',
 					controllerAs: 's',
@@ -716,7 +716,7 @@ angular.module('core')
 							return UserModel.allUsers();
 						}
 					},
-					controller: function ($rootScope, $scope, $modalInstance, allUsers) {
+					controller: function ($rootScope, $scope, $uibModalInstance, allUsers) {
 						var s = this;
 						//
 						// all the base data
@@ -732,11 +732,11 @@ angular.module('core')
 						// expose the inputs
 						//
 						s.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
 							$rootScope.$broadcast('NEW_USER_ADDED_TO_CONTEXT', {user: s.currentUser});
-							$modalInstance.close();
+							$uibModalInstance.close();
 						};
 					}
 				})
@@ -764,7 +764,7 @@ angular.module('core')
 // A simple modal and its little icon thingsy for adding roles to a context
 //
 // -------------------------------------------------------------------------
-.directive('roleNewModal', function ($modal, Authentication, Application, AccessModel, _) {
+.directive('roleNewModal', function ($uibModal, Authentication, Application, AccessModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -772,12 +772,12 @@ angular.module('core')
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/core/client/views/role-new-modal.html',
 					controllerAs: 's',
 					size: 'md',
-					controller: function ($rootScope, $scope, $modalInstance) {
+					controller: function ($rootScope, $scope, $uibModalInstance) {
 						var s = this;
 						//
 						// all the base data
@@ -790,13 +790,13 @@ angular.module('core')
 						s.context = scope.context;
 						s.name = scope.context.name || scope.context.code || scope.context.code;
 						s.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
-							if (s.newRole === '') return $modalInstance.dismiss('cancel');
+							if (s.newRole === '') return $uibModalInstance.dismiss('cancel');
 							else {
 								$rootScope.$broadcast('NEW_ROLE_ADDED', {roleName: s.newRole});
-								$modalInstance.close();
+								$uibModalInstance.close();
 							}
 						};
 					}
@@ -823,7 +823,7 @@ angular.module('core')
 // a modal role chooser (multiple)
 //
 // -------------------------------------------------------------------------
-.directive('roleChooser', function ($modal, AccessModel, _) {
+.directive('roleChooser', function ($uibModal, AccessModel, _) {
 	return {
 		restrict: 'A',
 		scope: {
@@ -834,7 +834,7 @@ angular.module('core')
 		},
 		link: function (scope, element, attrs) {
 			element.on('click', function () {
-				$modal.open({
+				$uibModal.open({
 					animation: true,
 					templateUrl: 'modules/core/client/views/role-chooser.html',
 					controllerAs: 's',
@@ -844,7 +844,7 @@ angular.module('core')
 							return AccessModel.allRoles(scope.context._id);
 						}
 					},
-					controller: function ($scope, $modalInstance, allRoles) {
+					controller: function ($scope, $uibModalInstance, allRoles) {
 						var s = this;
 						// don't do live updates to the target...
 						s.selected = angular.copy(scope.current);
@@ -874,12 +874,12 @@ angular.module('core')
 						}, {});
 
 						s.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 						s.ok = function () {
 							// we have decided to use our selection, so set the target collection....
 							scope.current = s.selected;
-							$modalInstance.close(scope.current);
+							$uibModalInstance.close(scope.current);
 						};
 						s.dealwith = function (id) {
 							var i = s.selected.indexOf(id);

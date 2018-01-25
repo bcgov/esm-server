@@ -28,9 +28,9 @@ function directiveLowercase() {
 // DIRECTIVE: Modal Select Items
 //
 // -----------------------------------------------------------------------------------
-directiveModalOrganizationList.$inject = ['$modal'];
+directiveModalOrganizationList.$inject = ['$uibModal'];
 /* @ngInject */
-function directiveModalOrganizationList($modal) {
+function directiveModalOrganizationList($uibModal) {
     var directive = {
        	restrict:'A',
        	scope : {
@@ -39,7 +39,7 @@ function directiveModalOrganizationList($modal) {
 		},
 		link : function(scope, element, attrs) {
 			element.on('click', function() {
-				var modalOrganizationList = $modal.open({
+				var modalOrganizationList = $uibModal.open({
 					animation: true,
 					templateUrl: 'modules/organizations/client/views/organizations-partials/modal-organization-list.html',
 					controller: 'controllerModalOrganizationList',

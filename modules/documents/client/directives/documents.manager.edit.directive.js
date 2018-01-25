@@ -1,6 +1,6 @@
 'use strict';
 angular.module('documents')
-  .directive('documentMgrEdit', ['$rootScope', '$modal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'CodeLists', function ($rootScope, $modal, $log, _, moment, DocumentMgrService, TreeModel, CodeLists) {
+  .directive('documentMgrEdit', ['$rootScope', '$uibModal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'CodeLists', function ($rootScope, $uibModal, $log, _, moment, DocumentMgrService, TreeModel, CodeLists) {
     return {
       restrict: 'A',
       scope: {
@@ -10,7 +10,7 @@ angular.module('documents')
       },
       link: function (scope, element, attrs) {
         element.on('click', function () {
-          $modal.open({
+          $uibModal.open({
             animation: true,
             templateUrl: 'modules/documents/client/views/document-manager-edit.html',
             resolve: {
@@ -23,7 +23,7 @@ angular.module('documents')
               }
             },
             controllerAs: 'editFileProperties',
-            controller: function ($scope, $modalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, obj, CodeLists, FolderModel, AlertService) {
+            controller: function ($scope, $uibModalInstance, DocumentMgrService, TreeModel, ProjectModel, Document, obj, CodeLists, FolderModel, AlertService) {
               var self = this;
               self.busy = true;
 
@@ -104,7 +104,7 @@ angular.module('documents')
               self.canEdit = $scope.doc.userCan.write;
 
               self.cancel = function () {
-                $modalInstance.dismiss('cancel');
+                $uibModalInstance.dismiss('cancel');
               };
 
               self.save = function (isValid) {
@@ -119,7 +119,7 @@ angular.module('documents')
                         scope.onUpdate(result);
                       }
                       self.busy = false;
-                      $modalInstance.close(result);
+                      $uibModalInstance.close(result);
                     }, function(error) {
                       console.log(error);
                       self.busy = false;
@@ -155,7 +155,7 @@ angular.module('documents')
                             scope.onUpdate(result);
                           }
                           self.busy = false;
-                          $modalInstance.close(result);
+                          $uibModalInstance.close(result);
                         }, function (err) {
                           AlertService.error("Could not rename folder");
                         });

@@ -1,6 +1,6 @@
 'use strict';
 angular.module('documents')
-	.directive('documentMgrMove', ['$rootScope', '$modal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function ($rootScope, $modal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document, FolderModel) {
+	.directive('documentMgrMove', ['$rootScope', '$uibModal', '$log', '$timeout', '$animate', '_', 'moment', 'Authentication', 'DocumentMgrService', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function ($rootScope, $uibModal, $log, $timeout, $animate, _, moment, Authentication, DocumentMgrService, TreeModel, ProjectModel, Document, FolderModel) {
 		return {
 			restrict: 'A',
 			scope: {
@@ -11,13 +11,13 @@ angular.module('documents')
 			},
 			link: function (scope, element, attrs) {
 				element.on('click', function () {
-					$modal.open({
+					$uibModal.open({
 						animation: true,
 						size: 'lg',
 						templateUrl: 'modules/documents/client/views/document-manager-move.html',
 						resolve: {},
 						controllerAs: 'moveDlg',
-						controller: function ($rootScope, $scope, $modalInstance) {
+						controller: function ($rootScope, $scope, $uibModalInstance) {
 							var self = this;
 							var tree = new TreeModel();
 
@@ -346,7 +346,7 @@ angular.module('documents')
 							};
 
 							self.cancel = function () {
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							};
 
 							self.select = function () {
@@ -365,11 +365,11 @@ angular.module('documents')
 								// call back into the main document manager and get it to do the moving etc...
 								$scope.moveSelected.ok(self.selectedNode)
 									.then(function (ok) {
-										$modalInstance.close(self.selectedNode);
+										$uibModalInstance.close(self.selectedNode);
 									})
 									.catch(function (err) {
 										// we want to dismiss the move dialog when an error is thrown by the server-side API
-										$modalInstance.close(self.selectedNode);
+										$uibModalInstance.close(self.selectedNode);
 									});
 							};
 

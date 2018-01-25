@@ -135,7 +135,7 @@ angular.module('project').config (
 	.state('p.schedule', {
 		url: '/schedule',
 		templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $modal, PhaseBaseModel) {
+		controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $uibModal, PhaseBaseModel) {
 			var self = this;
 
 			$scope.milestonesForPhases = {};
@@ -182,16 +182,16 @@ angular.module('project').config (
 			};
 
 			$scope.addMilestone = function(phase) {
-				$modal.open({
+				$uibModal.open({
 					scope: $scope.$new(),
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.add.modal.html',
-					controller: function ($modalInstance, MilestoneModel, $scope) {
+					controller: function ($uibModalInstance, MilestoneModel, $scope) {
 						$scope.options = phaseDropdownOptions(phase);
 						$scope.selectedMilestoneType = $scope.options[0];
 
 						$scope.cancel = function () {
-							$modalInstance.dismiss("cancel");
+							$uibModalInstance.dismiss("cancel");
 						};
 
 						$scope.changeOption = function () {
@@ -226,7 +226,7 @@ angular.module('project').config (
 								})
 								.then(function(p) {
 									phase.__v = p.__v;
-									$modalInstance.close();
+									$uibModalInstance.close();
 								});
 						};
 					},
@@ -238,7 +238,7 @@ angular.module('project').config (
 			};
 
 			$scope.openEditMilestone = function(milestone) {
-				$modal.open({
+				$uibModal.open({
 					scope: $scope.$new(),
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.edit.modal.html',
@@ -247,17 +247,17 @@ angular.module('project').config (
 							return MilestoneModel.get('/api/milestone/'+milestone._id);
 						}
 					},
-					controller: function ($modalInstance, MilestoneModel, milestone, $scope) {
+					controller: function ($uibModalInstance, MilestoneModel, milestone, $scope) {
 						$scope.milestone = milestone;
 
 						$scope.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 						$scope.ok = function () {
 							console.log("ok");
 							MilestoneModel.save($scope.milestone)
 								.then(function (res) {
-									$modalInstance.close(res);
+									$uibModalInstance.close(res);
 								});
 						};
 					},
@@ -269,13 +269,13 @@ angular.module('project').config (
 			};
 
 			$scope.openDeleteMilestone = function(milestone) {
-				$modal.open({
+				$uibModal.open({
 					scope: $scope.$new(),
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/project.schedule.milestone.delete.modal.html',
-					controller: function ($modalInstance, MilestoneModel, $rootScope) {
+					controller: function ($uibModalInstance, MilestoneModel, $rootScope) {
 						$scope.cancel = function () {
-							$modalInstance.dismiss('cancel');
+							$uibModalInstance.dismiss('cancel');
 						};
 
 						$scope.ok = function () {
@@ -303,7 +303,7 @@ angular.module('project').config (
 									return MilestoneModel.deleteMilestone(milestone._id);
 								})
 								.then(function (res) {
-									$modalInstance.close();
+									$uibModalInstance.close();
 								});
 						};
 					},
@@ -348,7 +348,7 @@ angular.module('project').config (
 			};
 			
 			$scope.addPhase = function(phase) {
-				$modal.open({
+				$uibModal.open({
 					scope: $scope.$new(),
 					animation: true,
 					templateUrl: 'modules/projects/client/views/project-partials/project.schedule.phase.add.modal.html',
@@ -357,7 +357,7 @@ angular.module('project').config (
 							return PhaseBaseModel.getCollection();
 						}
 					},
-					controller: function ($modalInstance, MilestoneModel, $scope, options) {
+					controller: function ($uibModalInstance, MilestoneModel, $scope, options) {
 						$scope.options = _.filter(options, function(option) {
 							return !_.findWhere($scope.project.phases, { code: option.code });
 						});
@@ -365,13 +365,13 @@ angular.module('project').config (
 						$scope.selectedPhase = $scope.options[0];
 
 						$scope.cancel = function () {
-							$modalInstance.dismiss("cancel");
+							$uibModalInstance.dismiss("cancel");
 						};
 
 						$scope.ok = function(selectedPhase) {
 							ProjectModel.addPhase($scope.project, selectedPhase.code)
 								.then(function(project) {
-									$modalInstance.close(project);
+									$uibModalInstance.close(project);
 								});
 						};
 					},

@@ -8,7 +8,7 @@ angular.module('enforcements')
 // CONTROLLER: Document Browser
 //
 // -----------------------------------------------------------------------------------
-directiveEnforcementBrowser.$inject = ['$modal'];
+directiveEnforcementBrowser.$inject = ['$uibModal'];
 /* @ngInject */
 function directiveEnforcementBrowser() {
 

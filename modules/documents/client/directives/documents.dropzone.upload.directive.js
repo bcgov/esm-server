@@ -2,7 +2,7 @@
 
 angular.module('documents')
 // document-drop-zone-upload-modal
-	.directive('documentDropZoneUploadModal',['$modal', '$rootScope', 'DocumentsUploadService', 'Document', '_', 'DnDBackgroundBlockService', function ($modal, $rootScope, DocumentsUploadService, Document, _, DnDBackgroundBlockService){
+	.directive('documentDropZoneUploadModal',['$uibModal', '$rootScope', 'DocumentsUploadService', 'Document', '_', 'DnDBackgroundBlockService', function ($uibModal, $rootScope, DocumentsUploadService, Document, _, DnDBackgroundBlockService){
 		return {
 			restrict: 'A',
 			scope: {
@@ -13,14 +13,14 @@ angular.module('documents')
 				DnDBackgroundBlockService.addEventListeners();
 				element.on('click', function (event) {
 					event.stopPropagation();
-					$modal.open({
+					$uibModal.open({
 						animation: true,
 						size: 'lg',
 						templateUrl: 'modules/documents/client/views/document-dropzone-upload-modal.html',
 						resolve: {},
 						backdrop: 'static',
 						controllerAs: 'uploadModal',
-						controller: function ($scope, $modalInstance) {
+						controller: function ($scope, $uibModalInstance) {
 							var self = this;
 
 							$scope.uploadService = self.uploadService = DocumentsUploadService;
@@ -46,16 +46,16 @@ angular.module('documents')
 
 							function done () {
 								if (self.uploadService.actions.completed) {
-									$modalInstance.close();
+									$uibModalInstance.close();
 								} else {
 									self.uploadService.reset();
-									$modalInstance.dismiss('cancel');
+									$uibModalInstance.dismiss('cancel');
 								}
 							}
 
 							function cancel () {
 								self.uploadService.reset();
-								$modalInstance.dismiss('cancel');
+								$uibModalInstance.dismiss('cancel');
 							}
 
 							function startUploads () {
