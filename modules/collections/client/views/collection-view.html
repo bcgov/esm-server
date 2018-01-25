@@ -1,139 +1,139 @@
 <div class="view-title-container flex-row">
-    <h1>{{ collection.displayName }}</h1>
-    <div class="actions">
-        <button class="btn btn-default btn-sm" ui-sref="p.collection.list">
-            Cancel
-        </button>
-        <button class="btn btn-default btn-sm" 
-            ng-if="collection.addedBy && !collection.isPublished" ng-click="publish()" type="button">
-            <span class="glyphicon glyphicon-ok-circle"></span><span>Publish</span>
-        </button>
-        <button class="btn btn-default btn-sm" 
-            ng-if="collection.addedBy && collection.isPublished" ng-click="unpublish()" type="button">
-            <span class="glyphicon glyphicon-ban-circle"></span><span>Unpublish</span>
-        </button>
-        <button class="btn btn-default btn-sm" ui-sref="p.collection.edit({ collectionId:collection._id })" type="button">
-            Edit
-        </button>
-        <button class="btn btn-default btn-sm" 
-            ng-if="collection.addedBy" ng-click="delete()" type="button">
-            <span class="glyphicon glyphicon-trash"></span><span>Delete</span>
-        </button>
-    </div>
+  <h1>{{ collection.displayName }}</h1>
+  <div class="actions">
+    <button class="btn btn-default btn-sm" ui-sref="p.collection.list">
+      Cancel
+    </button>
+    <button class="btn btn-default btn-sm"
+      ng-if="collection.addedBy && !collection.isPublished" ng-click="publish()" type="button">
+      <span class="glyphicon glyphicon-ok-circle"></span><span>Publish</span>
+    </button>
+    <button class="btn btn-default btn-sm"
+      ng-if="collection.addedBy && collection.isPublished" ng-click="unpublish()" type="button">
+      <span class="glyphicon glyphicon-ban-circle"></span><span>Unpublish</span>
+    </button>
+    <button class="btn btn-default btn-sm" ui-sref="p.collection.edit({ collectionId:collection._id })" type="button">
+      Edit
+    </button>
+    <button class="btn btn-default btn-sm"
+      ng-if="collection.addedBy" ng-click="delete()" type="button">
+      <span class="glyphicon glyphicon-trash"></span><span>Delete</span>
+    </button>
+  </div>
 </div>
 
 <div class="view-body-container collections-view">
-    <section>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label" for="displayName">Name</label>
-                    <input class="form-control" type="text" value="{{ collection.displayName }}" readonly>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label" for="type">Type</label>
-                    <input class="form-control" type="text" value="{{ collection.type }}" readonly>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label class="control-label" for="date">Date</label>
-                    <input class="form-control date-picker" type="text" value="{{ collection.date | amDateFormat:'YYYY-MM-DD' }}" readonly>
-                </div>
-            </div>
+  <section>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="control-label" for="displayName">Name</label>
+          <input class="form-control" type="text" value="{{ collection.displayName }}" readonly>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <label class="control-label" for="description">Description</label>
-                <textarea class="form-control" rows="3" readonly>{{ collection.description }}</textarea>
-            </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="control-label" for="type">Type</label>
+          <input class="form-control" type="text" value="{{ collection.type }}" readonly>
         </div>
-    </section>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label class="control-label" for="date">Date</label>
+          <input class="form-control date-picker" type="text" value="{{ collection.date | amDateFormat:'YYYY-MM-DD' }}" readonly>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <label class="control-label" for="description">Description</label>
+        <textarea class="form-control" rows="3" readonly>{{ collection.description }}</textarea>
+      </div>
+    </div>
+  </section>
 
-    <section>
-        <div class="row">
-            <div class="col-sm-12">
-                <h2>Main Document</h2>
-                <div class="button-bar">
-                    <button class="btn btn-default btn-sm" title="Link main document to this collection"
-                        x-document-mgr-link-modal x-project="project"
-                        x-target="linkedMainDocument"
-                        x-target-name="collection.displayName"
-                        x-on-ok="updateMainDocument"><span class="glyphicon glyphicon-link"></span><span>Link Main Document</span>
-                    </button>
-                </div>
-                <div class="table-container collection-docs">
-                    <table class="table collection-document-table" ng-table="mainTableParams">
-                        <tr ng-repeat="d in $data">
-                            <td header-class="'name-col'" data-title="'Name'">{{ d.document.displayName | removeExtension }}</td>
-                            <td header-class="'date-col'" data-title="'Document Date'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD'}}</td>
-                            <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
-                            <td header-class="'status-col'" data-title="'Status'">
-                                <span class="label" ng-class="{true: 'label-success', false: 'label-unpublished'}[d.document.isPublished]">
-                                    {{d.document.isPublished | publishLabel }}
-                                </span>
-                            </td>
-                            <td class="actions-col" header-class="'actions-col x1'">
-                                <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeMainDocument(d.document)">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
-                            </td>
-                        </tr>
-                        <tr class="no-results" ng-if="!$data || $data.length === 0">
-                            <td colspan="4">No document found.</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+  <section>
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>Main Document</h2>
+        <div class="button-bar">
+          <button class="btn btn-default btn-sm" title="Link main document to this collection"
+            x-document-mgr-link-modal x-project="project"
+            x-target="linkedMainDocument"
+            x-target-name="collection.displayName"
+            x-on-ok="updateMainDocument"><span class="glyphicon glyphicon-link"></span><span>Link Main Document</span>
+          </button>
         </div>
-    </section>
+        <div class="table-container collection-docs">
+          <table class="table collection-document-table" ng-table="mainTableParams">
+            <tr ng-repeat="d in $data">
+              <td header-class="'name-col'" data-title="'Name'">{{ d.document.displayName | removeExtension }}</td>
+              <td header-class="'date-col'" data-title="'Document Date'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD'}}</td>
+              <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
+              <td header-class="'status-col'" data-title="'Status'">
+                <span class="label" ng-class="{true: 'label-success', false: 'label-unpublished'}[d.document.isPublished]">
+                  {{d.document.isPublished | publishLabel }}
+                </span>
+              </td>
+              <td class="actions-col" header-class="'actions-col x1'">
+                <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeMainDocument(d.document)">
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
+              </td>
+            </tr>
+            <tr class="no-results" ng-if="!$data || $data.length === 0">
+              <td colspan="4">No document found.</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <section>
-        <div class="row">
-            <div class="col-sm-12">
-                <h2>Other Documents</h2>
-                    <div class="button-bar">
-                        <button class="btn btn-default btn-sm" title="Link other documents to this collection"
-                            x-document-mgr-link-modal x-project="project"
-                            x-target="linkedOtherDocuments"
-                            x-target-name="collection.displayName"
-                            x-on-ok="updateOtherDocuments"><span class="glyphicon glyphicon-link"></span><span>Link Other Documents</span>
-                        </button>
-                        <button class="btn btn-default btn-sm"
-                            title="Set the default order documents will be displayed"
-                            x-reorder-collection-modal x-collection="collection" 
-                            x-on-save="otherDocsReordered">
-                            <span class="glyphicon glyphicon-sort"></span>
-                            <span>Set Document Order</span>
-                        </button>
-                    </div>
-                    <div class="table-container collection-docs">
-                        <table class="table collection-document-table" ng-table="otherTableParams">
-                            <tr ng-repeat="d in $data">
-                                <td header-class="'name-col'" data-title="'Name'" sortable="'Name'">{{ d.document.displayName | removeExtension }}</td>
-                                <td header-class="'date-col'" data-title="'Document Date'" sortable="'Document Date'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD' }}</td>
-                                <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'" sortable="'Uploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
-                                <td header-class="'status-col'" data-title="'Status'">
-                                    <span class="label" ng-class="{true: 'label-success', false: 'label-unpublished'}[d.document.isPublished]">
-                                        {{d.document.isPublished | publishLabel }}
-                                    </span>
-                                </td>
-                                <td class="actions-col" header-class="'actions-col x1'">
-                                    <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeOtherDocument(d.document)">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr class="no-results" ng-if="!$data || $data.length === 0">
-                                <td colspan="4">No documents found.</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
+  <section>
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>Other Documents</h2>
+          <div class="button-bar">
+            <button class="btn btn-default btn-sm" title="Link other documents to this collection"
+              x-document-mgr-link-modal x-project="project"
+              x-target="linkedOtherDocuments"
+              x-target-name="collection.displayName"
+              x-on-ok="updateOtherDocuments"><span class="glyphicon glyphicon-link"></span><span>Link Other Documents</span>
+            </button>
+            <button class="btn btn-default btn-sm"
+              title="Set the default order documents will be displayed"
+              x-reorder-collection-modal x-collection="collection"
+              x-on-save="otherDocsReordered">
+              <span class="glyphicon glyphicon-sort"></span>
+              <span>Set Document Order</span>
+            </button>
+          </div>
+          <div class="table-container collection-docs">
+            <table class="table collection-document-table" ng-table="otherTableParams">
+              <tr ng-repeat="d in $data">
+                <td header-class="'name-col'" data-title="'Name'" sortable="'document.displayName'">{{ d.document.displayName | removeExtension }}</td>
+                <td header-class="'date-col'" data-title="'Document Date'" sortable="'document.documentDate'">{{ d.document.documentDate | amDateFormat:'YYYY-MM-DD' }}</td>
+                <td header-class="'date-uploaded-col'" data-title="'Date Uploaded'" sortable="'document.dateUploaded'">{{ d.document.dateUploaded | amDateFormat:'YYYY-MM-DD' }}</td>
+                <td header-class="'status-col'" data-title="'Status'">
+                  <span class="label" ng-class="{true: 'label-success', false: 'label-unpublished'}[d.document.isPublished]">
+                    {{d.document.isPublished | publishLabel }}
+                  </span>
+                </td>
+                <td class="actions-col" header-class="'actions-col x1'">
+                  <a class="btn icon-btn" title="Remove document from this collection" ng-click="removeOtherDocument(d.document)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </a>
+                </td>
+              </tr>
+              <tr class="no-results" ng-if="!$data || $data.length === 0">
+                <td colspan="4">No documents found.</td>
+              </tr>
+            </table>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
 </div>
