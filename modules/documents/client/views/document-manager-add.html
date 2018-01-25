@@ -10,8 +10,14 @@
     </div>
 
     <div class="modal-body">
-            <label class="control-label">Enter a Folder Name</label>
-            <input class="form-control" ng-model="addFolder.entryText" type="text" autofocus />
+      <div class="alert alert-danger" ng-if="addFolder.repeat">The folder name {{addFolder.newname}} already exists in this directory.</div>
+      <div class="form-group" ng-class="{'has-error': addFolder.validationMessage}" x-show-errors>
+            <label class="control-label" for="display">Enter a Folder Name</label>
+            <input class="form-control" ng-model="addFolder.entryText" name="entryText" type="text" autofocus autocomplete="off" />
+            <div class="help-block">
+                {{addFolder.validationMessage}}
+            </div>
+      </div>
     </div>
 
     <div class="modal-footer">
