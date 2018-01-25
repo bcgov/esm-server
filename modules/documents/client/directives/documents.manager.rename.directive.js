@@ -32,16 +32,20 @@ angular.module('documents')
                 $modalInstance.dismiss('cancel');
               };
               
+              self.validationMessage = '';
+
               self.ok = function () {
+                self.newname = self.entryText;
                 //Check if there is already a folder of name ${entryText} in current directory.
-                var repeat = _.find($scope.node.parent.children, function(element) {
+                self.repeat = _.find($scope.node.parent.children, function(element) {
                   return element.model.name === self.entryText;
                 });
                 //If ${entryText} is a unique name for this directory, rename the folder, otherwise throw an error.
-                if (repeat) {
-                  AlertService.error(self.entryText + " already exists in this directory.");
+                if (self.repeat) {
+                  self.validationMessage = "Enter a unique name for this folder.";
                 } else {
-                  DocumentMgrService.renameDirectory($scope.project, $scope.node, self.entryText)
+                  self.validationMessage = '';
+                  DocumentMgrService.renameDirectory($scope.project, $scope.node, self.newname)
                   .then(
                     function (result) {
                       $modalInstance.close(result.data);
