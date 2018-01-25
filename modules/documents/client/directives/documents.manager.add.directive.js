@@ -10,7 +10,7 @@ angular.module('documents')
       },
       link: function (scope, element, attrs) {
         element.on('click', function () {
-          $modal.open({
+          $uibModal.open({
             animation: true,
             templateUrl: 'modules/documents/client/views/document-manager-add.html',
             resolve: {},
