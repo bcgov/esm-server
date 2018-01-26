@@ -30,8 +30,8 @@ function controllerEAOProjectNew(Project, $state) {
 'use strict';
 
 angular.module('inspectionReport').controller('viewInspectionReportController', ['$scope', '$state',
-    function ($scope, $state ) {
-        var viewInspectionReport = this;
-        viewInspectionReport.inspectionReportId = $state.params.inspectionReportId;
-    }
+  function ($scope, $state ) {
+    var viewInspectionReport = this;
+    viewInspectionReport.inspectionReportId = $state.params.inspectionReportId;
+  }
 ]);

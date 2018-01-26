@@ -1,17 +1,18 @@
 'use strict';
 
 // Init the application configuration module for AngularJS application
+// eslint-disable-next-line no-unused-vars
 var ApplicationConfiguration = (function () {
   // Init module configuration options
   var applicationModuleName = 'mean';
   var applicationModuleVendorDependencies = [
-  	'ngResource',
-  	'ngAnimate',
-  	'ngMessages',
-  	'ui.router',
-  	'ui.bootstrap',
-  	'ui.utils',
-  	'ui.tinymce',
+    'ngResource',
+    'ngAnimate',
+    'ngMessages',
+    'ui.router',
+    'ui.bootstrap',
+    'ui.utils',
+    'ui.tinymce',
     'uiGmapgoogle-maps',
     'ngTable',
     'ad3',
@@ -21,11 +22,10 @@ var ApplicationConfiguration = (function () {
     'duScroll',
     'ngPDFViewer',
     'ngCookies',
-		'smart-table',
-		'ngclipboard',
+    'smart-table',
+    'ngclipboard',
     'dndLists'
   ];
-
 
 
   // Add a new vertical module

@@ -8,9 +8,7 @@ angular.module('core')
   .directive('showErrors', ['$timeout', '$interpolate', function ($timeout, $interpolate) {
     var linkFn = function (scope, el, attrs, formCtrl) {
       var inputEl, inputName, inputNgEl, options, showSuccess, toggleClasses,
-        initCheck = false,
-        showValidationMessages = false,
-        blurred = false;
+        showValidationMessages = false;
 
       options = scope.$eval(attrs.showErrors) || {};
       showSuccess = options.showSuccess || false;
@@ -38,7 +36,6 @@ angular.module('core')
 
       scope.$on('show-errors-check-validity', function (event, name) {
         if (angular.isUndefined(name) || formCtrl.$name === name) {
-          initCheck = true;
           showValidationMessages = true;
 
           return toggleClasses(formCtrl[inputName].$invalid);
@@ -71,4 +68,4 @@ angular.module('core')
         return linkFn;
       }
     };
-}]);
+  }]);

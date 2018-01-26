@@ -21,7 +21,7 @@ angular.module('core')
   .service('AlertService', [function () {
     var service = this;
     service.alerts = [];
-    
+
     service.alert = function(type, message, fadeTimeout) {
       // ensure the optional timeout is valid
       fadeTimeout = fadeTimeout > 0 ? fadeTimeout : undefined;

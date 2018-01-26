@@ -1,42 +1,41 @@
 'use strict';
 
 angular.module('utils')
-    .directive('selectArray', directiveSelectArray)
-    .directive('displayArray', directiveDisplayArray)
-    .directive('modalSelectUsers', directiveModalSelectUsers)
+  .directive('selectArray', directiveSelectArray)
+  .directive('displayArray', directiveDisplayArray)
+  .directive('modalSelectUsers', directiveModalSelectUsers)
 
 
-    .directive('tmplQuickLinks', directiveQuickLinks)
-    .directive('kebabThis', directiveKebabThis)
-    .directive('modalDatePicker', directiveModalDatePicker)
-    .directive('modalDayCalculator', directiveModalDayCalculator)
-    .directive('centerVertical', directiveCenterVertical)
-    .directive('contentHeight', directiveContentHeight)
-    .directive('artifactEditHeight', directiveArtifactEditHeight)
+  .directive('tmplQuickLinks', directiveQuickLinks)
+  .directive('kebabThis', directiveKebabThis)
+  .directive('modalDatePicker', directiveModalDatePicker)
+  .directive('modalDayCalculator', directiveModalDayCalculator)
+  .directive('centerVertical', directiveCenterVertical)
+  .directive('contentHeight', directiveContentHeight)
+  .directive('artifactEditHeight', directiveArtifactEditHeight)
 
-    .directive('windowHeight', directiveWindowHeight)
-    .directive('countdownClock',directiveCountdownClock)
-    .directive('panelSort',directivePanelSort)
-    .directive('phaseColour',directivePhaseColour)
-    .directive('isCurrentUser', directiveIsCurrentUser)
-    .directive('expandPanel', directiveExpandPanel)
-    .directive('modalResearchDetail', directiveModalResearchDetail)
-    .directive('goToElement', directiveGoToElement)
-    .directive('dynamicClass', directiveDynamicClass)
-    .directive('dateField', directiveDateField)
-    .directive('rolesSelect', directiveRolesSelect)
-    .directive('usersSelect', directiveUsersSelect)
-    .directive('modalRecipientList', directiveModalRecipientList)
-    .directive('tmplRequirementChecklist', directiveRequirementChecklist)
-    .directive('tmplRequirementTally', directiveRequirementTally)
-    .directive('modalUserContactInfo', directiveModalUserContactInfo)
-    .directive('selectOnClick', directiveSelectOnClick)
-    .directive('modalSelectItems', directiveModalSelectItems)
-    .directive('scrollAnchor', directiveScrollAnchor)
-    .directive('scrollTrigger', directiveScrollTrigger)
-    .directive('selectOnFocus', directiveSelectOnFocus)
-    .directive('showFilter', directiveShowFilter);
-
+  .directive('windowHeight', directiveWindowHeight)
+  .directive('countdownClock',directiveCountdownClock)
+  .directive('panelSort',directivePanelSort)
+  .directive('phaseColour',directivePhaseColour)
+  .directive('isCurrentUser', directiveIsCurrentUser)
+  .directive('expandPanel', directiveExpandPanel)
+  .directive('modalResearchDetail', directiveModalResearchDetail)
+  .directive('goToElement', directiveGoToElement)
+  .directive('dynamicClass', directiveDynamicClass)
+  .directive('dateField', directiveDateField)
+  .directive('rolesSelect', directiveRolesSelect)
+  .directive('usersSelect', directiveUsersSelect)
+  .directive('modalRecipientList', directiveModalRecipientList)
+  .directive('tmplRequirementChecklist', directiveRequirementChecklist)
+  .directive('tmplRequirementTally', directiveRequirementTally)
+  .directive('modalUserContactInfo', directiveModalUserContactInfo)
+  .directive('selectOnClick', directiveSelectOnClick)
+  .directive('modalSelectItems', directiveModalSelectItems)
+  .directive('scrollAnchor', directiveScrollAnchor)
+  .directive('scrollTrigger', directiveScrollTrigger)
+  .directive('selectOnFocus', directiveSelectOnFocus)
+  .directive('showFilter', directiveShowFilter);
 
 
 // -----------------------------------------------------------------------------------
@@ -44,32 +43,30 @@ angular.module('utils')
 // DIRECTIVE: Select Array
 //
 // -----------------------------------------------------------------------------------
-directiveSelectArray.$inject = [];
-/* @ngInject */
 function directiveSelectArray() {
-	var directive = {
-     	restrict:'E',
-     	scope : {
-			sourceArray: '=',
-			selectedArray: '=',
-			keyString: '@',
-			valueString: '@'
-		},
-		templateUrl: 'modules/utils/client/views/partials/select-array.html',
-		controller: function($scope, _) {
-			$scope._ = _;
+  var directive = {
+    restrict:'E',
+    scope : {
+      sourceArray: '=',
+      selectedArray: '=',
+      keyString: '@',
+      valueString: '@'
+    },
+    templateUrl: 'modules/utils/client/views/partials/select-array.html',
+    controller: function($scope, _) {
+      $scope._ = _;
 
-			$scope.toggleArrayItem = function(newItem) {
-				if( _.contains($scope.selectedArray, newItem) ) {
-					// remove
-					_.pull($scope.selectedArray, newItem);
-				} else {
-					$scope.selectedArray.push(newItem);
-				}
-			};
-		}
-    };
-    return directive;
+      $scope.toggleArrayItem = function(newItem) {
+        if( _.contains($scope.selectedArray, newItem) ) {
+          // remove
+          _.pull($scope.selectedArray, newItem);
+        } else {
+          $scope.selectedArray.push(newItem);
+        }
+      };
+    }
+  };
+  return directive;
 }
 
 // -----------------------------------------------------------------------------------
@@ -77,25 +74,22 @@ function directiveSelectArray() {
 // DIRECTIVE: Display Array
 //
 // -----------------------------------------------------------------------------------
-directiveDisplayArray.$inject = [];
-/* @ngInject */
 function directiveDisplayArray() {
-	var directive = {
-     	restrict:'E',
-     	scope : {
-			sourceArray: '=',
-			selectedArray: '=',
-			keyString: '@',
-			valueString: '@'
-		},
-		templateUrl: 'modules/utils/client/views/partials/display-array.html',
-		controller: function($scope, _) {
-			$scope._ = _;
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'E',
+    scope : {
+      sourceArray: '=',
+      selectedArray: '=',
+      keyString: '@',
+      valueString: '@'
+    },
+    templateUrl: 'modules/utils/client/views/partials/display-array.html',
+    controller: function($scope, _) {
+      $scope._ = _;
+    }
+  };
+  return directive;
 }
-
 
 
 // -----------------------------------------------------------------------------------
@@ -103,16 +97,14 @@ function directiveDisplayArray() {
 // DIRECTIVE: Projects Quicklinks
 //
 // -----------------------------------------------------------------------------------
-directiveQuickLinks.$inject = [];
-/* @ngInject */
 function directiveQuickLinks() {
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/utils/client/views/partials/quick-links.html',
-        controller: 'controllerQuickLinks',
-        controllerAs: 'qlPanel'
-    };
-    return directive;
+  var directive = {
+    restrict: 'E',
+    templateUrl: 'modules/utils/client/views/partials/quick-links.html',
+    controller: 'controllerQuickLinks',
+    controllerAs: 'qlPanel'
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -122,22 +114,22 @@ function directiveQuickLinks() {
 directiveKebabThis.$inject = ['$filter'];
 /* @ngInject */
 function directiveKebabThis($filter) {
-    var directive = {
-        restrict:'A',
-        scope: {
-        	source: '=',
-        	destination: '='
-        },
-		link : function(scope, element, attrs) {
-			element.on('blur', function() {
-	            if (scope.source && (scope.destination === '' || scope.destination === 'code')) {
-	                scope.destination = $filter('kebab')(scope.source);
-	                scope.$apply();
-	            }
-			});
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'A',
+    scope: {
+      source: '=',
+      destination: '='
+    },
+    link : function(scope, element) {
+      element.on('blur', function() {
+        if (scope.source && (scope.destination === '' || scope.destination === 'code')) {
+          scope.destination = $filter('kebab')(scope.source);
+          scope.$apply();
+        }
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -147,30 +139,30 @@ function directiveKebabThis($filter) {
 directiveCenterVertical.$inject = ['$window'];
 /* @ngInject */
 function directiveCenterVertical($window) {
-	var directive = {
-        restrict:'A',
-		link :  function (scope, element, attr) {
+  var directive = {
+    restrict:'A',
+    link :  function (scope, element) {
 
-			var w = angular.element($window);
-			var box = angular.element(element);
+      var w = angular.element($window);
+      var box = angular.element(element);
 
-			scope.$watch(function () {
-				return {
-					'h': window.innerHeight,
-					'w': window.innerWidth,
-					'bh': box[0].offsetHeight
-				};
-			}, function (newValue, oldValue) {
-				var bh = box[0].offsetHeight;
-				box.css({'margin-top': (parseInt((newValue.h - bh)/2)-100) + 'px'});
-			}, true);
+      scope.$watch(function () {
+        return {
+          'h': window.innerHeight,
+          'w': window.innerWidth,
+          'bh': box[0].offsetHeight
+        };
+      }, function (newValue) {
+        var bh = box[0].offsetHeight;
+        box.css({'margin-top': (parseInt((newValue.h - bh)/2)-100) + 'px'});
+      }, true);
 
-			w.bind('resize', function () {
-				scope.$apply();
-			});
-		}
-	};
-	return directive;
+      w.bind('resize', function () {
+        scope.$apply();
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -180,27 +172,27 @@ function directiveCenterVertical($window) {
 directiveContentHeight.$inject = ['$window'];
 /* @ngInject */
 function directiveContentHeight($window) {
-	var directive = {
-        restrict:'A',
-		link :  function (scope, element, attr) {
+  var directive = {
+    restrict:'A',
+    link :  function (scope, element) {
 
-			var w = angular.element($window);
-			var box = angular.element(element);
+      var w = angular.element($window);
+      var box = angular.element(element);
 
-			scope.$watch(function () {
-				return {
-					'h': window.innerHeight
-				};
-			}, function (newValue, oldValue) {
-				box.css({'min-height': (parseInt(newValue.h)-133) + 'px'});
-			}, true);
+      scope.$watch(function () {
+        return {
+          'h': window.innerHeight
+        };
+      }, function (newValue) {
+        box.css({'min-height': (parseInt(newValue.h)-133) + 'px'});
+      }, true);
 
-			w.bind('resize', function () {
-				scope.$apply();
-			});
-		}
-	};
-	return directive;
+      w.bind('resize', function () {
+        scope.$apply();
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -210,38 +202,35 @@ function directiveContentHeight($window) {
 directiveArtifactEditHeight.$inject = ['$window'];
 /* @ngInject */
 function directiveArtifactEditHeight($window) {
-	var directive = {
-        restrict:'A',
-		link :  function (scope, element, attr) {
+  var directive = {
+    restrict:'A',
+    link :  function (scope, element, attr) {
 
-			var size = attr.artifactEditHeight || 200;
-			var innerHeight = window.innerHeight;
-			var w = angular.element($window);
-			var box = angular.element(element);
-			// console.log ("size is ", size);
+      var size = attr.artifactEditHeight || 200;
+      var innerHeight = window.innerHeight;
+      var w = angular.element($window);
+      var box = angular.element(element);
 
-			scope.$watch(function () {
-				return {
-					'h': window.innerHeight
-				};
-			}, function (newValue, oldValue) {
-				innerHeight = newValue.h;
-				box.css({'min-height': (parseInt(innerHeight)+size) + 'px', 'max-height': (parseInt(innerHeight)+size) + 'px'});
-			}, true);
-			scope.$watch (attr.artifactEditHeight, function (newValue, oldValue) {
-				// console.log ("size changed");
-				size = newValue;
-				box.css({'min-height': (parseInt(innerHeight)+size) + 'px', 'max-height': (parseInt(innerHeight)+size) + 'px'});
-			}, true);
+      scope.$watch(function () {
+        return {
+          'h': window.innerHeight
+        };
+      }, function (newValue) {
+        innerHeight = newValue.h;
+        box.css({'min-height': (parseInt(innerHeight)+size) + 'px', 'max-height': (parseInt(innerHeight)+size) + 'px'});
+      }, true);
+      scope.$watch (attr.artifactEditHeight, function (newValue) {
+        size = newValue;
+        box.css({'min-height': (parseInt(innerHeight)+size) + 'px', 'max-height': (parseInt(innerHeight)+size) + 'px'});
+      }, true);
 
 
-
-			w.bind('resize', function () {
-				scope.$apply();
-			});
-		}
-	};
-	return directive;
+      w.bind('resize', function () {
+        scope.$apply();
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -251,27 +240,27 @@ function directiveArtifactEditHeight($window) {
 directiveWindowHeight.$inject = ['$window'];
 /* @ngInject */
 function directiveWindowHeight($window) {
-	var directive = {
-        restrict:'A',
-		link :  function (scope, element, attr) {
+  var directive = {
+    restrict:'A',
+    link :  function (scope, element) {
 
-			var w = angular.element($window);
-			var box = angular.element(element);
+      var w = angular.element($window);
+      var box = angular.element(element);
 
-			scope.$watch(function () {
-				return {
-					'h': window.innerHeight
-				};
-			}, function (newValue, oldValue) {
-				box.css({'min-height': ((parseInt(newValue.h)-76) * 0.70) + 'px'});
-			}, true);
+      scope.$watch(function () {
+        return {
+          'h': window.innerHeight
+        };
+      }, function (newValue) {
+        box.css({'min-height': ((parseInt(newValue.h)-76) * 0.70) + 'px'});
+      }, true);
 
-			w.bind('resize', function () {
-				scope.$apply();
-			});
-		}
-	};
-	return directive;
+      w.bind('resize', function () {
+        scope.$apply();
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -281,43 +270,43 @@ function directiveWindowHeight($window) {
 directiveCountdownClock.$inject = ['moment', '$interval'];
 /* @ngInject */
 function directiveCountdownClock(moment, $interval) {
-    var localFormat = 'YYYY-MM-DD[T]HH:mm:ss';
-	var directive = {
-		restrict: 'E',
-		scope: {
-			end: '='
-		},
-		replace: true,
-		template: '<div class="countdown-wrapper"></div>',
-		link: function link(scope, element, attrs) {
-			var timeoutId;
+  var localFormat = 'YYYY-MM-DD[T]HH:mm:ss';
+  var directive = {
+    restrict: 'E',
+    scope: {
+      end: '='
+    },
+    replace: true,
+    template: '<div class="countdown-wrapper"></div>',
+    link: function link(scope, element, attrs) {
+      var timeoutId;
 
-			function updateTime(seed) {
-				var countDown = moment.preciseDiff(
-									moment(scope.end).format(localFormat),
-									moment().format(localFormat)
-								);
+      function updateTime(/* seed */) {
+        var countDown = moment.preciseDiff(
+          moment(scope.end).format(localFormat),
+          moment().format(localFormat)
+        );
 
-				if (countDown) {
-					angular.element(element).html(countDown);
-				}
-			}
+        if (countDown) {
+          angular.element(element).html(countDown);
+        }
+      }
 
-			scope.$watch(attrs.start, function(seed) {
-				updateTime(seed);
-			});
+      scope.$watch(attrs.start, function(seed) {
+        updateTime(seed);
+      });
 
-			element.on('$destroy', function() {
-				$interval.cancel(timeoutId);
-			});
+      element.on('$destroy', function() {
+        $interval.cancel(timeoutId);
+      });
 
-			// start the UI update process; save the timeoutId for canceling
-			timeoutId = $interval(function() {
-				updateTime(); // update DOM
-			}, 1000);
-		}
-	};
-	return directive;
+      // start the UI update process; save the timeoutId for canceling
+      timeoutId = $interval(function() {
+        updateTime(); // update DOM
+      }, 1000);
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -326,20 +315,18 @@ function directiveCountdownClock(moment, $interval) {
 // x-data: data to be sorted.
 //
 // -----------------------------------------------------------------------------------
-directivePanelSort.$inject = [];
-/* @ngInject */
 function directivePanelSort() {
-    var directive = {
-        restrict: 'E',
-        scope: {
-        	fields: '=',
-        	data: '='
-        },
-        templateUrl: 'modules/utils/client/views/partials/panel-sort.html',
-        controller: 'controllerPanelSort',
-        controllerAs: 'panelSort'
-    };
-    return directive;
+  var directive = {
+    restrict: 'E',
+    scope: {
+      fields: '=',
+      data: '='
+    },
+    templateUrl: 'modules/utils/client/views/partials/panel-sort.html',
+    controller: 'controllerPanelSort',
+    controllerAs: 'panelSort'
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -351,27 +338,27 @@ function directivePanelSort() {
 directivePhaseColour.$inject = ['$filter'];
 /* @ngInject */
 function directivePhaseColour($filter) {
-	var directive = {
-		restrict: 'A',
-		scope: {
-			phase: '='
-		},
-		link: function link(scope, element, attrs) {
+  var directive = {
+    restrict: 'A',
+    scope: {
+      phase: '='
+    },
+    link: function link(scope, element) {
 
-			scope.$watch('phase', function(newValue) {
-				if (newValue) {
-					var mine = $filter('projectPhaseContributor')(newValue);
+      scope.$watch('phase', function(newValue) {
+        if (newValue) {
+          var mine = $filter('projectPhaseContributor')(newValue);
 
-					if (mine) {
-						angular.element(element).addClass('text-success');
-					} else {
-						angular.element(element).addClass('text-primary');
-					}
-				}
-			});
-		}
-	};
-	return directive;
+          if (mine) {
+            angular.element(element).addClass('text-success');
+          } else {
+            angular.element(element).addClass('text-primary');
+          }
+        }
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -380,28 +367,22 @@ function directivePhaseColour($filter) {
 // if the Phase is not assigned to you, the Phase name is blue.
 //
 // -----------------------------------------------------------------------------------
-directiveIsCurrentUser.$inject = [];
-/* @ngInject */
 function directiveIsCurrentUser() {
-	var directive = {
-		restrict: 'A',
-		scope: {
-			user: '='
-		},
-		link: function link(scope, element, attrs) {
+  var directive = {
+    restrict: 'A',
+    scope: {
+      user: '='
+    },
+    link: function link(scope, element) {
 
-			scope.$watch('user', function(newValue) {
-				if (newValue) {
-					// if (newValue === Global.user.type) {
-						angular.element(element).addClass('label-success');
-					// } else {
-					// 	angular.element(element).addClass('label-info');
-					// }
-				}
-			});
-		}
-	};
-	return directive;
+      scope.$watch('user', function(newValue) {
+        if (newValue) {
+          angular.element(element).addClass('label-success');
+        }
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -411,16 +392,16 @@ function directiveIsCurrentUser() {
 directiveExpandPanel.$inject = ['$compile'];
 /* @ngInject */
 function directiveExpandPanel($compile) {
-	var directive = {
-		restrict: 'A',
-		link: function link(scope, element, attrs) {
-			if (attrs.expandPanel) {
-				var tmpl = $compile('<a class="panel-toggle" ng-click="' + attrs.expandPanel + ' = !' + attrs.expandPanel + '"><i ng-if="!' + attrs.expandPanel + '" class="glyphicon glyphicon-plus-sign"></i><i ng-if="' + attrs.expandPanel + '" class="glyphicon glyphicon-minus-sign"></i></a>')(scope);
-				element.append(tmpl);
-			}
-		}
-	};
-	return directive;
+  var directive = {
+    restrict: 'A',
+    link: function link(scope, element, attrs) {
+      if (attrs.expandPanel) {
+        var tmpl = $compile('<a class="panel-toggle" ng-click="' + attrs.expandPanel + ' = !' + attrs.expandPanel + '"><i ng-if="!' + attrs.expandPanel + '" class="glyphicon glyphicon-plus-sign"></i><i ng-if="' + attrs.expandPanel + '" class="glyphicon glyphicon-minus-sign"></i></a>')(scope);
+        element.append(tmpl);
+      }
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -430,69 +411,65 @@ function directiveExpandPanel($compile) {
 directiveModalResearchDetail.$inject = ['$uibModal'];
 /* @ngInject */
 function directiveModalResearchDetail($uibModal) {
-    var directive = {
-        restrict:'A',
-        scope : {
-        	seed: '=',
-        	term: '='
-        },
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalDocView = $uibModal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-research-detail.html',
-					controller: 'controllerModalResearchDetail',
-					controllerAs: 'rd',
-					scope: scope,
-					size: 'lg'
-				});
-				modalDocView.result.then(function () {}, function () {});
-			});
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'A',
+    scope : {
+      seed: '=',
+      term: '='
+    },
+    link : function(scope, element) {
+      element.on('click', function() {
+        var modalDocView = $uibModal.open({
+          animation: true,
+          templateUrl: 'modules/utils/client/views/partials/modal-research-detail.html',
+          controller: 'controllerModalResearchDetail',
+          controllerAs: 'rd',
+          scope: scope,
+          size: 'lg'
+        });
+        modalDocView.result.then(function () {}, function () {});
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Role Select
 //
 // -----------------------------------------------------------------------------------
-directiveRolesSelect.$inject = [];
-/* @ngInject */
 function directiveRolesSelect() {
-    var directive = {
-        restrict:'E',
-        scope : {
-        	selectedRoles: '='
-        },
-        templateUrl: 'modules/utils/client/views/partials/roles-select.html',
-		controller: 'controllerRolesSelect',
-		controllerAs: 'utilRolesSelect',
-		link: function(scope, element, attrs) {
-			element.addClass('btn-list');
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'E',
+    scope : {
+      selectedRoles: '='
+    },
+    templateUrl: 'modules/utils/client/views/partials/roles-select.html',
+    controller: 'controllerRolesSelect',
+    controllerAs: 'utilRolesSelect',
+    link: function(scope, element) {
+      element.addClass('btn-list');
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Users Select
 //
 // -----------------------------------------------------------------------------------
-directiveUsersSelect.$inject = [];
-/* @ngInject */
 function directiveUsersSelect() {
-    var directive = {
-        restrict:'E',
-        scope : {
-        	selectedUsers: '=',
-        	project: '='
-        },
-        templateUrl: 'modules/utils/client/views/partials/users-select.html',
-		controller: 'controllerUsersSelect',
-		controllerAs: 'utilUsersSelect'
-    };
-    return directive;
+  var directive = {
+    restrict:'E',
+    scope : {
+      selectedUsers: '=',
+      project: '='
+    },
+    templateUrl: 'modules/utils/client/views/partials/users-select.html',
+    controller: 'controllerUsersSelect',
+    controllerAs: 'utilUsersSelect'
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -502,21 +479,21 @@ function directiveUsersSelect() {
 directiveGoToElement.$inject = ['$state'];
 /* @ngInject */
 function directiveGoToElement($state) {
-    var directive = {
-        restrict:'A',
-        scope : {
-        	goToProject: '=',
-        	goToId: '=',
-        	goToType: '='
-        },
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				// user is EAO
-				$state.go('eao.project', {'id': scope.goToProject} );
-			});
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'A',
+    scope : {
+      goToProject: '=',
+      goToId: '=',
+      goToType: '='
+    },
+    link : function(scope, element) {
+      element.on('click', function() {
+        // user is EAO
+        $state.go('eao.project', {'id': scope.goToProject} );
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -526,21 +503,21 @@ function directiveGoToElement($state) {
 directiveDynamicClass.$inject = ['$compile'];
 /* @ngInject */
 function directiveDynamicClass($compile) {
-    var directive = {
-		scope: {
-			dynamicClassWhen: '=',
-			dynamicClass: '@'
-		},
-		link: function(scope, elt, attrs) {
-			scope.$watch('dynamicClassWhen', function(val) {
-				if (val) {
-					elt.addClass(scope.dynamicClass);
-					$compile(elt)(scope);
-				}
-			});
-		}
-	};
-    return directive;
+  var directive = {
+    scope: {
+      dynamicClassWhen: '=',
+      dynamicClass: '@'
+    },
+    link: function(scope, elt) {
+      scope.$watch('dynamicClassWhen', function(val) {
+        if (val) {
+          elt.addClass(scope.dynamicClass);
+          $compile(elt)(scope);
+        }
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -550,22 +527,16 @@ function directiveDynamicClass($compile) {
 directiveDateField.$inject = ['moment'];
 /* @ngInject */
 function directiveDateField(moment) {
-	var directive = {
-		restrict: 'A',
-		require: 'ngModel',
-		link: function(scope, element, attr, ngModel) {
-
-			ngModel.$formatters.push(function(value){
-				return moment(value).toDate();
-			});
-
-// 				ngModel.$parsers.push(function(value){
-//
-// 				});
-
-		}
-	};
-	return directive;
+  var directive = {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function(scope, element, attr, ngModel) {
+      ngModel.$formatters.push(function(value){
+        return moment(value).toDate();
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -583,9 +554,7 @@ function directiveModalSelectUsers($uibModal) {
       parent: '=', // OBJECT with type: (role, project), reference: role or project code or id
       project: '='
     },
-    link : function(scope, element, attrs) {
-      // console.log('here', scope.users);
-      console.log('cb', scope);
+    link : function(scope, element) {
       element.on('click', function() {
         var modalUsersView = $uibModal.open({
           animation: true,
@@ -618,15 +587,14 @@ function directiveModalSelectUsers($uibModal) {
         modalUsersView.result.then(function (newItems) {
           // if there is a callback, do it.
           // return the complete user list and the parent to associate it to.
-            console.log(newItems, scope.callback);
           if (scope.callback) {
             scope.callback(newItems, scope.parent);
           }
         }, function () {});
       });
     }
-    };
-    return directive;
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -636,20 +604,20 @@ function directiveModalSelectUsers($uibModal) {
 directiveModalDayCalculator.$inject = ['$uibModal'];
 /* @ngInject */
 function directiveModalDayCalculator($uibModal) {
-	var directive = {
-		restrict: 'A',
-		link: function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalDayCalculator = $uibModal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-day-calculator.html',
-					controller: 'controllerModalDayCalculator',
-					controllerAs: 'dayCalculator',
-					size: 'md',
-					backdrop: 'static'
-				});
-			});
-		}
+  var directive = {
+    restrict: 'A',
+    link: function(scope, element) {
+      element.on('click', function() {
+        $uibModal.open({
+          animation: true,
+          templateUrl: 'modules/utils/client/views/partials/modal-day-calculator.html',
+          controller: 'controllerModalDayCalculator',
+          controllerAs: 'dayCalculator',
+          size: 'md',
+          backdrop: 'static'
+        });
+      });
+    }
   };
   return directive;
 }
@@ -661,70 +629,66 @@ function directiveModalDayCalculator($uibModal) {
 directiveModalRecipientList.$inject = ['$uibModal'];
 /* @ngInject */
 function directiveModalRecipientList($uibModal) {
-    var directive = {
-        restrict:'A',
-        scope : {
-        	users: '='
-        },
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalUserList = $uibModal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-recipient-list.html',
-					controller: 'controllerModalRecipientList',
-					controllerAs: 'utilRecipientList',
-					size: 'lg',
-					resolve: {
-						rUsers: function() {
-							return scope.users || [];
-						}
-					}
-				});
-				modalUserList.result.then(function () {}, function () {});
-			});
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'A',
+    scope : {
+      users: '='
+    },
+    link : function(scope, element) {
+      element.on('click', function() {
+        var modalUserList = $uibModal.open({
+          animation: true,
+          templateUrl: 'modules/utils/client/views/partials/modal-recipient-list.html',
+          controller: 'controllerModalRecipientList',
+          controllerAs: 'utilRecipientList',
+          size: 'lg',
+          resolve: {
+            rUsers: function() {
+              return scope.users || [];
+            }
+          }
+        });
+        modalUserList.result.then(function () {}, function () {});
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Requirement Checklist
 //
 // -----------------------------------------------------------------------------------
-directiveRequirementChecklist.$inject = [];
-/* @ngInject */
 function directiveRequirementChecklist() {
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/utils/client/views/partials/requirement-checklist.html',
-        controller: 'controllerRequirementCalculation',
-        controllerAs: 'reqChecklist',
-        scope : {
-        	required: '=',
-        	project: '='
-        }
-    };
-    return directive;
+  var directive = {
+    restrict: 'E',
+    templateUrl: 'modules/utils/client/views/partials/requirement-checklist.html',
+    controller: 'controllerRequirementCalculation',
+    controllerAs: 'reqChecklist',
+    scope : {
+      required: '=',
+      project: '='
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Requirement Tally
 //
 // -----------------------------------------------------------------------------------
-directiveRequirementTally.$inject = [];
-/* @ngInject */
 function directiveRequirementTally() {
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/utils/client/views/partials/requirement-tally.html',
-        controller: 'controllerRequirementCalculation',
-        controllerAs: 'reqChecklist',
-        scope : {
-        	required: '=',
-        	project: '='
-        }
-    };
-    return directive;
+  var directive = {
+    restrict: 'E',
+    templateUrl: 'modules/utils/client/views/partials/requirement-tally.html',
+    controller: 'controllerRequirementCalculation',
+    controllerAs: 'reqChecklist',
+    scope : {
+      required: '=',
+      project: '='
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -734,30 +698,30 @@ function directiveRequirementTally() {
 directiveModalUserContactInfo.$inject = ['$uibModal', 'UserModel'];
 /* @ngInject */
 function directiveModalUserContactInfo($uibModal, UserModel) {
-    var directive = {
-        restrict:'A',
-        scope : {
-        	user: '='
-        },
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalUserInfo = $uibModal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-user-contact-info.html',
-					controller: 'controllerModalUserContactInfo',
-					controllerAs: 'utilUserContactInfo',
-					size: 'sm',
-					resolve: {
-						user: function() {
-							return UserModel.getModel(scope.user._id);
-						}
-					}
-				});
-				modalUserInfo.result.then(function () {}, function () {});
-			});
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'A',
+    scope : {
+      user: '='
+    },
+    link : function(scope, element) {
+      element.on('click', function() {
+        var modalUserInfo = $uibModal.open({
+          animation: true,
+          templateUrl: 'modules/utils/client/views/partials/modal-user-contact-info.html',
+          controller: 'controllerModalUserContactInfo',
+          controllerAs: 'utilUserContactInfo',
+          size: 'sm',
+          resolve: {
+            user: function() {
+              return UserModel.getModel(scope.user._id);
+            }
+          }
+        });
+        modalUserInfo.result.then(function () {}, function () {});
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -767,18 +731,18 @@ function directiveModalUserContactInfo($uibModal, UserModel) {
 directiveSelectOnClick.$inject = ['$window'];
 /* @ngInject */
 function directiveSelectOnClick($window) {
-	var directive = {
-        restrict: 'A',
-        link: function (scope, element, attrs) {
-            element.on('click', function () {
-                if (!$window.getSelection().toString()) {
-                    // Required for mobile Safari
-                    this.setSelectionRange(0, this.value.length);
-                }
-            });
+  var directive = {
+    restrict: 'A',
+    link: function (scope, element) {
+      element.on('click', function () {
+        if (!$window.getSelection().toString()) {
+          // Required for mobile Safari
+          this.setSelectionRange(0, this.value.length);
         }
-    };
-    return directive;
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -788,56 +752,56 @@ function directiveSelectOnClick($window) {
 directiveModalSelectItems.$inject = ['$uibModal'];
 /* @ngInject */
 function directiveModalSelectItems($uibModal) {
-    var directive = {
-       	restrict:'A',
-       	scope : {
-        		allItems: '=',
-        		selectedItems: '=',
-        		itemName: '@',
-        		parentObject: '=',
-        		single: '=',
-        		unique: '=',
-        		callback: '='
-		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var modalSelectItems = $uibModal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-select-items.html',
-					controller: 'controllerModalSelectItems',
-					controllerAs: 'selectItems',
-					resolve: {
-						rAllItems: function () { // all possible options
-							return scope.allItems;
-						},
-						rSelectedItems: function () { // the destination structure
-							return scope.selectedItems;
-						},
-						rItemName: function () { // title of the modal
-							return scope.itemName;
-						},
-						rSingle: function () { // only allow one choice
-							return (scope.single || false);
-						},
-						rUnique: function () { // only allow unique selections (move items between columns when selected)
-							return (scope.unique || false);
-						}
-					},
-					size: 'lg'
-				});
-				modalSelectItems.result.then(function (newItems) {
-					// fire callback to assign the new selections
-					// or just assign
-					if (scope.callback) {
-						scope.callback(newItems, scope.selectedItems, scope.parentObject);
-					} else {
-						scope.selectedItems = angular.copy(newItems);
-					}
-				}, function () {});
-			});
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'A',
+    scope : {
+      allItems: '=',
+      selectedItems: '=',
+      itemName: '@',
+      parentObject: '=',
+      single: '=',
+      unique: '=',
+      callback: '='
+    },
+    link : function(scope, element) {
+      element.on('click', function() {
+        var modalSelectItems = $uibModal.open({
+          animation: true,
+          templateUrl: 'modules/utils/client/views/partials/modal-select-items.html',
+          controller: 'controllerModalSelectItems',
+          controllerAs: 'selectItems',
+          resolve: {
+            rAllItems: function () { // all possible options
+              return scope.allItems;
+            },
+            rSelectedItems: function () { // the destination structure
+              return scope.selectedItems;
+            },
+            rItemName: function () { // title of the modal
+              return scope.itemName;
+            },
+            rSingle: function () { // only allow one choice
+              return (scope.single || false);
+            },
+            rUnique: function () { // only allow unique selections (move items between columns when selected)
+              return (scope.unique || false);
+            }
+          },
+          size: 'lg'
+        });
+        modalSelectItems.result.then(function (newItems) {
+          // fire callback to assign the new selections
+          // or just assign
+          if (scope.callback) {
+            scope.callback(newItems, scope.selectedItems, scope.parentObject);
+          } else {
+            scope.selectedItems = angular.copy(newItems);
+          }
+        }, function () {});
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -847,89 +811,86 @@ function directiveModalSelectItems($uibModal) {
 directiveModalDatePicker.$inject = ['$uibModal', '$rootScope', '$timeout'];
 /* @ngInject */
 function directiveModalDatePicker($uibModal, $rootScope, $timeout) {
-	var directive = {
-		restrict: 'A',
-		scope: {
-			selectedDate: '=',
-			title: '@',
-			pickerEnabled: '=',
+  var directive = {
+    restrict: 'A',
+    scope: {
+      selectedDate: '=',
+      title: '@',
+      pickerEnabled: '=',
       hideTime: '=',
       header: '=',
-			min: '=',
-			max: '='
-		},
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				/*
-				Setting ng-disabled on an element with the date picker modal does not disable the click
-				event. It only changes the cursor and ui to look disabled.  To control whether the date picker
-				is enabled use the x-picker-enabled attribute. Default to enabled if this attribute is not defined.
-				 */
-				if(scope.pickerEnabled !== undefined && !scope.pickerEnabled) {
-					console.log("Exit date picker");
-					return;
-				}
-				var modalAddComment = $uibModal.open({
-					animation: true,
-					templateUrl: 'modules/utils/client/views/partials/modal-date-picker.html',
-					controller: 'controllerModalDatePicker',
-					controllerAs: 'modalDatePick',
-					windowClass: 'datepicker__modal',
-					resolve: {
-						rChosenDate: function () {
-							return scope.selectedDate;
-						},
+      min: '=',
+      max: '='
+    },
+    link : function(scope, element) {
+      element.on('click', function() {
+        /*
+        Setting ng-disabled on an element with the date picker modal does not disable the click
+        event. It only changes the cursor and ui to look disabled.  To control whether the date picker
+        is enabled use the x-picker-enabled attribute. Default to enabled if this attribute is not defined.
+         */
+        if(scope.pickerEnabled !== undefined && !scope.pickerEnabled) {
+          return;
+        }
+        var modalAddComment = $uibModal.open({
+          animation: true,
+          templateUrl: 'modules/utils/client/views/partials/modal-date-picker.html',
+          controller: 'controllerModalDatePicker',
+          controllerAs: 'modalDatePick',
+          windowClass: 'datepicker__modal',
+          resolve: {
+            rChosenDate: function () {
+              return scope.selectedDate;
+            },
             rTitle: function () {
               return scope.title;
             },
-						rHeader: function () {
-							return scope.header;
-						},
+            rHeader: function () {
+              return scope.header;
+            },
             showTime: function() {
               // x-hide-time="true" will hide the time section of the picker
               return !scope.hideTime;
             },
-						mindate: function () {
-							//start date selected in editPCP page datepicker
-							return scope.min;
-						},
-						maxdate: function () {
-							//end date selected in editPCP page datepicker
-							return scope.max;
-						}
-					}
-				});
-				modalAddComment.result.then(function (chosenDate) {
-					if (!chosenDate) {
-						scope.selectedDate = null;
-					} else {
-						scope.selectedDate = chosenDate;
-					}
-					// let the modal finish so it can set the value into the model.
-					$timeout(function() {
-						$rootScope.$broadcast('modalDatePicker.onChange');
-					},10);
-				}, function () {});
-			});
-		}
-    };
-    return directive;
+            mindate: function () {
+              //start date selected in editPCP page datepicker
+              return scope.min;
+            },
+            maxdate: function () {
+              //end date selected in editPCP page datepicker
+              return scope.max;
+            }
+          }
+        });
+        modalAddComment.result.then(function (chosenDate) {
+          if (!chosenDate) {
+            scope.selectedDate = null;
+          } else {
+            scope.selectedDate = chosenDate;
+          }
+          // let the modal finish so it can set the value into the model.
+          $timeout(function() {
+            $rootScope.$broadcast('modalDatePicker.onChange');
+          },10);
+        }, function () {});
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Scroll Anchor
 //
 // -----------------------------------------------------------------------------------
-directiveScrollAnchor.$inject = ['$uibModal'];
-/* @ngInject */
-function directiveScrollAnchor($uibModal) {
-    var directive = {
-       	restrict:'A',
-		link : function(scope, element, attrs) {
-			element.attr('id', ('anchor-' + attrs.scrollAnchor));
-		}
-    };
-    return directive;
+function directiveScrollAnchor() {
+  var directive = {
+    restrict:'A',
+    link : function(element, attrs) {
+      element.attr('id', ('anchor-' + attrs.scrollAnchor));
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
@@ -939,40 +900,37 @@ function directiveScrollAnchor($uibModal) {
 directiveScrollTrigger.$inject = ['$anchorScroll', '$location'];
 /* @ngInject */
 function directiveScrollTrigger($anchorScroll, $location) {
-    var directive = {
-       	restrict:'A',
-		link : function(scope, element, attrs) {
-			element.on('click', function() {
-				var newHash = 'anchor-' + attrs.scrollTrigger;
-				// console.log(newHash);
-				if ($location.hash() !== newHash) {
-					// set the $location.hash to `newHash` and
-					// $anchorScroll will automatically scroll to it
-					$location.hash(newHash);
-				}
-				$anchorScroll();
-			});
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'A',
+    link : function(scope, element, attrs) {
+      element.on('click', function() {
+        var newHash = 'anchor-' + attrs.scrollTrigger;
+        if ($location.hash() !== newHash) {
+          // set the $location.hash to `newHash` and
+          // $anchorScroll will automatically scroll to it
+          $location.hash(newHash);
+        }
+        $anchorScroll();
+      });
+    }
+  };
+  return directive;
 }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Scroll Trigger
 //
 // -----------------------------------------------------------------------------------
-directiveSelectOnFocus.$inject = [];
-/* @ngInject */
 function directiveSelectOnFocus() {
-    var directive = {
-       	restrict:'A',
-		link : function(scope, element, attrs) {
-			element.on('focus', function () {
-				this.select();
-			});
-		}
-	};
-	return directive;
+  var directive = {
+    restrict:'A',
+    link : function(scope, element) {
+      element.on('focus', function () {
+        this.select();
+      });
+    }
+  };
+  return directive;
 }
 
 // -----------------------------------------------------------------------------------
@@ -980,28 +938,25 @@ function directiveSelectOnFocus() {
 // DIRECTIVE: Select Array
 //
 // -----------------------------------------------------------------------------------
-directiveShowFilter.$inject = [];
-/* @ngInject */
 function directiveShowFilter() {
-	var directive = {
-     	restrict:'E',
-     	scope : {
-			toggleFilter: '='
-		},
-		template: '<a href class="btn btn-default btn-sm show-filter-btn" ng-click="toggleFilter = !toggleFilter">' +
-				  	  '<span ng-show="toggleFilter">' +
-					      '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>' +
-				  	      '<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>' +
-					  '</span>' +
-				  	  '<span ng-show="!toggleFilter">' +
-					      '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>' +
-				  	      '<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>' +
-					  '</span>' +
-				   '</a>',
-		controller: function($scope) {
-			$scope.toggleFilter = false;
-		}
-    };
-    return directive;
+  var directive = {
+    restrict:'E',
+    scope : {
+      toggleFilter: '='
+    },
+    template: '<a href class="btn btn-default btn-sm show-filter-btn" ng-click="toggleFilter = !toggleFilter">' +
+              '<span ng-show="toggleFilter">' +
+                '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>' +
+                  '<span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>' +
+            '</span>' +
+              '<span ng-show="!toggleFilter">' +
+                '<span class="glyphicon glyphicon-search" aria-hidden="true"></span>' +
+                  '<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>' +
+            '</span>' +
+           '</a>',
+    controller: function($scope) {
+      $scope.toggleFilter = false;
+    }
+  };
+  return directive;
 }
-

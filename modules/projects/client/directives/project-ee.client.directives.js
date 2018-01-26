@@ -3,7 +3,7 @@
 // angular.module('project')
 // 	.directive('tmplEaoProject', directiveEAOProject)
 
-	
+
 // 	.directive('modalProjectEdit', directiveModalProjectEdit)
 // 	.directive('modalProjectEditPlanSchedule', directiveModalProjectEditPlanSchedule)
 // 	.directive('modalProjectContacts', directiveModalProjectContacts);
@@ -58,7 +58,7 @@
 // 		}
 // 	};
 // 	return directive;
-// }    
+// }
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Modal Edit Project Phases
@@ -72,23 +72,23 @@
 //          scope : {
 //          	project: '='
 //          },
-		// link : function(scope, element, attrs) {
-		// 	element.on('click', function() {
-		// 		var modalMilestoneView = $uibModal.open({
-		// 			animation: true,
-		// 			templateUrl: 'components/project/project-eao/partials/modal-edit-plan-milestones.html',
-		// 			controller: 'controllerModalProjectEditPlanMilestones',
-		// 			controllerAs: 'pestag',
-		// 			resolve: {
-		// 				rProject: function () {
-		// 					return scope.project;
-		// 				}
-		// 			},
-		// 			size: 'lg'
-		// 		});
-		// 		modalMilestoneView.result.then(function () {}, function () {});
-		// 	});
-		// }
+// link : function(scope, element, attrs) {
+// 	element.on('click', function() {
+// 		var modalMilestoneView = $uibModal.open({
+// 			animation: true,
+// 			templateUrl: 'components/project/project-eao/partials/modal-edit-plan-milestones.html',
+// 			controller: 'controllerModalProjectEditPlanMilestones',
+// 			controllerAs: 'pestag',
+// 			resolve: {
+// 				rProject: function () {
+// 					return scope.project;
+// 				}
+// 			},
+// 			size: 'lg'
+// 		});
+// 		modalMilestoneView.result.then(function () {}, function () {});
+// 	});
+// }
 //      };
 //      return directive;
 //  }

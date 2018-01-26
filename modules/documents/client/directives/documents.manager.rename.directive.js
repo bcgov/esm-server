@@ -1,6 +1,6 @@
 'use strict';
 angular.module('documents')
-  .directive('documentMgrRenameFolder', ['$rootScope', '$uibModal', '$log', '_', 'DocumentMgrService', 'AlertService', 'TreeModel', function ($rootScope, $uibModal, $log, _, DocumentMgrService, AlertService, TreeModel) {
+  .directive('documentMgrRenameFolder', ['$rootScope', '$uibModal', '$log', '_', 'DocumentMgrService', 'AlertService', function ($rootScope, $uibModal, $log, _, DocumentMgrService, AlertService) {
     return {
       restrict: 'A',
       scope: {
@@ -8,7 +8,7 @@ angular.module('documents')
         root: '=',
         node: '='
       },
-      link: function (scope, element, attrs) {
+      link: function (scope, element) {
         element.on('click', function () {
           $uibModal.open({
             animation: true,
@@ -31,7 +31,7 @@ angular.module('documents')
               self.cancel = function () {
                 $uibModalInstance.dismiss('cancel');
               };
-              
+
               self.validationMessage = '';
 
               self.ok = function () {
@@ -46,28 +46,26 @@ angular.module('documents')
                 } else {
                   self.validationMessage = '';
                   DocumentMgrService.renameDirectory($scope.project, $scope.node, self.newname)
-                  .then(
-                    function (result) {
-                      $uibModalInstance.close(result.data);
-                    },
-                    function (err) {
-                      //$log.error('renameDirectory error: ', JSON.stringify(err));
-                      AlertService.error("Could not rename folder", 4000);
-                    }
-                  );
+                    .then(
+                      function (result) {
+                        $uibModalInstance.close(result.data);
+                      },
+                      function (/* err */) {
+                        AlertService.error("Could not rename folder", 4000);
+                      }
+                    );
                 }
               };
 
             }
           }).result.then(function (data) {
-            console.log("deleted data:", data);
             $rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
           })
-          .catch(function (err) {
-            //$log.error(err);
-          });
+            .catch(function (/* err */) {
+              // swallow error
+            });
         });
       }
     };
-  }])
-;
+  }]);
+

@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('search')
-	.controller('controllerModalSearchInstructions', controllerModalSearchInstructions)
-;
+  .controller('controllerModalSearchInstructions', controllerModalSearchInstructions);
 
 // -----------------------------------------------------------------------------------
 //
@@ -12,9 +11,9 @@ angular.module('search')
 controllerModalSearchInstructions.$inject = ['$uibModalInstance'];
 /* @ngInject */
 function controllerModalSearchInstructions($uibModalInstance) {
-	var modal = this;
+  var modal = this;
 
-	modal.continue = function () {
-		$uibModalInstance.dismiss('cancel');
-	};
+  modal.continue = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
 }

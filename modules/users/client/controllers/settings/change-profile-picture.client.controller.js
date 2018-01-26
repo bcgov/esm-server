@@ -14,7 +14,7 @@ angular.module('users').controller('ChangeProfilePictureController', ['$scope', 
     // Set file uploader image filter
     $scope.uploader.filters.push({
       name: 'imageFilter',
-      fn: function (item, options) {
+      fn: function (item) {
         var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
         return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
       }
@@ -35,7 +35,7 @@ angular.module('users').controller('ChangeProfilePictureController', ['$scope', 
     };
 
     // Called after the user has successfully uploaded a new picture
-    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
+    $scope.uploader.onSuccessItem = function (fileItem, response) {
       // Show success message
       $scope.success = true;
 
@@ -47,7 +47,7 @@ angular.module('users').controller('ChangeProfilePictureController', ['$scope', 
     };
 
     // Called after the user has failed to uploaded a new picture
-    $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
+    $scope.uploader.onErrorItem = function (fileItem, response) {
       // Clear upload buttons
       $scope.cancelUpload();
 

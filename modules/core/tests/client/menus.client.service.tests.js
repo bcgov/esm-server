@@ -3,8 +3,7 @@
 (function() {
   describe('Menus', function() {
     //Initialize global variables
-    var scope,
-      Menus;
+    var Menus;
 
     // Load the main application module
     beforeEach(module(ApplicationConfiguration.applicationModuleName));
@@ -317,7 +316,6 @@
           roles: ['a']
         },
         menuItem1,
-        menuItem2,
         menuItem3,
         subItem1,
         subItem2,
@@ -332,7 +330,6 @@
         Menus.addSubMenuItem(menuId, menuItem1Options.state, subItemOptions);
         menu = Menus.addSubMenuItem(menuId, menuItem1Options.state);
         menuItem1 = menu.items[0];
-        menuItem2 = menu.items[1];
         menuItem3 = menu.items[2];
         subItem1 = menuItem1.items[0];
         subItem2 = menuItem1.items[1];
@@ -405,21 +402,21 @@
           expect(subItem2.position).toBe(0);
         });
       });
-      
+
       describe('then removeSubMenuItem', function() {
         beforeEach(function() {
           Menus.validateMenuExistance = jasmine.createSpy();
           menu = Menus.removeSubMenuItem(menuId, subItem1.state);
         });
-  
+
         it('should validate menu existance', function() {
           expect(Menus.validateMenuExistance).toHaveBeenCalledWith(menuId);
         });
-  
+
         it('should return menu object', function() {
           expect(menu).toBeDefined();
         });
-  
+
         it('should remove sub menu item', function() {
           expect(menuItem1.items.length).toBe(1);
           expect(menuItem1.items[0].state).toEqual(subItem2.state);

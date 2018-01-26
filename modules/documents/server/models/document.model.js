@@ -85,72 +85,72 @@
 var genSchema = require ('../../../core/server/controllers/core.schema.controller');
 
 genSchema ('TypesSchema', {
-	projectFolderType           : { type:String, default:'' },
-	projectFolderSubTypeObjects : []
+  projectFolderType           : { type:String, default:'' },
+  projectFolderSubTypeObjects : []
 });
 
 genSchema ('SubTypesSchema', {
-	projectFolderSubType : { type:String, default:'' },
-	projectFolderNames   : []
+  projectFolderSubType : { type:String, default:'' },
+  projectFolderNames   : []
 });
 
 module.exports = genSchema ('Document', {
-	__audit                 : true,  // who what when
-	__access                : ['publish', 'unPublish'],
-	project                 : { type:'ObjectId', ref:'Project', default:null },
-	directoryID             : { type:Number, default: 0 },
+  __audit                 : true, // who what when
+  __access                : ['publish', 'unPublish'],
+  project                 : { type:'ObjectId', ref:'Project', default:null },
+  directoryID             : { type:Number, default: 0 },
 
-	displayName             : { type: String, default: ''},
-	description             : { type:String, default:'' },
-	documentDate            : { type: Date, default: null },
+  displayName             : { type: String, default: ''},
+  description             : { type:String, default:'' },
+  documentDate            : { type: Date, default: null },
 
-	dateAdded               : { type: Date, default: Date.now },
-	dateUpdated             : { type: Date, default: Date.now },
-	dateUploaded            : { type: Date, default: null },
-	datePosted 				: { type: Date, default: Date.now },
-	dateReceived			: { type: Date, default: Date.now },
+  dateAdded               : { type: Date, default: Date.now },
+  dateUpdated             : { type: Date, default: Date.now },
+  dateUploaded            : { type: Date, default: null },
+  datePosted 				: { type: Date, default: Date.now },
+  dateReceived			: { type: Date, default: Date.now },
 
-	updatedBy               : { type:'ObjectId', ref:'User', default:null },
-	projectFolderURL        : { type:String, default:'' }, // The specific DirectoryID instance of a collection of documents
-	projectFolderAuthor     : { type:String, default:'' },
-	documentEPICId          : { type:Number, default:0, index:true },
-	documentEPICProjectId   : { type:Number, default:0, index:true },
-	documentFileName        : { type:String, default:'' }, // A.K.A. Document File Name in EPIC
-	documentFileURL         : { type:String, default:'' },
-	documentFileSize        : { type:String, default:'' }, // Looks like everything is in KB
-	documentFileFormat      : { type:String, default:'' },
-	documentVersion         : { type:Number, default:0 }, // Used for keeping track of this documents version.
-	documentIsLatestVersion : { type:Boolean, default:true }, // We assume we are the latest. Default will be false
-	documentSource 			: { type:String, default:'' }, // Source = comments or generic or signature file
-	// when we hook in the reviewable interface which will
-	// decide what is the latest based on approval of such
-	documentIsInReview      : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
-	documentAuthor          : { type:String, default:'' },  // NB: We should add a document author in addition to the folderAuthor.
-	documentType            : { type:String, default: null },
-	internalURL             : { type:String, default:'' },
-	internalOriginalName    : { type:String, default:'' },
-	internalName            : { type:String, default:'' },
-	internalMime            : { type:String, default:'' },
-	internalExt             : { type:String, default:'' },
-	internalSize            : { type:Number, default:0 },
-	internalEncoding        : { type:String, default:'' },
-	oldData                 : { type:String, default:'' },
-	order                   : { type: Number, default: Date.now},
-	eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] },// for use with Public Comment Attachments...
+  updatedBy               : { type:'ObjectId', ref:'User', default:null },
+  projectFolderURL        : { type:String, default:'' }, // The specific DirectoryID instance of a collection of documents
+  projectFolderAuthor     : { type:String, default:'' },
+  documentEPICId          : { type:Number, default:0, index:true },
+  documentEPICProjectId   : { type:Number, default:0, index:true },
+  documentFileName        : { type:String, default:'' }, // A.K.A. Document File Name in EPIC
+  documentFileURL         : { type:String, default:'' },
+  documentFileSize        : { type:String, default:'' }, // Looks like everything is in KB
+  documentFileFormat      : { type:String, default:'' },
+  documentVersion         : { type:Number, default:0 }, // Used for keeping track of this documents version.
+  documentIsLatestVersion : { type:Boolean, default:true }, // We assume we are the latest. Default will be false
+  documentSource 			: { type:String, default:'' }, // Source = comments or generic or signature file
+  // when we hook in the reviewable interface which will
+  // decide what is the latest based on approval of such
+  documentIsInReview      : { type:Boolean, default:false }, // Used to flag if this entry is a reviewable entry.
+  documentAuthor          : { type:String, default:'' }, // NB: We should add a document author in addition to the folderAuthor.
+  documentType            : { type:String, default: null },
+  internalURL             : { type:String, default:'' },
+  internalOriginalName    : { type:String, default:'' },
+  internalName            : { type:String, default:'' },
+  internalMime            : { type:String, default:'' },
+  internalExt             : { type:String, default:'' },
+  internalSize            : { type:Number, default:0 },
+  internalEncoding        : { type:String, default:'' },
+  oldData                 : { type:String, default:'' },
+  order                   : { type: Number, default: Date.now},
+  eaoStatus               : { type:String, default:'', enum:['', 'Unvetted', 'Rejected', 'Deferred', 'Accepted', 'Published', 'Spam'] },// for use with Public Comment Attachments...
 
-	relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],
-	keywords                : [ { type:'String'} ],
+  relatedDocuments        : [ { type: 'ObjectId', ref: 'Document' } ],
+  keywords                : [ { type:'String'} ],
 
-	collections             : [ { type: 'ObjectId', ref: 'Collection' } ],
+  collections             : [ { type: 'ObjectId', ref: 'Collection' } ],
 
-	// supporting data for various document Types
-	inspectionReport        : { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} } , default: null },
-	certificate             : { type: {}, default: null },
-	certificateAmendment    : { type: {}, default: null },
-	permit                  : { type: {}, default: null },
-	permitAmendment         : { type: {}, default: null },
-	mineManagerResponse     : { type: {}, default: null },
-	annualReport            : { type: {}, default: null },
-	annualReclamationReport : { type: {}, default: null },
-	damSafetyInspection     : { type: {}, default: null }
+  // supporting data for various document Types
+  inspectionReport        : { type: { inspectorInitials: { type:'String', default: null}, followup: { type:'String', default: null} } , default: null },
+  certificate             : { type: {}, default: null },
+  certificateAmendment    : { type: {}, default: null },
+  permit                  : { type: {}, default: null },
+  permitAmendment         : { type: {}, default: null },
+  mineManagerResponse     : { type: {}, default: null },
+  annualReport            : { type: {}, default: null },
+  annualReclamationReport : { type: {}, default: null },
+  damSafetyInspection     : { type: {}, default: null }
 });

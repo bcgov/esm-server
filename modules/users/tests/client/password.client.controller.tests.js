@@ -4,8 +4,7 @@
   // Authentication controller Spec
   describe('PasswordController', function() {
     // Initialize global variables
-    var PasswordController,
-      scope,
+    var scope,
       $httpBackend,
       $stateParams,
       $location,
@@ -13,7 +12,7 @@
 
     beforeEach(function() {
       jasmine.addMatchers({
-        toEqualData: function(util, customEqualityTesters) {
+        toEqualData: function() {
           return {
             compare: function(actual, expected) {
               return {
@@ -44,11 +43,6 @@
           username: 'test',
           roles: ['user']
         };
-
-        // Initialize the Authentication controller
-        PasswordController = $controller('PasswordController', {
-          $scope: scope
-        });
       }));
 
       it('should redirect logged in user to home', function() {
@@ -68,11 +62,6 @@
         $location.path = jasmine.createSpy().and.returnValue(true);
         $window = _$window_;
         $window.user = null;
-
-        // Initialize the Authentication controller
-        PasswordController = $controller('PasswordController', {
-          $scope: scope
-        });
       }));
 
       it('should not redirect to home', function() {

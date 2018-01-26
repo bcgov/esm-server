@@ -43,7 +43,7 @@ Development mode:
 
     git clone https://github.com/bcgov/esm-server.git
     yarn install
-    grunt build && node server.js
+    npm start
 Note: If you've previously done an installation, and are upgrading from npm to yarn and node 4 -> 6, make sure you delete the `node_modules/` folder and `public/lib/` folder
 Production Mode:
 

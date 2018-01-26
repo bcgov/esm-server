@@ -15,35 +15,21 @@ angular.module ('templates')
 //            from the master
 //
 // -------------------------------------------------------------------------
-.directive ('documentLinkList', [ '_', 'Document', function (_, Document) {
-	return {
-		restrict: 'A',
-		scope: {
-			project  : '=',
-			title    : '=',
-			editable : '=',
-			filelist : '=?'
-		},
-		replace: true,
-		templateUrl: 'modules/templates/documents/views/dir.document.link.list.html',
-		link: function(scope, element, attrs) {
-			//console.log ("Running");
-			scope.$watch ('filelist', function () {
-				// Document.getDocumentsInList (scope.list).then (function (result) {
-				// 	//console.log (result);
-				// });
-				// scope.displaylist.length = 0;
-				// scope.list.map (function (e) {
-				// 	scope.displaylist.push
-				// })
-			});
-			// var all  = scope.allfiles;
-			// var keep = angular.isDefined (scope.keeplist) ? scope.keeplist : [];
-			// var list = angular.isDefined (scope.filelist) ? scope.filelist : all.map (function (e) { return e._id; });
-			// scope.displaylist = [];
-			// scope.list = list;
-		}
-	};
-}])
+  .directive ('documentLinkList', [ function () {
+    return {
+      restrict: 'A',
+      scope: {
+        project  : '=',
+        title    : '=',
+        editable : '=',
+        filelist : '=?'
+      },
+      replace: true,
+      templateUrl: 'modules/templates/documents/views/dir.document.link.list.html',
+      link: function(scope) {
+        scope.$watch ('filelist', function () {
+        });
+      }
+    };
+  }]);
 
-;

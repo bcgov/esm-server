@@ -18,24 +18,23 @@
 //
 // =========================================================================
 module.exports = require ('../../../core/server/controllers/core.schema.controller')('Condition', {
-	__audit            : true,
-	__codename         : 'unique',
-	__access           : [],
-	subject            : {type:String, default: ''},
-	reportRequirements : {type:String, default: ''},
-	sector             : { type:String, default:'Mines', enum:['Energy-Electricity',
-		'Energy-Petroleum & Natural Gas',
-		'Food Processing',
-		'Industrial',
-		'Mines',
-		'Other',
-		'Tourist Destination Resorts',
-		'Transportation',
-		'Waste Disposal',
-		'Water Management']},
-	stages             : [{type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning']}],
-	pillars            : [{type:String, enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health']}]
+  __audit            : true,
+  __codename         : 'unique',
+  __access           : [],
+  subject            : {type:String, default: ''},
+  reportRequirements : {type:String, default: ''},
+  sector             : { type:String, default:'Mines', enum:['Energy-Electricity',
+    'Energy-Petroleum & Natural Gas',
+    'Food Processing',
+    'Industrial',
+    'Mines',
+    'Other',
+    'Tourist Destination Resorts',
+    'Transportation',
+    'Waste Disposal',
+    'Water Management']},
+  stages             : [{type:String, enum:['Pre-Construction', 'Construction', 'Operations', 'Decommissioning']}],
+  pillars            : [{type:String, enum:['Environment', 'Economic', 'Social', 'Heritage', 'Health']}]
 });
-
 
 
