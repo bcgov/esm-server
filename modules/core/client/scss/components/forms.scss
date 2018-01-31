@@ -110,27 +110,186 @@ textarea {
 	}
 }
 
-.date-picker {
-	position: relative;
-	padding-right: 4rem;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	min-width: 17rem;
-	max-width: 17rem;
+// Date Picker 
+$date-time-picker-bg: #fff;
+$date-time-picker-header-bg: #eee;
+$date-time-picker-btn-hover-bg: #ddd;
 
-	strong {
-		margin-right: 1.5rem;
+.uib-datepicker {
+  background: $date-time-picker-bg;
+  
+  .uib-daypicker {
+    &:focus {
+      outline: none;
+    }
+  }
+
+	table {
+		.btn {
+			width: 100%;
+			height: 100%;
+      font-weight: normal;
+      border: none;
+
+      &:focus {
+        border: none;
+      }
+    }
 	}
 
-	.glyphicon {
-		position: absolute;
-		top: 0.8rem;
-		right: 1rem;
-		font-size: 1.6rem;
+	thead {
+		tr:first-child {
+			background-color: $date-time-picker-header-bg;
+
+			.btn-sm {
+				font-size: 1.4rem;
+			}
+		}
+
+		.btn {
+			border-color: transparent;
+			background-color: transparent;
+			box-shadow: none;
+
+			&:hover {
+				background-color: $date-time-picker-btn-hover-bg;
+			}
+		}
+  }
+
+  tr:first-child {
+    th {
+      padding: 0.5rem;
+    }
+  }
+  
+  tr:nth-child(2) {
+    th {
+      padding: 0.2rem;
+      padding-top: 0.75rem;
+    }
+  }
+
+  td {
+    padding: 0.2rem;
+  }
+}
+
+.datepicker {
+	&__input {
+    position: relative;
+    max-width: 18rem;
+    cursor: pointer;
+
+    input {
+      padding-right: 3.4rem;
+    }
+
+    .calendar-btn {
+      .glyphicon {
+        top: 0.25rem;
+        font-size: 1.8rem;
+      }
+    }
+
+    span.calendar-btn {
+      position: absolute;
+      top: 0.3rem;
+      right: 0;
+      width: 3.4rem;
+      text-align: center;
+      pointer-events: none;
+    }
+
+		button.calendar-btn {
+      position: absolute;
+      top: 0;
+      padding: 0;
+      padding-right: 0.75rem;
+      width: 100%;
+      height: 3.4rem;
+      background: transparent;
+      text-align: right;
+    }
+
+		&:disabled {
+			background: $form-control-bg;
+		}
+  }
+
+	&__modal {
+		.modal-dialog {
+			width: 40rem;
+		}
+
+		.uib-datepicker {
+      border-radius: 0.5rem;
+			padding: 0.4rem;
+
+			table {
+				width: 100%;
+				height: 26rem;
+			}
+		}
+	}
+
+	.dropdown-menu {
+		padding: 0;
+
+		li {
+			padding: 0.5rem;
+			
+			&:last-child {
+				overflow: hidden;
+        padding: 0.2rem 0.7rem 0.7rem 0.7rem !important;
+
+        .btn {
+            border-color: #CCC;
+            background: #FFF;
+            color: #494949;
+
+            &:hover,
+            &:focus {
+                background: #EEE;
+            }
+        }
+			}
+    }
 	}
 }
 
+// Time Picker
+.uib-timepicker {
+  .btn {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.4rem;
+    border: none;
+    color: #000;
+
+    &:hover {
+      background: $date-time-picker-btn-hover-bg;
+    }
+  }
+
+  td {
+		padding: 0.2rem;
+	}
+}
+
+.timepicker {
+  &__input {
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    background: $date-time-picker-bg;
+
+    table {
+      margin: 0 auto;
+    }
+  }
+}
+
+// Date Range Control
 .date-range-control {
 	.spacer {
 		padding: 0 1rem;
