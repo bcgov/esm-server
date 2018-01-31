@@ -16,8 +16,6 @@ var ApplicationConfiguration = (function () {
     'ngTable',
     'ad3',
     'angularMoment',
-    'ui.bootstrap.datepicker',
-    'ui.bootstrap.timepicker',
     'mwl.confirm',
     'ngFileUpload',
     'duScroll',

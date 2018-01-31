@@ -51,10 +51,12 @@
         <div class="col-md-3">
           <div class="form-group" x-show-errors>
             <label for="date" class="control-label">Date</label>
-            <div class="form-control date-picker" name="date" x-modal-date-picker
+            <div class="form-control datepicker__input" name="date" x-modal-date-picker
               x-selected-date="collection.date" x-header="'Choose a Date'">
               <span ng-if="!collection.date">None</span> {{ collection.date | amDateFormat:'YYYY-MM-DD'}}
-              <span class="glyphicon glyphicon-calendar"></span>
+              <span class="calendar-btn">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
             </div>
             <div ng-messages="collectionForm.date.$error" role="alert">
               <p class="help-block error-text" ng-message="required">Date is required.</p>

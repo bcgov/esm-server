@@ -7,7 +7,6 @@
     "angular-animate": "~1.5",
     "angular-bootstrap": "~2.5.0",
     "angular-bootstrap-confirm": "~0.7.0",
-    "angular-bootstrap-datetimepicker": "latest",
     "angular-cookies": "~1.4.0",
     "angular-drag-and-drop-lists": "^2.1.0",
     "angular-file-upload": "^2.4.0",

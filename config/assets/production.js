@@ -7,7 +7,6 @@ module.exports = {
         'public/lib/bootstrap/dist/css/bootstrap.css',
         'public/lib/angular-toastr/dist/angular-toastr.css',
         'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
-        'public/lib/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
         'public/assimilated/ng-table/dist/ng-table.min.css'
       ],
       js: [
@@ -39,7 +38,6 @@ module.exports = {
         'public/lib/moment/moment.js',
         'public/lib/moment-timezone/moment-timezone.js',
         'public/lib/angular-moment/angular-moment.js',
-        'public/lib/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
 	'public/lib/angular-scroll/angular-scroll.min.js',
 	'public/lib/angular-cookies/angular-cookies.min.js',
 	'public/moment-timezone-data.js',

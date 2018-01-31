@@ -874,7 +874,7 @@ function directiveModalDatePicker($uibModal, $rootScope, $timeout) {
 					templateUrl: 'modules/utils/client/views/partials/modal-date-picker.html',
 					controller: 'controllerModalDatePicker',
 					controllerAs: 'modalDatePick',
-					size: 'md',
+					windowClass: 'datepicker__modal',
 					resolve: {
 						rChosenDate: function () {
 							return scope.selectedDate;
