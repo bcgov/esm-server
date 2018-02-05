@@ -107,7 +107,11 @@ angular.module('documents')
                 $uibModalInstance.dismiss('cancel');
               };
 
+              self.validationMessage = '';
+
               self.save = function (isValid) {
+                // static copy of new name for validation message
+                self.newname = $scope.doc.displayName;
                 self.busy = true;
                 // should be valid here...
                 if (isValid) {
@@ -132,16 +136,21 @@ angular.module('documents')
                         // Skip if we detect the user didn't change the name.
                         return FolderModel.save($scope.doc);
                       } else {
-                        var found = null;
+                        self.repeat = null;
                         _.each(fs, function (foldersInDirectory) {
-                          if (foldersInDirectory.displayName === $scope.doc.displayName) {
-                            found = true;
+                          if (foldersInDirectory.displayName.toLowerCase() === $scope.doc.displayName.toLowerCase()) {
+                            self.repeat = true;
                             return false;
                           }
                         });
-                        if (found) {
+                        if (self.repeat) {
+                          self.validationMessage = 'Enter a unique name for this folder.';
+                          self.busy = false;
+                          // refresh scope to apply validation message
+                          $scope.$apply();
                           return null;
                         } else {
+                          self.validationMessage = '';
                           return FolderModel.save($scope.doc);
                         }
                       }
@@ -159,9 +168,6 @@ angular.module('documents')
                         }, function (err) {
                           AlertService.error("Could not rename folder");
                         });
-                      } else {
-                        self.busy = false;
-                        AlertService.error("Sorry, folder already exists.  Please choose another name.");
                       }
                     }, function(error) {
                       console.log(error);

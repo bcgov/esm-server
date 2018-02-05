@@ -1,91 +1,98 @@
 <form class="fb-edit-form" name="editFileForm" novalidate>
-	<div class="modal-header">
-		<button ng-disabled="editFileProperties.busy" type="button" class="btn btn-default close" ng-click="editFileProperties.cancel()">
-			<span aria-hidden="true">&times;</span>
-		</button>
-		<h3 ng-if="doc._schemaName === 'Document'" class="modal-title">Edit File  &nbsp;&rsaquo;&nbsp;  {{originalName}}</h3>
-		<h3 ng-if="doc._schemaName === 'Folder'" class="modal-title">Edit Folder  &nbsp;&rsaquo;&nbsp;  {{originalName}}</h3>
-	</div>
+  <div class="modal-header">
+    <button ng-disabled="editFileProperties.busy" type="button" class="btn btn-default close" ng-click="editFileProperties.cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h3 ng-if="doc._schemaName === 'Document'" class="modal-title">Edit File  &nbsp;&rsaquo;&nbsp;  {{originalName}}</h3>
+    <h3 ng-if="doc._schemaName === 'Folder'" class="modal-title">Edit Folder  &nbsp;&rsaquo;&nbsp;  {{originalName}}</h3>
+  </div>
 
-	<div class="modal-body">
+  <div class="modal-body">
+    <div class="alert alert-danger" ng-if="editFileProperties.repeat">
+      The folder name {{editFileProperties.newname}} already exists in this directory.
+    </div>
+    <!--
+    <div class="spinner-container">
+      <div class="spinner-new rotating"></div>
+    </div>
+    -->
 
-		<!--
-		<div class="spinner-container">
-			<div class="spinner-new rotating"></div>
-		</div>
-		-->
+    <div class="form-group file-type" ng-class="{'has-error': editFileProperties.validationMessage}" x-show-errors>
+      <label for="displayName" class="control-label">Display Name<em class="required">(Required)</em></label>
+      <input class="form-control" id="displayName" name="displayName" type="text" ng-model="doc.displayName" required ng-blur="validate()">
+      <div class="help-block">
+        {{editFileProperties.validationMessage}}
+      </div>
+    </div>
 
-		<div class="form-group file-type" x-show-errors>
-			<label for="displayName" class="control-label">Display Name<em class="required">(Required)</em></label>
-			<input class="form-control" id="displayName" name="displayName" type="text" ng-model="doc.displayName" required ng-blur="validate()">
-		</div>
-		<div ng-if="doc._schemaName === 'Document'" class="form-group file-type" x-show-errors>
-			<label for="documentFileName" class="control-label">File Name
-				<span class="text-danger " id="fileNameExtError" ng-show="editFileForm.documentFileName.$invalid"></span>
-			</label>
-			<input class="form-control" id="documentFileName" name="documentFileName" type="text" ng-model="doc.documentFileName"
-						 fn-filename ng-trim=false fn-extension="{{extension}}" fn-error="fileNameExtError">
-		</div>
-		<div ng-if="doc._schemaName === 'Document'" class="form-group" x-show-errors>
-			<label class="control-label" for="documentType">Document Type</label>
-			<select class="form-control" title="Document Type" id="documentType" name="documentType"
-				ng-model="doc.documentType"
-				ng-options="item.value as item.display for item in types"
-				ng-change="validate()"></select>
-		</div>
+    <div ng-if="doc._schemaName === 'Document'" class="form-group file-type" x-show-errors>
+      <label for="documentFileName" class="control-label">File Name
+        <span class="text-danger " id="fileNameExtError" ng-show="editFileForm.documentFileName.$invalid"></span>
+      </label>
+      <input class="form-control" id="documentFileName" name="documentFileName" type="text" ng-model="doc.documentFileName"
+            fn-filename ng-trim=false fn-extension="{{extension}}" fn-error="fileNameExtError">
+    </div>
 
-		<div ng-show="doc.documentType === 'Inspection Report'">
-			<div class="form-group document-type" x-show-errors>
-				<label for="inspectorInitials" class="control-label">Inspector Initials</label>
-				<input class="form-control" id="inspectorInitials" name="inspectorInitials" type="text" ng-model="doc.inspectionReport.inspectorInitials" ng-blur="validate()">
-			</div>
+    <div ng-if="doc._schemaName === 'Document'" class="form-group" x-show-errors>
+      <label class="control-label" for="documentType">Document Type</label>
+      <select class="form-control" title="Document Type" id="documentType" name="documentType"
+        ng-model="doc.documentType"
+        ng-options="item.value as item.display for item in types"
+        ng-change="validate()"></select>
+    </div>
 
-			<div class="form-group" ng-class="{'has-error': editFileForm.followup.$invalid}" x-show-errors>
-				<label for="followup" class="control-label">Follow Up</label>
-				<select class="form-control" title="Document Type" id="followup" name="followup"
-						ng-model="doc.inspectionReport.followup"
-						ng-options="item.value as item.display for item in inspectionReportFollowupTypes"
-						ng-change="validate()"></select>
-			</div>
-		</div>
+    <div ng-show="doc.documentType === 'Inspection Report'">
+      <div class="form-group document-type" x-show-errors>
+        <label for="inspectorInitials" class="control-label">Inspector Initials</label>
+        <input class="form-control" id="inspectorInitials" name="inspectorInitials" type="text" ng-model="doc.inspectionReport.inspectorInitials" ng-blur="validate()">
+      </div>
 
-		<div class="form-group datepicker" x-show-errors>
-			<label ng-if="doc._schemaName === 'Folder'" class="control-label" for="documentDate">Created Date<em class="required">(Required)</em></label>
-			<label ng-if="doc._schemaName === 'Document'" class="control-label" for="documentDate">Document Date<em class="required">(Required)</em></label>
-			<div class="datepicker__input">
-				<input class="form-control" placeholder="YYYY-MM-DD"  id="documentDate" name="documentDate"
-					   ng-model="doc.documentDate" type="text"
-					   uib-datepicker-popup
-					   is-open="datePicker.opened"
-					   datepicker-options="dateOptions"
-					   close-text="Close"
-					   ng-change="validate()"/>
-				<button class="btn btn-default calendar-btn" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
-			</div>
-		</div>
-		<div ng-if="doc._schemaName === 'Document'" class="form-group datepicker" x-show-errors>
-			<label class="control-label" for="dateUploaded">Uploaded Date<em class="required">(Required)</em></label>
-			<div class="datepicker__input">
-				<input class="form-control" placeholder="YYYY-MM-DD"  id="dateUploaded" name="dateUploaded"
-					   ng-model="doc.dateUploaded" type="text"
-					   uib-datepicker-popup
-					   is-open="dateUploadedPicker.opened"
-					   datepicker-options="dateOptions"
-					   close-text="Close"
-					   required
-					   ng-change="validate()"/>
-				<button class="btn btn-default calendar-btn" ng-click="dateUploadedOpen()"><span class="glyphicon glyphicon-calendar"/></button>
-			</div>
-		</div>
+      <div class="form-group" ng-class="{'has-error': editFileForm.followup.$invalid}" x-show-errors>
+        <label for="followup" class="control-label">Follow Up</label>
+        <select class="form-control" title="Document Type" id="followup" name="followup"
+            ng-model="doc.inspectionReport.followup"
+            ng-options="item.value as item.display for item in inspectionReportFollowupTypes"
+            ng-change="validate()"></select>
+      </div>
+    </div>
 
-		<div class="form-group m-b-0" x-show-errors>
-			<label for="description" class="control-label">Description</label>
-			<textarea class="form-control" rows="6" id="description" name="description" ng-model="doc.description" ng-blur="validate()"></textarea>
-		</div>
-	</div>
+    <div class="form-group datepicker" x-show-errors>
+      <label ng-if="doc._schemaName === 'Folder'" class="control-label" for="documentDate">Created Date<em class="required">(Required)</em></label>
+      <label ng-if="doc._schemaName === 'Document'" class="control-label" for="documentDate">Document Date<em class="required">(Required)</em></label>
+      <div class="datepicker__input">
+        <input class="form-control" placeholder="YYYY-MM-DD"  id="documentDate" name="documentDate"
+             ng-model="doc.documentDate" type="text"
+             uib-datepicker-popup
+             is-open="datePicker.opened"
+             datepicker-options="dateOptions"
+             close-text="Close"
+             ng-change="validate()"/>
+        <button class="btn btn-default calendar-btn" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
+      </div>
+    </div>
+    <div ng-if="doc._schemaName === 'Document'" class="form-group datepicker" x-show-errors>
+      <label class="control-label" for="dateUploaded">Uploaded Date<em class="required">(Required)</em></label>
+      <div class="datepicker__input">
+        <input class="form-control" placeholder="YYYY-MM-DD"  id="dateUploaded" name="dateUploaded"
+             ng-model="doc.dateUploaded" type="text"
+             uib-datepicker-popup
+             is-open="dateUploadedPicker.opened"
+             datepicker-options="dateOptions"
+             close-text="Close"
+             required
+             ng-change="validate()"/>
+        <button class="btn btn-default calendar-btn" ng-click="dateUploadedOpen()"><span class="glyphicon glyphicon-calendar"/></button>
+      </div>
+    </div>
 
-	<div class="modal-footer clearfix">
-		<button class="btn btn-default" ng-disabled="editFileProperties.busy" ng-click="editFileProperties.cancel()">Cancel</button>
-		<button class="btn btn-primary" ng-disabled="!editFileForm.$valid || editFileProperties.busy" ng-click="editFileProperties.save(editFileForm.$valid)">Save</button>
-	</div>
+    <div class="form-group m-b-0" x-show-errors>
+      <label for="description" class="control-label">Description</label>
+      <textarea class="form-control" rows="6" id="description" name="description" ng-model="doc.description" ng-blur="validate()"></textarea>
+    </div>
+  </div>
+
+  <div class="modal-footer clearfix">
+    <button class="btn btn-default" ng-disabled="editFileProperties.busy" ng-click="editFileProperties.cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-disabled="!editFileForm.$valid || editFileProperties.busy" ng-click="editFileProperties.save(editFileForm.$valid)">Save</button>
+  </div>
 </form>

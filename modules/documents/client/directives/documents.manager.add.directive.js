@@ -35,7 +35,7 @@ angular.module('documents')
                 self.newname = self.entryText;
                 //Check if there is already a folder of name ${entryText} in current directory.
                 self.repeat = _.find($scope.node.children, function(element) {
-                  return element.model.name === self.entryText;
+                  return element.model.name.toLowerCase() === self.entryText.toLowerCase();
                 });
                 //If ${entryText} is a unique name for this directory, create the folder, otherwise throw an error.
                 if (self.repeat) {
@@ -48,7 +48,7 @@ angular.module('documents')
                     },
                     function (err) {
                       //$log.error('addDirectory error: ', JSON.stringify(err));
-                      AlertService.error("Could not add folder: " + err.data.message);
+                      AlertService.error("Could not add folder: " + err.data.message, 4000);
                     }
                   );
                 }
