@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('control')
-	.controller('controllerProcessInvitations', controllerProcessInvitations);
+  .controller('controllerProcessInvitations', controllerProcessInvitations);
 
 // -----------------------------------------------------------------------------------
 //
@@ -9,10 +9,10 @@ angular.module('control')
 //
 // -----------------------------------------------------------------------------------
 controllerProcessInvitations.$inject = ['$scope', '$rootScope', 'sProcessInvitations', '$q', 'ProcessCodes', '_'];
-	//
+//
 function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $q, ProcessCodes, _) {
 
-	var taskInvitations = this;
+  var taskInvitations = this;
 
   taskInvitations.project = $scope.project;
 
@@ -28,20 +28,20 @@ function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $
   taskInvitations.selectedRole = undefined;
 
 
-	sProcessInvitations.getTemplates().then(function(res) {
+  sProcessInvitations.getTemplates().then(function(res) {
     taskInvitations.templates = res.data;
-	});
+  });
 
-	taskInvitations.setContent = function() {
+  taskInvitations.setContent = function() {
     taskInvitations.taskData.subject = taskInvitations.selectedTemplate.subject;
     taskInvitations.taskData.content = taskInvitations.selectedTemplate.content;
-	};
-  
+  };
+
   taskInvitations.setUsers = function() {
     sProcessInvitations.getUsersForRole(taskInvitations.selectedRole).then(function(res) {
       taskInvitations.users = (res.data) ? res.data.users :[];
       taskInvitations.selected = [];
-    });   
+    });
   };
 
   var doMoveUser = function(src, dest, user) {
@@ -70,7 +70,7 @@ function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $
 
     doMoveUser(src, dest, user);
   };
-  
+
   taskInvitations.sendInvitations = function() {
     if (taskInvitations.canSend()) {
       var userIds = taskInvitations.selected.map(function (s) {
@@ -84,18 +84,7 @@ function controllerProcessInvitations($scope, $rootScope, sProcessInvitations, $
         userIds: userIds
       };
 
-      sProcessInvitations.sendInvitations(data).then(function (res) {
-        // res.data will return an array of:
-        //email: user.email
-        //userId: user._id
-        //messageId: returned from SMTP server, id of message sent
-        //accepted: true/false, true if delivered
-        //rejected: true/false, true if rejected (invalid email address).
-        //
-        // not sure how to best to raise this and show it...
-        // TODO: match userIds for accepted and rejected, show message on screen
-        //console.log(res);
-      });
+      sProcessInvitations.sendInvitations(data).then(function (/* res */) {});
     }
   };
 

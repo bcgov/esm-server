@@ -1,9 +1,9 @@
 'use strict';
 
 angular
-	.module('users')
-	.filter('userIs', filterUserIs)
-	.filter('userIsNot', filterUserIsNot);	
+  .module('users')
+  .filter('userIs', filterUserIs)
+  .filter('userIsNot', filterUserIsNot);
 
 // -----------------------------------------------------------------------------------
 //
@@ -11,17 +11,17 @@ angular
 //
 // -----------------------------------------------------------------------------------
 var filterUserHasRole = function(roles, _, Authentication) {
-	if (Authentication.user === '') return false;
+  if (Authentication.user === '') {return false;}
 
-	var arr = roles.split(',');
-	var found = false;
-	// if user has any of the roles
-	_.each(arr, function(role) {
-		if( _.indexOf(Authentication.user.roles, role) > -1) {
-			found = true;
-		}
-	});
-	return found;
+  var arr = roles.split(',');
+  var found = false;
+  // if user has any of the roles
+  _.each(arr, function(role) {
+    if( _.indexOf(Authentication.user.roles, role) > -1) {
+      found = true;
+    }
+  });
+  return found;
 };
 // -----------------------------------------------------------------------------------
 //
@@ -31,9 +31,9 @@ var filterUserHasRole = function(roles, _, Authentication) {
 filterUserIs.$inject = ['_', 'Authentication'];
 /* @ngInject */
 function filterUserIs(_, Authentication) {
-	return function(roles) {
-		return filterUserHasRole(roles, _, Authentication);
-	};
+  return function(roles) {
+    return filterUserHasRole(roles, _, Authentication);
+  };
 }
 // -----------------------------------------------------------------------------------
 //
@@ -43,7 +43,7 @@ function filterUserIs(_, Authentication) {
 filterUserIsNot.$inject = ['_', 'Authentication'];
 /* @ngInject */
 function filterUserIsNot(_, Authentication) {
-	return function(roles) {
-		return filterUserHasRole(roles, _, Authentication);
-	};
+  return function(roles) {
+    return filterUserHasRole(roles, _, Authentication);
+  };
 }

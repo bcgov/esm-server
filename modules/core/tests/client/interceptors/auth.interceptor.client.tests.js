@@ -4,9 +4,9 @@
   describe('authInterceptor', function() {
     //Initialize global variables
     var authInterceptor,
-    $q,
-    $state,
-    httpProvider;
+      $q,
+      $state,
+      httpProvider;
 
     // Load the main application module
     beforeEach(module(ApplicationConfiguration.applicationModuleName));
@@ -38,19 +38,19 @@
 
     describe('Forbidden Interceptor', function() {
       it('should redirect to forbidden route', function () {
-          var response = {status:403,config:{}};
-          var promise = authInterceptor.responseError(response);
-          expect($q.reject).toHaveBeenCalled();
-          expect($state.transitionTo).toHaveBeenCalledWith('forbidden');
+        var response = {status:403,config:{}};
+        authInterceptor.responseError(response);
+        expect($q.reject).toHaveBeenCalled();
+        expect($state.transitionTo).toHaveBeenCalledWith('forbidden');
       });
     });
 
     describe('Authorization Interceptor', function() {
       it('should redirect to signIn page for unauthorized access', function () {
-          var response = {status:401,config:{}};
-          var promise = authInterceptor.responseError(response);
-          expect($q.reject).toHaveBeenCalled();
-          expect($state.transitionTo).toHaveBeenCalledWith('authentication.signin');
+        var response = {status:401,config:{}};
+        authInterceptor.responseError(response);
+        expect($q.reject).toHaveBeenCalled();
+        expect($state.transitionTo).toHaveBeenCalledWith('authentication.signin');
       });
     });
   });

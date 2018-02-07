@@ -30,8 +30,8 @@ function controllerEAOProjectNew(Project, $state) {
 'use strict';
 
 angular.module('organizations').controller('viewOrganizationController', ['$scope', '$state',
-    function ($scope, $state ) {
-        var viewOrganization = this;
-        viewOrganization.organizationId = $state.params.organizationId;
-    }
+  function ($scope, $state ) {
+    var viewOrganization = this;
+    viewOrganization.organizationId = $state.params.organizationId;
+  }
 ]);

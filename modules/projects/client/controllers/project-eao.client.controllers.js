@@ -1,12 +1,12 @@
 // 'use strict';
 
 // angular.module('project')
-	// EAO
-	// .controller('controllerEAOProject', controllerEAOProject)
-	// .controller('controllerEAOProjectNew', controllerEAOProjectNew)
+// EAO
+// .controller('controllerEAOProject', controllerEAOProject)
+// .controller('controllerEAOProjectNew', controllerEAOProjectNew)
 
-	// .controller('controllerModalProjectEdit', controllerModalProjectEdit)
-	// .controller('controllerModalProjectEditPlanSchedule', controllerModalProjectEditPlanSchedule);
+// .controller('controllerModalProjectEdit', controllerModalProjectEdit)
+// .controller('controllerModalProjectEditPlanSchedule', controllerModalProjectEditPlanSchedule);
 
 // -----------------------------------------------------------------------------------
 //

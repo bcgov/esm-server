@@ -1,7 +1,6 @@
 'use strict';
 
-var should = require('should'),
-  request = require('supertest'),
+var request = require('supertest'),
   path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
@@ -10,7 +9,7 @@ var should = require('should'),
 /**
  * Globals
  */
-var app, agent, credentials, user, admin;
+var app, agent, credentials, user;
 
 /**
  * User routes tests
@@ -52,7 +51,7 @@ describe('User CRUD tests', function () {
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
-      .end(function (signinErr, signinRes) {
+      .end(function (signinErr/* , signinRes */) {
         // Handle signin error
         if (signinErr) {
           return done(signinErr);
@@ -61,7 +60,7 @@ describe('User CRUD tests', function () {
         // Save a new article
         agent.get('/api/users')
           .expect(403)
-          .end(function (usersGetErr, usersGetRes) {
+          .end(function (usersGetErr/* , usersGetRes */) {
             if (usersGetErr) {
               return done(usersGetErr);
             }
@@ -78,7 +77,7 @@ describe('User CRUD tests', function () {
       agent.post('/api/auth/signin')
         .send(credentials)
         .expect(200)
-        .end(function (signinErr, signinRes) {
+        .end(function (signinErr/* , signinRes */) {
           // Handle signin error
           if (signinErr) {
             return done(signinErr);

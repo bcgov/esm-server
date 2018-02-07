@@ -4,15 +4,13 @@
   // Authentication controller Spec
   describe('AuthenticationController', function () {
     // Initialize global variables
-    var AuthenticationController,
-      scope,
+    var scope,
       $httpBackend,
-      $stateParams,
       $location;
 
     beforeEach(function () {
       jasmine.addMatchers({
-        toEqualData: function (util, customEqualityTesters) {
+        toEqualData: function () {
           return {
             compare: function (actual, expected) {
               return {
@@ -36,14 +34,8 @@
         scope = $rootScope.$new();
 
         // Point global variables to injected services
-        $stateParams = _$stateParams_;
         $httpBackend = _$httpBackend_;
         $location = _$location_;
-
-        // Initialize the Authentication controller
-        AuthenticationController = $controller('AuthenticationController', {
-          $scope: scope
-        });
       }));
 
       describe('$scope.signin()', function () {
@@ -132,10 +124,6 @@
           username: 'test',
           roles: ['user']
         };
-
-        AuthenticationController = $controller('AuthenticationController', {
-          $scope: scope
-        });
       }));
 
       it('should be redirected to home', function () {

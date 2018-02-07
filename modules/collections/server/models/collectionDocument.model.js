@@ -5,15 +5,14 @@
 //
 var path = require('path');
 
-module.exports = require(path.resolve('./modules/core/server/controllers/core.schema.controller'))
-('Collectiondocument', {
-	__audit   : true,
-	__access  : [],
+module.exports = require(path.resolve('./modules/core/server/controllers/core.schema.controller'))('Collectiondocument', {
+  __audit   : true,
+  __access  : [],
 
-	document  : { type: 'ObjectId', ref: 'Document' },
+  document  : { type: 'ObjectId', ref: 'Document' },
 
-	dateAdded : { type: Date, default: Date.now },
-	updatedBy : { type: 'ObjectId', ref:'User', default: null },
+  dateAdded : { type: Date, default: Date.now },
+  updatedBy : { type: 'ObjectId', ref:'User', default: null },
 
-	sortOrder : { type: 'Number', default: Date.now },
+  sortOrder : { type: 'Number', default: Date.now },
 });

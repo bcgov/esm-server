@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('core')
-	.directive('tmplFooter', directiveFooter);
+  .directive('tmplFooter', directiveFooter);
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Footer
@@ -10,11 +10,11 @@ angular.module('core')
 directiveFooter.$inject = [];
 /* @ngInject */
 function directiveFooter() {
-	var directive = {
-		restrict: 'E',
-		templateUrl: 'modules/core/client/views/footer.client.view.html',
-		controller: 'controllerFooter',
-		controllerAs: 'footer'
-	};
-	return directive;
+  var directive = {
+    restrict: 'E',
+    templateUrl: 'modules/core/client/views/footer.client.view.html',
+    controller: 'controllerFooter',
+    controllerAs: 'footer'
+  };
+  return directive;
 }

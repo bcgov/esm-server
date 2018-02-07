@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('control')
-	.directive('tmplInvitations',  directiveProcessInvitations)
-    .directive('emailTemplateChooser', directiveEmailTemplateChooser)
-	.directive('addNewRecipient', directiveAddNewRecipient);
+  .directive('tmplInvitations', directiveProcessInvitations)
+  .directive('emailTemplateChooser', directiveEmailTemplateChooser)
+  .directive('addNewRecipient', directiveAddNewRecipient);
 // -----------------------------------------------------------------------------------
 //
 // DIRECTIVE: Process, simple complete
@@ -12,150 +12,154 @@ angular.module('control')
 directiveProcessInvitations.$inject = [];
 /* @ngInject */
 function directiveProcessInvitations() {
-    var directive = {
-        restrict: 'E',
-        templateUrl: 'modules/email-templates/controls/invitations/client/invitations.html',
-        controller: 'controllerProcessInvitations',
-        controllerAs: 'taskInvitations',
-        scope: {
-        	anchor: '@',
-          project: '='
-        }
-    };
-    return directive;
+  var directive = {
+    restrict: 'E',
+    templateUrl: 'modules/email-templates/controls/invitations/client/invitations.html',
+    controller: 'controllerProcessInvitations',
+    controllerAs: 'taskInvitations',
+    scope: {
+      anchor: '@',
+      project: '='
+    }
+  };
+  return directive;
 }
 
 directiveEmailTemplateChooser.$inject = ['EmailTemplateModel', '$uibModal', '_'];
 /* @ngInject */
 function directiveEmailTemplateChooser(EmailTemplateModel, $uibModal, _) {
-    return {
-        restrict: 'A',
-        scope: {
-            project: '=',
-			current: '=',
-			groupAllowed: '=',
-			groupRestricted: '='
-        },
-        link : function(scope, element, attrs) {
-            element.on('click', function () {
-                $uibModal.open ({
-                    animation: true,
-                    templateUrl: 'modules/email-templates/client/views/email-template-chooser.html',
-                    controllerAs: 's',
-                    size: 'lg',
-                    resolve: {
-                        items: function (EmailTemplateModel) {
-                            return EmailTemplateModel.getSorted ('group name');
-                        }
-                    },
-					controller: function ($scope, $uibModalInstance, items) {
-						var s = this;
+  return {
+    restrict: 'A',
+    scope: {
+      project: '=',
+      current: '=',
+      groupAllowed: '=',
+      groupRestricted: '='
+    },
+    link : function(scope, element) {
+      element.on('click', function () {
+        $uibModal.open ({
+          animation: true,
+          templateUrl: 'modules/email-templates/client/views/email-template-chooser.html',
+          controllerAs: 's',
+          size: 'lg',
+          resolve: {
+            items: function (EmailTemplateModel) {
+              return EmailTemplateModel.getSorted ('group name');
+            }
+          },
+          controller: function ($scope, $uibModalInstance, items) {
+            var s = this;
 
-						if (scope.groupAllowed) {
-							var allowed = scope.groupAllowed.toUpperCase().split(',');
-							items = _.filter(items, function(f) { return allowed.indexOf(f.group.toUpperCase()) > -1; });
-						}
-						if (scope.groupRestricted) {
-							var restricted = scope.groupRestricted.toUpperCase().split(',');
-							items = _.filter(items, function(f) { return restricted.indexOf(f.group.toUpperCase()) < 0; });
-						}
+            if (scope.groupAllowed) {
+              var allowed = scope.groupAllowed.toUpperCase().split(',');
+              items = _.filter(items, function(f) { return allowed.indexOf(f.group.toUpperCase()) > -1; });
+            }
+            if (scope.groupRestricted) {
+              var restricted = scope.groupRestricted.toUpperCase().split(',');
+              items = _.filter(items, function(f) { return restricted.indexOf(f.group.toUpperCase()) < 0; });
+            }
 
-						var isArray = _.isArray(scope.current);
+            var isArray = _.isArray(scope.current);
 
-						s.items = items;
-						s.selected = scope.current;
-						s.selected = [];
+            s.items = items;
+            s.selected = scope.current;
+            s.selected = [];
 
-						s.isSelected = function(id) {
-							var item =  _.find(s.selected, function(o) { return o._id === id; });
-							return !_.isEmpty(item);
-						};
+            s.isSelected = function(id) {
+              var item = _.find(s.selected, function(o) { return o._id === id; });
+              return !_.isEmpty(item);
+            };
 
-						s.select = function(id) {
-							var item =  _.find(s.selected, function(o) { return o._id === id; });
-							if (item) {
-								_.remove(s.selected, function(o) { return o._id === id; });
-							} else {
-								var existingItem = _.find(s.items, function(o) { return o._id === id; });
-								if (!_.isEmpty(existingItem)) {
-									if (isArray) {
-										s.selected.push(existingItem);
-									} else {
-										s.selected = [existingItem];
-									}
-								}
-							}
-						};
+            s.select = function(id) {
+              var item = _.find(s.selected, function(o) { return o._id === id; });
+              if (item) {
+                _.remove(s.selected, function(o) { return o._id === id; });
+              } else {
+                var existingItem = _.find(s.items, function(o) { return o._id === id; });
+                if (!_.isEmpty(existingItem)) {
+                  if (isArray) {
+                    s.selected.push(existingItem);
+                  } else {
+                    s.selected = [existingItem];
+                  }
+                }
+              }
+            };
 
-						s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
+            s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
 
-						s.ok = function () {
-							$uibModalInstance.close (s.selected);
-						};
+            s.ok = function () {
+              $uibModalInstance.close (s.selected);
+            };
 
-						// if current, then we need to select
-						if (scope.current) {
-							if (isArray) {
-								_.forEach(scope.current, function(o) {
-									s.select(o._id);
-								});
-							} else {
-								s.select(scope.current._id);
-							}
-						}
-					}
-				}).result.then (function (data) {
-					if (_.isArray(scope.current)) {
-						scope.current = data;
-					} else {
-						scope.current = data[0];
-					}
-				})
-					.catch (function (err) {});
-			});
-        }
-    };
+            // if current, then we need to select
+            if (scope.current) {
+              if (isArray) {
+                _.forEach(scope.current, function(o) {
+                  s.select(o._id);
+                });
+              } else {
+                s.select(scope.current._id);
+              }
+            }
+          }
+        }).result.then (function (data) {
+          if (_.isArray(scope.current)) {
+            scope.current = data;
+          } else {
+            scope.current = data[0];
+          }
+        })
+          .catch (function (/* err */) {
+            // swallow error
+          });
+      });
+    }
+  };
 }
 
 
-directiveAddNewRecipient.$inject = ['$uibModal', '_'];
+directiveAddNewRecipient.$inject = ['$uibModal'];
 /* @ngInject */
-function directiveAddNewRecipient($uibModal, _) {
-	return {
-		restrict: 'A',
-		scope: {
-			project: '=',
-			current: '='
-		},
-		link : function(scope, element, attrs) {
-			element.on('click', function () {
-				$uibModal.open ({
-					animation: true,
-					templateUrl: 'modules/email-templates/client/views/add-new-recipient-modal.html',
-					controllerAs: 's',
-					size: 'md',
-					resolve: {
-					},
-					controller: function ($scope, $uibModalInstance) {
-						var s = this;
-						s.name = undefined;
-						s.email = undefined;
+function directiveAddNewRecipient($uibModal) {
+  return {
+    restrict: 'A',
+    scope: {
+      project: '=',
+      current: '='
+    },
+    link : function(scope, element) {
+      element.on('click', function () {
+        $uibModal.open ({
+          animation: true,
+          templateUrl: 'modules/email-templates/client/views/add-new-recipient-modal.html',
+          controllerAs: 's',
+          size: 'md',
+          resolve: {
+          },
+          controller: function ($scope, $uibModalInstance) {
+            var s = this;
+            s.name = undefined;
+            s.email = undefined;
 
-						s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
+            s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
 
-						s.submit = function (isValid) {
-							if (!isValid) {
-								$scope.$broadcast('show-errors-check-validity', 'newRecipientForm');
-								return false;
-							}
-							$uibModalInstance.close ({name: s.name, email: s.email});
-						};
-					}
-				}).result.then (function (data) {
-					scope.current = data;
-				})
-					.catch (function (err) {});
-			});
-		}
-	};
+            s.submit = function (isValid) {
+              if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'newRecipientForm');
+                return false;
+              }
+              $uibModalInstance.close ({name: s.name, email: s.email});
+            };
+          }
+        }).result.then (function (data) {
+          scope.current = data;
+        })
+          .catch (function (/* err */) {
+            // swallow error
+          });
+      });
+    }
+  };
 }

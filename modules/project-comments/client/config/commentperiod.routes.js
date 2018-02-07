@@ -15,195 +15,195 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
   // also become available to child states as 'periods'
   //
   // -------------------------------------------------------------------------
-  .state('p.commentperiod', {
-    abstract:true,
-    url: '/commentperiod',
-    template: '<ui-view class="comment-period-view"></ui-view>',
-    resolve: {
-      periods: function ($stateParams, CommentPeriodModel, project) {
-        return CommentPeriodModel.forProject (project._id);
+    .state('p.commentperiod', {
+      abstract:true,
+      url: '/commentperiod',
+      template: '<ui-view class="comment-period-view"></ui-view>',
+      resolve: {
+        periods: function ($stateParams, CommentPeriodModel, project) {
+          return CommentPeriodModel.forProject (project._id);
+        }
       }
-    }
-  })
+    })
   // -------------------------------------------------------------------------
   //
   // the list state for comment periods, project and periods are guaranteed to
   // already be resolved
   //
   // -------------------------------------------------------------------------
-  .state('p.commentperiod.list', {
-    url: '/list',
-    templateUrl: 'modules/project-comments/client/views/period-list.html',
-    resolve: {
-      periods: function ($stateParams, CommentPeriodModel, project) {
-        return CommentPeriodModel.forProjectWithStats (project._id);
-      },
-      activeperiod: function ($stateParams, CommentPeriodModel, project) {
+    .state('p.commentperiod.list', {
+      url: '/list',
+      templateUrl: 'modules/project-comments/client/views/period-list.html',
+      resolve: {
+        periods: function ($stateParams, CommentPeriodModel, project) {
+          return CommentPeriodModel.forProjectWithStats (project._id);
+        },
+        activeperiod: function ($stateParams, CommentPeriodModel, project) {
         // Go through the periods on the project, surface the active one and enable commenting
         // right from here.
         // The following code is copied from project.client.routes.js
-        return CommentPeriodModel.forProject (project._id)
-          .then( function (periods) {
-            var openPeriod = null;
-            _.each(periods, function (period) {
-              if (period.openState.state === CommentPeriodModel.OpenStateEnum.open) {
-                openPeriod = period;
-                return false;
+          return CommentPeriodModel.forProject (project._id)
+            .then( function (periods) {
+              var openPeriod = null;
+              _.each(periods, function (period) {
+                if (period.openState.state === CommentPeriodModel.OpenStateEnum.open) {
+                  openPeriod = period;
+                  return false;
+                }
+              });
+              if (openPeriod) {
+                return openPeriod;
+              } else {
+                return null;
               }
             });
-            if (openPeriod) {
-              return openPeriod;
-            } else {
-              return null;
-            }
-          });
-      }
-    },
-    controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, CommentPeriodModel, AlertService) {
-      var s = this;
-      $scope.activeperiod = null;
-      if (activeperiod) {
+        }
+      },
+      controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, CommentPeriodModel, AlertService) {
+        var s = this;
+        $scope.activeperiod = null;
+        if (activeperiod) {
         // Switch on the UI for comment period
-        $scope.activeperiod = activeperiod;
-        $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
-      }
-      var ps = _.map(periods, function(p) {
-        var openForComment = p.openState.state === CommentPeriodModel.OpenStateEnum.open;
-        return _.extend(p, {openForComment: openForComment});
-      });
-      $scope.tableParams = new NgTableParams ({count:10}, {dataset: ps});
-      $scope.project = project;
+          $scope.activeperiod = activeperiod;
+          $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+        }
+        var ps = _.map(periods, function(p) {
+          var openForComment = p.openState.state === CommentPeriodModel.OpenStateEnum.open;
+          return _.extend(p, {openForComment: openForComment});
+        });
+        $scope.tableParams = new NgTableParams ({count:10}, {dataset: ps});
+        $scope.project = project;
 
-      // filter lists...
-      s.typeArray = [];
-      s.phaseArray = [];
+        // filter lists...
+        s.typeArray = [];
+        s.phaseArray = [];
 
-      // build out the filter arrays...
-      var recs = _(angular.copy(ps)).chain().flatten();
-      recs.pluck('periodType').unique().value().map(function (item) {
-        s.typeArray.push({id: item, title: item});
-      });
-      recs.pluck('phaseName').unique().value().map(function (item) {
-        s.phaseArray.push({id: item, title: item});
-      });
+        // build out the filter arrays...
+        var recs = _(angular.copy(ps)).chain().flatten();
+        recs.pluck('periodType').unique().value().map(function (item) {
+          s.typeArray.push({id: item, title: item});
+        });
+        recs.pluck('phaseName').unique().value().map(function (item) {
+          s.phaseArray.push({id: item, title: item});
+        });
 
-      s.deletePeriod = function(p) {
-        return CommentPeriodModel.removePeriod(p)
-          .then(
-            function(result) {
-              $state.reload();
-              AlertService.success('Comment Period was deleted!', 4000);
-            },
-            function(error){
-              $state.reload();
-              AlertService.error('Comment Period could not be deleted.');
-            });
-      };
+        s.deletePeriod = function(p) {
+          return CommentPeriodModel.removePeriod(p)
+            .then(
+              function(/* result */) {
+                $state.reload();
+                AlertService.success('Comment Period was deleted!', 4000);
+              },
+              function(/* error */){
+                $state.reload();
+                AlertService.error('Comment Period could not be deleted.');
+              });
+        };
 
-      s.publishCommentPeriod = function(p) {
-        return CommentPeriodModel.publishCommentPeriod(p)
-          .then(
-            function(result) {
-              $state.reload();
-              AlertService.success('Comment Period was published!', 4000);
-            },
-            function(error){
-              $state.reload();
-              AlertService.error('Comment Period could not be published.');
-            });
-      };
-      s.unpublishCommentPeriod = function(p) {
-        return CommentPeriodModel.unpublishCommentPeriod(p)
-          .then(
-            function(result) {
-              $state.reload();
-              AlertService.success('Comment Period was unpublished!', 4000);
-            },
-            function(error){
-              $state.reload();
-              AlertService.error('Comment Period could not be unpublished.');
-            });
-      };
-    },
-    controllerAs: 's'
-  })
+        s.publishCommentPeriod = function(p) {
+          return CommentPeriodModel.publishCommentPeriod(p)
+            .then(
+              function(/* result */) {
+                $state.reload();
+                AlertService.success('Comment Period was published!', 4000);
+              },
+              function(/* error */){
+                $state.reload();
+                AlertService.error('Comment Period could not be published.');
+              });
+        };
+        s.unpublishCommentPeriod = function(p) {
+          return CommentPeriodModel.unpublishCommentPeriod(p)
+            .then(
+              function(/* result */) {
+                $state.reload();
+                AlertService.success('Comment Period was unpublished!', 4000);
+              },
+              function(/* error */){
+                $state.reload();
+                AlertService.error('Comment Period could not be unpublished.');
+              });
+        };
+      },
+      controllerAs: 's'
+    })
   // -------------------------------------------------------------------------
   //
   // this is the add, or create state. it is defined before the others so that
   // it does not conflict
   //
   // -------------------------------------------------------------------------
-  .state('p.commentperiod.create', {
-    url: '/:periodType/create',
-    templateUrl: 'modules/project-comments/client/views/period-edit.html',
-    resolve: {
-      periodType: function($stateParams) {
-        if ($stateParams.periodType === 'joint') {
-          return 'Joint';
+    .state('p.commentperiod.create', {
+      url: '/:periodType/create',
+      templateUrl: 'modules/project-comments/client/views/period-edit.html',
+      resolve: {
+        periodType: function($stateParams) {
+          if ($stateParams.periodType === 'joint') {
+            return 'Joint';
+          }
+          return 'Public'; // default
+        },
+        period: function (periodType, CommentPeriodModel) {
+          return CommentPeriodModel.getNew().then(function(model) {
+            model.periodType = periodType;
+            return model;
+          });
+        },
+        mode: function() {
+          return 'create';
         }
-        return 'Public';  // default
       },
-      period: function (periodType, CommentPeriodModel) {
-        return CommentPeriodModel.getNew().then(function(model) {
-          model.periodType = periodType;
-          return model;
-        });
-      },
-      mode: function() {
-        return 'create';
-      }
-    },
-    onEnter: function($state, project){
+      onEnter: function($state, project){
       // can't use data.permissions, as project is not loaded
       // so check this now before we get into the controller...
-      if (!project.userCan.createCommentPeriod) {
-        $state.go('forbidden');
-      }
-    },
-    controller: function ($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists) {
+        if (!project.userCan.createCommentPeriod) {
+          $state.go('forbidden');
+        }
+      },
+      controller: function ($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists) {
       // TODO: This whole method (and the ones below) should be refactored.
-      if (periodType === 'Joint') {
+        if (periodType === 'Joint') {
         // For now, putting Joint PCP logic here and we'll come back and refactor later...
-        new JointCommentPeriod().create($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists);
-      } else if (periodType === 'Public') {
+          new JointCommentPeriod().create($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists);
+        } else if (periodType === 'Public') {
         // Logic for regular PCP follows...
-        createPublicCommentPeriod($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists);
+          createPublicCommentPeriod($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists);
+        }
       }
-    }
-  })
+    })
   // -------------------------------------------------------------------------
   //
   // this is the edit state
   //
   // -------------------------------------------------------------------------
-  .state('p.commentperiod.edit', {
-    url: '/:periodId/edit',
-    templateUrl: 'modules/project-comments/client/views/period-edit.html',
-    resolve: {
-      period: function ($stateParams, CommentPeriodModel) {
-        return CommentPeriodModel.getForPublic ($stateParams.periodId);
+    .state('p.commentperiod.edit', {
+      url: '/:periodId/edit',
+      templateUrl: 'modules/project-comments/client/views/period-edit.html',
+      resolve: {
+        period: function ($stateParams, CommentPeriodModel) {
+          return CommentPeriodModel.getForPublic ($stateParams.periodId);
+        },
+        mode: function() {
+          return 'edit';
+        }
       },
-      mode: function() {
-        return 'edit';
-      }
-    },
-    onEnter: function($state, project){
+      onEnter: function($state, project){
       // can't use data.permissions, as project is not loaded
       // so check this now before we get into the controller...
-      if (!project.userCan.createCommentPeriod) {
-        $state.go('forbidden');
-      }
-    },
-    controller: function ($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists) {
+        if (!project.userCan.createCommentPeriod) {
+          $state.go('forbidden');
+        }
+      },
+      controller: function ($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists) {
       // TODO: This whole method (and the ones below) should be refactored.
-      if (period.periodType === 'Joint') {
+        if (period.periodType === 'Joint') {
         // For now, putting Joint PCP logic here and we'll come back and refactor later...
-        new JointCommentPeriod().edit($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists);
-      } else if (period.periodType === 'Public') {
-        editPublicCommentPeriod($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists);
+          new JointCommentPeriod().edit($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists);
+        } else if (period.periodType === 'Public') {
+          editPublicCommentPeriod($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists);
+        }
       }
-    }
-  })
+    })
   // -------------------------------------------------------------------------
   //
   // this is the 'view' mode of a comment period. here we are just simply
@@ -212,42 +212,39 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
   // ** this is where we should go to the view of the comments
   //
   // -------------------------------------------------------------------------
-  .state('p.commentperiod.detail', {
-    url: '/:periodId',
-    templateUrl: 'modules/project-comments/client/views/period-view.html',
-    resolve: {
-      period: function ($stateParams, CommentPeriodModel) {
-        return CommentPeriodModel.getForPublic ($stateParams.periodId);
+    .state('p.commentperiod.detail', {
+      url: '/:periodId',
+      templateUrl: 'modules/project-comments/client/views/period-view.html',
+      resolve: {
+        period: function ($stateParams, CommentPeriodModel) {
+          return CommentPeriodModel.getForPublic ($stateParams.periodId);
+        },
+        userRoles: function(project, UserModel) {
+          return UserModel.rolesInProject(project._id);
+        }
       },
-      userRoles: function(project, UserModel) {
-        return UserModel.rolesInProject(project._id);
+      controller: function ($scope, period, project, userRoles) {
+        var today = new Date ();
+        var start = new Date (period.dateStarted);
+        var end = new Date (period.dateCompleted);
+        var isopen = start < today && today < end;
+        $scope.isOpen = isopen;
+        $scope.isBefore = (start > today);
+        $scope.isClosed = (end < today);
+        $scope.period = period;
+        $scope.project = project;
+        $scope.isJoint = $scope.period.periodType === 'Joint';
+        $scope.isPublic = $scope.period.periodType === 'Public';
+        $scope.userRoles = userRoles;
+
+        // convert instructions to displayable HTML
+        $scope.aboutThisPeriod = period.instructions.replace(/\n/g,"<br>");
+        // anyone with vetting comments can add a comment at any time
+        // all others with add comment permission must wait until the period is open
+        $scope.allowCommentSubmit = (isopen && period.userCan.addComment) || period.userCan.vetComments;
+
       }
-    },
-    controller: function ($scope, period, project, userRoles) {
-      var self = this;
-      var today       = new Date ();
-      var start       = new Date (period.dateStarted);
-      var end         = new Date (period.dateCompleted);
-      var isopen      = start < today && today < end;
-      $scope.isOpen   = isopen;
-      $scope.isBefore = (start > today);
-      $scope.isClosed = (end < today);
-      $scope.period   = period;
-      $scope.project  = project;
-      $scope.isJoint = $scope.period.periodType === 'Joint';
-      $scope.isPublic = $scope.period.periodType === 'Public';
-      $scope.userRoles = userRoles;
-
-      // convert instructions to displayable HTML
-      $scope.aboutThisPeriod = period.instructions.replace(/\n/g,"<br>");
-      // anyone with vetting comments can add a comment at any time
-      // all others with add comment permission must wait until the period is open
-      $scope.allowCommentSubmit = (isopen && period.userCan.addComment) || period.userCan.vetComments;
-
-    }
-  })
-
-  ;
+    });
 
   // -------------------------------------------------------------------------
   //
@@ -272,14 +269,14 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
         period.phaseName = project.currentPhase.name;
 
         CommentPeriodModel.add($scope.period)
-        .then(function (model) {
-          $state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
-            reload: true, inherit: false, notify: true
+          .then(function (/* model */) {
+            $state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
+              reload: true, inherit: false, notify: true
+            });
+          })
+          .catch(function (/* err */) {
+            // swallow error
           });
-        })
-        .catch(function (err) {
-          console.error(err);
-        });
       }
     };
 
@@ -335,23 +332,22 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
         $scope.busy = true;
 
         CommentPeriodModel.save($scope.period)
-        .then(function (model) {
-          if (!rolesChanged(model)) {
-            return;
-          } else {
+          .then(function (model) {
+            if (!rolesChanged(model)) {
+              return;
+            } else {
             // save the comments so that we pick up the (potential) changes to the period permissions...
-            return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
-          }
-        }).then(function () {
-          $scope.busy = false;
-          $state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
-            reload: true, inherit: false, notify: true
+              return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
+            }
+          }).then(function () {
+            $scope.busy = false;
+            $state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
+              reload: true, inherit: false, notify: true
+            });
+          })
+          .catch(function (/* err */) {
+            $scope.busy = false;
           });
-        })
-        .catch(function (err) {
-          $scope.busy = false;
-          console.error(err);
-        });
       }
     };
 
@@ -379,7 +375,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       }
     });
 
-    $scope.addLinkedFiles = function(data) { addLinkedFiles($scope, data);  };
+    $scope.addLinkedFiles = function(data) { addLinkedFiles($scope, data); };
 
     $scope.removeDocument = function(doc) {
       _.remove($scope.period.relatedDocuments, doc);
@@ -402,7 +398,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
     });
   }
 
-  function instructions(project, period, CommentPeriodModel) {
+  function instructions(project, period) {
     var template = "Comment Period on the %INFORMATION_LABEL% for the %PROJECT_NAME% Project. This comment period %DATE_RANGE%.";
 
     var PROJECT_NAME = project.name || '%PROJECT_NAME%';
@@ -569,17 +565,17 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
     $scope.startPickerEnabled = true;
     $scope.rangePickerEnabled = true;
     switch (type) {
-      case 'start':
-        $scope.endPickerEnabled = false;
-        if(isChanged) $scope.ui.rOption = defaultOption;
-        break;
-      case 'end':
-        $scope.startPickerEnabled = false;
-        if(isChanged) $scope.ui.rOption = defaultOption;
-        break;
-      case 'custom':
-        $scope.rangePickerEnabled = false;
-        if(isChanged) $scope.ui.rOption = customOption;
+    case 'start':
+      $scope.endPickerEnabled = false;
+      if(isChanged) {$scope.ui.rOption = defaultOption;}
+      break;
+    case 'end':
+      $scope.startPickerEnabled = false;
+      if(isChanged) {$scope.ui.rOption = defaultOption;}
+      break;
+    case 'custom':
+      $scope.rangePickerEnabled = false;
+      if(isChanged) {$scope.ui.rOption = customOption;}
     }
     periodChange($scope);
   }
@@ -600,7 +596,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
     // add X number of days based on (a) but preserve the time in the original (b)
     function computeDate(a, b, numberOfDaysToAdd) {
       if (!a)
-        return undefined;
+      {return undefined;}
       var savedTime;
       if (b) {
         var mb = moment(b);
@@ -617,15 +613,15 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
     // Convert to number when type is not "custom". Period uses day zero rules excludes start and includes end date
     var numberOfDaysToAdd;
     switch (type) {
-      case 'start':
-        numberOfDaysToAdd = (rOption);
-        period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
-        break;
-      case 'end':
-        numberOfDaysToAdd = -1 * (rOption);
-        period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
-        break;
-      case 'custom':
+    case 'start':
+      numberOfDaysToAdd = (rOption);
+      period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
+      break;
+    case 'end':
+      numberOfDaysToAdd = -1 * (rOption);
+      period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
+      break;
+    case 'custom':
       // no op
     }
   }
@@ -660,14 +656,14 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
           period.phaseName = project.currentPhase.name;
 
           CommentPeriodModel.add($scope.period)
-          .then(function (model) {
-            $state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
-              reload: true, inherit: false, notify: true
+            .then(function (/* model */) {
+              $state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
+                reload: true, inherit: false, notify: true
+              });
+            })
+            .catch(function (/* err */) {
+              // swallow error
             });
-          })
-          .catch(function (err) {
-            console.error(err);
-          });
         }
       };
     };
@@ -721,24 +717,23 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
           $scope.busy = true;
 
           CommentPeriodModel.save($scope.period)
-          .then(function (model) {
-            if (!rolesChanged(model)) {
-              return;
-            } else {
+            .then(function (model) {
+              if (!rolesChanged(model)) {
+                return;
+              } else {
               // save the comments so that we pick up the (potential) changes to the period permissions...
-              return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
-            }
-          })
-          .then(function () {
-            $scope.busy = false;
-            $state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
-              reload: true, inherit: false, notify: true
+                return CommentModel.commentPeriodCommentsSync(project._id, model._id, period.stats.total);
+              }
+            })
+            .then(function () {
+              $scope.busy = false;
+              $state.transitionTo('p.commentperiod.list', {projectid: project.code}, {
+                reload: true, inherit: false, notify: true
+              });
+            })
+            .catch(function (/* err */) {
+              $scope.busy = false;
             });
-          })
-          .catch(function (err) {
-            $scope.busy = false;
-            console.error(err);
-          });
         }
       };
     };
@@ -779,16 +774,16 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
     // Joint PCP - generic function to add/link a collection of documents to a package of information
     function addFilesToPackage(packageName, period, files) {
       switch (packageName) {
-        case 'EAO':
-          addFilesToCollection(period.relatedDocuments, files);
-          break;
+      case 'EAO':
+        addFilesToCollection(period.relatedDocuments, files);
+        break;
 
-        case 'CEAA':
-          addFilesToCollection(period.ceaaRelatedDocuments, files);
-          break;
+      case 'CEAA':
+        addFilesToCollection(period.ceaaRelatedDocuments, files);
+        break;
 
-        default:
-          break;
+      default:
+        break;
       }
     }
 
@@ -870,17 +865,17 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       $scope.startPickerEnabled = true;
       $scope.rangePickerEnabled = true;
       switch (type) {
-        case 'start':
-          $scope.endPickerEnabled = false;
-          if(isChanged) $scope.ui.rOption = defaultOption;
-          break;
-        case 'end':
-          $scope.startPickerEnabled = false;
-          if(isChanged) $scope.ui.rOption = defaultOption;
-          break;
-        case 'custom':
-          $scope.rangePickerEnabled = false;
-          if(isChanged) $scope.ui.rOption = customOption;
+      case 'start':
+        $scope.endPickerEnabled = false;
+        if(isChanged) {$scope.ui.rOption = defaultOption;}
+        break;
+      case 'end':
+        $scope.startPickerEnabled = false;
+        if(isChanged) {$scope.ui.rOption = defaultOption;}
+        break;
+      case 'custom':
+        $scope.rangePickerEnabled = false;
+        if(isChanged) {$scope.ui.rOption = customOption;}
       }
     }
 
@@ -899,15 +894,15 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       // Convert to number when type is not "custom". Period uses day zero rules excludes start and includes end date
       var numberOfDaysToAdd;
       switch (type) {
-        case 'start':
-          numberOfDaysToAdd = (rOption);
-          period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
-          break;
-        case 'end':
-          numberOfDaysToAdd = -1 * (rOption);
-          period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
-          break;
-        case 'custom':
+      case 'start':
+        numberOfDaysToAdd = (rOption);
+        period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
+        break;
+      case 'end':
+        numberOfDaysToAdd = -1 * (rOption);
+        period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
+        break;
+      case 'custom':
         // no op
       }
     }
@@ -930,7 +925,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       return ms.toDate();
     }
 
-    function instructions(project, period, CommentPeriodModel) {
+    function instructions(project, period) {
       var template = "This Public Comment Period is regarding the %INFORMATION_LABEL_PACKAGE_1% and the %INFORMATION_LABEL_PACKAGE_2%.";
 
       var PROJECT_NAME = project.name || '%PROJECT_NAME%';

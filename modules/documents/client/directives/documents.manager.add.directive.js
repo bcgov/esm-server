@@ -1,14 +1,14 @@
 'use strict';
 angular.module('documents')
 
-  .directive('documentMgrAddFolder', ['$rootScope', '$uibModal', '$log', '_', 'DocumentMgrService', 'AlertService', 'TreeModel', function ($rootScope, $uibModal, $log, _, DocumentMgrService, AlertService, TreeModel) {
+  .directive('documentMgrAddFolder', ['$rootScope', '$uibModal', '$log', '_', 'DocumentMgrService', 'AlertService', function ($rootScope, $uibModal, $log, _, DocumentMgrService, AlertService) {
     return {
       restrict: 'A',
       scope: {
         project: '=',
         node: '='
       },
-      link: function (scope, element, attrs) {
+      link: function (scope, element) {
         element.on('click', function () {
           $uibModal.open({
             animation: true,
@@ -42,26 +42,25 @@ angular.module('documents')
                   self.validationMessage = "Enter a unique name for this folder.";
                 } else {
                   DocumentMgrService.addDirectory($scope.project, $scope.node, self.entryText)
-                  .then(
-                    function (result) {
-                      $uibModalInstance.close(result.data);
-                    },
-                    function (err) {
-                      //$log.error('addDirectory error: ', JSON.stringify(err));
-                      AlertService.error("Could not add folder: " + err.data.message, 4000);
-                    }
-                  );
+                    .then(
+                      function (result) {
+                        $uibModalInstance.close(result.data);
+                      },
+                      function (err) {
+                        AlertService.error("Could not add folder: " + err.data.message, 4000);
+                      }
+                    );
                 }
               };
             }
           }).result.then(function (data) {
             $rootScope.$broadcast('documentMgrRefreshNode', { directoryStructure: data });
           })
-          .catch(function (err) {
-            //$log.error(err);
-          });
+            .catch(function (/* err */) {
+            // swallow error
+            });
         });
       }
     };
-  }])
-;
+  }]);
+

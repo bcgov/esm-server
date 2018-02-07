@@ -4,8 +4,8 @@
 // Controller for inspectionreport
 //
 // =========================================================================
-var path     = require('path');
-var DBModel  = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var path = require('path');
+var DBModel = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
 
 
 /*
@@ -15,13 +15,12 @@ var TaskBaseClass = require (path.resolve('./modules/tasks/server/controllers/ta
 */
 
 
-
 module.exports = DBModel.extend ({
-	name : 'Inspectionreport',
-	plural : 'inspectionreports',
-	populate : 'inspectionDetails',
-	getForProject: function (projectId) {
-		return this.list ({project:projectId});
-	},
+  name : 'Inspectionreport',
+  plural : 'inspectionreports',
+  populate : 'inspectionDetails',
+  getForProject: function (projectId) {
+    return this.list ({project:projectId});
+  },
 });
 

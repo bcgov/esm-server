@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('maps')
-    .directive('tmplMap', directiveMap);
+  .directive('tmplMap', directiveMap);
 
 // -----------------------------------------------------------------------------------
 //
@@ -10,17 +10,17 @@ angular.module('maps')
 // -----------------------------------------------------------------------------------
 function directiveMap() {
 
-    var directive = {
-        restrict: 'E',
-        replace: true,
-        templateUrl: 'modules/maps/client/views/partials/map-layers.html',
-        scope: {
-            project: '=',
-        	layers: '='
-        },
-        controller: 'controllerMap',
-        controllerAs: 'mpl'
-    };
+  var directive = {
+    restrict: 'E',
+    replace: true,
+    templateUrl: 'modules/maps/client/views/partials/map-layers.html',
+    scope: {
+      project: '=',
+      layers: '='
+    },
+    controller: 'controllerMap',
+    controllerAs: 'mpl'
+  };
 
-    return directive;
+  return directive;
 }

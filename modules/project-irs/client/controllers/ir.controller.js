@@ -7,46 +7,42 @@ angular.module ('irs')
 // controller for listing irs
 //
 // -------------------------------------------------------------------------
-.controller ('controllerIrList',
-	['$scope', '$rootScope', '$stateParams', 'IrModel', 'NgTableParams', 'PILLARS',
-	function ($scope, $rootScope, $stateParams, IrModel, NgTableParams, PILLARS) {
+  .controller ('controllerIrList',
+    ['$scope', '$rootScope', '$stateParams', 'IrModel', 'NgTableParams', 'PILLARS',
+      function ($scope, $rootScope, $stateParams, IrModel, NgTableParams, PILLARS) {
+        var self = this;
 
-	// console.log ('controllerIrList is running');
+        //
+        // map out any supporting data
+        //
+        self.pillars = PILLARS.map (function (e) {
+          return {id:e,title:e};
+        });
+        self.project = $stateParams.project;
 
-	var self = this;
+        //
+        // set or reset the collection
+        //
+        var setData = function () {
+          IrModel.forProject ($stateParams.project).then (function (data) {
+            self.collection = data;
+            self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
+          });
+        };
 
-	//
-	// map out any supporting data
-	//
-	self.pillars = PILLARS.map (function (e) {
-		return {id:e,title:e};
-	});
-	self.project = $stateParams.project;
+        //
+        // listen for when to reset
+        //
+        var unbind = $rootScope.$on('refreshIrList', function() {
+          setData();
+        });
+        $scope.$on('$destroy', unbind);
 
-	//
-	// set or reset the collection
-	//
-	var setData = function () {
-		IrModel.forProject ($stateParams.project).then (function (data) {
-			// console.log ('controllerIrList data received: ', data);
-			self.collection = data;
-			self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
-		});
-	};
-
-	//
-	// listen for when to reset
-	//
-	var unbind = $rootScope.$on('refreshIrList', function() {
-		setData();
-	});
-	$scope.$on('$destroy', unbind);
-
-	//
-	// finally, set the data
-	//
-	setData();
-}])
+        //
+        // finally, set the data
+        //
+        setData();
+      }])
 
 
 // -------------------------------------------------------------------------
@@ -54,168 +50,152 @@ angular.module ('irs')
 // controller for editing or adding irs
 //
 // -------------------------------------------------------------------------
-.controller ('controllerEditIrModal',
-	['$uibModalInstance', '$scope', '_', 'codeFromTitle', 'IrModel', 'TopicModel', 'PILLARS',
-	function ($uibModalInstance, $scope, _, codeFromTitle, IrModel, TopicModel, PILLARS) {
+  .controller ('controllerEditIrModal',
+    ['$uibModalInstance', '$scope', '_', 'codeFromTitle', 'IrModel', 'TopicModel', 'PILLARS',
+      function ($uibModalInstance, $scope, _, codeFromTitle, IrModel, TopicModel, PILLARS) {
+        var self = this;
 
-	// console.log ('controllerEditIrModal is running');
+        //
+        // pull the mode and other info from the scope inputs
+        //
+        this.mode = $scope.mode;
 
-	var self = this;
+        //
+        // set up any data from services that needs massaging
+        //
+        this.pillars = PILLARS;
 
-	//
-	// pull the mode and other info from the scope inputs
-	//
-	this.mode = $scope.mode;
+        // -------------------------------------------------------------------------
+        //
+        // set up handlers and functions on scope
+        //
+        // -------------------------------------------------------------------------
+        this.selectTopic = function () {
+          var self = this;
+          TopicModel.getTopicsForPillar (this.ir.pillar).then (function (topics) {
+            self.topics = topics;
+            $scope.$apply();
+          });
+        };
+        this.ok = function () {
+          this.ir.code = codeFromTitle (this.ir.name);
+          if (this.mode === 'add') {
+            IrModel.saveModel ().then (function (result) {
+              $uibModalInstance.close(result);
+            });
+          }
+          else if (this.mode === 'edit') {
+            IrModel.saveModel ().then (function (result) {
+              $scope.ir = _.cloneDeep (result);
+              $uibModalInstance.close(result);
+            });
+          }
+          else {
+            $uibModalInstance.dismiss ('cancel');
+          }
+        };
+        this.cancel = function () {
+          $uibModalInstance.dismiss('cancel');
+        };
 
-	//
-	// set up any data from services that needs massaging
-	//
-	this.pillars = PILLARS;
+        //
+        // finally, deal with the mode and setting data up for each one
+        // and kick off the directive
+        //
+        if (this.mode === 'add') {
+          this.dmode = 'Add';
+          IrModel.getNew ().then (function (model) {
+            self.ir = model;
+            self.selectTopic ();
+          });
+        } else if (this.mode === 'edit') {
+          this.dmode = 'Edit';
+          this.ir = IrModel.getCopy ($scope.ir);
+          IrModel.setModel (this.ir);
+          this.selectTopic ();
+        } else {
+          this.dmode = 'View';
+          this.ir = $scope.ir;
+          this.selectTopic ();
+        }
+      }])
+  .controller ('controllerAddArtifactModal',
+    ['NgTableParams','$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel',
+      function (NgTableParams, $uibModalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel) {
 
-	// -------------------------------------------------------------------------
-	//
-	// set up handlers and functions on scope
-	//
-	// -------------------------------------------------------------------------
-	this.selectTopic = function () {
-		var self = this;
-		TopicModel.getTopicsForPillar (this.ir.pillar).then (function (topics) {
-			self.topics = topics;
-			$scope.$apply();
-		});
-	};
-	this.ok = function () {
-		// console.log ('save clicked');
-		this.ir.code = codeFromTitle (this.ir.name);
-		// console.log ('new code = ', this.ir.code);
-		if (this.mode === 'add') {
-			IrModel.saveModel ().then (function (result) {
-				$uibModalInstance.close(result);
-			});
-		}
-		else if (this.mode === 'edit') {
-			IrModel.saveModel ().then (function (result) {
-				$scope.ir = _.cloneDeep (result);
-				$uibModalInstance.close(result);
-			});
-		}
-		else {
-			$uibModalInstance.dismiss ('cancel');
-		}
-	};
-	this.cancel = function () {
-		// console.log ('cancel clicked');
-		$uibModalInstance.dismiss('cancel');
-	};
+        var self = this;
+        self.current = [];
+        self.currentObjs = [];
+        self.project = $scope.project;
 
-	//
-	// finally, deal with the mode and setting data up for each one
-	// and kick off the directive
-	//
-	if (this.mode === 'add') {
-		this.dmode = 'Add';
-		IrModel.getNew ().then (function (model) {
-			self.ir = model;
-			self.selectTopic ();
-		});
-	} else if (this.mode === 'edit') {
-		this.dmode = 'Edit';
-		this.ir = IrModel.getCopy ($scope.ir);
-		IrModel.setModel (this.ir);
-		this.selectTopic ();
-	} else {
-		this.dmode = 'View';
-		this.ir = $scope.ir;
-		this.selectTopic ();
-	}
-}])
-.controller ('controllerAddArtifactModal',
-	['NgTableParams','$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel',
-	function (NgTableParams, $uibModalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel) {
+        _.each($scope.ir.conditionArtifacts, function (ci) {
+          self.current.push(ci._id);
+          ci.isChecked = true;
+          self.currentObjs.push(ci);
+        });
 
-		var self = this;
-		self.current = [];
-		self.currentObjs = [];
-		self.project = $scope.project;
+        self.showFilter = true;
 
-		_.each($scope.ir.conditionArtifacts, function (ci) {
-			self.current.push(ci._id);
-			ci.isChecked = true;
-			self.currentObjs.push(ci);
-		});
+        // Show all VC types, either pathway or valued components
+        ArtifactModel.forProject(self.project._id)
+          .then( function (data) {
+            // Remove any items that are inspection-reports.  They won't be added this way.
+            _.remove(data, function (item) {
+              return item.typeCode === 'inspection-report';
+            });
+            _.each(data, function (item) {
+              var idx = self.current.indexOf(item._id);
+              if (idx !== -1) {
+                item.isChecked = true;
+              }
+            });
 
-		self.showFilter = true;
+            self.tableParams = new NgTableParams ({},{dataset: data});
+            $scope.$apply();
+          });
 
-		// Show all VC types, either pathway or valued components
-		ArtifactModel.forProject(self.project._id)
-		.then( function (data) {
-			// Remove any items that are inspection-reports.  They won't be added this way.
-			_.remove(data, function (item) {
-				return item.typeCode === 'inspection-report';
-			});
-			_.each(data, function (item) {
-				var idx = self.current.indexOf(item._id);
-				if (idx !== -1) {
-					item.isChecked = true;
-				}
-			});
+        this.toggleItem = function (item) {
+          var idx = self.current.indexOf(item._id);
+          if (idx === -1) {
+            self.currentObjs.push(item);
+            self.current.push(item._id);
+          } else {
+            _.remove(self.currentObjs, {_id: item._id});
+            _.remove(self.current, function(n) {return n === item._id;});
+          }
+        };
 
-			self.tableParams = new NgTableParams ({},{dataset: data});
-			$scope.$apply();
-		});
+        this.ok = function () {
+          $scope.ir.conditionArtifacts = [];
+          _.each( self.currentObjs, function(obj) {
+            $scope.ir.conditionArtifacts.push(obj);
+          });
+          $uibModalInstance.close($scope.ir.conditionArtifacts);
+        };
 
-		this.toggleItem = function (item) {
-			// console.log("item:",item);
-			var idx = self.current.indexOf(item._id);
-			// console.log(idx);
-			if (idx === -1) {
-				self.currentObjs.push(item);
-				self.current.push(item._id);
-			} else {
-				_.remove(self.currentObjs, {_id: item._id});
-				_.remove(self.current, function(n) {return n === item._id;});
-			}
-		};
+        this.cancel = function () {
+          $uibModalInstance.dismiss('cancel');
+        };
+      }])
+  .controller ('controllerAddEditEnforcementActionModal',
+    ['NgTableParams','$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel', 'EnforcementModel','current',
+      function (NgTableParams, $uibModalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel, EnforcementModel, current) {
 
-		this.ok = function () {
-			// console.log("data:",self.currentObjs[0]);
-			var savedArray = [];
-			// console.log("length: ",self.currentObjs.length);
-			$scope.ir.conditionArtifacts = [];
-			_.each( self.currentObjs, function(obj, idx) {
-				console.log("Adding " + obj.name + " to Inspection Report");
-				//console.log("scope.ir:", $scope.ir);
-				$scope.ir.conditionArtifacts.push(obj);
-			});
-			$uibModalInstance.close($scope.ir.conditionArtifacts);
-		};
+        var self = this;
+        self.ir = $scope.ir;
+        self.project = $scope.project;
 
-		this.cancel = function () {
-			// console.log ('cancel clicked');
-			$uibModalInstance.dismiss('cancel');
-		};
-}])
-.controller ('controllerAddEditEnforcementActionModal',
-	['NgTableParams','$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'ArtifactModel', 'EnforcementModel','current',
-	function (NgTableParams, $uibModalInstance, $scope, _, $stateParams, codeFromTitle, ArtifactModel, EnforcementModel, current) {
+        $scope.$watch('current', function () {
+          $scope.selected = current;
+        });
 
-		var self = this;
-		self.ir = $scope.ir;
-		self.project = $scope.project;
+        this.ok = function () {
+          $uibModalInstance.close($scope.selected);
+        };
 
-		$scope.$watch('current', function () {
-			// console.log("current:", current);
-			$scope.selected = current;
-		});
+        this.cancel = function () {
+          $uibModalInstance.dismiss('cancel');
+        };
+      }]);
 
-		this.ok = function () {
-			$uibModalInstance.close($scope.selected);
-		};
-
-		this.cancel = function () {
-			// console.log ('cancel clicked');
-			$uibModalInstance.dismiss('cancel');
-		};
-}])
-;
 

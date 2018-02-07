@@ -1,0 +1,30 @@
+{
+  "extends": ["eslint:recommended"],
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true,
+    "jasmine": true,
+    "protractor": true
+  },
+  "globals": {
+    "angular": true,
+    "inject": true,
+    "io": true,
+    "Promise": true,
+    "ApplicationConfiguration": true
+  },
+  "rules": {
+    "indent": ["error", 2],
+    "curly": "error",
+    "no-use-before-define": ["error", { "functions": false }],
+    "no-loop-func": "error",
+    "no-multi-spaces": "error",
+    "no-trailing-spaces": "error",
+    "no-multiple-empty-lines": "error",
+    "no-console": "error",
+    "no-unused-vars": "error",
+    "semi-spacing": "error",
+    "semi-style": ["error", "last"]
+  }
+}

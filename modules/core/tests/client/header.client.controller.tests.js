@@ -4,7 +4,6 @@
   describe('HeaderController', function () {
     //Initialize global variables
     var scope,
-      HeaderController,
       $state,
       Authentication;
 
@@ -15,10 +14,6 @@
       scope = $rootScope.$new();
       $state = _$state_;
       Authentication = _Authentication_;
-
-      HeaderController = $controller('HeaderController', {
-        $scope: scope
-      });
     }));
 
     it('should expose the authentication service', function () {

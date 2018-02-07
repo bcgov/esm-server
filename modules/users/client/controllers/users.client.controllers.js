@@ -1,28 +1,11 @@
 'use strict';
 
 angular.module('users')
-	// General
-	.controller('controllerUsersQuicklinks', controllerUsersQuicklinks)
-	.controller('controllerCompanyEntryForm', controllerCompanyEntryForm)
-	.controller('controllerUserEntryForm', controllerUserEntryForm)
-	.controller('controllerModalUserList', controllerModalUserList);
+// General
+  .controller('controllerCompanyEntryForm', controllerCompanyEntryForm)
+  .controller('controllerUserEntryForm', controllerUserEntryForm)
+  .controller('controllerModalUserList', controllerModalUserList);
 
-
-// -----------------------------------------------------------------------------------
-//
-// CONTROLLER: user Quicklinks
-//
-// -----------------------------------------------------------------------------------
-controllerUsersQuicklinks.$inject = ['Users'];
-/* @ngInject */
-function controllerUsersQuicklinks(Users) {
-	var uql = this;
-
-	// Users.getQuicklinks().then( function(res) {
-	// 	uql.quicklinks = res.data;
-	// });
-
-}
 // -----------------------------------------------------------------------------------
 //
 // CONTROLLER: company entry form
@@ -31,15 +14,14 @@ function controllerUsersQuicklinks(Users) {
 controllerCompanyEntryForm.$inject = ['$scope', 'PROVINCES'];
 /* @ngInject */
 function controllerCompanyEntryForm($scope, PROVINCES) {
-	var uco = this;
-	uco.provs = PROVINCES;
+  var uco = this;
+  uco.provs = PROVINCES;
 
-	$scope.$watch('company', function(newValue) {
-		if (newValue) {
-			uco.proponent = newValue;
-			// console.log ('uco.proponent = ',uco.proponent);
-		}
-	});
+  $scope.$watch('company', function(newValue) {
+    if (newValue) {
+      uco.proponent = newValue;
+    }
+  });
 
 }
 // -----------------------------------------------------------------------------------
@@ -50,20 +32,18 @@ function controllerCompanyEntryForm($scope, PROVINCES) {
 controllerUserEntryForm.$inject = ['$scope'];
 /* @ngInject */
 function controllerUserEntryForm($scope) {
-	var uu = this;
+  var uu = this;
 
-	$scope.$watch('user', function(newValue) {
-		if (newValue) {
-			uu.user = newValue;
-			// console.log (uu.user);
-		}
-	});
-	$scope.$watch('project', function(newValue) {
-		if (newValue) {
-			uu.project = newValue;
-		}
-	});
-
+  $scope.$watch('user', function(newValue) {
+    if (newValue) {
+      uu.user = newValue;
+    }
+  });
+  $scope.$watch('project', function(newValue) {
+    if (newValue) {
+      uu.project = newValue;
+    }
+  });
 }
 // -----------------------------------------------------------------------------------
 //
@@ -73,8 +53,7 @@ function controllerUserEntryForm($scope) {
 controllerModalUserList.$inject = ['$scope', 'rUsers'];
 /* @ngInject */
 function controllerModalUserList($scope, rUsers) {
-	var userList = this;
+  var userList = this;
 
-	userList.users = rUsers;
-
+  userList.users = rUsers;
 }

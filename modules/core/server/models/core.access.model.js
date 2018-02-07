@@ -4,8 +4,8 @@
 // Model for access control over contexts, classes and individual objects
 //
 // =========================================================================
-var mongoose     = require ('mongoose');
-var Schema       = mongoose.Schema;
+var mongoose = require ('mongoose');
+var Schema = mongoose.Schema;
 
 
 // -------------------------------------------------------------------------
@@ -26,10 +26,10 @@ var Schema       = mongoose.Schema;
 //
 // -------------------------------------------------------------------------
 mongoose.model ('_Role', new Schema ({
-	context : { type:String, index:true, required:true },
-	role    : { type:String, required:true },
-	user    : { type:String, index: { sparse: true } },
-	owner   : { type:String }
+  context : { type:String, index:true, required:true },
+  role    : { type:String, required:true },
+  user    : { type:String, index: { sparse: true } },
+  owner   : { type:String }
 }));
 
 // -------------------------------------------------------------------------
@@ -42,11 +42,9 @@ mongoose.model ('_Role', new Schema ({
 //
 // -------------------------------------------------------------------------
 mongoose.model ('_Permission', new Schema ({
-	resource   : { type:String, index:true, required:true },
-	permission : { type:String, index:true, required:true },
-	role       : { type:String, index:true }
+  resource   : { type:String, index:true, required:true },
+  permission : { type:String, index:true, required:true },
+  role       : { type:String, index:true }
 }));
-
-
 
 

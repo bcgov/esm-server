@@ -1,6 +1,6 @@
 'use strict';
 angular.module('documents')
-  .directive('documentMgrEdit', ['$rootScope', '$uibModal', '$log', '_', 'moment', 'DocumentMgrService', 'TreeModel', 'CodeLists', function ($rootScope, $uibModal, $log, _, moment, DocumentMgrService, TreeModel, CodeLists) {
+  .directive('documentMgrEdit', ['$rootScope', '$uibModal', '$log', '_', 'moment', function ($rootScope, $uibModal, $log, _, moment) {
     return {
       restrict: 'A',
       scope: {
@@ -8,7 +8,7 @@ angular.module('documents')
         doc: '=',
         onUpdate: '='
       },
-      link: function (scope, element, attrs) {
+      link: function (scope, element) {
         element.on('click', function () {
           $uibModal.open({
             animation: true,
@@ -75,23 +75,23 @@ angular.module('documents')
                 function (data) {
                   if (data) {
                     switch(data) {
-                      case 'Inspection Report':
-                        if (!$scope.doc.inspectionReport) {
-                          $scope.doc.inspectionReport = { inspectorInitials: null, followup: null };
-                        }
-                        break;
-                      case 'Certificate':
-                        if (!$scope.doc.certificate) {
-                          $scope.doc.certificate = {};
-                        }
-                        break;
-                      case 'Certificate Amendment':
-                        if (!$scope.doc.certificateAmendment) {
-                          $scope.doc.certificateAmendment = {};
-                        }
-                        break;
-                      default:
-                        break;
+                    case 'Inspection Report':
+                      if (!$scope.doc.inspectionReport) {
+                        $scope.doc.inspectionReport = { inspectorInitials: null, followup: null };
+                      }
+                      break;
+                    case 'Certificate':
+                      if (!$scope.doc.certificate) {
+                        $scope.doc.certificate = {};
+                      }
+                      break;
+                    case 'Certificate Amendment':
+                      if (!$scope.doc.certificateAmendment) {
+                        $scope.doc.certificateAmendment = {};
+                      }
+                      break;
+                    default:
+                      break;
                     }
                   }
                 }
@@ -117,62 +117,60 @@ angular.module('documents')
                 if (isValid) {
                   if ($scope.doc._schemaName === "Document") {
                     Document.save($scope.doc)
-                    .then(function (result) {
+                      .then(function (result) {
                       // somewhere here we need to tell document manager to refresh it's document...
-                      if (scope.onUpdate) {
-                        scope.onUpdate(result);
-                      }
-                      self.busy = false;
-                      $uibModalInstance.close(result);
-                    }, function(error) {
-                      console.log(error);
-                      self.busy = false;
-                    });
+                        if (scope.onUpdate) {
+                          scope.onUpdate(result);
+                        }
+                        self.busy = false;
+                        $uibModalInstance.close(result);
+                      }, function(/* error */) {
+                        self.busy = false;
+                      });
                   } else {
                     // Check if the foldername already exists.
                     FolderModel.lookupForProjectIn($scope.project._id, $scope.doc.parentID)
-                    .then(function (fs) {
-                      if ($scope.originalName === $scope.doc.displayName) {
+                      .then(function (fs) {
+                        if ($scope.originalName === $scope.doc.displayName) {
                         // Skip if we detect the user didn't change the name.
-                        return FolderModel.save($scope.doc);
-                      } else {
-                        self.repeat = null;
-                        _.each(fs, function (foldersInDirectory) {
-                          if (foldersInDirectory.displayName.toLowerCase() === $scope.doc.displayName.toLowerCase()) {
-                            self.repeat = true;
-                            return false;
-                          }
-                        });
-                        if (self.repeat) {
-                          self.validationMessage = 'Enter a unique name for this folder.';
-                          self.busy = false;
-                          // refresh scope to apply validation message
-                          $scope.$apply();
-                          return null;
-                        } else {
-                          self.validationMessage = '';
                           return FolderModel.save($scope.doc);
-                        }
-                      }
-                    })
-                    .then(function (result) {
-                      if (result) {
-                        DocumentMgrService.renameDirectory($scope.project, scope.doc, $scope.doc.displayName)
-                        .then(function (result) {
-                          // somewhere here we need to tell document manager to refresh it's document...
-                          if (scope.onUpdate) {
-                            scope.onUpdate(result);
+                        } else {
+                          self.repeat = null;
+                          _.each(fs, function (foldersInDirectory) {
+                            if (foldersInDirectory.displayName.toLowerCase() === $scope.doc.displayName.toLowerCase()) {
+                              self.repeat = true;
+                              return false;
+                            }
+                          });
+                          if (self.repeat) {
+                            self.validationMessage = 'Enter a unique name for this folder.';
+                            self.busy = false;
+                            // refresh scope to apply validation message
+                            $scope.$apply();
+                            return null;
+                          } else {
+                            self.validationMessage = '';
+                            return FolderModel.save($scope.doc);
                           }
-                          self.busy = false;
-                          $uibModalInstance.close(result);
-                        }, function (err) {
-                          AlertService.error("Could not rename folder");
-                        });
-                      }
-                    }, function(error) {
-                      console.log(error);
-                      self.busy = false;
-                    });
+                        }
+                      })
+                      .then(function (result) {
+                        if (result) {
+                          DocumentMgrService.renameDirectory($scope.project, scope.doc, $scope.doc.displayName)
+                            .then(function (result) {
+                              // somewhere here we need to tell document manager to refresh it's document...
+                              if (scope.onUpdate) {
+                                scope.onUpdate(result);
+                              }
+                              self.busy = false;
+                              $uibModalInstance.close(result);
+                            }, function (/* err */) {
+                              AlertService.error("Could not rename folder");
+                            });
+                        }
+                      }, function(/* error */) {
+                        self.busy = false;
+                      });
                   }
                 }
               };
@@ -182,5 +180,5 @@ angular.module('documents')
         });
       }
     };
-  }])
-;
+  }]);
+

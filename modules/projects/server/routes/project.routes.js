@@ -4,9 +4,9 @@
 // Routes for Projects
 //
 // =========================================================================
-var Project     = require ('../controllers/project.controller');
+var Project = require ('../controllers/project.controller');
 var projectLoad = require ('../controllers/project.load.controller');
-var _           = require ('lodash');
+var _ = require ('lodash');
 var routes = require ('../../../core/server/controllers/core.routes.controller');
 var policy = require ('../../../core/server/controllers/core.policy.controller');
 
@@ -109,7 +109,7 @@ module.exports = function (app) {
           return ctrl.one ({code:req.params.projectcode}, "-directoryStructure");
         })
         .then(function(proj) {
-          if (!proj)  {
+          if (!proj) {
             return res.status(404).send ({message: 'Project Not Found'});
           }
           return res.json (proj);
@@ -123,17 +123,17 @@ module.exports = function (app) {
   // });
 
   app.route('/api/projects/public')
-    .get(routes.setAndRun(Project, function(model, req) {
+    .get(routes.setAndRun(Project, function(model/* , req */) {
       return model.public();
     }));
 
   app.route ('/api/projects/published')
-    .get (routes.setAndRun (Project, function (model, req) {
+    .get (routes.setAndRun (Project, function (model/* , req */) {
       return model.published ();
     }));
 
   app.route ('/api/projects/mine')
-    .get (routes.setAndRun (Project, function (model, req) {
+    .get (routes.setAndRun (Project, function (model/* , req */) {
       return model.mine ({}, "-directoryStructure");
     }));
 
@@ -145,26 +145,26 @@ module.exports = function (app) {
 
   app.route ('/api/projects/lookup')
     .all (policy ('guest'))
-    .get (routes.setAndRun (Project, function (model, req) {
+    .get (routes.setAndRun (Project, function (model/* , req */) {
       return model.list ({},{_id: 1, code: 1, name: 1, region: 1, status: 1, memPermitID: 1})
-      .then ( function(res) {
-        var obj = {};
-        _.each( res, function(item) {
-          obj[item._id] = item;
+        .then ( function(res) {
+          var obj = {};
+          _.each( res, function(item) {
+            obj[item._id] = item;
+          });
+          return obj;
         });
-        return obj;
-      });
     }));
 
   app.route ('/api/projects/picklist')
     .all (policy ('guest'))
-    .get (routes.setAndRun (Project, function (model, req) {
+    .get (routes.setAndRun (Project, function (model/* , req */) {
       return model.list ({},{_id: 1, code: 1, name: 1});
     }));
 
   app.route ('/api/projects/picklist/ext')
     .all(policy('guest'))
-    .get(routes.setAndRun(Project, function(model, req) {
+    .get(routes.setAndRun(Project, function(model/* , req */) {
       return model.list({}, { _id: 1, code: 1, name: 1 })
         .then(function(res) {
           _.each(res, function(project) {
@@ -177,7 +177,7 @@ module.exports = function (app) {
 
   app.route ('/api/projects/picklist/public')
     .all(policy('guest'))
-    .get(routes.setAndRun(Project, function(model, req) {
+    .get(routes.setAndRun(Project, function(model/* , req */) {
       return model.list({ isPublished: true }, { _id: 1, code: 1, name: 1 })
         .then(function(res) {
           // Remove user permissions and redundant id
@@ -190,15 +190,15 @@ module.exports = function (app) {
 
   app.route ('/api/projects/regions')
     .all (policy ('user'))
-    .get (routes.setAndRun (Project, function (model, req) {
+    .get (routes.setAndRun (Project, function (model/* , req */) {
       return model.list ({},{region: 1})
-      .then ( function(res) {
-        var obj = {};
-        _.each( res, function(item) {
-          obj[item.region] = item.region;
+        .then ( function(res) {
+          var obj = {};
+          _.each( res, function(item) {
+            obj[item.region] = item.region;
+          });
+          return obj;
         });
-        return obj;
-      });
     }));
 
   app.route ('/api/projects/import/eao')
@@ -206,16 +206,13 @@ module.exports = function (app) {
     .post (function (req, res) {
       var file = req.files.file;
       if (file) {
-        // console.log("Received contact import file:",file);
         routes.setSessionContext(req)
-        .then( function (opts) {
-          // console.log("opts generated.");
-          return projectLoad (file, req, res, opts);
-        })
-        .then (function (data) {
-          // console.log("finished");
-          res.json (data);
-        });
+          .then( function (opts) {
+            return projectLoad (file, req, res, opts);
+          })
+          .then (function (data) {
+            res.json (data);
+          });
       }
     });
   app.route ('/api/projects/import/mem')
@@ -223,16 +220,13 @@ module.exports = function (app) {
     .post (function (req, res) {
       var file = req.files.file;
       if (file) {
-        // console.log("Received contact import file:",file);
         routes.setSessionContext(req)
-        .then( function (opts) {
-          // console.log("opts generated.");
-          return projectLoad (file, req, res, opts);
-        })
-        .then (function (data) {
-          // console.log("finished");
-          res.json (data);
-        });
+          .then( function (opts) {
+            return projectLoad (file, req, res, opts);
+          })
+          .then (function (data) {
+            res.json (data);
+          });
       }
     });
   app.route ('/api/project/:project/directory/add/:parentid')
