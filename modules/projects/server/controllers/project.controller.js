@@ -29,7 +29,7 @@ module.exports = DBModel.extend ({
   name : 'Project',
   plural : 'projects',
   sort: {name:1},
-  populate: [{path: 'currentPhase'}, {path: 'phases'}, {path: 'phases.milestones'}, {path: 'phases.milestones.activities'}, {path: 'proponent'}, {path: 'primaryContact', select: { 'salt': 0, 'password': 0}}],
+  populate: [{path: 'currentPhase'}, {path: 'phases'}, {path: 'phases.milestones'}, {path: 'phases.milestones.activities'}, {path: 'updatedBy', select: 'displayName'}, {path: 'proponent'}, {path: 'primaryContact', select: { 'salt': 0, 'password': 0}}],
   // bind: ['addPrimaryUser','addProponent'],
   init: function () {
     this.recent = new RecentActivityClass (this.opts);
