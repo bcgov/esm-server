@@ -307,5 +307,3 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
   });
   return new Class ();
 }]);
-
-
