@@ -18,11 +18,14 @@ sonarqube {
 }
 
 allprojects {
-  def env = System.getenv()
   TimeZone.getTimeZone('UTC')
-  Date date= new Date()
-  String newdate=date.format("YYYYMMDD")
-  ext.baseVersion = newdate + "." + env['BUILD_NUMBER']
+  Date date = new Date()
+  String newdate = date.format("yyyyMMdd-HH:mm:ss")
+  String hostName = InetAddress.getLocalHost().getHostName()
+  String buildNum = System.getenv("BUILD_NUMBER")
+  String buildIdentifier = buildNum != null ? buildNum : hostName
+
+  ext.baseVersion = newdate + "_" + buildIdentifier
   ext.snapshotVersion = false
 
   group = "org.sonarqube"
