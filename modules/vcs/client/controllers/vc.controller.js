@@ -1,13 +1,26 @@
 'use strict';
 
-angular.module ('vcs')
+angular.module('vcs')
 
-// -------------------------------------------------------------------------
-//
-// controller for listing vcs
-//
-// -------------------------------------------------------------------------
-  .controller ('controllerVcList',
+  // -------------------------------------------------------------------------
+  //
+  // controller for scrolling to the top on button click
+  //
+  // -------------------------------------------------------------------------
+
+  .controller('scrollTopCtrl',
+    ['$rootScope', 'ngTableEventsChannel',
+      function ($rootScope, ngTableEventsChannel) {
+        ngTableEventsChannel.onPagesChanged($rootScope.scrollTop, $rootScope);
+      }])
+
+  // -------------------------------------------------------------------------
+  //
+  // controller for listing vcs
+  //
+  // -------------------------------------------------------------------------
+
+  .controller('controllerVcList',
     ['$scope', '$rootScope', '$stateParams', 'VcModel', 'NgTableParams', 'PILLARS',
       function ($scope, $rootScope, $stateParams, VcModel, NgTableParams, PILLARS) {
         var self = this;
@@ -15,8 +28,8 @@ angular.module ('vcs')
         //
         // map out any supporting data
         //
-        self.pillars = PILLARS.map (function (e) {
-          return {id:e,title:e};
+        self.pillars = PILLARS.map(function (e) {
+          return { id: e, title: e };
         });
         self.project = $stateParams.project;
 
@@ -24,16 +37,16 @@ angular.module ('vcs')
         // set or reset the collection
         //
         var setData = function () {
-          VcModel.forProject ($stateParams.project).then (function (data) {
+          VcModel.forProject($stateParams.project).then(function (data) {
             self.collection = data;
-            self.tableParams = new NgTableParams ({count: 10}, {dataset: data});
+            self.tableParams = new NgTableParams({ count: 10 }, { dataset: data });
           });
         };
 
         //
         // listen for when to reset
         //
-        var unbind = $rootScope.$on('refreshVcList', function() {
+        var unbind = $rootScope.$on('refreshVcList', function () {
           setData();
         });
         $scope.$on('$destroy', unbind);
@@ -44,8 +57,8 @@ angular.module ('vcs')
         setData();
       }])
 
-  .controller ('controllerAddTopicModal',
-    ['NgTableParams','$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS', 'ArtifactModel',
+  .controller('controllerAddTopicModal',
+    ['NgTableParams', '$uibModalInstance', '$scope', '_', '$stateParams', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS', 'ArtifactModel',
       function (NgTableParams, $uibModalInstance, $scope, _, $stateParams, codeFromTitle, VcModel, TopicModel, PILLARS, ArtifactModel) {
 
         var self = this;
@@ -53,8 +66,8 @@ angular.module ('vcs')
         self.currentObjs = [];
         self.project = $stateParams.project;
 
-        self.pillars = PILLARS.map (function (e) {
-          return {id:e,title:e};
+        self.pillars = PILLARS.map(function (e) {
+          return { id: e, title: e };
         });
 
         self.showFilter = true;
@@ -62,8 +75,8 @@ angular.module ('vcs')
         self.cancelDisabled = false;
 
         // Show all VC types, either pathway or valued components
-        TopicModel.getSorted('name').then( function (data) {
-          self.tableParams = new NgTableParams ({},{dataset: data});
+        TopicModel.getSorted('name').then(function (data) {
+          self.tableParams = new NgTableParams({}, { dataset: data });
           $scope.$apply();
         });
 
@@ -74,8 +87,8 @@ angular.module ('vcs')
             self.currentObjs.push(item);
             self.current.push(item._id);
           } else {
-            _.remove(self.currentObjs, {_id: item._id});
-            _.remove(self.current, function(n) {return n === item._id;});
+            _.remove(self.currentObjs, { _id: item._id });
+            _.remove(self.current, function (n) { return n === item._id; });
           }
 
           self.okDisabled = _.size(self.currentObjs) === 0;
@@ -92,35 +105,35 @@ angular.module ('vcs')
           self.cancelDisabled = true;
 
           var savedArray = [];
-          _.each( self.currentObjs, function(obj, idx) {
+          _.each(self.currentObjs, function (obj, idx) {
             VcModel.getNew().then(function (m) {
               m.project = $scope.project;
               m.name = obj.name;
               m.title = obj.name;
               m.pillar = obj.pillar;
               m.type = obj.type;
-              VcModel.query({project: $scope.project})
-                .then(function(/* data */) {
+              VcModel.query({ project: $scope.project })
+                .then(function (/* data */) {
                   VcModel.saveCopy(m)
                     .then(function (saved) {
                       return ArtifactModel.getNew()
-                        .then( function (f) {
+                        .then(function (f) {
                           f.valuedComponents.push(m);
                           f.name = obj.name;
                           f.typeCode = 'valued-component';
                           f.project = $scope.project._id;
                           return ArtifactModel.saveCopy(f);
                         })
-                        .then( function (art) {
+                        .then(function (art) {
                           // Save the reference that this VC relates to.  We will look to
                           // re-use this to build up the package of VC's later.
                           saved.artifact = art;
                           return VcModel.save(saved);
                         });
                     })
-                    .then( function (obj) {
+                    .then(function (obj) {
                       savedArray.push(obj);
-                      if (idx === self.currentObjs.length-1) {
+                      if (idx === self.currentObjs.length - 1) {
                         // Return the collection back to the caller
                         $uibModalInstance.close(savedArray);
                         // since we are closing, this doesn't matter...
@@ -129,7 +142,7 @@ angular.module ('vcs')
                       }
                     });
                 },
-                function(/* error */) {
+                function (/* error */) {
                   // an error occurred...
                   self.okDisabled = _.size(self.currentObjs) === 0;
                   self.cancelDisabled = false;
@@ -143,12 +156,12 @@ angular.module ('vcs')
         };
       }])
 
-// -------------------------------------------------------------------------
-//
-// controller for editing or adding vcs
-//
-// -------------------------------------------------------------------------
-  .controller ('controllerEditVcModal',
+  // -------------------------------------------------------------------------
+  //
+  // controller for editing or adding vcs
+  //
+  // -------------------------------------------------------------------------
+  .controller('controllerEditVcModal',
     ['$uibModalInstance', '$scope', '_', 'codeFromTitle', 'VcModel', 'TopicModel', 'PILLARS',
       function ($uibModalInstance, $scope, _, codeFromTitle, VcModel, TopicModel, PILLARS) {
         var self = this;
@@ -170,25 +183,25 @@ angular.module ('vcs')
         // -------------------------------------------------------------------------
         this.selectTopic = function () {
           var self = this;
-          TopicModel.getTopicsForPillar (this.vc.pillar).then (function (topics) {
+          TopicModel.getTopicsForPillar(this.vc.pillar).then(function (topics) {
             self.topics = topics;
             $scope.$apply();
           });
         };
         this.ok = function () {
           if (this.mode === 'add') {
-            VcModel.saveModel ().then (function (result) {
+            VcModel.saveModel().then(function (result) {
               $uibModalInstance.close(result);
             });
           }
           else if (this.mode === 'edit') {
-            VcModel.saveModel ().then (function (result) {
-              $scope.vc = _.cloneDeep (result);
+            VcModel.saveModel().then(function (result) {
+              $scope.vc = _.cloneDeep(result);
               $uibModalInstance.close(result);
             });
           }
           else {
-            $uibModalInstance.dismiss ('cancel');
+            $uibModalInstance.dismiss('cancel');
           }
         };
         this.cancel = function () {
@@ -201,19 +214,19 @@ angular.module ('vcs')
         //
         if (this.mode === 'add') {
           this.dmode = 'Add';
-          VcModel.getNew ().then (function (model) {
+          VcModel.getNew().then(function (model) {
             self.vc = model;
-            self.selectTopic ();
+            self.selectTopic();
           });
         } else if (this.mode === 'edit') {
           this.dmode = 'Edit';
-          this.vc = VcModel.getCopy ($scope.vc);
-          VcModel.setModel (this.vc);
-          this.selectTopic ();
+          this.vc = VcModel.getCopy($scope.vc);
+          VcModel.setModel(this.vc);
+          this.selectTopic();
         } else {
           this.dmode = 'View';
           this.vc = $scope.vc;
-          this.selectTopic ();
+          this.selectTopic();
         }
       }]);
 
