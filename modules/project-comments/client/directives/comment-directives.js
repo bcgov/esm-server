@@ -26,7 +26,7 @@ angular.module ('comment')
       restrict: 'E',
       templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
       controllerAs: 's',
-      controller: function ($scope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, _) {
+      controller: function ($scope, $rootScope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, _) {
         var s = this;
         var project = s.project = $scope.project;
         var period = s.period = $scope.period;
@@ -165,6 +165,9 @@ angular.module ('comment')
 
           var pagination = tableState.pagination;
           var sort = tableState.sort;
+          if(tableState) {
+            $rootScope.scrollTop();
+          }
 
           var start = pagination.start || 0; // This is NOT the page number, but the index of item in the list that you want to use to display the table.
           var limit = pagination.number || s.pageSize; // Number of entries showed per page.

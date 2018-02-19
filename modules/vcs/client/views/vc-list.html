@@ -11,7 +11,7 @@
 		</button>
 	</div>
 	<div class="table-container">
-		<table class="vc-list table table-hover" ng-table="tableParams" show-filter="true">
+		<table class="vc-list table table-hover" ng-table="tableParams" show-filter="true" ng-controller="scrollTopCtrl">
 			<tr ng-repeat="o in $data" ui-sref="p.vc.detail({vcId:o._id})">
 				<td data-title="'Name'"
 					filter="{'name':'text'}"
