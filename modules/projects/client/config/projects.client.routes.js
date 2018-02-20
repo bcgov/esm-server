@@ -14,13 +14,15 @@ angular.module('projects').config (
           templateUrl: 'modules/projects/client/views/projects.abstract.html',
           cache: false,
           resolve: {
-            projects: function () {
+            projects: function(ProjectModel) {
               // Temporary relocate once we de-couple the front end from the back-end.
               // This short-circuits the old admin home-page for prod only.
               if (window.location.hostname === 'projects.eao.gov.bc.ca') {
                 window.location.href = 'http://www.projects.eao.gov.bc.ca';
+                return null;
               }
-              return null;
+              // Otherwsie, load the projects!
+              return ProjectModel.published();
             }
           },
           controller: function ($cookies, Utils, $scope, $stateParams, ENV, projects, Authentication, Application) {
