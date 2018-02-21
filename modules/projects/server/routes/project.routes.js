@@ -115,6 +115,10 @@ module.exports = function (app) {
           return res.json (proj);
         });
     });
+  app.route ('/api/project/public/:projectcode')
+    .get(routes.setAndRun(Project, function(model, req) {
+      return model.publicproject(req.params.projectcode);
+    }));
   // app.route ('/api/')
   //  .all (policy ('user'))
   //  .get (function (req, res) {
