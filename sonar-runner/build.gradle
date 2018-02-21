@@ -5,11 +5,51 @@ plugins {
   id "org.sonarqube" version "2.6.1"
 }
 
+def env = System.env
+
+//consume environment variables and cli arguments
+//cli usage
+// ./gradlew -Pproject_name_extension=foo
+//env variable usage
+// in .bashrc or equivalent
+//   export SONAR_PROJECT_NAME_EXTENSION
+// ensure that the file is sourced to populate your environment
+// verify with
+//   printenv |  grep SONAR
+//then ./gradlew sonarQube
+
+def pne = ""
+
+if ( project.hasProperty('project_name_extension') ) {
+	pne = "-" + project_name_extension
+} else if ( env.SONAR_PROJECT_NAME_EXTENSION != null ) {
+	pne = "-" + env.SONAR_PROJECT_NAME_EXTENSION
+}
+
+//consume environment variables and cli arguments
+//cli usage
+// ./gradlew -Pproject_key_extension=foo sonarqube
+//env variable usage
+// in .bashrc or equivalent
+//   export SONAR_PROJECT_KEY_EXTENSION
+// ensure that the file is sourced to populate your environment
+// verify with
+//   printenv |  grep SONAR
+//then ./gradlew sonarqube
+
+def pke = ""
+
+if ( project.hasProperty('project_key_extension') ) {
+	pke = "-" + project_key_extension
+}  else if ( env.SONAR_PROJECT_KEY_EXTENSION != null ) {
+         pke = "-" + env.SONAR_PROJECT_KEY_EXTENSION
+}
+
 sonarqube {
     properties {
-        property "sonar.host.url", "https://sonarqube-mem-mmt-tools.pathfinder.gov.bc.ca"        
-        property "sonar.projectName", "ESM-SERVER"
-        property "sonar.projectKey", "org.sonarqube:bcgov-esm-server"
+        property "sonar.host.url", "https://sonarqube-mem-mmt-tools.pathfinder.gov.bc.ca"
+        property "sonar.projectName", "ESM-SERVER$pne"
+        property "sonar.projectKey", "org.sonarqube:bcgov-esm-server$pke"
         property "sonar.projectBaseDir", "../"
         property "sonar.sources", "./modules"
         //property "sonar.tests", "test"
