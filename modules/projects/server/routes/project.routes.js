@@ -115,6 +115,7 @@ module.exports = function (app) {
           return res.json (proj);
         });
     });
+  // get all public project information and recent activity for project
   app.route ('/api/project/public/:projectcode')
     .get(routes.setAndRun(Project, function(model, req) {
       return model.publicproject(req.params.projectcode);

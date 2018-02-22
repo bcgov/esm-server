@@ -1045,7 +1045,7 @@ module.exports = DBModel.extend ({
     });
 
     var getRecentActivity = new Promise(function(resolve, reject) {
-      RecentActivity.find({active: true}, { _id: 1, dateAdded: 1, documentUrl: 1, contentUrl: 1, project: 1, content: 1, headline: 1 })
+      RecentActivity.find({active: true}, { _id: 1, dateAdded: 1, documentUrl: 1, contentUrl: 1, project: 1, content: 1, headline: 1, type: 1 })
         .sort({date: -1})
         .exec(function(err, recs) {
           if (err) {
