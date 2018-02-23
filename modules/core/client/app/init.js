@@ -32,6 +32,16 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
     top[0].scrollTo(0, 0);
   }
 
+  // PROJECT DESCRIPTION FIELD
+  $rootScope.tinymceOptions = {
+    inline: false,
+    plugins: 'autolink link paste lists',
+    menubar: 'insert',
+    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link',
+    statusbar: false,
+    height: 100
+  };
+
   // Check authentication before changing state
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
     //
