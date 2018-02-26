@@ -29,7 +29,7 @@
 				<div class="col-sm-12">
 					<div class="form-group" x-show-errors>
 						<label for="content" class="control-label">Content</label>
-						<textarea id="content" rows="6" name="content" class="form-control" ng-model="recentActivity.content" required></textarea>
+						<textarea ui-tinymce="tinymceOptions" id="content" rows="6" name="content" class="form-control" ng-model="recentActivity.content" required></textarea>
 						<div ng-messages="recentActivityForm.content.$error" role="alert">
 							<p class="help-block error-text" ng-message="required">Content is required.</p>
 						</div>
