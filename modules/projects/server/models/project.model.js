@@ -51,6 +51,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
   epicProjectID		  : { type:Number, default: 0, index:true}, // Used to relate ePIC imports
   shortName             : { type:String, default: '' },
   eacDecision		  	  : { type:String, default: '' },
+  decisionDate    : { type: Date, default: null},
   CEAALink		  	  : { type:String, default: '' },
   type                  : { type:String, default:'', index:true },
   sector                : { type:String, default:'' }, // This is actually sub-type now.

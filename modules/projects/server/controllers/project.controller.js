@@ -914,7 +914,7 @@ module.exports = DBModel.extend ({
     var self = this;
 
     var publishedProjects = new Promise(function(resolve, reject) {
-      self.model.find ({ isPublished: true }, {_id: 1, code: 1, name: 1, region: 1, status: 1, eacDecision: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, memPermitID: 1})
+      self.model.find ({ isPublished: true }, {_id: 1, code: 1, name: 1, region: 1, status: 1, eacDecision: 1, decisionDate: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, memPermitID: 1})
         .sort ({ name: 1 })
         .populate ( 'currentPhase', 'name' )
         .exec(function(err, recs) {
@@ -973,7 +973,7 @@ module.exports = DBModel.extend ({
     var self = this;
 
     var publishedProjects = new Promise(function(resolve, reject) {
-      self.model.find({ isPublished: true }, { _id: 1, code: 1, name: 1, status: 1, eacDecision: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, proponent: 1 })
+      self.model.find({ isPublished: true }, { _id: 1, code: 1, name: 1, status: 1, eacDecision: 1, decisionDate: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, proponent: 1 })
         .sort({ name: 1 })
         .populate('currentPhase', 'name')
         .populate('proponent', 'name')
@@ -1281,7 +1281,7 @@ module.exports = DBModel.extend ({
     var date = new Date(); // date we want to find open PCPs for... TODAY.
 
     var orgProjects = new Promise(function(resolve, reject) {
-      self.model.find ({ proponent: id }, {_id: 1, code: 1, name: 1, region: 1, status: 1, eacDecision: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, memPermitID: 1, isPublished: 1})
+      self.model.find ({ proponent: id }, {_id: 1, code: 1, name: 1, region: 1, status: 1, eacDecision: 1, decisionDate: 1, currentPhase: 1, lat: 1, lon: 1, type: 1, description: 1, memPermitID: 1, isPublished: 1})
         .sort ({ name: 1 })
         .populate ( 'currentPhase', 'name' )
         .exec(function(err, recs) {
