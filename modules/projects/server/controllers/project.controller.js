@@ -1032,7 +1032,7 @@ module.exports = DBModel.extend ({
     var self = this;
 
     var getProject = new Promise(function(resolve, reject) {
-      self.model.findOne({ code:code }, { _id: 1, code: 1, name: 1, status: 1, lat: 1, lon: 1, type: 1, description: 1, proponent: 1, region: 1, location: 1, projectLead: 1, projectLeadEmail: 1, projectLeadPhone: 1, responsibleEPD: 1, CELead: 1, CELeadEmail: 1, CELeadPhone: 1, responsibleEPDEmail: 1, responsibleEPDPhone: 1 })
+      self.model.findOne({ code:code }, { _id: 1, code: 1, name: 1, status: 1, lat: 1, lon: 1, type: 1, description: 1, proponent: 1, region: 1, location: 1, projectLead: 1, projectLeadEmail: 1, projectLeadPhone: 1, responsibleEPD: 1, CELead: 1, CELeadEmail: 1, CELeadPhone: 1, responsibleEPDEmail: 1, responsibleEPDPhone: 1, eacDecision: 1 })
         .populate('proponent', 'name')
         .populate('')
         .exec(function(err, recs) {
