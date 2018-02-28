@@ -206,6 +206,15 @@ function controllerProjectEntry ($scope, $state, $stateParams, $uibModal, projec
   _.each(EAC_DECISIONS, function(item) {
     $scope.eacDecisions.push(item);
   });
+  $scope.datePicker = {
+    opened: false
+  };
+  $scope.dateOpen = function() {
+    $scope.datePicker.opened = true;
+  };
+  $scope.dateOptions = {
+    showWeeks: false
+  };
 
   $scope.saveEPD = function(users) {
     var user = _.isArray(users) ? users[0] : users;

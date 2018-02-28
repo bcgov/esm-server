@@ -36,7 +36,7 @@
 		</ul>
 
 		<div class="edit-project-form tab-pane active" ng-show="form.curTab === 'Project Details'" ng-form="detailsForm">
-			
+
 			<!-- PROJECT INFORMATION -->
 			<fieldset>
 				<legend>General Info</legend>
@@ -105,13 +105,27 @@
 					</div>
 				</div>
 				<div class="row">
-				<div class="col-md-4 form-group">
-					<label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
-					<select class="form-control" name="eacDecision" id="eacDecision"
-						ng-model="project.eacDecision"
-						ng-options="d for d in eacDecisions">
-					</select>
-				</div>
+          <div class="col-md-4 form-group">
+            <label class="control-label" for="eacDecision">Decision<em>(Optional)</em></label>
+            <select class="form-control" name="eacDecision" id="eacDecision"
+              ng-model="project.eacDecision"
+              ng-options="d for d in eacDecisions">
+            </select>
+          </div>
+          <div class="col-md-4 form-group">
+            <label class="control-label" for="eacDecision">Decision Date<em>(Optional)</em></label>
+            <div class="datepicker__input">
+              <input class="form-control" placeholder="{{ project.decisionDate | date : 'yyyy-MM-dd' }}"  id="decisionDate" name="decisionDate"
+              ng-model="project.decisionDate" type="text"
+              uib-datepicker-popup
+              is-open="datePicker.opened"
+              datepicker-options="dateOptions"
+              close-text="Close"
+              ng-change="validate()"/>
+              <button class="btn btn-default calendar-btn" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
+            </div>
+          </div>
+        </div>
 
 			</fieldset>
 			<!-- PROJECT INFORMATION -->
@@ -476,6 +490,6 @@
 			</div>
 		</div>
 	</div>
-	
+
 </form>
 
