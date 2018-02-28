@@ -16,15 +16,27 @@ $pcp-comment-icon-color: #ccc;
 
 // Comment Period View Containers
 .comment-period-view {
-  .pcp-edit-view {
+ .pcp-edit-view {
+   @include flexbox();
+   @include flexdirection(column);
+   position: absolute;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+ }
+ 
+ .pcp-contents {
     @include flexbox();
     @include flexdirection(column);
+    display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-  }
+ }
 }
 
 .pcp-alert-container {

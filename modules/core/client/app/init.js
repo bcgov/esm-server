@@ -28,8 +28,11 @@ angular.module(ApplicationConfiguration.applicationModuleName).config(['$locatio
 angular.module(ApplicationConfiguration.applicationModuleName).run(function ($rootScope, $state, $uibModalStack, Authentication, _, $cookies, Application, ContextService, AlertService) {
 
   $rootScope.scrollTop = function() {
+
     var top = document.getElementsByClassName('view-body-container');
-    top[0].scrollTo(0, 0);
+    if(top[0].scrollTop) {
+      top[0].scrollTop = 0;
+    }
   }
 
   // Check authentication before changing state
