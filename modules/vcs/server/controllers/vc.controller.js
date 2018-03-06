@@ -10,6 +10,7 @@ var Artifact = require (path.resolve('./modules/artifacts/server/controllers/art
 var mongoose = require('mongoose');
 var ArtifactModel = mongoose.model('Artifact');
 var CommentModel = mongoose.model('Comment');
+var VcModel = mongoose.model('Vc');
 
 module.exports = DBModel.extend ({
   name : 'Vc',
@@ -25,6 +26,9 @@ module.exports = DBModel.extend ({
   // -------------------------------------------------------------------------
   getList : function (list) {
     return this.list ({_id : {$in : list }});
+  },
+  getVcList : function (vclist) {
+    return VcModel.find ({_id: { $in: vclist.split(',')}}, { _id: 1, name: 1, isPublished: 1});
   },
   publish: function (vc) {
     var artifact = new Artifact(this.opts);

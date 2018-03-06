@@ -19,6 +19,12 @@ module.exports = function (app) {
     .put (routes.setAndRun (Vc, function (model, req) {
       return model.getList (req.body);
     }));
+  // get vc's corresponding to codes (passed in array)
+  app.route ('/api/get/vc/:vclist')
+    .all (policy ('guest'))
+    .get( routes.setAndRun (Vc, function (model, req) {
+      return model.getVcList(req.params.vclist);
+    }))
   app.route ('/api/publish/vc/:vc')
     .all (policy ('user'))
     .put (routes.setAndRun (Vc, function (model, req) {
