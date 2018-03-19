@@ -3,27 +3,23 @@ library identifier: 'devops-library@master', retriever: modernSCM(
    remote: 'https://github.com/BCDevOps/jenkins-pipeline-shared-lib.git'])
 
 // Edit your app's name below
-def APP_NAME = 'esm-server'
-def PATHFINDER_URL = "pathfinder.gov.bc.ca"
+def APP_NAME = 'esm-server-dev'
+// def PATHFINDER_URL = "pathfinder.gov.bc.ca"
 // Edit your environment TAG names below
 def TAG_NAMES = [
-  'test', 
-  'prod'
+  'dev'
 ]
 // def APP_URLS = [
-//   "https://${APP_NAME}-${TAG_NAMES[1]}.${PATHFINDER_URL}",
-//   "https://${APP_NAME}-${TAG_NAMES[2]}.${PATHFINDER_URL}"
+//   "https://${APP_NAME}-${TAG_NAMES[0]}.${PATHFINDER_URL}"
 // ]
 def APP_URLS = [
-  "https://esm-test.pathfinder.gov.bc.ca/",
-  "http://esm-prod.pathfinder.bcgov/"
+  "https://esm-master.pathfinder.gov.bc.ca/"
 ]
 
 // You shouldn't have to edit these if you're following the conventions
 def ARTIFACT_BUILD = APP_NAME + '-build'
 def IMAGESTREAM_NAME = APP_NAME
-def SLACK_QA_CHANNEL = "#epic-qa"
-def SLACK_RELEASE_CHANNEL = "#epic-releases"
+def SLACK_DEV_CHANNEL = "#developers"
 
 def hasRepoChanged = false;
 node{
@@ -62,7 +58,7 @@ if(hasRepoChanged){
           "The latest ${APP_NAME} build seems to have broken\n'${error.message}'",
           'danger',
           env.SLACK_HOOK,
-          SLACK_QA_CHANNEL,
+          SLACK_DEV_CHANNEL,
           [
             [
               type: "button",
@@ -87,7 +83,7 @@ if(hasRepoChanged){
             "A new version of the ${APP_NAME} is now in ${environment}",
             'good',
             env.SLACK_HOOK,
-            SLACK_RELEASE_CHANNEL,
+            SLACK_DEV_CHANNEL,
             [
               [
                 type: "button",
@@ -107,7 +103,7 @@ if(hasRepoChanged){
           "The latest deployment of the ${APP_NAME} to ${environment} seems to have failed\n'${error.message}'",
           'danger',
           env.SLACK_HOOK,
-          SLACK_QA_CHANNEL,
+          SLACK_DEV_CHANNEL,
           [
             [
               type: "button",
@@ -118,51 +114,6 @@ if(hasRepoChanged){
           ])
       }
     }
-  }
-
-  stage('Deploy ' + TAG_NAMES[1]){
-    def environment = TAG_NAMES[1]
-    def url = APP_URLS[1]
-    try{
-      timeout(time:3, unit: 'DAYS'){ input "Deploy to ${environment}?"}
-    }catch(error){
-      // The following check will determine whether or not it was a timeout
-      // vs being aborted
-      node{
-        slackNotify(
-          "Deployment to ${environment} aborted 😕",
-          "Deployment of the ${APP_NAME} app to ${environment} was aborted for build #${currentBuild.number}",
-          'warning',
-          env.SLACK_HOOK,
-          SLACK_RELEASE_CHANNEL,
-          [
-            [
-              type: "button",
-              text: "View Build",
-              style:"danger",            
-              url: "${currentBuild.absoluteUrl}/console"
-            ]
-          ])
-        }
-        throw error         
-    }
-
-    node{
-      openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: environment, srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
-      slackNotify(
-          "New Version in ${environment} 🚀",
-          "A new version of the ${APP_NAME} is now in ${environment}",
-          'good',
-          env.SLACK_HOOK,
-          SLACK_RELEASE_CHANNEL,
-          [
-            [
-              type: "button",
-              text: "View New Version",           
-              url: "${url}"
-            ],
-          ])
-    }  
   }
 }else{
   stage('No Changes to Build 👍'){
