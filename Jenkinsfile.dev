@@ -3,16 +3,15 @@ library identifier: 'devops-library@master', retriever: modernSCM(
    remote: 'https://github.com/BCDevOps/jenkins-pipeline-shared-lib.git'])
 
 // Edit your app's name below
-def APP_NAME = 'esm-server'
+def APP_NAME = 'esm-server-dev'
 def APP_NAME_URL = 'esm' // this is necessary until we consolidate the naming conventions in OpenShift
 // Edit your environment TAG names below
 def TAG_NAMES = [
-  'test', 
-  'prod'
+  'dev'
 ]
+// TODO: fix once OpenShift conventions are in place
 def APP_URLS = [
-  "https://${APP_NAME_URL}-${TAG_NAMES[0]}.${env.PATHFINDER_URL}",
-  "https://${APP_NAME_URL}-${TAG_NAMES[1]}.${env.PATHFINDER_PROD_URL}"
+  "https://${APP_NAME_URL}-master.${env.PATHFINDER_URL}/"
 ]
 
 // You shouldn't have to edit these if you're following the conventions
@@ -62,7 +61,7 @@ if(hasRepoChanged){
           "The latest ${APP_NAME} build seems to have broken\n'${error.message}'",
           'danger',
           env.SLACK_HOOK,
-          env.SLACK_QA_CHANNEL,
+          env.SLACK_DEV_CHANNEL,
           [
             [
               type: "button",
@@ -87,7 +86,7 @@ if(hasRepoChanged){
             "A new version of the ${APP_NAME} is now in ${environment}.\n Changes: ${CHANGE_STRING}",
             'good',
             env.SLACK_HOOK,
-            env.SLACK_QA_CHANNEL,
+            env.SLACK_DEV_CHANNEL,
             [
               [
                 type: "button",
@@ -107,7 +106,7 @@ if(hasRepoChanged){
           "The latest deployment of the ${APP_NAME} to ${environment} seems to have failed\n'${error.message}'",
           'danger',
           env.SLACK_HOOK,
-          env.SLACK_QA_CHANNEL,
+          env.SLACK_DEV_CHANNEL,
           [
             [
               type: "button",
@@ -118,51 +117,6 @@ if(hasRepoChanged){
           ])
       }
     }
-  }
-
-  stage('Deploy ' + TAG_NAMES[1]){
-    def environment = TAG_NAMES[1]
-    def url = APP_URLS[1]
-    try{
-      timeout(time:3, unit: 'DAYS'){ input "Deploy to ${environment}?"}
-    }catch(error){
-      // The following check will determine whether or not it was a timeout
-      // vs being aborted
-      node{
-        slackNotify(
-          "Deployment to ${environment} aborted 😕",
-          "Deployment of the ${APP_NAME} app to ${environment} was aborted for build #${currentBuild.number}",
-          'warning',
-          env.SLACK_HOOK,
-          env.SLACK_DEPLOY_CHANNEL,
-          [
-            [
-              type: "button",
-              text: "View Build",
-              style:"danger",            
-              url: "${currentBuild.absoluteUrl}/console"
-            ]
-          ])
-        }
-        throw error         
-    }
-
-    node{
-      openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: environment, srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
-      slackNotify(
-          "New Version in ${environment} 🚀",
-          "A new version of the ${APP_NAME} is now in ${environment}",
-          'good',
-          env.SLACK_HOOK,
-          env.SLACK_DEPLOY_CHANNEL,
-          [
-            [
-              type: "button",
-              text: "View New Version",           
-              url: "${url}"
-            ],
-          ])
-    }  
   }
 }else{
   stage('No Changes to Build 👍'){
