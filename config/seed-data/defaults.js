@@ -7,15 +7,13 @@ var _ = require('lodash');
 
 module.exports = function () {
 
-
 	var defaultsArray = [];
 
 	var defaultRoles = {
 		'project-system-admin' : ['assessment-ceaa', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
 	};
-	//
-	// default project permissions
-	//
+
+	// DEFAULT PROJECT
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'project',
@@ -34,15 +32,15 @@ module.exports = function () {
 				'editTombstone' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
 				'listArtifacts' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 				'listValuedComponents' : ['public', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-				'listInspectionReports' : ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-qa-officer', 'project-system-admin'],
-				'listProjectConditions' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+				'listInspectionReports' : ['project-system-admin'],
+				'listProjectConditions' : ['project-system-admin'],
 				'listProjectComplaints' : ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 				'listProjectInvitations' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'listDocuments' : ['public', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
 				'listCommentPeriods' : ['public', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
 				'listEnforcements' : ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'listProjectUpdates' : ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'listProjectGroups' : ['assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-system-admin'],
+				'listProjectUpdates' : ['project-system-admin'],
+				'listProjectGroups' : ['project-system-admin'],
 				'viewSchedule' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
 				'editSchedule' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'createArtifact' : ['compliance-lead', 'compliance-officer', 'project-qa-officer', 'proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -67,6 +65,7 @@ module.exports = function () {
 		}
 	}));
 
+	// ACTIVTIES AND UPDATES
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'activity',
@@ -84,6 +83,7 @@ module.exports = function () {
 		}
 	}));
 
+	// ARTIFACTS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'artifact',
@@ -136,6 +136,7 @@ module.exports = function () {
 		}
 	}));
 
+	// COMMUNICATION
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'communication',
@@ -151,6 +152,7 @@ module.exports = function () {
 		}
 	}));
 
+	// CONDITIONS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'condition',
@@ -166,6 +168,7 @@ module.exports = function () {
 		}
 	}));
 
+	// DOCUMENTS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'document',
@@ -183,6 +186,7 @@ module.exports = function () {
 		}
 	}));
 
+	// COLLECTIONS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'collection',
@@ -200,6 +204,7 @@ module.exports = function () {
 		}
 	}));
 
+	// COLLECTION DOCUMENTS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'collectiondocument',
@@ -217,9 +222,7 @@ module.exports = function () {
 		}
 	}));
 
-
-
-
+	// PROJECT FOLDERS (DOCUMENTS)
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'folder',
@@ -237,6 +240,7 @@ module.exports = function () {
 		}
 	}));
 
+	// PROJECT GROUPS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'projectgroup',
@@ -252,6 +256,7 @@ module.exports = function () {
 		}
 	}));
 
+	// INSPECTION REPORT
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'inspectionreport',
@@ -269,6 +274,7 @@ module.exports = function () {
 		}
 	}));
 
+	// INSPECTION REPORT DETAILS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'inspectionreportdetail',
@@ -286,7 +292,7 @@ module.exports = function () {
 		}
 	}));
 
-
+	// COMMENT
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'comment',
@@ -304,6 +310,7 @@ module.exports = function () {
 		}
 	}));
 
+  // COMMENT PERIOD
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'commentperiod',
@@ -321,6 +328,7 @@ module.exports = function () {
 		}
 	}));
 
+	// COMPLAINTS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'complaint',
@@ -336,6 +344,7 @@ module.exports = function () {
 		}
 	}));
 
+	// PROJECT CONDITIONS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'projectcondition',
@@ -353,6 +362,7 @@ module.exports = function () {
 		}
 	}));
 
+	// INSPECTION REPORTS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'ir',
@@ -370,6 +380,7 @@ module.exports = function () {
 		}
 	}));
 
+	// VALUED COMPONENTS
 	defaultsArray.push(new Defaults({
 		context: 'project',
 		resource: 'vc',
@@ -387,9 +398,7 @@ module.exports = function () {
 		}
 	}));
 
-	//
-	// default application permissions
-	//
+  // DEFAULT APPLICATION PERMISSIONS
 	defaultsArray.push(new Defaults({
 		context: 'application',
 		resource: 'application',
@@ -451,6 +460,7 @@ module.exports = function () {
 		'managePermissions',
 		'addUsersToContext'
 	];
+
 	var readApplicationPermissions = [
 		//'listConditions',
 		'listEmailTemplates',
@@ -462,6 +472,7 @@ module.exports = function () {
 		'listContacts'
 	];
 
+	// APPLICATION
 	defaultsArray.push(new Defaults({
 		context: 'application',
 		resource: 'application',
@@ -479,7 +490,8 @@ module.exports = function () {
 			}
 		}
 	}));
-
+	
+  // APPLICATION
 	defaultsArray.push(new Defaults({
 		context: 'application',
 		resource: 'application',
