@@ -1,128 +1,48 @@
-
 <div class="spinner-container fixed" ng-show="dashboardLoading">
-    <div class="spinner-new rotating"></div>
+  <div class="spinner-new rotating"></div>
 </div>
 
-<!-- MAIN PANEL -->
 <div class="main-panel" ng-if="!vm.authentication.user">
-    <h1>Unauthorized</h1>
+  <h1>Unauthorized</h1>
 </div>
+
 <div class="main-panel" ng-if="vm.authentication.user" ng-hide="dashboardLoading">
+  <div class="view-title-container">
+    <h1>My Projects</h1>
+  </div>
 
-    <div class="view-title-container flex-row">
-        <h1>My Projects</h1>
-        <div class="actions">
-            <a class="btn btn-primary btn-sm"
-               ng-show="application.userCan.createProject"
-               ui-sref="p.edit({projectid:'new'})">
-                <span class="glyphicon glyphicon-plus"></span><span>Add New Project</span>
-            </a>
-        </div>
+  <div class="view-body-container">
+    <div class="button-bar">
+      <a class="btn btn-default btn-sm"
+        ng-show="application.userCan.createProject"
+        ui-sref="p.edit({projectid:'new'})">
+       <span class="glyphicon glyphicon-plus"></span><span>Add New Project</span>
+     </a>
+    </div>
+    <div class="table-container">
+      <table class="my-projects-table table table-hover" ng-table="vm.tableParams" show-filter="false">
+        <tbody>
+          <tr ng-repeat="project in vm.projects" ui-sref="p.detail({projectid: project.code})">
+            <td data-title="'Project Name'" title="'Project Name'">
+              {{project.name}}
+            </td>
+            <td data-title="'Type'" title="'Type of Project'">
+              {{project.type}}
+            </td>
+            <td data-title="'Region'" title="'Region where this project is located'">
+                {{project.region}}
+            <td class="actions-col" header-class="'actions-col'">
+              <div class="btn-group">
+                <a class="btn icon-btn" ui-sref="p.edit({projectid: project.code})">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="view-body-container">
-        <!-- PROJECTS LIST -->
-        <div class="panel panel-default dzf-container">
-            <div class="dzf-project-row" ng-class="{'active': project.selected}" ng-repeat="project in vm.projects">
-                <table class="table dzf-table">
-                    <td class="expand-col">
-                        <span>
-                            <button class="btn icon-btn btn-sm"
-                                ng-click="$event.stopPropagation(); vm.toggleExpand(project._id)">
-                                <span class="glyphicon glyphicon-triangle-right open-icon" ng-if="!project.expanded"></span>
-                                <span class="glyphicon glyphicon-triangle-bottom close-icon" ng-if="project.expanded"></span>
-                            </button>
-                        </span>
-                    </td>
-                    <td class="project-name-col" >
-                        <a title="Go To {{project.name}}" ui-sref="p.detail({projectid: project.code})">
-                            {{project.name}}
-                        </a>
-                    </td>
-                    <td class="inbox-col">
-                        <label class="label label-info" ng-if="project.dropZoneFiles.length > 0">
-                            {{project.dropZoneFiles.length}}
-                        </label>
-                        <label class="label label-default" ng-if="project.dropZoneFiles.length == 0">
-                            {{project.dropZoneFiles.length}}
-                        </label>
-                    </td>
-                    <td class="upload-col">
-                        <button class="btn btn-default btn-sm" title="Upload Files"
-                                ng-click="vm.forceSelect(project._id)"
-                                ng-if="project.userCanUpload"
-                                x-document-drop-zone-upload-modal
-                                x-project="project"
-                                x-target="project.dropZoneFiles">
-                            <span class="glyphicon glyphicon-open"></span><span class="btn-txt">Upload Files</span>
-                        </button>
-                    </td>
-                </table>
-                <div class="dzf-collapse-panel collapse" ng-class="{'collapse': !project.expanded}">
-                    <div class="dzf-file-container table-container">
-                        <table class="dzf-file-table table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="name-col">File Name</th>
-                                    <th class="upload-by-col">Uploaded By</th>
-                                    <th class="upload-date-col">Upload Date</th>
-                                    <th class="actions-col"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="file in project.dropZoneFiles">
-                                    <td class="name-col">
-                                            <div class="name-col-inner">
-                                            <div class="avatar dzf-file">
-                                                <span class="fb-file glyphicon glyphicon-file"></span>
-                                            </div>
-                                            <div class="dzf-info">
-                                                <a class="dzf-name" title="Download/View File" href="/api/document/{{ file._id }}/fetch" target="_blank" >
-                                                    {{ file.displayName }}
-                                                </a>
-                                                <div class="dzf-desc">{{file.description}}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="upload-by-col">
-                                        <span title="{{ doc.documentAuthor }}">{{ file.documentAuthor }}</span>
-                                    </td>
-                                    <td class="upload-date-col">
-                                        <span title="{{ file.dateUploaded | date : 'medium' }}">{{ file.dateUploaded | date : 'medium' }}</span>
-                                    </td>
-                                    <td class="actions-col">
-                                        <div class="btn-group">
-                                                <button class="btn icon-btn dropdown-toggle" type="button"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-                                            </button>
-                                            <ul class="dropdown-menu pull-right">
-                                                <li>
-                                                    <a class="btn icon-btn btn-sm" href="/api/document/{{ file._id }}/fetch" target="_blank" title="Download File">
-                                                        <span class="glyphicon glyphicon-download-alt"></span>
-                                                    </a>
-                                                </li>
-                                                <li ng-if="project.userCanMove">
-                                                    <button class="btn icon-btn btn-sm" title="Move File To Documents"
-                                                        x-drop-zone-move
-                                                        x-doc="file"
-                                                        x-project="project">
-                                                        <span class="glyphicon glyphicon-transfer"></span>
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="no-results" ng-if="project.dropZoneFiles.length == 0">
-                            No Files Available
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 
 </div>

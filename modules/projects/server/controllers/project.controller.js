@@ -1207,36 +1207,6 @@ module.exports = DBModel.extend ({
       });
     };
 
-    var addDropZoneDocumentsForProjects = function (projList) {
-      var projectIds = _.uniq(_.map(projList, '_id'));
-      var query = {
-        project: {$in: projectIds},
-        $and: [
-          {documentSource: 'DROPZONE'},
-          {directoryID: 0} // not yet moved into the project directory structure
-        ]
-      };
-      var sort = { dateUploaded: 'descending'};
-      return new Promise(function(fulfill, reject) {
-        DocumentModel.find (query)
-          .sort(sort)
-          .exec (function(error, data) {
-            if (error) {
-              reject(new Error(error));
-            } else if (!data) {
-              fulfill([]);
-            } else {
-              _.forEach(projList, function (project) {
-                project.dropZoneFiles = _.filter(data, function (doc) {
-                  return doc.project.toString() === project._id.toString();
-                });
-              });
-              fulfill(projList);
-            }
-          });
-      });
-    };
-
     var projects, unpublishedprojects, allprojects = [];
     return findMyProjectRoles(self.user.username)
       .then(function(prs) {
@@ -1263,9 +1233,6 @@ module.exports = DBModel.extend ({
         // The Mongoose object can not be extended so convert all projects to plain JS objects
         allprojects = _.map(allprojects,function(p) {return p.toObject();});
         return allprojects;
-      })
-      .then(function(results){
-        return addDropZoneDocumentsForProjects(results);
       })
       .then(function(results){
         return addAllMyProjectRoles(self.user.username, results);

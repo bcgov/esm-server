@@ -29,8 +29,6 @@ $pcp-comment-icon-color: #ccc;
  .pcp-contents {
     @include flexbox();
     @include flexdirection(column);
-    display: flex;
-    flex-direction: column;
     position: absolute;
     top: 0;
     right: 0;
