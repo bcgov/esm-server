@@ -1,16 +1,19 @@
 'use strict';
 
 // Setting up route
-angular.module('users').config(['$stateProvider', 'TreeModel', '_',
-  function ($stateProvider, TreeModel, _) {
+angular.module('users').config(['$stateProvider',
+  function ($stateProvider) {
     // Users state routing
     $stateProvider
+      // CLIENT SETTINGS
       .state('settings', {
         abstract: true,
         url: '/settings',
         templateUrl: 'modules/users/client/views/settings/settings.client.view.html',
         data: {}
       })
+
+      // EDIT USER PROFILE
       .state('settings.profile', {
         url: '/profile',
         templateUrl: 'modules/users/client/views/settings/edit-profile.client.view.html',
@@ -48,26 +51,21 @@ angular.module('users').config(['$stateProvider', 'TreeModel', '_',
           };
         }
       })
+
+      // CHANGE PASSWORD
       .state('settings.password', {
         url: '/password',
         templateUrl: 'modules/users/client/views/settings/change-password.client.view.html'
       })
-    /*
-				deleted these templates, too.
-			.state('settings.accounts', {
-				url: '/accounts',
-				templateUrl: 'modules/users/client/views/settings/manage-social-accounts.client.view.html'
-			})
-			.state('settings.picture', {
-				url: '/picture',
-				templateUrl: 'modules/users/client/views/settings/change-profile-picture.client.view.html'
-			})
-			*/
+
+      // AUTHENTICATION
       .state('authentication', {
         abstract: true,
         url: '/authentication',
         templateUrl: 'modules/users/client/views/authentication/authentication.client.view.html'
       })
+
+      // INVITES
       .state('settings.invite', {
         url: '/invite',
         templateUrl: 'modules/users/client/views/settings/invite.client.view.html',
@@ -75,12 +73,14 @@ angular.module('users').config(['$stateProvider', 'TreeModel', '_',
 					roles: ['user', 'admin']
 				}*/
       })
-    // TODO: Siteminder! when Siteminder is in place and we have Admin users, remove this state
+
+      // TODO: Siteminder! when Siteminder is in place and we have Admin users, remove this state
       .state('authentication.local', {
         url: '/local/signin',
         template: '<tmpl-login></tmpl-login>'
       })
-    // TODO: Siteminder! when Siteminder is in place and we have Admin users, make this state = authentication.signin
+
+      // TODO: Siteminder! when Siteminder is in place and we have Admin users, make this state = authentication.signin
       .state('authentication.signin', {
         url: '/signin',
         controller: function() {
@@ -88,6 +88,8 @@ angular.module('users').config(['$stateProvider', 'TreeModel', '_',
           window.location.href = window.location.origin + '/authentication/signin';
         }
       })
+
+      // PASSWORD RELATED
       .state('password', {
         abstract: true,
         url: '/password',
@@ -114,14 +116,20 @@ angular.module('users').config(['$stateProvider', 'TreeModel', '_',
         url: '/:token',
         templateUrl: 'modules/users/client/views/password/reset-password.client.view.html'
       })
+
+      // GUIDANCE (HELP)
       .state('guidance', {
         url: '/guidance',
         templateUrl: 'modules/guidance/client/views/guidance-main.html'
       })
+
+      // CONTACT US
       .state('contact', {
         url: '/contact',
         templateUrl: 'modules/guidance/client/views/contact.html'
       })
+
+      // DASHBOARD (AKA 'My Projects')
       .state('dashboard', {
         url: '/dashboard',
         templateUrl: 'modules/users/client/views/user-partials/user-activities.html',
@@ -135,87 +143,12 @@ angular.module('users').config(['$stateProvider', 'TreeModel', '_',
           }
         },
         controllerAs: 'vm',
-        controller: function ($scope, $state, $stateParams, $timeout, NgTableParams, projects, Authentication, ProjectModel, ContextService) {
-          var self = this;
-          self.authentication = Authentication;
-          self.projects = projects;
-          self.projectParams = new NgTableParams ({count:50}, {dataset: self.projects});
-
-          self.toggleExpand = toggleExpand;
-          self.toggleSelect = toggleSelect;
-          self.forceSelect 	= forceSelect;
-          self.forceExpand 	= forceExpand;
-          self.findSelected = findSelected;
-
-          resetSelected();
-          resetExpanded();
-
-          $scope.$on('dropZoneRefresh', function () {
-            // After drop zone file upload.
-            // To get here a project has been selected.
-            var pid = self.findSelected()._id;
-            ProjectModel.mine()
-              .then(function(results) {
-                self.projects = results;
-                $scope.$apply();
-                // let the new content run through the digest cycle then ...
-                $timeout(function () {
-                  self.forceExpand(pid);
-                },10);
-              });
-          });
-
-          function toggleExpand (projectId) {
-            self.forceSelect(projectId);
-            var p = findProject(projectId);
-            var oldState = p.expanded;
-            resetExpanded();
-            p.expanded = !oldState;
-          }
-
-          function toggleSelect (projectId) {
-            var p = findProject(projectId);
-            var oldState = p.selected;
-            resetSelected();
-            p.selected = !oldState;
-            if(p.selected) {
-              ContextService.sync({name:'p'}, {projectid: p._id});
-            } else {
-              ContextService.sync({name:''});
-            }
-          }
-
-          function forceExpand (projectId) {
-            self.forceSelect(projectId);
-            var p = findProject(projectId);
-            resetExpanded();
-            p.expanded = true;
-          }
-
-          function forceSelect (projectId) {
-            var p = findProject(projectId);
-            resetSelected();
-            p.selected = true;
-            ContextService.sync({name:'p'}, {projectid: p._id});
-          }
-
-          function resetSelected () {
-            _.forEach(self.projects, function(p) { p.selected = false; });
-          }
-
-          function resetExpanded () {
-            _.forEach(self.projects, function(p) { p.expanded = false; });
-          }
-
-          function findSelected () {
-            return _.find(self.projects, function (p) { return p.selected; });
-          }
-
-          function findProject (projectId) {
-            return _.find(self.projects, function (p) { return p._id === projectId; });
-          }
-        },
-        data: { }
+        controller: function ($scope, $state, $stateParams, $timeout, NgTableParams, projects, Authentication) {
+          var vm = this;
+          vm.authentication = Authentication;
+          vm.projects = projects;
+          vm.tableParams = new NgTableParams ({count:25}, { dataset: vm.projects });
+        }
       });
   }
 ]);
