@@ -5,37 +5,22 @@ library identifier: 'devops-library@master', retriever: modernSCM(
 // Edit your app's name below
 def APP_NAME = 'esm-server-dev'
 def APP_NAME_URL = 'esm' // this is necessary until we consolidate the naming conventions in OpenShift
-// Edit your environment TAG names below
-def TAG_NAMES = [
-  'dev'
-]
+
 // TODO: fix once OpenShift conventions are in place
-def APP_URLS = [
-  "https://${APP_NAME_URL}-master.${env.PATHFINDER_URL}/"
-]
+def APP_URL = "https://${APP_NAME_URL}-master.${env.PATHFINDER_URL}/"
 
 // You shouldn't have to edit these if you're following the conventions
 def ARTIFACT_BUILD = APP_NAME + '-build'
 def IMAGESTREAM_NAME = APP_NAME
-def CHANGE_STRING = null
 
 def hasRepoChanged = false;
 node{
   def lastCommit = getLastCommit()
   if(lastCommit != null){
     // Ensure our CHANGE variables are set
-    if(env.CHANGE_AUTHOR_DISPLAY_NAME == null){
-      env.CHANGE_AUTHOR_DISPLAY_NAME = lastCommit.author.fullName
+    if(env.CHANGE_STRING == null){
+      env.CHANGE_STRING = getChangeString()
     }
-
-    if(env.CHANGE_TITLE == null){
-      env.CHANGE_TITLE = lastCommit.msg
-    }
-
-    if(CHANGE_STRING == null){
-      CHANGE_STRING = getChangeString()
-    }
-
     hasRepoChanged = true;
   }else{
     hasRepoChanged = false;
@@ -43,10 +28,11 @@ node{
 }
 
 if(hasRepoChanged){
-  stage('Build ' + APP_NAME) {
+
+  stage('Build') {
     node{
       try{
-        echo "Building: " + ARTIFACT_BUILD
+        echo "Building: ${ARTIFACT_BUILD}"
         openshiftBuild bldCfg: ARTIFACT_BUILD, showBuildLogs: 'true'
         
         // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
@@ -75,15 +61,69 @@ if(hasRepoChanged){
     }
   }
 
-  stage('Deploy ' + TAG_NAMES[0]) {
-    def environment = TAG_NAMES[0]
-    def url = APP_URLS[0]
+  stage('Code Quality Check') {
+    node {
+      //the checkout is mandatory, otherwise code quality check would fail
+      echo "checking out source"
+      echo "Build: ${BUILD_ID}"
+      checkout scm
+      SONARQUBE_PWD = sh (
+        script: 'oc env dc/sonarqube --list | awk  -F  "=" \'/SONARQUBE_ADMINPW/{print $2}\'',
+        returnStdout: true
+      ).trim()
+      echo "SONARQUBE_PWD: ${SONARQUBE_PWD}"
+
+      SONARQUBE_APP_URL = sh (
+        script: 'oc get routes -o wide --no-headers | awk \'/sonarqube/{ print match($0,/edge/) ?  "https://"$2 : "http://"$2 }\'',
+        returnStdout: true
+      ).trim()
+      echo "SONARQUBE_APP_URL: ${SONARQUBE_APP_URL}"
+      unstash 'nodejunit'
+      unstash 'nodecoverage'
+      dir('sonar-runner') {
+        unstash 'coverage'
+        try {
+          sh returnStdout: true, script: "./gradlew sonarqube -Dsonar.host.APP_URL=${SONARQUBE_APP_URL} -Dsonar.verbose=true --stacktrace --info -Dsonar.sources=../modules"
+        } finally { }
+      }
+    }
+  }
+
+  podTemplate(label: 'owasp-zap', name: 'owasp-zap', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+    containerTemplate(
+      name: 'jnlp',
+      image: "${env.JENKINS_IMAGE_REPO}/openshift/jenkins-slave-zap",
+      resourceRequestCpu: '500m',
+      resourceLimitCpu: '1000m',
+      resourceRequestMemory: '3Gi',
+      resourceLimitMemory: '4Gi',
+      workingDir: '/home/jenkins',
+      command: '',
+      args: '${computer.jnlpmac} ${computer.name}'
+    )
+  ]) {
+      stage('ZAP Security Scan') {
+          node('owasp-zap') {
+              //the checkout is mandatory
+              echo "checking out source"
+              echo "Build: ${BUILD_ID}"
+              checkout scm
+              dir('zap') {
+                  def retVal = sh returnStatus: true, script: './runzap.sh'
+                  publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: '/zap/wrk', reportFiles: 'index.html', reportName: 'ZAP Full Scan', reportTitles: 'ZAP Full Scan'])
+                  echo "Return value is: ${retVal}"
+                  }
+          }
+      }
+  }
+
+  stage('Deploy to Dev') {
     node{
       try{
-        openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: environment, srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
+        openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: 'latest', srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
         slackNotify(
-            "New Version in ${environment} 🚀",
-            "A new version of the ${APP_NAME} is now in ${environment}.\n Changes: ${CHANGE_STRING}",
+            "New Version in Dev 🚀",
+            "A new version of the ${APP_NAME} is now in Dev.\n Changes: ${env.CHANGE_STRING}",
             'good',
             env.SLACK_HOOK,
             env.SLACK_DEV_CHANNEL,
@@ -91,7 +131,7 @@ if(hasRepoChanged){
               [
                 type: "button",
                 text: "View New Version",         
-                url: "${url}"
+                APP_URL: "${APP_URL}"
               ],
               [
                 type: "button",            
@@ -102,8 +142,8 @@ if(hasRepoChanged){
             ])
       }catch(error){
         slackNotify(
-          "Couldn't deploy to ${environment} 🤕",
-          "The latest deployment of the ${APP_NAME} to ${environment} seems to have failed\n'${error.message}'",
+          "Couldn't deploy to Dev 🤕",
+          "The latest deployment of the ${APP_NAME} to Dev seems to have failed\n'${error.message}'",
           'danger',
           env.SLACK_HOOK,
           env.SLACK_DEV_CHANNEL,
@@ -118,6 +158,62 @@ if(hasRepoChanged){
       }
     }
   }
+
+  podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+    containerTemplate(
+      name: 'jnlp',
+      image: "${env.JENKINS_IMAGE_REPO}/openshift/jenkins-slave-bddstack",
+      resourceRequestCpu: '500m',
+      resourceLimitCpu: '1000m',
+      resourceRequestMemory: '1Gi',
+      resourceLimitMemory: '4Gi',
+      workingDir: '/home/jenkins',
+      command: '',
+      args: '${computer.jnlpmac} ${computer.name}'
+    )
+  ])       
+  {
+    stage('FT on Dev') {
+      node('bddstack') {
+        //the checkout is mandatory, otherwise functional test would fail
+        echo "checking out source"
+        echo "Build: ${BUILD_ID}"
+        checkout scm
+        dir('functional-tests/build/test-results') {
+          unstash 'coverage'
+          sh 'rm coverage.xml'
+        unstash 'api-tests'
+        unstash 'nodejunit'
+        }
+        dir('functional-tests') {
+          try {
+            sh './gradlew chromeHeadlessTest'
+          } finally {
+            archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/geb/**/*'
+            junit 'build/test-results/**/*.xml'
+            publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'build/reports/spock',
+                        reportFiles: 'index.html',
+                        reportName: "BDD Spock Report"
+                    ])
+            publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'build/reports/tests/chromeHeadlessTest',
+                        reportFiles: 'index.html',
+                        reportName: "Full Test Report"
+                    ])
+            perfReport compareBuildPrevious: true, excludeResponseTime: true, ignoreFailedBuilds: true, ignoreUnstableBuilds: true, modeEvaluation: true, modePerformancePerTestCase: true, percentiles: '0,50,90,100', relativeFailedThresholdNegative: 80.0, relativeFailedThresholdPositive: 20.0, relativeUnstableThresholdNegative: 50.0, relativeUnstableThresholdPositive: 50.0, sourceDataFiles: 'build/test-results/**/*.xml'
+          }
+        }
+      }
+    }
+  }
+
 }else{
   stage('No Changes to Build 👍'){
     currentBuild.result = 'SUCCESS'
