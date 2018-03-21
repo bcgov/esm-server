@@ -167,11 +167,11 @@ function controllerModalProjectImport(Upload, $uibModalInstance, $timeout, $scop
 // -----------------------------------------------------------------------------------
 controllerProjectEntry.$inject = ['$scope', '$state', '$stateParams', '$uibModal', 'project', 'REGIONS', 'PROJECT_TYPES',
   'PROJECT_SUB_TYPES', 'CodeLists', 'EAC_DECISIONS', '_', 'UserModel', 'ProjectModel', 'OrganizationModel',
-  'Authentication', 'codeFromTitle', 'EAO_COMPLIANCE_EMAIL'];
+  'Authentication', 'codeFromTitle', 'EAO_COMPLIANCE_EMAIL', 'moment'];
 /* @ngInject */
 function controllerProjectEntry ($scope, $state, $stateParams, $uibModal, project, REGIONS, PROJECT_TYPES,
   PROJECT_SUB_TYPES, CodeLists, EAC_DECISIONS, _, UserModel, ProjectModel, OrganizationModel,
-  Authentication, codeFromTitle, EAO_COMPLIANCE_EMAIL) {
+  Authentication, codeFromTitle, EAO_COMPLIANCE_EMAIL, moment) {
 
   ProjectModel.setModel ($scope.project);
 
@@ -209,6 +209,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, $uibModal, projec
   $scope.datePicker = {
     opened: false
   };
+  $scope.project.decisionDate = _.isEmpty(project.decisionDate) ? null : moment(project.decisionDate).toDate();
   $scope.dateOpen = function() {
     $scope.datePicker.opened = true;
   };
