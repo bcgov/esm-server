@@ -214,12 +214,17 @@ module.exports = DBModel.extend ({
           var theNode = root.first(function (node) {
             return node.model.id === parseInt(parentId);
           });
+
           // If we found it, add it
           if (theNode) {
           // Check if this already exists.
             var bFound = theNode.first(function (node) {
-            // NB: Exclude myself
-              return (node.model.name === folderName) && (node.model.id !== theNode.model.id);
+              var nodeParentId = '';
+              if(node.parent) {
+                nodeParentId = node.parent.model.id;
+              }
+              // NB: Exclude myself
+              return (node.model.name === folderName) && (node.model.id !== theNode.model.id) && (nodeParentId === parseInt(parentId));
             });
 
             // If found, return error in creating.
