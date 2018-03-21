@@ -1,171 +1,158 @@
-library identifier: 'devops-library@master', retriever: modernSCM(
-  [$class: 'GitSCMSource',
-   remote: 'https://github.com/BCDevOps/jenkins-pipeline-shared-lib.git'])
-
-// Edit your app's name below
-def APP_NAME = 'esm-server'
-def APP_NAME_URL = 'esm' // this is necessary until we consolidate the naming conventions in OpenShift
-// Edit your environment TAG names below
-def TAG_NAMES = [
-  'test', 
-  'prod'
-]
-def APP_URLS = [
-  "https://${APP_NAME_URL}-${TAG_NAMES[0]}.${env.PATHFINDER_URL}",
-  "https://${APP_NAME_URL}-${TAG_NAMES[1]}.${env.PATHFINDER_PROD_URL}"
-]
-
-// You shouldn't have to edit these if you're following the conventions
-def ARTIFACT_BUILD = APP_NAME + '-build'
-def IMAGESTREAM_NAME = APP_NAME
-def CHANGE_STRING = null
-
-def hasRepoChanged = false;
-node{
-  def lastCommit = getLastCommit()
-  if(lastCommit != null){
-    // Ensure our CHANGE variables are set
-    if(env.CHANGE_AUTHOR_DISPLAY_NAME == null){
-      env.CHANGE_AUTHOR_DISPLAY_NAME = lastCommit.author.fullName
-    }
-
-    if(env.CHANGE_TITLE == null){
-      env.CHANGE_TITLE = lastCommit.msg
-    }
-
-    if(CHANGE_STRING == null){
-      CHANGE_STRING = getChangeString()
-    }
-
-    hasRepoChanged = true;
-  }else{
-    hasRepoChanged = false;
-  }
+// Switch to using https://github.com/BCDevOps/jenkins-pipeline-shared-lib when stable.
+@NonCPS
+import groovy.json.JsonOutput
+/*
+ * Sends a slack notification
+ */
+def notifySlack(text, url, channel, attachments) {
+    def slackURL = url
+    def jenkinsIcon = 'https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png'
+    def payload = JsonOutput.toJson([text: text,
+        channel: channel,
+        username: "Jenkins",
+        icon_url: jenkinsIcon,
+        attachments: attachments
+    ])
+    def encodedReq = URLEncoder.encode(payload, "UTF-8")
+    sh("curl -s -S -X POST --data \'payload=${encodedReq}\' ${slackURL}")    
 }
 
-if(hasRepoChanged){
-  stage('Build ' + APP_NAME) {
-    node{
-      try{
-        echo "Building: " + ARTIFACT_BUILD
-        openshiftBuild bldCfg: ARTIFACT_BUILD, showBuildLogs: 'true'
-        
-        // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
-        // Tag the images for deployment based on the image's hash
-        IMAGE_HASH = sh (
-          script: """oc get istag ${IMAGESTREAM_NAME}:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
-          returnStdout: true).trim()
-        echo ">> IMAGE_HASH: ${IMAGE_HASH}"
-      }catch(error){
-        slackNotify(
-          'Build Broken 🤕',
-          "The latest ${APP_NAME} build seems to have broken\n'${error.message}'",
-          'danger',
-          env.SLACK_HOOK,
-          env.SLACK_QA_CHANNEL,
-          [
-            [
-              type: "button",
-              text: "View Build Logs",
-              style:"danger",           
-              url: "${currentBuild.absoluteUrl}/console"
-            ]
-          ])
-        throw error
-      }
-    }
-  }
+/*
+ * Updates the global pastBuilds array: it will iterate recursively
+ * and add all the builds prior to the current one that had a result
+ * different than 'SUCCESS'.
+ */
+def buildsSinceLastSuccess(previousBuild, build) {
+  if ((build != null) && (build.result != 'SUCCESS')) {
+      pastBuilds.add(build)
+      buildsSinceLastSuccess(pastBuilds, build.getPreviousBuild())
+   }
+}
 
-  stage('Deploy ' + TAG_NAMES[0]) {
-    def environment = TAG_NAMES[0]
-    def url = APP_URLS[0]
-    node{
-      try{
-        openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: environment, srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
-        slackNotify(
-            "New Version in ${environment} 🚀",
-            "A new version of the ${APP_NAME} is now in ${environment}.\n Changes: ${CHANGE_STRING}",
-            'good',
-            env.SLACK_HOOK,
-            env.SLACK_QA_CHANNEL,
-            [
-              [
-                type: "button",
-                text: "View New Version",         
-                url: "${url}"
-              ],
-              [
-                type: "button",            
-                text: "Deploy to Test?",
-                style: "primary",              
-                url: "${currentBuild.absoluteUrl}/input"
-              ]
-            ])
-      }catch(error){
-        slackNotify(
-          "Couldn't deploy to ${environment} 🤕",
-          "The latest deployment of the ${APP_NAME} to ${environment} seems to have failed\n'${error.message}'",
-          'danger',
-          env.SLACK_HOOK,
-          env.SLACK_QA_CHANNEL,
-          [
-            [
-              type: "button",
-              text: "View Build Logs",
-              style:"danger",        
-              url: "${currentBuild.absoluteUrl}/console"
-            ]
-          ])
-      }
-    }
-  }
-
-  stage('Deploy ' + TAG_NAMES[1]){
-    def environment = TAG_NAMES[1]
-    def url = APP_URLS[1]
-    try{
-      timeout(time:3, unit: 'DAYS'){ input "Deploy to ${environment}?"}
-    }catch(error){
-      // The following check will determine whether or not it was a timeout
-      // vs being aborted
-      node{
-        slackNotify(
-          "Deployment to ${environment} aborted 😕",
-          "Deployment of the ${APP_NAME} app to ${environment} was aborted for build #${currentBuild.number}",
-          'warning',
-          env.SLACK_HOOK,
-          env.SLACK_DEPLOY_CHANNEL,
-          [
-            [
-              type: "button",
-              text: "View Build",
-              style:"danger",            
-              url: "${currentBuild.absoluteUrl}/console"
-            ]
-          ])
+/*
+ * Generates a string containing all the commit messages from 
+ * the builds in pastBuilds.
+ */
+@NonCPS
+def getChangeLog(pastBuilds) {
+    def log = ""
+    for (int x = 0; x < pastBuilds.size(); x++) {
+        for (int i = 0; i < pastBuilds[x].changeSets.size(); i++) {
+            def entries = pastBuilds[x].changeSets[i].items
+            for (int j = 0; j < entries.length; j++) {
+                def entry = entries[j]
+                log += "* ${entry.msg} by ${entry.author} \n"
+            }
         }
-        throw error         
     }
+    return log;
+}
 
-    node{
-      openshiftTag destStream: IMAGESTREAM_NAME, verbose: 'true', destTag: environment, srcStream: IMAGESTREAM_NAME, srcTag: "${IMAGE_HASH}"
-      slackNotify(
-          "New Version in ${environment} 🚀",
-          "A new version of the ${APP_NAME} is now in ${environment}",
-          'good',
-          env.SLACK_HOOK,
-          env.SLACK_DEPLOY_CHANNEL,
-          [
-            [
-              type: "button",
-              text: "View New Version",           
-              url: "${url}"
-            ],
-          ])
-    }  
-  }
-}else{
-  stage('No Changes to Build 👍'){
-    currentBuild.result = 'SUCCESS'
-  }
+def CHANGELOG = "No new changes"
+
+podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+  containerTemplate(
+    name: 'jnlp',
+    image: 'registry.access.redhat.com/openshift3/jenkins-slave-maven-rhel7',
+    resourceRequestCpu: '500m',
+    resourceLimitCpu: '1000m',
+    resourceRequestMemory: '1Gi',
+    resourceLimitMemory: '4Gi',
+    workingDir: '/tmp',
+    command: '',
+    args: '${computer.jnlpmac} ${computer.name}',
+    envVars: [
+        secretEnvVar(key: 'SLACK_HOOK', secretName: 'slack-secrets', secretKey: 'webhook'),
+        secretEnvVar(key: 'DEV_CHANNEL', secretName: 'slack-secrets', secretKey: 'dev-channel')
+      ]
+  )
+])
+{
+    // isolate last successful builds and then get the changelog
+    pastBuilds = []
+    buildsSinceLastSuccess(pastBuilds, currentBuild);
+    CHANGELOG = getChangeLog(pastBuilds);
+
+    echo ">>>>>>Changelog: \n ${CHANGELOG}"
+
+    stage('Build') {
+            try {
+                echo "Building..."
+                openshiftBuild bldCfg: 'esm-server', showBuildLogs: 'true'
+                echo "Build done"
+
+                echo "Tagging image..."
+                // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
+                // Tag the images for deployment based on the image's hash
+                IMAGE_HASH = sh (
+                script: """oc get istag esm-server:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
+                returnStdout: true).trim()
+                echo ">> IMAGE_HASH: ${IMAGE_HASH}"
+
+                openshiftTag destStream: 'esm-server', verbose: 'true', destTag: "${IMAGE_HASH}", srcStream: 'esm-server', srcTag: 'latest'
+                echo "Tagging done"
+            } catch (error) {
+                notifySlack(
+                    "The latest esm-server build seems to have broken\n'${error.message}'",
+                    SLACK_HOOK,
+                    DEV_CHANNEL,
+                    []
+                )
+                throw error
+            }
+        }
+    }
+}  
+
+podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+  containerTemplate(
+    name: 'jnlp',
+    image: 'registry.access.redhat.com/openshift3/jenkins-slave-maven-rhel7',
+    resourceRequestCpu: '500m',
+    resourceLimitCpu: '1000m',
+    resourceRequestMemory: '1Gi',
+    resourceLimitMemory: '4Gi',
+    workingDir: '/tmp',
+    command: '',
+    args: '${computer.jnlpmac} ${computer.name}',
+    envVars: [
+        secretEnvVar(key: 'SLACK_HOOK', secretName: 'slack-secrets', secretKey: 'webhook'),
+        secretEnvVar(key: 'QA_CHANNEL', secretName: 'slack-secrets', secretKey: 'qa-channel'),
+        secretEnvVar(key: 'DEPLOY_CHANNEL', secretName: 'slack-secrets', secretKey: 'deploy-channel')
+      ]
+  )
+])
+{
+    stage('Deploy to Test') {
+        node('generic-maven'){
+            try {
+                echo "Deploying to test..."
+                openshiftTag destStream: 'esm-server', verbose: 'true', destTag: 'test', srcStream: 'esm-server', srcTag: 'latest'
+                sleep 5
+                openshiftVerifyDeployment depCfg: 'esm-server', namespace: 'esm-test', replicaCount: 1, verbose: 'false', verifyReplicaCount: 'false', waitTime: 600000
+                echo ">>>> Deployment Complete"
+
+                notifySlack(
+                    "A new version of esm-server is now in Test. \n Changes: \n ${CHANGELOG}",
+                    SLACK_HOOK,
+                    DEPLOY_CHANNEL,
+                    []
+                )
+
+                notifySlack(
+                    "A new version of esm-server is now in Test and ready for QA. \n Changes to test: \n ${CHANGELOG}",
+                    SLACK_HOOK,
+                    QA_CHANNEL,
+                    []
+                )
+            } catch (error) {
+                notifySlack(
+                    "The latest deployment of esm-server to Test seems to have failed\n'${error.message}'",
+                    SLACK_HOOK,
+                    DEPLOY_CHANNEL,
+                    []
+                )
+            }
+        }
+    }
 }
