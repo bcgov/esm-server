@@ -247,7 +247,7 @@ var genSchema = function (name, definition) {
   //
   // create the schema
   //
-  var schema = new mongoose.Schema (definition, options);
+  var schema = new mongoose.Schema (definition, _.extend(options, { usePushEach: true }));
   //
   // perform post process stuff
   //

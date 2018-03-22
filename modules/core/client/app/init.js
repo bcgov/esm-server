@@ -93,10 +93,15 @@ angular.module(ApplicationConfiguration.applicationModuleName).run(function ($ro
   // eslint-disable-next-line no-console
   $rootScope.$on('$stateChangeError', console.log.bind(console));
 
-  // Close modals/alerts when navigating away from the current page (e.g.: browser back)
+  // Close modals/alerts when navigating away from the current page (e.g.: browser back),
+  // unless it was specified to act differently
   $rootScope.$on('$locationChangeStart', function() {
     $uibModalStack.dismissAll();
-    AlertService.dismissAll();
+    if (!AlertService.persistOnRouteChange) {
+      AlertService.dismissAll();
+    }
+    // ensure next transitions clear the currently displayed alerts
+    AlertService.persistOnRouteChange = false;
   });
 
 });
