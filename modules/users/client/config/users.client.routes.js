@@ -147,7 +147,7 @@ angular.module('users').config(['$stateProvider',
           var vm = this;
           vm.authentication = Authentication;
           vm.projects = projects;
-          vm.tableParams = new NgTableParams ({count:25}, { dataset: vm.projects });
+          vm.tableParams = new NgTableParams({ sorting: { sortOrder: 'asc' }, count: 25 }, { dataset: vm.projects });
         }
       });
   }

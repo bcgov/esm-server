@@ -20,17 +20,18 @@
      </a>
     </div>
     <div class="table-container">
-      <table class="my-projects-table table table-hover" ng-table="vm.tableParams" show-filter="false">
+      <table class="my-projects-table table table-hover" ng-table="vm.tableParams">
         <tbody>
-          <tr ng-repeat="project in vm.projects" ui-sref="p.detail({projectid: project.code})">
-            <td data-title="'Project Name'" title="'Project Name'">
-              {{project.name}}
-            </td>
-            <td data-title="'Type'" title="'Type of Project'">
-              {{project.type}}
-            </td>
-            <td data-title="'Region'" title="'Region where this project is located'">
-                {{project.region}}
+          <tr ng-repeat="project in $data" class='clickable' ui-sref="p.detail({projectid: project.code})">
+            <td header-class="'name-col'"
+              data-title="'Project Name'"
+              sortable="'name'">{{project.name}}</td>
+            <td header-class="'type-col'"
+              data-title="'Type'"
+              sortable="'type'">{{project.type}}</td>
+            <td header-class="'region-col'"
+              data-title="'Region'"
+              sortable="'region'">{{project.region}}</td>
             <td class="actions-col" header-class="'actions-col'">
               <div class="btn-group">
                 <a class="btn icon-btn" ui-sref="p.edit({projectid: project.code})">
