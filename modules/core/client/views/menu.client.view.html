@@ -1,5 +1,5 @@
 <div class="sidenav" id="menu-side">
-		
+
 	<div ng-if="(menu.context === 'projects' || menu.context === 'mylist') && menu.pageAnchors('anchor-group-projects')" id="anchor-group-projects">
 		<ul class="list-unstyled">
 			<li><a du-smooth-scroll  href="#anchor-map">Map</a></li>
@@ -44,7 +44,7 @@
 		<!-- PROJECT CLIENT MENUS (project.client.menus.js) -->
 		<ul class="nav nav-pills nav-stacked">
 			<li ng-repeat="item in menu.projectTopMenu.items | orderBy: 'position'" ng-if="item.shouldRender(menu.authentication.user, menu.project);"
-				ng-class="{ 'active': $state.includes(item.state) }" class="{{item.class}}">
+				ng-class="{ 'active': isActive(item.state) }" class="{{item.class}}">
 				<a ui-sref="{{item.state}}" ng-bind="item.title" title="{{item.title}}" onclick="toggleSideNav();"></a>
 			</li>
 		</ul><!-- / PROJECT CLIENT MENUS -->
@@ -52,7 +52,7 @@
 		<ul class="nav nav-pills nav-stacked">
 			<li ng-repeat="item in menu.projectMenu.items | orderBy: 'position'"
 				ng-if="item.shouldRender(menu.authentication.user, menu.project);"
-					ng-class="{ active: $state.includes(item.state) }" class="{{item.class}}">
+					ng-class="{ active: isActive(item.state) }" class="{{item.class}}">
 					<a ui-sref="{{item.state}}" ui-sref-opts="{reload: true}" ng-bind="item.title" onclick="toggleSideNav();" title="{{item.title}}"></a>
 			</li>
 		</ul>
@@ -78,4 +78,4 @@
 
 	</div><!-- / PROJECT MENU - AUTHENTICATED -->
 
-</div>		
+</div>
