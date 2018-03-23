@@ -76,29 +76,31 @@ podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenk
     echo ">>>>>>Changelog: \n ${CHANGELOG}"
 
     stage('Build') {
-        try {
-            echo "Building..."
-            openshiftBuild bldCfg: 'esm-server', showBuildLogs: 'true'
-            echo "Build done"
+        node('generic-maven'){
+            try {
+                echo "Building..."
+                openshiftBuild bldCfg: 'esm-server', showBuildLogs: 'true'
+                echo "Build done"
 
-            echo "Tagging image..."
-            // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
-            // Tag the images for deployment based on the image's hash
-            IMAGE_HASH = sh (
-            script: """oc get istag esm-server:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
-            returnStdout: true).trim()
-            echo ">> IMAGE_HASH: ${IMAGE_HASH}"
+                echo "Tagging image..."
+                // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
+                // Tag the images for deployment based on the image's hash
+                IMAGE_HASH = sh (
+                script: """oc get istag esm-server:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
+                returnStdout: true).trim()
+                echo ">> IMAGE_HASH: ${IMAGE_HASH}"
 
-            openshiftTag destStream: 'esm-server', verbose: 'true', destTag: "${IMAGE_HASH}", srcStream: 'esm-server', srcTag: 'latest'
-            echo "Tagging done"
-        } catch (error) {
-            notifySlack(
-                "The latest esm-server build seems to have broken\n'${error.message}'",
-                SLACK_HOOK,
-                DEV_CHANNEL,
-                []
-            )
-            throw error
+                openshiftTag destStream: 'esm-server', verbose: 'true', destTag: "${IMAGE_HASH}", srcStream: 'esm-server', srcTag: 'latest'
+                echo "Tagging done"
+            } catch (error) {
+                notifySlack(
+                    "The latest esm-server build seems to have broken\n'${error.message}'",
+                    SLACK_HOOK,
+                    DEV_CHANNEL,
+                    []
+                )
+                throw error
+            }
         }
     }
 }  
@@ -128,7 +130,7 @@ podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenk
                 echo "Deploying to test..."
                 openshiftTag destStream: 'esm-server', verbose: 'true', destTag: 'test', srcStream: 'esm-server', srcTag: 'latest'
                 sleep 5
-                openshiftVerifyDeployment depCfg: 'esm-server', namespace: 'esm-test', replicaCount: 1, verbose: 'false', verifyReplicaCount: 'false', waitTime: 600000
+                openshiftVerifyDeployment depCfg: 'esm-test', namespace: 'esm-test', replicaCount: 1, verbose: 'false', verifyReplicaCount: 'false', waitTime: 600000
                 echo ">>>> Deployment Complete"
 
                 notifySlack(
