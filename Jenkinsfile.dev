@@ -76,30 +76,29 @@ podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenk
     echo ">>>>>>Changelog: \n ${CHANGELOG}"
 
     stage('Build') {
-            try {
-                echo "Building..."
-                openshiftBuild bldCfg: 'esm-server-dev', showBuildLogs: 'true'
-                echo "Build done"
+        try {
+            echo "Building..."
+            openshiftBuild bldCfg: 'esm-server-dev', showBuildLogs: 'true'
+            echo "Build done"
 
-                echo "Tagging image..."
-                // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
-                // Tag the images for deployment based on the image's hash
-                IMAGE_HASH = sh (
-                script: """oc get istag esm-server-dev:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
-                returnStdout: true).trim()
-                echo ">> IMAGE_HASH: ${IMAGE_HASH}"
+            echo "Tagging image..."
+            // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
+            // Tag the images for deployment based on the image's hash
+            IMAGE_HASH = sh (
+            script: """oc get istag esm-server-dev:latest -o template --template=\"{{.image.dockerImageReference}}\"|awk -F \":\" \'{print \$3}\'""",
+            returnStdout: true).trim()
+            echo ">> IMAGE_HASH: ${IMAGE_HASH}"
 
-                openshiftTag destStream: 'esm-server-dev', verbose: 'true', destTag: "${IMAGE_HASH}", srcStream: 'esm-server-dev', srcTag: 'latest'
-                echo "Tagging done"
-            } catch (error) {
-                notifySlack(
-                    "The latest esm-server-dev build seems to have broken\n'${error.message}'",
-                    SLACK_HOOK,
-                    DEV_CHANNEL,
-                    []
-                )
-                throw error
-            }
+            openshiftTag destStream: 'esm-server-dev', verbose: 'true', destTag: "${IMAGE_HASH}", srcStream: 'esm-server-dev', srcTag: 'latest'
+            echo "Tagging done"
+        } catch (error) {
+            notifySlack(
+                "The latest esm-server-dev build seems to have broken\n'${error.message}'",
+                SLACK_HOOK,
+                DEV_CHANNEL,
+                []
+            )
+            throw error
         }
     }
 }  
@@ -121,19 +120,19 @@ podTemplate(label: 'sonarqube-maven', name: 'sonarqube-maven', serviceAccount: '
   )
 ])
 {
-  stage('Code Quality Check') {
-    node('sonarqube-maven'){
-        //the checkout is mandatory, otherwise code quality check would fail
-        echo "checking out source"
-        echo "Build: ${BUILD_ID}"
-        checkout scm
-            echo "SONARQUBE_URL: ${SONARQUBE_URL}"
-        dir('sonar-runner') {
-            try {
-                sh returnStdout: true, script: "./gradlew sonarqube -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.verbose=true --stacktrace --info"
-            } finally { }
-      }
-    }
+    stage('Code Quality Check') {
+        node('sonarqube-maven'){
+            //the checkout is mandatory, otherwise code quality check would fail
+            echo "checking out source"
+            echo "Build: ${BUILD_ID}"
+            checkout scm
+                echo "SONARQUBE_URL: ${SONARQUBE_URL}"
+            dir('sonar-runner') {
+                try {
+                    sh returnStdout: true, script: "./gradlew sonarqube -Dsonar.host.url=${SONARQUBE_URL} -Dsonar.verbose=true --stacktrace --info"
+                } finally { }
+            }
+        }
   }
 }   
 
@@ -151,9 +150,8 @@ podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenk
     envVars: [
         secretEnvVar(key: 'SLACK_HOOK', secretName: 'slack-secrets', secretKey: 'webhook'),
         secretEnvVar(key: 'DEV_CHANNEL', secretName: 'slack-secrets', secretKey: 'dev-channel'),
-        secretEnvVar(key: 'DEPLOY_CHANNEL', secretName: 'slack-secrets', secretKey: 'deploy-channel
-')
-      ]
+        secretEnvVar(key: 'DEPLOY_CHANNEL', secretName: 'slack-secrets', secretKey: 'deploy-channel')
+    ]
   )
 ])
 {
@@ -248,7 +246,8 @@ podTemplate(label: 'owasp-zap', name: 'owasp-zap', serviceAccount: 'jenkins', cl
     command: '',
     args: '${computer.jnlpmac} ${computer.name}'
   )
-]) {
+])
+{
     stage('ZAP Security Scan') {
         node('owasp-zap') {
             //the checkout is mandatory
