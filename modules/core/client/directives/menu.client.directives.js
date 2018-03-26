@@ -35,7 +35,7 @@ angular.module('core')
           // get project-code from location path
           var projectCode = $location.path().split('/')[2];
           // insert project code into array
-          location.splice(1, 0, projectCode);
+          locationParts.splice(1, 0, projectCode);
           // join the array together using /'s
           var routeLocation = '/' + locationParts.join('/');
           var active = (routeLocation === $location.path());
