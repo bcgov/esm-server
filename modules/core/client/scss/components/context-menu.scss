@@ -1,0 +1,38 @@
+.context-menu {
+  min-width: 16rem;
+  padding: 0.5rem 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: $context-menu-box-shadow;
+  font-family: $font-family-sans-serif;
+
+  .popover-content {
+    padding: 0;
+    border: none;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+
+  li {
+    a {
+      display: block;
+      padding: 0.75rem 1.5rem;
+      white-space: nowrap;
+      text-decoration: none;
+      color: $context-menu-color;
+      cursor: pointer;
+
+      &:hover {
+        background: $context-menu-hover-bg;
+      }
+    }
+
+    .glyphicon {
+      top: 0.5rem;
+    }
+  }
+}
