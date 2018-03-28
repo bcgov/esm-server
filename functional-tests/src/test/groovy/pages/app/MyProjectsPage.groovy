@@ -8,6 +8,6 @@ class MyProjectsPage extends BaseAppPage {
   static content = {
     pageTitle { $(".view-title-container h1") }
 
-    AddNewProjectBtn { $(".actions").$("a").has("span", text:"Add New Project") }
+    AddNewProjectBtn { $(".button-bar").$("a").has("span", text:"Add New Project") }
   }
 }
