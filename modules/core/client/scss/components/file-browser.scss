@@ -130,6 +130,31 @@ a.icon-btn {
     overflow: hidden;
 }
 
+// CONTEXT-MENU
+.popover {
+    .arrow {
+        display: none;
+    }
+    &.top {
+        margin-top: 30px;
+    }
+
+    &.bottom {
+        margin-top: -30px;
+    }
+
+    a {
+        padding: 0.50rem 0.75rem;
+    }
+
+    .glyphicon {
+        color: #494949;
+        margin-top: -0.5rem;
+        margin-right: 1rem;
+        font-size: 1.8rem;
+    }
+}
+
 .fb-header {
     @include flexbox();
     @include flex(0 0 auto);
@@ -319,8 +344,6 @@ a.icon-btn {
 
         .row-actions {
             a {
-                display: inline-block;
-
                 .glyphicon {
                     top: 0.55rem;
                 }
@@ -482,7 +505,6 @@ a.icon-btn {
 
             .btn {
                 padding: 0;
-                width: 3.4rem;
                 height: 3.4rem;
                 text-align: center;
                 color: inherit;
@@ -491,16 +513,18 @@ a.icon-btn {
             .dropdown-menu {
                 top: -3px;
                 right: -3px;
-                min-width: 0;
                 padding: 0.2rem;
                 white-space: nowrap;
 
-                li {
-                    display: inline-block;
+                a {
+                    padding: 0.75rem 1.5rem;
                 }
 
                 .glyphicon {
                     color: #494949;
+                    margin-top: -0.5rem;
+                    margin-right: 1rem;
+                    font-size: 1.8rem;
                 }
             }
 
