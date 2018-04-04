@@ -206,10 +206,10 @@ function controllerProjectEntry ($scope, $state, $stateParams, $uibModal, projec
   _.each(EAC_DECISIONS, function(item) {
     $scope.eacDecisions.push(item);
   });
+  $scope.project.decisionDate = (!project.decisionDate) ? null : moment(project.decisionDate).toDate();
   $scope.datePicker = {
     opened: false
   };
-  $scope.project.decisionDate = _.isEmpty(project.decisionDate) ? null : moment(project.decisionDate).toDate();
   $scope.dateOpen = function() {
     $scope.datePicker.opened = true;
   };
