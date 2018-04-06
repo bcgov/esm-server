@@ -41,6 +41,7 @@ $pcp-comment-icon-color: #ccc;
   margin-bottom: 2rem;
 }
 
+// List of Comment Periods
 .pcp-table {
   table-layout: fixed;
 
@@ -59,7 +60,6 @@ $pcp-comment-icon-color: #ccc;
       }
 
       .count {
-        font-size: 1.2rem;
         font-weight: bold;
       }
     }
@@ -92,26 +92,23 @@ $pcp-comment-icon-color: #ccc;
     thead {
       background: transparent !important;
 
-      tr {
-        position: relative;
-        display: block;
-        margin-bottom: 0.5rem;
-        text-align: right;
-      }
-
       th {
         display: inline-block;
-        width: 33%;
-        text-align: center !important;
-
-        &.count-col,
-        &.date-col,
-        &.status-col {
-          @include flex(0 0 auto);
-        }
 
         &.details-col {
           display: none;
+        }
+
+        &.count-col {
+          width: 40%;
+        }
+
+        &.date-col {
+          width: 30%;
+        }
+
+        &.status-col {
+          width: 30%;
         }
       }
     }
@@ -125,7 +122,6 @@ $pcp-comment-icon-color: #ccc;
 
         > td {
           display: block;
-          padding: 1.25rem;
           border: none;
         }
       }
@@ -142,52 +138,43 @@ $pcp-comment-icon-color: #ccc;
         position: absolute;
         top: 0;
         right: 0;
-        width: 6rem;
-        padding-right: 1.25rem !important;
-        padding-left: 0;
-        text-align: right;
+        width: 40%;
       }
 
       &.date-col {
         padding-top: 1.25rem;
-        padding-right: 1.25rem;
+        padding-right: 1rem;
         padding-bottom: 1rem;
-        padding-left: 1.25rem !important;
-        font-size: 1.6rem;
+        padding-left: 1rem !important;
       }
 
       &.details-col {
         padding-top: 0;
+        padding-right: 1rem;
+        padding-left: 1rem;
       }
 
       &.status-col {
         position: absolute;
         top: 0;
-        right: 6rem;
+        left: 30%;
+        width: 30%;
         padding-right: 0;
-        width: 33%;
 
         .label {
-          min-width: 7rem;
           font-size: 1rem;
         }
       }
     }
 
     &.can-edit {
-      th.actions-col {
-        display: none;
+      th {
+        &.actions-col {
+          display: none;
+        }
       }
 
       td {
-        &.count-col {
-          right: 4rem;
-        }
-
-        &.status-col {
-          right: 11rem;
-        }
-
         &.actions-col {
           position: absolute;
           top: 0;
@@ -203,7 +190,7 @@ $pcp-comment-icon-color: #ccc;
   }
 }
 
-@media (min-width: 760px) {
+@media (min-width: 768px) {
   .pcp-table {
     > tbody {
       > tr {
@@ -215,7 +202,7 @@ $pcp-comment-icon-color: #ccc;
     }
 
     .date-col {
-      width: 12rem;
+      width: 10rem;
     }
 
     .status-col {
@@ -227,28 +214,31 @@ $pcp-comment-icon-color: #ccc;
     }
 
     .count-col {
-      width: 8.5rem;
-      padding-right: 1rem;
+      width: 13rem;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .pcp-table {
+    .date-col {
+      width: 10rem;
+    }
+
+    .count-col {
+      width: 13rem;
     }
   }
 }
 
 @media (min-width: 1200px) {
   .pcp-table {
-    .date-col {
-      width: 14rem;
-    }
-
     .status-col {
       width: 14rem;
     }
-
-    .count-col {
-      width: 8.5rem;
-      padding-right: 1rem;
-    }
   }
 }
+
 
 // Public Comment Period Alert Banner
 .pcp-banner {
@@ -438,7 +428,7 @@ $pcp-comment-icon-color: #ccc;
   }
 }
 
-// Comments Table
+// List of Comments
 .pcp-comment-actions-bar {
   padding-bottom: 1.5rem;
 
@@ -680,6 +670,16 @@ $pcp-comment-icon-color: #ccc;
 
 // LINKED DOCUMENTS
 .pcp-linked-documents {
+  &.fb-list {
+    overflow: auto;
+
+    .fb-list-item {
+      .row-actions {
+        right: 1rem;
+      }
+    }
+  }
+  
   .col {
     &.size-col {
       flex-basis: 14%;
@@ -715,8 +715,21 @@ $pcp-comment-icon-color: #ccc;
   max-width: 1280px;
 
   .date-picker {
-    min-width: 100%;
-    max-width: 100%;
+    &__input {
+      position: relative;
+      width: 100%;
+
+      .form-control {
+        padding-right: 4rem;
+      }
+      
+      .glyphicon {
+        position: absolute;
+        top: 0.65rem;
+        right: 0.75rem;
+        font-size: 1.8rem;
+      }
+    }
   }
 }
 

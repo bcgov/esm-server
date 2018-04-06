@@ -1,67 +1,75 @@
 <div class="fb-body">
-    <div class="fb-list pcp-linked-documents">
-        <div class="column-header" ng-hide="ctrl.sortedFiles.length == 0">
-            <div class="fb-col-group">
-                <div class="col name-col first-col sortable" ng-class="{'descending': !ctrl.sorting.ascending}" ng-click="ctrl.sortBy('name')">
-                    <span>Name</span>
-                    <span class="sort-icon" ng-show="ctrl.sorting.column === 'name'"></span>
-                </div>
-                <div class="col type-col sortable" ng-class="{'descending': !ctrl.sorting.ascending}" ng-click="ctrl.sortBy('type')">
-                    <span>Type</span>
-                    <span class="sort-icon" ng-show="ctrl.sorting.column === 'type'"></span>
-                </div>
-                <div class="col size-col sortable last-col" ng-class="{'descending': !ctrl.sorting.ascending}" ng-click="ctrl.sortBy('size')">
-                    <span>Size</span>
-                    <span class="sort-icon" ng-show="ctrl.sorting.column === 'size'"></span>
-                </div>
-                <div class="col status-col sortable last-col" ng-if="ctrl.authentication.user" ng-class="{'descending': !ctrl.sorting.ascending}" ng-click="ctrl.sortBy('pub')">
-                    <span>Status</span>
-                    <span class="sort-icon" ng-show="ctrl.sorting.column === 'pub'"></span>
-                </div>
-            </div>
-        </div>
-        <ul>
-            <li class="fb-list-item no-results" ng-hide="ctrl.sortedFiles.length > 0">
-                <span class="fb-col-group">
-                    <span class="col first-col">No Linked Files.</span>
-                </span>
-            </li>
-            <li class="fb-list-item" ng-repeat="doc in ctrl.sortedFiles">
-                <span class="fb-col-group">
-                    <span class="col name-col first-col">
-                        <span class="avatar">
-                            <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
-                            <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
-                        </span>
-                        <a class="name" href="/api/document/{{ doc._id }}/fetch" title="{{doc.displayName}}" target="_self">{{doc.displayName}}</a>
-                    </span>
-                    <span class="col type-col">{{ doc.internalExt}}</span>
-                    <span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
-                    <span class="col status-col" ng-if="ctrl.authentication.user" >
-                      <span class="label label-success" ng-if="doc.isPublished" title="Published">Published</span>
-                      <span class="label label-unpublished" ng-if="!doc.isPublished" title="Unpublished">Unpublished</span>
-                    </span>
-                    <span class="row-actions visible">
-                        <div class="btn-group">
-                            <button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-                            </button>
-                            <ul class="dropdown-menu pull-right">
-                                <li>
-                                    <a class="btn icon-btn" href="/api/document/{{ doc._id }}/fetch" target="_self" title="Download File" ng-if="doc.userCan.read">
-                                        <span class="glyphicon glyphicon-download-alt"></span></a>
-                                </li>
-                                <li ng-if="ctrl.canModify">
-                                    <button class="btn icon-btn"
-                                            ng-click="ctrl.removeDocument(doc)">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-                    </span>
-                </span>
-            </li>
-        </ul>
+  <div class="fb-list pcp-linked-documents">
+  <div class="column-header" ng-hide="ctrl.sortedFiles.length == 0">
+    <div class="fb-col-group">
+    <div class="col name-col first-col sortable" ng-class="{'descending': !ctrl.sorting.ascending}" ng-click="ctrl.sortBy('name')">
+      <span>Name</span>
+      <span class="sort-icon" ng-show="ctrl.sorting.column === 'name'"></span>
     </div>
+    <div class="col type-col sortable" ng-class="{'descending': !ctrl.sorting.ascending}" ng-click="ctrl.sortBy('type')">
+      <span>Type</span>
+      <span class="sort-icon" ng-show="ctrl.sorting.column === 'type'"></span>
+    </div>
+    <div class="col size-col sortable last-col" ng-class="{'descending': !ctrl.sorting.ascending}" ng-click="ctrl.sortBy('size')">
+      <span>Size</span>
+      <span class="sort-icon" ng-show="ctrl.sorting.column === 'size'"></span>
+    </div>
+    <div class="col status-col sortable last-col" ng-if="ctrl.authentication.user" ng-class="{'descending': !ctrl.sorting.ascending}" ng-click="ctrl.sortBy('pub')">
+      <span>Status</span>
+      <span class="sort-icon" ng-show="ctrl.sorting.column === 'pub'"></span>
+    </div>
+    </div>
+  </div>
+  <ul>
+    <li class="fb-list-item no-results" ng-hide="ctrl.sortedFiles.length > 0">
+      <span class="fb-col-group">
+        <span class="col first-col">No Linked Files.</span>
+      </span>
+    </li>
+    <li class="fb-list-item" ng-repeat="doc in ctrl.sortedFiles">
+      <span class="fb-col-group">
+        <span class="col name-col first-col">
+          <span class="avatar">
+            <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+            <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
+          </span>
+          <a class="name" href="/api/document/{{ doc._id }}/fetch" title="{{doc.displayName}}" target="_self">{{doc.displayName}}</a>
+        </span>
+        <span class="col type-col">{{ doc.internalExt}}</span>
+        <span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
+        <span class="col status-col" ng-if="ctrl.authentication.user" >
+          <span class="label label-success" ng-if="doc.isPublished" title="Published">Published</span>
+          <span class="label label-unpublished" ng-if="!doc.isPublished" title="Unpublished">Unpublished</span>
+        </span>
+        
+        <div class="row-actions">
+          <div class="btn-group">
+            <button class="btn icon-btn dropdown-toggle" type="button"
+              popover-class="context-menu"
+              popover-placement="'auto'"
+              popover-trigger="'focus'" 
+              uib-popover-template="'pcp-document-menu.html'">
+              <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+            </button>
+            <script type="text/ng-template" id="pcp-document-menu.html">
+              <ul>
+                <li ng-if="doc.userCan.read">
+                  <a title="Download File" href="/api/document/{{ doc._id }}/fetch" target="_self">
+                    <span class="glyphicon glyphicon-download-alt"></span>Download File
+                  </a>
+                </li>
+                <li ng-if="ctrl.canModify">
+                  <a ng-click="ctrl.removeDocument(doc)">
+                    <span class="glyphicon glyphicon-trash"></span>Delete File
+                  </a>
+                </li>
+              </ul>
+            </script>
+          </div>
+        </div>
+
+      </span>
+    </li>
+  </ul>
+  </div>
 </div>

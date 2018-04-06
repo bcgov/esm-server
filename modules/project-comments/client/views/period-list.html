@@ -28,7 +28,7 @@
   </div>
 
   <div class="button-bar" ng-if="project.userCan.createCommentPeriod">
-    <a class="btn btn-default btn-sm" title="Add Comment Period" x-period-create-modal ng-click="$event.stopPropagation();">
+    <a class="btn btn-default btn-sm" title="Add Comment Period" ui-sref="p.commentperiod.create()">
       <span class="glyphicon glyphicon-plus"></span>
       <span>Add Comment Period</span>
     </a>
@@ -44,7 +44,7 @@
         </td>
         <td class="details-col" header-class="'details-col'" title="'Details'"
           sortable="'informationLabel'">
-          <strong>{{p.informationLabel}}</strong> <span ng-if="p.ceaaInformationLabel">and the <strong>{{p.ceaaInformationLabel}}</strong><span>
+          {{p.informationLabel}} <span ng-if="p.ceaaInformationLabel">and the {{p.ceaaInformationLabel}}<span>
         </td>
         <td class="status-col" header-class="'status-col'" title="'Status'"
           sortable="'openState'">
@@ -58,76 +58,81 @@
           <span class="glyphicon glyphicon-comment"></span>
           <span class="count">{{p.stats.totalPublic}}</span>
         </td>
-        <td class="actions-col" header-class="'actions-col x1'"
-          ng-if="project.userCan.createCommentPeriod">
+        <td class="actions-col" header-class="'actions-col x1'" ng-if="project.userCan.createCommentPeriod">
+          
           <div class="btn-group">
-            <button class="btn icon-btn dropdown-toggle" type="button" ng-click="$event.originalEvent.dropdown = true" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn icon-btn dropdown-toggle" 
+              popover-class="context-menu"
+              popover-placement="'auto'"
+              popover-trigger="'focus'" 
+              uib-popover-template="'pcp-list-menu.html'">
               <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
             </button>
-            <ul class="dropdown-menu pull-right">
-              <li ng-if="project.userCan.createCommentPeriod">
-                <a class="btn icon-btn"
-                  ui-sref="p.commentperiod.edit({periodId:p._id})"
-                  ng-click="$event.stopPropagation();"><span class="glyphicon glyphicon-pencil"></span></a></li>
-              <li ng-if="!p.isPublished && project.userCan.createCommentPeriod">
-                <button class="btn icon-btn"
-                  title="Publish Comment"
-                  ng-click="$event.stopPropagation();"
-                  x-pcpvalidation-dialog
-                  x-title-text="'Publish Comment Period'"
-                  x-ok-text="'Yes'"
-                  x-cancel-text="'No'"
-                  x-confirm-text="'Are you sure you want to publish this comment period?'"
-                  x-on-ok="s.publishCommentPeriod"
-                  x-period="p">
-                  <span class="glyphicon glyphicon-ok-circle"></span>
-                </button>
-              </li>
-              <li ng-if="p.isPublished && project.userCan.createCommentPeriod">
-                <button class="btn icon-btn"
-                  title="Unpublish Comment"
-                  ng-click="$event.stopPropagation();"
-                  ng-disabled="p.openForComment"
-                  x-confirm-dialog
-                  x-title-text="'Unpublish Comment Period'"
-                  x-ok-text="'Yes'"
-                  x-cancel-text="'No'"
-                  x-confirm-text="'Are you sure you want to unpublish this comment period?'"
-                  x-on-ok="s.unpublishCommentPeriod"
-                  x-ok-args="p">
-                  <span class="glyphicon glyphicon-ban-circle"></span>
-                </button>
-              </li>
-              <li ng-if="project.userCan.createCommentPeriod && p.openForComment">
-                <button class="btn icon-btn"
-                  title="Delete Comment Period"
-                  ng-click="$event.stopPropagation();"
-                  x-confirm-dialog
-                  x-title-text="'Delete Comment Period'"
-                  x-ok-text="'Yes'"
-                  x-cancel-text="'No'"
-                  x-confirm-text="'This comment period is currently open for public comment, are you sure you would like to permanently delete this comment period and all its content?'"
-                  x-on-ok="s.deletePeriod"
-                  x-ok-args="p">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </button>
-              </li>
-              <li ng-if="project.userCan.createCommentPeriod && !p.openForComment">
-                <button class="btn icon-btn"
-                  title="Delete Comment Period"
-                  ng-click="$event.stopPropagation();"
-                  x-confirm-dialog
-                  x-title-text="'Delete Comment Period'"
-                  x-ok-text="'Yes'"
-                  x-cancel-text="'No'"
-                  x-confirm-text="'Are you sure you would like to permanently delete this comment period and all its content?'"
-                  x-on-ok="s.deletePeriod"
-                  x-ok-args="p">
-                  <span class="glyphicon glyphicon-trash"></span>
-                </button>
-              </li>
-            </div>
+
+            <script type="text/ng-template" id="pcp-list-menu.html">
+              <ul>
+                <li ng-if="project.userCan.createCommentPeriod">
+                  <a ui-sref="p.commentperiod.edit({periodId:p._id})" ng-click="$event.stopPropagation();">
+                    <span class="glyphicon glyphicon-pencil"></span>Edit Comment Period</a>
+                  </li>
+                <li ng-if="!p.isPublished && project.userCan.createCommentPeriod">
+                  <a title="Publish Comment"
+                    ng-click="$event.stopPropagation();"
+                    x-pcpvalidation-dialog
+                    x-title-text="'Publish Comment Period'"
+                    x-ok-text="'Yes'"
+                    x-cancel-text="'No'"
+                    x-confirm-text="'Are you sure you want to publish this comment period?'"
+                    x-on-ok="s.publishCommentPeriod"
+                    x-period="p">
+                    <span class="glyphicon glyphicon-ok-circle"></span>Publish
+                </a>
+                </li>
+                <li ng-if="p.isPublished && project.userCan.createCommentPeriod">
+                  <a title="Unpublish Comment"
+                    ng-click="$event.stopPropagation();"
+                    ng-disabled="p.openForComment"
+                    x-confirm-dialog
+                    x-title-text="'Unpublish Comment Period'"
+                    x-ok-text="'Yes'"
+                    x-cancel-text="'No'"
+                    x-confirm-text="'Are you sure you want to unpublish this comment period?'"
+                    x-on-ok="s.unpublishCommentPeriod"
+                    x-ok-args="p">
+                    <span class="glyphicon glyphicon-ban-circle"></span>Unpublish
+                  </a>
+                </li>
+                <li ng-if="project.userCan.createCommentPeriod && p.openForComment">
+                  <a title="Delete Comment Period"
+                    ng-click="$event.stopPropagation();"
+                    x-confirm-dialog
+                    x-title-text="'Delete Comment Period'"
+                    x-ok-text="'Yes'"
+                    x-cancel-text="'No'"
+                    x-confirm-text="'This comment period is currently open for public comment, are you sure you would like to permanently delete this comment period and all its content?'"
+                    x-on-ok="s.deletePeriod"
+                    x-ok-args="p">
+                    <span class="glyphicon glyphicon-trash"></span>Delete
+                  </a>
+                </li>
+                <li ng-if="project.userCan.createCommentPeriod && !p.openForComment">
+                  <a title="Delete Comment Period"
+                    ng-click="$event.stopPropagation();"
+                    x-confirm-dialog
+                    x-title-text="'Delete Comment Period'"
+                    x-ok-text="'Yes'"
+                    x-cancel-text="'No'"
+                    x-confirm-text="'Are you sure you would like to permanently delete this comment period and all its content?'"
+                    x-on-ok="s.deletePeriod"
+                    x-ok-args="p">
+                    <span class="glyphicon glyphicon-trash"></span>Delete
+                  </a>
+                </li>
+              </ul>
+            </script>
+
           </div>
+
         </td>
       </tr>
       <tr class="no-records" ng-if="!$data || $data.length === 0">
