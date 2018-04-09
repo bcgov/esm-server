@@ -72,3 +72,5 @@ module.exports = {
   livereload: true,
   seedDB: process.env.MONGO_SEED || true
 };
+
+console.log(module.exports.app);

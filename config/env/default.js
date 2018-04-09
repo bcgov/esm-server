@@ -8,13 +8,20 @@ module.exports = {
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
   },
   port: process.env.PORT || 3000,
+  token: {
+    tokenQuery: process.env.TOKEN_QUERY || 'smgov_userguid',
+    tokenParams: process.env.TOKEN_PARAMS || undefined,
+    tokenField: process.env.TOKEN_FIELD || undefined,
+    tokenHeader: process.env.TOKEN_HEADER || 'smgov_userguid',
+    failedOnMissing: process.env.TOKEN_ON_MISSING || false
+  },
   templateEngine: 'swig',
   // Session Cookie settings
   sessionCookie: {
     // session expiration is set by default to 24 hours
     maxAge: 24 * (60 * 60 * 1000),
     // httpOnly flag makes sure the cookie is only accessed
-    // through the HTTP protocol and not JS/browser 
+    // through the HTTP protocol and not JS/browser
     httpOnly: true,
     // secure cookie should be turned to true to provide additional
     // layer of security so that the cookie is set only when working
@@ -30,6 +37,3 @@ module.exports = {
   logo: 'modules/core/client/img/brand/eao-banner-img-lg.png',
   favicon: 'modules/core/client/img/brand/favicon.ico'
 };
-
-console.log(module.exports.app);
-

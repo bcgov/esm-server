@@ -14,7 +14,7 @@ def notifySlack(text, url, channel, attachments) {
         attachments: attachments
     ])
     def encodedReq = URLEncoder.encode(payload, "UTF-8")
-    sh("curl -s -S -X POST --data \'payload=${encodedReq}\' ${slackURL}")    
+    sh("curl -s -S -X POST --data \'payload=${encodedReq}\' ${slackURL}")
 }
 
 /*
@@ -30,7 +30,7 @@ def buildsSinceLastSuccess(previousBuild, build) {
 }
 
 /*
- * Generates a string containing all the commit messages from 
+ * Generates a string containing all the commit messages from
  * the builds in pastBuilds.
  */
 @NonCPS
@@ -103,7 +103,7 @@ podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenk
             }
         }
     }
-}  
+}
 
 podTemplate(label: 'sonarqube-maven', name: 'sonarqube-maven', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
@@ -136,7 +136,7 @@ podTemplate(label: 'sonarqube-maven', name: 'sonarqube-maven', serviceAccount: '
             }
         }
   }
-}   
+}
 
 podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
@@ -184,57 +184,58 @@ podTemplate(label: 'generic-maven', name: 'generic-maven', serviceAccount: 'jenk
     }
 }
 
-podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
-  containerTemplate(
-    name: 'jnlp',
-    image: '172.50.0.2:5000/openshift/jenkins-slave-bddstack',
-    resourceRequestCpu: '500m',
-    resourceLimitCpu: '1000m',
-    resourceRequestMemory: '1Gi',
-    resourceLimitMemory: '4Gi',
-    workingDir: '/home/jenkins',
-    command: '',
-    args: '${computer.jnlpmac} ${computer.name}',
-    envVars: [
-        secretEnvVar(key: 'ADMINPW', secretName: 'esm-server-secrets', secretKey: 'dev-admin-pwd')
-      ]
-  )
-])       
-{
-    stage('FT on Dev') {
-        node('bddstack') {
-            //the checkout is mandatory, otherwise functional test would fail
-            echo "checking out source"
-            echo "Build: ${BUILD_ID}"
-            checkout scm
-            dir('functional-tests') {
-                try {
-                        sh './gradlew chromeHeadlessTest'
-                } finally {
-                    archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/geb/**/*'
-                    junit 'build/test-results/**/*.xml'
-                    publishHTML (target: [
-                                allowMissing: false,
-                                alwaysLinkToLastBuild: false,
-                                keepAll: true,
-                                reportDir: 'build/reports/spock',
-                                reportFiles: 'index.html',
-                                reportName: "BDD Spock Report"
-                            ])
-                    publishHTML (target: [
-                                allowMissing: false,
-                                alwaysLinkToLastBuild: false,
-                                keepAll: true,
-                                reportDir: 'build/reports/tests/chromeHeadlessTest',
-                                reportFiles: 'index.html',
-                                reportName: "Full Test Report"
-                            ])
-                    perfReport compareBuildPrevious: true, excludeResponseTime: true, ignoreFailedBuilds: true, ignoreUnstableBuilds: true, modeEvaluation: true, modePerformancePerTestCase: true, percentiles: '0,50,90,100', relativeFailedThresholdNegative: 80.0, relativeFailedThresholdPositive: 20.0, relativeUnstableThresholdNegative: 50.0, relativeUnstableThresholdPositive: 50.0, sourceDataFiles: 'build/test-results/**/*.xml'
-                }
-            }
-        }
-    }
-}    
+// TODO: activate and verify once the new bddstack jenkins slave image is available
+// podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+//   containerTemplate(
+//     name: 'jnlp',
+//     image: '172.50.0.2:5000/openshift/jenkins-slave-bddstack',
+//     resourceRequestCpu: '500m',
+//     resourceLimitCpu: '1000m',
+//     resourceRequestMemory: '1Gi',
+//     resourceLimitMemory: '4Gi',
+//     workingDir: '/home/jenkins',
+//     command: '',
+//     args: '${computer.jnlpmac} ${computer.name}',
+//     envVars: [
+//         secretEnvVar(key: 'ADMINPW', secretName: 'esm-server-secrets', secretKey: 'dev-admin-pwd')
+//       ]
+//   )
+// ])
+// {
+//     stage('FT on Dev') {
+//         node('bddstack') {
+//             //the checkout is mandatory, otherwise functional test would fail
+//             echo "checking out source"
+//             echo "Build: ${BUILD_ID}"
+//             checkout scm
+//             dir('functional-tests') {
+//                 try {
+//                         sh './gradlew chromeHeadlessTest'
+//                 } finally {
+//                     archiveArtifacts allowEmptyArchive: true, artifacts: 'build/reports/geb/**/*'
+//                     junit 'build/test-results/**/*.xml'
+//                     publishHTML (target: [
+//                                 allowMissing: false,
+//                                 alwaysLinkToLastBuild: false,
+//                                 keepAll: true,
+//                                 reportDir: 'build/reports/spock',
+//                                 reportFiles: 'index.html',
+//                                 reportName: "BDD Spock Report"
+//                             ])
+//                     publishHTML (target: [
+//                                 allowMissing: false,
+//                                 alwaysLinkToLastBuild: false,
+//                                 keepAll: true,
+//                                 reportDir: 'build/reports/tests/chromeHeadlessTest',
+//                                 reportFiles: 'index.html',
+//                                 reportName: "Full Test Report"
+//                             ])
+//                     perfReport compareBuildPrevious: true, excludeResponseTime: true, ignoreFailedBuilds: true, ignoreUnstableBuilds: true, modeEvaluation: true, modePerformancePerTestCase: true, percentiles: '0,50,90,100', relativeFailedThresholdNegative: 80.0, relativeFailedThresholdPositive: 20.0, relativeUnstableThresholdNegative: 50.0, relativeUnstableThresholdPositive: 50.0, sourceDataFiles: 'build/test-results/**/*.xml'
+//                 }
+//             }
+//         }
+//     }
+// }
 
 podTemplate(label: 'owasp-zap', name: 'owasp-zap', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(

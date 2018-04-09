@@ -73,9 +73,6 @@ var checkIntegration = function (name, override) {
 
 var seedingAsync = function() {
 	console.log('begin asynchronous seeding...');
-	checkIntegration('testme').then(function (f) {
-		require('../seed-data/test-integration')(f);
-	});
 
 // -------------------------------------------------------------------------
 //
