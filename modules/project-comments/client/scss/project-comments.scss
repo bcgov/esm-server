@@ -671,7 +671,7 @@ $pcp-comment-icon-color: #ccc;
 // LINKED DOCUMENTS
 .pcp-linked-documents {
   &.fb-list {
-    overflow: auto;
+    overflow: inherit;
 
     .fb-list-item {
       .row-actions {
