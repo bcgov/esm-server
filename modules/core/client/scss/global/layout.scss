@@ -228,6 +228,7 @@ section {
             top: 0;
             bottom: 0;
             width: 22rem;
+            overflow-x: hidden;
             overflow-y: auto;
             box-shadow: 0 0 1rem #999;
             background-color: $view-panel-bg;
