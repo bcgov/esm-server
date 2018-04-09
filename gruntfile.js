@@ -1,47 +1,15 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
-var _ = require('lodash'),
-  defaultAssets = require('./config/assets/default'),
-  testAssets = require('./config/assets/test'),
-  fs = require('fs'),
-  path = require('path'),
-  childProcess = require('child_process');
+var defaultAssets = require('./config/assets/default');
+var testAssets = require('./config/assets/test');
+var path = require('path');
+var childProcess = require('child_process');
 
 module.exports = function(grunt) {
-  // Project Configuration
-  var LOGO = '';
-  if (process.env.ENVIRONMENT === 'MEM') {
-    LOGO = 'modules/core/client/img/brand/mem-logo-inverted.png'; // EAO Logo
-  } else {
-    LOGO = 'modules/core/client/img/brand/eao-banner-img-lg.png'; // BC Logo
-  }
-  var ENV = '';
-  if (process.env.ENVIRONMENT) {
-    ENV = process.env.ENVIRONMENT;
-  } else {
-    ENV = 'EAO';
-  }
-
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    ngconstant: {
-      options: {
-        space: ' ',
-        dest: 'public/dist/conf.js',
-        name: 'conf'
-      },
-      dist: {
-        constants: {
-          ENV: ENV,
-          LOGO: LOGO
-        }
-      }
-    },
     env: {
-      unit: {
+      test: {
         NODE_ENV: 'test'
       },
       functional: {
@@ -54,60 +22,8 @@ module.exports = function(grunt) {
         NODE_ENV: 'production'
       }
     },
-    watch: {
-      serverViews: {
-        files: defaultAssets.server.views,
-        options: {
-          livereload: true
-        }
-      },
-      serverJS: {
-        files: _.union(
-          defaultAssets.server.gruntConfig,
-          defaultAssets.server.allJS
-        ),
-        tasks: ['eslint'],
-        options: {
-          livereload: true
-        }
-      },
-      clientViews: {
-        files: defaultAssets.client.views,
-        options: {
-          livereload: true
-        }
-      },
-      clientJS: {
-        files: defaultAssets.client.js,
-        tasks: ['eslint'],
-        options: {
-          livereload: true
-        }
-      },
-      clientCSS: {
-        files: defaultAssets.client.css,
-        tasks: ['csslint'],
-        options: {
-          livereload: true
-        }
-      },
-      clientSCSS: {
-        files: defaultAssets.client.sass,
-        tasks: ['sass', 'csslint'],
-        options: {
-          livereload: true
-        }
-      },
-      clientLESS: {
-        files: defaultAssets.client.less,
-        tasks: ['less', 'csslint'],
-        options: {
-          livereload: true
-        }
-      }
-    },
     eslint: {
-      target: 'modules/**/*.js',
+      target: ['gruntfile.js', 'modules/**/*.js'],
       options: {
         configFile: '.eslintrc'
       }
@@ -189,25 +105,14 @@ module.exports = function(grunt) {
         }
       }
     },
-    mochaTest: {
-      src: testAssets.tests.server,
-      options: {
-        reporter: 'spec'
-      }
-    },
     mocha_istanbul: {
       coverage: {
         src: testAssets.tests.server,
         options: {
-          print: 'detail',
-          coverage: true,
-          require: 'test.js',
-          coverageFolder: 'coverage',
-          reportFormats: ['cobertura', 'lcovonly'],
-          check: {
-            lines: 40,
-            statements: 40
-          }
+          require: ['test.js'],
+          coverageFolder: 'build/coverage/server',
+          reportFormats: ['html', 'cobertura', 'lcovonly'],
+          mochaOptions: ['--exit']
         }
       }
     },
@@ -216,94 +121,15 @@ module.exports = function(grunt) {
         configFile: 'karma.conf.js'
       }
     },
-    protractor: {
-      options: {
-        configFile: 'protractor.conf.js',
-        keepAlive: true,
-        noColor: false
-      },
-      e2e: {
-        options: {
-          args: {} // Target-specific arguments
-        }
-      }
-    },
-    copy: {
-      localConfig: {
-        src: 'config/env/local.example.js',
-        dest: 'config/env/local.js',
-        filter: function() {
-          return !fs.existsSync('config/env/local.js');
-        }
-      },
-      tinyjson: {
-        expand: true,
-        cwd: 'node_modules/tiny-jsonrpc',
-        src: '*',
-        dest: 'node_modules/spooky/node_modules/tiny-jsonrpc'
-      }
+    clean: {
+      'test-client': ['build/coverage/client'],
+      'test-server': ['build/coverage/server']
     }
   });
 
-  grunt.event.on('coverage', function(lcovFileContents, done) {
-    require('coveralls').handleInput(lcovFileContents, function(err) {
-      if (err) {
-        return done(err);
-      }
-      done();
-    });
-  });
-
-  // Load NPM tasks
   require('load-grunt-tasks')(grunt);
-  //grunt.loadNpmTasks('grunt-sass');
-  grunt.loadNpmTasks('grunt-ng-constant');
 
-  grunt.task.registerTask(
-    'buildconstants',
-    'Builds all the environment information and bakes it into a conf.js file.',
-    function() {
-      grunt.task.run('ngconstant');
-    }
-  );
-
-  // Make sure upload directory exists
-  grunt.task.registerTask(
-    'mkdir:upload',
-    'Task that makes sure upload directory exists.',
-    function() {
-      // Get the callback
-      var done = this.async();
-
-      grunt.file.mkdir(
-        path.normalize(__dirname + '/modules/users/client/img/profile/uploads')
-      );
-
-      done();
-    }
-  );
-
-  // Connect to the MongoDB instance and load the models
-  grunt.task.registerTask(
-    'mongoose',
-    'Task that connects to the MongoDB instance and loads the application models.',
-    function() {
-      // Get the callback
-      var done = this.async();
-
-      // Use mongoose configuration
-      var mongoose = require('./config/lib/mongoose.js');
-
-      // Connect to database
-      mongoose.connect(function(db) {
-        done();
-      });
-    }
-  );
-
-  /**
-   * Start the local functional test server.
-   */
+  // Start the local functional test server.
   var e2e_server_process;
   grunt.task.registerTask(
     'start_e2e_server',
@@ -322,25 +148,13 @@ module.exports = function(grunt) {
     }
   );
 
-  /**
-   * Run the functional tests against the local server/database.
-   */
+  // Run the functional tests against the local functional test server/database.
   grunt.task.registerTask(
     'run_e2e_tests',
     'Running functional tests.',
     function() {
       var done = this.async();
 
-      /**
-       * To run in headful mode:
-       * ['chromeTest']
-       *
-       * To run a single test:
-       * ['-DchromeTest.single=SomeSpecName', 'chromeTest']
-       *
-       * To increase logging (including println):
-       * ['chromeHeadlessTest', '--info']
-       */
       var test_process = childProcess.spawn(
         process.platform == 'win32' ? 'gradlew.bat' : './gradlew',
         ['chromeHeadlessTest'],
@@ -355,9 +169,7 @@ module.exports = function(grunt) {
     }
   );
 
-  /**
-   * Drop the local functional test database.
-   */
+  // Drop the local functional test database.
   grunt.task.registerTask(
     'drop_e2e_database',
     'Dropping functional test database.',
@@ -371,9 +183,7 @@ module.exports = function(grunt) {
     }
   );
 
-  /**
-   * Stop the local functional test server.
-   */
+  // Stop the local functional test server.
   grunt.task.registerTask(
     'shutdown_e2e_server',
     'Stopping functional test server.',
@@ -386,36 +196,46 @@ module.exports = function(grunt) {
 
   // Lint CSS and JavaScript files.
   grunt.registerTask('lint', ['sass', 'less', 'eslint', 'csslint']);
-  grunt.registerTask('default', ['sass']);
 
-  // Lint project files and minify them into two production files.
+  // Package application files
   grunt.registerTask('build', [
     'env:dev',
     'lint',
     'ngAnnotate',
     'uglify',
-    'cssmin',
-    'buildconstants'
+    'cssmin'
   ]);
   grunt.registerTask('buildprod', [
     'env:prod',
     'lint',
     'ngAnnotate',
     'uglify',
-    'cssmin',
-    'buildconstants'
+    'cssmin'
   ]);
   grunt.registerTask('buildtest', [
-    'env:unit',
+    'env:test',
     'lint',
     'ngAnnotate',
     'uglify',
-    'cssmin',
-    'buildconstants'
+    'cssmin'
   ]);
 
-  // Run the project tests - NB: These are not maintained at the moment.
-  grunt.registerTask('test', 'env:unit');
+  // Run the client unit tests
+  grunt.registerTask('test-client', [
+    'clean:test-client',
+    'env:test',
+    'lint',
+    'ngAnnotate',
+    'karma:unit'
+  ]);
+  // Run the server unit tests
+  grunt.registerTask('test-server', [
+    'clean:test-server',
+    'env:test',
+    'lint',
+    'ngAnnotate',
+    'mocha_istanbul:coverage'
+  ]);
 
   // Run the end-to-end functional tests
   grunt.registerTask('e2e', [
@@ -430,44 +250,6 @@ module.exports = function(grunt) {
     'lint',
     'ngAnnotate',
     'uglify',
-    'cssmin',
-    'buildconstants'
-  ]);
-
-  // Run project coverage
-  grunt.registerTask('coverage', [
-    'env:unit',
-    'lint',
-    'mocha_istanbul:coverage'
-  ]);
-
-  // Run the project in development mode
-  grunt.registerTask('default', [
-    'env:dev',
-    'lint',
-    'mkdir:upload',
-    'copy:localConfig',
-    'copy:tinyjson',
-    'buildconstants'
-  ]);
-
-  // Run the project in debug mode
-  grunt.registerTask('debug', [
-    'env:dev',
-    'lint',
-    'mkdir:upload',
-    'copy:localConfig',
-    'copy:tinyjson',
-    'buildconstants'
-  ]);
-
-  // Run the project in production mode
-  grunt.registerTask('prod', [
-    'buildprod',
-    'env:prod',
-    'mkdir:upload',
-    'copy:localConfig',
-    'copy:tinyjson',
-    'buildconstants'
+    'cssmin'
   ]);
 };

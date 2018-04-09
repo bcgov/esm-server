@@ -2,6 +2,7 @@
 
 angular
   .module('core')
+  .constant('ENV', 'EAO')
   .constant('_', window._)
   .constant('TreeModel', window.TreeModel)
   .constant('d3', window.d3)

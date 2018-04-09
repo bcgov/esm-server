@@ -1,65 +1,61 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
-var _ = require('lodash'),
-  defaultAssets = require('./config/assets/default'),
-  testAssets = require('./config/assets/test');
+var _ = require('lodash');
+var defaultAssets = require('./config/assets/default');
+var testAssets = require('./config/assets/test');
 
-// Karma configuration
-module.exports = function (karmaConfig) {
-  karmaConfig.set({
-    // Frameworks to use
+module.exports = function(config) {
+  config.set({
+    basePath: '',
     frameworks: ['jasmine'],
-
-    preprocessors: {
-      'modules/*/client/views/**/*.html': ['ng-html2js']
+    plugins: [
+      require('karma-jasmine'),
+      require('karma-chrome-launcher'),
+      require('karma-jasmine-html-reporter'),
+      require('karma-coverage-istanbul-reporter'),
+      require('karma-spec-reporter'),
+      require('karma-ng-html2js-preprocessor'),
+      require('karma-babel-preprocessor')
+    ],
+    client: {
+      clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
-
+    files: _.union(
+      defaultAssets.client.lib.js,
+      defaultAssets.client.lib.tests,
+      defaultAssets.client.js,
+      defaultAssets.client.views,
+      testAssets.tests.client
+    ),
+    preprocessors: {
+      'modules/*/client/views/**/*.html': ['ng-html2js'],
+      'modules/*/client/**/*.js': ['babel']
+    },
     ngHtml2JsPreprocessor: {
       moduleName: 'mean',
-
-      cacheIdFromPath: function (filepath) {
+      cacheIdFromPath: function(filepath) {
         return filepath;
-      },
+      }
     },
-
-    // List of files / patterns to load in the browser
-    files: _.union(defaultAssets.client.lib.js, defaultAssets.client.lib.tests, defaultAssets.client.js, testAssets.tests.client, defaultAssets.client.views),
-
-    // Test results reporter to use
-    // Possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-    reporters: ['progress'],
-
-    // Web server port
+    babelPreprocessor: {
+      options: {
+        sourceMap: 'inline'
+      }
+    },
+    coverageIstanbulReporter: {
+      reports: ['html', 'lcovonly', 'text-summary'],
+      dir: './build/coverage/client',
+      combineBrowserReports: true,
+      skipFilesWithNoCoverage: true,
+      fixWebpackSourcePaths: true
+    },
+    reporters: ['spec', 'coverage-istanbul', 'kjhtml'],
     port: 9876,
-
-    // Enable / disable colors in the output (reporters and logs)
     colors: true,
-
-    // Level of logging
-    // Possible values: karmaConfig.LOG_DISABLE || karmaConfig.LOG_ERROR || karmaConfig.LOG_WARN || karmaConfig.LOG_INFO || karmaConfig.LOG_DEBUG
-    logLevel: karmaConfig.LOG_INFO,
-
-    // Enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
-
-    // Start these browsers, currently available:
-    // - Chrome
-    // - ChromeCanary
-    // - Firefox
-    // - Opera
-    // - Safari (only Mac)
-    // - PhantomJS
-    // - IE (only Windows)
-    browsers: ['PhantomJS'],
-
-    // If browser does not capture in given timeout [ms], kill it
-    captureTimeout: 60000,
-
-    // Continuous Integration mode
-    // If true, it capture browsers, run tests and exit
-    singleRun: true
+    logLevel: config.LOG_INFO,
+    autoWatch: false,
+    browsers: ['Chrome'],
+    singleRun: true,
+    concurrency: Infinity
   });
 };
