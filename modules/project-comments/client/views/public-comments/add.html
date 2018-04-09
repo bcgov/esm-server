@@ -77,8 +77,8 @@
 					<!-- UPLOAD CONTAINER -->
 					<div class="fb-upload-container">
 						<div class="fb-upload-target-container">
-							<div class="fb-upload-target pcp" id="dropzone"
-								ngf-drop 
+              <div ng-class="{'fb-upload-target': true, 'pcp': !s.isAdmin}" id="dropzone"
+								ngf-drop
 								ngf-select
 								ngf-allow-dir="true"
 								ng-model="s.comment.files"
@@ -87,7 +87,7 @@
 								<div class="fb-upload-target-content">
 									<span class="glyphicon glyphicon-open icon-default"></span>
 									<span class="fb-upload-target-msg"><b>Drag &amp; Drop</b> or <b>browse files</b> to upload.</span>
-									<span class="fb-upload-req-msg">Size limited to 5MB.</span>
+									<span class="fb-upload-req-msg" ng-if="!s.isAdmin">Size limited to 5MB.</span>
 								</div>
 								<div class="fb-upload-target-border"></div>
 							</div>

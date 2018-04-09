@@ -669,8 +669,8 @@ function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, 
 
         $scope.project = scope.project;
 
-        var maxFileSize = 5 * 1024 * 1024; //5MB
-
+        var maxFileSize = 5 * 1024 * 1024; // 5MiB
+        s.isAdmin = scope.period.userCan.publish; // Admins may upload larger filesizes for business reasons
         s.step = 1;
         s.comment = comment;
         comment.period = scope.period;
@@ -688,7 +688,7 @@ function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, 
             s.showAlert = false;
             s.comment.inProgress = false;
             _.each(newValue, function (file) {
-              if (file.size > maxFileSize) {
+              if (file.size > maxFileSize && !s.isAdmin) {
                 s.showAlert = true;
               } else if (!file.name.match(acceptedExtentions)){
                 s.showExtensionAlert = true;
