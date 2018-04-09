@@ -26,6 +26,18 @@
 	}
 }
 
+.p {
+	&-0 {
+		padding: 0 !important;
+	}
+
+	&-t {
+		&-0 {
+			padding-top: 0 !important;
+		}
+	}
+}
+
 .p-t {
 	&-0 {
 		padding-top: 0 !important;

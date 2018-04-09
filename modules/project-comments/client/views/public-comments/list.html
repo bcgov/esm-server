@@ -11,20 +11,23 @@
 <!-- Temporary fix until we move to angular modals -->
 <div class="temp-overlay"></div>
 
-<!-- Header - REGULAR PCP TYPE -->
+<!-- Regular PCP -->
 <div class="pcp-comment-header clearfix" ng-if="s.isPublic">
 	<div class="pcp-comment-actions-bar clearfix">
-		<!-- PROTOTYPE EAO ROW TEMPLATES  -->
+		<!-- EAO Staff Count -->
 		<h2 class="pcp-comment-count-label pull-left"
-			ng-if="s.period.userCan.vetComments">Total Comments (<span>{{s.total}}</span>)
+			ng-if="s.period.userCan.vetComments">
+			Total Comments <span>({{(s.total || "0")}})</span>
 		</h2>
-		<!-- PROPONENT TEMPLATES  -->
+		<!-- Proponent Comment Count -->
 		<h2 class="pcp-comment-count-label pull-left"
-			ng-if="s.period.userCan.classifyComments && !s.period.userCan.vetComments">Total Comments (<span>{{s.totalAssigned + s.totalUnassigned}}</span>)
+			ng-if="s.period.userCan.classifyComments && !s.period.userCan.vetComments">
+			Total Comments <span>({{(s.totalAssigned + s.totalUnassigned || "0")}})</span>
 		</h2>
-		<!-- PUBLIC TEMPLATES  -->
+		<!-- Public Total Count -->
 		<h2 class="pcp-comment-count-label pull-left"
-			ng-if="!s.period.userCan.classifyComments && !s.period.userCan.vetComments">Total Comments (<span>{{s.totalPublished}}</span>)
+			ng-if="!s.period.userCan.classifyComments && !s.period.userCan.vetComments">
+			Total Comments <span>{{s.totalPublished}}</span>
 		</h2>
 		<div class="actions pull-right">
 			<button class="btn btn-default btn-sm"
@@ -36,9 +39,9 @@
 			</button>
 		</div>
 	</div>
+	<!-- EAO Filter Bar -->
 	<div class="pcp-comment-filter-bar clearfix" ng-if="s.period.userCan.vetComments">
 		<label class="pull-left">Filter by</label>
-		<!-- PROTOTYPE EAO ROW TEMPLATES  -->
 		<ul class="toggle-tabs tab-container pull-left clearfix" role="tablist">
 			<li class="active" role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Unvetted')" role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
 			<li role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Deferred')" role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
@@ -46,29 +49,28 @@
 			<li role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Rejected')" role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
 		</ul>
 	</div>
+	<!-- Proponent Filters -->
 	<div class="pcp-comment-filter-bar clearfix" ng-if="s.period.userCan.classifyComments && !s.period.userCan.vetComments">
 		<label class="pull-left">Filter by</label>
-		<!-- PROPONENT TEMPLATES  -->
 		<ul class="toggle-tabs tab-container pull-left clearfix" role="tablist">
 			<li role="presentation" class="active"><a class="btn btn-default btn-sm" role="tab" data-toggle="tab" ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
 			<li role="presentation"><a class="btn btn-default btn-sm" role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
 		</ul>
 	</div>
 </div>
-<!-- / Header - REGULAR PCP TYPE -->
 
-<!-- Header - JOINT PCP TYPE -->
+<!-- JOINT PCP -->
 <div class="pcp-comment-header clearfix" ng-if="s.isJoint">
 	<div class="pcp-comment-actions-bar clearfix">
-		<!-- PROTOTYPE EAO ROW TEMPLATES  -->
+		<!-- EAO Staff Count -->
 		<h2 class="pcp-comment-count-label pull-left"
 			ng-if="s.period.userCan.vetComments">Total Comments (<span>{{s.total}}</span>)
 		</h2>
-		<!-- CEAA TEMPLATES  -->
+		<!-- CEAA Count  -->
 		<h2 class="pcp-comment-count-label pull-left"
 			ng-if="s.hasCeeaRole && !s.period.userCan.vetComments">Total Comments (<span>{{s.totalPublished + s.totalRejected}}</span>)
 		</h2>
-		<!-- PROPONENT + PUBLIC TEMPLATES  -->
+		<!-- Proponent & Public Comment Count -->
 		<h2 class="pcp-comment-count-label pull-left"
 			ng-if="!s.hasCeeaRole && !s.period.userCan.vetComments">Total Comments (<span>{{s.totalPublished}}</span>)
 		</h2>
@@ -78,9 +80,10 @@
 			</button>
 		</div>
 	</div>
+
 	<div class="pcp-comment-filter-bar clearfix">
 		<div ng-if="s.period.userCan.vetComments">
-			<!-- PROTOTYPE EAO ROW TEMPLATES  -->
+			<!-- EAO Filter Bar -->
 			<label class="pull-left">Filter by</label>
 			<ul class="toggle-tabs tab-container pull-left clearfix" role="tablist">
 				<li class="active" role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Unvetted')" role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
@@ -90,7 +93,7 @@
 			</ul>
 		</div>
 		<div ng-if="s.hasCeeaRole && !s.period.userCan.vetComments">
-			<!-- CEAA TEMPLATES  -->
+			<!-- CEAA Filter Bar -->
 			<label class="pull-left">Filter by</label>
 			<ul class="toggle-tabs tab-container pull-left clearfix" role="tablist">
 				<li role="presentation" class="active"><a class="btn btn-default btn-sm" ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
@@ -98,7 +101,7 @@
 			</ul>
 		</div>
 		<div ng-if="!s.hasCeeaRole && !s.period.userCan.vetComments">
-			<!-- PROPONENT + PUBLIC TEMPLATES TEMPLATES  -->
+			<!-- Proponent & Public Filter Bar -->
 			<label class="pull-left">Filter by</label>
 		</div>
 		<select class="form-control pull-left"
@@ -108,7 +111,6 @@
 		</select>
 	</div>
 </div>
-<!-- / Header - JOINT PCP TYPE -->
 
 <div class="tab-pane">
 	<div class="table-container">
@@ -138,7 +140,6 @@
 						st-sort="dateAdded">Date Posted <span class="sort-icon"></span>
 					</th>
 				</tr>
-
 				<tr class="filter-row">
 					<th class="id-col" ng-if="authentication.user">
 						<input class="form-control" st-search="commentId" ng-model="s.filterByFields.commentId" />
@@ -164,9 +165,7 @@
 					<th class="date-col">
 					</th>
 				</tr>
-
 			</thead>
-
 			<tbody>
 				<tr ng-if="s.isJoint" ng-repeat="o in s.displayed" ng-click="s.detail(o, s.filterCommentPackage)">
 					<td class="p-0" colspan="{{s.colspan}}">
@@ -274,4 +273,3 @@
 		</table>
 	</div>
 </div>
-<!-- / EAO ROW TEMPLATES  -->
