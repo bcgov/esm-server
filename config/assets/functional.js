@@ -57,14 +57,11 @@ module.exports = {
       'modules/core/client/app/init.js',
       'modules/*/client/*.js',
       'modules/*/client/**/*.js',
-      'modules/*/processes/*/client/*.js',
-      'modules/*/processes/*/client/**/*.js',
       'modules/*/controls/*/client/*.js',
       'modules/*/controls/*/client/**/*.js'
     ],
     views: [
       'modules/*/client/views/**/*.html',
-      'modules/*/processes/*/client/views/**/*.html',
       'modules/*/controls/*/client/views/**/*.html'
     ],
     templates: ['build/templates.js']
@@ -73,8 +70,7 @@ module.exports = {
     gruntConfig: 'gruntfile.js',
     allJS: ['server.js', 'config/**/*.js', 'modules/*/server/**/*.js'],
     models: [
-      'modules/*/server/models/**/*.js',
-      'modules/*/processes/*/server/models/**/*.js'
+      'modules/*/server/models/**/*.js'
     ],
     routes: [
       'modules/!(core)/server/routes/**/*.js',

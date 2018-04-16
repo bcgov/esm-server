@@ -2,18 +2,19 @@
 
 (function () {
   describe('HomeController', function () {
-    //Initialize global variables
+    var $controller;
     var scope;
 
-    // Load the main application module
     beforeEach(module(ApplicationConfiguration.applicationModuleName));
 
-    beforeEach(inject(function ($controller, $rootScope) {
+    beforeEach(inject(function (_$controller_, $rootScope) {
+      $controller = _$controller_;
       scope = $rootScope.$new();
     }));
 
     it('should expose the authentication service', function () {
-      expect(scope.authentication).toBeTruthy();
+      $controller('HomeController', {$scope: scope, Authentication: 'someAuthValue'});
+      expect(scope.authentication).toEqual('someAuthValue')
     });
   });
 })();

@@ -4,8 +4,7 @@
     "browser": true,
     "node": true,
     "mocha": true,
-    "jasmine": true,
-    "protractor": true
+    "jasmine": true
   },
   "globals": {
     "angular": true,

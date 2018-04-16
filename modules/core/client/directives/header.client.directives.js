@@ -10,9 +10,8 @@ angular.module('core')
     return {
       restrict    : 'E',
       templateUrl : 'modules/core/client/views/header.client.view.html',
-      controller  : function ($scope, LOGO, Authentication, Menus, _, ENV, Application) {
+      controller  : function ($scope, Authentication, Menus, _, ENV, Application) {
         //console.log ('Application =',Application);
-        $scope.logo = LOGO;
         $scope.application = Application;
         $scope.authentication = Authentication;
         $scope.ENV = ENV;

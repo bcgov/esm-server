@@ -1,19 +1,16 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
-  var config = require('../config'),
-  mongoose = require('./mongoose'),
-  express = require('./express'),
-  chalk = require('chalk');
+var config = require('../config');
+var mongoose = require('./mongoose');
+var express = require('./express');
+var chalk = require('chalk');
 
 // Initialize Models
 mongoose.loadModels();
 
 //SeedDB
 if (config.seedDB) {
-  console.log ('seeding');
+  console.log('seeding');
   require('./seed');
 }
 
@@ -22,22 +19,19 @@ module.exports.loadModels = function loadModels() {
 };
 
 module.exports.init = function init(callback) {
-  mongoose.connect(function (db) {
+  mongoose.connect(function(db) {
     // Initialize express
     var app = express.init(db);
     if (callback) callback(app, db, config);
-
   });
 };
 
 module.exports.start = function start(callback) {
   var _this = this;
 
-  _this.init(function (app, db, config) {
-
+  _this.init(function(app, db, config) {
     // Start the app by listening on <port>
-    app.listen(config.port, function () {
-
+    app.listen(config.port, function() {
       // Logging initialization
       console.log('--');
       console.log(chalk.green(config.app.title));
@@ -54,7 +48,5 @@ module.exports.start = function start(callback) {
 
       if (callback) callback(app, db, config);
     });
-
   });
-
 };

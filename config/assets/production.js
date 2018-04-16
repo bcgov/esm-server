@@ -10,7 +10,7 @@ module.exports = {
         'public/assimilated/ng-table/dist/ng-table.min.css'
       ],
       js: [
-	'public/lib/es6-shim/es6-shim.min.js',
+        'public/lib/es6-shim/es6-shim.min.js',
         'public/lib/angular/angular.js',
         'public/lib/angular-resource/angular-resource.js',
         'public/lib/angular-animate/angular-animate.js',
@@ -31,17 +31,17 @@ module.exports = {
         'public/lib/angular-bootstrap-confirm/dist/angular-bootstrap-confirm.min.js',
         'public/lib/lodash/lodash.min.js',
         'public/lib/angular-simple-logger/dist/angular-simple-logger.js',
-        'public/lib/angular-google-maps/dist/angular-google-maps.min.js',        
+        'public/lib/angular-google-maps/dist/angular-google-maps.min.js',
         'public/lib/d3/d3.min.js',
         'public/lib/angularD3/dist/angularD3.js',
         'public/assimilated/ng-table/dist/ng-table.js',
         'public/lib/moment/moment.js',
         'public/lib/moment-timezone/moment-timezone.js',
         'public/lib/angular-moment/angular-moment.js',
-	'public/lib/angular-scroll/angular-scroll.min.js',
-	'public/lib/angular-cookies/angular-cookies.min.js',
-	'public/moment-timezone-data.js',
-	'public/readable-range.js',
+        'public/lib/angular-scroll/angular-scroll.min.js',
+        'public/lib/angular-cookies/angular-cookies.min.js',
+        'public/moment-timezone-data.js',
+        'public/readable-range.js',
         'public/lib/pdfjs-dist/build/pdf.combined.js',
         'public/lib/ng-pdfviewer/ng-pdfviewer.js',
         'public/lib/ng-pdfviewer/pdf.js',
@@ -49,28 +49,19 @@ module.exports = {
       ],
       tests: ['public/lib/angular-mocks/angular-mocks.js']
     },
-    css: [
-      'modules/*/client/css/*.css',
-    ],
-    less: [
-      'modules/*/client/less/*.less'
-    ],
-    sass: [
-      'modules/*/client/scss/*.scss'
-    ],
+    css: ['modules/*/client/css/*.css'],
+    less: ['modules/*/client/less/*.less'],
+    sass: ['modules/*/client/scss/*.scss'],
     js: [
       'modules/core/client/app/config.js',
       'modules/core/client/app/init.js',
       'modules/*/client/*.js',
       'modules/*/client/**/*.js',
-      'modules/*/processes/*/client/*.js',
-      'modules/*/processes/*/client/**/*.js',
       'modules/*/controls/*/client/*.js',
       'modules/*/controls/*/client/**/*.js'
     ],
     views: [
       'modules/*/client/views/**/*.html',
-      'modules/*/processes/*/client/views/**/*.html',
       'modules/*/controls/*/client/views/**/*.html'
     ],
     templates: ['build/templates.js']
@@ -78,8 +69,13 @@ module.exports = {
   server: {
     gruntConfig: 'gruntfile.js',
     allJS: ['server.js', 'config/**/*.js', 'modules/*/server/**/*.js'],
-    models: ['modules/*/server/models/**/*.js','modules/*/processes/*/server/models/**/*.js'],
-    routes: ['modules/!(core)/server/routes/**/*.js', 'modules/core/server/routes/**/*.js'],
+    models: [
+      'modules/*/server/models/**/*.js'
+    ],
+    routes: [
+      'modules/!(core)/server/routes/**/*.js',
+      'modules/core/server/routes/**/*.js'
+    ],
     sockets: 'modules/*/server/sockets/**/*.js',
     config: 'modules/*/server/config/*.js',
     policies: 'modules/*/server/policies/*.js',
