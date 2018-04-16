@@ -27,7 +27,7 @@
     "bootstrap-sass": "~3.3.4",
     "clipboard": "^1.7.1",
     "es6-shim": "^0.35.0",
-    "lodash": "4.5.1",
+    "lodash": "3.10.1",
     "moment-timezone": "~0.4.0",
     "ng-file-upload": "^12.2.13",
     "ng-pdfviewer": "^0.2.1",
@@ -37,7 +37,7 @@
   },
   "resolutions": {
     "angular": "^1.6.9",
-    "lodash": "4.5.1",
+    "lodash": "3.10.1",
     "clipboard": "^1.7.1"
   }
 }
