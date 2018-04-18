@@ -32,13 +32,13 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
       return false;
     }
 
-    $http.post('/api/auth/signup', loginPanel.credentials).success(function (response) {
+    $http.post('/api/auth/signup', loginPanel.credentials).then(function (response) {
       // If successful we assign the response to the global user model
-      loginPanel.authentication.user = response;
+      loginPanel.authentication.user = response.data;
       // And redirect to the previous or home page
       $state.go($state.previous.state.name || 'projects', $state.previous.params);
-    }).error(function (response) {
-      loginPanel.error = response.message;
+    }, function (response) {
+      loginPanel.error = response.data.message;
     });
   };
 
@@ -49,13 +49,13 @@ function controllerAuthentication($scope, $state, $http, $location, $window, Aut
 
       return false;
     }
-    $http.post('/api/auth/signin', loginPanel.credentials).success(function (response) {
+    $http.post('/api/auth/signin', loginPanel.credentials).then(function (response) {
       // If successful we assign the response to the global user model
-      loginPanel.authentication.user = response;
+      loginPanel.authentication.user = response.data;
       // And redirect to the previous or home page
       $state.go('projects');
-    }).error(function (response) {
-      loginPanel.error = response.message;
+    }, function (response) {
+      loginPanel.error = response.data.message;
     });
   };
 

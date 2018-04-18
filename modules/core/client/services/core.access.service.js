@@ -90,13 +90,14 @@ angular.module('core')
       reload: function (currentUser, force) {
         return new Promise(function (resolve, reject) {
           if ($window.application.user !== currentUser || force === true) {
-            $http.get('api/application').success(function (response) {
-              $window.application.userCan = response.userCan;
+            $http.get('api/application').then(function (response) {
+              $window.application.userCan = response.data.userCan;
               $window.application._id = 'application';
               $window.application.user = currentUser;
-              resolve(response.userCan);
-            })
-              .error(reject);
+              resolve(response.data.userCan);
+            }, function(){
+              reject();
+            });
           }
           else {
             resolve();
