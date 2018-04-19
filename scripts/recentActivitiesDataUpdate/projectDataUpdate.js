@@ -10,33 +10,12 @@ collection.find({}).each(function(recentactivity) {
   var documentUrl = recentactivity.documentUrl;
   var id = recentactivity._id;
 
-  if( !contentUrl && !documentUrl ) {
-    recentactivity.contentUrl = contentUrl;
-    recentactivity.documentUrl = documentUrl;
-  }
-
   if( contentUrl ) {
-    if(contentUrl.includes('https://projects.eao.gov.bc.ca')) {
-      recentactivity.contentUrl = contentUrl.substring(30, contentUrl.length);
-    }
-    else if(contentUrl.includes('https://www.projects.eao.gov.bc.ca')) {
-      recentactivity.contentUrl = contentUrl.substring(33, contentUrl.length);
-    }
-    else {
-      recentactivity.contentUrl = contentUrl;
-    }
+    recentactivity.contentUrl = recentactivity.contentUrl.replace(/https:\/\/(www.)?projects.eao.gov.bc.ca/, '');
   }
 
   if( documentUrl ) {
-    if(documentUrl.includes('https://projects.eao.gov.bc.ca')) {
-      recentactivity.documentUrl = documentUrl.substring(30, documentUrl.length);
-    }
-    else if(documentUrl.includes('https://www.projects.eao.gov.bc.ca')) {
-      recentactivity.documentUrl = documentUrl.substring(33, documentUrl.length);
-    }
-    else {
-      recentactivity.documentUrl = documentUrl;
-    }
+    recentactivity.documentUrl = recentactivity.documentUrl.replace(/https:\/\/(www.)?projects.eao.gov.bc.ca/, '');
   }
   id = monk.id(id);
   collection.update({_id: id }, recentactivity);
