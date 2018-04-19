@@ -26,12 +26,12 @@ angular.module('users').controller('SocialAccountsController', ['$scope', '$http
         params: {
           provider: provider
         }
-      }).success(function (response) {
+      }).then(function (response) {
         // If successful show success message and clear form
         $scope.success = true;
-        $scope.user = Authentication.user = response;
-      }).error(function (response) {
-        $scope.error = response.message;
+        $scope.user = Authentication.user = response.data;
+      }, function (response) {
+        $scope.error = response.data.message;
       });
     };
   }
