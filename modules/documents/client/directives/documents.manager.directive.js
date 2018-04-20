@@ -473,118 +473,158 @@ angular.module('documents')
             });
         };
 
-        self.publishFiles = function(files) {
+        // Publish
+
+        self.publishFilesAndDirs = function(files, dirs) {
           self.busy = true;
+          self.dirCount = 0;
+          self.fileCount = 0;
+
           var filePromises = _.map(files, function(f) {
-            return Document.publish(f);
+            return Document.publish(f)
+              .then(function(/* result */) {
+                self.fileCount++;
+                f.isPublished = true;
+              }, function(/* err */) {
+                AlertService.error('File "' + (f.displayName || f.documentFileName || f.internalOriginalName) + '" could not be published.', 4000);
+              });
           });
-          return Promise.all(filePromises)
-            .then(function(result) {
-              var published = _.map(result, function(o) { if (o.isPublished) {return o.displayName || o.documentFileName || o.internalOriginalName;} });
-              self.selectNode(self.currentNode.model.id);
-              AlertService.success(_.size(published) + ' of ' + _.size(files) + ' files successfully published.', 4000);
-            }, function(/* err */) {
+
+          var dirPromises = _.map(dirs, function(d) {
+            return ProjectModel.publishDirectory($scope.project, d.model.id)
+              .then(function(/* result */) {
+                self.dirCount++;
+                d.model.published = true;
+              }, function(/* err */) {
+                AlertService.error('Folder "' + d.model.name + '" could not be published.', 4000);
+              });
+          });
+
+          return Promise.all(dirPromises)
+            .then(function(/* result */) {
+              if (_.size(dirs) > 0) {
+                self.selectNode(self.currentNode.model.id);
+                AlertService.success(self.dirCount + ' of ' + _.size(dirs) + ' folders ' + (self.dirCount != 1 ? 'were' : 'was') + ' successfully published.', 4000);
+              }
+            })
+            .then(function() {
+              return Promise.all(filePromises);
+            })
+            .then(function(/* result */) {
+              if (_.size(files) > 0) {
+                self.selectNode(self.currentNode.model.id);
+                AlertService.success(self.fileCount + ' of ' + _.size(files) + ' files ' + (self.dirCount != 1 ? 'were' : 'was') + ' successfully published.', 4000);
+              }
               self.busy = false;
-              AlertService.error('The selected files could not be published.');
             });
         };
 
-        self.unpublishFiles = function(files) {
+        self.unpublishFilesAndDirs = function(files, dirs) {
           self.busy = true;
+          self.dirCount = 0;
+          self.fileCount = 0;
+
           var filePromises = _.map(files, function(f) {
-            return Document.unpublish(f);
+            return Document.unpublish(f)
+              .then(function(/* result */) {
+                self.fileCount++;
+                f.isPublished = false;
+              }, function(/* err */) {
+                AlertService.error('File "' + (f.displayName || f.documentFileName || f.internalOriginalName) + '" could not be unpublished.', 4000);
+              });
           });
-          return Promise.all(filePromises)
-            .then(function(result) {
-              var unpublished = _.map(result, function(o) { if (!o.isPublished) {return o.displayName || o.documentFileName || o.internalOriginalName;} });
-              self.selectNode(self.currentNode.model.id);
-              AlertService.success(_.size(unpublished) + ' of ' + _.size(files) + ' files successfully unpublished.', 4000);
-            }, function(/* err */) {
+          var dirPromises = _.map(dirs, function(d) {
+            return ProjectModel.unpublishDirectory($scope.project, d.model.id)
+              .then(function(/* result */) {
+                self.dirCount++;
+                d.model.published = false;
+              }, function(/* err */) {
+                AlertService.error('Folder "' + d.model.name + '" could not be unpublished.', 4000);
+              });
+          });
+
+          return Promise.all(dirPromises)
+            .then(function(/* result */) {
+              if (_.size(dirs) > 0) {
+                self.selectNode(self.currentNode.model.id);
+                AlertService.success(self.dirCount + ' of ' + _.size(dirs) + ' folders ' + (self.dirCount != 1 ? 'were' : 'was') + ' successfully unpublished.', 4000);
+              }
+            })
+            .then(function() {
+              return Promise.all(filePromises);
+            })
+            .then(function(/* result */) {
+              if (_.size(files) > 0) {
+                self.selectNode(self.currentNode.model.id);
+                AlertService.success(self.fileCount + ' of ' + _.size(files) + ' files ' + (self.dirCount != 1 ? 'were' : 'was') + ' successfully unpublished.', 4000);
+              }
               self.busy = false;
-              AlertService.error('The selected files could not be unpublished.');
             });
         };
 
         self.publishFolder = function(folder) {
-          self.busy = true;
-          return ProjectModel.publishDirectory($scope.project, folder.model.id)
-            .then(function (directoryStructure) {
-              $scope.project.directoryStructure = directoryStructure;
-              $scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-              AlertService.success(folder.model.name + ' folder successfully published.', 4000);
-            }, function () {
-              self.busy = false;
-              AlertService.error('The selected folder could not be published.');
-            });
+          return self.publishFilesAndDirs([], [folder]);
         };
 
         self.unpublishFolder = function(folder) {
-          self.busy = true;
-          return ProjectModel.unpublishDirectory($scope.project, folder.model.id)
-            .then(function (directoryStructure) {
-              $scope.project.directoryStructure = directoryStructure;
-              $scope.$broadcast('documentMgrRefreshNode', { directoryStructure: directoryStructure });
-              AlertService.success(folder.model.name + ' folder successfully un-published.', 4000);
-            }, function (docs) {
-              var theDocs = [];
-              var msg = "";
-              if (docs.message && docs.message[0] && docs.message[0].documentFileName) {
-                _.each(docs.message, function (d) {
-                  theDocs.push(d.documentFileName);
-                });
-                msg = 'This action cannot be completed as the following documents are published: ' + theDocs + '.  Please unpublish each document and attempt your action again.';
-              } else {
-                msg = "Couldn't complete operation.";
-              }
-              self.busy = false;
-              AlertService.error(msg);
-            });
+          return self.unpublishFilesAndDirs([], [folder]);
         };
 
         self.publishFile = function(file) {
-          return self.publishFiles([file]);
+          return self.publishFilesAndDirs([file], []);
         };
 
         self.unpublishFile = function(file) {
-          return self.unpublishFiles([file]);
+          return self.unpublishFilesAndDirs([file],[]);
         };
 
         self.publishSelected = {
-          titleText: 'Publish File(s)',
-          okText: 'Yes',
-          cancelText: 'No',
           publish: function() {
-            return self.publishFiles(self.publishSelected.publishableFiles);
+            return self.publishFilesAndDirs(self.publishSelected.publishableFiles, self.publishSelected.publishableDirs);
           },
           unpublish: function() {
-            return self.unpublishFiles(self.publishSelected.unpublishableFiles);
+            return self.unpublishFilesAndDirs(self.publishSelected.unpublishableFiles, self.publishSelected.unpublishableDirs);
           },
           cancel: undefined,
-          confirmText:  'Are you sure you want to publish the selected item(s)?',
-          confirmItems: [],
+          confirmPublishItems: [],
+          confirmUnpublishItems: [],
           publishableFiles: [],
           unpublishableFiles: [],
+          publishableDirs: [],
+          unpublishableDirs: [],
           setContext: function() {
-            self.publishSelected.confirmItems = [];
+            self.publishSelected.confirmPublishItems = [];
+            self.publishSelected.confirmUnpublishItems = [];
             self.publishSelected.publishableFiles = [];
             self.publishSelected.unpublishableFiles = [];
-            // only documents/files....
+            self.publishSelected.publishableDirs = [];
+            self.publishSelected.unpublishableDirs = [];
+
+            // documents/files
             _.each(self.checkedFiles, function(o) {
-              var canDoSomething = false;
-              if (o.userCan.publish) {
-                canDoSomething = true;
+              var name = o.displayName || o.documentFileName || o.internalOriginalName;
+              if (o.userCan.publish && !o.isPublished) {
                 self.publishSelected.publishableFiles.push(o);
+                self.publishSelected.confirmPublishItems.push(name);
               }
-              if (o.userCan.unPublish) {
-                canDoSomething = true;
+              if (o.userCan.unPublish && o.isPublished) {
                 self.publishSelected.unpublishableFiles.push(o);
-              }
-              if (canDoSomething) {
-                var name = o.displayName || o.documentFileName || o.internalOriginalName;
-                self.publishSelected.confirmItems.push(name);
+                self.publishSelected.confirmUnpublishItems.push(name);
               }
             });
 
+            // folders
+            if ($scope.project.userCan.manageFolders) {
+              _.each(self.checkedDirs, function(o) {
+                if (o.model.published) {
+                  self.publishSelected.unpublishableDirs.push(o);
+                  self.publishSelected.confirmUnpublishItems.push(o.model.name);
+                } else {
+                  self.publishSelected.publishableDirs.push(o);
+                  self.publishSelected.confirmPublishItems.push(o.model.name);
+                }
+              });
+            }
           }
         };
 
