@@ -1,0 +1,32 @@
+[
+  {
+    "collection": "users",
+    "records": [
+      {
+        "firstName": "user",
+        "lastName": "name",
+        "username": "user-name",
+        "password": "password",
+        "displayName": "ADMIN LOCAL",
+        "roles": ["admin"]
+      }
+    ]
+  },
+  {
+    "collection": "_roles",
+    "records": [
+      {
+        "context": "application",
+        "user": "user-name",
+        "role": "sysadmin",
+        "__v": 0
+      },
+      {
+        "context": "application",
+        "user": "user-name",
+        "role": "project-sysadmin",
+        "__v": 0
+      }
+    ]
+  }
+]

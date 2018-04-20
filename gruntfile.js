@@ -138,6 +138,14 @@ module.exports = function(grunt) {
     function() {
       var done = this.async();
 
+      // pass command line parameters through to the e2e task, by appending to what is in process.env
+      for(var param in grunt.cli.options){
+        if( param !== 'tasks' && param !== 'npm' ){
+          process.env[param] = grunt.cli.options[param];
+          console.log(param, grunt.cli.options[param]); // eslint-disable-line
+        }
+      }
+
       e2e_server_process = childProcess.spawn('node', ['server.js'], {
         env: process.env,
         detached: true,
@@ -177,10 +185,19 @@ module.exports = function(grunt) {
     function() {
       var done = this.async();
 
+      // pass command line parameters through to the e2e task, by appending to what is in process.env
+      for(var param in grunt.cli.options){
+        if( param !== 'tasks' && param !== 'npm' ){
+          process.env[param] = grunt.cli.options[param];
+        }
+      }
+
       var mongoose = require('./config/lib/mongoose.js');
-      mongoose.dropDatabase(function() {
-        done();
-      });
+      if(!process.env.NO_DB_DROP){
+        mongoose.dropDatabase(function() {
+          done();
+        });
+      }
     }
   );
 

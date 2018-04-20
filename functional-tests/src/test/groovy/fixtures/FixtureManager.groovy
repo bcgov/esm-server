@@ -14,6 +14,8 @@ class FixtureManager {
   private String host = 'localhost';
   private int port = 27017;
   private String databaseName = 'esm-dev-func';
+  private String username;
+  private char[] password;
 
   // Stores fixture data that is inserted via this manager.
   private List fixtureDataInserted = [];
@@ -47,7 +49,19 @@ class FixtureManager {
       this.databaseName = env['MONGODB_FUNC_DATABASE'];
     }
 
-    this.client = new MongoClient(this.host, this.port);
+    this.username = env['MONGODB_USER'];
+    this.password = env['MONGODB_PASSWORD'];
+    
+    if(this.username != null && this.password != null){
+      println "Authenticating..."
+      String connectionString = "mongodb://" + this.username + ":" + this.password + "@" + this.host + "/?authSource=" + this.databaseName;
+      MongoClientURI uri = new MongoClientURI(connectionString);
+      println connectionString
+      this.client = new MongoClient(uri);
+      println "Authenticated successfully!"
+    } else {
+      this.client = new MongoClient(this.host, this.port);
+    }
 
     this.db = client.getDB(this.databaseName);
   }
