@@ -715,12 +715,11 @@ function controllerModalDatePicker($uibModalInstance, rChosenDate, rHeader, mome
     modalDatePick.maxDate = maxdate; //if end date is selected
   };
 
-  if (maxdate !== null) {
-    modalDatePick.toggleMax();
-  }
-  if (mindate !== null) {
-    modalDatePick.toggleMin();
-  }
+  modalDatePick.options = {
+    showWeeks: false,
+    maxDate: maxdate,
+    minDate: mindate
+  };
 
   modalDatePick.onTimeSet = function() {
     modalDatePick.showSelector = false;

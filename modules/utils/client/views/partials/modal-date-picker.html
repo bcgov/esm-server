@@ -6,11 +6,12 @@
 </div>
 <div class="modal-body">
 	<div class="form-group">
-		<div uib-datepicker ng-model="modalDatePick.chosenDate" datepicker-options="{showWeeks:false}"></div>
+    <div uib-datepicker ng-model="modalDatePick.chosenDate"
+    datepicker-options="modalDatePick.options"></div>
 	</div>
 	<div class="form-group">
-		<label class="control-label">Hours/Minutes <em>(Optional)</em></label>
-		<div class="timepicker__input" uib-timepicker ng-model="modalDatePick.chosenDate" show-meridian="false"></div>
+		<label class="control-label">Hours/Minutes<em>(Optional)</em></label>
+    <div class="timepicker__input" uib-timepicker ng-model="modalDatePick.chosenDate" show-meridian="false"></div>
 	</div>
 </div>
 <div class="modal-footer clearfix">
