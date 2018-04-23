@@ -1,0 +1,16 @@
+{
+  "name": "recent-activities-data-update",
+  "version": "1.0.0",
+  "description": "",
+  "main": "projectDataUpdate.js",
+  "dependencies": {
+    "mongodb": "^3.0.7",
+    "monk": "^6.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
