@@ -109,11 +109,6 @@ module.exports = function (app) {
     .get (routes.setAndRun (CommentModel, function (model, req) {
       return model.getCommentDocuments(req.params.commentId);
     }));
-  app.route ('/api/comment/:commentId/ceaadocuments').all(policy ('guest'))
-    .get (routes.setAndRun (CommentModel, function (model, req) {
-      return model.getCeaaCommentDocuments(req.params.commentId);
-    }));
-
   // special delete method
   app.route ('/api/commentperiod/:commentperiod/remove')
     .all (policy ('user'))
@@ -122,4 +117,3 @@ module.exports = function (app) {
     }));
 
 };
-

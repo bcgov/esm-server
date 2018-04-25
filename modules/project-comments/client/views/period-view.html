@@ -1,8 +1,5 @@
 
 <div class="pcp-contents"
-     ng-if="isPublic || isJoint"
+     ng-if="isPublic"
      ng-include="'modules/project-comments/client/views/public-comments/main.html'">
-</div>
-<div class="pcp-contents" ng-if="!isPublic && !isJoint"
-     ng-include="'modules/project-comments/client/views/wg-comments/main.html'">
 </div>

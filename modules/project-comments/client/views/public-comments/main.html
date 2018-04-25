@@ -50,12 +50,6 @@
 					<p>{{period.additionalText}}</p>
 					<tmpl-period-documents-list x-file-list="period.relatedDocuments"></tmpl-period-documents-list>
 				</section>
-				<section ng-if="period.ceaaInformationLabel">
-					<h2>{{period.ceaaInformationLabel}}</h2>
-					<p>EAO will forward comments related to matters of federal concern to the Canadian Environmental Assessment Agency for consideration. CEAA will review all submitted comments before finalizing their report/conditions.</p>
-					<p>{{period.ceaaAdditionalText}}</p>
-					<tmpl-period-documents-list ng-if="isJoint" x-file-list="period.ceaaRelatedDocuments"></tmpl-period-documents-list>
-				</section>
 			</div>
 		</div><!-- / Documents Tab -->
 

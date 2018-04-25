@@ -34,8 +34,6 @@ angular.module ('comment')
               var periodType = data;
               if (periodType === 'Public') {
                 return $state.go('p.commentperiod.create', { periodType: 'public' }, { reload: true });
-              } else if (periodType === 'Joint') {
-                return $state.go('p.commentperiod.create', { periodType: 'joint' }, { reload: true });
               }
             })
             .catch (function (/* err */) {

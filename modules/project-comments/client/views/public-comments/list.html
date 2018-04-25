@@ -34,7 +34,7 @@
 				ng-if="s.showTopicCloud === false" data-toggle="modal" data-target="#commentModal"
 				data-backdrop="false">Count by Valued Component
 			</button>
-			<button class="btn btn-default btn-sm" ng-if="authentication.user" ng-click="s.downloadCommentData(s.isJoint)">
+			<button class="btn btn-default btn-sm" ng-if="authentication.user" ng-click="s.downloadCommentData()">
 				<span class="glyphicon glyphicon-download-alt"></span><span>Download CSV</span>
 			</button>
 		</div>
@@ -56,59 +56,6 @@
 			<li role="presentation" class="active"><a class="btn btn-default btn-sm" role="tab" data-toggle="tab" ng-click="s.toggleP('Unclassified')">Unassigned ({{s.totalUnassigned}})</a></li>
 			<li role="presentation"><a class="btn btn-default btn-sm" role="tab" data-toggle="tab" ng-click="s.toggleP('Classified')">Assigned ({{s.totalAssigned}})</a></li>
 		</ul>
-	</div>
-</div>
-
-<!-- JOINT PCP -->
-<div class="pcp-comment-header clearfix" ng-if="s.isJoint">
-	<div class="pcp-comment-actions-bar clearfix">
-		<!-- EAO Staff Count -->
-		<h2 class="pcp-comment-count-label pull-left"
-			ng-if="s.period.userCan.vetComments">Total Comments (<span>{{s.total}}</span>)
-		</h2>
-		<!-- CEAA Count  -->
-		<h2 class="pcp-comment-count-label pull-left"
-			ng-if="s.hasCeeaRole && !s.period.userCan.vetComments">Total Comments (<span>{{s.totalPublished + s.totalRejected}}</span>)
-		</h2>
-		<!-- Proponent & Public Comment Count -->
-		<h2 class="pcp-comment-count-label pull-left"
-			ng-if="!s.hasCeeaRole && !s.period.userCan.vetComments">Total Comments (<span>{{s.totalPublished}}</span>)
-		</h2>
-		<div class="actions pull-right">
-			<button class="btn btn-default btn-sm" ng-if="s.period.userCan.downloadComments" ng-click="s.downloadCommentData(s.isJoint)">
-				<span class="glyphicon glyphicon-download-alt"></span><span>Download CSV</span>
-			</button>
-		</div>
-	</div>
-
-	<div class="pcp-comment-filter-bar clearfix">
-		<div ng-if="s.period.userCan.vetComments">
-			<!-- EAO Filter Bar -->
-			<label class="pull-left">Filter by</label>
-			<ul class="toggle-tabs tab-container pull-left clearfix" role="tablist">
-				<li class="active" role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Unvetted')" role="tab" data-toggle="tab">Pending Review ({{s.totalPending}})</a></li>
-				<li role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Deferred')" role="tab" data-toggle="tab">Deferred ({{s.totalDeferred}})</a></li>
-				<li role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
-				<li role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Rejected')" role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
-			</ul>
-		</div>
-		<div ng-if="s.hasCeeaRole && !s.period.userCan.vetComments">
-			<!-- CEAA Filter Bar -->
-			<label class="pull-left">Filter by</label>
-			<ul class="toggle-tabs tab-container pull-left clearfix" role="tablist">
-				<li role="presentation" class="active"><a class="btn btn-default btn-sm" ng-click="s.toggle('Published')" role="tab" data-toggle="tab">Published ({{s.totalPublic}})</a></li>
-				<li role="presentation"><a class="btn btn-default btn-sm" ng-click="s.toggle('Rejected')" role="tab" data-toggle="tab">Rejected ({{s.totalRejected}})</a></li>
-			</ul>
-		</div>
-		<div ng-if="!s.hasCeeaRole && !s.period.userCan.vetComments">
-			<!-- Proponent & Public Filter Bar -->
-			<label class="pull-left">Filter by</label>
-		</div>
-		<select class="form-control pull-left"
-			ng-options="option as option.displayName for option in s.filterCommentOptions"
-			ng-model="s.selectedCommentFilterOption"
-			ng-change="s.changeFilterCommentPackage()">
-		</select>
 	</div>
 </div>
 
@@ -167,46 +114,6 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-if="s.isJoint" ng-repeat="o in s.displayed" ng-click="s.detail(o, s.filterCommentPackage)">
-					<td class="p-0" colspan="{{s.colspan}}">
-						<table class="table">
-							<tr class="pcp-comment-cols">
-								<td class="id-col" ng-if="authentication.user">
-									{{o.commentId}}
-								</td>
-								<td class="author-col">
-									<h3 class="author-name">
-										<span ng-if="::o.isAnonymous">Anonymous</span>
-										<span ng-if="::!o.isAnonymous">{{ ::o.author }}</span>
-									</h3>
-								</td>
-								<td class="location-col">
-									{{ ::o.location }}
-								</td>
-								<td class="date-col">
-									<span class="attachment-icon glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
-									<span class="date">{{o.dateAdded | date:'MMM dd, yyyy @ h:mm a'}}</span>
-								</td>
-							</tr>
-						</table>
-						<table class="table">
-							<tr class="pcp-comment-info">
-								<td class="id-col p-t-0" ng-if="authentication.user"></td>
-								<td class="p-t-0">
-									<div class="comment-pkg" ng-if="o.comment && (s.filterCommentPackage === 'All' || s.filterCommentPackage === 'Provincial')">
-										<h4>{{period.informationLabel}}</h4>
-										<span>{{ ::o.comment | maxWords: 50 }}</span>
-									</div>
-									<div class="comment-pkg" ng-if="o.ceeaComment && (s.filterCommentPackage === 'All' || s.filterCommentPackage === 'Federal')">
-										<h4>{{period.ceaaInformationLabel}}</h4>
-										<span class="comment">{{ ::o.ceeaComment | maxWords: 50 }}</span>
-									</div>
-								</td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-
 				<tr ng-if="s.isPublic" ng-repeat="o in s.displayed" ng-click="s.detail(o, s.filterCommentPackage)">
 					<td class="p-0" colspan="{{s.colspan}}">
 						<table class="table">
