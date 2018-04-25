@@ -352,7 +352,7 @@ angular.module ('comment')
               self.isJoint = self.period.periodType === 'Joint';
               self.isPublic = self.period.periodType === 'Public';
               self.canUpdate = (self.period.userCan.classifyComments || self.period.userCan.vetComments);
-              self.rejectedReasons = ['', 'Unsuitable Language', 'Quoting Third Parties', 'Petitions', 'Personally Identifying Information'];
+              self.rejectedReasons = ['', 'Unsuitable Language', 'Quoting Third Parties', 'Petitions', 'Personally Identifying Information', 'Other'];
               self.filterCommentPackage = filterCommentPackage;
 
               self.userRoles = userRoles;
