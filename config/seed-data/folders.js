@@ -47,7 +47,7 @@ module.exports = function () {
 						// }
 
 						// Folder.create({
-						// 	read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+						// 	read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 						// 	write : ['assessment-admin', 'project-system-admin'],
 						// 	delete : ['assessment-admin', 'project-system-admin'],
 						// 	displayName: node.model.name,

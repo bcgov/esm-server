@@ -171,7 +171,6 @@ module.exports.sysroles2 = function () {
 				{code: 'pro:admin', name: 'Proponent Admin', roleCode: 'admin', orgCode: 'pro'},
 				{code: 'eao:invitee', name: 'EAO Invitee', roleCode: 'invitee', orgCode: 'eao'},
 				{code: 'pro:invitee', name: 'Proponent Invitee', roleCode: 'invitee', orgCode: 'pro'}
-
 			];
 
 			var a = _.map(rolez, function (r) {
@@ -291,10 +290,7 @@ module.exports.sysroles3 = function () {
 					projectCode: undefined,
 					orgCode: 'eao',
 					roleCode: 'user',
-					name: 'User',
-					isSystem: true,
-					isFunctional: false,
-					isProjectDefault: false
+					name: 'User'
 				});
 				console.log('adding: ' + r.code);
 				fulfill(r.save());
@@ -304,10 +300,7 @@ module.exports.sysroles3 = function () {
 					projectCode: undefined,
 					orgCode: 'eao',
 					roleCode: 'user',
-					name: 'User',
-					isSystem: true,
-					isFunctional: false,
-					isProjectDefault: false
+					name: 'User'
 				});
 				console.log('updating: ' + foundrole[0].code);
 				fulfill(foundrole[0].save());

@@ -10,7 +10,7 @@ module.exports = function () {
 	var defaultsArray = [];
 
 	var defaultRoles = {
-		'project-system-admin' : ['assessment-ceaa', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
+		'project-system-admin' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin', 'public'],
 	};
 
 	// DEFAULT PROJECT
@@ -27,34 +27,34 @@ module.exports = function () {
 				'managePermissions' : ['project-system-admin'],
 				'manageRoles' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin', 'sysadmin'],
 				'listContacts' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
-				'viewTombstone' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-participant', 'project-system-admin'],
-				'viewEAOTombstone' : ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'viewTombstone' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'viewEAOTombstone' : ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'editTombstone' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
-				'listArtifacts' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'listValuedComponents' : ['public', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+				'listArtifacts' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'listValuedComponents' : ['public', 'proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'listInspectionReports' : ['project-system-admin'],
 				'listProjectConditions' : ['project-system-admin'],
-				'listProjectComplaints' : ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'listProjectComplaints' : ['project-system-admin'],
 				'listProjectInvitations' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'listDocuments' : ['public', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'listCommentPeriods' : ['public', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-				'listEnforcements' : ['associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'listDocuments' : ['public', 'proponent-lead', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'listCommentPeriods' : ['public', 'proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'listEnforcements' : ['project-system-admin'],
 				'listProjectUpdates' : ['project-system-admin'],
 				'listProjectGroups' : ['project-system-admin'],
-				'viewSchedule' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+				'viewSchedule' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'editSchedule' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'createArtifact' : ['compliance-lead', 'compliance-officer', 'project-qa-officer', 'proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'createValuedComponent' : ['proponent-lead', 'proponent-team', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'createInspectionReport' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'createProjectCondition' : ['proponent-lead', 'proponent-team', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'project-system-admin'],
-				'createProjectComplaint' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'createArtifact' : ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'createValuedComponent' : ['proponent-lead', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'createInspectionReport' : ['project-system-admin'],
+				'createProjectCondition' : ['proponent-lead', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'createProjectComplaint' : ['project-system-admin'],
 				'createProjectInvitation' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
 				'createDocument' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'createCommentPeriod' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'createEnforcement' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'createEnforcement' : ['project-system-admin'],
 				'createProjectUpdate' : ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'createProjectGroup' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'],
+				'read' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'write' : ['assessment-admin', 'project-intake', 'assessment-lead', 'project-epd', 'project-system-admin'],
 				'delete' : ['project-system-admin', 'project-intake'],
 				'publish' : ['assessment-admin', 'assessment-lead', 'project-epd', 'project-system-admin'],
@@ -94,27 +94,16 @@ module.exports = function () {
 			permissions: {
 				'read': [
 					'proponent-lead',
-					'proponent-team',
 					'assessment-admin',
 					'project-eao-staff',
 					'project-intake',
 					'assessment-lead',
 					'assessment-team',
-					'assistant-dm',
 					'project-epd',
-					'assistant-dmo',
-					'associate-dm',
-					'associate-dmo',
-					'project-qa-officer',
-					'compliance-lead',
-					'compliance-officer',
-					'project-working-group',
-					'project-technical-working-group',
 					'project-system-admin'
 				],
 				'write': [
 					'proponent-lead',
-					'proponent-team',
 					'assessment-admin',
 					'project-intake',
 					'assessment-lead',
@@ -145,7 +134,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+				'read' : ['proponent-lead', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'write' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'delete' : ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 			}
@@ -177,7 +166,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'write' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'delete' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'publish' : ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -195,7 +184,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'write' : ['assessment-admin', 'project-system-admin'],
 				'delete' : ['assessment-admin', 'project-system-admin'],
 				'publish' : ['assessment-admin', 'project-system-admin'],
@@ -213,7 +202,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'write' : ['assessment-admin', 'project-system-admin'],
 				'delete' : ['assessment-admin', 'project-system-admin'],
 				'publish' : ['assessment-admin', 'project-system-admin'],
@@ -231,7 +220,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+				'read' : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'write' : ['assessment-admin', 'project-system-admin'],
 				'delete' : ['assessment-admin', 'project-system-admin'],
 				'publish' : ['assessment-admin', 'project-system-admin'],
@@ -249,7 +238,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-system-admin'],
+				'read' : ['assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'write' : ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'delete' : ['assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
 			}
@@ -265,11 +254,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-qa-officer', 'project-system-admin'],
-				'write' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'delete' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'publish' : ['compliance-lead', 'project-system-admin'],
-				'unPublish' : ['compliance-lead', 'project-system-admin']
+				'read' : ['project-system-admin'],
+				'write' : ['project-system-admin'],
+				'delete' : ['project-system-admin'],
+				'publish' : ['project-system-admin'],
+				'unPublish' : ['project-system-admin']
 			}
 		}
 	}));
@@ -283,11 +272,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-qa-officer', 'project-system-admin'],
-				'write' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'delete' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'publish' : ['compliance-lead', 'project-system-admin'],
-				'unPublish' : ['compliance-lead', 'project-system-admin']
+				'read' : ['project-system-admin'],
+				'write' : ['project-system-admin'],
+				'delete' : ['project-system-admin'],
+				'publish' : ['project-system-admin'],
+				'unPublish' : ['project-system-admin']
 			}
 		}
 	}));
@@ -301,8 +290,8 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-				'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+				'read' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'unPublish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
@@ -319,7 +308,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+				'read' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -337,9 +326,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'write' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'delete' : ['compliance-lead', 'project-system-admin']
+				'read' : ['project-system-admin'],
+				'write' : ['project-system-admin'],
+				'delete' : ['project-system-admin']
 			}
 		}
 	}));
@@ -353,8 +342,8 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-				'write' : ['proponent-lead', 'proponent-team', 'assessment-lead', 'assessment-team', 'project-epd', 'project-qa-officer', 'project-system-admin'],
+				'read' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'write' : ['proponent-lead', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'publish' : ['assessment-lead', 'project-epd', 'project-system-admin'],
 				'unPublish' : ['assessment-lead', 'project-epd', 'project-system-admin']
@@ -371,11 +360,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-qa-officer', 'project-system-admin'],
-				'write' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'delete' : ['compliance-lead', 'compliance-officer', 'project-system-admin'],
-				'publish' : ['compliance-lead', 'project-system-admin'],
-				'unPublish' : ['compliance-lead', 'project-system-admin']
+				'read' : ['project-system-admin'],
+				'write' : ['project-system-admin'],
+				'delete' : ['project-system-admin'],
+				'publish' : ['project-system-admin'],
+				'unPublish' : ['project-system-admin']
 			}
 		}
 	}));
@@ -389,8 +378,8 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-				'write' : ['proponent-lead', 'proponent-team', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'read' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
+				'write' : ['proponent-lead', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 				'unPublish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
@@ -409,7 +398,7 @@ module.exports = function () {
 		//
 		defaults: {
 			roles: {
-				'sysadmin': ['sysadmin', 'eao', 'proponent', 'project-intake', 'project-eao-staff', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead']
+				'sysadmin': ['sysadmin', 'eao', 'proponent', 'project-intake', 'project-eao-staff']
 			},
 			permissions: {
 				'listConditions': ['sysadmin', 'eao'],
@@ -437,41 +426,6 @@ module.exports = function () {
 		}
 	}));
 
-	var allApplicationPermissions = [
-		//'listConditions',
-		'listEmailTemplates',
-		'listOrganizations',
-		'listNews',
-		'listRoles',
-		'listTemplates',
-		'listValuedComponents',
-		'listContacts',
-		//'createCondition',
-		'createEmailTemplate',
-		'createOrganization',
-		'createNews',
-		//'createRole',
-		'createTemplate',
-		'createValuedComponent',
-		'createContact',
-		'createProject',
-		'manageRoles',
-		'manageCodeLists',
-		'managePermissions',
-		'addUsersToContext'
-	];
-
-	var readApplicationPermissions = [
-		//'listConditions',
-		'listEmailTemplates',
-		'listOrganizations',
-		'listNews',
-		'listRoles',
-		'listTemplates',
-		'listValuedComponents',
-		'listContacts'
-	];
-
 	// APPLICATION
 	defaultsArray.push(new Defaults({
 		context: 'application',
@@ -483,14 +437,54 @@ module.exports = function () {
 		//
 		defaults: {
 			'application:sysadmin': {
-				'sysadmin': allApplicationPermissions,
-				'eao': readApplicationPermissions,
-				'proponent': readApplicationPermissions,
+				'sysadmin': [
+					//'listConditions',
+					'listEmailTemplates',
+					'listOrganizations',
+					'listNews',
+					'listRoles',
+					'listTemplates',
+					'listValuedComponents',
+					'listContacts',
+					//'createCondition',
+					'createEmailTemplate',
+					'createOrganization',
+					'createNews',
+					//'createRole',
+					'createTemplate',
+					'createValuedComponent',
+					'createContact',
+					'createProject',
+					'manageRoles',
+					'manageCodeLists',
+					'managePermissions',
+					'addUsersToContext'
+				],
+				'eao': [
+					//'listConditions',
+					'listEmailTemplates',
+					'listOrganizations',
+					'listNews',
+					'listRoles',
+					'listTemplates',
+					'listValuedComponents',
+					'listContacts'
+				],
+				'proponent': [
+					//'listConditions',
+					'listEmailTemplates',
+					'listOrganizations',
+					'listNews',
+					'listRoles',
+					'listTemplates',
+					'listValuedComponents',
+					'listContacts'
+				],
 				'project-intake': ['createProject']
 			}
 		}
 	}));
-	
+
   // APPLICATION
 	defaultsArray.push(new Defaults({
 		context: 'application',
@@ -498,7 +492,7 @@ module.exports = function () {
 		level: 'global',
 		type: 'global-project-roles',
 		defaults: {
-			'roles' : ['project-intake', 'project-eao-staff', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead']
+			'roles' : ['project-intake', 'project-eao-staff']
 		}
 	}));
 
@@ -540,4 +534,3 @@ module.exports = function () {
 			console.log('Default permission seeding done.');
 		});
 };
-
