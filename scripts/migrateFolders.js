@@ -45,13 +45,7 @@ var defaultPerms = {
         "project-intake",
         "assessment-lead",
         "assessment-team",
-        "assistant-dm",
         "project-epd",
-        "assistant-dmo",
-        "associate-dm",
-        "associate-dmo",
-        "compliance-lead",
-        "compliance-officer",
         "project-system-admin"
     ]
 };
@@ -147,7 +141,7 @@ MongoClient.connect(defaultConnectionString, function (err, db) {
                             dateUpdated : null,
                             dateAdded : null,
                             description : "",
-                            read : ['public', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+                            read : ['public', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
                             write : ['assessment-admin', 'project-system-admin'],
                             delete : ['assessment-admin', 'project-system-admin'],
                             displayName: node.model.name,
@@ -174,7 +168,7 @@ MongoClient.connect(defaultConnectionString, function (err, db) {
                             dateUpdated : null,
                             dateAdded : null,
                             description : "",
-                            read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
+                            read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
                             write : ['assessment-admin', 'project-system-admin'],
                             delete : ['assessment-admin', 'project-system-admin'],
                             displayName: node.model.name,

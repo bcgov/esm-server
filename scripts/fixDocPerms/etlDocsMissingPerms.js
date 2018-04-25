@@ -93,13 +93,7 @@ var defaultPerms = {
 			, 'project-intake'
 			, 'assessment-lead'
 			, 'assessment-team'
-			, 'assistant-dm'
 			, 'project-epd'
-			, 'assistant-dmo'
-			, 'associate-dm'
-			, 'associate-dmo'
-			, 'compliance-lead'
-			, 'compliance-officer'
 			, 'project-system-admin'
 		],
 		'write'     : ['assessment-admin', 'project-system-admin'],
@@ -149,4 +143,3 @@ prepare()
 	process.exit(1);
 })
 ;
-
