@@ -60,7 +60,7 @@ module.exports = DBModel.extend ({
     // that we add.  Should all be in one place when we get a chance.
 
     /*
-		 'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
+		 'read' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 		 'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 		 'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
 		 'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
@@ -75,7 +75,7 @@ module.exports = DBModel.extend ({
 
     var defaultWriteDeleteRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']; // this is what is in the _defaults table... retain those...
     var allowedVettingRoles = ['assessment-lead', 'assessment-team', 'project-epd'];
-    var allowedClassificationRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'proponent-lead', 'proponent-team'];
+    var allowedClassificationRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'proponent-lead'];
 
     period.vettingRoles = _.intersection(period.vettingRoles, allowedVettingRoles);
     period.classificationRoles = _.intersection(period.classificationRoles, allowedClassificationRoles);
@@ -85,7 +85,7 @@ module.exports = DBModel.extend ({
     // EPIC-932 Joint PCP logic follows...
     // Note, project-system-admin will not be added in the UI / Client, but we always want them to have the power...
     // Changes here need should be synced with the UI, don't want them selecting from a different set of roles than they can save.
-    var allowedDownloadRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'proponent-lead', 'proponent-team', 'assessment-ceaa'];
+    var allowedDownloadRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'proponent-lead'];
     period.downloadRoles = _.intersection(period.downloadRoles, allowedDownloadRoles);
     period.downloadRoles = _.uniq(_.concat(period.downloadRoles, ['project-system-admin']));
 
@@ -93,7 +93,7 @@ module.exports = DBModel.extend ({
       period.classificationRoles,
       period.downloadRoles,
       period.vettingRoles,
-      ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-working-group', 'project-technical-working-group', 'project-system-admin']
+      ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
     ));
     var dataObj = {
       vetComments      : period.vettingRoles,
