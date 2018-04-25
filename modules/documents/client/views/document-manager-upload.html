@@ -1,12 +1,12 @@
 
 <div class="fb-upload-container">
-	
+
 	<!-- UPLOAD TARGET -->
 	<div class="fb-upload-target-container">
 
 		<!-- UPLOAD TARGET -->
 		<div class="fb-upload-target" id="dropzone"
-			ngf-drop 
+			ngf-drop
 			ngf-select
 			ng-model="files"
 			ngf-drag-over-class="fb-upload-target-hover"
@@ -24,9 +24,9 @@
 	</div>
 
 	<!-- FILE BROWSER -->
-	<div class="file-browser" ng-if="uploadService.fileList != 0">
+	<div class="file-browser" ng-if="uploadService.fileList.length != 0">
 		<div class="fb-body">
-			
+
 			<!-- FILE BROWSER LIST -->
 			<!-- TODO consider replacing the following div and contents with <x-file-upload-listing> -->
 			<div class="fb-list">
@@ -42,7 +42,7 @@
 
 				<ul>
 					<li class="fb-list-item" ng-class="{'has-error': f.failed}" ng-repeat="f in uploadService.fileList">
-						<span class="fb-col-group">							
+						<span class="fb-col-group">
 							<span class="col name-col first-col">
 								<span class="avatar">
 									<span class="fb-success glyphicon glyphicon-ok" ng-if="f.uploaded"></span>
@@ -55,7 +55,7 @@
 							<span class="col file-size-progress-col last-col">
 								<div class="progress-container">
 									<div class="progress-msg">
-										<span ng-if="f.progress && f.progress < 100">{{f.progress}}% of </span> 
+										<span ng-if="f.progress && f.progress < 100">{{f.progress}}% of </span>
 										<span>{{f.size | bytes:2}}</span>
 										<span ng-if="f.progress == 100"> - {{f.status}}</span>
 									</div>

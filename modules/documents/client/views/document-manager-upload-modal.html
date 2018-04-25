@@ -8,10 +8,9 @@
 
 <div class="modal-body">
 	<x-document-mgr-upload
-		x-project="project"
+		x-project="uploadModal.project"
 		x-root="uploadModal.rootNode"
-		x-node="uploadModal.selectedNode"
-		x-type="uploadModal.type"></x-document-mgr-upload>
+		x-node="uploadModal.selectedNode"></x-document-mgr-upload>
 </div>
 
 <!--
@@ -36,10 +35,10 @@
 		<span ng-if="!uploadService.actions.busy && !uploadService.actions.completed">{{uploadService.counts.total}} files queued</span>
 		<span ng-if="uploadService.actions.busy || uploadService.actions.completed">{{uploadService.counts.uploaded}} of {{uploadService.counts.total}} files uploaded</span>
 	</div>
-	<button class="btn btn-default" type="button" 
+	<button class="btn btn-default" type="button"
 		ng-if="!uploadService.actions.busy"
 		ng-click="uploadModal.cancel()">{{uploadService.actions.completed ? 'Close' : 'Cancel'}}</button>
-	
+
 	<!--
 	<button ng-if="uploadService.actions.allowStop" class="btn btn-default" ng-click="uploadService.stopUploads()" type="button">Stop Uploads</button>
 	-->

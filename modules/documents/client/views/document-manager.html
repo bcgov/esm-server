@@ -191,7 +191,7 @@
                           </a>
                         </li>
                         <li ng-if="project.userCan.manageFolders && !doc.model.published">
-                          <button class="btn icon-btn" title="Publish Folder" ng-click="$event.stopPropagation();"
+                          <a title="Publish Folder" ng-click="$event.stopPropagation();"
                               x-confirm-dialog
                               x-title-text="'Publish Folder'"
                               x-ok-text="'Yes'"
@@ -200,11 +200,11 @@
                               x-confirm-items="[doc.model.folderObj.displayName]"
                               x-on-ok="documentMgr.publishFolder"
                               x-ok-args="doc">
-                            <span class="glyphicon glyphicon-ok-circle"></span>
-                          </button>
+                            <span class="glyphicon glyphicon-ok-circle"></span> Publish
+                          </a>
                         </li>
                         <li ng-if="project.userCan.manageFolders && doc.model.published">
-                          <button class="btn icon-btn" title="Unpublish Folder" ng-click="$event.stopPropagation();"
+                          <a title="Unpublish Folder" ng-click="$event.stopPropagation();"
                               x-confirm-dialog
                               x-title-text="'Unpublish Folder'"
                               x-ok-text="'Yes'"
@@ -213,8 +213,8 @@
                               x-confirm-items="[doc.model.folderObj.displayName]"
                               x-on-ok="documentMgr.unpublishFolder"
                               x-ok-args="doc">
-                            <span class="glyphicon glyphicon-ban-circle"></span>
-                          </button>
+                            <span class="glyphicon glyphicon-ban-circle"></span> Unpublish
+                          </a>
                         </li>
                         <li ng-if="project.userCan.manageFolders">
                           <a title="Delete Folder"
@@ -321,7 +321,7 @@
                           </a>
                         </li>
                         <li ng-if="doc.userCan.publish && !doc.isPublished">
-                          <button class="btn icon-btn" title="Publish File" ng-click="$event.stopPropagation();"
+                          <a title="Publish File" ng-click="$event.stopPropagation();"
                               x-confirm-dialog
                               x-title-text="'Publish File'"
                               x-ok-text="'Yes'"
@@ -330,11 +330,11 @@
                               x-confirm-items="[doc.displayName]"
                               x-on-ok="documentMgr.publishFile"
                               x-ok-args="doc">
-                            <span class="glyphicon glyphicon-ok-circle"></span>
-                          </button>
+                            <span class="glyphicon glyphicon-ok-circle"></span> Publish
+                          </a>
                         </li>
                         <li ng-if="doc.userCan.unPublish && doc.isPublished">
-                          <button class="btn icon-btn" title="Unpublish File" ng-click="$event.stopPropagation();"
+                          <a title="Unpublish File" ng-click="$event.stopPropagation();"
                               x-confirm-dialog
                               x-title-text="'Unpublish File'"
                               x-ok-text="'Yes'"
@@ -343,8 +343,8 @@
                               x-confirm-items="[doc.displayName]"
                               x-on-ok="documentMgr.unpublishFile"
                               x-ok-args="doc">
-                            <span class="glyphicon glyphicon-ban-circle"></span>
-                          </button>
+                            <span class="glyphicon glyphicon-ban-circle"></span> Unpublish
+                          </a>
                         </li>
                         <li ng-if="doc.userCan.delete">
                           <a title="Delete File"
