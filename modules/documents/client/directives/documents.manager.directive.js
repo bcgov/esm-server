@@ -155,8 +155,8 @@ angular.module('documents')
             });
           } else if (self.sorting.column === 'date') {
             self.currentFiles.sort(function(doc1, doc2){
-              var d1 = doc1.dateUploaded || 0;
-              var d2 = doc2.dateUploaded || 0;
+              var d1 = doc1.documentDate || 0;
+              var d2 = doc2.documentDate || 0;
               return (new Date(d1) - new Date(d2)) * direction;
             });
           } else if (self.sorting.column === 'pub') {
