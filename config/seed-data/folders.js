@@ -47,9 +47,9 @@ module.exports = function () {
 						// }
 
 						// Folder.create({
-						// 	read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-						// 	write : ['assessment-admin', 'project-system-admin'],
-						// 	delete : ['assessment-admin', 'project-system-admin'],
+						// 	read : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+						// 	write : ['project-admin', 'project-system-admin'],
+						// 	delete : ['project-admin', 'project-system-admin'],
 						// 	displayName: node.model.name,
 						// 	directoryID: node.model.id,
 						// 	parentID: parentNodeID,

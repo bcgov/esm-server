@@ -49,14 +49,14 @@ var run = function() {
 			.then(function() {
 				console.log('1 - add collection and collectiondocument to default permissions');
 				var roles = {
-					'project-system-admin' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin', 'public'],
+					'project-system-admin' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin', 'public'],
 				};
 				var permissions = {
-					'read'      : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-					'write'     : ['assessment-admin', 'project-system-admin'],
-					'delete'    : ['assessment-admin', 'project-system-admin'],
-					'publish'   : ['assessment-admin', 'project-system-admin'],
-					'unPublish' : ['assessment-admin', 'project-system-admin']
+					'read'      : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+					'write'     : ['project-admin', 'project-system-admin'],
+					'delete'    : ['project-admin', 'project-system-admin'],
+					'publish'   : ['project-admin', 'project-system-admin'],
+					'unPublish' : ['project-admin', 'project-system-admin']
 				};
 				var entries = [{
 					context: 'project',

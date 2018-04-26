@@ -107,5 +107,3 @@ angular.module('core')
     };
     return $window.application;
   });
-
-

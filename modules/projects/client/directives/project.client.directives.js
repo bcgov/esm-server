@@ -71,21 +71,18 @@ function directiveModalProjectImport($uibModal, $state, $rootScope) {
 // DIRECTIVE: Project Tombstone Horizontal
 //
 // -----------------------------------------------------------------------------------
-directiveProjectTombstone.$inject = ['Authentication','CodeLists'];
+directiveProjectTombstone.$inject = ['CodeLists'];
 /* @ngInject */
-function directiveProjectTombstone(Authentication, CodeLists) {
+function directiveProjectTombstone(CodeLists) {
   var directive = {
     restrict: 'E',
     templateUrl: 'modules/projects/client/views/project-partials/project-tombstone.html',
     scope: {
       project: '='
     },
-    controller: function($scope, ENV, Authentication) {
-      var c = this;
+    controller: function($scope, ENV) {
       $scope.environment = ENV;
       $scope.CodeLists = CodeLists;
-      c.isEao = (Authentication.user && Authentication.user.roles.indexOf('eao') > -1);
-      c.isUser = (Authentication.user);
     },
 
     controllerAs: 'c'

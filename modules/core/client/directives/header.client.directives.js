@@ -34,16 +34,6 @@ angular.module('core')
           side.toggleClass('col-sm-2 col-0');
         };
 
-        //
-        // CC: not needed with permissions
-        //
-        // $scope.isAdmin = (Authentication.user && Authentication.user.roles.indexOf ('admin') !== -1);
-        // if ($scope.project) {
-        // 	$scope.isEAO = (Authentication.user && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));
-        // }
-        // $scope.isProjectAdmin = false;
-        // $scope.isProponentAdmin = false;
-
         // -------------------------------------------------------------------------
         //
         // really do need to watch here as this directive sits above ui-router resolves
@@ -51,40 +41,9 @@ angular.module('core')
         // -------------------------------------------------------------------------
         $scope.$watch('project', function(newValue) {
           if (newValue) {
-            //console.log ('header.project = >' + newValue.code + '<');
             $scope.project = newValue;
-            //
-            // CC: not needed with permissions
-            //
-            // $scope.isProjectAdmin = (Authentication.user && Authentication.user.roles.indexOf ($scope.project.adminRole) !== -1);
-            // $scope.isProponentAdmin = (Authentication.user && Authentication.user.roles.indexOf ($scope.project.proponentAdminRole) !== -1);
           }
         });
-
-        // -------------------------------------------------------------------------
-        //
-        // not sure if these are still used, or even the side menu with them
-        //
-        // -------------------------------------------------------------------------
-        // $scope.pageAnchors = function(id) {
-        // 	// get all links in the container.
-        // 	if (!id) {
-        // 		return;
-        // 	}
-        // 	var showParent = false;
-        // 	var links = document.querySelectorAll ('#' + id + ' a');
-        // 	_.each(links, function(link) {
-        // 		if ($scope.showMenu( angular.element(link).attr('href') )) {
-        // 			// just need one to show the parent.
-        // 			showParent = true;
-        // 			angular.element(link).removeClass('ng-hide');
-        // 		} else {
-        // 			angular.element(link).addClass('ng-hide');
-        // 		}
-        // 	});
-        // 	return showParent;
-        // };
-
       }
     };
   });

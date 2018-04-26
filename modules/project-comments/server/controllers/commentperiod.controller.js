@@ -60,11 +60,11 @@ module.exports = DBModel.extend ({
     // that we add.  Should all be in one place when we get a chance.
 
     /*
-		 'read' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-		 'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-		 'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-		 'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-		 'unPublish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
+		 'read' : ['project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+		 'write' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+		 'delete' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+		 'publish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+		 'unPublish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
 
 		 */
 
@@ -73,9 +73,9 @@ module.exports = DBModel.extend ({
     // Note, project-system-admin will not be added in the UI / Client, but we always want them to have the power...
     // Changes here need should be synced with the UI, don't want them selecting from a different set of roles than they can save.
 
-    var defaultWriteDeleteRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']; // this is what is in the _defaults table... retain those...
-    var allowedVettingRoles = ['assessment-lead', 'assessment-team', 'project-epd'];
-    var allowedClassificationRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'proponent-lead'];
+    var defaultWriteDeleteRoles = ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']; // this is what is in the _defaults table... retain those...
+    var allowedVettingRoles = ['assessment-lead', 'assessment-team', 'project-team'];
+    var allowedClassificationRoles = ['assessment-lead', 'assessment-team', 'project-team', 'project-proponent'];
 
     period.vettingRoles = _.intersection(period.vettingRoles, allowedVettingRoles);
     period.classificationRoles = _.intersection(period.classificationRoles, allowedClassificationRoles);
@@ -85,7 +85,7 @@ module.exports = DBModel.extend ({
     // EPIC-932 Joint PCP logic follows...
     // Note, project-system-admin will not be added in the UI / Client, but we always want them to have the power...
     // Changes here need should be synced with the UI, don't want them selecting from a different set of roles than they can save.
-    var allowedDownloadRoles = ['assessment-lead', 'assessment-team', 'project-epd', 'proponent-lead'];
+    var allowedDownloadRoles = ['assessment-lead', 'assessment-team', 'project-team', 'project-proponent'];
     period.downloadRoles = _.intersection(period.downloadRoles, allowedDownloadRoles);
     period.downloadRoles = _.uniq(_.concat(period.downloadRoles, ['project-system-admin']));
 
@@ -93,7 +93,7 @@ module.exports = DBModel.extend ({
       period.classificationRoles,
       period.downloadRoles,
       period.vettingRoles,
-      ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
+      ['project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
     ));
     var dataObj = {
       vetComments      : period.vettingRoles,
@@ -415,4 +415,3 @@ module.exports = DBModel.extend ({
       });
   }
 });
-

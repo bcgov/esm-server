@@ -11,41 +11,41 @@ var db                      = "";
 
 var defaultPerms = {
     unPublish : [
-        "assessment-admin",
+        "project-admin",
         "assessment-lead",
         "assessment-team",
-        "project-epd",
+        "project-team",
         "project-system-admin"
     ],
     publish : [
-        "assessment-admin",
+        "project-admin",
         "assessment-lead",
         "assessment-team",
-        "project-epd",
+        "project-team",
         "project-system-admin"
     ],
     delete : [
-        "assessment-admin",
+        "project-admin",
         "project-intake",
         "assessment-lead",
         "assessment-team",
-        "project-epd",
+        "project-team",
         "project-system-admin"
     ],
     write : [
-        "assessment-admin",
+        "project-admin",
         "project-intake",
         "assessment-lead",
         "assessment-team",
-        "project-epd",
+        "project-team",
         "project-system-admin"
     ],
     read : [
-        "assessment-admin",
+        "project-admin",
         "project-intake",
         "assessment-lead",
         "assessment-team",
-        "project-epd",
+        "project-team",
         "project-system-admin"
     ]
 };
@@ -141,9 +141,9 @@ MongoClient.connect(defaultConnectionString, function (err, db) {
                             dateUpdated : null,
                             dateAdded : null,
                             description : "",
-                            read : ['public', 'assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-                            write : ['assessment-admin', 'project-system-admin'],
-                            delete : ['assessment-admin', 'project-system-admin'],
+                            read : ['public', 'project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+                            write : ['project-admin', 'project-system-admin'],
+                            delete : ['project-admin', 'project-system-admin'],
                             displayName: node.model.name,
                             directoryID: node.model.id,
                             parentID: parentNodeID,
@@ -168,9 +168,9 @@ MongoClient.connect(defaultConnectionString, function (err, db) {
                             dateUpdated : null,
                             dateAdded : null,
                             description : "",
-                            read : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-                            write : ['assessment-admin', 'project-system-admin'],
-                            delete : ['assessment-admin', 'project-system-admin'],
+                            read : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+                            write : ['project-admin', 'project-system-admin'],
+                            delete : ['project-admin', 'project-system-admin'],
                             displayName: node.model.name,
                             directoryID: node.model.id,
                             parentID: parentNodeID,

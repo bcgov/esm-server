@@ -33,11 +33,11 @@ module.exports = DBModel.extend ({
       // get the period info
       //
       /*
-       'read' : ['proponent-lead', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-       'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-       'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-       'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-       'unPublish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
+       'read' : ['project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+       'write' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+       'delete' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+       'publish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+       'unPublish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
 
        */
       commentPeriod.findById(comment.period)
@@ -47,8 +47,8 @@ module.exports = DBModel.extend ({
           //
           return self.setModelPermissions(comment, {
             read: period.vettingRoles,
-            delete: ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-            write: _.uniq(_.concat(period.commenterRoles, period.vettingRoles, period.downloadRoles, period.classificationRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin']))
+            delete: ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+            write: _.uniq(_.concat(period.commenterRoles, period.vettingRoles, period.downloadRoles, period.classificationRoles, ['assessment-lead', 'assessment-team', 'project-team', 'project-working-group', 'project-technical-working-group', 'project-system-admin']))
           });
         })
         .then(function (commentPermissions) {
