@@ -12,39 +12,39 @@ var db                      = "";
 var defaultPerms = {
     unPublish : [
         "project-admin",
-        "assessment-lead",
-        "assessment-team",
+        "project-team",
+        "project-team",
         "project-team",
         "project-system-admin"
     ],
     publish : [
         "project-admin",
-        "assessment-lead",
-        "assessment-team",
+        "project-team",
+        "project-team",
         "project-team",
         "project-system-admin"
     ],
     delete : [
         "project-admin",
         "project-intake",
-        "assessment-lead",
-        "assessment-team",
+        "project-team",
+        "project-team",
         "project-team",
         "project-system-admin"
     ],
     write : [
         "project-admin",
         "project-intake",
-        "assessment-lead",
-        "assessment-team",
+        "project-team",
+        "project-team",
         "project-team",
         "project-system-admin"
     ],
     read : [
         "project-admin",
         "project-intake",
-        "assessment-lead",
-        "assessment-team",
+        "project-team",
+        "project-team",
         "project-team",
         "project-system-admin"
     ]
@@ -141,7 +141,7 @@ MongoClient.connect(defaultConnectionString, function (err, db) {
                             dateUpdated : null,
                             dateAdded : null,
                             description : "",
-                            read : ['public', 'project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+                            read : ['public', 'project-admin', 'project-intake', 'project-team', 'project-system-admin'],
                             write : ['project-admin', 'project-system-admin'],
                             delete : ['project-admin', 'project-system-admin'],
                             displayName: node.model.name,
@@ -168,7 +168,7 @@ MongoClient.connect(defaultConnectionString, function (err, db) {
                             dateUpdated : null,
                             dateAdded : null,
                             description : "",
-                            read : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+                            read : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
                             write : ['project-admin', 'project-system-admin'],
                             delete : ['project-admin', 'project-system-admin'],
                             displayName: node.model.name,

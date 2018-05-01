@@ -10,7 +10,7 @@ module.exports = function () {
 	var defaultsArray = [];
 
 	var defaultRoles = {
-		'project-system-admin' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin', 'public'],
+		'project-system-admin' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin', 'public'],
 	};
 
 	// DEFAULT PROJECT
@@ -22,43 +22,43 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'addUsersToContext' : ['project-admin', 'project-intake', 'assessment-lead', 'project-team', 'project-system-admin', 'system-admin'],
+				'addUsersToContext' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin', 'system-admin'],
 				'createRole' : ['project-system-admin'],
 				'managePermissions' : ['project-system-admin'],
-				'manageRoles' : ['project-admin', 'project-intake', 'assessment-lead', 'project-team', 'project-system-admin', 'system-admin'],
-				'listContacts' : ['project-admin', 'project-intake', 'assessment-lead', 'project-team', 'project-system-admin'],
-				'viewTombstone' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'viewEAOTombstone' : ['project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'editTombstone' : ['project-admin', 'project-intake', 'assessment-lead', 'project-team', 'project-system-admin'],
-				'listArtifacts' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'listValuedComponents' : ['public', 'project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+				'manageRoles' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin', 'system-admin'],
+				'listContacts' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'viewTombstone' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin'],
+				'viewEAOTombstone' : ['project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin'],
+				'editTombstone' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'listArtifacts' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin'],
+				'listValuedComponents' : ['public', 'project-proponent', 'project-admin', 'system-eao', 'project-team', 'project-system-admin'],
 				'listInspectionReports' : ['project-system-admin'],
 				'listProjectConditions' : ['project-system-admin'],
 				'listProjectComplaints' : ['project-system-admin'],
-				'listProjectInvitations' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'listDocuments' : ['public', 'project-proponent', 'project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'listCommentPeriods' : ['public', 'project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+				'listProjectInvitations' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'listDocuments' : ['public', 'project-proponent', 'project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin'],
+				'listCommentPeriods' : ['public', 'project-proponent', 'project-admin', 'system-eao', 'project-team', 'project-system-admin'],
 				'listEnforcements' : ['project-system-admin'],
 				'listProjectUpdates' : ['project-system-admin'],
 				'listProjectGroups' : ['project-system-admin'],
-				'viewSchedule' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'editSchedule' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'createArtifact' : ['project-proponent', 'project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'createValuedComponent' : ['project-proponent', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+				'viewSchedule' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin'],
+				'editSchedule' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'createArtifact' : ['project-proponent', 'project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'createValuedComponent' : ['project-proponent', 'project-team', 'project-system-admin'],
 				'createInspectionReport' : ['project-system-admin'],
-				'createProjectCondition' : ['project-proponent', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+				'createProjectCondition' : ['project-proponent', 'project-team', 'project-system-admin'],
 				'createProjectComplaint' : ['project-system-admin'],
-				'createProjectInvitation' : ['project-admin', 'project-intake', 'assessment-lead', 'project-team', 'project-system-admin'],
-				'createDocument' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'createCommentPeriod' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+				'createProjectInvitation' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'createDocument' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'createCommentPeriod' : ['project-team', 'project-system-admin'],
 				'createEnforcement' : ['project-system-admin'],
-				'createProjectUpdate' : ['project-admin', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'createProjectGroup' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'read' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'write' : ['project-admin', 'project-intake', 'assessment-lead', 'project-team', 'project-system-admin'],
+				'createProjectUpdate' : ['project-admin', 'project-team', 'project-system-admin'],
+				'createProjectGroup' : ['project-team', 'project-system-admin'],
+				'read' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin'],
+				'write' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
 				'delete' : ['project-system-admin', 'project-intake'],
-				'publish' : ['project-admin', 'assessment-lead', 'project-team', 'project-system-admin'],
-				'unPublish' : ['project-admin', 'assessment-lead', 'project-team', 'project-system-admin'],
+				'publish' : ['project-admin', 'project-team', 'project-system-admin'],
+				'unPublish' : ['project-admin', 'project-team', 'project-system-admin'],
 				'manageFolders' : ['project-system-admin'],
 				'manageDocumentPermissions': ['project-system-admin']
 			}
@@ -97,8 +97,6 @@ module.exports = function () {
 					'project-admin',
 					'system-eao',
 					'project-intake',
-					'assessment-lead',
-					'assessment-team',
 					'project-team',
 					'project-system-admin'
 				],
@@ -106,16 +104,12 @@ module.exports = function () {
 					'project-proponent',
 					'project-admin',
 					'project-intake',
-					'assessment-lead',
-					'assessment-team',
 					'project-team',
 					'project-system-admin'
 				],
 				'delete': [
 					'project-admin',
 					'project-intake',
-					'assessment-lead',
-					'assessment-team',
 					'project-team',
 					'project-system-admin'
 				],
@@ -134,9 +128,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-proponent', 'project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'write' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'delete' : ['project-admin', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
+				'read' : ['project-proponent', 'project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'write' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'delete' : ['project-admin', 'project-team', 'project-system-admin']
 			}
 		}
 	}));
@@ -166,11 +160,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'write' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'delete' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'publish' : ['project-admin', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'unPublish' : ['project-admin', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
+				'read' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'write' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'delete' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+				'publish' : ['project-admin', 'project-team', 'project-system-admin'],
+				'unPublish' : ['project-admin', 'project-team', 'project-system-admin']
 			}
 		}
 	}));
@@ -184,7 +178,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+				'read' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
 				'write' : ['project-admin', 'project-system-admin'],
 				'delete' : ['project-admin', 'project-system-admin'],
 				'publish' : ['project-admin', 'project-system-admin'],
@@ -202,7 +196,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+				'read' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
 				'write' : ['project-admin', 'project-system-admin'],
 				'delete' : ['project-admin', 'project-system-admin'],
 				'publish' : ['project-admin', 'project-system-admin'],
@@ -220,7 +214,7 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
+				'read' : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
 				'write' : ['project-admin', 'project-system-admin'],
 				'delete' : ['project-admin', 'project-system-admin'],
 				'publish' : ['project-admin', 'project-system-admin'],
@@ -238,9 +232,9 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-admin', 'system-eao', 'project-intake', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'write' : ['project-admin', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'delete' : ['project-admin', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
+				'read' : ['project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin'],
+				'write' : ['project-admin', 'project-team', 'project-system-admin'],
+				'delete' : ['project-admin', 'project-team', 'project-system-admin']
 			}
 		}
 	}));
@@ -290,11 +284,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'write' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'delete' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'publish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'unPublish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
+				'read' : ['project-proponent', 'project-admin', 'system-eao', 'project-team', 'project-system-admin'],
+				'write' : ['project-team', 'project-system-admin'],
+				'delete' : ['project-team', 'project-system-admin'],
+				'publish' : ['project-team', 'project-system-admin'],
+				'unPublish' : ['project-team', 'project-system-admin']
 			}
 		}
 	}));
@@ -308,11 +302,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'write' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'delete' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'publish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'unPublish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
+				'read' : ['project-proponent', 'project-admin', 'system-eao', 'project-team', 'project-system-admin'],
+				'write' : ['project-team', 'project-system-admin'],
+				'delete' : ['project-team', 'project-system-admin'],
+				'publish' : ['project-team', 'project-system-admin'],
+				'unPublish' : ['project-team', 'project-system-admin']
 			}
 		}
 	}));
@@ -342,11 +336,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'write' : ['project-proponent', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'delete' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'publish' : ['assessment-lead', 'project-team', 'project-system-admin'],
-				'unPublish' : ['assessment-lead', 'project-team', 'project-system-admin']
+				'read' : ['project-proponent', 'project-admin', 'system-eao', 'project-team', 'project-system-admin'],
+				'write' : ['project-proponent', 'project-team', 'project-system-admin'],
+				'delete' : ['project-team', 'project-system-admin'],
+				'publish' : ['project-team', 'project-system-admin'],
+				'unPublish' : ['project-team', 'project-system-admin']
 			}
 		}
 	}));
@@ -378,11 +372,11 @@ module.exports = function () {
 		defaults: {
 			roles: defaultRoles,
 			permissions: {
-				'read' : ['project-proponent', 'project-admin', 'system-eao', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'write' : ['project-proponent', 'assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'delete' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'publish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin'],
-				'unPublish' : ['assessment-lead', 'assessment-team', 'project-team', 'project-system-admin']
+				'read' : ['project-proponent', 'project-admin', 'system-eao', 'project-team', 'project-system-admin'],
+				'write' : ['project-proponent', 'project-team', 'project-system-admin'],
+				'delete' : ['project-team', 'project-system-admin'],
+				'publish' : ['project-team', 'project-system-admin'],
+				'unPublish' : ['project-team', 'project-system-admin']
 			}
 		}
 	}));
@@ -398,17 +392,17 @@ module.exports = function () {
 		//
 		defaults: {
 			roles: {
-				'system-admin': ['system-admin', 'eao', 'proponent', 'project-intake', 'system-eao']
+				'system-admin': ['system-admin', 'system-proponent', 'project-intake', 'system-eao']
 			},
 			permissions: {
-				'listConditions': ['system-admin', 'eao'],
-				'listEmailTemplates': ['system-admin', 'eao'],
-				'listOrganizations': ['system-admin', 'eao'],
-				'listNews': ['system-admin', 'eao'],
-				'listRoles': ['system-admin', 'eao'],
-				'listTemplates': ['system-admin', 'eao'],
-				'listValuedComponents': ['system-admin', 'eao'],
-				'listContacts': ['system-admin', 'eao'],
+				'listConditions': ['system-admin'],
+				'listEmailTemplates': ['system-admin'],
+				'listOrganizations': ['system-admin'],
+				'listNews': ['system-admin'],
+				'listRoles': ['system-admin'],
+				'listTemplates': ['system-admin'],
+				'listValuedComponents': ['system-admin'],
+				'listContacts': ['system-admin'],
 				'createProject': ['system-admin', 'project-intake'],
 				'createCondition': ['system-admin'],
 				'createEmailTemplate': ['system-admin'],
@@ -419,7 +413,7 @@ module.exports = function () {
 				'createValuedComponent': ['system-admin'],
 				'createContact': ['system-admin'],
 				'manageRoles': ['system-admin'],
-				'manageCodeLists': ['system-admin', 'eao'],
+				'manageCodeLists': ['system-admin'],
 				'managePermissions': ['system-admin'],
 				'addUsersToContext': ['system-admin']
 			}
@@ -460,17 +454,7 @@ module.exports = function () {
 					'managePermissions',
 					'addUsersToContext'
 				],
-				'eao': [
-					//'listConditions',
-					'listEmailTemplates',
-					'listOrganizations',
-					'listNews',
-					'listRoles',
-					'listTemplates',
-					'listValuedComponents',
-					'listContacts'
-				],
-				'proponent': [
+				'system-proponent': [
 					//'listConditions',
 					'listEmailTemplates',
 					'listOrganizations',

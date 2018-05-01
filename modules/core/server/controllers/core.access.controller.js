@@ -1071,7 +1071,6 @@ exports.routes = {
         {
           config: {
             environment : process.env.ENVIRONMENT,
-            seed_mem 	: process.env.SEED_MEM,
             node_env 	: process.env.NODE_ENV,
             debug 		: process.env
           }

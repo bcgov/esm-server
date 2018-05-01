@@ -143,19 +143,9 @@ module.exports.sysroles2 = function () {
 			};
 
 			var a = _.map(list2, function (role) {
-				if (role.code === 'mem') {
-					if (process.env.SEED_MEM === 'true') {
-						return new promise(function (fulfill, reject) {
-							fulfill(f(role));
-						});
-					} else {
-						return promise.resolve();
-					}
-				} else {
-					return new promise(function (fulfill, reject) {
-						fulfill(f(role));
-					});
-				}
+				return new promise(function (fulfill, reject) {
+					fulfill(f(role));
+				});
 			});
 			return promise.all(a);
 		})

@@ -1202,7 +1202,7 @@ module.exports = DBModel.extend ({
                 project.userCanUpload = _.size(proponentRoles) > 0;
 
                 var staffRoles = _.filter(project.userProjectRoles, function(role) {
-                  return _.indexOf(["project-system-admin", "project-admin", "assessment-lead", "assessment-team", "project-team"],role) > -1;
+                  return _.indexOf(["project-system-admin", "project-admin", "project-team"],role) > -1;
                 });
                 project.userCanMove = _.size(staffRoles) > 0;
               });

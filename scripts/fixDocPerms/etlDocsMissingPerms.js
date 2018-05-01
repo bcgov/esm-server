@@ -91,8 +91,8 @@ var defaultPerms = {
 		'read'      : [
 			'project-admin'
 			, 'project-intake'
-			, 'assessment-lead'
-			, 'assessment-team'
+			, 'project-team'
+			, 'project-team'
 			, 'project-team'
 			, 'project-system-admin'
 		],

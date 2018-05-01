@@ -1,8 +1,6 @@
 module.exports = [{
 	code: 'proponent'
 },{
-	code: 'eao'
-},{
 	code: 'admin'
 },{
   code: 'invitee'

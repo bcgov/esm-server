@@ -9,7 +9,6 @@ web:
   environment:
   - VIRTUAL_PORT=${ESM_HOST_PORT}
   - VIRTUAL_HOST=${ESM_VIRTUAL_HOST}
-  - SEED_MEM=${SEED_MEM}
   - MEM=${MEM}
   - ESM_VARIANT=${ESM_VARIANT}
 
