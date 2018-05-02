@@ -4,12 +4,12 @@ var defaultEnvConfig = require('./default');
 
 module.exports = {
   db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/' + (process.env.MONGODB_FUNC_DATABASE || 'esm-dev-func'),
-    acluri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/esm-acl-test',
+    uri: 'mongodb://' + (process.env.MONGODB_FUNC_HOST || 'localhost') + '/' + (process.env.MONGODB_FUNC_DATABASE || 'esm-dev-func'),
+    acluri: 'mongodb://' + (process.env.MONGODB_FUNC_HOST || 'localhost') + '/esm-acl-test',
     name: process.env.MONGODB_FUNC_DATABASE || 'esm-dev-func',
     options: {
-      user: '',
-      pass: ''
+      user: process.env.MONGODB_USER || '',
+      pass: process.env.MONGODB_PASSWORD || ''
     },
     // Enable mongoose debug mode
     debug: process.env.MONGODB_DEBUG || false
