@@ -89,23 +89,17 @@ function fixingCallback(db, processingCollection, processingElement) {
 
 var defaultPerms = {
 		'read'      : [
-			'assessment-admin'
+			'project-admin'
 			, 'project-intake'
-			, 'assessment-lead'
-			, 'assessment-team'
-			, 'assistant-dm'
-			, 'project-epd'
-			, 'assistant-dmo'
-			, 'associate-dm'
-			, 'associate-dmo'
-			, 'compliance-lead'
-			, 'compliance-officer'
+			, 'project-team'
+			, 'project-team'
+			, 'project-team'
 			, 'project-system-admin'
 		],
-		'write'     : ['assessment-admin', 'project-system-admin'],
-		'delete'    : ['assessment-admin', 'project-system-admin'],
-		'publish'   : ['assessment-admin', 'project-system-admin'],
-		'unPublish' : ['assessment-admin', 'project-system-admin']
+		'write'     : ['project-admin', 'project-system-admin'],
+		'delete'    : ['project-admin', 'project-system-admin'],
+		'publish'   : ['project-admin', 'project-system-admin'],
+		'unPublish' : ['project-admin', 'project-system-admin']
 	};
 
 function composePerm(resourceId) {
@@ -149,4 +143,3 @@ prepare()
 	process.exit(1);
 })
 ;
-

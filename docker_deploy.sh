@@ -18,11 +18,6 @@ else
     echo "Starting deployment for environment $environment_name with image $image_name ..."
     echo "Variant is '$app_variant' and promotion level is '$promotion_level' ..."
 
-
-    if [ ${app_variant} = "mem" ]; then
-        environment_variables="-e MEM=true -e SEED_MEM=true"
-    fi
-
     if [ -z ${app_subvariant} ]; then
         echo "no subvariant"
     else

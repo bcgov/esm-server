@@ -41,7 +41,7 @@ module.exports = DBModel.extend ({
       this.setForce(true);
       // We add proponent roles for drop zone documents
       if (doc.documentSource === 'DROPZONE') {
-        doc.read = _.uniq(_.concat(doc.read, ['proponent-lead','proponent-team']));
+        doc.read = _.uniq(_.concat(doc.read, ['project-proponent']));
       }
       return doc;
     }
@@ -557,4 +557,3 @@ module.exports = DBModel.extend ({
     });
   }
 });
-

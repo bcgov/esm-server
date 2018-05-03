@@ -248,7 +248,7 @@ module.exports = function (app) {
               var readPermissions = null;
               if (req.headers.internaldocument) {
                 // Force read array to be this:
-                readPermissions = ['assessment-admin', 'assessment-lead', 'assessment-team', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'complaince-officer', 'complaince-lead', 'project-eao-staff', 'project-epd', 'project-intake', 'project-qa-officer', 'project-system-admin'];
+                readPermissions = ['project-admin', 'complaince-officer', 'complaince-lead', 'system-eao', 'project-team', 'project-intake', 'project-system-admin'];
               }
               var datePosted, dateReceived = Date.now();
               // Allow override of date posting/received

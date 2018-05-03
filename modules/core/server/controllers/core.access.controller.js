@@ -1071,7 +1071,6 @@ exports.routes = {
         {
           config: {
             environment : process.env.ENVIRONMENT,
-            seed_mem 	: process.env.SEED_MEM,
             node_env 	: process.env.NODE_ENV,
             debug 		: process.env
           }
@@ -1171,7 +1170,7 @@ exports.routes = {
                     context : 'application',
                     role    : 'eao',
                     user    : user.username,
-                    owner   : 'application:sysadmin'
+                    owner   : 'application:system-admin'
                   }));
                 }
                 else if (oldrole === 'proponent') {
@@ -1179,7 +1178,7 @@ exports.routes = {
                     context : 'application',
                     role   : 'proponent',
                     user    : user.username,
-                    owner   : 'application:sysadmin'
+                    owner   : 'application:system-admin'
                   }));
                 }
                 else if (oldrole.match (/:eao:/)) {

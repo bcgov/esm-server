@@ -36,11 +36,9 @@ angular.module ('comment')
         s.pillarsArray = [];
         s.showTopicCloud = false;
 
-        s.isJoint = period.periodType === 'Joint';
         s.isPublic = period.periodType === 'Public';
 
         s.hasRole = function (role) { return _.includes(userRoles, role); };
-        s.hasCeeaRole = s.hasRole('assessment-ceaa');
 
         s.filterCommentOptions = [
           { name: 'All', displayName: 'Show All Comments' },
@@ -180,15 +178,6 @@ angular.module ('comment')
             filterBy = { period: s.period._id, eaoStatus: s.eaoStatus, proponentStatus: undefined, isPublished: undefined };
           }
 
-          // CEAA role - only applies to joint PCP
-          // EPIC-1021 Ensure CEAA can only see Published and Rejected comments, nothing more
-          if (s.isJoint && s.hasCeeaRole) {
-            if (!_.contains(['Published', 'Rejected'], s.eaoStatus)) {
-              s.eaoStatus = 'Published';
-            }
-            filterBy = { period: s.period._id, eaoStatus: s.eaoStatus, proponentStatus: undefined, isPublished: undefined };
-          }
-
           // PROPONENT role
           if (s.period.userCan.classifyComments && !s.period.userCan.vetComments) {
             if (s.proponentStatus === 'Classified') {
@@ -222,14 +211,13 @@ angular.module ('comment')
             .then(function (result) {
               _.each(result.data, function (item) {
                 var publishedCount = function (item) {
-                  var combined = item.documents.concat(item.ceaaDocuments);
-                  var count = _.reduce(combined, function (total, doc) {
+                  var count = _.reduce(item.documents, function (total, doc) {
                     return doc.eaoStatus === 'Published' ? total + 1 : total;
                   }, 0);
 
                   return count;
                 };
-                var docCount = item.documents.length + item.ceaaDocuments.length;
+                var docCount = item.documents.length;
                 item.publishedDocumentCount = period.userCan.vetComments ? docCount : publishedCount(item);
                 item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
               });
@@ -243,7 +231,7 @@ angular.module ('comment')
             });
         };
 
-        s.downloadCommentData = function (isJoint) {
+        s.downloadCommentData = function () {
           var getBrowser = function () {
             var userAgent = window.navigator.userAgent;
 
@@ -267,8 +255,7 @@ angular.module ('comment')
           var canSeeRejectedDocs = false;
 
           // Only EAO staff (or whoever has permissions to vet comments) should be able to see unpublished comments
-          // For Joint PCPs, CEAA should also be allowed to download rejected comments and docs
-          if (s.period.userCan.vetComments || s.hasCeeaRole) {
+          if (s.period.userCan.vetComments) {
             onlyPublishedComments = undefined;
             canSeeRejectedDocs = true;
           }
@@ -283,7 +270,7 @@ angular.module ('comment')
                 0, s.total, 'commentId', true, undefined);
             })
             .then(function (result) {
-              CommentModel.prepareCSV(result.data, isJoint, canSeeRejectedDocs)
+              CommentModel.prepareCSV(result.data, canSeeRejectedDocs)
                 .then(function (data) {
                   var blob = new Blob([data], { type: 'octet/stream' });
                   var filename = 'EAO_PCP_Comments.csv';
@@ -335,21 +322,14 @@ angular.module ('comment')
               docs: function () {
                 // Documents related to the Provincial package within a joint PCP
                 return CommentModel.getDocuments(comment._id);
-              },
-              ceaaDocs: function () {
-                // Documents related to the Federal package within a joint PCP
-                // Will be an empty array for regular PCP
-                return CommentModel.getCeaaDocuments(comment._id);
               }
             },
-            controller: function ($scope, $uibModalInstance, docs, ceaaDocs) {
+            controller: function ($scope, $uibModalInstance, docs) {
               var self = this;
               self.period = period;
               self.project = project;
               self.comment = angular.copy(comment);
               self.comment.documents = angular.copy(docs);
-              self.comment.ceaaDocuments = angular.copy(ceaaDocs);
-              self.isJoint = self.period.periodType === 'Joint';
               self.isPublic = self.period.periodType === 'Public';
               self.canUpdate = (self.period.userCan.classifyComments || self.period.userCan.vetComments);
               self.rejectedReasons = ['', 'Unsuitable Language', 'Quoting Third Parties', 'Petitions', 'Personally Identifying Information', 'Other'];
@@ -357,11 +337,9 @@ angular.module ('comment')
 
               self.userRoles = userRoles;
               self.hasRole = function(role) { return _.includes(self.userRoles, role); };
-              self.hasCeeaRole = self.hasRole('assessment-ceaa');
               self.totalStatus = true;
               self.attachmentStatus = true;
               self.oneDocPublished = false;
-              self.oneCeaaPublished = false;
 
               self.showAlert = false;
               if (self.period.userCan.vetComments && self.comment.eaoStatus !== 'Unvetted') {
@@ -408,33 +386,23 @@ angular.module ('comment')
                 var oneUnvetted = false;
                 self.totalStatus = true;
                 self.hasPublishableComment = false;
-                self.hasPublishableCeaaComment = false;
                 self.oneDocPublished = false;
-                self.oneCeaaPublished = false;
                 self.errorMessage = '';
                 _.forEach(self.comment.documents, function(file) {
                   file.vetted = file.eaoStatus === 'Published' || file.eaoStatus === 'Rejected';
                   oneUnvetted = file.vetted === false ? true : oneUnvetted;
                   self.oneDocPublished = file.eaoStatus === 'Published' ? true : self.oneDocPublished;
                 });
-                _.forEach(self.comment.ceaaDocuments, function(file) {
-                  file.vetted = file.eaoStatus === 'Published' || file.eaoStatus === 'Rejected';
-                  oneUnvetted = file.vetted === false ? true : oneUnvetted;
-                  self.oneCeaaPublished = file.eaoStatus === 'Published' ? true : self.oneCeaaPublished;
-                });
                 self.attachmentStatus = !oneUnvetted;
 
                 if (self.oneDocPublished || self.comment.comment !== PLEASE_SEE) {
                   self.hasPublishableComment = true;
                 }
-                if (self.oneCeaaPublished || self.comment.ceeaComment !== PLEASE_SEE) {
-                  self.hasPublishableCeaaComment = true;
-                }
                 if (self.comment.eaoStatus === 'Published') {
                   if (!self.attachmentStatus) {
                     self.errorMessage = MUST_VET_ATTACHMENTS;
                     self.totalStatus = false;
-                  } if (self.hasPublishableComment || self.hasPublishableCeaaComment) {
+                  } if (self.hasPublishableComment) {
                     // no op .. this is good.
                   } else {
                     self.errorMessage = MUST_HAVE_PUBLISHABLE;
@@ -456,9 +424,6 @@ angular.module ('comment')
                   if (!self.oneDocPublished && self.comment.comment === PLEASE_SEE) {
                     self.comment.comment = NO_COMMENT;
                   }
-                  if (!self.oneCeaaPublished && self.comment.ceeaComment === PLEASE_SEE) {
-                    self.comment.ceeaComment = NO_COMMENT;
-                  }
                   $uibModalInstance.close(self.comment);
                 }
               };
@@ -473,12 +438,6 @@ angular.module ('comment')
                 .then(function () {
                   // Process provincial documents
                   return data.documents.reduce(function (current, value) {
-                    return CommentModel.updateDocument(value);
-                  }, Promise.resolve());
-                })
-                .then(function () {
-                  // Process federal (CEAA) documents
-                  return data.ceaaDocuments.reduce(function (current, value) {
                     return CommentModel.updateDocument(value);
                   }, Promise.resolve());
                 })
@@ -536,11 +495,8 @@ angular.module ('comment')
       link : function(scope, element, attrs) {
         DnDBackgroundBlockService.addEventListeners();
         element.on('click', function () {
-          // Either regular PCP or joint PCP
           var modal;
-          if (scope.period.periodType === 'Joint') {
-            modal = new JointCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService);
-          } else if (scope.period.periodType === 'Public') {
+          if (scope.period.periodType === 'Public') {
             modal = new PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService);
           }
           modal.show();
@@ -790,196 +746,6 @@ function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, 
         });
       })
       .catch (function (/* err */) {
-        DnDBackgroundBlockService.removeEventListeners();
-      });
-  };
-}
-
-function JointCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService) {
-  this.show = function () {
-    DnDBackgroundBlockService.addEventListeners();
-    $uibModal.open({
-      animation: true,
-      templateUrl: 'modules/project-comments/client/views/joint-public-comments/submit-comment.html',
-      controllerAs: 'ctrl',
-      backdrop: 'static',
-      size: 'lg',
-      windowClass: 'public-comment-modal',
-      resolve: {
-        comment: function (CommentModel) {
-          return CommentModel.getNew();
-        }
-      },
-      controller: function ($rootScope, $scope, $uibModalInstance, comment) {
-
-        var ctrl = this;
-
-        // private
-        function setupUIState() {
-          // Make sure all files submitted are under 5MB
-          $scope.$watch('ctrl.eaoPackage.files', function (newValue) {
-            if (newValue) {
-              ctrl.closeAlert();
-              _.each(newValue, function (file) {
-                if (file.size > ctrl.maxFileSize) {
-                  ctrl.openAlert();
-                } else {
-                  ctrl.eaoPackage.validFiles.push(file);
-                }
-              });
-            }
-          });
-          $scope.$watch('ctrl.ceaaPackage.files', function (newValue) {
-            if (newValue) {
-              ctrl.closeAlert();
-              _.each(newValue, function (file) {
-                if (file.size > ctrl.maxFileSize) {
-                  ctrl.openAlert();
-                } else {
-                  ctrl.ceaaPackage.validFiles.push(file);
-                }
-              });
-            }
-          });
-        }
-
-        function openAlert() { ctrl.showAlert = true; }
-        function closeAlert() { ctrl.showAlert = false; }
-        function cancel() { $uibModalInstance.dismiss('cancel'); }
-        function ok() { $uibModalInstance.close(ctrl.comment); }
-        function back() { if (ctrl.step > 1) { ctrl.step--; } }
-        function next() { ctrl.step++; }
-        function removeFile(fileList, f) { _.remove(fileList, f); }
-
-        function uploadFiles(url, fileList, target) {
-          var docCount = fileList.length;
-          if(docCount === 0) {
-            return Promise.resolve();
-          }
-          return new Promise(function (resolve, reject) {
-            _.forEach(fileList, function (file) {
-              Upload.upload({
-                url: url,
-                file: file
-              })
-                .then(function (response) {
-                  file.result = response.data;
-                  target.push(response.data._id);
-                  if (--docCount === 0) {
-                    resolve(comment);
-                  }
-                }, function (response) {
-                  reject(response);
-                }, function (evt) {
-                  file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                });
-            });
-          });
-        }
-
-        function submit() {
-          // All comments are submitted anonymously by default. Unless the user agrees to show their name on the public site.
-          var comment = ctrl.comment;
-          ctrl.isBusy = true;
-          comment.inProgress = false;
-          comment.isAnonymous = !ctrl.makeVisible;
-          if (!comment.comment && ctrl.eaoPackage.validFiles.length > 0) {
-            comment.comment = PLEASE_SEE;
-          }
-          if (!comment.ceeaComment && ctrl.ceaaPackage.validFiles.length > 0) {
-            comment.ceeaComment = PLEASE_SEE;
-          }
-          var url = '/api/commentdocument/' + comment.project._id + '/upload';
-
-          // Upload the files and submit all captured data to server
-          return uploadFiles(url, ctrl.eaoPackage.validFiles, comment.documents)
-            .then(function () {
-              return uploadFiles(url, ctrl.ceaaPackage.validFiles, comment.ceaaDocuments);
-            })
-            .then(function () {
-              // Save the comment
-              return CommentModel.add(comment);
-            })
-            .then(function () {
-              ctrl.isBusy = false;
-              ctrl.step = 7; // Success...
-              $scope.$apply();
-            })
-            .catch(function (/* err */) {
-              ctrl.isBusy = false;
-              ctrl.step = 8; // Error...
-              $scope.$apply();
-            });
-        }
-
-        function hasNameAndLocation() {
-          return ctrl.comment && ctrl.comment.author && ctrl.comment.location;
-        }
-
-        function isValid() {
-          // As per EPIC-979: For the Submit button to be enabled, a Joint PCP must have:
-          // Name, Location, and one or more of Comment_Provincial, Attachment_Provincial, Comment_Federal, Attachment_Federal
-          var valid = true;
-          var comment = ctrl.comment;
-
-          if (!hasNameAndLocation()) {
-            valid = false;
-          }
-          if (!comment.comment && ctrl.eaoPackage.validFiles.length === 0 &&
-						!comment.ceeaComment && ctrl.ceaaPackage.validFiles.length === 0) {
-            valid = false;
-          }
-          return valid;
-        }
-
-        // exports
-        comment.period = scope.period;
-        comment.project = scope.project;
-        comment.files = [];
-
-        setupUIState();
-
-        angular.extend(ctrl, {
-          step: 1,
-          comment: comment,
-          project: scope.project,
-          period: scope.period,
-          showAlert: false,
-          makeVisible: false,
-          maxFileSize: 5 * 1024 * 1024, // 5MB
-          eaoPackage: {
-            files: [],
-            validFiles: []
-          },
-          ceaaPackage: {
-            files: [],
-            validFiles: []
-          }
-        });
-
-        // methods
-        angular.extend(ctrl, {
-          openAlert: openAlert,
-          closeAlert: closeAlert,
-          cancel: cancel,
-          ok: ok,
-          back: back,
-          next: next,
-          submit: submit,
-          removeFile: removeFile,
-          hasNameAndLocation: hasNameAndLocation,
-          isValid: isValid
-        });
-      }
-    })
-      .result.then(function (data) {
-        DnDBackgroundBlockService.removeEventListeners();
-        // Redirect to full PCP page
-        $state.transitionTo('p.commentperiod.detail', { projectid: scope.project.code, periodId: data.period._id }, {
-          reload: true, inherit: false, notify: true
-        });
-      })
-      .catch(function (/* err */) {
         DnDBackgroundBlockService.removeEventListeners();
       });
   };

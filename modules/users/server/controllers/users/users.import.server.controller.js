@@ -426,7 +426,7 @@ exports.loadProjectUserRoles = function(file) {
         reject("{err: "+err);
       }
 
-      var v1ColArray = ['email', 'projectCode', 'proponent-lead', 'proponent-team', 'assessment-admin', 'assessment-lead', 'assessment-team', 'project-epd', 'minister', 'minister-office', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin'];
+      var v1ColArray = ['email', 'projectCode', 'project-proponent', 'project-admin', 'project-team', 'project-system-admin'];
       var v1RowToObject = function(row) {
         var obj = {
           email         : row.email,
@@ -555,7 +555,7 @@ exports.loadSystemUserRoles = function(file) {
         reject("{err: "+err);
       }
 
-      var v1ColArray = ['email', 'projectCode', 'sysadmin', 'eao', 'proponent', 'project-intake', 'project-eao-staff', 'assistant-dm', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-qa-officer', 'compliance-lead'];
+      var v1ColArray = ['email', 'projectCode', 'system-admin', 'system-proponent', 'project-intake', 'system-eao'];
       var v1RowToObject = function(row) {
         var obj = {
           email         : row.email,

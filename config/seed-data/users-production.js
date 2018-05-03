@@ -35,15 +35,6 @@ module.exports = function () {
 					console.log('Failed to add local admin', err);
 				} else {
 					console.log(chalk.bold.red('Local admin added' + pwoutput));
-					//
-					// TBD ROLES
-					//
-					// var role = new Role ({
-					// 	code     : 'admin',
-					// 	isSystem : true,
-					// 	users    : [model._id]
-					// });
-					// role.save ();
 				}
 			});
 		} else {

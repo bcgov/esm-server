@@ -23,9 +23,6 @@ angular.module('core')
         menu.authentication = Authentication;
 
         menu.isAdmin = (Authentication.user && Authentication.user.roles.indexOf ('admin') !== -1);
-        if ($scope.project) {
-          menu.isEAO = (Authentication.user && (!!~Authentication.user.roles.indexOf ($scope.project.code+':eao:member') || !!~Authentication.user.roles.indexOf ('admin')));
-        }
         menu.isProjectAdmin = false;
         menu.isProponentAdmin = false;
 
@@ -65,5 +62,3 @@ angular.module('core')
       }
     };
   });
-
-

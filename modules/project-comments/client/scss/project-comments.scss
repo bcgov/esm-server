@@ -25,7 +25,7 @@ $pcp-comment-icon-color: #ccc;
    bottom: 0;
    left: 0;
  }
- 
+
  .pcp-contents {
     @include flexbox();
     @include flexdirection(column);
@@ -679,7 +679,7 @@ $pcp-comment-icon-color: #ccc;
       }
     }
   }
-  
+
   .col {
     &.size-col {
       flex-basis: 14%;
@@ -722,7 +722,7 @@ $pcp-comment-icon-color: #ccc;
       .form-control {
         padding-right: 4rem;
       }
-      
+
       .glyphicon {
         position: absolute;
         top: 0.65rem;
@@ -733,68 +733,6 @@ $pcp-comment-icon-color: #ccc;
   }
 }
 
-// Joint PCP
-.pcp-joint {
-  .tab-pane {
-    padding-top: 3.5rem;
-  }
-
-  textarea {
-    resize: none;
-  }
-
-  section {
-    margin-bottom: 4rem;
-
-    h2 {
-      margin-bottom: 2.5rem;
-      font-size: 2rem;
-
-      + .help-block {
-        margin-top: -1.75rem;
-        margin-bottom: 1rem;
-      }
-    }
-  }
-
-  .set-pcp-date-range {
-    .form-group {
-      margin-right: 2rem;
-      min-width: 17rem;
-    }
-  }
-
-  .form-footer {
-    padding-top: 2.5rem;
-    border-top: 4px solid #ddd;
-  }
-
-  .pcp-role-list {
-    margin-top: 1.5rem;
-    padding: 0;
-    list-style-type: none;
-
-    li {
-      padding: 1.25rem;
-      border-bottom: 1px solid #eee;
-      background: #fff;
-
-      &.no-results {
-        font-weight: bold;
-        background-color: #ddd;
-      }
-    }
-  }
-
-  .pcp-linked-documents {
-    li {
-      &.no-results {
-        font-weight: bold;
-        background-color: #ddd;
-      }
-    }
-  }
-}
 /*
 Set the width on the related documents list, just for PCP, to handle very long file names.
 Without this the layout is busted.

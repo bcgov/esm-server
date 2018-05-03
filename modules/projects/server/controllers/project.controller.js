@@ -1100,7 +1100,7 @@ module.exports = DBModel.extend ({
 
     //Ticket ESM-640.  If these are the user's only roles on a project, don't show the project.
     // This is because these roles are added to all projects.
-    var ignoredSystemRoles = ['compliance-lead', 'project-eao-staff', 'project-qa-officer', 'project-intake'];
+    var ignoredSystemRoles = ['system-eao', 'project-intake'];
     var findMyProjectRoles = function (username) {
       return new Promise(function (fulfill, reject) {
         // find all my projects where i have a role other than an ignored system role.
@@ -1197,12 +1197,12 @@ module.exports = DBModel.extend ({
                 project.userProjectRoles = _.uniq(_.map(projRoles, 'role'));
 
                 var proponentRoles = _.filter(project.userProjectRoles, function(role) {
-                  return _.indexOf(["project-system-admin", "proponent-lead", "proponent-team"],role) > -1;
+                  return _.indexOf(["project-system-admin", "project-proponent"],role) > -1;
                 });
                 project.userCanUpload = _.size(proponentRoles) > 0;
 
                 var staffRoles = _.filter(project.userProjectRoles, function(role) {
-                  return _.indexOf(["project-system-admin", "assessment-admin", "assessment-lead", "assessment-team", "project-epd"],role) > -1;
+                  return _.indexOf(["project-system-admin", "project-admin", "project-team"],role) > -1;
                 });
                 project.userCanMove = _.size(staffRoles) > 0;
               });
@@ -1308,12 +1308,10 @@ module.exports = DBModel.extend ({
     var defaultRoles = [];
 
     project.adminRole = 'project-system--admin';
-    project.proponentAdminRole = 'proponent-lead';
-    project.eaoMember = 'project-eao-staff';
-    project.proMember = 'proponent-team';
+    project.proponentAdminRole = 'project-proponent';
+    project.eaoMember = 'system-eao';
 
     defaultRoles.push(project.eaoMember);
-    defaultRoles.push(project.proMember);
 
     return Promise.resolve (project);
   },

@@ -1,76 +1,49 @@
 module.exports = [{
-	code: 'proponent',
-	isSystem: true
+	code: 'proponent'
 },{
-	code: 'eao',
-	isSystem: true
+	code: 'admin'
 },{
-	code: 'admin',
-	isSystem: true
+  code: 'invitee'
 },{
-  code: 'invitee',
-  isSystem: true
+	code: 'edit-conditions'
 },{
-	code: 'edit-conditions',
-	isSystem: true
+	code: 'edit-configurations'
 },{
-	code: 'edit-configurations',
-	isSystem: true
+	code: 'edit-organizations'
 },{
-	code: 'edit-organizations',
-	isSystem: true
+	code: 'edit-recent-activity'
 },{
-	code: 'edit-recent-activity',
-	isSystem: true
+	code: 'edit-sys-roles'
 },{
-	code: 'edit-sys-roles',
-	isSystem: true
+	code: 'edit-templates'
 },{
-	code: 'edit-templates',
-	isSystem: true
+	code: 'edit-topics'
 },{
-	code: 'edit-topics',
-	isSystem: true
+	code: 'view-legal'
 },{
-	code: 'view-legal',
-	isSystem: true
+	code: 'edit-legal'
 },{
-	code: 'edit-legal',
-	isSystem: true
+	code: 'edit-users'
 },{
-	code: 'edit-users',
-	isSystem: true
+	code: 'edit-import'
 },{
-	code: 'edit-import',
-	isSystem: true
+	code: 'sector-mining'
 },{
-	code: 'sector-mining',
-	isSystem: true
+	code: 'sector-energy'
 },{
-	code: 'sector-energy',
-	isSystem: true
+	code: 'sector-transportation'
 },{
-	code: 'sector-transportation',
-	isSystem: true
+	code: 'sector-water-management'
 },{
-	code: 'sector-water-management',
-	isSystem: true
+	code: 'sector-industrial'
 },{
-	code: 'sector-industrial',
-	isSystem: true
+	code: 'sector-waste-management'
 },{
-	code: 'sector-waste-management',
-	isSystem: true
+	code: 'sector-waste-disposal'
 },{
-	code: 'sector-waste-disposal',
-	isSystem: true
+	code: 'sector-food-processing'
 },{
-	code: 'sector-food-processing',
-	isSystem: true
+	code: 'sector-tourist-destination'
 },{
-	code: 'sector-tourist-destination',
-	isSystem: true
-},{
-	code: 'sector-other',
-	isSystem: true
+	code: 'sector-other'
 }];

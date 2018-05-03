@@ -49,14 +49,14 @@ var run = function() {
 			.then(function() {
 				console.log('1 - add collection and collectiondocument to default permissions');
 				var roles = {
-					'project-system-admin' : ['assessment-ceaa', 'proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'minister', 'minister-office', 'associate-dmo', 'project-qa-officer', 'compliance-lead', 'compliance-officer', 'aboriginal-group', 'project-working-group', 'project-technical-working-group', 'project-participant', 'project-system-admin', 'public'],
+					'project-system-admin' : ['project-proponent', 'project-admin', 'system-eao', 'project-intake', 'project-team', 'project-system-admin', 'public'],
 				};
 				var permissions = {
-					'read'      : ['assessment-admin', 'project-intake', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'compliance-lead', 'compliance-officer', 'project-system-admin'],
-					'write'     : ['assessment-admin', 'project-system-admin'],
-					'delete'    : ['assessment-admin', 'project-system-admin'],
-					'publish'   : ['assessment-admin', 'project-system-admin'],
-					'unPublish' : ['assessment-admin', 'project-system-admin']
+					'read'      : ['project-admin', 'project-intake', 'project-team', 'project-system-admin'],
+					'write'     : ['project-admin', 'project-system-admin'],
+					'delete'    : ['project-admin', 'project-system-admin'],
+					'publish'   : ['project-admin', 'project-system-admin'],
+					'unPublish' : ['project-admin', 'project-system-admin']
 				};
 				var entries = [{
 					context: 'project',

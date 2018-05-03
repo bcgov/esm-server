@@ -87,9 +87,9 @@
           <div class="form-group">
             <label class="control-label">End Date</label>
             <div class="date-picker__input">
-              <div class="form-control" title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}" ng-disabled="!endPickerEnabled" 
+              <div class="form-control" title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}" ng-disabled="!endPickerEnabled"
                 x-min="period.dateStarted"
-                x-modal-date-picker 
+                x-modal-date-picker
                 x-picker-enabled="endPickerEnabled"
                 x-selected-date="period.dateCompleted">
                 <span ng-if="!period.dateCompleted">End Date</span>
@@ -175,7 +175,7 @@
                   <button class="btn icon-btn dropdown-toggle"
                     popover-class="context-menu"
                     popover-placement="bottom-right auto"
-                    popover-trigger="'focus'" 
+                    popover-trigger="'focus'"
                     uib-popover-template="'pcp-edit-document-menu.html'">
                     <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
                   </button>
@@ -193,7 +193,7 @@
                       </li>
                     </ul>
                   </script>
-                </div>  
+                </div>
               </span>
             </span>
           </li>
@@ -268,7 +268,7 @@
         x-context="project"
         x-current="period.vettingRoles"
         x-public="false"
-        x-allowed-roles="'assessment-lead,assessment-team,project-epd'"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+        x-allowed-roles="'project-team'"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
       </a>
     </div>
     <ul class="list-group">
@@ -283,7 +283,7 @@
         x-context="project"
         x-current="period.classificationRoles"
         x-public="false"
-        x-allowed-roles="'assessment-lead,assessment-team,project-epd,proponent-lead,proponent-team'"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
+        x-allowed-roles="'project-team,project-proponent'"><span class="glyphicon glyphicon-pencil"></span><span>Edit Roles</span>
       </a>
     </div>
     <ul class="list-group">

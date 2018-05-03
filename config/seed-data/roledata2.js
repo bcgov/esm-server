@@ -3,306 +3,167 @@ module.exports = [{
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'admin',
-	name: 'Sys. Admin',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: false
+	name: 'Sys. Admin'
 }, {
 	code: 'public',
 	projectCode: undefined,
 	orgCode: 'pro',
 	roleCode: 'public',
-	name: 'Public',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: false
+	name: 'Public'
 }, {
 	code: 'proponent',
 	projectCode: undefined,
 	orgCode: 'pro',
 	roleCode: 'proponent',
-	name: 'Proponent',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: false
+	name: 'Proponent'
 }, {
 	code: 'eao',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'eao',
-	name: 'EAO',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: false
+	name: 'EAO'
 }, {
 	code: ':eao:admin',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'admin',
 	name: 'EAO Admin',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: true
 }, {
 	code: ':eao:member',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'member',
-	name: 'EAO Member',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: true
+	name: 'EAO Member'
 }, {
 	code: ':eao:invitee',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'invitee',
-	name: 'EAO Invitee',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: true
+	name: 'EAO Invitee'
 }, {
 	code: ':eao:epd',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'epd',
-	name: 'Responsible EPD',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Responsible EPD'
 }, {
 	code: ':eao:project-lead',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'project-lead',
-	name: 'Project Lead',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Project Lead'
 }, {
 	code: ':eao:project-team',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'project-team',
-	name: 'Project Team',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Project Team'
 }, {
 	code: ':eao:project-admin',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'project-admin',
-	name: 'Project Admin',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Project Admin'
 }, {
 	code: ':eao:project-intake',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'project-intake',
-	name: 'Project Intake',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
-}, {
-	code: ':eao:assistant-dmo',
-	projectCode: undefined,
-	orgCode: 'eao',
-	roleCode: 'assistant-dmo',
-	name: 'Assistant DMO',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
-}, {
-	code: ':eao:assistant-dm',
-	projectCode: undefined,
-	orgCode: 'eao',
-	roleCode: 'assistant-dm',
-	name: 'Assistant DM',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
-}, {
-	code: ':eao:associate-dmo',
-	projectCode: undefined,
-	orgCode: 'eao',
-	roleCode: 'associate-dmo',
-	name: 'Associate DMO',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
-}, {
-	code: ':eao:associate-dm',
-	projectCode: undefined,
-	orgCode: 'eao',
-	roleCode: 'associate-dm',
-	name: 'Associate DM',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
-}, {
-	code: ':eao:minister-office',
-	projectCode: undefined,
-	orgCode: 'eao',
-	roleCode: 'minister-office',
-	name: 'Minister\'s Office',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
-}, {
-	code: ':eao:minister',
-	projectCode: undefined,
-	orgCode: 'eao',
-	roleCode: 'minister',
-	name: 'Minister',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Project Intake'
 }, {
 	code: ':eao:qa-officer',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'qa-officer',
-	name: 'QA Officer',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'QA Officer'
 }, {
 	code: ':eao:ce-lead',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'ce-lead',
-	name: 'C & E Lead',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'C & E Lead'
 }, {
 	code: ':eao:ce-officer',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'ce-officer',
-	name: 'C & E Officer',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'C & E Officer'
 }, {
 	code: ':eao:wg',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'wg',
-	name: 'Working Group',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Working Group'
 }, {
 	code: ':eao:technical-wg',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'technical-wg',
-	name: 'Technical Working Group',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Technical Working Group'
 }, {
 	code: ':eao:abrg-consult',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'abrg-consult',
-	name: 'Aboriginal Group to Consult',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Aboriginal Group to Consult'
 }, {
 	code: ':eao:abrg-notify',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'abrg-notify',
-	name: 'Aboriginal Group to Notify',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Aboriginal Group to Notify'
 }, {
 	code: ':eao:abrg-sub',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'abrg-sub',
-	name: 'Aboriginal Group to Sub-Consultant',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Aboriginal Group to Sub-Consultant'
 }, {
 	code: ':eao:ceaa',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'ceaa',
-	name: 'CEAA',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'CEAA'
 }, {
 	code: ':eao:other-ministry',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'other-ministry',
-	name: 'Other Ministry',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Other Ministry'
 }, {
 	code: ':eao:local-gov',
 	projectCode: undefined,
 	orgCode: 'eao',
 	roleCode: 'local-gov',
-	name: 'Local Government',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Local Government'
 }, {
 	code: ':eao:internal-viewer',
 	projectCode: undefined,
 	orgCode: 'eao',
-	roleCode: 'internal-viewer',
-	name: 'Viewer',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	roleCode: 'internal-viewer'
 }, {
 	code: ':pro:admin',
 	projectCode: undefined,
 	orgCode: 'pro',
 	roleCode: 'admin',
-	name: 'Proponent Admin',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: true
+	name: 'Proponent Admin'
 }, {
 	code: ':pro:member',
 	projectCode: undefined,
 	orgCode: 'pro',
 	roleCode: 'member',
-	name: 'Proponent Member',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: true
+	name: 'Proponent Member'
 }, {
 	code: ':pro:invitee',
 	projectCode: undefined,
 	orgCode: 'pro',
 	roleCode: 'invitee',
-	name: 'Proponent Invitee',
-	isSystem: true,
-	isFunctional: false,
-	isProjectDefault: true
+	name: 'Proponent Invitee'
 }, {
 	code: ':pro:sub',
 	projectCode: undefined,
 	orgCode: 'pro',
 	roleCode: 'sub',
-	name: 'Sub-Consultant',
-	isSystem: true,
-	isFunctional: true,
-	isProjectDefault: true
+	name: 'Sub-Consultant'
 }
 ];

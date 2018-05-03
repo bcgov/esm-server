@@ -52,26 +52,6 @@ module.exports = function () {
 							_.each (usermodel.roles, function (role) {
 								if (role !== 'user') {
 									console.log ('adding user to role ', role);
-									//
-									// TBD ROLES : this bit needs replacing
-									//
-									// Role.findOne ({code:role}, function (err, rolemodel) {
-									// 	if (err) {
-									// 		return err;
-									// 	}
-									// 	else if (rolemodel) {
-									// 		rolemodel.users = _.union (rolemodel.users, [usermodel._id.toString()]);
-									// 	}
-									// 	else {
-									// 		var isSystem = (role === 'admin' || (role.match(/^sector/) !== null));
-									// 		rolemodel = new Role ({
-									// 			code     : role,
-									// 			isSystem : isSystem,
-									// 			users    : [usermodel._id]
-									// 		});
-									// 	}
-									// 	rolemodel.save ();
-									// });
 								}
 							});
 						}

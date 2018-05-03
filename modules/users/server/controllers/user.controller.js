@@ -212,7 +212,7 @@ module.exports = DBModel.extend({
 
     var getSystemRoles = function () {
       return new Promise(function (fulfill, reject) {
-        Role.find({ context: 'application', owner: 'sysadmin' })
+        Role.find({ context: 'application', owner: 'system-admin' })
           .select ({context: 1, role: 1})
           .sort('role')
           .exec(function (error, data) {

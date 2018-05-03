@@ -16,8 +16,7 @@ module.exports = DBModel.extend ({
   plural: 'comments',
   populate : [{ path:'user', select:'_id displayName username email orgName'},
     { path:'updatedBy', select:'_id displayName username email orgName'},
-    { path:'documents', select:'_id eaoStatus'},
-    { path:'ceaaDocuments', select:'_id eaoStatus'}
+    { path:'documents', select:'_id eaoStatus'}
   ],
   // -------------------------------------------------------------------------
   //
@@ -34,11 +33,11 @@ module.exports = DBModel.extend ({
       // get the period info
       //
       /*
-       'read' : ['proponent-lead', 'proponent-team', 'assessment-admin', 'project-eao-staff', 'assessment-lead', 'assessment-team', 'assistant-dm', 'project-epd', 'assistant-dmo', 'associate-dm', 'associate-dmo', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-       'write' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin'],
-       'delete' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-       'publish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-       'unPublish' : ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin']
+       'read' : ['project-proponent', 'project-admin', 'system-eao', 'project-team', 'project-system-admin'],
+       'write' : ['project-team', 'project-system-admin'],
+       'delete' : ['project-team', 'project-system-admin'],
+       'publish' : ['project-team', 'project-system-admin'],
+       'unPublish' : ['project-team', 'project-system-admin']
 
        */
       commentPeriod.findById(comment.period)
@@ -48,15 +47,14 @@ module.exports = DBModel.extend ({
           //
           return self.setModelPermissions(comment, {
             read: period.vettingRoles,
-            delete: ['assessment-lead', 'assessment-team', 'project-epd', 'project-system-admin'],
-            write: _.uniq(_.concat(period.commenterRoles, period.vettingRoles, period.downloadRoles, period.classificationRoles, ['assessment-lead', 'assessment-team', 'project-epd', 'project-working-group', 'project-technical-working-group', 'project-system-admin']))
+            delete: ['project-team', 'project-system-admin'],
+            write: _.uniq(_.concat(period.commenterRoles, period.vettingRoles, period.downloadRoles, period.classificationRoles, ['project-team', 'project-working-group', 'project-technical-working-group', 'project-system-admin']))
           });
         })
         .then(function (commentPermissions) {
           // get all the associated documents and update their permissions as required.
           return new Promise(function (resolve/* , reject */) {
-            var combined = _.concat(comment.documents, comment.ceaaDocuments);
-            var q = {_id : {$in : combined }};
+            var q = {_id : {$in : comment.documents }};
             documentClass.listforaccess ('i do not want to limit my access because public people add comments with docs too.', q)
               .then(function (data) {
                 resolve({commentPermissions: commentPermissions, docs: data});
@@ -125,19 +123,6 @@ module.exports = DBModel.extend ({
         .then (function (period) {
           thePeriod = period;
 
-          // Ceaa logic
-          if (thePeriod.periodType === 'Joint' && (comment.eaoStatus === 'Rejected' || comment.eaoStatus === 'Published')) {
-            // Ensure it's added ot both read and vetting roles since it's going to be
-            // rejected, and we need to include that.
-            thePeriod.read = _.uniq(_.concat(thePeriod.read, 'assessment-ceaa'));
-            thePeriod.vettingRoles = _.uniq(_.concat(thePeriod.vettingRoles, 'assessment-ceaa'));
-          } else {
-            // Ensure it's removed.
-            _.remove(thePeriod.read, function (i) {
-              return (i === 'assessment-ceaa');
-            });
-          }
-
           if (comment.eaoStatus === 'Published') {
             //
             // ROLES, public read
@@ -163,8 +148,7 @@ module.exports = DBModel.extend ({
         .then(function(commentPermissions) {
           // get all the associated documents and update their publish permissions as required.
           return new Promise(function(resolve/* , reject */) {
-            var combined = _.concat(comment.documents, comment.ceaaDocuments);
-            documentClass.getList(combined)
+            documentClass.getList(comment.documents)
               .then(function (data) {
                 resolve({commentPermissions: commentPermissions, docs: data});
               });
@@ -182,17 +166,6 @@ module.exports = DBModel.extend ({
             if ('Published' !== doc.eaoStatus) {
               // if the comment is published, but this document has been rejected, we don't want this document set to public read
               commentPermissions.read = thePeriod.vettingRoles;
-            }
-
-            // Ceaa logic
-            if (thePeriod.periodType === 'Joint' && (comment.eaoStatus === 'Rejected' || comment.eaoStatus === 'Published')) {
-              // Add CEAA role to read when these conditions are met
-              commentPermissions.read = _.uniq(_.concat(commentPermissions.read, 'assessment-ceaa'));
-            } else {
-              // Ensure role is removed.
-              _.remove(commentPermissions.read, function (i) {
-                return (i === 'assessment-ceaa');
-              });
             }
 
             // publish or unpublish the doc, and set the doc's permissions...
@@ -301,14 +274,7 @@ module.exports = DBModel.extend ({
           { documents: { $gt: [] } }
         ]});
         break;
-      case 'Federal':
-        query = _.extend({}, query, { $or : [
-          { ceeaComment: {$ne: ''} },
-          { ceaaDocuments: { $gt: [] } }
-        ]});
-        break;
-        //default:
-        // do nothing
+      default:
       }
     }
 
@@ -417,17 +383,6 @@ module.exports = DBModel.extend ({
       self.one({_id : id})
         .then(function(c) {
           return doc.getList(c.documents);
-        })
-        .then (resolve, reject);
-    });
-  },
-  getCeaaCommentDocuments: function(id) {
-    var self = this;
-    var doc = new DocumentClass (this.opts);
-    return new Promise (function (resolve, reject) {
-      self.one({_id : id})
-        .then(function(c) {
-          return doc.getList(c.ceaaDocuments);
         })
         .then (resolve, reject);
     });
@@ -563,4 +518,3 @@ module.exports = DBModel.extend ({
     return self.updatePermissionBatch(projectId, periodId, skip, limit);
   }
 });
-

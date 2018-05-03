@@ -57,36 +57,6 @@ module.exports = {
 			lastName    : 'Team'
 		},
 		{
-			username    : 'assistant-dm',
-			firstName   : 'Assistant',
-			lastName    : 'DM'
-		},
-		{
-			username    : 'assistant-dm-office',
-			firstName   : 'Assistant',
-			lastName    : 'Dmoffice'
-		},
-		{
-			username    : 'associate-dm',
-			firstName   : 'Associate',
-			lastName    : 'DM'
-		},
-		{
-			username    : 'associate-dmo',
-			firstName   : 'Associate',
-			lastName    : 'DMO'
-		},
-		{
-			username    : 'minister',
-			firstName   : 'Eao',
-			lastName    : 'Minister'
-		},
-		{
-			username    : 'minister-office',
-			firstName   : 'Minister',
-			lastName    : 'Office'
-		},
-		{
 			username    : 'qa-officer',
 			firstName   : 'QA',
 			lastName    : 'Officer'
@@ -166,4 +136,3 @@ module.exports = {
 		}
 	]
 };
-

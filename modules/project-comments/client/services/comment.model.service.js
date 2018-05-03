@@ -211,9 +211,6 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
     getDocuments: function(commentId) {
       return this.get('/api/comment/' + commentId +'/documents');
     },
-    getCeaaDocuments: function(commentId) {
-      return this.get('/api/comment/' + commentId +'/ceaadocuments');
-    },
     updateDocument: function(doc) {
       return this.put('/api/document/' + doc._id, doc);
     },
@@ -281,7 +278,6 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
           var a = [];
           a.push(row.commentId);
           a.push (commentFormat(row.comment));
-          if (isJoint) { a.push (commentFormat(row.ceeaComment)); }
           var ts = moment(row.dateAdded);
           var tsStr = ts.format('YYYY-MM-DDThh:mm:ssZZ');
           a.push (tsStr);
@@ -296,9 +292,6 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
           }).join (arrayJoinChar));
           a.push (row.eaoStatus);
           attachmentsAdd(a, row.documents, arrayJoinChar, canSeeRejectedDocs);
-          if (isJoint) {
-            attachmentsAdd(a, row.ceaaDocuments, arrayJoinChar, canSeeRejectedDocs);
-          }
           data += '"' + a.join ('","') + '"' + "\r\n";
         });
         resolve(data);
