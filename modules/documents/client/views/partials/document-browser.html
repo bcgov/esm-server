@@ -232,11 +232,6 @@
 							<span class="glyphicon glyphicon-download-alt"></span></a>
 						<a class="btn btn-default btn-sm" href ng-click="docBrowser.deleteDocument(filterSummary._id)" ng-if="(filterSummary.userCan.delete)" title="Delete Document">
 							<span class="glyphicon glyphicon-trash"></span></a>
-						<tmpl-permissions-gear
-							class="permission-btn"
-							x-context="project"
-							x-object="filterSummary"
-							ng-if="docBrowser.project.userCan.managePermissions"></tmpl-permissions-gear>
 						</div>
 					</div><!-- / DOCUMENT ACTIONS -->
 				</div>

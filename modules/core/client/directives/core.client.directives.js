@@ -148,26 +148,6 @@ angular.module('core')
 
               s.init(undefined, true);
 
-              $scope.$on('NEW_ROLE_ADDED', function (e, data) {
-                if (!_.isEmpty(data.roleName)) {
-                  if (_.isArray(data.roleName)) {
-                    _.forEach(data.roleName, function(o) {
-                      var u = _.find(s.allRoles, function(x) { return x === o; });
-                      if (!u) {
-                        s.allRoles.push(o);
-                      }
-                      s.currentRole = data.roleName[0];
-                    });
-                  } else {
-                    var u = _.find(s.allRoles, function(x) { return x === data.roleName; });
-                    if (!u) {
-                      s.allRoles.push(data.roleName);
-                    }
-                    s.currentRole = data.roleName;
-                  }
-                }
-              });
-
               s.clickRole = function (permission, role, value) {
                 s.dirty = true;
                 setPermissionRole(s.permissionRoleIndex, permission, role, value);
@@ -258,26 +238,6 @@ angular.module('core')
             });
         });
       }
-    };
-  })
-  .directive('tmplPermissionsGear', function () {
-    return {
-      restrict: 'E',
-      templateUrl: 'modules/core/client/views/role-permissions-gear.html',
-      scope: {
-        context: '=',
-        object: '='
-      },
-      controller: function($scope, Authentication, _) {
-        var permCtrl = this;
-        permCtrl.showGear = !_.isEmpty(Authentication.user);
-        if ($scope.context) {
-          // not sure if this is correct, but go with it for now.
-          // do we need to check against the object?
-          permCtrl.showGear = permCtrl.showGear && $scope.context.userCan.managePermissions;
-        }
-      },
-      controllerAs: 'permCtrl'
     };
   })
 // -------------------------------------------------------------------------
@@ -419,26 +379,6 @@ angular.module('core')
               };
 
               s.init(userList, undefined, undefined, true, true);
-
-              $scope.$on('NEW_ROLE_ADDED', function (e, data) {
-                if (!_.isEmpty(data.roleName)) {
-                  if (_.isArray(data.roleName)) {
-                    _.forEach(data.roleName, function(o) {
-                      var u = _.find(s.allRoles, function(x) { return x === o; });
-                      if (!u) {
-                        s.allRoles.push(o);
-                      }
-                      s.currentRole = data.roleName[0];
-                    });
-                  } else {
-                    var u = _.find(s.allRoles, function(x) { return x === data.roleName; });
-                    if (!u) {
-                      s.allRoles.push(data.roleName);
-                    }
-                    s.currentRole = data.roleName;
-                  }
-                }
-              });
 
               var setUserRole = function (system, user, role, value) {
                 if (!system.user[user]) {system.user[user] = {};}
@@ -628,16 +568,6 @@ angular.module('core')
       }
     };
   })
-  .directive('tmplRolesGear', function () {
-    return {
-      restrict: 'E',
-      templateUrl: 'modules/core/client/views/role-users-gear.html',
-      scope: {
-        context: '=',
-        role: '='
-      }
-    };
-  })
 // -------------------------------------------------------------------------
 //
 // A simple modal and its little icon thingsy for adding roles to a context
@@ -705,67 +635,6 @@ angular.module('core')
     };
   })
 
-// -------------------------------------------------------------------------
-//
-// A simple modal and its little icon thingsy for adding roles to a context
-//
-// -------------------------------------------------------------------------
-  .directive('roleNewModal', function ($uibModal) {
-    return {
-      restrict: 'A',
-      scope: {
-        context: '='
-      },
-      link: function (scope, element) {
-        element.on('click', function () {
-          $uibModal.open({
-            animation: true,
-            templateUrl: 'modules/core/client/views/role-new-modal.html',
-            controllerAs: 's',
-            size: 'md',
-            controller: function ($rootScope, $scope, $uibModalInstance) {
-              var s = this;
-              //
-              // all the base data
-              //
-              s.newRole = '';
-              s.isOK = true;
-              //
-              // expose the inputs
-              //
-              s.context = scope.context;
-              s.name = scope.context.name || scope.context.code || scope.context.code;
-              s.cancel = function () {
-                $uibModalInstance.dismiss('cancel');
-              };
-              s.ok = function () {
-                if (s.newRole === '') {return $uibModalInstance.dismiss('cancel');}
-                else {
-                  $rootScope.$broadcast('NEW_ROLE_ADDED', {roleName: s.newRole});
-                  $uibModalInstance.close();
-                }
-              };
-            }
-          })
-            .result.then(function () {
-              // fulfilled promise
-            })
-            .catch(function (/* err */) {
-              // swallow error
-            });
-        });
-      }
-    };
-  })
-  .directive('tmplRoleNew', function () {
-    return {
-      restrict: 'E',
-      templateUrl: 'modules/core/client/views/role-new-gear.html',
-      scope: {
-        context: '='
-      }
-    };
-  })
 // -------------------------------------------------------------------------
 //
 // a modal role chooser (multiple)
@@ -845,5 +714,3 @@ angular.module('core')
       }
     };
   });
-
-
