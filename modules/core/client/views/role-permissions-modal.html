@@ -23,7 +23,6 @@
 		</div>
 		<div class="form-group manage-permission no-margin">
 			<label class="control-label">Manage Roles for Permission</label>
-			<tmpl-role-new class="new-role-btn" context="s.context" ng-if="s.context.userCan.createRole"></tmpl-role-new>
 		</div>
 		<div class="panel panel-default">
 			<div class="table-container">
@@ -33,7 +32,7 @@
 						<td class="col checkbox-col"
 							header-class="'col checkbox-col'">
 							<div>
-								<input type="checkbox" 
+								<input type="checkbox"
 								ng-model="s.permissionRoleIndex.permission[s.currentPermission][role]"
 								ng-change="s.clickRole(s.currentPermission, role, s.permissionRoleIndex.permission[s.currentPermission][role])"
 								ng-disabled="!s.currentPermission"
@@ -57,7 +56,6 @@
 		<div class="form-group select-permission">
 			<label class="control-label">Select Role</label>
 			<select class="form-control" id="role" ng-model="s.currentRole" ng-options="p as p for p in s.allRoles"></select>
-			<tmpl-role-new context="s.context" ng-if="s.context.userCan.createRole"></tmpl-role-new>
 		</div>
 		<label>Manage Permissions for Role</label>
 		<div class="panel panel-default">
@@ -68,7 +66,7 @@
 						<td class="col checkbox-col"
 							header-class="'col checkbox-col'">
 							<div>
-								<input type="checkbox" 
+								<input type="checkbox"
 								ng-model="s.permissionRoleIndex.role[s.currentRole][permission]"
 								ng-change="s.clickPermission(permission, s.currentRole, s.permissionRoleIndex.role[s.currentRole][permission])"
 								ng-disabled="!s.currentRole"
