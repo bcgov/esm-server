@@ -226,17 +226,6 @@
                             <span class="glyphicon glyphicon-trash"></span> Delete
                           </a>
                         </li>
-                        <li ng-if="project.userCan.manageFolders">
-                          <a title="Edit Permissions"
-                            ng-click="$event.stopPropagation();"
-                            x-role-permissions-modal
-                            x-context="project"
-                            x-object="doc.model.folderObj"
-                            x-reload="'false'"
-                            x-callback="documentMgr.onPermissionsUpdate">
-                            <span class="glyphicon glyphicon-cog"></span> Permissions
-                          </a>
-                        </li>
                         <li>
                           <a title="Properties"
                             ng-click="documentMgr.infoPanel.toggle();$event.stopPropagation();">
@@ -354,16 +343,6 @@
                             x-delete-callback="documentMgr.deleteFilesAndDirs"
                             x-files="doc">
                             <span class="glyphicon glyphicon-trash"></span> Delete
-                          </a>
-                        </li>
-                        <li ng-if="project.userCan.manageDocumentPermissions">
-                          <a title="Edit Permissions"
-                            ng-click="$event.stopPropagation();"
-                            x-role-permissions-modal x-context="project"
-                            x-object="doc"
-                            x-reload="'false'"
-                            x-callback="documentMgr.onPermissionsUpdate">
-                            <span class="glyphicon glyphicon-cog"></span> Permissions
                           </a>
                         </li>
                         <li>

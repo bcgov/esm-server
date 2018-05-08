@@ -19,7 +19,6 @@
 					<a ng-click="$event.stopPropagation()" class="btn btn-link btn-sm" ui-sref="p.complaint.edit({complaintId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</a>
-					<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
 				</td>
 			</tr>
 			<tr ng-if="!$data || $data.length === 0">

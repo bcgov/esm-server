@@ -30,13 +30,12 @@
 					{{o.updatedBy.username}}
 				</td>
 				<td class="actions-col action-x2" header-class="'actions-col action-x2'">
-					<button class="btn btn-default btn-sm" 
-						ng-if="o.userpermission.write" 
-						ng-click="$event.stopPropagation()" 
+					<button class="btn btn-default btn-sm"
+						ng-if="o.userpermission.write"
+						ng-click="$event.stopPropagation()"
 						ui-sref="p.artifact.edit({artifactId:o._id})">
 						<span class="glyphicon glyphicon-pencil"></span>
 					</button>
-					<tmpl-permissions-gear class="permission-btn" x-context="s.project" x-object="o"></tmpl-permissions-gear>
 				</td>
 			</tr>
 			<tr class="no-records" ng-if="published && (!$data || $data.length === 0)">

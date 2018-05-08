@@ -2,7 +2,6 @@
 
 	<div class="view-title-container">
 		<h1>Compliance Oversight</h1>
-<!-- 		<tmpl-permissions-gear class="permission-btn" x-context="menu.project" x-object="menu.project" x-permissions=""></tmpl-permissions-gear> -->
 	</div>
 
 	<div class="view-body-container">
@@ -26,7 +25,6 @@
 						<a class="btn btn-default btn-sm" ng-if="o.userCan.write" ng-click="$event.stopPropagation()" ui-sref="p.ir.edit({irId:o._id})">
 							<span class="glyphicon glyphicon-pencil"></span>
 						</a>
-						<tmpl-permissions-gear class="permission-btn" x-context="project" x-object="o"></tmpl-permissions-gear>
 					</td>
 					<tr ng-show="!$data || !$data.length" class="text-center">
 						<td colspan="2">No records found.</td>

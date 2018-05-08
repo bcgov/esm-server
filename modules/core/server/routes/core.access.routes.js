@@ -122,10 +122,4 @@ module.exports = function (app) {
   app.route('/api/db/:model')
     .all(policy('admin'))
     .get(dbcontroller.get);
-
-  app.route('/api/access/conversion')
-    .all(policy('admin'))
-    .get(access.routes.allusers)
-    .put(access.routes.convertusers);
 };
-
