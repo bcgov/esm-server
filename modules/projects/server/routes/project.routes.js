@@ -115,17 +115,12 @@ module.exports = function (app) {
           return res.json (proj);
         });
     });
+
   // get all public project information and recent activity for project
   app.route ('/api/project/public/:projectcode')
     .get(routes.setAndRun(Project, function(model, req) {
-      return model.publicproject(req.params.projectcode);
+      return model.publicProject(req.params.projectcode);
     }));
-  // app.route ('/api/')
-  //  .all (policy ('user'))
-  //  .get (function (req, res) {
-  //  var p = new Project (req.user);
-  //  p.list ().then (routes.success(res), routes.failure(res));
-  // });
 
   app.route('/api/projects/public')
     .get(routes.setAndRun(Project, function(model/* , req */) {
