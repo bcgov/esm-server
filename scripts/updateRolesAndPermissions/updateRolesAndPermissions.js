@@ -106,7 +106,7 @@ var deleteOldRoles = function(collectionName, deletes) {
 };
 
 /**
- *
+ * Updates roles to the new role names.
  * @param String collectionName
  * @param String field
  * @param [String] updates array of roles to update whenever found.
@@ -123,6 +123,53 @@ var updateRoles = function(collectionName, field, updates) {
       db.close();
     });
   });
+};
+
+/**
+ * Inserts permissions in the _permissions table.
+ * @param String roleToUpdate the role to update
+ * @param String permissionToAdd the permission to add
+ */
+var insertPermissions = function(roleToUpdate, permissionToAdd) {
+  const db = monk(url);
+  const collection = db.get('_permissions', { castIds: true });
+  const result = collection
+    .aggregate([
+      {
+        $match: {
+          role: roleToUpdate
+        }
+      },
+      {
+        $group: {
+          _id: { resource: '$resource' }
+        }
+      }
+    ])
+    .then(function(result) {
+      var promiseArray = [];
+      var i;
+      for (i = 0; i < result.length; i++) {
+        // resource that has a project-team role
+        const resource = result[i]._id.resource;
+        // determine if this resource already has a 'roleToUpdate' role with the 'permissionToAdd' permission
+        promiseArray.push(
+          collection.find({ resource: resource, permission: permissionToAdd, role: roleToUpdate }).then(function(docs) {
+            // if no match, insert the permission
+            if (docs.length === 0) {
+              return collection.insert({ resource: resource, permission: permissionToAdd, role: roleToUpdate, __v: 0 });
+            }
+          })
+        );
+      }
+      return promiseArray;
+    })
+    .then(function(promises) {
+      return Promise.all(promises);
+    })
+    .then(function() {
+      db.close();
+    });
 };
 
 /**
@@ -147,7 +194,9 @@ var updateRolesArrays = function(collections, keys, deletes, updates) {
     collection
       .find()
       .each(function(record) {
+        // get the updated record
         record = traverseAndUpdateObject(record, keys, deletes, updates);
+        // save the updated record
         collection.update({ _id: record._id }, record);
       })
       .then(function(data) {
@@ -244,7 +293,7 @@ var updateDefaultsCollection = function(deletes, updates) {
       }
 
       if (record.type === 'rolePermissions') {
-        // Only 1 record of this type exists, so creating this object manually.
+        // Only 1 record of this type exists, so updating this object manually.
         var newRolesPermissionsObj = {
           'application:system-admin': {
             'project-intake': ['createProject'],
@@ -330,3 +379,9 @@ updateRolesArrays(collectionsToUpdate, keyArray, rolesToDelete, rolesToUpdate);
 
 // update roles in _defaults collection
 updateDefaultsCollection(rolesToDelete, rolesToUpdate);
+
+// add manageFolders permission to all projects that have a project-team role
+insertPermissions('project-team', 'manageFolders');
+
+// add manageFolders permission to all projects that have a project-admin role
+insertPermissions('project-admin', 'manageFolders');
