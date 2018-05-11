@@ -9,7 +9,6 @@ var DBModel = require (path.resolve('./modules/core/server/controllers/core.dbmo
 var PhaseClass = require (path.resolve('./modules/phases/server/controllers/phase.controller'));
 var PhaseBaseClass = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
 var RecentActivityClass = require (path.resolve('./modules/recent-activity/server/controllers/recent-activity.controller'));
-var RecentActivity = require (path.resolve('./modules/recent-activity/server/models/recent-activity.model'));
 var _ = require ('lodash');
 var Role = require ('mongoose').model ('_Role');
 var CommentPeriod = require (path.resolve('./modules/project-comments/server/models/commentperiod.model'));
@@ -1033,57 +1032,35 @@ module.exports = DBModel.extend ({
   // project given code and recent activity for project, minimal get
   //
   // -------------------------------------------------------------------------
-  publicproject: function (code) {
+  publicProject: function (projectCode) {
     var self = this;
+    var fetchedFields = {
+      _id: 1,
+      code: 1,
+      name: 1,
+      status: 1,
+      lat: 1,
+      lon: 1,
+      type: 1,
+      description: 1,
+      proponent: 1,
+      region: 1,
+      location: 1,
+      projectLead: 1,
+      projectLeadEmail: 1,
+      projectLeadPhone: 1,
+      responsibleEPD: 1,
+      CELead: 1,
+      CELeadEmail: 1,
+      CELeadPhone: 1,
+      responsibleEPDEmail: 1,
+      responsibleEPDPhone: 1,
+      eacDecision: 1
+    };
 
-    var getProject = new Promise(function(resolve, reject) {
-      self.model.findOne({ code:code }, { _id: 1, code: 1, name: 1, status: 1, lat: 1, lon: 1, type: 1, description: 1, proponent: 1, region: 1, location: 1, projectLead: 1, projectLeadEmail: 1, projectLeadPhone: 1, responsibleEPD: 1, CELead: 1, CELeadEmail: 1, CELeadPhone: 1, responsibleEPDEmail: 1, responsibleEPDPhone: 1, eacDecision: 1 })
-        .populate('proponent', 'name')
-        .populate('')
-        .exec(function(err, recs) {
-          if (err) {
-            reject(new Error(err));
-          } else {
-            resolve(recs);
-          }
-        });
-    });
-
-    var getRecentActivity = new Promise(function(resolve, reject) {
-      RecentActivity.find({active: true}, { _id: 1, dateAdded: 1, documentUrl: 1, contentUrl: 1, project: 1, content: 1, headline: 1, type: 1 })
-        .sort({date: -1})
-        .exec(function(err, recs) {
-          if (err) {
-            reject(new Error(err));
-          } else {
-            resolve(recs);
-          }
-        });
-    });
-
-    return new Promise(function(resolve/* , reject */) {
-      var project, activities;
-      getProject.then(function(data) {
-        project = data;
-        return getRecentActivity;
-      })
-        .then(function(data) {
-          activities = data;
-          var proj = JSON.parse(JSON.stringify(project));
-          var project_activities = _.filter(activities, function(a) {
-            if(!a.project) {
-              return;
-            }
-            return a.project.toString() === project._id.toString();
-          });
-          proj.recent_activities = project_activities;
-
-          return proj;
-        })
-        .then(function(data) {
-          resolve(data);
-        });
-    });
+    return self.model.findOne({ code : projectCode }, fetchedFields)
+      .populate('proponent', 'name')
+      .exec();
   },
   // -------------------------------------------------------------------------
   //

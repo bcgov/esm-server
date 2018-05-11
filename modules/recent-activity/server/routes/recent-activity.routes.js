@@ -21,11 +21,19 @@ module.exports = function(app) {
     .put (routes.setAndRun (RecentActivity, function (model, req) {
       return model.pinActivity (req.params.activityId);
     }));
+
   app.route('/api/recentactivity/active/list')
     .all (policy ('guest'))
     .get (routes.setAndRun (RecentActivity, function (model/* , req */) {
       return model.getRecentActivityActive ();
     }));
+
+  app.route('/api/recentactivity/byproject/:projectcode')
+    .all (policy ('guest'))
+    .get (routes.setAndRun (RecentActivity, function (model, req) {
+      return model.getRecentActivityForProject(req.params.projectcode);
+    }));
+
   app.route('/api/recentactivity/active/rss')
     .all (policy ('guest'))
     .all (routes.setModel (Project, 'prj'))
@@ -73,6 +81,7 @@ module.exports = function(app) {
             });
         });
     });
+
   app.route('/api/recentactivity/get/rss/:projectcode')
     .all (policy ('guest'))
     .all (routes.setModel (Project, 'prj'))

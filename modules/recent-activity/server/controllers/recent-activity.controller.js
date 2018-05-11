@@ -5,14 +5,15 @@
 //
 // =========================================================================
 var path = require('path');
-var DBModel = require (path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
-var _ = require ('lodash');
-var mongoose = require ('mongoose');
-var Model = mongoose.model ('RecentActivity');
+var DBModel = require(path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var _ = require('lodash');
+var mongoose = require('mongoose');
+var Model = mongoose.model('RecentActivity');
+var ProjectModel = mongoose.model('Project');
 
-module.exports = DBModel.extend ({
-  name : 'RecentActivity',
-  plural : 'recentactivities',
+module.exports = DBModel.extend({
+  name: 'RecentActivity',
+  plural: 'recentactivities',
   populate: [{path: 'project', select: { 'code': 1, 'name': 1}}],
   // -------------------------------------------------------------------------
   //
@@ -24,7 +25,7 @@ module.exports = DBModel.extend ({
     var p = Model.find ({active:true},
       {},
       {}).sort({dateAdded: -1}).limit(10); // Quick hack to limit the front page loads.
-    return new Promise (function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       p.then(function (doc) {
         var pcSort = _.partition(doc, { type: "Public Comment Period" });
         var pcp = pcSort[0];
@@ -42,8 +43,9 @@ module.exports = DBModel.extend ({
       }, reject);
     });
   },
+
   getRecentActivityByProjectId: function (id) {
-    return new Promise (function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       var p = Model.find ({ active: true, project: id },
         {},
         {}).sort({dateAdded: -1}).limit(25);
@@ -64,6 +66,7 @@ module.exports = DBModel.extend ({
       }, reject);
     });
   },
+
   // Make this activity pinned.
   pinActivity: function (activityId) {
     var self = this;
@@ -79,7 +82,7 @@ module.exports = DBModel.extend ({
           return self.findMany({pinned: true})
             .then(function (activities) {
               if (activities.length >= 4) {
-                return Promise.reject(new Error ("You are only allowed a maximum of four (4) pinned items in this list. Please remove one before assigning another pinned item."));
+                return Promise.reject(new Error("You are only allowed a maximum of four (4) pinned items in this list. Please remove one before assigning another pinned item."));
               } else {
                 return activity.save();
               }
@@ -89,5 +92,16 @@ module.exports = DBModel.extend ({
           return activity.save();
         }
       });
+  },
+  /*
+   * Retirns all the active recent activities for the specified project
+   */
+  getRecentActivityForProject: function(projectCode){
+    var self = this;
+
+    return ProjectModel.find({ code : projectCode })
+      .then(function(project){
+        return self.model.find({ project : project._id}).sort({date: -1}).exec();
+      })
   }
 });
