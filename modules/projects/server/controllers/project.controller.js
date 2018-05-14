@@ -1042,6 +1042,7 @@ module.exports = DBModel.extend ({
       lat: 1,
       lon: 1,
       type: 1,
+      sector: 1,
       description: 1,
       proponent: 1,
       region: 1,
@@ -1055,7 +1056,9 @@ module.exports = DBModel.extend ({
       CELeadPhone: 1,
       responsibleEPDEmail: 1,
       responsibleEPDPhone: 1,
-      eacDecision: 1
+      eacDecision: 1,
+      CEAAInvolvement: 1,
+      CEAALink: 1
     };
 
     return self.model.findOne({ code : projectCode }, fetchedFields)
