@@ -99,7 +99,7 @@ module.exports = DBModel.extend({
   getRecentActivityForProject: function(projectCode){
     var self = this;
 
-    return ProjectModel.find({ code : projectCode })
+    return ProjectModel.findOne({ code : projectCode })
       .then(function(project){
         return self.model.find({ project : project._id}).sort({date: -1}).exec();
       })
