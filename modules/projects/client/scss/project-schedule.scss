@@ -117,3 +117,27 @@ $milestone-panel-heading-bg: #EEE;
     }
 }
 
+// Edit Phase Modal Fixes
+.edit-phase-modal {
+    z-index: 1031;
+}
+
+.temp-overlay {
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1030;
+	background: rgba(0,0,0,0.5);
+}
+
+.modal.fade {
+	~ .temp-overlay {
+		display: none;
+	}
+
+	&.in ~ .temp-overlay {
+		position: fixed;
+		display: block;
+	}
+}

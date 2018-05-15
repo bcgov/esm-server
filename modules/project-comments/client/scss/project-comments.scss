@@ -713,24 +713,6 @@ $pcp-comment-icon-color: #ccc;
 // EDIT DETAILS
 .edit-pcp-details {
   max-width: 1280px;
-
-  .date-picker {
-    &__input {
-      position: relative;
-      width: 100%;
-
-      .form-control {
-        padding-right: 4rem;
-      }
-
-      .glyphicon {
-        position: absolute;
-        top: 0.65rem;
-        right: 0.75rem;
-        font-size: 1.8rem;
-      }
-    }
-  }
 }
 
 /*

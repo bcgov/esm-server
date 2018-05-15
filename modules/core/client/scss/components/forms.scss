@@ -258,6 +258,26 @@ $date-time-picker-btn-hover-bg: #ddd;
 	}
 }
 
+// Legacy Datepicker
+.date-picker {
+	&__input {
+		position: relative;
+		width: 100%;
+		min-width: 15rem;
+
+		.form-control {
+			padding-right: 4rem;
+		}
+
+		.glyphicon {
+			position: absolute;
+			top: 0.65rem;
+			right: 0.75rem;
+			font-size: 1.8rem;
+		}
+	}
+}
+
 // Time Picker
 .uib-timepicker {
   .btn {

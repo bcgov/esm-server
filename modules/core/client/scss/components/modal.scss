@@ -74,24 +74,3 @@
         }
     }
 }
-
-// TEMP OVERLAY
-.temp-overlay {
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	z-index: 1000;
-	background: rgba(0,0,0,0.5);
-}
-
-.modal.fade {
-	~ .temp-overlay {
-		display: none;
-	}
-
-	&.in ~ .temp-overlay {
-		position: fixed;
-		display: block;
-	}
-}
