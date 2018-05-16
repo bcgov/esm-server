@@ -15,9 +15,7 @@
 			</button>
 		</div>
 	</div>
-
 	<div class="panel-group" id="projectPhases" role="tablist" aria-multiselectable="true">
-
 		<div class="panel panel-default accordion" id="phaseGroup" ng-repeat="phase in project.phases">
 			<div class="panel-heading flex-row" role="tab">
 				<a class="collapse-control" role="button" data-toggle="collapse" href="#{{phase.code}}" aria-expanded="true" aria-controls="{{phase.code}}">
@@ -83,7 +81,6 @@
 									ng-if="isNextPhase(phase._id) && phase.status === 'Not Started'">Start Phase</button>
 						</div>
 					</div>
-
 					<div class="phase-milestones">
 						<div class="panel panel-default">
 							<div class="panel-heading flex-row">
@@ -160,7 +157,6 @@
 				</div>
 			</div>
 		</div>
-		<!-- END: PROJECT PHASE CONTAINER -->
 	</div>
 </div>
 
@@ -183,7 +179,7 @@
 			</div>
 		</div>
 	</div>
-</div><!-- DELETE PHASE MODAL -->
+</div>
 
 <!-- UNCOMPLETE PHASE MODAL -->
 <div class="modal fade" id="uncompletePhaseModal" role="dialog" tabindex="-1">
@@ -204,10 +200,10 @@
 			</div>
 		</div>
 	</div>
-</div><!-- UNCOMPLETE PHASE MODAL -->
+</div>
 
 <!-- EDIT MILESTONE MODAL -->
-<div class="modal fade" id="editPhaseDetailModal" role="dialog" tabindex="-1">
+<div class="modal fade edit-phase-modal" id="editPhaseDetailModal" role="dialog" tabindex="-1">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -220,14 +216,14 @@
 				<div class="form-group" ng-class="{'has-error': validateForm}">
 					<label>Estimated Date Range</label>
 					<div class="form-inline">
-						<div class="form-control date-picker"
+						<div class="form-control date-picker__input"
 							x-modal-date-picker 
 							x-selected-date="selectedPhase.dateStartedEst">
 							{{ selectedPhase.dateStartedEst | amDateFormat:'MMM Do YYYY' }}
 							<span class="glyphicon glyphicon-calendar"></span>
 						</div>
 						<span> &nbsp;-&nbsp; </span>
-						<div class="form-control date-picker" 
+						<div class="form-control date-picker__input" 
 							x-modal-date-picker x-selected-date="selectedPhase.dateCompletedEst">
 							{{ selectedPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY' }}
 							<span class="glyphicon glyphicon-calendar"></span>
@@ -237,12 +233,12 @@
 				<div class="form-group no-margin" ng-class="{'has-error': validateForm}">
 					<label>Actual Date Range</label>
 					<div class="form-inline">
-						<div class="form-control date-picker" x-modal-date-picker x-selected-date="selectedPhase.dateStarted">
+						<div class="form-control date-picker__input" x-modal-date-picker x-selected-date="selectedPhase.dateStarted">
 							{{ selectedPhase.dateStarted | amDateFormat:'MMM Do YYYY' }}
 							<span class="glyphicon glyphicon-calendar"></span>
 						</div>
 						<span> &nbsp;-&nbsp; </span>
-						<div class="form-control date-picker" x-modal-date-picker x-selected-date="selectedPhase.dateCompleted">
+						<div class="form-control date-picker__input" x-modal-date-picker x-selected-date="selectedPhase.dateCompleted">
 							{{ selectedPhase.dateCompleted | amDateFormat:'MMM Do YYYY' }}
 							<span class="glyphicon glyphicon-calendar"></span>
 						</div>
@@ -253,10 +249,9 @@
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				<button ng-click="savePhaseDetail()" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- EDIT MILESTONE -->
+		</div>
+	</div>
+</div>
 
 <!-- ADD COMMENT SESSION MODAL -->
 <div class="modal fade" id="addCommentSessionModal" role="dialog" tabindex="-1">
