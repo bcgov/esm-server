@@ -6,7 +6,7 @@
 
 	<div class="view-body-container news-public-view">
 		<section class="panel panel-default">
-		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed">
+		<table ng-table="tableParams" x-show-filter="toggleFilter" class="table table-condensed" ng-controller="scrollTopCtrl">
 			<!-- NEWS ROW ITEM TEMPLATE -->
 			<tr ng-repeat="o in $data">
 				<td data-title="'Headline'" filter="{'headline':'text'}" sortable="'headline'">
