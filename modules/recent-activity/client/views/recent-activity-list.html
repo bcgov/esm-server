@@ -22,13 +22,13 @@
 			</a>
 		</div>
 		<div class="table-container">
-			<table class="activity-table table table-hover" ng-table="tableParams" x-show-filter="true">
+			<table class="activity-table table table-hover" ng-table="tableParams" x-show-filter="true" ng-controller="scrollTopCtrl">
 				<!-- NEWS ROW ITEM TEMPLATE -->
 				<tr ng-repeat="o in $data" ui-sref="admin.recentactivity.edit({recentActivityId:o._id})">
 					<td class="pin-col" header-class="'pin-col'" header="'pin-header.html'"
 						data-title="'Pinned'"
 						sortable="'pinned'">
-						<button class="btn icon-btn pin-btn" ng-class="{'active': o.pinned}" 
+						<button class="btn icon-btn pin-btn" ng-class="{'active': o.pinned}"
 							title="Pinned items will appear on the Public Home Page"
 							ng-click="$event.stopPropagation();s.onPinActivity(o);">
 							<span class="glyphicon glyphicon-pushpin"></span>
