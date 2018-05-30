@@ -772,6 +772,17 @@ buffer-shims@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/buffer-shims/-/buffer-shims-1.0.0.tgz#9978ce317388c649ad8793028c3477ef044a8b51"
 
+buildmail@3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/buildmail/-/buildmail-3.6.0.tgz#460088de78b4ad6b5475cdc88370212b77081617"
+  dependencies:
+    addressparser "1.0.1"
+    libbase64 "0.1.0"
+    libmime "2.0.3"
+    libqp "1.1.0"
+    nodemailer-fetch "1.3.0"
+    nodemailer-shared "1.0.4"
+
 buildmail@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/buildmail/-/buildmail-4.0.1.tgz#877f7738b78729871c9a105e3b837d2be11a7a72"
@@ -2896,6 +2907,10 @@ i@0.3.x:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/i/-/i-0.3.6.tgz#d96c92732076f072711b6b10fd7d4f65ad8ee23d"
 
+iconv-lite@0.4.13:
+  version "0.4.13"
+  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
+
 iconv-lite@0.4.15:
   version "0.4.15"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
@@ -3578,6 +3593,14 @@ libbase64@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/libbase64/-/libbase64-0.1.0.tgz#62351a839563ac5ff5bd26f12f60e9830bb751e6"
 
+libmime@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/libmime/-/libmime-2.0.3.tgz#55751aa832d31492363df3dd810580dfd59d080c"
+  dependencies:
+    iconv-lite "0.4.13"
+    libbase64 "0.1.0"
+    libqp "1.1.0"
+
 libmime@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/libmime/-/libmime-3.0.0.tgz#51a1a9e7448ecbd32cda54421675bb21bc093da6"
@@ -3782,6 +3805,13 @@ lru-cache@^4.1.2:
   dependencies:
     pseudomap "^1.0.2"
     yallist "^2.1.2"
+
+mailcomposer@3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/mailcomposer/-/mailcomposer-3.7.0.tgz#6f328613e972df8b5035c0834c65ea992d81433c"
+  dependencies:
+    buildmail "3.6.0"
+    libmime "2.0.3"
 
 mailcomposer@4.0.1:
   version "4.0.1"
@@ -4310,6 +4340,13 @@ node-uuid@~1.4.7:
   version "1.4.8"
   resolved "https://registry.yarnpkg.com/node-uuid/-/node-uuid-1.4.8.tgz#b040eb0923968afabf8d32fb1f17f1167fdab907"
 
+nodemailer-direct-transport@3.0.7:
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/nodemailer-direct-transport/-/nodemailer-direct-transport-3.0.7.tgz#3668dd545eba3ee84c118f78d6f51effcb064d0c"
+  dependencies:
+    nodemailer-shared "1.0.4"
+    smtp-connection "2.3.2"
+
 nodemailer-direct-transport@3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/nodemailer-direct-transport/-/nodemailer-direct-transport-3.3.2.tgz#e96fafb90358560947e569017d97e60738a50a86"
@@ -4317,15 +4354,33 @@ nodemailer-direct-transport@3.3.2:
     nodemailer-shared "1.1.0"
     smtp-connection "2.12.0"
 
+nodemailer-fetch@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/nodemailer-fetch/-/nodemailer-fetch-1.3.0.tgz#9f37f6a5b80c1cb5d697ca2bfbde41a6582a50b0"
+
 nodemailer-fetch@1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/nodemailer-fetch/-/nodemailer-fetch-1.6.0.tgz#79c4908a1c0f5f375b73fe888da9828f6dc963a4"
+
+nodemailer-shared@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/nodemailer-shared/-/nodemailer-shared-1.0.4.tgz#8b5c5c35bfb29a47dda7d38303f3a4fb47ba38ae"
+  dependencies:
+    nodemailer-fetch "1.3.0"
 
 nodemailer-shared@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/nodemailer-shared/-/nodemailer-shared-1.1.0.tgz#cf5994e2fd268d00f5cf0fa767a08169edb07ec0"
   dependencies:
     nodemailer-fetch "1.6.0"
+
+nodemailer-smtp-pool@2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/nodemailer-smtp-pool/-/nodemailer-smtp-pool-2.5.2.tgz#3587c9d635b8ec5d6bed712e0a380869004c526f"
+  dependencies:
+    nodemailer-shared "1.0.4"
+    nodemailer-wellknown "0.1.8"
+    smtp-connection "2.3.2"
 
 nodemailer-smtp-pool@2.8.2:
   version "2.8.2"
@@ -4334,6 +4389,14 @@ nodemailer-smtp-pool@2.8.2:
     nodemailer-shared "1.1.0"
     nodemailer-wellknown "0.1.10"
     smtp-connection "2.12.0"
+
+nodemailer-smtp-transport@2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/nodemailer-smtp-transport/-/nodemailer-smtp-transport-2.4.2.tgz#9a20043afc5487ff907a00c1408f42238b36bcdb"
+  dependencies:
+    nodemailer-shared "1.0.4"
+    nodemailer-wellknown "0.1.8"
+    smtp-connection "2.3.2"
 
 nodemailer-smtp-transport@2.7.2:
   version "2.7.2"
@@ -4347,9 +4410,21 @@ nodemailer-wellknown@0.1.10:
   version "0.1.10"
   resolved "https://registry.yarnpkg.com/nodemailer-wellknown/-/nodemailer-wellknown-0.1.10.tgz#586db8101db30cb4438eb546737a41aad0cf13d5"
 
-nodemailer@4.6.4:
-  version "4.6.4"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-4.6.4.tgz#f0d72d0c6a6ec5f4369fa8f4bf5127a31baa2014"
+nodemailer-wellknown@0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/nodemailer-wellknown/-/nodemailer-wellknown-0.1.8.tgz#d44f1ced0aedf1ac1d9a99e8444d0db6c01428dc"
+
+nodemailer@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-2.3.2.tgz#d8ad5de4f43a23369569370da306e6d1d6b40196"
+  dependencies:
+    libmime "2.0.3"
+    mailcomposer "3.7.0"
+    nodemailer-direct-transport "3.0.7"
+    nodemailer-shared "1.0.4"
+    nodemailer-smtp-pool "2.5.2"
+    nodemailer-smtp-transport "2.4.2"
+    socks "1.1.9"
 
 nodemailer@^2.5.0:
   version "2.7.2"
@@ -5724,6 +5799,12 @@ smtp-connection@2.12.0:
   dependencies:
     httpntlm "1.6.1"
     nodemailer-shared "1.1.0"
+
+smtp-connection@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/smtp-connection/-/smtp-connection-2.3.2.tgz#76eacbeb42c6eced6d21de1c85e6ceead4840aac"
+  dependencies:
+    nodemailer-shared "1.0.4"
 
 snapdragon-node@^2.0.1:
   version "2.1.1"
