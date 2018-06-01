@@ -129,41 +129,6 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
       },
       controllerAs: 's'
     })
-    .state('news', {
-      url: '/news',
-      templateUrl: 'modules/recent-activity/client/views/recent-activity-news-list.html',
-      resolve: {
-        projects: function (ProjectModel) {
-          return ProjectModel.lookup();
-        },
-        recentActivity: function ($stateParams, RecentActivityModel, projects, _) {
-          return RecentActivityModel.getCollection ()
-            .then( function (data) {
-              _.each(data, function (item) {
-                if (item.project) {
-                  var proj = projects[item.project];
-                  item.code = proj ? proj.code : '';
-                  item.projectName = proj ? proj.name : '';
-                }
-                item.activeDesc = item.active ? 'Active' : 'Inactive';
-              });
-              return data;
-            });
-        }
-      },
-      controller: function ($scope, $state, NgTableParams, recentActivity, projects) {
-        $scope.tableParams = new NgTableParams ({count:10, sorting: {dateAdded: 'desc'}}, {dataset: recentActivity});
-
-        this.onNewsClick = function(activity, event) {
-          if (!activity.project) {
-            event.preventDefault();
-          } else {
-            $state.go('p.detail', {projectid: projects[activity.project].code });
-          }
-        };
-      },
-      controllerAs: 's'
-    })
   // -------------------------------------------------------------------------
   //
   // this is the add, or create state. it is defined before the others so that
