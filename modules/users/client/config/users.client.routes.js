@@ -123,12 +123,6 @@ angular.module('users').config(['$stateProvider',
         templateUrl: 'modules/guidance/client/views/guidance-main.html'
       })
 
-      // CONTACT US
-      .state('contact', {
-        url: '/contact',
-        templateUrl: 'modules/guidance/client/views/contact.html'
-      })
-
       // DASHBOARD (AKA 'My Projects')
       .state('dashboard', {
         url: '/dashboard',

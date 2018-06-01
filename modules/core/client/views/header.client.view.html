@@ -1,8 +1,8 @@
 <header class="app-header">
 	<div class="navbar-header">
-		<button class="navbar-toggle collapsed" type="button" 
+		<button class="navbar-toggle collapsed" type="button"
 			data-target="#mainNav"
-			data-toggle="collapse"  
+			data-toggle="collapse"
 			aria-expanded="false"
 			aria-label="Toggle navigation">
 			<span class="sr-only">Toggle navigation</span>
@@ -10,66 +10,13 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="http://www.projects.eao.gov.bc.ca"></a>
+		<a class="navbar-brand" href="/"></a>
 	</div>
 	<div class="collapse navbar-collapse" id="mainNav">
 		<ul class="main-nav nav navbar-nav">
-			<li class="dropdown">
-				<a class="dropdown-toggle" id="findProjects" data-toggle="dropdown" 
-					ng-click="$event.preventDefault();"
-					aria-haspopup="true"
-					aria-expanded="true">Find EA Projects <span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="findProjects">
-					<li class="main-nav__menu-item">
-						<a href="http://www.projects.eao.gov.bc.ca/project">
-							<strong>Find Projects by List</strong>
-							<span class="main-nav__menu-item--description">View a list of Environmental Assessment Office projects in British Columbia</span>
-						</a>
-					</li>
-					<li class="main-nav__menu-item">
-						<a href="http://www.projects.eao.gov.bc.ca/map" target="_self">
-							<strong>Find Projects by Map</strong>
-							<span class="main-nav__menu-item--description">Use our interactive map to locate Environmental Assessment Office projects across British Columbia</span>
-						</a>
-					</li>
-				</ul>
-			</li>
 			<li>
-				<a href="http://www.projects.eao.gov.bc.ca/news">
-					<span>Activities & Updates</span>
-				</a>
-			</li>
-			<li class="dropdown">
-				<a class="dropdown-toggle" id="eaProcess" data-toggle="dropdown" 
-					ng-click="$event.preventDefault();"
-					aria-haspopup="true"
-					aria-expanded="true">The EA Process <span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="eaProcess">
-					<li class="main-nav__menu-item">
-						<a href="http://www.projects.eao.gov.bc.ca/legislation">
-							<strong>Legislation</strong>
-							<span class="main-nav__menu-item--description">Learn about the legislation and regulations that apply to environmental assessments in the province of British Columbia.</span>
-						</a>
-					</li>
-					<li class="main-nav__menu-item">
-						<a href="http://www.projects.eao.gov.bc.ca/process" target="_self">
-							<strong>Process & Procedures</strong>
-							<span class="main-nav__menu-item--description">Learn more about how the Environmental Assessment Office neutrally administers a process that holds all participants accountable.</span>
-						</a>
-					</li>
-					<li class="main-nav__menu-item">
-						<a href="http://www.projects.eao.gov.bc.ca/compliance-oversight" target="_self">	
-							<strong>Compliance Oversight</strong>
-							<span class="main-nav__menu-item--description">Learn about how we collaborate with other agencies to coordinate oversight of environmental assessment projects.</span>
-						</a>
-					</li>
-				</ul>
-			</li>
-			<li>
-				<a href="http://www.projects.eao.gov.bc.ca/contact">
-					<span>CONTACT</span>
+				<a href="/">
+					<span>Find EA Projects</span>
 				</a>
 			</li>
 			<li ng-if="authentication.user">
@@ -79,14 +26,14 @@
 				<a x-modal-day-calculator>Calculator</a>
 			</li>
 			<li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user)">
-				<a class="dropdown-toggle" 
-					ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" 
+				<a class="dropdown-toggle"
+					ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown"
 					aria-haspopup="true"
 					aria-expanded="true">System <span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
-					<li class="main-nav__menu-item" 
-						ng-repeat="item in systemMenu.items | orderBy: 'position'" 
+					<li class="main-nav__menu-item"
+						ng-repeat="item in systemMenu.items | orderBy: 'position'"
 						ng-if="item.shouldRender(authentication.user);"
 						ng-class="{'active': $state.includes(item.state)}">
 						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
@@ -116,4 +63,3 @@
 		</ul>
 	</div>
 </header>
-	

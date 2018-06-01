@@ -98,7 +98,7 @@ MONGODB_FUNC_DATABASE | mem-dev-func          | name of the database used by the
 
 ## Project Status
 
-The project was released in February 2017 as a public beta, with continuing engagement, co-design and development proceeding to enhance the web application through future releases.  Feedback, involvement and contribution are greatly appreciated!  If you have any comments, please send us an email at epicsupport.eao@gov.bc.ca or click https://projects.eao.gov.bc.ca/contact to learn more.
+The project was released in February 2017 as a public beta, with continuing engagement, co-design and development proceeding to enhance the web application through future releases.  Feedback, involvement and contribution are greatly appreciated!  If you have any comments, please send us an email at epicsupport.eao@gov.bc.ca or click https://www.projects.eao.gov.bc.ca/contact to learn more.
 
 ## How to Contribute
 
