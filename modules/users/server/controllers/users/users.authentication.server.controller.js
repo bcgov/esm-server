@@ -131,10 +131,6 @@ exports.signin = function (req, res, next) {
 exports.signout = function (req, res) {
   var redirectURL = 'https://logon.gov.bc.ca/clp-cgi/logoff.cgi?returl=' + req.headers.referer;
   req.logout();
-  if(req.user.provider === 'local'){
-    // do not go through SiteMinder after logout
-    redirectURL = req.headers.referer;
-  }
   res.redirect(redirectURL);
 };
 
