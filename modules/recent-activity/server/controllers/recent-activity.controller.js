@@ -10,6 +10,7 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var Model = mongoose.model('RecentActivity');
 var ProjectModel = mongoose.model('Project');
+var CommentPeriodModel = mongoose.model('CommentPeriod');
 
 module.exports = DBModel.extend({
   name: 'RecentActivity',
@@ -103,5 +104,13 @@ module.exports = DBModel.extend({
       .then(function(project){
         return self.model.find({ project : project._id}).sort({date: -1}).exec();
       })
+  },
+
+  /**
+   * Returns all comment periods for the specified projectId.
+   * @param projectId the project._id.
+   */
+  getCommentPeriodsForProject: function(projectId) {
+    return CommentPeriodModel.find({project: projectId}).populate('project', 'code').exec();
   }
 });

@@ -16,4 +16,3 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
   documentUrl : { type: String, default: '' },
   pinned      : { type: Boolean, default: false },
 });
-

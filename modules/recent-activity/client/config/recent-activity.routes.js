@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 // =========================================================================
 //
@@ -144,7 +145,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
           return RecentActivityModel.getNew ();
         }
       },
-      controller: function ($scope, $state, Authentication, recentActivity, RecentActivityModel, $filter, publishedProjects) {
+      controller: function ($scope, $state, $timeout, Authentication, recentActivity, RecentActivityModel, $filter, publishedProjects) {
         $scope.publishedProjects = publishedProjects;
         $scope.recentActivity = recentActivity;
         $scope.recentActivity.addedBy = Authentication.user._id;
@@ -165,6 +166,48 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
               // swallow error
             });
         };
+
+        /**
+         * Update the comment period data when the project or type changes.
+         * As both of these are necessary to have a comment period, if either is unset, clear all of the comment period data from the recentActivity.
+         */
+        $scope.updateCommentPeriodData = function() {
+          if ($scope.recentActivity.project && $scope.recentActivity.type == 'Public Comment Period') {
+            $scope.getCommentPeriods($scope.recentActivity.project).then(function(data) {
+              if (data) {
+                return $timeout(function(){
+                  $scope.commentPeriods = data;
+                });
+              }
+            });
+          } else {
+            return $timeout(function() {
+              $scope.commentPeriods = null;
+              $scope.recentActivity.contentUrl = null;
+              $scope.selectedCommentPeriod = null;
+            });
+          }
+        }
+
+        /**
+         * Make the request to retrieve comment periods for the given project.
+         * @param project the project object to retrieve comment periods for.
+         */
+        $scope.getCommentPeriods = function(project) {
+          return RecentActivityModel.getCommentPeriodsForProject(project);
+        }
+
+        /**
+         * Given a change in comment period, which may include selecting nothing, update the contentUrl.
+         * @param selectedCommentPeriod the comment period object selected from the drop down.
+         */
+        $scope.updateCommentPeriodSelection = function (selectedCommentPeriod) {
+          if (selectedCommentPeriod) {
+            $scope.recentActivity.contentUrl = '/p/'+ selectedCommentPeriod.project.code + '/commentperiod/' + selectedCommentPeriod._id;
+          } else {
+            $scope.recentActivity.contentUrl = null;
+          }
+        }
       }
     })
   // -------------------------------------------------------------------------
@@ -181,7 +224,7 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
           return RecentActivityModel.getModel ($stateParams.recentActivityId);
         }
       },
-      controller: function ($scope, $state, recentActivity, RecentActivityModel, $filter, publishedProjects) {
+      controller: function ($scope, $state, $timeout, recentActivity, RecentActivityModel, $filter, publishedProjects) {
         $scope.publishedProjects = publishedProjects;
         $scope.recentActivity = recentActivity;
         var which = 'edit';
@@ -201,6 +244,64 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
               // swallow error
             });
         };
+
+        /**
+         * Update the comment period data when the project or type changes.
+         * As both of these are necessary to have a comment period, if either is unset, clear all of the comment period data from the recentActivity.
+         */
+        $scope.updateCommentPeriodData = function() {
+          if ($scope.recentActivity.project && $scope.recentActivity.type == 'Public Comment Period') {
+            return $scope.getCommentPeriods($scope.recentActivity.project).then(function(data) {
+              if (data) {
+                return $timeout(function(){
+                  $scope.commentPeriods = data;
+                });
+              }
+            });
+          } else {
+            return $timeout(function() {
+              $scope.commentPeriods = null;
+              $scope.recentActivity.contentUrl = null;
+              $scope.selectedCommentPeriod = null;
+            });
+          }
+        }
+
+        /**
+         * Make the request to retrieve comment periods for the given project.
+         * @param project the project object to retrieve comment periods for.
+         */
+        $scope.getCommentPeriods = function(project) {
+          return RecentActivityModel.getCommentPeriodsForProject(project);
+        }
+
+        /**
+         * Given a change in comment period, which may include selecting nothing, update the contentUrl.
+         * @param selectedCommentPeriod the comment period object selected from the drop down.
+         */
+        $scope.updateCommentPeriodSelection = function(selectedCommentPeriod) {
+          $timeout(function() {
+            if (selectedCommentPeriod) {
+              $scope.recentActivity.contentUrl = '/p/'+ selectedCommentPeriod.project.code + '/commentperiod/' + selectedCommentPeriod._id;
+            } else {
+              $scope.recentActivity.contentUrl = null;
+              $scope.selectedCommentPeriod = null;
+            }
+          });
+        }
+
+        /**
+         * If this recentActivity had a comment period, then pre-load the comment period drop-down and pre-select the previously chosen comment period.
+         */
+        $scope.updateCommentPeriodData().then(function() {
+          if($scope.recentActivity.contentUrl) {
+            $scope.commentPeriods.forEach(function(commentPeriod) {
+              if ($scope.recentActivity.contentUrl.indexOf(commentPeriod._id) != -1) {
+                $scope.selectedCommentPeriod = commentPeriod;
+              }
+            });
+          }
+        });
       }
     })
   // -------------------------------------------------------------------------
@@ -222,5 +323,3 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
       }
     });
 }]);
-
-

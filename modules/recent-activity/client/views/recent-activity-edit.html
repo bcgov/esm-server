@@ -39,15 +39,20 @@
 
 			<div class="row">
 				<div class="col-md-3">
-					<div class="form-group">
+					<div class="form-group" x-show-errors>
 						<label for="project" class="control-label">Project</label>
 						<select id="project"
 							name="project"
 							class="form-control"
-							ng-model="recentActivity.project"
-							ng-options="opt as opt.name for opt in publishedProjects track by opt._id">
+              ng-model="recentActivity.project"
+              ng-options="opt as opt.name for opt in publishedProjects track by opt._id"
+              ng-change="updateCommentPeriodData()"
+              ng-required="recentActivity.type == 'Public Comment Period'">
 							<option></option>
-						</select>
+            </select>
+            <div ng-messages="recentActivityForm.project.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Project is required.</p>
+            </div>
 					</div>
 				</div>
 				<div class="col-md-3">
@@ -56,7 +61,8 @@
 						<select id="type"
 							name="type"
 							class="form-control"
-							ng-model="recentActivity.type"
+              ng-model="recentActivity.type"
+              ng-change="updateCommentPeriodData()"
 							required>
 							<option>Public Comment Period</option>
 							<option>News</option>
@@ -81,13 +87,19 @@
 		<section>
 			<div class="form-group" ng-if="recentActivity.type == 'Public Comment Period'">
 				<label for="priority" class="control-label">Comment Period URL <em>(Optional)</em></label>
-				<div class="help-block m-b-1">Provide a URL for a specific Comment Period</div>
-				<input class="form-control" type="form-control" ng-model="recentActivity.contentUrl"/>
+        <select class="form-control"
+          type="form-control"
+          ng-model="selectedCommentPeriod"
+          ng-change="updateCommentPeriodSelection(selectedCommentPeriod)"
+          ng-options="opt as opt.informationLabel for opt in commentPeriods track by opt.dateAdded"
+          ng-required="recentActivity.type == 'Public Comment Period'">
+          <option></option>
+        </select>
 			</div>
 			<div class="form-group">
 				<label for="priority" class="control-label">Document URL <em>(Optional)</em></label>
 				<div class="help-block m-b-1">Provide a URL for a specific document or folder</div>
-				<input class="form-control" type="form-control" ng-model="recentActivity.documentUrl"/>
+        <input class="form-control" type="form-control" ng-model="recentActivity.documentUrl"/>
 			</div>
 		</section>
 

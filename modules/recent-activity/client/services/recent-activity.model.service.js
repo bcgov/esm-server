@@ -18,9 +18,10 @@ angular.module('recent-activity').factory ('RecentActivityModel', function (Mode
     },
     togglePinnedActivity: function (activity) {
       return this.put ('/api/recentactivity/togglepin/' + activity._id);
+    },
+    getCommentPeriodsForProject: function (project) {
+      return this.get ('/api/recentactivity/getCommentPeriodsForProject/' + project._id);
     }
   });
   return new Class ();
 });
-
-
