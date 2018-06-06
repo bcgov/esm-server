@@ -73,14 +73,15 @@
     </section>
 
     <section>
-      <div class="form-group" ng-if="recentActivity.type == 'Public Comment Period'">
-        <label for="priority" class="control-label">Comment Period URL
-          <em>(Optional)</em>
-        </label>
-        <select class="form-control" type="form-control" ng-model="selectedCommentPeriod" ng-change="updateCommentPeriodSelection(selectedCommentPeriod)"
+      <div class="form-group" ng-if="recentActivity.type == 'Public Comment Period'" x-show-errors>
+        <label for="commentperiod" class="control-label">Comment Period</label>
+        <select id="commentperiod" name="commentperiod" class="form-control" type="form-control" ng-model="selectedCommentPeriod" ng-change="updateCommentPeriodSelection(selectedCommentPeriod)"
           ng-options="opt as opt.informationLabel for opt in commentPeriods track by opt.dateAdded" ng-required="recentActivity.type == 'Public Comment Period'">
           <option></option>
         </select>
+        <div ng-messages="recentActivityForm.commentperiod.$error" role="alert">
+          <p class="help-block error-text" ng-message="required">Comment period is required.</p>
+        </div>
       </div>
       <div class="form-group">
         <label for="priority" class="control-label">Document URL
