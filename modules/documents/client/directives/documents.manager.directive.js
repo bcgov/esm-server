@@ -285,6 +285,9 @@ angular.module('documents')
                       // swallow error
                     }
                   }
+                  if (_.isEmpty(f.documentDate)){
+                    f.documentDate = f.dateUploaded;
+                  }
                   return _.extend(f,{selected:  (_.find(self.checkedFiles, function(d) { return d._id.toString() === f._id.toString(); }) !== undefined), type: 'File'});
                 });
 
