@@ -5,7 +5,7 @@ var testAssets = require('./config/assets/test');
 var path = require('path');
 var childProcess = require('child_process');
 
-module.exports = function(grunt) {
+module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     env: {
@@ -67,30 +67,26 @@ module.exports = function(grunt) {
     },
     sass: {
       dist: {
-        files: [
-          {
-            expand: true,
-            src: defaultAssets.client.sass,
-            ext: '.css',
-            rename: function(base, src) {
-              return src.replace('/scss/', '/css/');
-            }
+        files: [{
+          expand: true,
+          src: defaultAssets.client.sass,
+          ext: '.css',
+          rename: function (base, src) {
+            return src.replace('/scss/', '/css/');
           }
-        ]
+        }]
       }
     },
     less: {
       dist: {
-        files: [
-          {
-            expand: true,
-            src: defaultAssets.client.less,
-            ext: '.css',
-            rename: function(base, src) {
-              return src.replace('/less/', '/css/');
-            }
+        files: [{
+          expand: true,
+          src: defaultAssets.client.less,
+          ext: '.css',
+          rename: function (base, src) {
+            return src.replace('/less/', '/css/');
           }
-        ]
+        }]
       }
     },
     'node-inspector': {
@@ -136,12 +132,12 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'start_e2e_server',
     'Starting functional test server.',
-    function() {
+    function () {
       var done = this.async();
 
       // pass command line parameters through to the e2e task, by appending to what is in process.env
-      for(var param in grunt.cli.options){
-        if( param !== 'tasks' && param !== 'npm' ){
+      for (var param in grunt.cli.options) {
+        if (param !== 'tasks' && param !== 'npm') {
           process.env[param] = grunt.cli.options[param];
           console.log(param, grunt.cli.options[param]); // eslint-disable-line
         }
@@ -162,13 +158,11 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'run_e2e_tests',
     'Running functional tests.',
-    function() {
+    function () {
       var done = this.async();
 
       var test_process = childProcess.spawn(
-        process.platform == 'win32' ? 'gradlew.bat' : './gradlew',
-        ['chromeHeadlessTest'],
-        {
+        process.platform == 'win32' ? 'gradlew.bat' : './gradlew', ['chromeHeadlessTest'], {
           env: process.env,
           cwd: path.join(process.cwd(), 'functional-tests'),
           stdio: 'inherit'
@@ -183,19 +177,19 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'drop_e2e_database',
     'Dropping functional test database.',
-    function() {
+    function () {
       var done = this.async();
 
       // pass command line parameters through to the e2e task, by appending to what is in process.env
-      for(var param in grunt.cli.options){
-        if( param !== 'tasks' && param !== 'npm' ){
+      for (var param in grunt.cli.options) {
+        if (param !== 'tasks' && param !== 'npm') {
           process.env[param] = grunt.cli.options[param];
         }
       }
 
       var mongoose = require('./config/lib/mongoose.js');
-      if(!process.env.NO_DB_DROP){
-        mongoose.dropDatabase(function() {
+      if (!process.env.NO_DB_DROP) {
+        mongoose.dropDatabase(function () {
           done();
         });
       }
@@ -206,7 +200,7 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'shutdown_e2e_server',
     'Stopping functional test server.',
-    function() {
+    function () {
       if (e2e_server_process) {
         e2e_server_process.kill('SIGINT');
       }
