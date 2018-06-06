@@ -2,7 +2,7 @@
 
 module.exports = {
   app: {
-    title: 'EAO Project Information and Collaboration (EPIC)',
+    title: 'EPIC Admin',
     description: 'Government of British Columbia Environmental Assessment Office Project System',
     keywords: 'environmental assessment office bc government',
     googleAnalyticsTrackingID: process.env.GOOGLE_ANALYTICS_TRACKING_ID || 'GOOGLE_ANALYTICS_TRACKING_ID'
