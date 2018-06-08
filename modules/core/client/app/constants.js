@@ -172,7 +172,8 @@ angular
       'Certificate Expired',
       'Withdrawn',
       'Terminated',
-      'Pre-EA Act Approval'
+      'Pre-EA Act Approval',
+      'Not Designated Reviewable'
     ]
   )
   .constant('CE_STAGES',
@@ -276,7 +277,8 @@ angular
       'certificate-issued' : 'Certificate Issued',
       'certificate-refused' : 'Certificate Refused',
       'terminated' : 'Terminated',
-      'withdrawn' : 'Withdrawn'
+      'withdrawn' : 'Withdrawn',
+      'not-designated-reviewable' : 'Not Designated Reviewable'
     }
   )
   .constant('RELEASE',
