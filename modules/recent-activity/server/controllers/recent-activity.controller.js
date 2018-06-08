@@ -10,11 +10,18 @@ var _ = require('lodash');
 var mongoose = require('mongoose');
 var Model = mongoose.model('RecentActivity');
 var ProjectModel = mongoose.model('Project');
+var CommentPeriodModel = mongoose.model('CommentPeriod');
 
 module.exports = DBModel.extend({
   name: 'RecentActivity',
   plural: 'recentactivities',
-  populate: [{path: 'project', select: { 'code': 1, 'name': 1}}],
+  populate: [{
+    path: 'project',
+    select: {
+      'code': 1,
+      'name': 1
+    }
+  }],
   // -------------------------------------------------------------------------
   //
   // get activities which are active, sorted by Public Comment period, then
@@ -22,12 +29,16 @@ module.exports = DBModel.extend({
   //
   // -------------------------------------------------------------------------
   getRecentActivityActive: function () {
-    var p = Model.find ({active:true},
-      {},
-      {}).sort({dateAdded: -1}).limit(10); // Quick hack to limit the front page loads.
+    var p = Model.find({
+      active: true
+    }, {}, {}).sort({
+      dateAdded: -1
+    }).limit(10); // Quick hack to limit the front page loads.
     return new Promise(function (resolve, reject) {
       p.then(function (doc) {
-        var pcSort = _.partition(doc, { type: "Public Comment Period" });
+        var pcSort = _.partition(doc, {
+          type: "Public Comment Period"
+        });
         var pcp = pcSort[0];
         var news = pcSort[1];
         // sort by date Added descending, then by priority ascending..., then by dateUpdated descending
@@ -46,11 +57,16 @@ module.exports = DBModel.extend({
 
   getRecentActivityByProjectId: function (id) {
     return new Promise(function (resolve, reject) {
-      var p = Model.find ({ active: true, project: id },
-        {},
-        {}).sort({dateAdded: -1}).limit(25);
+      var p = Model.find({
+        active: true,
+        project: id
+      }, {}, {}).sort({
+        dateAdded: -1
+      }).limit(25);
       p.then(function (doc) {
-        var pcSort = _.partition(doc, { type: "Public Comment Period" });
+        var pcSort = _.partition(doc, {
+          type: "Public Comment Period"
+        });
         var pcp = pcSort[0];
         var news = pcSort[1];
         // sort by date Added descending, then by priority ascending..., then by dateUpdated descending
@@ -79,7 +95,9 @@ module.exports = DBModel.extend({
       .then(function (activity) {
         // Pinning or not
         if (activity.pinned) {
-          return self.findMany({pinned: true})
+          return self.findMany({
+              pinned: true
+            })
             .then(function (activities) {
               if (activities.length >= 4) {
                 return Promise.reject(new Error("You are only allowed a maximum of four (4) pinned items in this list. Please remove one before assigning another pinned item."));
@@ -96,12 +114,28 @@ module.exports = DBModel.extend({
   /*
    * Retirns all the active recent activities for the specified project
    */
-  getRecentActivityForProject: function(projectCode){
+  getRecentActivityForProject: function (projectCode) {
     var self = this;
 
-    return ProjectModel.findOne({ code : projectCode })
-      .then(function(project){
-        return self.model.find({ project : project._id}).sort({date: -1}).exec();
+    return ProjectModel.findOne({
+        code: projectCode
       })
+      .then(function (project) {
+        return self.model.find({
+          project: project._id
+        }).sort({
+          date: -1
+        }).exec();
+      })
+  },
+
+  /**
+   * Returns all comment periods for the specified projectId.
+   * @param projectId the project._id.
+   */
+  getCommentPeriodsForProject: function (projectId) {
+    return CommentPeriodModel.find({
+      project: projectId
+    }).populate('project', 'code').exec();
   }
 });

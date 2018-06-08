@@ -1,4 +1,3 @@
-
 'use strict';
 // =========================================================================
 //
@@ -6,21 +5,22 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('recent-activity').factory ('RecentActivityModel', function (ModelBase) {
+angular.module('recent-activity').factory('RecentActivityModel', function (ModelBase) {
   //
   // build the model by extending the base model. the base model will
   // have all the basic crud stuff built in
   //
-  var Class = ModelBase.extend ({
-    urlName : 'recentactivity',
-    getRecentActivityActive : function() {
-      return this.get ('/api/recentactivity/active/list');
+  var Class = ModelBase.extend({
+    urlName: 'recentactivity',
+    getRecentActivityActive: function () {
+      return this.get('/api/recentactivity/active/list');
     },
     togglePinnedActivity: function (activity) {
-      return this.put ('/api/recentactivity/togglepin/' + activity._id);
+      return this.put('/api/recentactivity/togglepin/' + activity._id);
+    },
+    getCommentPeriodsForProject: function (project) {
+      return this.get('/api/recentactivity/getCommentPeriodsForProject/' + project._id);
     }
   });
-  return new Class ();
+  return new Class();
 });
-
-

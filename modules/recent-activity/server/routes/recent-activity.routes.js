@@ -7,46 +7,52 @@
 var RecentActivity = require('../controllers/recent-activity.controller');
 var Project = require(require('path').resolve('./modules/projects/server/controllers/project.controller'));
 var _ = require('lodash');
-var routes = require ('../../../core/server/controllers/core.routes.controller');
-var policy = require ('../../../core/server/controllers/core.policy.controller');
+var routes = require('../../../core/server/controllers/core.routes.controller');
+var policy = require('../../../core/server/controllers/core.policy.controller');
 
-module.exports = function(app) {
+module.exports = function (app) {
   routes.setCRUDRoutes(app, 'recentActivity', RecentActivity, policy);
 
   //
   // all active activities
   //
-  app.route ('/api/recentactivity/togglepin/:activityId')
-    .all (policy ('user'))
-    .put (routes.setAndRun (RecentActivity, function (model, req) {
-      return model.pinActivity (req.params.activityId);
+  app.route('/api/recentactivity/getCommentPeriodsForProject/:projectId')
+    .all(policy('user'))
+    .get(routes.setAndRun(RecentActivity, function (model, req) {
+      return model.getCommentPeriodsForProject(req.params.projectId);
+    }));
+
+  app.route('/api/recentactivity/togglepin/:activityId')
+    .all(policy('user'))
+    .put(routes.setAndRun(RecentActivity, function (model, req) {
+      return model.pinActivity(req.params.activityId);
     }));
 
   app.route('/api/recentactivity/active/list')
-    .all (policy ('guest'))
-    .get (routes.setAndRun (RecentActivity, function (model/* , req */) {
-      return model.getRecentActivityActive ();
+    .all(policy('guest'))
+    .get(routes.setAndRun(RecentActivity, function (model /* , req */ ) {
+      return model.getRecentActivityActive();
     }));
 
   app.route('/api/recentactivity/byproject/:projectcode')
-    .all (policy ('guest'))
-    .get (routes.setAndRun (RecentActivity, function (model, req) {
+    .all(policy('guest'))
+    .get(routes.setAndRun(RecentActivity, function (model, req) {
       return model.getRecentActivityForProject(req.params.projectcode);
     }));
 
   app.route('/api/recentactivity/active/rss')
-    .all (policy ('guest'))
-    .all (routes.setModel (Project, 'prj'))
-    .all (routes.setModel (RecentActivity, 'rac'))
-    .get (function(req, res) {
+    .all(policy('guest'))
+    .all(routes.setModel(Project, 'prj'))
+    .all(routes.setModel(RecentActivity, 'rac'))
+    .get(function (req, res) {
       var myHost = req.protocol + '://' + req.get('host');
       var myURL = myHost + req.originalUrl;
       var prj = req.prj;
       prj.list()
-        .then(function(projectObjects) {
+        .then(function (projectObjects) {
           var p = req.rac;
           p.getRecentActivityActive()
-            .then(function(data) {
+            .then(function (data) {
               var RSS = require('rss');
               var feedOptions = {
                 title: 'Environmental Assessment Office - News & Announcements',
@@ -60,8 +66,8 @@ module.exports = function(app) {
               };
               var feed = new RSS(feedOptions);
 
-              _.forEach(data, function(item) {
-                var prjCode = _.result(_.find(projectObjects, function(value) {
+              _.forEach(data, function (item) {
+                var prjCode = _.result(_.find(projectObjects, function (value) {
                   return value._id.equals(item.project);
                 }), 'code');
                 feed.item({
@@ -83,21 +89,23 @@ module.exports = function(app) {
     });
 
   app.route('/api/recentactivity/get/rss/:projectcode')
-    .all (policy ('guest'))
-    .all (routes.setModel (Project, 'prj'))
-    .all (routes.setModel (RecentActivity, 'rac'))
-    .get (function(req, res) {
+    .all(policy('guest'))
+    .all(routes.setModel(Project, 'prj'))
+    .all(routes.setModel(RecentActivity, 'rac'))
+    .get(function (req, res) {
       var code = req.params.projectcode;
       var myHost = req.protocol + '://' + req.get('host');
       var myURL = myHost + req.originalUrl;
       var prj = req.prj;
-      prj.list({code: code})
+      prj.list({
+          code: code
+        })
         .then(function (projectObjects) {
           if (projectObjects.length > 0) {
             var theProject = projectObjects[0];
             var p = req.rac;
             p.getRecentActivityByProjectId(theProject._id)
-              .then(function(data) {
+              .then(function (data) {
                 var RSS = require('rss');
                 var feedOptions = {
                   title: 'Environmental Assessment Office - News & Announcements for ' + theProject.name,
@@ -111,7 +119,7 @@ module.exports = function(app) {
                 };
                 var feed = new RSS(feedOptions);
 
-                _.forEach(data, function(item) {
+                _.forEach(data, function (item) {
                   feed.item({
                     date: item.dateUpdated,
                     url: myHost + "/p/" + code + "/detail",
