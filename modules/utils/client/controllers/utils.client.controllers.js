@@ -523,6 +523,42 @@ function controllerModalDayCalculator($scope, $uibModalInstance, moment) {
       }
     }
   };
+
+  $scope.validate = function() {
+    $scope.$broadcast('show-errors-check-validity', 'dayCalculatorForm');
+  };
+
+  $scope.datePicker1 = {
+    opened: false
+  };
+  $scope.dateOpen1 = function() {
+    $scope.datePicker1.opened = true;
+  };
+
+  $scope.datePicker2 = {
+    opened: false
+  };
+  $scope.dateOpen2 = function() {
+    $scope.datePicker2.opened = true;
+  };
+
+  $scope.datePicker3 = {
+    opened: false
+  };
+  $scope.dateOpen3 = function() {
+    $scope.datePicker3.opened = true;
+  };
+
+  $scope.datePicker4 = {
+    opened: false
+  };
+  $scope.dateOpen4 = function() {
+    $scope.datePicker4.opened = true;
+  };
+
+  $scope.dateOptions = {
+    showWeeks: false
+  };
 }
 
 // -----------------------------------------------------------------------------------

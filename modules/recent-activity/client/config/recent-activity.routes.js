@@ -165,10 +165,11 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
           return RecentActivityModel.getNew();
         }
       },
-      controller: function ($scope, $state, $timeout, Authentication, recentActivity, RecentActivityModel, $filter, publishedProjects) {
+      controller: function ($scope, $state, $timeout, Authentication, recentActivity, RecentActivityModel, $filter, publishedProjects, moment, _ ) {
         $scope.publishedProjects = publishedProjects;
         $scope.recentActivity = recentActivity;
         $scope.recentActivity.addedBy = Authentication.user._id;
+        $scope.recentActivity.dateAdded = _.isEmpty(recentActivity.dateAdded) ? moment.now() : moment(recentActivity.dateAdded).toDate();
         var which = 'add';
         $scope.save = function (isValid) {
           if (!isValid) {
@@ -229,6 +230,17 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
             $scope.recentActivity.contentUrl = null;
           }
         }
+
+        //datepicker
+        $scope.datePicker = {
+          opened: false
+        };
+        $scope.dateOpen = function() {
+          $scope.datePicker.opened = true;
+        };
+        $scope.dateOptions = {
+          showWeeks: false
+        };
       }
     })
     // -------------------------------------------------------------------------
@@ -247,9 +259,10 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
           return RecentActivityModel.getModel($stateParams.recentActivityId);
         }
       },
-      controller: function ($scope, $state, $timeout, recentActivity, RecentActivityModel, $filter, publishedProjects) {
+      controller: function ($scope, $state, $timeout, recentActivity, RecentActivityModel, $filter, publishedProjects, moment, _ ) {
         $scope.publishedProjects = publishedProjects;
         $scope.recentActivity = recentActivity;
+        $scope.recentActivity.dateAdded = _.isEmpty(recentActivity.dateAdded) ? null : moment(recentActivity.dateAdded).toDate();
         var which = 'edit';
         $scope.save = function (isValid) {
           if (!isValid) {
@@ -259,12 +272,12 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 
           var p = (which === 'add') ? RecentActivityModel.add($scope.recentActivity) : RecentActivityModel.save($scope.recentActivity);
           p.then(function ( /* model */ ) {
-              $state.transitionTo('admin.recentactivity.list', {}, {
-                reload: true,
-                inherit: false,
-                notify: true
-              });
-            })
+            $state.transitionTo('admin.recentactivity.list', {}, {
+              reload: true,
+              inherit: false,
+              notify: true
+            });
+          })
             .catch(function ( /* err */ ) {
               // swallow error
             });
@@ -327,6 +340,17 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
             });
           }
         });
+
+        //datepicker
+        $scope.datePicker = {
+          opened: false
+        };
+        $scope.dateOpen = function() {
+          $scope.datePicker.opened = true;
+        };
+        $scope.dateOptions = {
+          showWeeks: false
+        };
       }
     })
     // -------------------------------------------------------------------------

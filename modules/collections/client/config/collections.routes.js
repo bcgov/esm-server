@@ -38,11 +38,21 @@ angular.module('collections').config(['$stateProvider', function($stateProvider)
           return CollectionModel.getNew();
         }
       },
-      controller: function($scope, $state, project, NgTableParams, collection, types, CollectionModel, AlertService) {
+      controller: function($scope, $state, $filter, $uibModal, project, NgTableParams, collection, types, CollectionModel, AlertService) {
         $scope.collection = collection;
         $scope.collection.project = project._id;
         $scope.project = project;
         $scope.types = types;
+
+        $scope.datePicker = {
+          opened: false
+        };
+        $scope.dateOpen = function() {
+          $scope.datePicker.opened = true;
+        };
+        $scope.dateOptions = {
+          showWeeks: false
+        };
 
         $scope.save = function(isValid) {
           if (!isValid) {
@@ -92,7 +102,7 @@ angular.module('collections').config(['$stateProvider', function($stateProvider)
           return CollectionModel.getModel($stateParams.collectionId);
         }
       },
-      controller: function($scope, $state, $uibModal, $location, NgTableParams, collection, project, CollectionModel, _, AlertService) {
+      controller: function($scope, $state, $uibModal, $filter, $location, NgTableParams, collection, project, CollectionModel, _, AlertService) {
         $scope.collection = collection;
         $scope.project = project;
 
@@ -356,7 +366,7 @@ angular.module('collections').config(['$stateProvider', function($stateProvider)
           return CollectionModel.getModel($stateParams.collectionId);
         }
       },
-      controller: function($scope, $state, $uibModal, $location, NgTableParams, collection, project, types, CollectionModel, _, AlertService) {
+      controller: function($scope, $state, $filter, $uibModal, $location, moment, NgTableParams, collection, project, types, CollectionModel, _, AlertService) {
         $scope.collection = collection;
         $scope.project = project;
         $scope.types = types;
@@ -366,6 +376,18 @@ angular.module('collections').config(['$stateProvider', function($stateProvider)
 
         $scope.linkedMainDocument = collection.mainDocument ? [ collection.mainDocument.document ] : [];
         $scope.linkedOtherDocuments = _.map(collection.otherDocuments, function(cd) { return cd.document; });
+
+        $scope.collection.date = _.isEmpty(collection.date) ? moment.now() : moment(collection.date).toDate();
+
+        $scope.datePicker = {
+          opened: false
+        };
+        $scope.dateOpen = function() {
+          $scope.datePicker.opened = true;
+        };
+        $scope.dateOptions = {
+          showWeeks: false
+        };
 
         $scope.confirmMove = function(title, msg, moveFunc) {
           var modalDocView = $uibModal.open({

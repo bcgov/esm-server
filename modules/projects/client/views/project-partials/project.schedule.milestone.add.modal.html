@@ -6,48 +6,56 @@
 	<h3 class="modal-title">Add Milestone</h3>
 </div>
 
-<div class="modal-body">
-	<div class="form-group">
-		<label>Select a Milestone</label>
-		<select class="form-control"
-						ng-model="selectedMilestoneType"
-						ng-options="milestone as milestone.name for milestone in options"
-						ng-selected="selectedMilestoneType === milestone"
-						ng-change="changeOption()">
-			<!-- <option ng-repeat="milestone in rMilestonesForPhase" value="{{ milestone.code }}">{{ milestone.name }}</option> -->
-		</select>
-	</div>
-	<div ng-show="showCustom" class="form-group">
-		<label class="control-label">Custom Milestone</label>
-		<input type="text" class="form-control" ng-model="customMilestoneText"/>
-	</div>
-	<div class="form-group" ng-class="{'has-error': validateForm}">
-		<label>Estimated Date Range</label>
-		<div class="form-inline">
-			<div class="form-group" >
-				<div class="form-control date-picker" 
-					x-modal-date-picker 
-					x-selected-date="dateStarted">
-					{{ dateStarted | amDateFormat:'MMM Do YYYY' }}
-					<span class="placeholder-value" ng-if="!dateStarted">Start Date</span>
-					<span class="glyphicon glyphicon-calendar"></span>
-				</div>
-			</div>
-			<span> &nbsp;-&nbsp; </span>
-			<div class="form-group" >
-				<div class="form-control date-picker" 
-					x-modal-date-picker 
-					x-selected-date="dateCompleted">
-					{{ dateCompleted | amDateFormat:'MMM Do YYYY' }}
-					<span class="placeholder-value" ng-if="!dateCompleted">End Date</span>
-					<span class="glyphicon glyphicon-calendar"></span>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+<form class="fb-edit-form" name="addMilestoneForm" novalidate>
+  <div class="modal-body">
+    <div class="form-group">
+      <label>Select a Milestone</label>
+      <select class="form-control"
+              ng-model="selectedMilestoneType"
+              ng-options="milestone as milestone.name for milestone in options"
+              ng-selected="selectedMilestoneType === milestone"
+              ng-change="changeOption()">
+        <!-- <option ng-repeat="milestone in rMilestonesForPhase" value="{{ milestone.code }}">{{ milestone.name }}</option> -->
+      </select>
+    </div>
+    <div ng-show="showCustom" class="form-group">
+      <label class="control-label">Custom Milestone</label>
+      <input type="text" class="form-control" ng-model="customMilestoneText"/>
+    </div>
+    <div class="form-group datePicker" x-show-errors>
+      <label class="control-label" for="date">Estimated Date Range<em class="control label"></em></label>
+      <div class="form-inline">
+        <p class="input-group" x-show-errors>
+          <input class="form-control" placeholder="YYYY-MM-DD"  id="dateStart" name="dateStart"
+            ng-model="dateStarted"
+            type="text"
+            uib-datepicker-popup
+            is-open="datePicker1.opened"
+            datepicker-options="dateOptions"
+            close-text="Close"/>
+          <span class="input-group-btn">
+            <span class="btn btn-default" ng-click="dateOpen1()"><span class="glyphicon glyphicon-calendar"/></button>
+          </span>
+        </p>
+      <span> &nbsp;-&nbsp; </span>
+        <p class="input-group" x-show-errors>
+          <input class="form-control" placeholder="YYYY-MM-DD"  id="dateCompleted" name="dateCompleted"
+            ng-model="dateCompleted"
+            type="text"
+            uib-datepicker-popup
+            is-open="datePicker2.opened"
+            datepicker-options="dateOptions"
+            close-text="Close"/>
+          <span class="input-group-btn">
+            <span class="btn btn-default" ng-click="dateOpen2()"><span class="glyphicon glyphicon-calendar"/></button>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</form>
 
 <div class="modal-footer">
 	<button type="button" class="btn" ng-click="cancel()">Cancel</button>
-	<button type="button" class="btn btn-primary" ng-click="ok(selectedMilestoneType, dateStarted, dateCompleted)">Add Milestone</button>
+	<button type="button" class="btn btn-primary" ng-click="ok(selectedMilestoneType, dateStarted, dateCompleted,addMilestoneForm.$valid)">Add Milestone</button>
 </div>

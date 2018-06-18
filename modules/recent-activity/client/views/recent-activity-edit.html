@@ -62,11 +62,21 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <label class="control-label">Date Added</label>
-          <div class="form-control pcp-date date-picker" x-modal-date-picker x-selected-date="recentActivity.dateAdded">
-            {{ recentActivity.dateAdded | amDateFormat:'MMMM DD, YYYY' }}
-            <span class="glyphicon glyphicon-calendar"></span>
+        <div class="col-md-3 form-group" x-show-errors>
+          <label class="control-label">Date Added <em class="control-label">(YYYY-MM-DD)</em></label>
+          <div class="datepicker__input">
+            <p class="input-group">
+              <input class="form-control" placeholder="YYYY-MM-DD"  id="dateAdded" name="dateAdded"
+                  ng-model="recentActivity.dateAdded" type="text"
+                  uib-datepicker-popup
+                  is-open="datePicker.opened"
+                  datepicker-options="dateOptions"
+                  close-text="Close"
+                  ng-change="validate()"/>
+              <span class="input-group-btn">
+                <span class="btn btn-default" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></span>
+              </span>
+            </p>
           </div>
         </div>
       </div>
