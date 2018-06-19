@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 // =========================================================================
 //
@@ -10,6 +11,7 @@ var PhaseClass = require (path.resolve('./modules/phases/server/controllers/phas
 var PhaseBaseClass = require (path.resolve('./modules/phases/server/controllers/phasebase.controller'));
 var RecentActivityClass = require (path.resolve('./modules/recent-activity/server/controllers/recent-activity.controller'));
 var _ = require ('lodash');
+var json2csv = require('json2csv');
 var Role = require ('mongoose').model ('_Role');
 var CommentPeriod = require (path.resolve('./modules/project-comments/server/models/commentperiod.model'));
 var access = require(path.resolve('./modules/core/server/controllers/core.access.controller'));
@@ -1364,6 +1366,121 @@ module.exports = DBModel.extend ({
     //
       .then( function () {
         return ProjectModel.remove({_id: project._id});
+      });
+  },
+  exportProjects: function () {
+    return ProjectModel.find()
+      // Don't select fields that are objects
+      .select({
+        _id: 0,
+        name: 1,
+        code: 1,
+        addedBy: 1,
+        administrativeAssistant: 1,
+        build: 1,
+        CEAAInvolvement: 1,
+        CEAALink: 1,
+        CELead: 1,
+        CELeadEmail: 1,
+        CELeadPhone: 1,
+        commodity: 1,
+        currentPhase: 1,
+        currentPhaseCode: 1,
+        currentPhaseName: 1,
+        dateAdded: 1,
+        dateCommentsClosed: 1,
+        dateCommentsOpen: 1,
+        dateCompleted: 1,
+        dateCompletedEst: 1,
+        dateStarted: 1,
+        dateStartedEst: 1,
+        dateUpdated: 1,
+        decisionDate: 1,
+        description: 1,
+        duration: 1,
+        eaActive: 1,
+        eacDecision: 1,
+        eaIssues: 1,
+        eaNotes: 1,
+        eaoInviteeRole: 1,
+        epicProjectID: 1,
+        epicStream: 1,
+        fedElecDist: 1,
+        isPublished: 1,
+        isTermsAgreed: 1,
+        lat: 1,
+        location: 1,
+        locSpatial: 1,
+        lon: 1,
+        memPermitID: 1,
+        orgCode: 1,
+        overallProgress: 1,
+        ownership: 1,
+        primaryContact: 1,
+        projectAnalyst: 1,
+        projectAssistant: 1,
+        projectLead: 1,
+        projectLeadEmail: 1,
+        projectLeadPhone: 1,
+        projectNotes: 1,
+        proponent: 1,
+        proponentInviteeRole: 1,
+        provElecDist: 1,
+        region: 1,
+        responsibleEPD: 1,
+        responsibleEPDEmail: 1,
+        responsibleEPDPhone: 1,
+        sector: 1,
+        sectorRole: 1,
+        shortName: 1,
+        status: 1,
+        stream: 1,
+        substitution: 1,
+        tailingsImpoundments: 1,
+        teamNotes: 1,
+        type: 1,
+        updatedBy: 1,
+      })
+      .populate([{
+          path: 'currentPhase',
+          select: {
+            _id: 0,
+            name: 1
+          }
+        }, {
+          path: 'updatedBy',
+          select: {
+            _id: 0,
+            displayName: 1
+          }
+        }, {
+          path: 'addedBy',
+          select: {
+            _id: 0,
+            displayName: 1
+          }
+        }, {
+          path: 'primaryContact',
+          select: {
+            _id: 0,
+            displayName: 1
+          }
+        }, {
+          path: 'proponent',
+          select: {
+            _id: 0,
+            name: 1
+          }
+        }
+      ])
+      .sort('name')
+      .lean()
+      .exec()
+      .then(function (data) {
+        var jsonData = JSON.parse(JSON.stringify(data));
+        return json2csv.parse(jsonData, {
+          excelStrings: true
+        });
       });
   }
 });

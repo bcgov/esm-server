@@ -264,5 +264,10 @@ module.exports = function (app) {
     .get (routes.setAndRun (Project, function (model, req) {
       return model.getDirectoryStructure (req.Project);
     }));
+  // Returns a promise that resolves with project data as a CSV.
+  app.route('/api/projects/export')
+    .all(policy('admin'))
+    .get(routes.setAndRun(Project, function (model) {
+      return model.exportProjects();
+    }));
 };
-

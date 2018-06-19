@@ -1,4 +1,5 @@
 'use strict';
+
 // =========================================================================
 //
 // this is the project data model (service). This is how all project data
@@ -84,6 +85,10 @@ angular.module('project').factory ('ProjectModel', function (ModelBase) {
     submit: function (project) {
       return this.put ('/api/project/' + project._id + '/submit', {});
     },
+    // Export all project data as a CSV.
+    exportProjects: function() {
+      return this.get ('/api/projects/export');
+    },
     // -------------------------------------------------------------------------
     //
     // intake questions
@@ -150,5 +155,3 @@ angular.module('project').factory ('ProjectModel', function (ModelBase) {
   });
   return new ProjectClass ();
 });
-
-

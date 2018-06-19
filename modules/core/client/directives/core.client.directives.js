@@ -713,4 +713,59 @@ angular.module('core')
         });
       }
     };
+  })
+  /**
+   *  A modal for exporting project data.
+   */
+  .directive('exportModal', function ($state, $uibModal, ProjectModel, $filter) {
+    return {
+      restrict: 'A',
+      scope: {
+        context: '=',
+        current: '=',
+        public: '=',
+        allowedRoles: '='
+      },
+      link: function (scope, element) {
+        element.on('click', function () {
+          $uibModal.open({
+            animation: true,
+            templateUrl: 'modules/core/client/views/export-modal.html',
+            controllerAs: 's',
+            // windowClass: 'export-modal',
+            size: 'md',
+            controller: function ($scope, $uibModalInstance, $timeout) {
+              var s = this;
+              s.isLoading = false;
+              $scope.url = null;
+              s.exportProjects = function () {
+                s.isLoading = true;
+                ProjectModel.exportProjects().then(function (csvData) {
+                  var blob = new Blob([csvData], {
+                    type: 'text/csv'
+                  });
+                  $scope.download = 'epic_project_data_' + $filter('date')(new Date(), 'yyyy-MM-dd') + '.csv';
+                  $scope.url = (window.URL || window.webkitURL).createObjectURL(blob);
+                  $timeout(function () {
+                    s.isLoading = false;
+                  });
+                });
+              }
+
+              s.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+              };
+
+              s.ok = function () {
+                $uibModalInstance.close();
+              };
+            }
+          }).result.then(function () {
+            // fulfilled promise
+          }).catch(function ( /* err */ ) {
+            // swallow error
+          });
+        });
+      }
+    };
   });
