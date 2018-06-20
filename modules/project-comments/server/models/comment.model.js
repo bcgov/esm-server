@@ -84,6 +84,8 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
   //
   proponentStatus : { type:String, default:'Unclassified', enum:['Unclassified', 'In Progress', 'Deferred', 'Classified'] },
   proponentNotes  : { type:String, default: '' },
+  proponentResponse  : { type:String, default: '' },
+  showProponentResponse  : { type:Boolean, default:false },
   // -------------------------------------------------------------------------
   //
   // for working group comment

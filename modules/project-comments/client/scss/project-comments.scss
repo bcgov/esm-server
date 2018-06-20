@@ -420,11 +420,11 @@ $pcp-comment-icon-color: #ccc;
   background-color: #FFF;
 
   .pcp-about {
-  p {
-    margin: 0;
-    font-size: 1.4rem;
-    line-height: 2.2rem;
-  }
+    p {
+      margin: 0;
+      font-size: 1.4rem;
+      line-height: 2.2rem;
+    }
   }
 }
 
@@ -482,6 +482,7 @@ $pcp-comment-icon-color: #ccc;
   }
 }
 
+// Comment Table
 .pcp-comment-table {
   table-layout: auto !important;
 
@@ -668,7 +669,7 @@ $pcp-comment-icon-color: #ccc;
   }
 }
 
-// LINKED DOCUMENTS
+// Linked Documents
 .pcp-linked-documents {
   &.fb-list {
     overflow: inherit;
@@ -724,178 +725,163 @@ Don't want to apply this to all uses of fb-col-group.
   width: 100%
 }
 
-
 .public-comment-modal {
   section {
-    padding-bottom: 0;
-    border-bottom: 0;
-
-    + section {
-      margin-top: 1.5rem;
-      padding-top: 2rem;
-      border-top: 3px solid #ddd;
-    }
-
-    h2 {
-      margin-bottom: 1.5rem;
-      font-size: 2rem;
-
-      sup {
-        top: 0;
-        margin-bottom: 0.5rem;
-        display: block;
-        line-height: normal;
-        font-size: 1.6rem;
-      }
-    }
-
-    h3 {
-      margin-top: 0;
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
+    padding: 0;
+    margin: 0;
+    border: none;
   }
-
+  
   hr {
-    border-top: 3px solid #ddd;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    border-width: 2px;
   }
+}
 
-  .pcp-posted-by-section {
-    position: relative;
+// Administrative Infor
+.pcp-posted-by-section {
+  position: relative;
 
-    .updated-by {
-      position: absolute;
-      top: 0;
-      right: 0;
-      padding: 0.65rem;
-      font-weight: bold;
-    }
-  }
-
-  .pcp-posted-by-info {
-    margin-top: 0.25rem;
-    color: #999;
+  h4 {
+    margin: 0;
+    font-size: 1.8rem;
     font-weight: bold;
   }
 
-  .pcp-comment-attachments {
-    margin-top: 2rem;
-    margin-bottom: 2.5rem;
+  .updated-by {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.65rem;
+    font-weight: bold;
+  }
 
-    .actions-col {
-      padding: 0 1rem;
+  .comment-body {
+    margin-top: 1.5rem;
+  }
+}
 
-      .btn {
-        margin-top: 0.5rem;
-      }
+.pcp-posted-by-info {
+  margin-top: 0.25rem;
+  color: #999;
+  font-weight: bold;
+}
+
+// Comment Attachments
+.pcp-comment-attachments {
+  .file-size-progress-col {
+    width: auto;
+  
+    .progress-msg {
+      margin-top: 0.5rem;
+      margin-right: 1.5rem;
+      font-size: 1.4rem;
     }
-    .review-col {
-      padding: 0;
+  }
+  
+  .progress {
+    display: none;
+  }
 
-      .btn-group {
-        margin-top: 0.5rem;
+  .fb-body {
+    background: transparent;
+  }
+
+  .fb-list {
+    .fb-col-group {
+      max-width: 100%;
+    }
+
+    .fb-list-item {
+      border: none;
+      border-left: 4px solid transparent;
+      background: #fff;
+
+      + .fb-list-item {
+        margin-top: 1px;
       }
 
-      .btn {
-        min-width: 8rem;
-        min-height: 3.4rem;
+      &.has-error {
+        border-left: 4px solid $danger-border;
+        color: $danger-border;
+
+        .fb-file {
+          color: inherit;
+        }
       }
 
-      .label {
-        margin-top: 0.5rem;
+      .name-col {
+        padding-top: 1.8rem;
+      }
+
+      .review-col,
+      .actions-col {
+        @include flex(0 0 auto);
       }
     }
   }
 
-  .pcp-comment-state-section {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 3px solid #ddd;
+  .actions-col {
+    padding: 0 1rem;
   }
 
-  .pcp-review-btns {
-    .label {
-      padding: 0.65rem;
-      font-weight: bold;
-      min-width: 8rem;
-    }
+  .review-col {
+    padding: 0;
 
     .btn {
       min-width: 8rem;
       min-height: 3.4rem;
     }
 
-    .defer-btn,
-    .publish-btn,
-    .reject-btn {
-      text-shadow: 1px 1px 0 #FFF;
-
-      &.active {
-        color: #FFF;
-        text-shadow: none;
-      }
-    }
-
-    .defer-btn {
-      &.active {
-        background: $info-bg;
-        border-color: $info-border;
-      }
-    }
-
-    .publish-btn {
-      &.active {
-        background: $success-bg;
-        border-color: $success-border;
-      }
-    }
-
-    .reject-btn {
-      &.active {
-        background: $danger-bg;
-        border-color: $danger-border;
-      }
+    .label {
+      margin-top: 0.5rem;
     }
   }
+}
 
-  .comment-alert {
-  margin-bottom: 2rem;
-  display: none;
-  }
-
-  .show-more-link {
-    margin-left: 0.25rem;
+// Review Comment State
+.pcp-review-btns {
+  .label {
+    padding: 0.65rem;
     font-weight: bold;
+    min-width: 8rem;
   }
 
-  .pcp-review-files {
-    display: block;
+  .btn {
+    min-width: 8rem;
+    min-height: 3.4rem;
+  }
 
-    .fb-list {
-      .fb-col-group {
-        max-width: 100%;
-      }
+  .defer-btn,
+  .publish-btn,
+  .reject-btn {
+    text-shadow: 1px 1px 0 #FFF;
 
-      .col + .col {
-        @include flex(0 0 auto);
-        display: inherit;
-        padding-left: 1.5rem;
-      }
+    &.active {
+      color: #FFF;
+      text-shadow: none;
     }
+  }
 
-    .file-size-progress-col {
-      width: auto;
-
-      .progress-msg {
-        margin-top: 0.5rem;
-        margin-right: 1.5rem;
-        font-size: 1.4rem;
-      }
+  .defer-btn {
+    &.active {
+      background: $info-bg;
+      border-color: $info-border;
     }
+  }
 
-    .progress {
-      display: none;
+  .publish-btn {
+    &.active {
+      background: $success-bg;
+      border-color: $success-border;
+    }
+  }
+
+  .reject-btn {
+    &.active {
+      background: $danger-bg;
+      border-color: $danger-border;
     }
   }
 }
@@ -907,38 +893,21 @@ Don't want to apply this to all uses of fb-col-group.
       width: 6rem;
     }
   }
-
-  .checkbox {
-    label {
-      font-weight: bold;
-
-      + .help-block {
-        margin-top: 0.25rem;
-        font-size: 1.4rem;
-      }
-    }
-  }
 }
 
-.fb-list .fb-list-item.has-error {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  border: 1px solid #a94442;
-}
-
-// TOPIC CLOUD CONTAINER
+// Topic Cloud Container
 .topic-cloud-container {
   width: 100%;
   height: calc(100% - 5.6rem);
   overflow: hidden;
 
   svg {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
   }
 }
 
+// Image View Modal
 .modal.img-view-modal {
   padding-left: 0 !important;
   overflow: hidden;
@@ -956,5 +925,25 @@ Don't want to apply this to all uses of fb-col-group.
 
   & ~ .temp-overlay {
   background: rgba(0,0,0,0.8);
+  }
+}
+
+// Misc
+.comment-alert {
+  margin-bottom: 2rem;
+  display: none;
+}
+
+.show-more-link {
+  margin-left: 0.25rem;
+  font-weight: bold;
+}
+
+// Proponent Response
+// TODO - Should be placed in forms
+fieldset {
+  legend {
+    margin-bottom: 1rem;
+    text-transform: none;
   }
 }
