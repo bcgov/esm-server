@@ -96,8 +96,8 @@ module.exports = DBModel.extend({
         // Pinning or not
         if (activity.pinned) {
           return self.findMany({
-              pinned: true
-            })
+            pinned: true
+          })
             .then(function (activities) {
               if (activities.length >= 4) {
                 return Promise.reject(new Error("You are only allowed a maximum of four (4) pinned items in this list. Please remove one before assigning another pinned item."));
@@ -118,8 +118,8 @@ module.exports = DBModel.extend({
     var self = this;
 
     return ProjectModel.findOne({
-        code: projectCode
-      })
+      code: projectCode
+    })
       .then(function (project) {
         return self.model.find({
           project: project._id

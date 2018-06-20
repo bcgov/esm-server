@@ -98,8 +98,8 @@ module.exports = function (app) {
       var myURL = myHost + req.originalUrl;
       var prj = req.prj;
       prj.list({
-          code: code
-        })
+        code: code
+      })
         .then(function (projectObjects) {
           if (projectObjects.length > 0) {
             var theProject = projectObjects[0];
