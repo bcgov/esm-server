@@ -278,6 +278,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
           var a = [];
           a.push(row.commentId);
           a.push (commentFormat(row.comment));
+          if (isJoint) { a.push(row.ceeaComment) }
           var ts = moment(row.dateAdded);
           var tsStr = ts.format('YYYY-MM-DDThh:mm:ssZZ');
           a.push (tsStr);
