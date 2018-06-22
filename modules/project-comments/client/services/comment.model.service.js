@@ -260,7 +260,6 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
         var header = [];
         header.push('id');
         header.push('comment');
-        if (isJoint) { header.push('ceea comment'); }
         header.push('date added');
         header.push('author');
         header.push('location');
@@ -269,16 +268,12 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
         header.push('status');
         header.push('attachments');
         if (canSeeRejectedDocs) { header.push('rejected'); }
-        // Attachments for Joint PCP
-        if (isJoint) { header.push('ceaa attachments'); }
-        if (isJoint && canSeeRejectedDocs) { header.push('ceaa rejected'); }
 
         data += '"' + header.join ('","') + '"' + "\r\n";
         _.each (tableParams, function (row) {
           var a = [];
           a.push(row.commentId);
           a.push (commentFormat(row.comment));
-          if (isJoint) { a.push(row.ceeaComment) }
           var ts = moment(row.dateAdded);
           var tsStr = ts.format('YYYY-MM-DDThh:mm:ssZZ');
           a.push (tsStr);
