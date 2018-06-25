@@ -178,15 +178,14 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
 
           var p = (which === 'add') ? RecentActivityModel.add($scope.recentActivity) : RecentActivityModel.save($scope.recentActivity);
           p.then(function ( /* model */ ) {
-              $state.transitionTo('admin.recentactivity.list', {}, {
-                reload: true,
-                inherit: false,
-                notify: true
-              });
-            })
-            .catch(function ( /* err */ ) {
-              // swallow error
+            $state.transitionTo('admin.recentactivity.list', {}, {
+              reload: true,
+              inherit: false,
+              notify: true
             });
+          }).catch(function ( /* err */ ) {
+            // swallow error
+          });
         };
 
         /**
