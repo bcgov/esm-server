@@ -159,9 +159,27 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       },
       controller: function ($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists) {
       // TODO: This whole method (and the ones below) should be refactored.
+
+        $scope.datePicker1 = {
+          opened: false
+        };
+        $scope.dateOpen1 = function() {
+          $scope.datePicker1.opened = true;
+        };
+        $scope.datePicker2 = {
+          opened: false
+        };
+        $scope.dateOpen2 = function() {
+          $scope.datePicker2.opened = true;
+        };
+        $scope.dateOptions = {
+          showWeeks: false
+        };
         if (periodType === 'Public') {
           createPublicCommentPeriod($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists);
         }
+
+
       }
     })
   // -------------------------------------------------------------------------
@@ -187,12 +205,38 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
           $state.go('forbidden');
         }
       },
-      controller: function ($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists) {
+      controller: function ($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists, moment) {
         // TODO: This whole method (and the ones below) should be refactored.
+
+        $scope.period = period;
+
+        $scope.period.dateStarted = _.isEmpty(period.dateStarted) ? null : moment(period.dateStarted).toDate();
+        $scope.period.dateCompleted = _.isEmpty(period.dateCompleted ) ? null : moment(period.dateCompleted ).toDate();
+
+        $scope.datePicker1 = {
+          opened: false
+        };
+        $scope.dateOpen1 = function() {
+          $scope.datePicker1.opened = true;
+        };
+        $scope.datePicker2 = {
+          opened: false
+        };
+        $scope.dateOpen2 = function() {
+          $scope.datePicker2.opened = true;
+        };
+        $scope.dateOptions = {
+          showWeeks: false
+        };
+
         if (period.periodType === 'Public') {
           editPublicCommentPeriod($timeout, $scope, $state, mode, period, project, CommentPeriodModel, CommentModel, CodeLists);
         }
+
+
       }
+
+
     })
   // -------------------------------------------------------------------------
   //
@@ -247,7 +291,11 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
     $scope.hasErrors = false;
     //$scope.errorMessage = '';
 
-    $scope.save = function () {
+    $scope.save = function (isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'periodEditForm');
+        return false;
+      }
       if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.classificationRoles) === 0) {
         $scope.hasErrors = true;
         //$scope.errorMessage = 'Post, Vet and Classify Comments roles are all required. See Roles & Permissions tab.';
@@ -313,7 +361,11 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
     $scope.hasErrors = false;
     $scope.errorMessage = '';
 
-    $scope.save = function () {
+    $scope.save = function (isValid) {
+      if (!isValid) {
+        $scope.$broadcast('show-errors-check-validity', 'periodEditForm');
+        return false;
+      }
       if (_.size($scope.period.commenterRoles) === 0 || _.size($scope.period.vettingRoles) === 0 || _.size($scope.period.classificationRoles) === 0) {
         $scope.hasErrors = true;
         $scope.errorMessage = 'Post, Vet and Classify Comments roles are all required.  See Roles & Permissions tab.';

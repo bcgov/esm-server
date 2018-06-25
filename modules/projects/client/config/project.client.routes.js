@@ -137,8 +137,45 @@ angular.module('project').config (
         .state('p.schedule', {
           url: '/schedule',
           templateUrl: 'modules/projects/client/views/project-partials/project.schedule.html',
-          controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $uibModal) {
+          controller: function ($scope, $state, project, ProjectModel, MilestoneModel, PhaseModel, $rootScope, ArtifactModel, $uibModal, moment) {
             $scope.milestonesForPhases = {};
+            //datepicker
+
+            $scope.datePicker1 = {
+              opened: false
+            };
+            $scope.dateOpen1 = function() {
+              $scope.datePicker1.opened = true;
+            };
+
+
+            $scope.datePicker2 = {
+              opened: false
+            };
+            $scope.dateOpen2 = function() {
+              $scope.datePicker2.opened = true;
+            };
+
+
+            $scope.datePicker3 = {
+              opened: false
+            };
+            $scope.dateOpen3= function() {
+              $scope.datePicker3.opened = true;
+            };
+
+
+            $scope.datePicker4 = {
+              opened: false
+            };
+            $scope.dateOpen4 = function() {
+              $scope.datePicker4.opened = true;
+            };
+
+            $scope.dateOptions = {
+              showWeeks: false
+            };
+
 
             function addMilestonesToPhase (milestones) {
               milestones.forEach(function(milestone) {
@@ -202,8 +239,11 @@ angular.module('project').config (
                     }
                   };
 
-                  $scope.ok = function(selectedMilestoneType, dateStarted, dateCompleted) {
-
+                  $scope.ok = function(selectedMilestoneType, dateStarted, dateCompleted, isValid) {
+                    if (!isValid) {
+                      $scope.$broadcast('show-errors-check-validity', 'addMilestoneForm');
+                      return false;
+                    }
                     // If they add a custom milestone, override the code and name here.
                     if (selectedMilestoneType.code === 'custom-milestone') {
                       selectedMilestoneType.code = $scope.customMilestoneText;
@@ -247,13 +287,21 @@ angular.module('project').config (
                     return MilestoneModel.get('/api/milestone/'+milestone._id);
                   }
                 },
-                controller: function ($uibModalInstance, MilestoneModel, milestone, $scope) {
+                controller: function ($uibModalInstance, MilestoneModel, milestone, $scope, moment) {
                   $scope.milestone = milestone;
+                  $scope.milestone.dateStartedEst = _.isEmpty(milestone.dateStartedEst) ? null : moment(milestone.dateStartedEst).toDate();
+                  $scope.milestone.dateCompletedEst = _.isEmpty(milestone.dateCompletedEst) ? null : moment(milestone.dateCompletedEst).toDate();
+                  $scope.milestone.dateStarted = _.isEmpty(milestone.dateStarted) ? null : moment(milestone.dateStarted).toDate();
+                  $scope.milestone.dateCompleted = _.isEmpty(milestone.dateCompleted) ? null : moment(milestone.dateCompleted).toDate();
 
                   $scope.cancel = function () {
                     $uibModalInstance.dismiss('cancel');
                   };
-                  $scope.ok = function () {
+                  $scope.ok = function (isValid) {
+                    if (!isValid) {
+                      $scope.$broadcast('show-errors-check-validity', 'editMilestoneForm');
+                      return false;
+                    }
                     MilestoneModel.save($scope.milestone)
                       .then(function (res) {
                         $uibModalInstance.close(res);
@@ -388,13 +436,25 @@ angular.module('project').config (
             // User clicked on edit or delete phase - store this.
             $scope.selectPhase = function (phase) {
               $scope.selectedPhase = phase;
+              $scope.selectedPhase.dateStartedEst = $scope.selectedPhase.dateStartedEst ? moment($scope.selectedPhase.dateStartedEst).toDate() : null;
+              $scope.selectedPhase.dateCompletedEst = $scope.selectedPhase.dateCompletedEst ? moment($scope.selectedPhase.dateCompletedEst).toDate() : null;
+              $scope.selectedPhase.dateStarted = $scope.selectedPhase.dateStarted ? moment($scope.selectedPhase.dateStarted).toDate() : null;
+              $scope.selectedPhase.dateCompleted = $scope.selectedPhase.dateCompleted ? moment($scope.selectedPhase.dateCompleted).toDate() : null;
             };
 
+
             // Edit the phase data
-            $scope.savePhaseDetail = function () {
+            $scope.savePhaseDetail = function (isValid) {
+              if (!isValid) {
+                $scope.$broadcast('show-errors-check-validity', 'editPhaseForm');
+                return false;
+              }
               PhaseModel.save($scope.selectedPhase)
                 .then( function (obj) {
                   $rootScope.$broadcast('refreshPhases', obj);
+                })
+                .catch(function(/* err */) {
+                  // swallow error
                 });
             };
 

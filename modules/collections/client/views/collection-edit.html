@@ -48,20 +48,24 @@
             <select class="form-control" id="type" ng-model='collection.type' ng-options="t.id as t.title for t in types"></select>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="form-group" x-show-errors>
-            <label for="date" class="control-label">Date</label>
-            <div class="form-control datepicker__input" name="date" x-modal-date-picker
-              x-selected-date="collection.date" x-header="'Choose a Date'">
-              <span ng-if="!collection.date">None</span> {{ collection.date | amDateFormat:'YYYY-MM-DD'}}
-              <span class="calendar-btn">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
+        <div class="col-md-3 form-group datePicker" x-show-errors>
+            <label class="control-label" for="date">
+                Date <em class="control-label">(YYYY-MM-DD)</em>
+            </label>
+            <div class="datepicker__input">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD"  id="collectionDate" name="collectionDate"
+                  ng-model="collection.date"
+                  type="text"
+                  uib-datepicker-popup
+                  is-open="datePicker.opened"
+                  datepicker-options="dateOptions"
+                  close-text="Close"/>
+                <span class="input-group-btn">
+                  <span class="btn btn-default" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
+                </span>
+              </p>
             </div>
-            <div ng-messages="collectionForm.date.$error" role="alert">
-              <p class="help-block error-text" ng-message="required">Date is required.</p>
-            </div>
-          </div>
         </div>
       </div>
       <div class="row">

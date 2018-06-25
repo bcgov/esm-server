@@ -4,16 +4,23 @@
 		<span class="pull-right"><small>Enter any two fields to calculate the third</small></span>
 	</h3>
 </div>
+<form class="fb-edit-form" name="dayCalculatorForm" novalidate>
 <div class="modal-body">
 	<div class="row">
 		<div class="col-sm-4">
-			<div class="form-group">
-				<label class="control-label">Start Date</label>
-				<div class="form-control date-picker" title="{{ dayCalculator.startDate | amDateFormat:'HH:mm:ss' }}"
-					x-modal-date-picker x-selected-date="dayCalculator.startDate" x-hide-time="true" x-header="'Choose a Start Date'">
-					<span ng-if="!dayCalculator.startDate">None</span>
-					{{ dayCalculator.startDate | amDateFormat:'ddd, MMM DD, YYYY' }}
-					<span class="glyphicon glyphicon-calendar"></span>
+          <div class="form-group" x-show-errors>
+            <label class="control-label">Start Date<em class="control-label">(YYYY-MM-DD)</em></label>
+            <div class="datepicker__input">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD" id="startDate" name="startDate" ng-model="dayCalculator.startDate" type="text"
+                  uib-datepicker-popup is-open="datePicker1.opened" datepicker-options="dateOptions" close-text="Close" ng-change="validate()"
+                />
+                <span class="input-group-btn">
+                  <button class="btn btn-default" ng-click="dateOpen1()">
+                    <span class="glyphicon glyphicon-calendar" />
+                  </button>
+                </span>
+              </p>
 				</div>
 				<div ng-show="dayCalculator.startDateAlert" role="alert">
 					<p class="text-danger help-block">{{ dayCalculator.startDateAlert }}</p>
@@ -21,13 +28,19 @@
 			</div>
 		</div>
 		<div class="col-sm-4">
-			<div class="form-group">
-				<label class="control-label">End Date</label>
-				<div class="form-control date-picker" title="{{ dayCalculator.endDate | amDateFormat:'HH:mm:ss' }}"
-					x-modal-date-picker x-selected-date="dayCalculator.endDate" x-hide-time="true" x-header="'Choose an End Date'">
-					<span ng-if="!dayCalculator.endDate">None</span>
-					{{ dayCalculator.endDate | amDateFormat:'ddd, MMM DD, YYYY' }}
-					<span class="glyphicon glyphicon-calendar"></span>
+          <div class="form-group datepicker" x-show-errors >
+            <label class="control-label">End Date<em class="control-label">(YYYY-MM-DD)</em></label>
+            <div class="datepicker__input">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD" id="endDate" name="endDate" ng-model="dayCalculator.endDate" type="text"
+                  uib-datepicker-popup is-open="datePicker2.opened" datepicker-options="dateOptions" close-text="Close" ng-change="validate()"
+                />
+                <span class="input-group-btn">
+                  <button class="btn btn-default" ng-click="dateOpen2()">
+                    <span class="glyphicon glyphicon-calendar" />
+                  </button>
+                </span>
+              </p>
 				</div>
 				<div ng-show="dayCalculator.endDateAlert" role="alert">
 					<p class="text-danger help-block">{{ dayCalculator.endDateAlert }}</p>
@@ -50,13 +63,19 @@
 			</div>
 		</div>
 		<div class="col-sm-4" ng-show="dayCalculator.type.value === 'suspended'">
-			<div class="form-group">
+          <div class="form-group" x-show-errors>
 				<label class="control-label">Suspension Date</label>
-				<div class="form-control date-picker" title="{{ dayCalculator.suspendDate | amDateFormat:'HH:mm:ss' }}"
-					x-modal-date-picker x-selected-date="dayCalculator.suspendDate" x-hide-time="true" x-header="'Choose a Suspension Date'">
-					<span ng-if="!dayCalculator.suspendDate">None</span>
-					{{ dayCalculator.suspendDate | amDateFormat:'ddd, MMM DD, YYYY' }}
-					<span class="glyphicon glyphicon-calendar"></span>
+            <div class="datepicker__input">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD" id="suspendDate" name="suspendDate" ng-model="dayCalculator.suspendDate" type="text"
+                  uib-datepicker-popup is-open="datePicker3.opened" datepicker-options="dateOptions" close-text="Close" ng-change="validate()"
+                />
+                <span class="input-group-btn">
+                  <button class="btn btn-default" ng-click="dateOpen3()">
+                    <span class="glyphicon glyphicon-calendar" />
+                  </button>
+                </span>
+              </p>
 				</div>
 				<div ng-show="dayCalculator.suspendDateAlert" role="alert">
 					<p class="text-danger help-block">{{ dayCalculator.suspendDateAlert }}</p>
@@ -64,13 +83,19 @@
 			</div>
 		</div>
 		<div class="col-sm-4" ng-show="dayCalculator.type.value === 'suspended'">
-			<div class="form-group">
+          <div class="form-group" x-show-errors>
 				<label class="control-label">Resumption Date</label>
-				<div class="form-control date-picker" title="{{ dayCalculator.resumeDate | amDateFormat:'HH:mm:ss' }}"
-					x-modal-date-picker x-selected-date="dayCalculator.resumeDate" x-hide-time="true" x-header="'Choose a Resumption Date'">
-					<span ng-if="!dayCalculator.resumeDate">None</span>
-					{{ dayCalculator.resumeDate | amDateFormat:'ddd, MMM DD, YYYY' }}
-					<span class="glyphicon glyphicon-calendar"></span>
+            <div class="datepicker__input">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD" id="resumeDate" name="resumedate" ng-model="dayCalculator.resumeDate" type="text"
+                  uib-datepicker-popup is-open="datePicker4.opened" datepicker-options="dateOptions" close-text="Close" ng-change="validate()"
+                />
+                <span class="input-group-btn">
+                  <button class="btn btn-default" ng-click="dateOpen4()">
+                    <span class="glyphicon glyphicon-calendar" />
+                  </button>
+                </span>
+              </p>
 				</div>
 				<div ng-show="dayCalculator.resumeDateAlert" role="alert">
 					<p class="text-danger help-block">{{ dayCalculator.resumeDateAlert }}</p>
@@ -154,6 +179,7 @@
 		</div>
 	</div>
 </div>
+</form>
 <div class="modal-footer">
 	<button class="btn btn-default" type="button" ng-click="dayCalculator.reset()">Reset</button>
 	<button class="btn btn-primary" type="button" ng-click="dayCalculator.ok()">Close</button>
