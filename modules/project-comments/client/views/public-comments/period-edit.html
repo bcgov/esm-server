@@ -2,7 +2,7 @@
   <h1><span ng-show="project.name">Add/Edit Comment Period</h1>
   <div class="actions">
     <a class="btn btn-default btn-sm" ui-sref="p.commentperiod.list" ng-disabled="busy">Cancel</a>
-    <a class="btn btn-primary btn-sm" href ng-click="save()" ng-disabled="busy">Save</a>
+    <a class="btn btn-primary btn-sm" href ng-click="save(periodEditForm.$valid)" ng-disabled="busy">Save</a>
   </div>
 </div>
 
@@ -36,6 +36,7 @@
   </ul><!-- / TABS -->
 
   <!-- DETAILS TAB CONTENT -->
+  <form name="periodEditForm" novalidate>
   <div class="tab-pane" ng-show="form.curTab === 'pcpDetails'">
     <div class="edit-pcp-details">
       <div class="form-group">
@@ -71,31 +72,42 @@
       </div>
       <div class="row">
         <div class="col-sm-6 col-lg-3">
-          <div class="form-group">
-            <label class="control-label">Start Date</label>
-            <div class="form-control date-picker__input"
-              ng-disabled="!startPickerEnabled" x-max="period.dateCompleted"
-              x-modal-date-picker x-selected-date="period.dateStarted" x-picker-enabled="startPickerEnabled"
-              title="{{ period.dateStarted | amDateFormat:'HH:mm:ss' }}">
-              <span ng-if="!period.dateStarted">Start Date</span>
-              {{ period.dateStarted | amDateFormat:'MMMM DD, YYYY' }}
-              <span class="glyphicon glyphicon-calendar"></span>
+          <div class="form-group" x-show-errors>
+            <label class="control-label">Start Date<em class="control-label">(YYYY-MM-DD)</em></label>
+            <div class="datepicker__input">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD"  id="dateStart" name="dateStart"
+                    ng-model="period.dateStarted" type="text"
+                    uib-datepicker-popup
+                    is-open="datePicker1.opened"
+                    datepicker-options="dateOptions"
+                    close-text="Close"
+                    ng-change="validate()"
+                    ng-disabled="!startPickerEnabled"/>
+                <span class="input-group-btn">
+                  <span class="btn btn-default" ng-click="dateOpen1()" ng-disabled="!startPickerEnabled"><span class="glyphicon glyphicon-calendar"/></span>
+                </span>
+              </p>
             </div>
           </div>
         </div>
         <div class="col-sm-6 col-lg-3">
-          <div class="form-group">
-            <label class="control-label">End Date</label>
-            <div class="date-picker__input">
-              <div class="form-control" title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}" ng-disabled="!endPickerEnabled"
-                x-min="period.dateStarted"
-                x-modal-date-picker
-                x-picker-enabled="endPickerEnabled"
-                x-selected-date="period.dateCompleted">
-                <span ng-if="!period.dateCompleted">End Date</span>
-                {{ period.dateCompleted | amDateFormat:'MMMM DD, YYYY' }}
-                <span class="glyphicon glyphicon-calendar"></span>
-              </div>
+          <div class="form-group" x-show-errors>
+            <label class="control-label">End Date<em class="control-label">(YYYY-MM-DD)</em></label>
+            <div class="datepicker__input">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD"  id="dateCompleted" name="dateCompleted"
+                    ng-model="period.dateCompleted" type="text"
+                    uib-datepicker-popup
+                    is-open="datePicker2.opened"
+                    datepicker-options="dateOptions"
+                    close-text="Close"
+                    ng-change="validate()"
+                    ng-disabled="!endPickerEnabled"/>
+                <span class="input-group-btn">
+                  <span class="btn btn-default" ng-click="dateOpen2()" ng-disabled="!endPickerEnabled"><span class="glyphicon glyphicon-calendar"/></span>
+                </span>
+              </p>
             </div>
           </div>
         </div>
@@ -110,6 +122,7 @@
       </div>
     </div>
   </div>
+</form>
   <!-- / DETAILS TAB CONTENT -->
 
   <!-- RELATED DOCUMENTS -->

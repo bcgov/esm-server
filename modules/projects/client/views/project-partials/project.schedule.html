@@ -202,56 +202,95 @@
 	</div>
 </div>
 
-<!-- EDIT MILESTONE MODAL -->
-<div class="modal fade edit-phase-modal" id="editPhaseDetailModal" role="dialog" tabindex="-1">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-				<h3 class="modal-title">Edit Phase &nbsp;&rsaquo;&nbsp; {{selectedPhase.name}}</h3>
-			</div>
-			<div class="modal-body">
-				<div class="form-group" ng-class="{'has-error': validateForm}">
-					<label>Estimated Date Range</label>
-					<div class="form-inline">
-						<div class="form-control date-picker__input"
-							x-modal-date-picker 
-							x-selected-date="selectedPhase.dateStartedEst">
-							{{ selectedPhase.dateStartedEst | amDateFormat:'MMM Do YYYY' }}
-							<span class="glyphicon glyphicon-calendar"></span>
-						</div>
-						<span> &nbsp;-&nbsp; </span>
-						<div class="form-control date-picker__input" 
-							x-modal-date-picker x-selected-date="selectedPhase.dateCompletedEst">
-							{{ selectedPhase.dateCompletedEst | amDateFormat:'MMM Do YYYY' }}
-							<span class="glyphicon glyphicon-calendar"></span>
-						</div>
-					</div>
-				</div>
-				<div class="form-group no-margin" ng-class="{'has-error': validateForm}">
-					<label>Actual Date Range</label>
-					<div class="form-inline">
-						<div class="form-control date-picker__input" x-modal-date-picker x-selected-date="selectedPhase.dateStarted">
-							{{ selectedPhase.dateStarted | amDateFormat:'MMM Do YYYY' }}
-							<span class="glyphicon glyphicon-calendar"></span>
-						</div>
-						<span> &nbsp;-&nbsp; </span>
-						<div class="form-control date-picker__input" x-modal-date-picker x-selected-date="selectedPhase.dateCompleted">
-							{{ selectedPhase.dateCompleted | amDateFormat:'MMM Do YYYY' }}
-							<span class="glyphicon glyphicon-calendar"></span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button ng-click="savePhaseDetail()" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-			</div>
-		</div>
-	</div>
-</div>
+
+<!-- EDIT PHASE MODAL -->
+<form class="fb-edit-form" name="editPhaseForm" novalidate>
+  <div class="modal fade edit-phase-modal" id="editPhaseDetailModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="btn btn-default close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h3 class="modal-title">Edit Phase &nbsp;&rsaquo;&nbsp; {{selectedPhase.name}}</h3>
+        </div>
+        <div class="modal-body">
+          <div class="form-group datePicker" x-show-errors >
+            <label class="control-label" for="date">Estimated Date Range <em class="control-label">(YYYY-MM-DD)</em></label>
+            <div class="form-inline">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD"  id="eDateStart" name="eDateStart"
+                  ng-model="selectedPhase.dateStartedEst"
+                  type="text"
+                  uib-datepicker-popup
+                  is-open="datePicker1.opened"
+                  datepicker-options="dateOptions"
+                  close-text="Close"/>
+                <span class="input-group-btn">
+                  <span class="btn btn-default" ng-click="dateOpen1()"><span class="glyphicon glyphicon-calendar"/></button>
+                </span>
+              </p>
+            <span> &nbsp;-&nbsp; </span>
+                <p class="input-group">
+                  <input class="form-control" placeholder="YYYY-MM-DD"  id="eDateEnd" name="eDateEnd"
+                    ng-model="selectedPhase.dateCompletedEst"
+                    type="text"
+                    uib-datepicker-popup
+                    is-open="datePicker2.opened"
+                    datepicker-options="dateOptions"
+                    close-text="Close"/>
+                  <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="dateOpen2()"><span class="glyphicon glyphicon-calendar"/></button>
+                  </span>
+                </p>
+            </div>
+            <div ng-show="!editPhaseForm.eDateStart.$valid ||!editPhaseForm.eDateEnd.$valid" role="alert">
+              <p class="text-danger help-block">Date range not in valid format</p>
+            </div>
+          </div>
+
+          <div class="form-group datePicker" x-show-errors >
+            <label class="control-label" for="date">Actual Date Range <em class="control-label">(YYYY-MM-DD)</em></label>
+            <div class="form-inline">
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD"  id="aDateStart" name="aDateStart"
+                  ng-model="selectedPhase.dateStarted"
+                  type="text"
+                  uib-datepicker-popup
+                  is-open="datePicker3.opened"
+                  datepicker-options="dateOptions"
+                  close-text="Close"/>
+                <span class="input-group-btn">
+                  <span class="btn btn-default" ng-click="dateOpen3()"><span class="glyphicon glyphicon-calendar"/></button>
+                </span>
+              </p>
+            <span> &nbsp;-&nbsp; </span>
+                <p class="input-group">
+                  <input class="form-control" placeholder="YYYY-MM-DD"  id="aDateEnd" name="aDateEnd"
+                    ng-model="selectedPhase.dateCompleted"
+                    type="text"
+                    uib-datepicker-popup
+                    is-open="datePicker4.opened"
+                    datepicker-options="dateOptions"
+                    close-text="Close"/>
+                  <span class="input-group-btn">
+                    <span class="btn btn-default" ng-click="dateOpen4()"><span class="glyphicon glyphicon-calendar"/></button>
+                  </span>
+                </p>
+            </div>
+            <div ng-show="!editPhaseForm.aDateStart.$valid || !editPhaseForm.aDateEnd.$valid" role="alert">
+              <p class="text-danger help-block">Date range not in valid format</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button ng-click="savePhaseDetail(editPhaseForm.$valid)" type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!editPhaseForm.$valid">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
 
 <!-- ADD COMMENT SESSION MODAL -->
 <div class="modal fade" id="addCommentSessionModal" role="dialog" tabindex="-1">
@@ -328,3 +367,4 @@
 
 <!-- Temporary fix until we move to angular modals -->
 <div class="temp-overlay"></div>
+

@@ -531,7 +531,7 @@ angular.module ('comment')
               controllerAs: 's',
               size: 'md',
               windowClass: 'public-comment-modal',
-              controller: function ($scope, $uibModalInstance) {
+              controller: function ($scope, $uibModalInstance, moment, _) {
                 var s = this;
                 s.period = scope.period;
                 s.project = scope.project;
@@ -543,12 +543,29 @@ angular.module ('comment')
                   };
                 }
                 s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
-                s.ok = function () {
+                s.ok = function (isValid) {
+                  if (!isValid) {
+                    $scope.$broadcast('show-errors-check-validity', 'openHouseForm');
+                    return false;
+                  }
                   if (scope.mode === 'add') {
                     scope.period.openHouses.push (s.openHouse);
                   }
                   $uibModalInstance.close ();
                 };
+
+                $scope.s.openHouse.eventDate = _.isEmpty(s.openHouse.eventDate) ? null : moment(s.openHouse.eventDate).toDate();
+
+                $scope.datePicker = {
+                  opened: false
+                };
+                $scope.dateOpen = function() {
+                  $scope.datePicker.opened = true;
+                };
+                $scope.dateOptions = {
+                  showWeeks: false
+                };
+
               }
             })
               .result.then (function (/* data */) {

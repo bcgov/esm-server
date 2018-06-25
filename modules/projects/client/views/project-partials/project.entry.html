@@ -112,17 +112,26 @@
               ng-options="d for d in eacDecisions">
             </select>
           </div>
-          <div class="col-md-4 form-group">
-            <label class="control-label" for="eacDecision">Decision Date<em>(Optional)</em></label>
+          <div class="col-md-4 form-group datePicker" x-show-errors>
+            <label class="control-label" for="decisionDate">
+                Decision Date <em class="control-label">(Optional)</em>
+            </label>
             <div class="datepicker__input">
-              <input class="form-control" placeholder="YYYY-MM-DD"  id="decisionDate" name="decisionDate"
-              ng-model="project.decisionDate" type="text"
-              uib-datepicker-popup
-              is-open="datePicker.opened"
-              datepicker-options="dateOptions"
-              close-text="Close"
-              ng-change="validate()"/>
-              <button class="btn btn-default calendar-btn" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
+              <p class="input-group">
+                <input class="form-control" placeholder="YYYY-MM-DD"  id="decisionDate" name="decisionDate"
+                  ng-model="project.decisionDate" type="text"
+                  uib-datepicker-popup
+                  is-open="datePicker.opened"
+                  datepicker-options="dateOptions"
+                  close-text="Close"
+                  ng-change="validate()"/>
+                <span class="input-group-btn">
+                  <button class="btn btn-default" ng-click="dateOpen()"><span class="glyphicon glyphicon-calendar"/></button>
+                </span>
+              </p>
+              <div class="help-block">
+                  eg. 2018-06-11
+                </div>
             </div>
           </div>
         </div>

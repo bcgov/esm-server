@@ -8,7 +8,10 @@
 				<span class="glyphicon glyphicon-pencil"></span><span>Edit Project</span></a>
 			<a class="btn btn-success btn-sm"
 				ng-click="publishProject()"
-				ng-if="project.userCan.publish && !project.isPublished">Publish Project</a>
+        ng-if="project.userCan.publish && !project.isPublished">Publish Project</a>
+      <a class="btn btn-success btn-sm"
+				ng-click="unpublishProject()"
+				ng-if="project.userCan.unPublish && project.isPublished">Unpublish Project</a>
 		</span>
 	</div>
 </div>

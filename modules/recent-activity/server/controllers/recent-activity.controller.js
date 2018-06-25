@@ -97,14 +97,13 @@ module.exports = DBModel.extend({
         if (activity.pinned) {
           return self.findMany({
             pinned: true
-          })
-            .then(function (activities) {
-              if (activities.length >= 4) {
-                return Promise.reject(new Error("You are only allowed a maximum of four (4) pinned items in this list. Please remove one before assigning another pinned item."));
-              } else {
-                return activity.save();
-              }
-            });
+          }).then(function (activities) {
+            if (activities.length >= 4) {
+              return Promise.reject(new Error("You are only allowed a maximum of four (4) pinned items in this list. Please remove one before assigning another pinned item."));
+            } else {
+              return activity.save();
+            }
+          });
         } else {
           // Just save it, we're un-pin mode.
           return activity.save();
@@ -119,14 +118,13 @@ module.exports = DBModel.extend({
 
     return ProjectModel.findOne({
       code: projectCode
+    }).then(function (project) {
+      return self.model.find({
+        project: project._id
+      }).sort({
+        date: -1
+      }).exec();
     })
-      .then(function (project) {
-        return self.model.find({
-          project: project._id
-        }).sort({
-          date: -1
-        }).exec();
-      })
   },
 
   /**

@@ -99,41 +99,40 @@ module.exports = function (app) {
       var prj = req.prj;
       prj.list({
         code: code
-      })
-        .then(function (projectObjects) {
-          if (projectObjects.length > 0) {
-            var theProject = projectObjects[0];
-            var p = req.rac;
-            p.getRecentActivityByProjectId(theProject._id)
-              .then(function (data) {
-                var RSS = require('rss');
-                var feedOptions = {
-                  title: 'Environmental Assessment Office - News & Announcements for ' + theProject.name,
-                  description: 'News & Announcements for the Environmental Assessment Office' + theProject.name,
-                  link: myHost,
-                  feed_url: myURL,
-                  site_url: myHost,
-                  image_url: myHost + "/favicon.ico",
-                  pubDate: new Date(),
-                  ttl: '60'
-                };
-                var feed = new RSS(feedOptions);
+      }).then(function (projectObjects) {
+        if (projectObjects.length > 0) {
+          var theProject = projectObjects[0];
+          var p = req.rac;
+          p.getRecentActivityByProjectId(theProject._id)
+            .then(function (data) {
+              var RSS = require('rss');
+              var feedOptions = {
+                title: 'Environmental Assessment Office - News & Announcements for ' + theProject.name,
+                description: 'News & Announcements for the Environmental Assessment Office' + theProject.name,
+                link: myHost,
+                feed_url: myURL,
+                site_url: myHost,
+                image_url: myHost + "/favicon.ico",
+                pubDate: new Date(),
+                ttl: '60'
+              };
+              var feed = new RSS(feedOptions);
 
-                _.forEach(data, function (item) {
-                  feed.item({
-                    date: item.dateUpdated,
-                    url: myHost + "/p/" + code + "/detail",
-                    description: item.content,
-                    title: item.headline,
-                  });
+              _.forEach(data, function (item) {
+                feed.item({
+                  date: item.dateUpdated,
+                  url: myHost + "/p/" + code + "/detail",
+                  description: item.content,
+                  title: item.headline,
                 });
-                var xml = feed.xml({
-                  indent: true
-                });
-                res.write(xml);
-                res.end();
               });
-          }
-        });
+              var xml = feed.xml({
+                indent: true
+              });
+              res.write(xml);
+              res.end();
+            });
+        }
+      });
     });
 };
