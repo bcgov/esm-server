@@ -20,8 +20,7 @@
     "test-server": "grunt test-server",
     "e2e": "grunt e2e",
     "build": "grunt buildprod",
-    "postinstall":
-      "git config --global url.https://.insteadOf git:// && bower install --config.interactive=false --allow-root && grunt buildprod"
+    "postinstall": "git config --global url.https://.insteadOf git:// && bower install --config.interactive=false --allow-root && grunt buildprod"
   },
   "dependencies": {
     "acl": "0.4.11",
