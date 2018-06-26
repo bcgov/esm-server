@@ -5,13 +5,17 @@
 	<div class="actions">
 		<span class="actions-group" ng-if="environment === 'EAO' && authentication.user">
 			<a class="btn btn-default btn-sm" ui-sref="p.edit({pId:o._id})" ng-if="project.userCan.write">
-				<span class="glyphicon glyphicon-pencil"></span><span>Edit Project</span></a>
-			<a class="btn btn-success btn-sm"
+				<span class="glyphicon glyphicon-pencil"></span><span>Edit Project</span>
+			</a>
+			<a class="btn btn-default btn-sm"
 				ng-click="publishProject()"
-        ng-if="project.userCan.publish && !project.isPublished">Publish Project</a>
-      <a class="btn btn-success btn-sm"
+				ng-if="project.userCan.publish && !project.isPublished"><span class="glyphicon glyphicon-ok-circle"></span><span>Publish Project</span>
+			</a>
+      <a class="btn btn-default btn-sm"
 				ng-click="unpublishProject()"
-				ng-if="project.userCan.unPublish && project.isPublished">Unpublish Project</a>
+				ng-if="project.userCan.unPublish && project.isPublished">
+				<span class="glyphicon glyphicon-ban-circle"></span><span>Unpublish Project</span>
+			</a>
 		</span>
 	</div>
 </div>
