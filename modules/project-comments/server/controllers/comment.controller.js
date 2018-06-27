@@ -207,8 +207,16 @@ module.exports = DBModel.extend({
       self.findMany({
         period: periodId,
         isPublished: true
-      })
-        .then(resolve, reject);
+      }).then(function (data) {
+        return data.map(function (record) {
+          if (record.showProponentResponse !== true) {
+            //TODO in mongo>3.6 removing fields can be done using a combination of $project, $cond and $$REMOVE
+            record.showProponentResponse = null;
+            record.proponentResponse = null;
+          }
+          return record;
+        });
+      }).then(resolve, reject);
     });
   },
   getAllCommentsForPeriod: function (periodId) {
