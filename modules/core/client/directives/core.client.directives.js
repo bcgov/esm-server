@@ -804,7 +804,7 @@ angular.module('core')
                   var blob = new Blob([csvData], {
                     type: 'text/csv'
                   });
-                  $scope.download = 'epic_project_data_' + $filter('date')(new Date(), 'yyyy-MM-dd') + '.csv';
+                  $scope.download = 'epic_project_data_' + $filter('date')(new Date(), 'yyyy-MM-ddTHH:MM:ss') + '.csv';
                   $scope.url = (window.URL || window.webkitURL).createObjectURL(blob);
                   $timeout(function () {
                     s.isLoading = false;

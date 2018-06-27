@@ -1745,7 +1745,22 @@ module.exports = DBModel.extend({
       .lean()
       .exec()
       .then(function (data) {
+        // The populated fields from other tables are returned as objects with a single key-value.
+        // Parse the value out into the csv as a top level field.
+        data.forEach(function (record) {
+          var keys = Object.keys(record);
+          keys.forEach(function (key) {
+            if (typeof record[key] === 'object' && record[key] && record[key][Object.keys(record[key])[0]]) {
+              record[key] = record[key][Object.keys(record[key])[0]];
+            }
+          });
+        })
+        return data;
+      })
+      .then(function (data) {
+        // this conversion back and forth strips out the mongo bson fields, that would otherwise get added to the csv.
         var jsonData = JSON.parse(JSON.stringify(data));
+        // convert to csv.
         return json2csv.parse(jsonData, {
           excelStrings: true
         });
