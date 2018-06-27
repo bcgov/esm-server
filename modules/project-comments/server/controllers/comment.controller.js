@@ -5,18 +5,27 @@
 //
 // =========================================================================
 var path = require('path');
-var Period = require ('./commentperiod.controller');
-var DBModel = require (path.resolve ('./modules/core/server/controllers/core.dbmodel.controller'));
-var _ = require ('lodash');
-var DocumentClass = require (path.resolve('./modules/documents/server/controllers/core.document.controller'));
-var ProjectController = require (path.resolve('./modules/projects/server/controllers/project.controller'));
+var Period = require('./commentperiod.controller');
+var DBModel = require(path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
+var _ = require('lodash');
+var DocumentClass = require(path.resolve('./modules/documents/server/controllers/core.document.controller'));
+var ProjectController = require(path.resolve('./modules/projects/server/controllers/project.controller'));
 
-module.exports = DBModel.extend ({
-  name : 'Comment',
+module.exports = DBModel.extend({
+  name: 'Comment',
   plural: 'comments',
-  populate : [{ path:'user', select:'_id displayName username email orgName'},
-    { path:'updatedBy', select:'_id displayName username email orgName'},
-    { path:'documents', select:'_id eaoStatus'}
+  populate: [{
+    path: 'user',
+    select: '_id displayName username email orgName'
+  },
+  {
+    path: 'updatedBy',
+    select: '_id displayName username email orgName'
+  },
+  {
+    path: 'documents',
+    select: '_id eaoStatus'
+  }
   ],
   // -------------------------------------------------------------------------
   //
@@ -53,11 +62,18 @@ module.exports = DBModel.extend ({
         })
         .then(function (commentPermissions) {
           // get all the associated documents and update their permissions as required.
-          return new Promise(function (resolve/* , reject */) {
-            var q = {_id : {$in : comment.documents }};
-            documentClass.listforaccess ('i do not want to limit my access because public people add comments with docs too.', q)
+          return new Promise(function (resolve /* , reject */ ) {
+            var q = {
+              _id: {
+                $in: comment.documents
+              }
+            };
+            documentClass.listforaccess('i do not want to limit my access because public people add comments with docs too.', q)
               .then(function (data) {
-                resolve({commentPermissions: commentPermissions, docs: data});
+                resolve({
+                  commentPermissions: commentPermissions,
+                  docs: data
+                });
               });
           });
         })
@@ -74,17 +90,21 @@ module.exports = DBModel.extend ({
             });
           }, Promise.resolve());
         })
-        .then(function() {
+        .then(function () {
           // get the max commentId for the period...
-          return new Promise(function(resolve, reject) {
+          return new Promise(function (resolve, reject) {
             self.model
-              .find({period : comment.period})
-              .sort({commentId : -1})
-              .limit(1).exec(function(err, maxResult) {
+              .find({
+                period: comment.period
+              })
+              .sort({
+                commentId: -1
+              })
+              .limit(1).exec(function (err, maxResult) {
                 if (maxResult && maxResult.length === 1) {
                   var commentId = _.isFinite(maxResult[0].commentId) ? maxResult[0].commentId + 1 : 1;
                   resolve(commentId);
-                } else if(!err) {
+                } else if (!err) {
                   resolve(1);
                 } else {
                   reject(new Error(err));
@@ -92,7 +112,7 @@ module.exports = DBModel.extend ({
               });
           });
         })
-        .then(function(cId) {
+        .then(function (cId) {
           comment.commentId = _.isFinite(cId) ? cId : 1; // just check again... make sure this is a number.
           return comment;
         })
@@ -101,7 +121,7 @@ module.exports = DBModel.extend ({
   },
   preprocessUpdate: function (comment) {
     var self = this;
-    var commentPeriod = new Period (this.opts);
+    var commentPeriod = new Period(this.opts);
     var documentClass = new DocumentClass(this.opts);
 
     var thePeriod;
@@ -112,24 +132,24 @@ module.exports = DBModel.extend ({
     if (_.isEmpty(comment.proponentStatus)) {
       comment.proponentStatus = 'Unclassified';
     }
-    return new Promise (function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       //
       // get the period
       //
-      commentPeriod.findById (comment.period)
-      //
-      // set published or unpublished with correct roles
-      //
-        .then (function (period) {
+      commentPeriod.findById(comment.period)
+        //
+        // set published or unpublished with correct roles
+        //
+        .then(function (period) {
           thePeriod = period;
 
           if (comment.eaoStatus === 'Published') {
             //
             // ROLES, public read
             //
-            comment.publish ();
-            return self.setModelPermissions (comment, {
-              read  : _.uniq(_.concat(thePeriod.read, 'public')),
+            comment.publish();
+            return self.setModelPermissions(comment, {
+              read: _.uniq(_.concat(thePeriod.read, 'public')),
               write: thePeriod.write,
               delete: thePeriod.delete
             });
@@ -137,24 +157,27 @@ module.exports = DBModel.extend ({
             //
             // ROLES, only vetting can read
             //
-            comment.unpublish ();
-            return self.setModelPermissions (comment, {
+            comment.unpublish();
+            return self.setModelPermissions(comment, {
               read: thePeriod.vettingRoles,
               write: thePeriod.write,
               delete: thePeriod.delete
             });
           }
         })
-        .then(function(commentPermissions) {
+        .then(function (commentPermissions) {
           // get all the associated documents and update their publish permissions as required.
-          return new Promise(function(resolve/* , reject */) {
+          return new Promise(function (resolve /* , reject */ ) {
             documentClass.getList(comment.documents)
               .then(function (data) {
-                resolve({commentPermissions: commentPermissions, docs: data});
+                resolve({
+                  commentPermissions: commentPermissions,
+                  docs: data
+                });
               });
           });
         })
-        .then(function(data) {
+        .then(function (data) {
           var commentPermissions = data.commentPermissions;
           var docs = data.docs;
           return docs.reduce(function (current, doc) {
@@ -172,10 +195,10 @@ module.exports = DBModel.extend ({
             return documentClass.publishForComment(doc, ('Published' === comment.eaoStatus && 'Published' === doc.eaoStatus), commentPermissions);
           }, Promise.resolve());
         })
-        .then (function () {
+        .then(function () {
           return comment;
         })
-        .then (resolve, reject);
+        .then(resolve, reject);
     });
   },
   getPublishedCommentsForPeriod: function (periodId) {
@@ -196,32 +219,32 @@ module.exports = DBModel.extend ({
       }).then(resolve, reject);
     });
   },
-  getAllCommentsForPeriod : function (periodId) {
+  getAllCommentsForPeriod: function (periodId) {
     var self = this;
-    return new Promise (function (resolve, reject) {
-      self.findMany ({
-        period : periodId
+    return new Promise(function (resolve, reject) {
+      self.findMany({
+        period: periodId
       })
-        .then (resolve, reject);
+        .then(resolve, reject);
     });
   },
-  getEAOCommentsForPeriod : function (periodId) {
+  getEAOCommentsForPeriod: function (periodId) {
     var self = this;
-    return new Promise (function (resolve, reject) {
-      self.findMany ({
-        period : periodId,
+    return new Promise(function (resolve, reject) {
+      self.findMany({
+        period: periodId,
       })
-        .then (function (data) {
+        .then(function (data) {
           var ret = {
-            totalPending  : 0,
-            totalDeferred : 0,
-            totalPublic   : 0,
-            totalRejected : 0,
-            totalAssigned : 0,
-            totalUnassigned : 0,
-            data          : data
+            totalPending: 0,
+            totalDeferred: 0,
+            totalPublic: 0,
+            totalRejected: 0,
+            totalAssigned: 0,
+            totalUnassigned: 0,
+            data: data
           };
-          data.reduce (function (prev, next) {
+          data.reduce(function (prev, next) {
             ret.totalPending += (next.eaoStatus === 'Unvetted' ? 1 : 0);
             ret.totalDeferred += (next.eaoStatus === 'Deferred' ? 1 : 0);
             ret.totalPublic += (next.eaoStatus === 'Published' ? 1 : 0);
@@ -229,58 +252,79 @@ module.exports = DBModel.extend ({
             ret.totalAssigned += (next.proponentStatus === 'Classified' ? 1 : 0);
             ret.totalUnassigned += (next.proponentStatus !== 'Classified' ? 1 : 0);
           }, ret);
-          resolve (ret);
+          resolve(ret);
         })
-        .catch (reject);
+        .catch(reject);
     });
   },
-  getProponentCommentsForPeriod : function (periodId) {
+  getProponentCommentsForPeriod: function (periodId) {
     var self = this;
-    return new Promise (function (resolve, reject) {
-      self.getPublishedCommentsForPeriod (periodId)
-        .then (function (data) {
-          var classified = data.reduce (function (prev, next) {
+    return new Promise(function (resolve, reject) {
+      self.getPublishedCommentsForPeriod(periodId)
+        .then(function (data) {
+          var classified = data.reduce(function (prev, next) {
             return prev + (next.proponentStatus === 'Classified' ? 1 : 0);
           }, 0);
-          resolve ({
+          resolve({
             data: data,
-            totalAssigned : classified,
-            totalUnassigned : data.length - classified
+            totalAssigned: classified,
+            totalUnassigned: data.length - classified
           });
         })
-        .catch (reject);
+        .catch(reject);
     });
   },
-  getCommentsForPeriod: function(periodId, eaoStatus, proponentStatus, isPublished,
-    commentId, authorComment, location, pillar, topic,
+  getCommentsForPeriod: function (periodId, eaoStatus, proponentStatus, isPublished,
+    commentId, authorComment, location, pillar, topic, hasProponentResponse,
     start, limit, sortby, filterCommentPackage) {
     var self = this;
 
-    var query = {period: periodId};
+    var query = {
+      period: periodId
+    };
     var filterByFields = {};
 
     // base query...
     if (isPublished !== undefined) {
-      query = _.extend({}, query, {isPublished: isPublished});
+      query = _.extend({}, query, {
+        isPublished: isPublished
+      });
     }
     if (eaoStatus !== undefined) {
-      query = _.extend({}, query, {eaoStatus: eaoStatus});
+      query = _.extend({}, query, {
+        eaoStatus: eaoStatus
+      });
     }
     if (proponentStatus !== undefined) {
       if ('Classified' === proponentStatus) {
-        query = _.extend({}, query, {proponentStatus: 'Classified'});
+        query = _.extend({}, query, {
+          proponentStatus: 'Classified'
+        });
       } else {
-        query = _.extend({}, query, {proponentStatus: {$ne: 'Classified'} });
+        query = _.extend({}, query, {
+          proponentStatus: {
+            $ne: 'Classified'
+          }
+        });
       }
     }
 
     if (filterCommentPackage !== undefined) {
       switch (filterCommentPackage) {
       case 'Provincial':
-        query = _.extend({}, query, { $or : [
-          { comment: {$ne: ''} },
-          { documents: { $gt: [] } }
-        ]});
+        query = _.extend({}, query, {
+          $or: [{
+            comment: {
+              $ne: ''
+            }
+          },
+          {
+            documents: {
+              $gt: []
+            }
+          }
+          ]
+        });
         break;
       default:
       }
@@ -288,21 +332,70 @@ module.exports = DBModel.extend ({
 
     // filer by fields...
     if (commentId !== undefined) {
-      filterByFields = _.extend({}, filterByFields, {commentId: commentId});
+      filterByFields = _.extend({}, filterByFields, {
+        commentId: commentId
+      });
     }
     if (authorComment !== undefined) {
       var authorCommentRe = new RegExp(authorComment, "i");
-      filterByFields = _.extend({}, filterByFields, { $or: [{author: authorCommentRe}, {comment: authorCommentRe}] } );
+      filterByFields = _.extend({}, filterByFields, {
+        $or: [{
+          author: authorCommentRe
+        }, {
+          comment: authorCommentRe
+        }]
+      });
     }
     if (location !== undefined) {
       var locationRe = new RegExp(location, "i");
-      filterByFields = _.extend({}, filterByFields, {location: locationRe});
+      filterByFields = _.extend({}, filterByFields, {
+        location: locationRe
+      });
     }
     if (pillar !== undefined) {
-      filterByFields = _.extend({}, filterByFields, {pillars: {$in: [pillar] }});
+      filterByFields = _.extend({}, filterByFields, {
+        pillars: {
+          $in: [pillar]
+        }
+      });
     }
     if (topic !== undefined) {
-      filterByFields = _.extend({}, filterByFields, {topics: {$in: [topic] }});
+      filterByFields = _.extend({}, filterByFields, {
+        topics: {
+          $in: [topic]
+        }
+      });
+    }
+    if (hasProponentResponse !== undefined) {
+      if (hasProponentResponse === 'true') {
+        filterByFields = _.extend({}, filterByFields, {
+          $and: [{
+            proponentResponse: {
+              $exists: true
+            }
+          },
+          {
+            proponentResponse: {
+              $ne: ''
+            }
+          }
+          ]
+        });
+      } else {
+        filterByFields = _.extend({}, filterByFields, {
+          $or: [{
+            proponentResponse: {
+              $exists: false
+            }
+          },
+          {
+            proponentResponse: {
+              $eq: ''
+            }
+          }
+          ]
+        });
+      }
     }
 
     var fields = null;
@@ -320,15 +413,15 @@ module.exports = DBModel.extend ({
   // with the internal messages in conversations also sorted the same
   //
   // -------------------------------------------------------------------------
-  getCommentsForTarget : function (targetType, targetId, commentType) {
+  getCommentsForTarget: function (targetType, targetId, commentType) {
     var self = this;
-    return new Promise (function (resolve, reject) {
-      self.findMany ({
-        targetType : targetType,
-        target     : targetId,
-        type       : commentType
+    return new Promise(function (resolve, reject) {
+      self.findMany({
+        targetType: targetType,
+        target: targetId,
+        type: commentType
       })
-        .then (resolve, reject);
+        .then(resolve, reject);
     });
   },
   // -------------------------------------------------------------------------
@@ -338,14 +431,20 @@ module.exports = DBModel.extend ({
   // -------------------------------------------------------------------------
   resolveCommentChain: function (ancestorId) {
     var self = this;
-    var query = { ancestor: ancestorId };
-    var update = { resolved: true };
-    var promise = self.model.update (query, update, {multi: true}).exec();
-    return new Promise (function (resolve, reject) {
-      promise.then (function () {
-        return self.getCommentChain (ancestorId);
+    var query = {
+      ancestor: ancestorId
+    };
+    var update = {
+      resolved: true
+    };
+    var promise = self.model.update(query, update, {
+      multi: true
+    }).exec();
+    return new Promise(function (resolve, reject) {
+      promise.then(function () {
+        return self.getCommentChain(ancestorId);
       })
-        .then (resolve, reject);
+        .then(resolve, reject);
     });
   },
   // -------------------------------------------------------------------------
@@ -355,25 +454,33 @@ module.exports = DBModel.extend ({
   // -------------------------------------------------------------------------
   publishCommentChain: function (ancestorId, value) {
     var self = this;
-    var query = { ancestor: ancestorId };
+    var query = {
+      ancestor: ancestorId
+    };
     var update;
     if (value) {
       update = {
         published: true,
-        $addToSet: {read: 'public'}
+        $addToSet: {
+          read: 'public'
+        }
       };
     } else {
       update = {
         published: false,
-        $pull: {read: 'public'}
+        $pull: {
+          read: 'public'
+        }
       };
     }
-    var promise = self.model.update (query, update, {multi: true}).exec();
-    return new Promise (function (resolve, reject) {
-      promise.then (function () {
-        return self.getCommentChain (ancestorId);
+    var promise = self.model.update(query, update, {
+      multi: true
+    }).exec();
+    return new Promise(function (resolve, reject) {
+      promise.then(function () {
+        return self.getCommentChain(ancestorId);
       })
-        .then (resolve, reject);
+        .then(resolve, reject);
     });
   },
   // -------------------------------------------------------------------------
@@ -382,26 +489,30 @@ module.exports = DBModel.extend ({
   //
   // -------------------------------------------------------------------------
   getCommentChain: function (ancestorId) {
-    return this.findMany ({ ancestor: ancestorId });
-  },
-  getCommentDocuments: function(id) {
-    var self = this;
-    var doc = new DocumentClass (this.opts);
-    return new Promise (function (resolve, reject) {
-      self.one({_id : id})
-        .then(function(c) {
-          return doc.getList(c.documents);
-        })
-        .then (resolve, reject);
+    return this.findMany({
+      ancestor: ancestorId
     });
   },
-  updatePermissionBatch: function(projectId, periodId, skip, limit) {
+  getCommentDocuments: function (id) {
+    var self = this;
+    var doc = new DocumentClass(this.opts);
+    return new Promise(function (resolve, reject) {
+      self.one({
+        _id: id
+      })
+        .then(function (c) {
+          return doc.getList(c.documents);
+        })
+        .then(resolve, reject);
+    });
+  },
+  updatePermissionBatch: function (projectId, periodId, skip, limit) {
     var self = this;
     var projectCtrl = new ProjectController(this.opts);
 
     return new Promise(function (resolve, reject) {
       projectCtrl.findById(projectId)
-        .then(function(project) {
+        .then(function (project) {
           if (project && project.userCan.createCommentPeriod) {
             // ok, let them find all the comments and update them... make them act like admin...
             self.isAdmin = true;
@@ -436,6 +547,7 @@ module.exports = DBModel.extend ({
     var location;
     var pillar;
     var topic;
+    var hasProponentResponse;
 
     // pagination stuff
     var skip = 0;
@@ -461,7 +573,7 @@ module.exports = DBModel.extend ({
       if (!_.isEmpty(body.commentId)) {
         try {
           commentId = parseInt(body.commentId);
-        } catch(e) {
+        } catch (e) {
           // do nothing
         }
       }
@@ -477,6 +589,9 @@ module.exports = DBModel.extend ({
       if (!_.isEmpty(body.topic)) {
         topic = body.topic;
       }
+      if (!_.isEmpty(body.hasProponentResponse)) {
+        hasProponentResponse = body.hasProponentResponse;
+      }
       if (!_.isEmpty(body.filterCommentPackage)) {
         filterCommentPackage = body.filterCommentPackage;
       }
@@ -484,7 +599,7 @@ module.exports = DBModel.extend ({
       try {
         skip = parseInt(body.start);
         limit = parseInt(body.limit);
-      } catch(e) {
+      } catch (e) {
         // swallow error
       }
       if (body.orderBy) {
@@ -492,7 +607,7 @@ module.exports = DBModel.extend ({
       }
     }
 
-    return self.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby, filterCommentPackage);
+    return self.getCommentsForPeriod(periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, hasProponentResponse, skip, limit, sortby, filterCommentPackage);
   },
   getPeriodPermsSync: function (body) {
     var self = this;
@@ -514,7 +629,7 @@ module.exports = DBModel.extend ({
       try {
         skip = parseInt(body.start);
         limit = parseInt(body.limit);
-      } catch(e) {
+      } catch (e) {
         // swallow error
       }
 

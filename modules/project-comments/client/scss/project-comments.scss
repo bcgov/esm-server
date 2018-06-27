@@ -7,26 +7,13 @@ $pcp-btn-hover-bg: #96c0e6;
 $pcp-btn-color: #fff;
 $pcp-btn-text-shadow: 1px 1px 0 #3c85c7;
 $pcp-text-shadow: 1px 1px 1px #3478b6;
-
 $pcp-open-badge-bg: #5091cd;
 $pcp-pending-badge-bg: #666;
 $pcp-closed-badge-bg: #5cb85c;
 $pcp-comment-icon-color: #ccc;
-
-
 // Comment Period View Containers
 .comment-period-view {
- .pcp-edit-view {
-   @include flexbox();
-   @include flexdirection(column);
-   position: absolute;
-   top: 0;
-   right: 0;
-   bottom: 0;
-   left: 0;
- }
-
- .pcp-contents {
+  .pcp-edit-view {
     @include flexbox();
     @include flexdirection(column);
     position: absolute;
@@ -34,7 +21,16 @@ $pcp-comment-icon-color: #ccc;
     right: 0;
     bottom: 0;
     left: 0;
- }
+  }
+  .pcp-contents {
+    @include flexbox();
+    @include flexdirection(column);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
 }
 
 .pcp-alert-container {
@@ -44,12 +40,10 @@ $pcp-comment-icon-color: #ccc;
 // List of Comment Periods
 .pcp-table {
   table-layout: fixed;
-
   td {
     &.date-col {
       font-weight: bold;
     }
-
     &.count-col {
       .glyphicon {
         margin-top: -0.2rem;
@@ -58,27 +52,22 @@ $pcp-comment-icon-color: #ccc;
         vertical-align: middle;
         font-size: 1.8rem;
       }
-
       .count {
         font-weight: bold;
       }
     }
-
     &.status-col {
       .label {
         background-color: $pcp-comment-icon-color;
         text-transform: uppercase;
-
         &.closed,
         &.completed,
         &.unpublished {
           background-color: $pcp-closed-badge-bg;
         }
-
         &.open {
           background-color: $pcp-open-badge-bg;
         }
-
         &.pending {
           background-color: $pcp-pending-badge-bg;
         }
@@ -91,95 +80,78 @@ $pcp-comment-icon-color: #ccc;
   .pcp-table {
     thead {
       background: transparent !important;
-
       th {
         display: inline-block;
-
         &.details-col {
           display: none;
         }
-
         &.count-col {
           width: 40%;
         }
-
         &.date-col {
           width: 30%;
         }
-
         &.status-col {
           width: 30%;
         }
       }
     }
-
-    > tbody {
+    >tbody {
       display: block;
-
-      > tr {
+      >tr {
         position: relative;
         display: block;
-
-        > td {
+        >td {
           display: block;
           border: none;
         }
       }
     }
-
     td {
       &.actions-col {
         position: absolute;
         top: 1rem;
         right: 1rem;
       }
-
       &.count-col {
         position: absolute;
         top: 0;
         right: 0;
         width: 40%;
       }
-
       &.date-col {
         padding-top: 1.25rem;
         padding-right: 1rem;
         padding-bottom: 1rem;
         padding-left: 1rem !important;
       }
-
       &.details-col {
         padding-top: 0;
         padding-right: 1rem;
         padding-left: 1rem;
       }
-
       &.status-col {
         position: absolute;
         top: 0;
         left: 30%;
         width: 30%;
         padding-right: 0;
-
         .label {
           font-size: 1rem;
         }
       }
     }
-
     &.can-edit {
       th {
         &.actions-col {
           display: none;
         }
       }
-
       td {
         &.actions-col {
           position: absolute;
           top: 0;
-          right:0;
-
+          right: 0;
           .btn-group {
             top: 0.4rem;
             right: 0.4rem;
@@ -192,27 +164,23 @@ $pcp-comment-icon-color: #ccc;
 
 @media (min-width: 768px) {
   .pcp-table {
-    > tbody {
-      > tr {
-        > td {
+    >tbody {
+      >tr {
+        >td {
           padding: 1.5rem 0.5rem;
           vertical-align: top;
         }
       }
     }
-
     .date-col {
       width: 10rem;
     }
-
     .status-col {
       width: 12rem;
-
       .label {
         min-width: 8rem;
       }
     }
-
     .count-col {
       width: 13rem;
     }
@@ -224,7 +192,6 @@ $pcp-comment-icon-color: #ccc;
     .date-col {
       width: 10rem;
     }
-
     .count-col {
       width: 13rem;
     }
@@ -239,63 +206,51 @@ $pcp-comment-icon-color: #ccc;
   }
 }
 
-
 // Public Comment Period Alert Banner
 .pcp-banner {
   position: relative;
   margin-bottom: 2rem;
-
   section {
     padding: 2rem;
   }
-
   .pcp-info {
-     background: $pcp-alert-bg;
+    background: $pcp-alert-bg;
     color: $pcp-alert-color;
-
     h2 {
       margin: 0;
       color: $pcp-alert-strong-color;
       font-size: 2rem;
       font-weight: bold;
     }
-
     strong {
       color: $pcp-alert-strong-color;
     }
-
     .pcp-dates {
       display: block;
       font-size: 1.4rem;
       font-weight: bold;
     }
-
     .pcp-desc {
       display: block;
       margin-top: 1.5rem;
       font-size: 1.4rem;
     }
   }
-
   .pcp-addl-info {
     background: #fff;
-
     h3 {
       margin: 0;
       font-size: 1.8rem;
       font-weight: bold;
     }
-
     h4 {
       font-size: 1.4rem;
       font-weight: bold;
     }
-
     p {
       margin-top: 1rem;
       margin-bottom: 0;
     }
-
     section {
       padding-top: 1rem;
       padding-right: 0;
@@ -303,12 +258,10 @@ $pcp-comment-icon-color: #ccc;
       padding-left: 0;
     }
   }
-
   .pcp-banner-btns {
     @include flexbox();
     @include flexdirection(column);
     margin-top: 2rem;
-
     .btn {
       @include flex(1 1 auto);
       padding: 1rem;
@@ -320,18 +273,15 @@ $pcp-comment-icon-color: #ccc;
       font-size: 1.4rem;
       font-weight: bold;
       transition: background ease-out 0.2s;
-
       &:hover {
         background: $pcp-btn-hover-bg;
       }
-
       .glyphicon {
         top: 2px;
         margin-right: 0.25rem;
         font-size: 1.5rem;
       }
     }
-
     .spacer {
       @include flex(0 0 auto);
       padding: 0.5rem;
@@ -358,24 +308,19 @@ $pcp-comment-icon-color: #ccc;
       h2 {
         font-size: 2.8rem;
       }
-
       .pcp-dates {
         margin-top: -0.25rem;
         font-size: 1.8rem;
       }
-
       .pcp-desc {
         font-size: 1.5rem;
       }
-
       .pcp-banner-btns {
         @include flexdirection(row);
-
         .btn {
           max-width: 20rem;
           font-size: 1.4rem;
         }
-
         .spacer {
           padding-top: 1.5rem;
           width: 3.5rem;
@@ -392,18 +337,15 @@ $pcp-comment-icon-color: #ccc;
         font-size: 3.2rem;
       }
     }
-
     .pcp-banner-btns {
       position: absolute;
       top: 0;
       right: 0;
       margin-top: 0;
       padding: 2rem;
-
       .btn {
         font-size: 1.8rem;
         padding: 1.25rem;
-
         .glyphicon {
           top: 2px;
           margin-right: 0.25rem;
@@ -418,7 +360,6 @@ $pcp-comment-icon-color: #ccc;
 .pcp-details {
   padding: 2.5rem 2rem;
   background-color: #FFF;
-
   .pcp-about {
     p {
       margin: 0;
@@ -431,22 +372,18 @@ $pcp-comment-icon-color: #ccc;
 // List of Comments
 .pcp-comment-actions-bar {
   padding-bottom: 1.5rem;
-
   .pcp-comment-count-label {
     margin: 0;
     font-size: 2rem;
     font-weight: bold;
   }
-
   .actions {
     margin-top: -1rem;
-
     .btn {
       padding: 0.65rem 1rem;
     }
   }
-
-  + .tab-pane {
+  +.tab-pane {
     padding-top: 0;
   }
 }
@@ -454,21 +391,17 @@ $pcp-comment-icon-color: #ccc;
 .pcp-comment-filter-bar {
   padding: 1.25rem;
   background: #fff;
-
   label {
     padding: 0.65rem 0;
     margin-bottom: 0;
     margin-right: 1rem;
   }
-
   .btn {
     padding: 0.7rem 1rem;
   }
-
   .toggle-tabs {
     margin-right: 1rem;
   }
-
   select {
     width: 20rem;
     font-size: 1.2rem;
@@ -477,7 +410,7 @@ $pcp-comment-icon-color: #ccc;
 }
 
 .pcp-comment-header {
-  + .tab-pane {
+  +.tab-pane {
     padding-top: 0;
   }
 }
@@ -485,13 +418,11 @@ $pcp-comment-icon-color: #ccc;
 // Comment Table
 .pcp-comment-table {
   table-layout: auto !important;
-
   table {
-    > tbody {
-      > tr {
+    >tbody {
+      >tr {
         border: none;
-
-        > td {
+        >td {
           padding-top: 1.5rem;
           padding-bottom: 1.25rem;
           border: none;
@@ -500,79 +431,65 @@ $pcp-comment-icon-color: #ccc;
       }
     }
   }
-
   thead {
     display: table;
     width: 100%;
-
     tr {
       display: table-row;
     }
-
     .date-col {
       text-align: right;
     }
   }
-
   tr {
     display: block;
-
     &.pcp-comment-cols {
       @include flexbox();
       width: 100%;
     }
   }
-
   h3 {
     margin: 0;
     font-size: 1.6rem;
     font-weight: bold;
   }
-
   h4 {
     margin-top: 0;
     margin-bottom: 0.5rem;
     font-size: 1.4rem;
     font-weight: bold;
   }
-
   .comment-pkg {
-    + .comment-pkg {
+    +.comment-pkg {
       margin-top: 1.5rem;
     }
   }
-
   td.author-col {
     @include flex(1 1 auto);
   }
-
   .date-col {
     width: 16rem;
     text-align: right;
   }
-
   td.date-col {
     @include flex(0 0 auto);
     white-space: nowrap;
     font-size: 1.2rem;
-
     .attachment-icon {
       top: 0.2rem;
       margin-right: 0.75rem;
     }
   }
-
+  .response-col,
   .pillar-col,
   .vc-col,
   .location-col {
     display: none;
   }
-
   .id-col {
     width: 7rem;
     text-indent: 1rem
   }
-
   .location-col {
     width: 20rem;
     overflow: hidden;
@@ -585,33 +502,26 @@ $pcp-comment-icon-color: #ccc;
   .pcp-comment-table {
     thead {
       display: table-header-group;
-
       .author-col {
         width: auto;
       }
-
       .date-col {
         width: 20rem;
       }
     }
-
     tr {
       display: table-row;
-
       &.pcp-comment-cols {
         display: table-row;
       }
     }
-
     .location-col {
       display: table-cell;
       width: 18rem;
     }
-
     .date-col {
       width: 20rem;
     }
-
     td.date-col {
       font-size: 1.4rem;
     }
@@ -624,10 +534,13 @@ $pcp-comment-icon-color: #ccc;
       display: table-cell;
       width: 30rem
     }
-
     .pillar-col {
       display: table-cell;
       width: 10rem;
+    }
+    .response-col {
+      display: table-cell;
+      width: 15rem;
     }
   }
 }
@@ -635,22 +548,20 @@ $pcp-comment-icon-color: #ccc;
 // Open House Dates
 .open-house-table {
   thead {
-    > tr {
-      > th {
+    >tr {
+      >th {
         padding-left: 1.5rem !important;
       }
     }
   }
-
   tbody {
-    > tr {
-      > td {
+    >tr {
+      >td {
         vertical-align: top;
         padding-left: 1.5rem !important;
       }
     }
   }
-
   .date-col {
     width: 18rem;
     font-weight: 700;
@@ -663,7 +574,6 @@ $pcp-comment-icon-color: #ccc;
     margin-bottom: 1.5rem;
     font-size: 2rem;
   }
-
   P {
     margin-bottom: 2rem;
   }
@@ -673,23 +583,19 @@ $pcp-comment-icon-color: #ccc;
 .pcp-linked-documents {
   &.fb-list {
     overflow: inherit;
-
     .fb-list-item {
       .row-actions {
         right: 1rem;
       }
     }
   }
-
   .col {
     &.size-col {
       flex-basis: 14%;
     }
-
     &.status-col {
       flex-basis: 20%;
     }
-
     &.type-col {
       flex-basis: 12%;
     }
@@ -703,7 +609,6 @@ $pcp-comment-icon-color: #ccc;
       &.type-col {
         display: none;
       }
-
       &.size-col {
         flex-basis: 11rem;
       }
@@ -721,6 +626,7 @@ Set the width on the related documents list, just for PCP, to handle very long f
 Without this the layout is busted.
 Don't want to apply this to all uses of fb-col-group.
  */
+
 .pcp-linked-documents .fb-col-group {
   width: 100%
 }
@@ -731,7 +637,6 @@ Don't want to apply this to all uses of fb-col-group.
     margin: 0;
     border: none;
   }
-  
   hr {
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
@@ -742,13 +647,11 @@ Don't want to apply this to all uses of fb-col-group.
 // Administrative Infor
 .pcp-posted-by-section {
   position: relative;
-
   h4 {
     margin: 0;
     font-size: 1.8rem;
     font-weight: bold;
   }
-
   .updated-by {
     position: absolute;
     top: 0;
@@ -756,7 +659,6 @@ Don't want to apply this to all uses of fb-col-group.
     padding: 0.65rem;
     font-weight: bold;
   }
-
   .comment-body {
     margin-top: 1.5rem;
   }
@@ -772,68 +674,54 @@ Don't want to apply this to all uses of fb-col-group.
 .pcp-comment-attachments {
   .file-size-progress-col {
     width: auto;
-  
     .progress-msg {
       margin-top: 0.5rem;
       margin-right: 1.5rem;
       font-size: 1.4rem;
     }
   }
-  
   .progress {
     display: none;
   }
-
   .fb-body {
     background: transparent;
   }
-
   .fb-list {
     .fb-col-group {
       max-width: 100%;
     }
-
     .fb-list-item {
       border: none;
       border-left: 4px solid transparent;
       background: #fff;
-
-      + .fb-list-item {
+      +.fb-list-item {
         margin-top: 1px;
       }
-
       &.has-error {
         border-left: 4px solid $danger-border;
         color: $danger-border;
-
         .fb-file {
           color: inherit;
         }
       }
-
       .name-col {
         padding-top: 1.8rem;
       }
-
       .review-col,
       .actions-col {
         @include flex(0 0 auto);
       }
     }
   }
-
   .actions-col {
     padding: 0 1rem;
   }
-
   .review-col {
     padding: 0;
-
     .btn {
       min-width: 8rem;
       min-height: 3.4rem;
     }
-
     .label {
       margin-top: 0.5rem;
     }
@@ -847,37 +735,31 @@ Don't want to apply this to all uses of fb-col-group.
     font-weight: bold;
     min-width: 8rem;
   }
-
   .btn {
     min-width: 8rem;
     min-height: 3.4rem;
   }
-
   .defer-btn,
   .publish-btn,
   .reject-btn {
     text-shadow: 1px 1px 0 #FFF;
-
     &.active {
       color: #FFF;
       text-shadow: none;
     }
   }
-
   .defer-btn {
     &.active {
       background: $info-bg;
       border-color: $info-border;
     }
   }
-
   .publish-btn {
     &.active {
       background: $success-bg;
       border-color: $success-border;
     }
   }
-
   .reject-btn {
     &.active {
       background: $danger-bg;
@@ -900,7 +782,6 @@ Don't want to apply this to all uses of fb-col-group.
   width: 100%;
   height: calc(100% - 5.6rem);
   overflow: hidden;
-
   svg {
     width: 100%;
     height: 100%;
@@ -911,20 +792,17 @@ Don't want to apply this to all uses of fb-col-group.
 .modal.img-view-modal {
   padding-left: 0 !important;
   overflow: hidden;
-
   .modal-header {
-  color: #FFF;
-
-  .close {
-    font-size: 2.2rem;
     color: #FFF;
-    text-shadow: none;
-    opacity: 1;
+    .close {
+      font-size: 2.2rem;
+      color: #FFF;
+      text-shadow: none;
+      opacity: 1;
+    }
   }
-  }
-
-  & ~ .temp-overlay {
-  background: rgba(0,0,0,0.8);
+  &~.temp-overlay {
+    background: rgba(0, 0, 0, 0.8);
   }
 }
 
