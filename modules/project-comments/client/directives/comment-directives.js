@@ -10,21 +10,21 @@ var MUST_HAVE_PUBLISHABLE = "To publish need a comment or published attachment";
 // Directives to do with comments either public or working group
 //
 // =========================================================================
-angular.module ('comment')
-// -------------------------------------------------------------------------
-//
-// list of public comments from the point of view of the public
-//
-// -------------------------------------------------------------------------
-  .directive ('tmplPublicCommentList', function ($uibModal) {
+angular.module('comment')
+  // -------------------------------------------------------------------------
+  //
+  // list of public comments from the point of view of the public
+  //
+  // -------------------------------------------------------------------------
+  .directive('tmplPublicCommentList', function ($uibModal) {
     return {
       scope: {
-        period    : '=',
-        project   : '=',
-        userRoles : '='
+        period: '=',
+        project: '=',
+        userRoles: '='
       },
       restrict: 'E',
-      templateUrl : 'modules/project-comments/client/views/public-comments/list.html',
+      templateUrl: 'modules/project-comments/client/views/public-comments/list.html',
       controllerAs: 's',
       controller: function ($scope, $rootScope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, _) {
         var s = this;
@@ -38,12 +38,22 @@ angular.module ('comment')
 
         s.isPublic = period.periodType === 'Public';
 
-        s.hasRole = function (role) { return _.includes(userRoles, role); };
+        s.hasRole = function (role) {
+          return _.includes(userRoles, role);
+        };
 
-        s.filterCommentOptions = [
-          { name: 'All', displayName: 'Show All Comments' },
-          { name: 'Provincial', displayName: 'Comments on ' + period.informationLabel },
-          { name: 'Federal', displayName: 'Comments on ' + period.ceaaInformationLabel }
+        s.filterCommentOptions = [{
+          name: 'All',
+          displayName: 'Show All Comments'
+        },
+        {
+          name: 'Provincial',
+          displayName: 'Comments on ' + period.informationLabel
+        },
+        {
+          name: 'Federal',
+          displayName: 'Comments on ' + period.ceaaInformationLabel
+        }
         ];
 
         s.selectedCommentFilterOption = s.filterCommentOptions[0];
@@ -74,23 +84,38 @@ angular.module ('comment')
           var allPillars = _.pluck(sortedPillars, '_id');
 
           var topicList = _.transform(allTopics, function (result, t) {
-            result.push({ id: t, name: t });
+            result.push({
+              id: t,
+              name: t
+            });
           }, []);
 
           var pillarList = _.transform(allPillars, function (result, p) {
-            result.push({ id: p, name: p });
+            result.push({
+              id: p,
+              name: p
+            });
           }, []);
 
           // jsherman - 20160804: need an empty one for chrome, so we can de-select the filter...
           // adds a bogus one to safari and IE though:( so put at the bottom.
-          topicList.push({ id: '', name: '' });
+          topicList.push({
+            id: '',
+            name: ''
+          });
           angular.copy(topicList, s.topicsArray);
           // as above...
-          pillarList.push({ id: '', name: '' });
+          pillarList.push({
+            id: '',
+            name: ''
+          });
           angular.copy(pillarList, s.pillarsArray);
 
           var topicCloud = _.transform(sortedTopics, function (result, t) {
-            result.push({ name: t._id, size: t.count });
+            result.push({
+              name: t._id,
+              size: t.count
+            });
           }, []);
 
           s.refreshVisualization = 1;
@@ -100,7 +125,10 @@ angular.module ('comment')
           // 	{name: "Thing 2", size: 2},
           // 	{name: "Cat in the Hat", size: 3},
           // ]};
-          s.commentsByTopicVis = { name: 'byTopic', children: topicCloud };
+          s.commentsByTopicVis = {
+            name: 'byTopic',
+            children: topicCloud
+          };
         };
 
         $scope.authentication = Authentication;
@@ -115,7 +143,7 @@ angular.module ('comment')
         s.eaoStatus = null;
         s.proponentStatus = null;
         if (s.period.userCan.vetComments) {
-          s.eaoStatus ='Unvetted';
+          s.eaoStatus = 'Unvetted';
         }
         if (s.period.userCan.classifyComments && !s.period.userCan.vetComments) {
           s.proponentStatus = 'Unclassified';
@@ -164,7 +192,7 @@ angular.module ('comment')
 
           var pagination = tableState.pagination;
           var sort = tableState.sort;
-          if(tableState) {
+          if (tableState) {
             $rootScope.scrollTop();
           }
 
@@ -172,19 +200,39 @@ angular.module ('comment')
           var limit = pagination.number || s.pageSize; // Number of entries showed per page.
 
           // set the primary query - PUBLIC users
-          var filterBy = { period: s.period._id, eaoStatus: undefined, proponentStatus: undefined, isPublished: true };
+          var filterBy = {
+            period: s.period._id,
+            eaoStatus: undefined,
+            proponentStatus: undefined,
+            isPublished: true
+          };
 
           // EAO role - user with vetting permissions
           if (s.period.userCan.vetComments) {
-            filterBy = { period: s.period._id, eaoStatus: s.eaoStatus, proponentStatus: undefined, isPublished: undefined };
+            filterBy = {
+              period: s.period._id,
+              eaoStatus: s.eaoStatus,
+              proponentStatus: undefined,
+              isPublished: undefined
+            };
           }
 
           // PROPONENT role
           if (s.period.userCan.classifyComments && !s.period.userCan.vetComments) {
             if (s.proponentStatus === 'Classified') {
-              filterBy = { period: s.period._id, eaoStatus: undefined, proponentStatus: 'Classified', isPublished: true };
+              filterBy = {
+                period: s.period._id,
+                eaoStatus: undefined,
+                proponentStatus: 'Classified',
+                isPublished: true
+              };
             } else {
-              filterBy = { period: s.period._id, eaoStatus: undefined, proponentStatus: 'Unclassified', isPublished: true };
+              filterBy = {
+                period: s.period._id,
+                eaoStatus: undefined,
+                proponentStatus: 'Unclassified',
+                isPublished: true
+              };
             }
           }
 
@@ -245,7 +293,12 @@ angular.module ('comment')
               return 'ie';
             }
 
-            var browsers = { chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i };
+            var browsers = {
+              chrome: /chrome/i,
+              safari: /safari/i,
+              firefox: /firefox/i,
+              ie: /internet explorer/i
+            };
             for (var key in browsers) {
               if (browsers[key].test(userAgent)) {
                 return key;
@@ -274,12 +327,16 @@ angular.module ('comment')
             .then(function (result) {
               CommentModel.prepareCSV(result.data, canSeeRejectedDocs)
                 .then(function (data) {
-                  var blob = new Blob([data], { type: 'octet/stream' });
+                  var blob = new Blob([data], {
+                    type: 'octet/stream'
+                  });
                   var filename = 'EAO_PCP_Comments.csv';
                   var browse = getBrowser();
                   if (browse === 'firefox') {
                     var ff = angular.element('<a/>');
-                    ff.css({ display: 'none' });
+                    ff.css({
+                      display: 'none'
+                    });
                     angular.element(document.body).append(ff);
                     ff.attr({
                       href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
@@ -290,7 +347,9 @@ angular.module ('comment')
                   } else if (browse === 'ie') {
                     window.navigator.msSaveBlob(blob, filename);
                   } else if (browse === 'safari') {
-                    var safariBlob = new Blob([data], { type: 'text/csv;base64' });
+                    var safariBlob = new Blob([data], {
+                      type: 'text/csv;base64'
+                    });
                     var safariUrl = window.webkitURL.createObjectURL(safariBlob);
                     var safariAnchor = document.createElement("a");
                     safariAnchor.href = safariUrl;
@@ -338,7 +397,9 @@ angular.module ('comment')
               self.filterCommentPackage = filterCommentPackage;
 
               self.userRoles = userRoles;
-              self.hasRole = function(role) { return _.includes(self.userRoles, role); };
+              self.hasRole = function (role) {
+                return _.includes(self.userRoles, role);
+              };
               self.totalStatus = true;
               self.attachmentStatus = true;
               self.oneDocPublished = false;
@@ -364,10 +425,18 @@ angular.module ('comment')
                 self.showAlert = !_.isEmpty(self.alertType);
               }
 
-              self.cancel = function () { $uibModalInstance.dismiss('cancel'); };
-              self.ok = function () { $uibModalInstance.close(self.comment); };
-              self.pillars = self.comment.pillars.map(function (e) { return e; });
-              self.vcs = self.comment.valuedComponents.map(function (e) { return e.name; });
+              self.cancel = function () {
+                $uibModalInstance.dismiss('cancel');
+              };
+              self.ok = function () {
+                $uibModalInstance.close(self.comment);
+              };
+              self.pillars = self.comment.pillars.map(function (e) {
+                return e;
+              });
+              self.vcs = self.comment.valuedComponents.map(function (e) {
+                return e.name;
+              });
 
               self.statusChange = function (status) {
                 self.comment.eaoStatus = status;
@@ -384,13 +453,13 @@ angular.module ('comment')
                 self.statusSync();
               };
 
-              self.statusSync = function() {
+              self.statusSync = function () {
                 var oneUnvetted = false;
                 self.totalStatus = true;
                 self.hasPublishableComment = false;
                 self.oneDocPublished = false;
                 self.errorMessage = '';
-                _.forEach(self.comment.documents, function(file) {
+                _.forEach(self.comment.documents, function (file) {
                   file.vetted = file.eaoStatus === 'Published' || file.eaoStatus === 'Rejected';
                   oneUnvetted = file.vetted === false ? true : oneUnvetted;
                   self.oneDocPublished = file.eaoStatus === 'Published' ? true : self.oneDocPublished;
@@ -404,7 +473,8 @@ angular.module ('comment')
                   if (!self.attachmentStatus) {
                     self.errorMessage = MUST_VET_ATTACHMENTS;
                     self.totalStatus = false;
-                  } if (self.hasPublishableComment) {
+                  }
+                  if (self.hasPublishableComment) {
                     // no op .. this is good.
                   } else {
                     self.errorMessage = MUST_HAVE_PUBLISHABLE;
@@ -452,16 +522,16 @@ angular.module ('comment')
                   $scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
                 });
             })
-            .catch (function (/* err */) {
+            .catch(function ( /* err */ ) {
               // swallow error
             });
         };
       }
     };
   })
-/*
- Support for displaying a list of files to be uploaded and wrap the upload process
- */
+  /*
+   Support for displaying a list of files to be uploaded and wrap the upload process
+   */
   .directive('fileUploadListing', ['_', function (_) {
     return {
       restrict: 'E',
@@ -482,19 +552,19 @@ angular.module ('comment')
       }
     };
   }])
-// -------------------------------------------------------------------------
-//
-// add a public comment
-//
-// -------------------------------------------------------------------------
-  .directive ('addPublicComment', function ($uibModal, CommentModel, Upload, $timeout, _, $state, DnDBackgroundBlockService) {
+  // -------------------------------------------------------------------------
+  //
+  // add a public comment
+  //
+  // -------------------------------------------------------------------------
+  .directive('addPublicComment', function ($uibModal, CommentModel, Upload, $timeout, _, $state, DnDBackgroundBlockService) {
     return {
       restrict: 'A',
       scope: {
         project: '=',
-        period : '='
+        period: '='
       },
-      link : function(scope, element, attrs) {
+      link: function (scope, element, attrs) {
         DnDBackgroundBlockService.addEventListeners();
         element.on('click', function () {
           var modal;
@@ -506,28 +576,27 @@ angular.module ('comment')
       }
     };
   })
-// -------------------------------------------------------------------------
-//
-// add an open house thingamabob
-//
-// -------------------------------------------------------------------------
-  .directive ('editOpenHouse', function ($uibModal) {
+  // -------------------------------------------------------------------------
+  //
+  // add an open house thingamabob
+  //
+  // -------------------------------------------------------------------------
+  .directive('editOpenHouse', function ($uibModal) {
     return {
       restrict: 'A',
       scope: {
-        period : '=',
-        openhouse : '=',
-        mode   : '@',
-        index  : '='
+        period: '=',
+        openhouse: '=',
+        mode: '@',
+        index: '='
       },
-      link : function(scope, element) {
+      link: function (scope, element) {
         element.on('click', function () {
           if (scope.mode === 'delete') {
-            scope.period.openHouses.splice (scope.index, 1);
+            scope.period.openHouses.splice(scope.index, 1);
             scope.$apply();
-          }
-          else {
-            $uibModal.open ({
+          } else {
+            $uibModal.open({
               animation: true,
               templateUrl: 'modules/project-comments/client/views/public-comments/open-house-edit.html',
               controllerAs: 's',
@@ -540,20 +609,22 @@ angular.module ('comment')
                 s.openHouse = scope.openhouse;
                 if (scope.mode === 'add') {
                   s.openHouse = {
-                    eventDate   : new Date (),
-                    description : ''
+                    eventDate: new Date(),
+                    description: ''
                   };
                 }
-                s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
+                s.cancel = function () {
+                  $uibModalInstance.dismiss('cancel');
+                };
                 s.ok = function (isValid) {
                   if (!isValid) {
                     $scope.$broadcast('show-errors-check-validity', 'openHouseForm');
                     return false;
                   }
                   if (scope.mode === 'add') {
-                    scope.period.openHouses.push (s.openHouse);
+                    scope.period.openHouses.push(s.openHouse);
                   }
-                  $uibModalInstance.close ();
+                  $uibModalInstance.close();
                 };
 
                 $scope.s.openHouse.eventDate = _.isEmpty(s.openHouse.eventDate) ? null : moment(s.openHouse.eventDate).toDate();
@@ -561,7 +632,7 @@ angular.module ('comment')
                 $scope.datePicker = {
                   opened: false
                 };
-                $scope.dateOpen = function() {
+                $scope.dateOpen = function () {
                   $scope.datePicker.opened = true;
                 };
                 $scope.dateOptions = {
@@ -570,19 +641,18 @@ angular.module ('comment')
 
               }
             })
-              .result.then (function (/* data */) {
-              })
-              .catch (function (/* err */) {});
+              .result.then(function ( /* data */ ) {})
+              .catch(function ( /* err */ ) {});
           }
         });
       }
     };
   })
 
-/*
- Validate the PCP before publishing.
- */
-  .directive('pcpvalidationDialog', ['ConfirmService','AlertService', function (ConfirmService, AlertService) {
+  /*
+   Validate the PCP before publishing.
+   */
+  .directive('pcpvalidationDialog', ['ConfirmService', 'AlertService', function (ConfirmService, AlertService) {
     return {
       restrict: 'A',
       scope: {
@@ -601,19 +671,15 @@ angular.module ('comment')
           var period = scope.period;
           var startdate = period.dateStarted;
           var end_date = period.dateCompleted;
-          if (!period.informationLabel){
+          if (!period.informationLabel) {
             AlertService.error('Related documents information is empty');
-          }
-          else if (startdate > end_date){
+          } else if (startdate > end_date) {
             AlertService.error('Start Date is greater than End Date. Please correct the Start Date');
-          }
-          else if (!startdate){
+          } else if (!startdate) {
             AlertService.error('Start Date is empty. Please choose Start Date');
-          }
-          else if (!end_date){
+          } else if (!end_date) {
             AlertService.error('End Date is empty. Please choose End Date');
-          }
-          else {
+          } else {
             /*
 					 It is assumed the scope has been set up for the confirm dialog service. We just need to populate the okArg
 					 */
@@ -624,6 +690,7 @@ angular.module ('comment')
       }
     };
   }]);
+
 function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, $state, scope, element, attrs, DnDBackgroundBlockService) {
   this.show = function () {
     DnDBackgroundBlockService.addEventListeners();
@@ -665,7 +732,7 @@ function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, 
             _.each(newValue, function (file) {
               if (file.size > maxFileSize && !s.isAdmin) {
                 s.showAlert = true;
-              } else if (!file.name.match(acceptedExtentions)){
+              } else if (!file.name.match(acceptedExtentions)) {
                 s.showExtensionAlert = true;
               } else {
                 s.fileList.push(file);
@@ -682,9 +749,15 @@ function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, 
           s.showAlert = false;
           s.showExtensionAlert = false;
         };
-        s.cancel = function () { $uibModalInstance.dismiss('cancel'); };
-        s.next = function () { s.step++; };
-        s.ok = function () { $uibModalInstance.close(s.comment); };
+        s.cancel = function () {
+          $uibModalInstance.dismiss('cancel');
+        };
+        s.next = function () {
+          s.step++;
+        };
+        s.ok = function () {
+          $uibModalInstance.close(s.comment);
+        };
 
         s.submit = function () {
           s.comment.inProgress = false;
@@ -698,16 +771,18 @@ function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, 
             comment.isAnonymous = true; // if the author is empty make it anonymous
           }
 
-          if (docCount === 0 ) {
+          if (docCount === 0) {
             // We don't need to do anything but add the comment.
             CommentModel.add(s.comment)
-              .then (function (comment) {
+              .then(function (comment) {
                 s.step = 3;
                 $scope.$apply();
-                $rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', { comment: comment });
+                $rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {
+                  comment: comment
+                });
                 return null;
               })
-              .catch(function (/* err */) {
+              .catch(function ( /* err */ ) {
                 s.step = 4;
                 $scope.$apply();
               });
@@ -735,9 +810,11 @@ function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, 
                       .then(function (comment) {
                         s.step = 3;
                         $scope.$apply();
-                        $rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', { comment: comment });
+                        $rootScope.$broadcast('NEW_PUBLIC_COMMENT_ADDED', {
+                          comment: comment
+                        });
                       })
-                      .catch(function (/* err */) {
+                      .catch(function ( /* err */ ) {
                         s.step = 4;
                         $scope.$apply();
                       });
@@ -760,11 +837,16 @@ function PublicCommentPeriodModal($uibModal, CommentModel, Upload, $timeout, _, 
       .result.then(function (data) {
         DnDBackgroundBlockService.removeEventListeners();
         // Redirect to full PCP page
-        $state.transitionTo('p.commentperiod.detail', { projectid: scope.project.code, periodId: data.period._id }, {
-          reload: true, inherit: false, notify: true
+        $state.transitionTo('p.commentperiod.detail', {
+          projectid: scope.project.code,
+          periodId: data.period._id
+        }, {
+          reload: true,
+          inherit: false,
+          notify: true
         });
       })
-      .catch (function (/* err */) {
+      .catch(function ( /* err */ ) {
         DnDBackgroundBlockService.removeEventListeners();
       });
   };

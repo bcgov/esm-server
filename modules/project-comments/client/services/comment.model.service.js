@@ -5,13 +5,13 @@
 // is accessed through the front end
 //
 // =========================================================================
-angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment', '_', function ($q, ModelBase, moment, _) {
+angular.module('comment').factory('CommentModel', ['$q', 'ModelBase', 'moment', '_', function ($q, ModelBase, moment, _) {
   //
   // build the model by extending the base model. the base model will
   // have all the basic crud stuff built in
   //
-  var Class = ModelBase.extend ({
-    urlName : 'comment',
+  var Class = ModelBase.extend({
+    urlName: 'comment',
     lookup: function (commentID) {
       return this.get('/api/comment/' + commentID);
     },
@@ -23,7 +23,8 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
     commentPeriodCommentsSync: function (projectId, periodId, commentLength) {
       var self = this;
       // setting batch size (limit) to 10 because DEV was performing poorly.  adjust this to try on different envs.
-      var start = 0, limit = 10;
+      var start = 0,
+        limit = 10;
       var requests = [];
 
       // build up however many requests we need to save all comments...
@@ -41,24 +42,25 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 
       // sequential loop, one request at a time, wait until each step completes.
       function sequential(items, callback) {
-        var i = 0, d = $q.defer();
+        var i = 0,
+          d = $q.defer();
         next();
         return d.promise;
 
         function next() {
-          if( i < items.length ) {
+          if (i < items.length) {
             callback(items[i], i, items).then(
-              function() {
+              function () {
                 i++;
                 next();
               },
               onError
             );
-          }
-          else {
+          } else {
             d.resolve();
           }
         }
+
         function onError(reason) {
           d.reject(reason);
         }
@@ -66,34 +68,34 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
 
       // make the actual http request, return a promise..
       function makeRequest(item) {
-        return self.put ('/api/comments/period/' + item.periodId + '/perms/sync', item);
+        return self.put('/api/comments/period/' + item.periodId + '/perms/sync', item);
       }
 
 
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         sequential(requests, makeRequest)
-          .then(function() {
+          .then(function () {
             resolve();
           })
-          .catch(function(err) {
+          .catch(function (err) {
             reject(err);
           });
       });
 
     },
     getAllCommentsForPeriod: function (periodId) {
-      return this.get ('/api/comments/period/'+periodId+'/all');
+      return this.get('/api/comments/period/' + periodId + '/all');
     },
     getPublishedCommentsForPeriod: function (periodId) {
-      return this.get ('/api/comments/period/'+periodId+'/published');
+      return this.get('/api/comments/period/' + periodId + '/published');
     },
     getEAOCommentsForPeriod: function (periodId) {
-      return this.get ('/api/eaocomments/period/'+periodId);
+      return this.get('/api/eaocomments/period/' + periodId);
     },
     getProponentCommentsForPeriod: function (periodId) {
-      return this.get ('/api/proponentcomments/period/'+periodId);
+      return this.get('/api/proponentcomments/period/' + periodId);
     },
-    getCommentsForPeriod: function( periodId, eaoStatus, proponentStatus, isPublished,
+    getCommentsForPeriod: function (periodId, eaoStatus, proponentStatus, isPublished,
       commentId, authorComment, location, pillar, topic, hasProponentResponse,
       start, limit, orderBy, reverse, filterCommentPackage) {
 
@@ -118,7 +120,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
         filterCommentPackage: filterCommentPackage
       };
 
-      return this.put ('/api/comments/period/' + periodId + '/paginate', obj);
+      return this.put('/api/comments/period/' + periodId + '/paginate', obj);
     },
     // -------------------------------------------------------------------------
     //
@@ -129,8 +131,8 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
     // with the internal messages in conversations also sorted the same
     //
     // -------------------------------------------------------------------------
-    getCommentsForTarget : function (targetType, targetId, commentType) {
-      return this.get ('/api/comments/type/'+commentType+'/target/'+targetType+'/'+targetId);
+    getCommentsForTarget: function (targetType, targetId, commentType) {
+      return this.get('/api/comments/type/' + commentType + '/target/' + targetType + '/' + targetId);
     },
     // -------------------------------------------------------------------------
     //
@@ -150,7 +152,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
       newComment.type = period.commentType;
       newComment.resolved = false;
       newComment.published = false;
-      return this.add (newComment);
+      return this.add(newComment);
     },
     // -------------------------------------------------------------------------
     //
@@ -169,7 +171,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
       newComment.type = originalComment.type;
       newComment.resolved = originalComment.resolved;
       newComment.published = originalComment.published;
-      return this.add (newComment);
+      return this.add(newComment);
     },
     // -------------------------------------------------------------------------
     //
@@ -179,7 +181,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
     //
     // -------------------------------------------------------------------------
     resolveCommentChain: function (comment) {
-      return this.put ('/api/resolve/comment/'+comment.ancestor);
+      return this.put('/api/resolve/comment/' + comment.ancestor);
     },
     // -------------------------------------------------------------------------
     //
@@ -189,7 +191,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
     //
     // -------------------------------------------------------------------------
     publishCommentChain: function (comment) {
-      return this.put ('/api/publish/comment/'+comment.ancestor);
+      return this.put('/api/publish/comment/' + comment.ancestor);
     },
     // -------------------------------------------------------------------------
     //
@@ -199,7 +201,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
     //
     // -------------------------------------------------------------------------
     unpublishCommentChain: function (comment) {
-      return this.put ('/api/unpublish/comment/'+comment.ancestor);
+      return this.put('/api/unpublish/comment/' + comment.ancestor);
     },
     // -------------------------------------------------------------------------
     //
@@ -207,34 +209,35 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
     //
     // -------------------------------------------------------------------------
     getCommentChain: function (ancestorId) {
-      return this.get ('/api/comments/ancestor/'+ancestorId);
+      return this.get('/api/comments/ancestor/' + ancestorId);
     },
-    getDocuments: function(commentId) {
-      return this.get('/api/comment/' + commentId +'/documents');
+    getDocuments: function (commentId) {
+      return this.get('/api/comment/' + commentId + '/documents');
     },
-    updateDocument: function(doc) {
+    updateDocument: function (doc) {
       return this.put('/api/document/' + doc._id, doc);
     },
-    prepareCSV: function (tableParams,isJoint, canSeeRejectedDocs) {
+    prepareCSV: function (tableParams, isJoint, canSeeRejectedDocs) {
       function commentFormat(comment) {
         comment = comment
-        /* eslint-disable no-useless-escape */
-          .replace (/\•/g, '-')
-          .replace (/\’/g, "'")
-          .replace (/\r\n/g, "\n")
-          .replace (/\n+/g, "\n")
-          .replace (/\“/g, '"')
-          .replace (/\”/g, '"')
-          .replace (/"/g, '""');
+          /* eslint-disable no-useless-escape */
+          .replace(/\•/g, '-')
+          .replace(/\’/g, "'")
+          .replace(/\r\n/g, "\n")
+          .replace(/\n+/g, "\n")
+          .replace(/\“/g, '"')
+          .replace(/\”/g, '"')
+          .replace(/"/g, '""');
         /* eslint-enable no-useless-escape */
         // https://support.office.com/en-us/article/Excel-specifications-and-limits-1672b34d-7043-467e-8e27-269d656771c3
         // actual max is 32,767
         var MAX = 32000;
         if (comment.length > MAX) {
-          comment = comment.substr (0,MAX) + ' --- TRUNCATED FOR IMPORT TO EXCEL --- ';
+          comment = comment.substr(0, MAX) + ' --- TRUNCATED FOR IMPORT TO EXCEL --- ';
         }
         return comment;
       }
+
       function attachmentsAdd(csvRow, documents, arrayJoinChar, canSeeRejectedDocs) {
         var normalDocs = [];
         var rejectedDocs = [];
@@ -246,17 +249,18 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
           }
         });
         csvRow.push(attachmentFormat(normalDocs, arrayJoinChar));
-        if (canSeeRejectedDocs ) {
-          csvRow.push (attachmentFormat(rejectedDocs,arrayJoinChar));
+        if (canSeeRejectedDocs) {
+          csvRow.push(attachmentFormat(rejectedDocs, arrayJoinChar));
         }
 
       }
-      function attachmentFormat(documents,arrayJoinChar) {
-        return documents.map (function (v) {
-          return '""' + window.location.protocol + '//' + window.location.host + '/api/document/'+v._id+'/fetch""';
-        }).join (arrayJoinChar);
+
+      function attachmentFormat(documents, arrayJoinChar) {
+        return documents.map(function (v) {
+          return '""' + window.location.protocol + '//' + window.location.host + '/api/document/' + v._id + '/fetch""';
+        }).join(arrayJoinChar);
       }
-      return new Promise (function (resolve/* , reject */) {
+      return new Promise(function (resolve /* , reject */ ) {
         var data = "";
         var header = [];
         header.push('id');
@@ -268,32 +272,34 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
         header.push('topics');
         header.push('status');
         header.push('attachments');
-        if (canSeeRejectedDocs) { header.push('rejected'); }
+        if (canSeeRejectedDocs) {
+          header.push('rejected');
+        }
 
-        data += '"' + header.join ('","') + '"' + "\r\n";
-        _.each (tableParams, function (row) {
+        data += '"' + header.join('","') + '"' + "\r\n";
+        _.each(tableParams, function (row) {
           var a = [];
           a.push(row.commentId);
-          a.push (commentFormat(row.comment));
+          a.push(commentFormat(row.comment));
           var ts = moment(row.dateAdded);
           var tsStr = ts.format('YYYY-MM-DDThh:mm:ssZZ');
-          a.push (tsStr);
-          a.push ((!row.isAnonymous) ? row.author : '');
-          a.push (row.location);
+          a.push(tsStr);
+          a.push((!row.isAnonymous) ? row.author : '');
+          a.push(row.location);
           var arrayJoinChar = '; ';
-          a.push (row.pillars.map (function (v) {
-            return v.replace (/"/g, '""');
-          }).join (arrayJoinChar));
-          a.push (row.topics.map (function (v) {
-            return v.replace (/"/g, '""');
-          }).join (arrayJoinChar));
-          a.push (row.eaoStatus);
+          a.push(row.pillars.map(function (v) {
+            return v.replace(/"/g, '""');
+          }).join(arrayJoinChar));
+          a.push(row.topics.map(function (v) {
+            return v.replace(/"/g, '""');
+          }).join(arrayJoinChar));
+          a.push(row.eaoStatus);
           attachmentsAdd(a, row.documents, arrayJoinChar, canSeeRejectedDocs);
-          data += '"' + a.join ('","') + '"' + "\r\n";
+          data += '"' + a.join('","') + '"' + "\r\n";
         });
         resolve(data);
       });
     }
   });
-  return new Class ();
+  return new Class();
 }]);
