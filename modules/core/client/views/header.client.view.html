@@ -1,65 +1,71 @@
 <header class="app-header">
-	<div class="navbar-header">
-		<button class="navbar-toggle collapsed" type="button"
-			data-target="#mainNav"
-			data-toggle="collapse"
-			aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a class="navbar-brand" href="/"></a>
-	</div>
-	<div class="collapse navbar-collapse" id="mainNav">
-		<ul class="main-nav nav navbar-nav">
-			<li>
-				<a href="/">
-					<span>Find EA Projects</span>
-				</a>
-			</li>
-			<li ng-if="authentication.user">
-				<a ui-sref="dashboard">My Projects </a>
-			</li>
-			<li ng-if="authentication.user">
-				<a x-modal-day-calculator>Calculator</a>
-			</li>
-			<li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user)">
-				<a class="dropdown-toggle"
-					ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown"
-					aria-haspopup="true"
-					aria-expanded="true">System <span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
-					<li class="main-nav__menu-item"
-						ng-repeat="item in systemMenu.items | orderBy: 'position'"
-						ng-if="item.shouldRender(authentication.user);"
-						ng-class="{'active': $state.includes(item.state)}">
-						<a ui-sref="{{item.state}}" ng-bind="item.title"></a>
-					</li>
-					<li class="main-nav__menu-item" ng-if="application.userCan.manageRoles">
-						<a href x-role-users-modal x-context="application">Edit System Roles</a>
-					</li>
-					<li class="main-nav__menu-item" ng-if="application.userCan.managePermissions">
-						<a href x-role-permissions-modal x-context="application" x-object="application">Edit System Permissions</a>
-					</li>
-				</ul>
-			</li>
-			<li ng-if="!authentication.user">
-				<a ui-sref="authentication.signin">
-					<span>Log In</span>
-				</a>
-			</li>
-			<li class="dropdown" ng-if="authentication.user">
-				<a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="true">{{ authentication.user.displayName }} <span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
-					<li><a x-modal-edit-my-profile href><strong>Edit Profile</strong></a></li>
-					<li><a href="/api/auth/signout" target="_self"><strong>Log Out</strong></a></li>
-				</ul>
-			</li>
-		</ul>
-	</div>
+  <div class="navbar-header">
+    <button class="navbar-toggle collapsed" type="button" data-target="#mainNav" data-toggle="collapse" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/"></a>
+  </div>
+  <div class="collapse navbar-collapse" id="mainNav">
+    <ul class="main-nav nav navbar-nav">
+      <li>
+        <a href="/">
+          <span>Find EA Projects</span>
+        </a>
+      </li>
+      <li ng-if="authentication.user">
+        <a ui-sref="dashboard">My Projects </a>
+      </li>
+      <li ng-if="authentication.user">
+        <a x-modal-day-calculator>Calculator</a>
+      </li>
+      <li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user)">
+        <a class="dropdown-toggle" ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="true">System
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu pull-right" aria-labelledby="dropdownSystemMenu">
+          <li class="main-nav__menu-item" ng-repeat="item in systemMenu.items | orderBy: 'position'" ng-if="item.shouldRender(authentication.user);"
+            ng-class="{'active': $state.includes(item.state)}">
+            <a ui-sref="{{item.state}}" ng-bind="item.title"></a>
+          </li>
+          <li class="main-nav__menu-item" ng-if="application.userCan.manageRoles">
+            <a href x-role-users-modal x-context="application">Edit System Roles</a>
+          </li>
+          <li class="main-nav__menu-item" ng-if="application.userCan.managePermissions">
+            <a href x-role-permissions-modal x-context="application" x-object="application">Edit System Permissions</a>
+          </li>
+          <li class="main-nav__menu-item" ng-if="application.userCan.managePermissions">
+            <a href x-export-modal x-context="application" x-object="application">Export Data</a>
+          </li>
+        </ul>
+      </li>
+      <li ng-if="!authentication.user">
+        <a ui-sref="authentication.signin">
+          <span>Log In</span>
+        </a>
+      </li>
+      <li class="dropdown" ng-if="authentication.user">
+        <a class="dropdown-toggle" href ng-click="$event.preventDefault();" id="userMenu" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="true">{{ authentication.user.displayName }}
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu pull-right" aria-labelledby="userMenu">
+          <li>
+            <a x-modal-edit-my-profile href>
+              <strong>Edit Profile</strong>
+            </a>
+          </li>
+          <li>
+            <a href="/api/auth/signout" target="_self">
+              <strong>Log Out</strong>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
 </header>
