@@ -135,7 +135,7 @@ angular.module ('comment')
         s.isLoading = false;
         // columns: all pcp; author, location, date.  eao-pcp adds; pillar, vc.  authentication.user add one for id
         // public: 3, eao pcp: 5,  +1 for auth user.
-        s.colspan = 3 + (s.isPublic ? 2 : 0) + ($scope.authentication.user ? 1 : 0);
+        s.colspan = 3 + (s.isPublic ? 3 : 0) + ($scope.authentication.user ? 1 : 0);
         s.pageSize = 50;
 
         // mostly this is so the value in the drop down lists displays what is in the tableState.search.predicateObject
@@ -144,7 +144,8 @@ angular.module ('comment')
           authorComment: undefined,
           location: undefined,
           pillar: undefined,
-          topic: undefined
+          topic: undefined,
+          hasProponentResponse: undefined
         };
 
         s.changePageSize = function (value) {
@@ -198,6 +199,7 @@ angular.module ('comment')
             filterByFields.location = tableState.search.predicateObject.location;
             filterByFields.pillar = tableState.search.predicateObject.pillar;
             filterByFields.topic = tableState.search.predicateObject.topic;
+            filterByFields.hasProponentResponse = tableState.search.predicateObject.hasProponentResponse;
           }
 
           CommentPeriodModel.getForPublic(s.period._id)
@@ -205,7 +207,7 @@ angular.module ('comment')
               refreshFilterArrays(p);
               return CommentModel.getCommentsForPeriod(
                 filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
-                filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic,
+                filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic, filterByFields.hasProponentResponse,
                 start, limit, sort.predicate, sort.reverse, s.filterCommentPackage);
             })
             .then(function (result) {

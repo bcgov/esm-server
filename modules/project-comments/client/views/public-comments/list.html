@@ -83,7 +83,10 @@
 					<th class="vc-col" ng-if="s.isPublic"
 						st-sort="topics">Valued Components <span class="sort-icon"></span>
 					</th>
-					<th class="date-col"
+					<th class="response-col" ng-if="s.isPublic"
+            st-sort="proponentResponse">Proponent Response <span class="sort-icon"></span>
+          </th>
+          <th class="date-col"
 						st-sort="dateAdded">Date Posted <span class="sort-icon"></span>
 					</th>
 				</tr>
@@ -109,8 +112,15 @@
 							<option ng-repeat="option in s.topicsArray" value="{{option.id}}">{{option.name}}</option>
 						</select>
 					</th>
-					<th class="date-col">
-					</th>
+					<th class="response-col" ng-if="s.isPublic">
+            <select class="form-control" st-input-event="change" st-search="hasProponentResponse" ng-model="s.filterByFields.hasProponentResponse">
+              <option value=""></option>
+              <option value='false'>No</option>
+              <option value='true'>Yes</option>
+            </select>
+          </th>
+          <th class="date-col">
+          </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -138,10 +148,13 @@
 										<a ui-sref="p.vc.detail({vcId:x})">{{o.topics[$index]}}{{$last ? '' : ', '}}</a>
 									</span>
 								</td>
-								<td class="date-col">
-									<span class="attachment-icon glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
-									<span class="date">{{o.dateAdded | date:'MMM dd, yyyy @ h:mm a'}}</span>
-								</td>
+								<td class="response-col" ng-if="s.isPublic">
+                  <span class="date">{{ ::o.proponentResponse  ? 'Yes' : 'No'}}</span>
+                </td>
+                <td class="date-col">
+                  <span class="attachment-icon glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
+                  <span class="date">{{o.dateAdded | date:'MMM dd, yyyy @ h:mm a'}}</span>
+                </td>
 							</tr>
 						</table>
 						<table class="table">

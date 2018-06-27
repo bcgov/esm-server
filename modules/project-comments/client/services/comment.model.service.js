@@ -94,7 +94,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
       return this.get ('/api/proponentcomments/period/'+periodId);
     },
     getCommentsForPeriod: function( periodId, eaoStatus, proponentStatus, isPublished,
-      commentId, authorComment, location, pillar, topic,
+      commentId, authorComment, location, pillar, topic, hasProponentResponse,
       start, limit, orderBy, reverse, filterCommentPackage) {
 
       var obj = {
@@ -109,6 +109,7 @@ angular.module('comment').factory ('CommentModel', ['$q', 'ModelBase', 'moment',
         location: location,
         pillar: pillar,
         topic: topic,
+        hasProponentResponse: hasProponentResponse,
         // pagination
         start: start,
         limit: limit,

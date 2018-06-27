@@ -244,7 +244,7 @@ module.exports = DBModel.extend ({
     });
   },
   getCommentsForPeriod: function(periodId, eaoStatus, proponentStatus, isPublished,
-    commentId, authorComment, location, pillar, topic,
+    commentId, authorComment, location, pillar, topic, hasProponentResponse,
     start, limit, sortby, filterCommentPackage) {
     var self = this;
 
@@ -295,6 +295,39 @@ module.exports = DBModel.extend ({
     }
     if (topic !== undefined) {
       filterByFields = _.extend({}, filterByFields, {topics: {$in: [topic] }});
+    }
+    if (hasProponentResponse !== undefined) {
+      if (hasProponentResponse === 'true') {
+        filterByFields = _.extend({}, filterByFields, {
+          $and: [
+            {
+              proponentResponse: {
+                $exists: true
+              }
+            },
+            {
+              proponentResponse: {
+                $ne: ''
+              }
+            }
+          ]
+        });
+      } else {
+        filterByFields = _.extend({}, filterByFields, {
+          $or: [
+            {
+              proponentResponse: {
+                $exists: false
+              }
+            },
+            {
+              proponentResponse: {
+                $eq: ''
+              }
+            }
+          ]
+        });
+      }
     }
 
     var fields = null;
@@ -428,6 +461,7 @@ module.exports = DBModel.extend ({
     var location;
     var pillar;
     var topic;
+    var hasProponentResponse;
 
     // pagination stuff
     var skip = 0;
@@ -469,6 +503,9 @@ module.exports = DBModel.extend ({
       if (!_.isEmpty(body.topic)) {
         topic = body.topic;
       }
+      if (!_.isEmpty(body.hasProponentResponse)) {
+        hasProponentResponse = body.hasProponentResponse;
+      }
       if (!_.isEmpty(body.filterCommentPackage)) {
         filterCommentPackage = body.filterCommentPackage;
       }
@@ -484,7 +521,7 @@ module.exports = DBModel.extend ({
       }
     }
 
-    return self.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, skip, limit, sortby, filterCommentPackage);
+    return self.getCommentsForPeriod (periodId, eaoStatus, proponentStatus, isPublished, commentId, authorComment, location, pillar, topic, hasProponentResponse, skip, limit, sortby, filterCommentPackage);
   },
   getPeriodPermsSync: function (body) {
     var self = this;
