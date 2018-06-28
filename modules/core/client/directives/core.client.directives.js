@@ -796,16 +796,68 @@ angular.module('core')
             size: 'md',
             controller: function ($scope, $uibModalInstance, $timeout) {
               var s = this;
+
               s.isLoading = false;
               $scope.url = null;
+
               s.exportProjects = function () {
                 s.isLoading = true;
+
+                var getBrowser = function () {
+                  var userAgent = window.navigator.userAgent;
+                  // Feature detection method
+                  if (Object.hasOwnProperty.call(window, "ActiveXObject") && !window.ActiveXObject) {
+                    return 'ie';
+                  }
+                  if (navigator.appVersion.indexOf("MSIE") !== -1 || navigator.appVersion.indexOf("Trident") !== -1 || navigator.appVersion.indexOf("Edge") !== -1) {
+                    return 'ie';
+                  }
+                  var browsers = {
+                    chrome: /chrome/i,
+                    safari: /safari/i,
+                    firefox: /firefox/i,
+                    ie: /internet explorer/i
+                  };
+                  for (var key in browsers) {
+                    if (browsers[key].test(userAgent)) {
+                      return key;
+                    }
+                  }
+                };
+
                 ProjectModel.exportProjects().then(function (csvData) {
-                  var blob = new Blob([csvData], {
-                    type: 'text/csv'
-                  });
-                  $scope.download = 'epic_project_data_' + $filter('date')(new Date(), 'yyyy-MM-ddTHH:MM:ss') + '.csv';
-                  $scope.url = (window.URL || window.webkitURL).createObjectURL(blob);
+                  var fileName = 'epic_project_data_' + $filter('date')(new Date(), 'yyyy-MM-ddTHH:MM:ss') + '.csv';
+                  var blob = new Blob([csvData], { type: 'octet/stream' });
+                  var browser = getBrowser();
+                  if (browser === 'firefox') {
+                    var ff = angular.element('<a/>');
+                    ff.css({ display: 'none' });
+                    angular.element(document.body).append(ff);
+                    ff.attr({
+                      href: 'data:attachment/csv;charset=utf-8,' + encodeURI(csvData),
+                      target: '_blank',
+                      download: fileName
+                    })[0].click();
+                    ff.remove();
+                  } else if (browser === 'ie') {
+                    window.navigator.msSaveBlob(blob, fileName);
+                  } else if (browser === 'safari') {
+                    var safariBlob = new Blob([csvData], {
+                      type: 'text/csv;base64'
+                    });
+                    var safariUrl = window.webkitURL.createObjectURL(safariBlob);
+                    var safariAnchor = document.createElement("a");
+                    safariAnchor.href = safariUrl;
+                    safariAnchor.click();
+                    window.webkitURL.revokeObjectURL(safariUrl);
+                  } else {
+                    var url = (window.URL || window.webkitURL).createObjectURL(blob);
+                    var anchor = document.createElement("a");
+                    anchor.download = fileName;
+                    anchor.href = url;
+                    anchor.click();
+                    window.URL.revokeObjectURL(url);
+                  }
                   $timeout(function () {
                     s.isLoading = false;
                   });
