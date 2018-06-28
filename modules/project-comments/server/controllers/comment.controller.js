@@ -367,32 +367,59 @@ module.exports = DBModel.extend({
       });
     }
     if (hasProponentResponse !== undefined) {
-      if (hasProponentResponse === 'true') {
+      if (hasProponentResponse === 'published') {
         filterByFields = _.extend({}, filterByFields, {
-          $and: [{
-            proponentResponse: {
-              $exists: true
+          $and: [
+            {
+              proponentResponse: {
+                $exists: true
+              }
+            },
+            {
+              proponentResponse: {
+                $ne: ''
+              }
+            },
+            {
+              showProponentResponse: {
+                $eq: true
+              }
             }
-          },
-          {
-            proponentResponse: {
-              $ne: ''
+          ]
+        });
+      } else if (hasProponentResponse === 'yes') {
+        filterByFields = _.extend({}, filterByFields, {
+          $and: [
+            {
+              proponentResponse: {
+                $exists: true
+              }
+            },
+            {
+              proponentResponse: {
+                $ne: ''
+              }
+            },
+            {
+              showProponentResponse: {
+                $eq: false
+              }
             }
-          }
           ]
         });
       } else {
         filterByFields = _.extend({}, filterByFields, {
-          $or: [{
-            proponentResponse: {
-              $exists: false
+          $or: [
+            {
+              proponentResponse: {
+                $exists: false
+              }
+            },
+            {
+              proponentResponse: {
+                $eq: ''
+              }
             }
-          },
-          {
-            proponentResponse: {
-              $eq: ''
-            }
-          }
           ]
         });
       }
