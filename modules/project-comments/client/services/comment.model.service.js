@@ -265,6 +265,8 @@ angular.module('comment').factory('CommentModel', ['$q', 'ModelBase', 'moment', 
         var header = [];
         header.push('id');
         header.push('comment');
+        header.push('proponent response');
+        header.push('proponent response visible');
         header.push('date added');
         header.push('author');
         header.push('location');
@@ -281,6 +283,8 @@ angular.module('comment').factory('CommentModel', ['$q', 'ModelBase', 'moment', 
           var a = [];
           a.push(row.commentId);
           a.push(commentFormat(row.comment));
+          a.push(commentFormat(row.proponentResponse));
+          a.push(row.showProponentResponse);
           var ts = moment(row.dateAdded);
           var tsStr = ts.format('YYYY-MM-DDThh:mm:ssZZ');
           a.push(tsStr);

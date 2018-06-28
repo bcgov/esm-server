@@ -321,7 +321,7 @@ angular.module('comment')
               refreshFilterArrays(p);
               return CommentModel.getCommentsForPeriod(
                 s.period._id, undefined, undefined, onlyPublishedComments,
-                undefined, undefined, undefined, undefined, undefined,
+                undefined, undefined, undefined, undefined, undefined, undefined,
                 0, s.total, 'commentId', true, undefined);
             })
             .then(function (result) {
