@@ -128,8 +128,9 @@
           <th class="response-col" ng-if="s.isPublic">
             <select class="form-control" st-input-event="change" st-search="hasProponentResponse" ng-model="s.filterByFields.hasProponentResponse">
               <option value=""></option>
-              <option value='false'>No</option>
-              <option value='true'>Yes</option>
+              <option value='no'>No</option>
+              <option value='yes'>Yes</option>
+              <option value='published'>Published</option>
             </select>
           </th>
           <th class="date-col">
@@ -162,7 +163,9 @@
                   </span>
                 </td>
                 <td class="response-col" ng-if="s.isPublic">
-                  <span class="date">{{ ::o.proponentResponse ? 'Yes' : 'No'}}</span>
+                  <span class="date" ng-if="::!o.proponentResponse" >No</span>
+                  <span class="date" ng-if="::o.proponentResponse && !o.showProponentResponse" >Yes</span>
+                  <span class="date" ng-if="::o.proponentResponse && o.showProponentResponse" >Published</span>
                 </td>
                 <td class="date-col">
                   <span class="attachment-icon glyphicon glyphicon-paperclip" ng-if="o.publishedDocumentCount > 0" title="{{o.publishedDocumentCount}} attachments available"></span>
