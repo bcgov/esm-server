@@ -58,7 +58,7 @@ module.exports = function (app) {
     .get (routes.setAndRun (CommentModel, function (model, req) {
       return model.getCommentsForTarget (req.params.targettype, req.params.targetid, req.params.type);
     }));
-  app.route ('/api/comments/period/:periodId/all').all(policy ('guest'))
+  app.route ('/api/comments/period/:periodId/all').all(policy ('user'))
     .get (routes.setAndRun (CommentModel, function (model, req) {
       return model.getAllCommentsForPeriod (req.params.periodId);
     }));
@@ -75,7 +75,7 @@ module.exports = function (app) {
       return model.getProponentCommentsForPeriod (req.params.periodId);
     }));
 
-  app.route ('/api/comments/period/:periodId/paginate').all(policy ('guest'))
+  app.route ('/api/comments/period/:periodId/paginate').all(policy ('user'))
     .put (routes.setAndRun (CommentModel, function (model, req) {
       return model.getPeriodPaginate(req.body);
     }));
