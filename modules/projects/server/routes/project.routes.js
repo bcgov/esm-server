@@ -304,7 +304,7 @@ module.exports = function (app) {
     }));
   // Returns a promise that resolves with project data as a CSV.
   app.route('/api/projects/export')
-    .all(policy('admin'))
+    .all(policy('user'))
     .get(routes.setAndRun(Project, function (model) {
       return model.exportProjects();
     }));
