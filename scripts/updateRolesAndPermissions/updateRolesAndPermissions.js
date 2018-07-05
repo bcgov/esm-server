@@ -1,5 +1,12 @@
+/**
+ * This file contains a number of functions that can be used to perform simple or complex database operations.
+ * The functions were originally created to facilitate a roles/permissions update, which is why some functions have very specific purposes.
+ * The primary re-usable function, for general updates/changes, is updateRolesArrays().  This function accepts a number of different parameters, and in general finds and updates arrays of roles within a given collection.
+ * At the bottom of the file, the calls (now commented out) for the original roles/permissiosn changes can be found.
+ */
+
 'use strict';
-const monk = require('monk');
+var monk = require('monk');
 
 var url;
 if (process.argv[2] && process.argv[2].trim()) {
@@ -25,7 +32,7 @@ console.log('\nUsing mongodb connection url: ' + url + '\n');
  * projects - read/write/delete
  * vcs - read/write/delete
  */
-const collectionsToUpdate = [
+var collectionsToUpdate = [
   'artifacts',
   'collectiondocuments',
   'collections',
@@ -42,7 +49,7 @@ const collectionsToUpdate = [
 /**
  * Array of known properties whose value is an array of roles that needs to be updated.
  */
-const keyArray = [
+var keyArray = [
   'delete',
   'write',
   'read',
@@ -98,8 +105,8 @@ var rolesToUpdate = [
  * @param [String] deletes array of roles to delete whenever found.
  */
 var deleteOldRoles = function(collectionName, deletes) {
-  const db = monk(url);
-  const collection = db.get(collectionName, { castIds: true });
+  var db = monk(url);
+  var collection = db.get(collectionName, { castIds: true });
   collection.remove({ role: { $in: deletes } }).then(function(data) {
     db.close();
   });
@@ -117,8 +124,8 @@ var updateRoles = function(collectionName, field, updates) {
     matchQuery[field] = pair.old;
     var updateQuery = {};
     updateQuery[field] = pair.new;
-    const db = monk(url);
-    const collection = db.get(collectionName, { castIds: true });
+    var db = monk(url);
+    var collection = db.get(collectionName, { castIds: true });
     collection.update(matchQuery, { $set: updateQuery }, { multi: true }).then(function(data) {
       db.close();
     });
@@ -131,9 +138,9 @@ var updateRoles = function(collectionName, field, updates) {
  * @param String permissionToAdd the permission to add
  */
 var insertPermissions = function(roleToUpdate, permissionToAdd) {
-  const db = monk(url);
-  const collection = db.get('_permissions', { castIds: true });
-  const result = collection
+  var db = monk(url);
+  var collection = db.get('_permissions', { castIds: true });
+  var result = collection
     .aggregate([
       {
         $match: {
@@ -151,7 +158,7 @@ var insertPermissions = function(roleToUpdate, permissionToAdd) {
       var i;
       for (i = 0; i < result.length; i++) {
         // resource that has a project-team role
-        const resource = result[i]._id.resource;
+        var resource = result[i]._id.resource;
         // determine if this resource already has a 'roleToUpdate' role with the 'permissionToAdd' permission
         promiseArray.push(
           collection.find({ resource: resource, permission: permissionToAdd, role: roleToUpdate }).then(function(docs) {
@@ -178,24 +185,25 @@ var insertPermissions = function(roleToUpdate, permissionToAdd) {
  *  - Connect
  *  - Get all records
  *  - Run traverseAndUpdate on each record
- *  - sa the record back into the collection
+ *  - save the record back into the collection
  *  - Disconnect
  * @param [String] collections an array of collections that contain arrays of roles that need updating.
  * @param [String] keys array of keys whose values are arrays of roles that need updating.
  * @param [String] deletes array of roles to delete whenever found.
  * @param [String] updates array of roles to update whenever found.
+ * @param [String] adds array of roles to add to any existing array of roles being updated.
  */
 
-var updateRolesArrays = function(collections, keys, deletes, updates) {
+var updateRolesArrays = function(collections=[], query={}, keys=[], deletes=[], updates=[], adds=[]) {
   var i;
   for (i = 0; i < collections.length; i++) {
-    const db = monk(url);
-    const collection = db.get(collections[i], { castIds: true });
+    var db = monk(url);
+    var collection = db.get(collections[i], { castIds: true });
     collection
-      .find()
+      .find(query)
       .each(function(record) {
         // get the updated record
-        record = traverseAndUpdateObject(record, keys, deletes, updates);
+        record = traverseAndUpdateObject(record, keys, deletes, updates, adds);
         // save the updated record
         collection.update({ _id: record._id }, record);
       })
@@ -209,25 +217,26 @@ var updateRolesArrays = function(collections, keys, deletes, updates) {
  * Traverses the object and looks for properties that match the ones in keys.
  * If a matching property is found, and its value is an array, it updates the array.
  * If a property does not match, and is an object, it recurses into that object.
- * If a property does not match, and is not an object or is null, it does nothing to it.
+ * If a property does not match, and is not an object or is null, it does nothing to it and returns.
  * @param Object record monk collection record
  * @param [String] keys array of keys whose values are arrays of roles that need updating.
  * @param [String] deletes array of roles to delete whenever found.
  * @param [String] updates array of roles to update whenever found.
+ * @param [String] adds array of roles to add to any existing array of roles being updated.
  */
-var traverseAndUpdateObject = function(record, keys, deletes, updates) {
-  const recordKeys = Object.keys(record);
+var traverseAndUpdateObject = function(record, keys, deletes, updates, adds) {
+  var recordKeys = Object.keys(record);
   var i;
   for (i = 0; i < recordKeys.length; i++) {
-    const key = recordKeys[i];
-    const value = record[key];
+    var key = recordKeys[i];
+    var value = record[key];
     // if key is in the keys and its value is an array
     if (keys.indexOf(key) >= 0 && Array.isArray(value)) {
       // set its value to an updated version of the array
-      record[key] = getNewRolesArray(value, deletes, updates);
+      record[key] = getNewRolesArray(value, deletes, updates, adds);
     } else if (value && typeof value === 'object') {
       // if the value is an object, recurse
-      record[key] = traverseAndUpdateObject(value, keys, deletes, updates);
+      record[key] = traverseAndUpdateObject(value, keys, deletes, updates, adds);
     }
   }
   return record;
@@ -257,8 +266,9 @@ var getNewRole = function(role, updates) {
  * @param [String] oldRolesArray array of roles to process.
  * @param [String] deletes array of roles to delete whenever found.
  * @param [String] updates array of roles to update whenever found.
+ * @param [String] adds array of roles to add to any existing array of roles being updated.
  */
-var getNewRolesArray = function(oldRolesArray, deletes, updates) {
+var getNewRolesArray = function(oldRolesArray, deletes, updates, adds) {
   var newRolesArray = [];
   var i;
   for (i = 0; i < oldRolesArray.length; i++) {
@@ -270,6 +280,10 @@ var getNewRolesArray = function(oldRolesArray, deletes, updates) {
       newRolesArray.push(newRole);
     }
   }
+  // add roles that didnt exist before, but need to now
+  for (i = 0; i < adds.length; i++) {
+    newRolesArray.push(adds[i]);
+  }
   // remove duplicates
   return newRolesArray.filter(function(item, pos) {
     return newRolesArray.indexOf(item) == pos;
@@ -279,16 +293,16 @@ var getNewRolesArray = function(oldRolesArray, deletes, updates) {
 /**
  * Custom update logic, similar to the above, for the _defaults table due to its unique structure.
  */
-var updateDefaultsCollection = function(deletes, updates) {
-  const db = monk(url);
-  const collection = db.get('_defaults', { castIds: true });
+var updateDefaultsCollection = function(deletes, updates, adds) {
+  var db = monk(url);
+  var collection = db.get('_defaults', { castIds: true });
 
   collection
     .find()
     .each(function(record) {
       if (record.type === 'global-project-roles') {
         var oldRolesArray = record.defaults.roles;
-        var newRolesArray = getNewRolesArray(oldRolesArray, deletes, updates);
+        var newRolesArray = getNewRolesArray(oldRolesArray, deletes, updates, adds);
         collection.update({ _id: record._id }, { $set: { defaults: { roles: newRolesArray } } });
       }
 
@@ -341,20 +355,20 @@ var updateDefaultsCollection = function(deletes, updates) {
           if (key === 'permissions') {
             var oldPermissionsObj = record.defaults.permissions;
             for (var property in oldPermissionsObj) {
-              var newArray = getNewRolesArray(oldPermissionsObj[property], deletes, updates);
+              var newArray = getNewRolesArray(oldPermissionsObj[property], deletes, updates, []);
               newDefaultsObj.permissions[property] = newArray;
             }
           }
           if (key === 'roles') {
             var oldRolesObj = record.defaults.roles;
             for (var property in oldRolesObj) {
-              var newArray = getNewRolesArray(oldRolesObj[property], deletes, updates);
+              var newArray = getNewRolesArray(oldRolesObj[property], deletes, updates, []);
               var newRole = getNewRole(property, updates);
               newDefaultsObj.roles[newRole] = newArray;
             }
           }
         }
-        var result = collection.update({ _id: record._id }, { $set: { defaults: newDefaultsObj } });
+        collection.update({ _id: record._id }, { $set: { defaults: newDefaultsObj } });
       }
     })
     .then(function(data) {
@@ -362,26 +376,40 @@ var updateDefaultsCollection = function(deletes, updates) {
     });
 };
 
+// ==============================================
+// Original Roles/Permissions Changes
+// ==============================================
+
 // delete old _roles
-deleteOldRoles('_roles', rolesToDelete);
+//deleteOldRoles('_roles', rolesToDelete);
 
 // delete old _permissions
-deleteOldRoles('_permissions', rolesToDelete);
+// deleteOldRoles('_permissions', rolesToDelete);
 
 // update remaining _roles
-updateRoles('_roles', 'role', rolesToUpdate);
+// updateRoles('_roles', 'role', rolesToUpdate);
 
 // update remaining _permissions
-updateRoles('_permissions', 'role', rolesToUpdate);
+// updateRoles('_permissions', 'role', rolesToUpdate);
 
 // update roles arrays
-updateRolesArrays(collectionsToUpdate, keyArray, rolesToDelete, rolesToUpdate);
+// updateRolesArrays(collectionsToUpdate, {}, keyArray, rolesToDelete, rolesToUpdate, []);
 
 // update roles in _defaults collection
-updateDefaultsCollection(rolesToDelete, rolesToUpdate);
+// updateDefaultsCollection(rolesToDelete, rolesToUpdate, []);
 
 // add manageFolders permission to all projects that have a project-team role
-insertPermissions('project-team', 'manageFolders');
+// insertPermissions('project-team', 'manageFolders');
 
 // add manageFolders permission to all projects that have a project-admin role
-insertPermissions('project-admin', 'manageFolders');
+// insertPermissions('project-admin', 'manageFolders');
+
+// ==============================================
+// Additional Roles/Permissions Changes
+// ==============================================
+
+// add project-team to folder defaults record (already had read, adding write.  Doesnt seem to need delete, but maybe we should add it anyways?)
+updateRolesArrays(['_defaults'], {context:'project', resource:'folder', level:'global', type:'default-permissions'}, ['write', 'read'], [], [], ['project-team']);
+
+// add project-team to existing folders so that project-team can re-arrange folders/files
+updateRolesArrays(['folders'], {}, ['write', 'read'], [], [], ['project-team']);
