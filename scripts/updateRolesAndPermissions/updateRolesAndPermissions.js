@@ -1,8 +1,19 @@
+/* eslint no-console:0 */
+/* eslint no-unused-vars:0 */
+/* eslint no-loop-func:0 */
+
 /**
  * This file contains a number of functions that can be used to perform simple or complex database operations.
  * The functions were originally created to facilitate a roles/permissions update, which is why some functions have very specific purposes.
  * The primary re-usable function, for general updates/changes, is updateRolesArrays().  This function accepts a number of different parameters, and in general finds and updates arrays of roles within a given collection.
  * At the bottom of the file, the calls (now commented out) for the original roles/permissiosn changes can be found.
+ *
+ * How to run this script in OpenShift:
+ * 1. In OpenShift, navigate to the server pod you want to run this script against, on whichever environment you want to update (Dev, Test, Prod, etc)
+ * 2. In the pod Terminal, navigate to '/scripts/updateRolesAndPermissions'.
+ * 3. In the folder, run 'yarn'
+ * 4. In the same folder, run 'node updateRolesAndPermissions.js mongodb://$MONGODB_USER:$MONGODB_PASSWORD@mongodb-master:27017/$MONGODB_DATABASE
+ *    - NOTE: in the above command 'mongodb-master' will change depending on which environment you are in (Dev, Test, Prod, etc).
  */
 
 'use strict';
@@ -180,69 +191,6 @@ var insertPermissions = function(roleToUpdate, permissionToAdd) {
 };
 
 /**
- * Iterate over the collectionsToUpdate array.
- * For each collection:
- *  - Connect
- *  - Get all records
- *  - Run traverseAndUpdate on each record
- *  - save the record back into the collection
- *  - Disconnect
- * @param [String] collections an array of collections that contain arrays of roles that need updating.
- * @param [String] keys array of keys whose values are arrays of roles that need updating.
- * @param [String] deletes array of roles to delete whenever found.
- * @param [String] updates array of roles to update whenever found.
- * @param [String] adds array of roles to add to any existing array of roles being updated.
- */
-
-var updateRolesArrays = function(collections=[], query={}, keys=[], deletes=[], updates=[], adds=[]) {
-  var i;
-  for (i = 0; i < collections.length; i++) {
-    var db = monk(url);
-    var collection = db.get(collections[i], { castIds: true });
-    collection
-      .find(query)
-      .each(function(record) {
-        // get the updated record
-        record = traverseAndUpdateObject(record, keys, deletes, updates, adds);
-        // save the updated record
-        collection.update({ _id: record._id }, record);
-      })
-      .then(function(data) {
-        db.close();
-      });
-  }
-};
-
-/**
- * Traverses the object and looks for properties that match the ones in keys.
- * If a matching property is found, and its value is an array, it updates the array.
- * If a property does not match, and is an object, it recurses into that object.
- * If a property does not match, and is not an object or is null, it does nothing to it and returns.
- * @param Object record monk collection record
- * @param [String] keys array of keys whose values are arrays of roles that need updating.
- * @param [String] deletes array of roles to delete whenever found.
- * @param [String] updates array of roles to update whenever found.
- * @param [String] adds array of roles to add to any existing array of roles being updated.
- */
-var traverseAndUpdateObject = function(record, keys, deletes, updates, adds) {
-  var recordKeys = Object.keys(record);
-  var i;
-  for (i = 0; i < recordKeys.length; i++) {
-    var key = recordKeys[i];
-    var value = record[key];
-    // if key is in the keys and its value is an array
-    if (keys.indexOf(key) >= 0 && Array.isArray(value)) {
-      // set its value to an updated version of the array
-      record[key] = getNewRolesArray(value, deletes, updates, adds);
-    } else if (value && typeof value === 'object') {
-      // if the value is an object, recurse
-      record[key] = traverseAndUpdateObject(value, keys, deletes, updates, adds);
-    }
-  }
-  return record;
-};
-
-/**
  * Given a role, checks it against the updates array and returns the new version if a match is found.
  * Returns the original role if no match is found.
  * @param String role the role to update if it has a match in the updates array.
@@ -288,6 +236,69 @@ var getNewRolesArray = function(oldRolesArray, deletes, updates, adds) {
   return newRolesArray.filter(function(item, pos) {
     return newRolesArray.indexOf(item) == pos;
   });
+};
+
+/**
+ * Traverses the object and looks for properties that match the ones in keys.
+ * If a matching property is found, and its value is an array, it updates the array.
+ * If a property does not match, and is an object, it recurses into that object.
+ * If a property does not match, and is not an object or is null, it does nothing to it and returns.
+ * @param Object record monk collection record
+ * @param [String] keys array of keys whose values are arrays of roles that need updating.
+ * @param [String] deletes array of roles to delete whenever found.
+ * @param [String] updates array of roles to update whenever found.
+ * @param [String] adds array of roles to add to any existing array of roles being updated.
+ */
+var traverseAndUpdateObject = function(record, keys, deletes, updates, adds) {
+  var recordKeys = Object.keys(record);
+  var i;
+  for (i = 0; i < recordKeys.length; i++) {
+    var key = recordKeys[i];
+    var value = record[key];
+    // if key is in the keys and its value is an array
+    if (keys.indexOf(key) >= 0 && Array.isArray(value)) {
+      // set its value to an updated version of the array
+      record[key] = getNewRolesArray(value, deletes, updates, adds);
+    } else if (value && typeof value === 'object') {
+      // if the value is an object, recurse
+      record[key] = traverseAndUpdateObject(value, keys, deletes, updates, adds);
+    }
+  }
+  return record;
+};
+
+/**
+ * Iterate over the collectionsToUpdate array.
+ * For each collection:
+ *  - Connect
+ *  - Get all records
+ *  - Run traverseAndUpdate on each record
+ *  - save the record back into the collection
+ *  - Disconnect
+ * @param [String] collections an array of collections that contain arrays of roles that need updating.
+ * @param [String] keys array of keys whose values are arrays of roles that need updating.
+ * @param [String] deletes array of roles to delete whenever found.
+ * @param [String] updates array of roles to update whenever found.
+ * @param [String] adds array of roles to add to any existing array of roles being updated.
+ */
+
+var updateRolesArrays = function(collections, query, keys, deletes, updates, adds) {
+  var i;
+  for (i = 0; i < collections.length; i++) {
+    var db = monk(url);
+    var collection = db.get(collections[i], { castIds: true });
+    collection
+      .find(query)
+      .each(function(record) {
+        // get the updated record
+        record = traverseAndUpdateObject(record, keys, deletes, updates, adds);
+        // save the updated record
+        collection.update({ _id: record._id }, record);
+      })
+      .then(function(data) {
+        db.close();
+      });
+  }
 };
 
 /**
@@ -361,10 +372,10 @@ var updateDefaultsCollection = function(deletes, updates, adds) {
           }
           if (key === 'roles') {
             var oldRolesObj = record.defaults.roles;
-            for (var property in oldRolesObj) {
-              var newArray = getNewRolesArray(oldRolesObj[property], deletes, updates, []);
-              var newRole = getNewRole(property, updates);
-              newDefaultsObj.roles[newRole] = newArray;
+            for (var property2 in oldRolesObj) {
+              var newArray2 = getNewRolesArray(oldRolesObj[property2], deletes, updates, []);
+              var newRole = getNewRole(property2, updates);
+              newDefaultsObj.roles[newRole] = newArray2;
             }
           }
         }
