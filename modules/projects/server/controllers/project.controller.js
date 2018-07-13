@@ -1046,6 +1046,7 @@ module.exports = DBModel.extend({
           eacDecision: 1,
           decisionDate: 1,
           currentPhase: 1,
+          proponent: 1,
           lat: 1,
           lon: 1,
           type: 1,
@@ -1056,6 +1057,7 @@ module.exports = DBModel.extend({
           name: 1
         })
         .populate('currentPhase', 'name')
+        .populate('proponent','name')
         .exec(function (err, recs) {
           if (err) {
             reject(new Error(err));

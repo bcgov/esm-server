@@ -34,7 +34,6 @@ function controllerProjectsSearch($scope, $state, Authentication, ProjectModel, 
 
   projectsSearch.performSearch = function() {
     var query = {};
-
     if (projectsSearch.search.Permit) {
       query.memPermitID = projectsSearch.search.Permit;
     }
@@ -143,6 +142,9 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
         if ( !newValue['currentPhase.name'] || (angular.lowercase(item.currentPhase.name).indexOf(angular.lowercase(newValue['currentPhase.name']))) > -1 || item.currentPhase.name === "") {
           notFound = false;
         }
+        if ( !newValue['proponent.name'] || (angular.lowercase(item.proponent.name).indexOf(angular.lowercase(newValue['proponent.name']))) > -1 || item.proponent.name === "") {
+          notFound = false;
+        }
         if ( !newValue.region || (angular.lowercase(item.region).indexOf(angular.lowercase(newValue.region))) > -1 || item.region === "") {
           notFound = false;
         }
@@ -163,6 +165,7 @@ function controllerProjectsList($scope, Authentication, _, uiGmapGoogleMapApi, $
         }
         if (!notFound) {return item;}
       });
+
     }
   }, true);
 
@@ -200,6 +203,7 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
   projectList.phaseArray = [];
   projectList.openPCPArray = [];
   projectList.sortedPhaseArray = [];
+  projectList.proponentArray = [];
 
   $scope.$watch('projects', function(newValue) {
     if (newValue) {
@@ -229,6 +233,9 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
       projs.pluck('currentPhase.name').unique().value().map( function(item) {
         projectList.phaseArray.push({id: item, title: item});
       });
+      projs.pluck('proponent.name').unique().value().map( function(item) {
+        projectList.proponentArray.push({id: item, title: item});
+      })
 
       var order = ["Intake", "Determination", "Scope", "Evaluation", "Review", "Decision", "Post-Certification"];
       var length = projectList.phaseArray.length;
@@ -322,5 +329,3 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 
 // 	userActs.refresh();
 // }
-
-
