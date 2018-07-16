@@ -672,7 +672,7 @@ angular.module('comment')
           var startdate = period.dateStarted;
           var end_date = period.dateCompleted;
           if (!period.informationLabel) {
-            AlertService.error('Related documents information is empty');
+            AlertService.error('"Information Being Commented On" field is empty');
           } else if (startdate > end_date) {
             AlertService.error('Start Date is greater than End Date. Please correct the Start Date');
           } else if (!startdate) {
