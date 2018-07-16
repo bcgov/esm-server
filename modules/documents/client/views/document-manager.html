@@ -33,7 +33,7 @@
         <span class="glyphicon glyphicon-link"></span>
       </a>
       <button class="btn icon-btn dropdown-toggle" type="button" popover-trigger="'focus'" popover-class="context-menu" uib-popover-template="'batch-context-menu.html'"
-        popover-placement="'auto'" ng-disabled="!documentMgr.batchMenuEnabled">
+        popover-placement="auto bottom-right" ng-disabled="!documentMgr.batchMenuEnabled">
         <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
       </button>
       <script type="text/ng-template" id="batch-context-menu.html">
@@ -173,7 +173,7 @@
                       popover-trigger="'focus'"
                       popover-class="context-menu"
                       uib-popover-template="'file-context-menu.html'"
-                      popover-placement="'auto'">
+                      popover-placement="auto bottom-right">
                       <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
                     </button>
 
@@ -278,7 +278,7 @@
                       popover-trigger="'focus'"
                       popover-class="context-menu"
                       uib-popover-template="'document-context-menu.html'"
-                      popover-placement="'auto'">
+                      popover-placement="auto bottom-right">
                       <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
                     </button>
 
@@ -394,7 +394,7 @@
             </button>
             <div class="fb-menu btn-group">
               <button class="btn btn-sm btn-default dropdown-toggle" popover-trigger="'focus'" popover-class="context-menu" uib-popover-template="'document-context-menu.html'"
-                popover-placement="'auto'">More</button>
+                popover-placement="auto bottom-right">More</button>
               <script>
                 <ul>
                   <li ng-if="documentMgr.infoPanel.data.userCan.delete">
