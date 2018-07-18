@@ -8,9 +8,10 @@
 	}
 }
 
-@media only screen 
-	and (min-device-width: 768px)
-	and (max-device-width: 1024px)
+
+@media only screen
+	and (min-width: 768px)
+	and (max-width: 1024px)
 	and (orientation: portrait)
 	and (-webkit-min-device-pixel-ratio: 1) {
 
@@ -29,23 +30,55 @@
 			font-size: 1.1rem;
 		}
 
-		.comment-col {
+		.comment-col{
 			width: 12rem;
 		}
 
 		.decision-col,
 		.phase-col,
-		.region-col,
 		.type-col {
 			width: 10rem;
 		}
+
 	}
 }
 
-@media (min-width: 1024px) {
-	.project-table {
-		.name-col {
-			width: 32rem;
+@media (max-width: 768px){
+
+	.comment-col{
+		display:none;
+	}
+	.region-col{
+		display:none;
+	}
+	.phase-col{
+		display:none;
+	}
+
+	.project-table{
+			td{
+				&.proponent-col{
+					width:10rem;
+				}
+				&.comment-col{
+					display:none;
+				}
+				&.region-col{
+					display:none;
+				}
+				&.phase-col{
+					display:none;
+				}
+			}
 		}
 	}
+
+
+@media (min-width: 1024px) {
+	.project-table {
+		.name-col{
+			width:32 rem;
+		}
+	}
+
 }
