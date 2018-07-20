@@ -234,7 +234,9 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
         projectList.phaseArray.push({id: item, title: item});
       });
       projs.pluck('proponent.name').unique().value().map( function(item) {
-        projectList.proponentArray.push({id: item, title: item});
+        if(item){
+          projectList.proponentArray.push({id: item, title: item});
+        }
       })
 
       var order = ["Intake", "Determination", "Scope", "Evaluation", "Review", "Decision", "Post-Certification"];
