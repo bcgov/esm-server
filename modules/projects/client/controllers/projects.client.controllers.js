@@ -234,11 +234,23 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
         projectList.phaseArray.push({id: item, title: item});
       });
       projs.pluck('proponent.name').unique().value().map( function(item) {
-        projectList.proponentArray.push({id: item, title: item});
+        if(item){
+          projectList.proponentArray.push({id: item, title: item});
+        }
       })
 
       var order = ["Intake", "Determination", "Scope", "Evaluation", "Review", "Decision", "Post-Certification"];
       var length = projectList.phaseArray.length;
+      projectList.proponentArray.sort(function(a,b){//sort proponentArray alphabetically
+        if (a.title.toLowerCase() < b.title.toLowerCase()){
+          return -1
+        }
+        if (a.title.toLowerCase() > b.title.toLowerCase()){
+          return 1;
+        }
+        return 0;
+      });
+
 
       order.forEach(function (key) {
         _.find(projectList.phaseArray, function (item) {
@@ -293,7 +305,6 @@ function controllerProjectsList2($scope, NgTableParams, Authentication, _, ENV, 
 
     }
   });
-
 
 }
 
