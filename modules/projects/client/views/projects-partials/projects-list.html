@@ -49,7 +49,7 @@
       <td header-class="'date-col'"
         class="date-col"
 				data-title="'Decision Date'"
-				sortable="'openCommentPeriod'">{{o.decisionDate ? o.decisionDate : 'N/A' | date: 'mediumDate' }}</td>
+				sortable="'decisionDate'">{{o.decisionDate ? o.decisionDate : 'N/A' | date: 'mediumDate' }}</td>
     </tr>
 		<tr class="no-records" ng-show="!$data || !$data.length">
 			<td ng-if="environment === 'EAO'" colspan="4">No results match your search.</td>
