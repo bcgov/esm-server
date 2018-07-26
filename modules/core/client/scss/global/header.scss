@@ -39,7 +39,7 @@ header {
 			.icon-bar {
 				width: auto;
 				background-color: $gold;
-				
+
 				+ .icon-bar {
 					margin-top: 3px;
 				}
@@ -96,8 +96,8 @@ header {
 
 			> li {
 				@include flex(1 1 auto);
-				line-height: auto;	
-	
+				line-height: auto;
+
 				> a {
 					padding: 1.35rem 1.5rem;
 					color: $mn-color;
@@ -110,14 +110,14 @@ header {
 					&:hover,
 					&:focus {
 						color: $mn-hover-color;
-						background: $mn-hover-bg; 
+						background: $mn-hover-bg;
 					}
 
 					&.user-details {
 						text-transform: none;
 					}
 				}
-	
+
 				> .dropdown-menu {
 					padding: 0;
 					border: none;
@@ -129,15 +129,15 @@ header {
 							padding: 1rem 1.25rem;
 							color: $mn-color;
 							white-space: normal;
-	
+
 							strong {
 								display: block;
 							}
-	
+
 							&:hover,
 							&:focus {
 								color: $gold;
-								background: $mn-hover-bg; 
+								background: $mn-hover-bg;
 
 								.main-nav__menu-item--description {
 									color: $mn-color;
@@ -154,11 +154,11 @@ header {
 	.nav {
 		.open {
 			a {
-				background: $mn-hover-bg; 
+				background: $mn-hover-bg;
 
 				&:hover,
 				&:focus {
-					background: $mn-hover-bg; 
+					background: $mn-hover-bg;
 				}
 			}
 		}
@@ -186,6 +186,16 @@ header {
 			width: 1px;
 			height: 40px;
 			background-color: $mn-border-color;
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	header {
+		.navbar{
+			&-public{
+				display: none;
+			}
 		}
 	}
 }
@@ -223,7 +233,7 @@ header {
 						padding-bottom: 0.5rem;
 						width: 100%;
 						background-color: $mn-dropdown-bg;
-						
+
 
 						> li {
 							> a {
@@ -241,10 +251,10 @@ header {
 			&-collapse {
 				&.collapse {
 					display: none !important;
-					
+
 					&.in {
 						display: block !important;
-					}	
+					}
 				}
 			}
 		}
@@ -285,7 +295,7 @@ header {
 				.dropdown {
 					&:hover {
 						.dropdown-toggle {
-							background: $mn-hover-bg;  
+							background: $mn-hover-bg;
 						}
 
 						.dropdown-menu {
@@ -304,7 +314,7 @@ header {
 
 						&:hover {
 							.dropdown-toggle {
-								background: $mn-hover-bg; 
+								background: $mn-hover-bg;
 							}
 
 							.dropdown-menu {
