@@ -10,7 +10,8 @@
     }
   },
   "labels": {
-    "template": "esm-environment"
+    "template": "esm-environment",
+    "app": "esm-server"
   },
   "objects": [
     {
@@ -34,7 +35,7 @@
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}-docs-pvc"
+        "name": "${APP_NAME}-docs-pvc"
       },
       "spec": {
         "accessModes": [
@@ -51,9 +52,9 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}",
+        "name": "${APP_NAME}",
         "annotations": {
-          "description": "Exposes and load balances the application pods"
+          "description": "Exposes and load balances the pods for esm-server"
         }
       },
       "spec": {
@@ -65,7 +66,7 @@
           }
         ],
         "selector": {
-          "name": "${NAME}"
+          "name": "${APP_NAME}"
         }
       }
     },
@@ -73,13 +74,13 @@
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}"
+        "name": "${APP_NAME}"
       },
       "spec": {
         "host": "${APPLICATION_DOMAIN}",
         "to": {
           "kind": "Service",
-          "name": "${NAME}"
+          "name": "${APP_NAME}"
         }
       }
     },
@@ -87,7 +88,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${NAME}",
+        "name": "${APP_NAME}",
         "annotations": {
           "description": "Defines how to deploy the application server"
         }
@@ -102,7 +103,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "${NAME}"
+                "${APP_NAME}"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -117,19 +118,19 @@
         ],
         "replicas": 1,
         "selector": {
-          "name": "${NAME}"
+          "name": "${APP_NAME}"
         },
         "template": {
           "metadata": {
-            "name": "${NAME}",
+            "name": "${APP_NAME}",
             "labels": {
-              "name": "${NAME}"
+              "name": "${APP_NAME}"
             }
           },
           "spec": {
             "containers": [
               {
-                "name": "${NAME}",
+                "name": "${APP_NAME}",
                 "image": " ",
                 "ports": [
                   {
@@ -195,7 +196,7 @@
                 },
                 "volumeMounts": [
                   {
-                    "name": "${NAME}-docs",
+                    "name": "${APP_NAME}-docs",
                     "mountPath": "${DOCUMENT_MOUNT_PATH}"
                   }
                 ]
@@ -203,9 +204,9 @@
             ],
             "volumes": [
               {
-                "name": "${NAME}-docs",
+                "name": "${APP_NAME}-docs",
                 "persistentVolumeClaim": {
-                  "claimName": "${NAME}-docs-pvc"
+                  "claimName": "${APP_NAME}-docs-pvc"
                 }
               }
             ]
@@ -349,7 +350,7 @@
   ],
   "parameters": [
     {
-      "name": "NAME",
+      "name": "APP_NAME",
       "displayName": "Name",
       "description": "The name assigned to all of the frontend objects defined in this template.",
       "required": true,
