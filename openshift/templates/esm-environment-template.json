@@ -6,7 +6,7 @@
     "annotations": {
       "description": "Deployment template for a nodejs server, a mongodb database and a Minio object storage server.",
       "tags": "nodejs,mongodb,minio",
-      "iconClass": "icon-node"
+      "iconClass": "icon-nodejs"
     }
   },
   "labels": {
