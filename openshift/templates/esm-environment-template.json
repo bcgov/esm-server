@@ -14,114 +14,6 @@
   },
   "objects": [
     {
-      "kind": "Secret",
-      "type": "Opaque",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${MINIO_DEPLOYMENT_NAME}",
-        "labels": {
-          "app": "${MINIO_DEPLOYMENT_NAME}"
-        }
-      },
-      "stringData": {
-        "accessKey": "${MINIO_ACCESS_KEY}",
-        "secretKey": "${MINIO_SECRET_KEY}"
-      }
-    },
-    {
-      "kind": "PersistentVolumeClaim",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${MINIO_VOLUME_NAME}"
-      },
-      "spec": {
-        "accessModes": [
-          "ReadWriteOnce"
-        ],
-        "resources": {
-          "requests": {
-            "storage": "${MINIO_VOLUME_CAPACITY}"
-          }
-        }
-      }
-    },
-    {
-      "kind": "PersistentVolumeClaim",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}-data"
-      },
-      "spec": {
-        "accessModes": [
-          "ReadWriteOnce"
-        ],
-        "resources": {
-          "requests": {
-            "storage": "${DATABASE_VOLUME_CAPACITY}"
-          }
-        }
-      }
-    },
-    {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${APP_NAME}",
-        "annotations": {
-          "description": "Exposes and load balances the pods for esm-server"
-        }
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "web",
-            "port": 3000,
-            "targetPort": 3000
-          }
-        ],
-        "selector": {
-          "name": "${APP_NAME}"
-        }
-      }
-    },
-    {
-      "kind": "Route",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${APP_NAME}"
-      },
-      "spec": {
-        "host": "${APPLICATION_DOMAIN}",
-        "to": {
-          "kind": "Service",
-          "name": "${APP_NAME}"
-        }
-      }
-    },
-    {
-      "kind": "Route",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${MINIO_DEPLOYMENT_NAME}",
-        "labels": {
-          "app": "${API_NAME}"
-        }
-      },
-      "spec": {
-        "port": {
-          "targetPort": "8080-tcp"
-        },
-        "to": {
-          "kind": "Service",
-          "name": "${MINIO_DEPLOYMENT_NAME}",
-          "weight": 100
-        },  
-        "tls": {
-          "termination": "edge"
-        }
-      }
-    },
-    {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
@@ -248,28 +140,6 @@
       }
     },
     {
-      "kind": "Service",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}",
-        "annotations": {
-          "description": "Exposes the database server"
-        }
-      },
-      "spec": {
-        "ports": [
-          {
-            "name": "mongodb",
-            "port": 27017,
-            "targetPort": 27017
-          }
-        ],
-        "selector": {
-          "name": "${DATABASE_SERVICE_NAME}"
-        }
-      }
-    },
-    {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
@@ -379,26 +249,39 @@
       }
     },
     {
-      "kind": "Service",
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APP_NAME}"
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${APP_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
         "name": "${MINIO_DEPLOYMENT_NAME}",
         "labels": {
-          "app": "${MINIO_DEPLOYMENT_NAME}"
-        },
-        "annotations": {
-          "description": "Exposes the minio server"
+          "app": "${API_NAME}"
         }
       },
       "spec": {
-        "ports": [{
-          "name": "9000-tcp",
-          "port": 9000,
-          "protocol": "TCP",
-          "targetPort": 9000
-        }],
-        "selector": {
-          "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+        "port": {
+          "targetPort": "8080-tcp"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "${MINIO_DEPLOYMENT_NAME}",
+          "weight": 100
+        },  
+        "tls": {
+          "termination": "edge"
         }
       }
     },
@@ -510,6 +393,123 @@
                 }
               }
             ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APP_NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the pods for esm-server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 3000,
+            "targetPort": 3000
+          }
+        ],
+        "selector": {
+          "name": "${APP_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "mongodb",
+            "port": 27017,
+            "targetPort": 27017
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${MINIO_DEPLOYMENT_NAME}"
+        },
+        "annotations": {
+          "description": "Exposes the minio server"
+        }
+      },
+      "spec": {
+        "ports": [{
+          "name": "9000-tcp",
+          "port": 9000,
+          "protocol": "TCP",
+          "targetPort": 9000
+        }],
+        "selector": {
+          "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Secret",
+      "type": "Opaque",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${MINIO_DEPLOYMENT_NAME}"
+        }
+      },
+      "stringData": {
+        "accessKey": "${MINIO_ACCESS_KEY}",
+        "secretKey": "${MINIO_SECRET_KEY}"
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_VOLUME_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${MINIO_VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}-data"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${DATABASE_VOLUME_CAPACITY}"
           }
         }
       }
