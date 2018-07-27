@@ -2,23 +2,37 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "nodejs-mongodb",
+    "name": "esm-server",
     "annotations": {
-      "description": "Template for Node.js applications with a MongoDB database, based on OpenShift provided templates 'nodejs-mongodb-example' and 'mongodb-persistent-template'.",
-      "tags": "quickstart,nodejs,mongodb",
-      "iconClass": "icon-nodejs"
+      "description": "Deployment template for a nodejs server, a mongodb database and a Minio object storage server.",
+      "tags": "nodejs,mongodb,minio",
+      "iconClass": "icon-node"
     }
   },
   "labels": {
-    "template": "esm-environment",
     "app": "esm-server"
   },
   "objects": [
     {
+      "kind": "Secret",
+      "type": "Opaque",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${MINIO_DEPLOYMENT_NAME}"
+        }
+      },
+      "stringData": {
+        "accessKey": "${MINIO_ACCESS_KEY}",
+        "secretKey": "${MINIO_SECRET_KEY}"
+      }
+    },
+    {
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${DATABASE_SERVICE_NAME}data"
+        "name": "${MINIO_VOLUME_NAME}"
       },
       "spec": {
         "accessModes": [
@@ -26,7 +40,7 @@
         ],
         "resources": {
           "requests": {
-            "storage": "${DATABASE_VOLUME_CAPACITY}"
+            "storage": "${MINIO_VOLUME_CAPACITY}"
           }
         }
       }
@@ -35,7 +49,7 @@
       "kind": "PersistentVolumeClaim",
       "apiVersion": "v1",
       "metadata": {
-        "name": "${APP_NAME}-docs-pvc"
+        "name": "${DATABASE_SERVICE_NAME}-data"
       },
       "spec": {
         "accessModes": [
@@ -43,7 +57,7 @@
         ],
         "resources": {
           "requests": {
-            "storage": "${DOCUMENT_VOLUME_CAPACITY}"
+            "storage": "${DATABASE_VOLUME_CAPACITY}"
           }
         }
       }
@@ -81,6 +95,29 @@
         "to": {
           "kind": "Service",
           "name": "${APP_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${API_NAME}"
+        }
+      },
+      "spec": {
+        "port": {
+          "targetPort": "8080-tcp"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "${MINIO_DEPLOYMENT_NAME}",
+          "weight": 100
+        },  
+        "tls": {
+          "termination": "edge"
         }
       }
     },
@@ -139,12 +176,26 @@
                 ],
                 "env": [
                   {
-                    "name": "MOUNT_POINT_TIMEOUT",
-                    "value": "10"
+                    "name": "MINIO_HOST",
+                    "value": "${MINIO_DEPLOYMENT_NAME}.${NAMESPACE}.svc"
                   },
                   {
-                    "name": "MOUNT_POINT_CHECK",
-                    "value": "${UPLOAD_PATH}"
+                    "name": "MINIO_ACCESS_KEY",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${MINIO_DEPLOYMENT_NAME}",
+                        "key": "accessKey"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MINIO_SECRET_KEY",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${MINIO_DEPLOYMENT_NAME}",
+                        "key": "secretKey"
+                      }
+                    }
                   },
                   {
                     "name": "DATABASE_SERVICE_NAME",
@@ -165,10 +216,6 @@
                   {
                     "name": "MONGODB_ADMIN_PASSWORD",
                     "value": "${DATABASE_ADMIN_PASSWORD}"
-                  },
-                  {
-                    "name": "ADMINPW",
-                    "value": "${ESM_ADMINPW}"
                   }
                 ],
                 "readinessProbe": {
@@ -193,20 +240,6 @@
                   "limits": {
                     "memory": "${MEMORY_LIMIT}"
                   }
-                },
-                "volumeMounts": [
-                  {
-                    "name": "${APP_NAME}-docs",
-                    "mountPath": "${DOCUMENT_MOUNT_PATH}"
-                  }
-                ]
-              }
-            ],
-            "volumes": [
-              {
-                "name": "${APP_NAME}-docs",
-                "persistentVolumeClaim": {
-                  "claimName": "${APP_NAME}-docs-pvc"
                 }
               }
             ]
@@ -240,6 +273,139 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the minio server"
+        }
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "app": "minio",
+          "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+        },
+        "strategy": {
+          "activeDeadlineSeconds": 21600,
+          "recreateParams": {
+            "timeoutSeconds": 600
+          },
+          "resources": {},
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "app": "minio",
+              "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [{
+              "env": [{
+                  "name": "MINIO_ACCESS_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "accessKey",
+                      "name": "${MINIO_DEPLOYMENT_NAME}"
+                    }
+                  }
+                },
+                {
+                  "name": "MINIO_SECRET_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "secretKey",
+                      "name": "${MINIO_DEPLOYMENT_NAME}"
+                    }
+                  }
+                },
+                {
+                  "name": "MINIO_CONFIG_DIR",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "MINIO_DATA_DIR",
+                  "value": "/data"
+                }
+              ],
+              "image": "docker-registry.default.svc:5000/openshift/minio:stable",
+              "imagePullPolicy": "Always",
+              "name": "${MINIO_DEPLOYMENT_NAME}",
+              "ports": [{
+                "containerPort": 9000,
+                "protocol": "TCP"
+              }],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [{
+                "mountPath": "/data",
+                "name": "minio-vol"
+              }]
+            }],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [{
+              "name": "minio-vol",
+              "persistentVolumeClaim": {
+                "claimName": "${MINIO_VOLUME_NAME}"
+              }
+            }]
+          }
+        },
+        "test": false,
+        "triggers": [{
+            "type": "ConfigChange"
+          },
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "minio"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "minio:stable",
+                "namespace": "openshift"
+              }
+            },
+            "type": "ImageChange"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${MINIO_DEPLOYMENT_NAME}"
+        },
+        "annotations": {
+          "description": "Exposes the minio server"
+        }
+      },
+      "spec": {
+        "ports": [{
+          "name": "9000-tcp",
+          "port": 9000,
+          "protocol": "TCP",
+          "targetPort": 9000
+        }],
+        "selector": {
+          "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
         "name": "${DATABASE_SERVICE_NAME}",
         "annotations": {
           "description": "Defines how to deploy the database"
@@ -259,8 +425,8 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "namespace": "${MONGO_IMAGE_NAMESPACE}",
-                "name": "mongodb:3.2"
+                "namespace": "openshift",
+                "name": "mongodb:3.4"
               }
             }
           },
@@ -283,7 +449,8 @@
             "containers": [
               {
                 "name": "mongodb",
-                "image": " ",
+                "image": "docker-registry.default.svc:5000/openshift/mongodb:3.4",
+                "imagePullPolicy": "Always",
                 "ports": [
                   {
                     "containerPort": 27017
@@ -354,13 +521,7 @@
       "displayName": "Name",
       "description": "The name assigned to all of the frontend objects defined in this template.",
       "required": true,
-      "value": "nodejs-mongodb"
-    },
-    {
-      "name": "MONGO_IMAGE_NAMESPACE",
-      "displayName": "mongo image namespace",
-      "description": "The OpenShift Namespace where the mongo ImageStream resides.",
-      "value": "openshift"
+      "value": "esm-server"
     },
     {
       "name": "MEMORY_LIMIT",
@@ -390,14 +551,16 @@
       "displayName": "MongoDB Username",
       "description": "Username for MongoDB user that will be used for accessing the database.",
       "generate": "expression",
-      "from": "user[A-Z0-9]{3}"
+      "from": "user[A-Z0-9]{3}",
+      "required": true
     },
     {
       "name": "DATABASE_PASSWORD",
       "displayName": "MongoDB Password",
       "description": "Password for the MongoDB user.",
       "generate": "expression",
-      "from": "[a-zA-Z0-9]{16}"
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
     },
     {
       "name": "DATABASE_NAME",
@@ -409,7 +572,8 @@
       "displayName": "Database Administrator Password",
       "description": "Password for the database admin user.",
       "generate": "expression",
-      "from": "[a-zA-Z0-9]{16}"
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
     },
     {
       "name": "PORT",
@@ -422,14 +586,14 @@
       "name": "READINESS_PROBE_URL",
       "displayName": "Readiness probe URL",
       "description": "URL that can be used to determine if application is 'ready'.",
-      "value": "/guidance",
+      "value": "/authentication/local/signin",
       "required": true
     },
     {
       "name": "LIVENESS_PROBE_URL",
       "displayName": "Liveness probe URL",
       "description": "URL that can be used to determine if application is 'live'.",
-      "value": "/guidance",
+      "value": "/authentication/local/signin",
       "required": true
     },
     {
@@ -440,31 +604,10 @@
       "required": true
     },
     {
-      "name": "DOCUMENT_VOLUME_CAPACITY",
-      "displayName": "Document Volume Capacity",
-      "description": "Volume space available for Document uploads, e.g. 512Mi, 2Gi.",
-      "value": "2Gi",
-      "required": true
-    },
-    {
-      "name": "DOCUMENT_MOUNT_PATH",
-      "displayName": "Document Mount Path",
-      "description": "Path in container where document volume should be mounted.",
-      "value": "/uploads",
-      "required": true
-    },
-    {
-      "name": "ESM_ADMINPW",
-      "displayName": "ESM Admin password",
-      "description": "Initital ESM Admin password.",
-      "generate": "expression",
-      "from": "[a-zA-Z0-9]{16}"
-    },
-    {
       "name": "APP_IMAGE_NAME",
       "displayName": "Application image name.",
       "description": "Application image name.",
-      "value": "esm",
+      "value": "esm-server",
       "required": true
     },
     {
@@ -479,6 +622,40 @@
       "displayName": "Image tag to watch for changes and trigger deployment.",
       "description": "Image tag to watch for changes and trigger deployment.",
       "value": "dev",
+      "required": true
+    },
+    {
+      "name": "MINIO_DEPLOYMENT_NAME",
+      "displayName": "Minio deployment name",
+      "description": "The name given to the minio instance deployment.",
+      "value": "minio",
+      "required": true
+    },
+    {
+      "name": "MINIO_ACCESS_KEY",
+      "displayName": "The Minio access key",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{12}",
+      "required": true
+    },
+    {
+      "name": "MINIO_SECRET_KEY",
+      "displayName": "The Minio secret key",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
+    },
+    {
+      "name": "MINIO_VOLUME_NAME",
+      "displayName": "Name of the minio storage PV",
+      "required": true,
+      "value": "minio-data"
+    },
+    {
+      "name": "MINIO_VOLUME_CAPACITY",
+      "displayName": "Size of minio storage PV in Gi",
+      "from": "[0-9]{3}Gi",
+      "value": "3Gi",
       "required": true
     }
   ]
