@@ -628,7 +628,7 @@
       "name": "MINIO_DEPLOYMENT_NAME",
       "displayName": "Minio deployment name",
       "description": "The name given to the minio instance deployment.",
-      "value": "minio",
+      "value": "minio-esm",
       "required": true
     },
     {
@@ -649,11 +649,11 @@
       "name": "MINIO_VOLUME_NAME",
       "displayName": "Name of the minio storage PV",
       "required": true,
-      "value": "minio-data"
+      "value": "minio-esm-data"
     },
     {
       "name": "MINIO_VOLUME_CAPACITY",
-      "displayName": "Size of minio storage PV in Gi",
+      "displayName": "Size of minio storage PV in Gi. This is the volume used for storing uploaded documents.",
       "from": "[0-9]{3}Gi",
       "value": "3Gi",
       "required": true
