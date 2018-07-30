@@ -75,7 +75,7 @@ module.exports = function (app) {
       return model.getProponentCommentsForPeriod (req.params.periodId);
     }));
 
-  app.route ('/api/comments/period/:periodId/paginate').all(policy ('user'))
+  app.route ('/api/comments/period/:periodId/paginate').all(policy ('guest'))
     .put (routes.setAndRun (CommentModel, function (model, req) {
       return model.getPeriodPaginate(req.body);
     }));
