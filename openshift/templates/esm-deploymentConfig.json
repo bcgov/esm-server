@@ -69,7 +69,7 @@
                 "env": [
                   {
                     "name": "MINIO_HOST",
-                    "value": "${MINIO_DEPLOYMENT_NAME}.${NAMESPACE}.svc"
+                    "value": "${MINIO_DEPLOYMENT_NAME}"
                   },
                   {
                     "name": "MINIO_ACCESS_KEY",
@@ -88,6 +88,10 @@
                         "key": "secretKey"
                       }
                     }
+                  },
+                  {
+                    "name": "DOCUMENTS_BUCKET",
+                    "value": "${DOCUMENTS_BUCKET}"
                   },
                   {
                     "name": "DATABASE_SERVICE_NAME",
@@ -389,7 +393,7 @@
               {
                 "name": "${DATABASE_SERVICE_NAME}-data",
                 "persistentVolumeClaim": {
-                  "claimName": "${DATABASE_SERVICE_NAME}data"
+                  "claimName": "${DATABASE_SERVICE_NAME}-data"
                 }
               }
             ]
@@ -656,6 +660,13 @@
       "displayName": "Size of minio storage PV in Gi. This is the volume used for storing uploaded documents.",
       "from": "[0-9]{3}Gi",
       "value": "3Gi",
+      "required": true
+    },
+    {
+      "name": "DOCUMENTS_BUCKET",
+      "displayName": "Documents Bucket",
+      "description": "Minio bucket where documents will be uploaded to.",
+      "value": "uploads",
       "required": true
     }
   ]
