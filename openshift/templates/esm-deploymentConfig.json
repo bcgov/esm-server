@@ -121,7 +121,7 @@
                     "port": 3000,
                     "scheme": "HTTP"
                   },
-                  "initialDelaySeconds": 10,
+                  "initialDelaySeconds": 60,
                   "periodSeconds": 3,                  
                   "successThreshold": 1,
                   "timeoutSeconds": 5
@@ -133,7 +133,7 @@
                       "port": 3000,
                       "scheme": "HTTP"
                     },
-                    "initialDelaySeconds": 10,
+                    "initialDelaySeconds": 60,
                     "periodSeconds": 3,                  
                     "successThreshold": 1,
                     "timeoutSeconds": 5
@@ -596,14 +596,14 @@
       "name": "READINESS_PROBE_URL",
       "displayName": "Readiness probe URL",
       "description": "URL that can be used to determine if application is 'ready'.",
-      "value": "/authentication/local/signin",
+      "value": "/",
       "required": true
     },
     {
       "name": "LIVENESS_PROBE_URL",
       "displayName": "Liveness probe URL",
       "description": "URL that can be used to determine if application is 'live'.",
-      "value": "/authentication/local/signin",
+      "value": "/",
       "required": true
     },
     {
