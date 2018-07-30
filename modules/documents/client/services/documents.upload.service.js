@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('documents')
-  .service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'Authentication', function ($rootScope, $timeout, $log, Upload, _, Authentication) {
+  .service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', '$http', 'Upload', '_', 'Authentication', function ($rootScope, $timeout, $log, $http, Upload, _, Authentication) {
 
     var inProgressFiles = [];
 
@@ -182,44 +182,43 @@ angular.module('documents')
           }
 
           file.status = undefined;
-          file.upload = Upload.upload({
-            url: targetUrl,
-            file: file,
-            data: data
-          });
 
-          $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
-          inProgressFiles.push(file);
+          $http({method: 'GET', url: 'api/minioPresignedUrl', params: {name: file.name}})
+            .then(function(response) {
+              $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
+              inProgressFiles.push(file);
 
-          file.upload.then(function (response) {
-            $timeout(function () {
-              file.result = response.data;
-              file.progress = 100;
-              file.status = 'Completed';
-              file.uploaded = true;
-              file.uploading = false;
+              return $http({method: 'PUT', url: response.data, data: file});
+            })
+            .then(function (response) {
+              $timeout(function () {
+                file.result = response.data;
+                file.progress = 100;
+                file.status = 'Completed';
+                file.uploaded = true;
+                file.uploading = false;
+                checkInProgressStatus(self);
+              });
+            }, function (response) {
+              if (response.status > 0) {
+                $log.error('Upload file error. Name=' + file.name + ', Response Status=' + response.status + ', Response Data.Message=' + response.data.message);
+                file.status = 'Failed';
+                file.failed = true;
+                file.uploading = false;
+              } else {
+                // abort was called...
+                $log.debug('cancelled ' + file.$$hashKey.toString());
+                file.status = 'Cancelled';
+                file.cancelled = true;
+                file.uploading = false;
+              }
               checkInProgressStatus(self);
+            }, function (evt) {
+              // if we get a cancel request, then call
+              file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+              file.status = 'In Progress';
+              file.uploading = true;
             });
-          }, function (response) {
-            if (response.status > 0) {
-              $log.error('Upload file error. Name=' + file.name + ', Response Status=' + response.status + ', Response Data.Message=' + response.data.message);
-              file.status = 'Failed';
-              file.failed = true;
-              file.uploading = false;
-            } else {
-              // abort was called...
-              $log.debug('cancelled ' + file.$$hashKey.toString());
-              file.status = 'Cancelled';
-              file.cancelled = true;
-              file.uploading = false;
-            }
-            checkInProgressStatus(self);
-          }, function (evt) {
-            // if we get a cancel request, then call
-            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            file.status = 'In Progress';
-            file.uploading = true;
-          });
         });
 
       } else {

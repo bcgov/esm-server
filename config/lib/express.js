@@ -9,7 +9,6 @@ var config = require('../config'),
 	bodyParser = require('body-parser'),
 	session = require('express-session'),
 	MongoStore = require('connect-mongo')(session),
-	multer = require('multer'),
 	favicon = require('serve-favicon'),
 	compress = require('compression'),
 	methodOverride = require('method-override'),
@@ -107,15 +106,6 @@ module.exports.initMiddleware = function (app) {
 	// Add the cookie parser and flash middleware
 	app.use(cookieParser());
 	app.use(flash());
-
-	// Add multipart handling middleware
-	var uploaddir = process.env.UPLOAD_PATH || './uploads/';
-	if (uploaddir.substr(-1, 1) !== '/') uploaddir += '/';
-	// app.use requires a middleware function
-	app.use(multer({
-		dest: uploaddir,
-		inMemory: false
-	}));
 };
 
 /**
