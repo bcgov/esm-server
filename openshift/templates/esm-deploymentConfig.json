@@ -68,6 +68,14 @@
                 ],
                 "env": [
                   {
+                    "name": "MOUNT_POINT_TIMEOUT",
+                    "value": "10"
+                  },
+                  {
+                    "name": "MOUNT_POINT_CHECK",
+                    "value": "${UPLOAD_PATH}"
+                  },
+                  {
                     "name": "MINIO_HOST",
                     "value": "${MINIO_DEPLOYMENT_NAME}"
                   },
