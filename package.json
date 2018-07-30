@@ -48,7 +48,6 @@
     "mongodb": "3.0.8",
     "mongoose": "4.13.14",
     "morgan": "1.9.0",
-    "multer": "0.1.8",
     "node-pre-gyp": "0.10.0",
     "nodemailer": "2.3.2",
     "passport-github": "1.1.0",
