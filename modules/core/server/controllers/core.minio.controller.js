@@ -10,15 +10,24 @@ var minioClient = new minio.Client({
   secretKey: '1mgTwu4IkVwRL6T2'
 });
 
-var getMinioPresignedURL = function (req) {
+var getMinioPresignedPutURL = function (req, res) {
   return new Promise(function (resolve, reject) {
-    minioClient.presignedPutObject('uploads', req.query.name, function (err, url) {
-      if (err) {
-        reject(err);
-      }
-      resolve(url);
-    })
-  })
+    minioClient.presignedPutObject('uploads', req.params.name)
+      .then(function (url, err) {
+        if (err) {
+          reject(err);
+        }
+        resolve(url);
+      })
+  }).then(
+    function (result) {
+      res.json(result);
+    },
+    function (error) {
+      res.status(400).send({
+        message: error
+      });
+    }
+  );
 };
-
-exports.getMinioPresignedURL = getMinioPresignedURL;
+exports.getMinioPresignedPutURL = getMinioPresignedPutURL;
