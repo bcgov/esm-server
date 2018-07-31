@@ -44,6 +44,7 @@
     "helmet": "3.12.1",
     "lodash": "4.17.10",
     "method-override": "2.3.10",
+    "minio": "^6.0.0",
     "mongodb-core": "3.0.8",
     "mongodb": "3.0.8",
     "mongoose": "4.13.14",

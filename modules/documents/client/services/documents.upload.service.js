@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('documents')
-  .service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', '$http', 'Upload', '_', 'Authentication', function ($rootScope, $timeout, $log, $http, Upload, _, Authentication) {
+  .service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'Authentication', 'MinioService', function ($rootScope, $timeout, $log, Upload, _, Authentication, MinioService) {
 
     var inProgressFiles = [];
 
@@ -183,12 +183,12 @@ angular.module('documents')
 
           file.status = undefined;
 
-          $http({method: 'GET', url: 'api/minioPresignedUrl', params: {name: file.name}})
-            .then(function(response) {
+          MinioService.getMinioPresignedPutURL(file.name)
+            .then(function(url) {
               $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
               inProgressFiles.push(file);
 
-              return $http({method: 'PUT', url: response.data, data: file});
+              return MinioService.putMinioPresignedPutURL(url, file)
             })
             .then(function (response) {
               $timeout(function () {
