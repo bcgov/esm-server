@@ -12,7 +12,8 @@ var minioClient = new minio.Client({
 
 var getMinioPresignedPutURL = function (req, res) {
   return new Promise(function (resolve, reject) {
-    minioClient.presignedPutObject('uploads', req.params.name)
+    var objectName = req.params.projectCode + '/' + req.params.fileName;
+    minioClient.presignedPutObject('uploads', objectName, 300)
       .then(function (url, err) {
         if (err) {
           reject(err);
@@ -31,3 +32,25 @@ var getMinioPresignedPutURL = function (req, res) {
   );
 };
 exports.getMinioPresignedPutURL = getMinioPresignedPutURL;
+
+var removeMinioDocument = function (req, res) {
+  return new Promise(function (resolve, reject) {
+    minioClient.removeObject('uploads', req.params.name)
+      .then(function (result, err) {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      })
+  }).then(
+    function (result) {
+      res.json(result);
+    },
+    function (error) {
+      res.status(400).send({
+        message: error
+      });
+    }
+  );
+};
+exports.removeMinioDocument = removeMinioDocument;

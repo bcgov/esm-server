@@ -135,9 +135,8 @@ var mv = function (o, n) {
   });
 };
 exports.moveFile = function (opts) {
-  var oldDirectory = path.dirname (opts.oldPath);
-  var newDirectory = oldDirectory + path.sep + opts.projectCode;
-  var newPath = newDirectory + path.sep + path.basename (opts.oldPath);
+  var newDirectory = path.join(path.dirname (opts.oldPath), opts.projectCode);
+  var newPath = path.join(newDirectory, path.basename (opts.oldPath));
   return ensureDirectory (newDirectory)
     .then (function () {
       return mv (opts.oldPath, newPath);
