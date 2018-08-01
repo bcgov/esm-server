@@ -6,28 +6,30 @@
 // Does not use the normal crud routes, mostly special sauce
 //
 // =========================================================================
-var DocumentClass = require ('../controllers/core.document.controller');
-var routes 		= require ('../../../core/server/controllers/core.routes.controller');
-var policy 		= require ('../../../core/server/controllers/core.policy.controller');
-var fs 			= require('fs');
+var DocumentClass = require('../controllers/core.document.controller');
+var routes = require('../../../core/server/controllers/core.routes.controller');
+var policy = require('../../../core/server/controllers/core.policy.controller');
+// var fs = require('fs');
+var MinioController = require('../../../core/server/controllers/core.minio.controller');
 
-var renderNotFound = function (url, res) {
-  res.status(404).format({
-    'text/html': function () {
-      res.render('modules/core/server/views/404', {
-        url: url
-      });
-    },
-    'application/json': function () {
-      res.json({
-        error: 'Path not found'
-      });
-    },
-    'default': function () {
-      res.send('Path not found');
-    }
-  });
-};
+
+// var renderNotFound = function (url, res) {
+//   res.status(404).format({
+//     'text/html': function () {
+//       res.render('modules/core/server/views/404', {
+//         url: url
+//       });
+//     },
+//     'application/json': function () {
+//       res.json({
+//         error: 'Path not found'
+//       });
+//     },
+//     'default': function () {
+//       res.send('Path not found');
+//     }
+//   });
+// };
 
 module.exports = function (app) {
   //
@@ -114,69 +116,20 @@ module.exports = function (app) {
     .put (routes.setAndRun (DocumentClass, function (model, req) {
       return model.getList (req.body);
     }));
-  //
-  // fetch a document (download multipart stream)
-  //
-  app.route ('/api/document/:document/download')
-    .all (policy ('guest'))
-    .get (function (req, res) {
-      if (req.Document.internalURL.match (/^(http|ftp)/)) {
-        res.redirect (req.Document.internalURL);
-      } else {
-        var name = documentDownloadName(req);
 
-        if (fs.existsSync(req.Document.internalURL)) {
-          routes.streamFile (res, {
-            file : req.Document.internalURL,
-            name : name,
-            mime : req.Document.internalMime
-          });
-        } else {
-          renderNotFound(req.originalUrl, res);
-        }
-      }
-    });
-  function documentDownloadName(req) {
-    // ETL fixing - if the name was brought in without a filename, and we have their document
-    // file format, affix the type as an extension to the original name so they have a better
-    // chance and opening up the file on double-click.
-    String.prototype.endsWith = String.prototype.endsWith || function (str){
-      return new RegExp(str + "$").test(str);
-    };
-
-    var doc = req.Document;
-    var format = req.Document.documentFileFormat;
-    var name = doc.documentFileName || doc.displayName || doc.internalOriginalName;
-    if (format && !name.endsWith(format)) {
-      name += "." + format;
-    }
-    // keep the console log statments until after we run an ETL that resets the filename extensions.
-    // these will help verify the ETL once it is done
-    // They may help in the future if those file extensions disappear again.
-    return name;
-  }
-  //
-  // fetch a document (download multipart stream)
-  //
+  /**
+    * Download a file from Minio, or from an alternate http/ftp source, if specified in the file properties.
+    */
   app.route ('/api/document/:document/fetch')
     .all (policy ('guest'))
     .get (function (req, res) {
       if (req.Document.internalURL.match (/^(http|ftp)/)) {
         res.redirect (req.Document.internalURL);
       } else {
-
-        var name = documentDownloadName(req);
-
-        if (fs.existsSync(req.Document.internalURL)) {
-          var stream 	= fs.createReadStream(req.Document.internalURL);
-          var stat 	= fs.statSync(req.Document.internalURL);
-          res.setHeader('Content-Length', stat.size);
-          res.setHeader('Content-Type', req.Document.internalMime);
-          res.setHeader('Content-Disposition', 'inline;filename="' + name + '"');
-          stream.pipe(res);
-        } else {
-          renderNotFound(req.originalUrl, res);
-        }
+        MinioController.getMinioDocumentURL(req.Document.internalURL)
+          .then(function(docURL){
+            res.redirect(docURL);
+          });
       }
     });
   //
@@ -239,11 +192,6 @@ module.exports = function (app) {
     .post (routes.setAndRun (DocumentClass, function (model, req) {
       return new Promise (function (resolve, reject) {
         var file = req.body.file;
-        console.log('11==============================='); //eslint-disable-line
-        console.log(req.body); //eslint-disable-line
-        console.log('22==============================='); //eslint-disable-line
-        console.log(file); //eslint-disable-line
-        console.log('33==============================='); //eslint-disable-line
         if (file) {
           // var opts = { oldPath: file.path, projectCode: req.Project.code};
           // routes.moveFile (opts)
@@ -261,11 +209,6 @@ module.exports = function (app) {
             if (req.headers.datereceived) {
               dateReceived = new Date(req.headers.datereceived);
             }
-
-            console.log(req.headers.inheritmodelpermissionid); //eslint-disable-line
-            console.log('44==============================='); //eslint-disable-line
-            console.log(readPermissions); //eslint-disable-line
-            console.log('55==============================='); //eslint-disable-line
 
             var modelData = {
               // Metadata related to this specific document that has been uploaded.
@@ -303,16 +246,10 @@ module.exports = function (app) {
               dateUploaded            : req.body.dateuploaded
             }
 
-            console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'); //eslint-disable-line
-            console.log(modelData); //eslint-disable-line
-            console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'); //eslint-disable-line
-
-            return model.create (modelData, req.headers.inheritmodelpermissionid, readPermissions).then(resolve, reject);
+            return model.create (modelData, req.headers.inheritmodelpermissionid, readPermissions)
+              .then(resolve, reject);
           })
             .then(function (data) {
-              console.log('-----------------------------------------'); //eslint-disable-line
-              console.log(data); //eslint-disable-line
-              console.log('-----------------------------------------'); //eslint-disable-line
               if (req.headers.publishafterupload === 'true') {
                 return model.publish(data);
               } else {
