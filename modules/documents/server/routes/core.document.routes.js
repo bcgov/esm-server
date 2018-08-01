@@ -193,7 +193,6 @@ module.exports = function (app) {
           routes.moveFile (opts)
             .then (function (newFilePath) {
               return model.create ({
-                // TODO during a refactor sprint... use the defineModel function defined below
                 // Metadata related to this specific document that has been uploaded.
                 // See the document.model.js for descriptions of the parameters to supply.
                 project                 : req.Project,
@@ -235,73 +234,89 @@ module.exports = function (app) {
   //
   // upload document
   //
-  app.route ('/api/document/:project/upload').all (policy ('guest'))
+  app.route ('/api/document/:project/upload')
+    .all (policy ('guest'))
     .post (routes.setAndRun (DocumentClass, function (model, req) {
       return new Promise (function (resolve, reject) {
-        var file = req.files.file;
-        if (file && file.originalname === 'this-is-a-file-that-we-want-to-fail.xxx') {
-          reject('Fail uploading this file.');
-        } else if (file) {
-          var opts = { oldPath: file.path, projectCode: req.Project.code};
-          routes.moveFile (opts)
-            .then (function (newFilePath) {
-              var readPermissions = null;
-              if (req.headers.internaldocument) {
-                // Force read array to be this:
-                readPermissions = ['project-admin', 'system-eao', 'project-team', 'project-intake', 'project-system-admin'];
-              }
-              var datePosted, dateReceived = Date.now();
-              // Allow override of date posting/received
-              if (req.headers.dateposted) {
-                datePosted = new Date(req.headers.dateposted);
-              }
-              if (req.headers.datereceived) {
-                dateReceived = new Date(req.headers.datereceived);
-              }
-              return model.create ({
-                // TODO during a refactor sprint... use the defineModel function defined below
-                // Metadata related to this specific document that has been uploaded.
-                // See the document.model.js for descriptions of the parameters to supply.
-                project                 : req.Project,
-                projectFolderType       : req.body.documenttype,
-                projectFolderSubType    : req.body.documentsubtype,
-                projectFolderName       : req.body.documentfoldername,
-                projectFolderURL        : newFilePath,
-                datePosted 				: datePosted,
-                dateReceived 			: dateReceived,
+        var file = req.body.file;
+        console.log('11==============================='); //eslint-disable-line
+        console.log(req.body); //eslint-disable-line
+        console.log('22==============================='); //eslint-disable-line
+        console.log(file); //eslint-disable-line
+        console.log('33==============================='); //eslint-disable-line
+        if (file) {
+          // var opts = { oldPath: file.path, projectCode: req.Project.code};
+          // routes.moveFile (opts)
+          return new Promise(function (resolve, reject) {
+            var readPermissions = null;
+            if (req.headers.internaldocument) {
+              // Force read array to be this:
+              readPermissions = ['project-admin', 'system-eao', 'project-team', 'project-intake', 'project-system-admin'];
+            }
+            var datePosted, dateReceived = Date.now();
+            // Allow override of date posting/received
+            if (req.headers.dateposted) {
+              datePosted = new Date(req.headers.dateposted);
+            }
+            if (req.headers.datereceived) {
+              dateReceived = new Date(req.headers.datereceived);
+            }
 
-                // Migrated from old EPIC
-                oldData            		: req.body.olddata,
+            console.log(req.headers.inheritmodelpermissionid); //eslint-disable-line
+            console.log('44==============================='); //eslint-disable-line
+            console.log(readPermissions); //eslint-disable-line
+            console.log('55==============================='); //eslint-disable-line
 
-                // NB                   : In EPIC, projectFolders have authors, not the actual documents.
-                projectFolderAuthor     : req.body.projectfolderauthor,
-                // These are the data as it was shown on the EPIC website.
-                documentEPICProjectId 	: req.body.documentepicprojectid,
-                documentAuthor          : req.body.documentauthor,
-                documentFileName        : req.body.documentfilename,
-                documentFileURL         : req.body.documentfileurl,
-                documentFileSize        : req.body.documentfilesize,
-                documentFileFormat      : req.body.documentfileformat,
-                documentIsInReview      : req.body.documentisinreview,
-                documentVersion         : 0,
-                // These are automatic as it actually is when it comes into our system
-                internalURL             : newFilePath,
-                internalOriginalName    : file.originalname,
-                internalName            : file.name,
-                internalMime            : file.mimetype,
-                internalExt             : file.extension,
-                internalSize            : file.size,
-                internalEncoding        : file.encoding,
-                directoryID             : req.body.directoryid || 0,
-                displayName             : req.body.displayname || req.body.documentfilename || file.originalname,
-                dateUploaded            : req.body.dateuploaded
-              }, req.headers.inheritmodelpermissionid, readPermissions);
-            })
-            .then(function (d) {
+            var modelData = {
+              // Metadata related to this specific document that has been uploaded.
+              // See the document.model.js for descriptions of the parameters to supply.
+              project                 : req.Project,
+              projectFolderType       : req.body.documenttype,
+              projectFolderSubType    : req.body.documentsubtype,
+              projectFolderName       : req.body.documentfoldername,
+              projectFolderURL        : req.body.filePath, // "p395/1360100548644_6ac5ad6acf7cc82071555a6fda5bf622a53fd80274cc8943878448dbba29ee1c.pdf"
+              datePosted 			       	: datePosted,
+              dateReceived 		       	: dateReceived,
+              // Migrated from old EPIC
+              oldData            		  : req.body.olddata,
+              // NB                   : In EPIC, projectFolders have authors, not the actual documents.
+              projectFolderAuthor     : req.body.projectfolderauthor,
+              // These are the data as it was shown on the EPIC website.
+              documentEPICProjectId 	: req.body.documentepicprojectid,
+              documentAuthor          : req.body.documentauthor,
+              documentFileName        : req.body.documentfilename,
+              documentFileURL         : req.body.documentfileurl, // "p395/1360100548644_6ac5ad6acf7cc82071555a6fda5bf622a53fd80274cc8943878448dbba29ee1c.pdf"
+              documentFileSize        : req.body.documentfilesize,
+              documentFileFormat      : req.body.documentfileformat,
+              documentIsInReview      : req.body.documentisinreview,
+              documentVersion         : 0,
+              // These are automatic as it actually is when it comes into our system
+              internalURL             : req.body.filePath, // "/uploads/brucejack-gold-mine/1360100548644_6ac5ad6acf7cc82071555a6fda5bf622a53fd80274cc8943878448dbba29ee1c.pdf"
+              internalOriginalName    : file.originalname,
+              internalName            : file.name,
+              internalMime            : file.mimetype,
+              internalExt             : file.extension,
+              internalSize            : file.size,
+              internalEncoding        : file.encoding,
+              directoryID             : req.body.directoryid || 0,
+              displayName             : req.body.displayname || req.body.documentfilename || file.originalname,
+              dateUploaded            : req.body.dateuploaded
+            }
+
+            console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'); //eslint-disable-line
+            console.log(modelData); //eslint-disable-line
+            console.log('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^'); //eslint-disable-line
+
+            return model.create (modelData, req.headers.inheritmodelpermissionid, readPermissions).then(resolve, reject);
+          })
+            .then(function (data) {
+              console.log('-----------------------------------------'); //eslint-disable-line
+              console.log(data); //eslint-disable-line
+              console.log('-----------------------------------------'); //eslint-disable-line
               if (req.headers.publishafterupload === 'true') {
-                return model.publish(d);
+                return model.publish(data);
               } else {
-                return d;
+                return data;
               }
             })
             .then (resolve, reject);

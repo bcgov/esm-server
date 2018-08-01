@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('documents')
-  .service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'Authentication', 'MinioService', function ($rootScope, $timeout, $log, Upload, _, Authentication, MinioService) {
+  .service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'Authentication', '$http', 'MinioService', function ($rootScope, $timeout, $log, Upload, _, Authentication, $http, MinioService) {
 
     var inProgressFiles = [];
 
@@ -63,7 +63,6 @@ angular.module('documents')
         $log.debug('  and type = ', f.type);
         return false;
       }
-
     };
 
     this.fileList = [];
@@ -131,7 +130,7 @@ angular.module('documents')
     };
 
 
-    this.startUploads = function(targetUrl, directoryID, reviewdocs, dateUploaded, description) {
+    this.startUploads = function(targetUrl, directoryID, reviewdocs, projectCode, dateUploaded) {
       var self = this;
       if (self.actions.busy) {
         return;
@@ -149,20 +148,7 @@ angular.module('documents')
           file.cancelled = false;
           file.failed = false;
 
-          /*
-					 body...
-
-					 projectfolderauthor,
-					 documentauthor,
-					 documentfilename,
-					 documentfileurl,
-					 documentfilesize,
-					 documentfileformat,
-					 documentisinreview,
-					 directoryid
-
-					 */
-          var data = {
+          var fileData = {
             documenttype: "Not Specified",
             documentsubtype: "Not Specified",
             documentfoldername:"Not Specified",
@@ -170,27 +156,52 @@ angular.module('documents')
             documentauthor: Authentication.user.displayName,
             documentfilename: file.name,
             displayname: file.name,
-            directoryid : directoryID
+            directoryid : directoryID,
+            file: {
+              originalname: file.name,
+              name: file.name,
+              mimetype: file.type,
+              extension: file.name.match(/\.([0-9a-z]+$)/i)[1],
+              size: file.size
+            },
+            filePath: projectCode + '/' + file.name
           };
 
-          if (description) {
-            data.description = description;
-          }
-
           if (dateUploaded) {
-            data.dateuploaded = dateUploaded;
+            fileData.dateuploaded = dateUploaded;
           }
 
           file.status = undefined;
 
-          MinioService.getMinioPresignedPutURL(file.name)
+          MinioService.getMinioPresignedPutURL(projectCode, file.name)
             .then(function(url) {
               $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
               inProgressFiles.push(file);
 
-              return MinioService.putMinioPresignedPutURL(url, file)
+              return MinioService.putMinioPresignedPutURL(url, file);
+            })
+            .then(function(response) {
+              console.log('============================='); //eslint-disable-line
+              console.log(response); //eslint-disable-line
+              console.log('============================='); //eslint-disable-line
+              return $http({method: 'POST', url: targetUrl, data: fileData})
+                .then(function(response, error) {
+                  console.log('**********************************'); //eslint-disable-line
+                  console.log(response); //eslint-disable-line
+                  console.log('**********************************'); //eslint-disable-line
+                  if (error) {
+                    console.log('Error1: ', error); // eslint-disable-line
+                    return MinioService.removeMinioDocument(file.name)
+                  }
+                  return response;
+                })
+            }, function(error) {
+              console.log('Error2: ', error); // eslint-disable-line
             })
             .then(function (response) {
+              console.log('----------------------------------------------'); //eslint-disable-line
+              console.log(response); //eslint-disable-line
+              console.log('----------------------------------------------'); //eslint-disable-line
               $timeout(function () {
                 file.result = response.data;
                 file.progress = 100;
