@@ -3,11 +3,10 @@
 var minio = require('minio');
 
 var minioClient = new minio.Client({
-  endPoint: 'minio-esm-emiliano-esm-dev.pathfinder.gov.bc.ca',
-  // port: 9000,
+  endPoint: process.env.MINIO_HOST || 'minio-esm-emiliano-esm-dev.pathfinder.gov.bc.ca',
   secure: true,
-  accessKey: 'xET8WHv5Bemb',
-  secretKey: '1mgTwu4IkVwRL6T2'
+  accessKey: process.env.MINIO_ACCESS_KEY || 'xET8WHv5Bemb',
+  secretKey: process.env.MINIO_SECRET_KEY || '1mgTwu4IkVwRL6T2'
 });
 
 var getMinioPresignedPutURL = function (req, res) {
@@ -54,3 +53,14 @@ var removeMinioDocument = function (req, res) {
   );
 };
 exports.removeMinioDocument = removeMinioDocument;
+
+var getMinioDocumentURL = function (filePath) {
+  return minioClient.presignedGetObject('uploads', filePath, 5*60)
+    .then(function (url, err) {
+      if (err) {
+        throw err;
+      }
+      return url;
+    });
+};
+exports.getMinioDocumentURL = getMinioDocumentURL;
