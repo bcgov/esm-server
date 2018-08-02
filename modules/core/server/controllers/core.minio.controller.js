@@ -9,10 +9,10 @@ var minioClient = new minio.Client({
   secretKey: process.env.MINIO_SECRET_KEY || '1mgTwu4IkVwRL6T2'
 });
 
-var getMinioPresignedPutURL = function (req, res) {
+var getMinioPresignedPUTUrl = function (req, res) {
   return new Promise(function (resolve, reject) {
     var objectName = req.params.projectCode + '/' + req.params.fileName;
-    minioClient.presignedPutObject('uploads', objectName, 300)
+    minioClient.presignedPutObject('uploads', objectName, 5 * 60)
       .then(function (url, err) {
         if (err) {
           reject(err);
@@ -30,11 +30,12 @@ var getMinioPresignedPutURL = function (req, res) {
     }
   );
 };
-exports.getMinioPresignedPutURL = getMinioPresignedPutURL;
+exports.getMinioPresignedPUTUrl = getMinioPresignedPUTUrl;
 
-var removeMinioDocument = function (req, res) {
+var deleteMinioDocument = function (req, res) {
   return new Promise(function (resolve, reject) {
-    minioClient.removeObject('uploads', req.params.name)
+    var objectName = req.params.projectCode + '/' + req.params.fileName;
+    minioClient.removeObject('uploads', objectName)
       .then(function (result, err) {
         if (err) {
           reject(err);
@@ -52,10 +53,10 @@ var removeMinioDocument = function (req, res) {
     }
   );
 };
-exports.removeMinioDocument = removeMinioDocument;
+exports.deleteMinioDocument = deleteMinioDocument;
 
-var getMinioDocumentURL = function (filePath) {
-  return minioClient.presignedGetObject('uploads', filePath, 5*60)
+var getMinioPresignedGETUrl = function (filePath) {
+  return minioClient.presignedGetObject('uploads', filePath, 5 * 60)
     .then(function (url, err) {
       if (err) {
         throw err;
@@ -63,4 +64,4 @@ var getMinioDocumentURL = function (filePath) {
       return url;
     });
 };
-exports.getMinioDocumentURL = getMinioDocumentURL;
+exports.getMinioPresignedGETUrl = getMinioPresignedGETUrl;
