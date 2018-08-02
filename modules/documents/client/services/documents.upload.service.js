@@ -5,13 +5,13 @@ angular.module('documents')
 
     var inProgressFiles = [];
 
-    var setAllowedActions = function(service) {
+    var setAllowedActions = function (service) {
       service.actions.allowStart = (service.counts.total > 0 && !service.actions.busy && !service.actions.started) && (service.counts.uploading === 0, service.counts.failed === 0 && service.counts.cancelled === 0 && service.counts.uploaded === 0); // can't upload until last batch cleared...
       service.actions.allowStop = (service.counts.total > 0 && service.actions.busy && service.actions.started);
       service.actions.allowReset = (service.counts.total > 0 && !service.actions.busy && !service.actions.started); // clear ok when not uploading and we have files to remove
     };
 
-    var initialize = function(service) {
+    var initialize = function (service) {
       if (service.actions.busy) {
         return;
       }
@@ -44,12 +44,11 @@ angular.module('documents')
       }
     };
 
-
-    var addSingleFile = function(service, f) {
+    var addSingleFile = function (service, f) {
       if (service.actions.busy) {
         return false;
       }
-      var found = _.find(service.fileList, function(o) {
+      var found = _.find(service.fileList, function (o) {
         return o.name.toLowerCase() === f.name.toLowerCase() && o.lastModified === f.lastModified && o.size === f.size && o.type.toLowerCase() === f.type.toLowerCase();
       });
       if (!found) {
@@ -82,7 +81,7 @@ angular.module('documents')
       total: 0
     };
 
-    this.addFile = function(f) {
+    this.addFile = function (f) {
       if (this.actions.busy) {
         return;
       }
@@ -91,12 +90,12 @@ angular.module('documents')
       }
     };
 
-    this.addFiles = function(list) {
+    this.addFiles = function (list) {
       if (this.actions.busy) {
         return;
       }
       var fileAdded = false;
-      _.each(list, function(f) {
+      _.each(list, function (f) {
         if (addSingleFile(this, f)) {
           fileAdded = true;
         }
@@ -106,11 +105,11 @@ angular.module('documents')
       }
     };
 
-    this.removeFile = function(f) {
+    this.removeFile = function (f) {
       if (this.actions.busy) {
         return;
       }
-      var found = _.find(this.fileList, function(o) {
+      var found = _.find(this.fileList, function (o) {
         return o.name.toLowerCase() === f.name.toLowerCase() && o.lastModified === f.lastModified && o.size === f.size && o.type.toLowerCase() === f.type.toLowerCase();
       });
       if (found) {
@@ -119,18 +118,18 @@ angular.module('documents')
       }
     };
 
-    this.reset = function() {
+    this.reset = function () {
       if (this.actions.busy) {
         return;
       }
-      if ( _.size(this.fileList) > 0) {
+      if (_.size(this.fileList) > 0) {
         this.fileList = [];
         initialize(this);
       }
     };
 
 
-    this.startUploads = function(targetUrl, directoryID, reviewdocs, projectCode, dateUploaded) {
+    this.startUploads = function (targetUrl, directoryID, reviewdocs, projectCode, dateUploaded) {
       var self = this;
       if (self.actions.busy) {
         return;
@@ -141,7 +140,7 @@ angular.module('documents')
         self.actions.started = true;
         self.actions.completed = false;
         setAllowedActions(self);
-        angular.forEach(self.fileList, function(file) {
+        angular.forEach(self.fileList, function (file) {
 
           file.uploading = true;
           file.uploaded = false;
@@ -151,12 +150,12 @@ angular.module('documents')
           var fileData = {
             documenttype: "Not Specified",
             documentsubtype: "Not Specified",
-            documentfoldername:"Not Specified",
+            documentfoldername: "Not Specified",
             documentisinreview: reviewdocs,
             documentauthor: Authentication.user.displayName,
             documentfilename: file.name,
             displayname: file.name,
-            directoryid : directoryID,
+            directoryid: directoryID,
             file: {
               originalname: file.name,
               name: file.name,
@@ -173,35 +172,25 @@ angular.module('documents')
 
           file.status = undefined;
 
-          MinioService.getMinioPresignedPutURL(projectCode, file.name)
-            .then(function(url) {
+          MinioService.getPresignedPUTUrl(projectCode, file.name)
+            .then(function (url) {
               $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
               inProgressFiles.push(file);
 
-              return MinioService.putMinioPresignedPutURL(url, file);
+              return MinioService.putDocument(url, file, function (progress) {
+                file.progress = Math.min(100, parseInt(100.0 * progress.loaded / progress.total));
+                file.status = 'In Progress';
+                file.uploading = true;
+              });
             })
-            .then(function(response) {
-              console.log('============================='); //eslint-disable-line
-              console.log(response); //eslint-disable-line
-              console.log('============================='); //eslint-disable-line
-              return $http({method: 'POST', url: targetUrl, data: fileData})
-                .then(function(response, error) {
-                  console.log('**********************************'); //eslint-disable-line
-                  console.log(response); //eslint-disable-line
-                  console.log('**********************************'); //eslint-disable-line
-                  if (error) {
-                    console.log('Error1: ', error); // eslint-disable-line
-                    return MinioService.removeMinioDocument(file.name)
-                  }
-                  return response;
-                })
-            }, function(error) {
-              console.log('Error2: ', error); // eslint-disable-line
+            .then(function () {
+              return $http({
+                method: 'POST',
+                url: targetUrl,
+                data: fileData
+              })
             })
             .then(function (response) {
-              console.log('----------------------------------------------'); //eslint-disable-line
-              console.log(response); //eslint-disable-line
-              console.log('----------------------------------------------'); //eslint-disable-line
               $timeout(function () {
                 file.result = response.data;
                 file.progress = 100;
@@ -217,18 +206,13 @@ angular.module('documents')
                 file.failed = true;
                 file.uploading = false;
               } else {
-                // abort was called...
-                $log.debug('cancelled ' + file.$$hashKey.toString());
+                $log.debug('Cancelled ' + file.$$hashKey.toString());
                 file.status = 'Cancelled';
                 file.cancelled = true;
                 file.uploading = false;
               }
+              MinioService.deleteDocument(projectCode, file.name);
               checkInProgressStatus(self);
-            }, function (evt) {
-              // if we get a cancel request, then call
-              file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-              file.status = 'In Progress';
-              file.uploading = true;
             });
         });
 
@@ -237,21 +221,20 @@ angular.module('documents')
       }
     };
 
-    this.cancelUpload = function(file) {
+    this.cancelUpload = function (file) {
       if (Upload.isUploadInProgress() && file && file.status === 'In Progress') {
         file.upload.abort();
       }
       setAllowedActions(this);
     };
 
-    this.stopUploads = function() {
+    this.stopUploads = function () {
       if (Upload.isUploadInProgress()) {
-        _.each(inProgressFiles, function(file) {
+        _.each(inProgressFiles, function (file) {
           this.cancelUpload(file);
         });
       } else {
         setAllowedActions(this);
       }
     };
-
   }]);

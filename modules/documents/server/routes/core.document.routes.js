@@ -120,14 +120,14 @@ module.exports = function (app) {
   /**
     * Download a file from Minio, or from an alternate http/ftp source, if specified in the file properties.
     */
-  app.route ('/api/document/:document/fetch')
-    .all (policy ('guest'))
-    .get (function (req, res) {
-      if (req.Document.internalURL.match (/^(http|ftp)/)) {
-        res.redirect (req.Document.internalURL);
+  app.route('/api/document/:document/fetch')
+    .all(policy('guest'))
+    .get(function (req, res) {
+      if (req.Document.internalURL.match(/^(http|ftp)/)) {
+        res.redirect(req.Document.internalURL);
       } else {
-        MinioController.getMinioDocumentURL(req.Document.internalURL)
-          .then(function(docURL){
+        MinioController.getMinioPresignedGETUrl(req.Document.internalURL)
+          .then(function (docURL) {
             res.redirect(docURL);
           });
       }
