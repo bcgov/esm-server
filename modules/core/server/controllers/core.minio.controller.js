@@ -17,7 +17,7 @@ var minioClient = new minio.Client({
  * The url can be used multiple times, but expires after 5 minutes.
  * @param projectCode a project code
  * @param fileName the name of the file
- * @return an promise that resolves with the presigned url
+ * @return a promise that resolves with the presigned url
  */
 var getPresignedPUTUrl = function (projectCode, fileName) {
   return minioClient.presignedPutObject('uploads', projectCode + '/' + fileName, 5 * 60)
@@ -48,10 +48,10 @@ var deleteDocument = function (projectCode, fileName) {
 exports.deleteDocument = deleteDocument;
 
 /**
- * Upload a file using a minio presigned PUT url.
- * @param minioPresignedURL a minio presigned put url
- * @param file a file object
- * @param progressCallback a callback function that will be called periodically with an http progress event.
+ * Get a minio presigned url, for a specific file object, that permits GET operations.
+ * The url can be used multiple times, but expires after 5 minutes.
+ * @param filePath the file path for the file to retrieve.  Typically something like "projectCode/fileName"
+ * @return a promise that resolves with the presigned url
  */
 var getPresignedGETUrl = function (filePath) {
   return minioClient.presignedGetObject('uploads', filePath, 5 * 60)
@@ -64,6 +64,9 @@ var getPresignedGETUrl = function (filePath) {
 };
 exports.getPresignedGETUrl = getPresignedGETUrl;
 
+/**
+ * Wrappers for the above functions to add support for http request/response.
+ */
 var asHttpRequest = {
   /**
    * Wraps the existing function of the same name in a promise that supports http request/response.

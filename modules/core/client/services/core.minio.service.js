@@ -7,7 +7,7 @@ angular.module('core').factory('MinioService', ['ModelBase', '$http', function (
      * The url can be used multiple times, but expires after 5 minutes.
      * @param projectCode a project code
      * @param fileName the name of the file
-     * @return an promise that resolves with the presigned url
+     * @return a promise that resolves with the presigned url
      */
     getPresignedPUTUrl: function (projectCode, fileName) {
       return this.get('/api/getMinioPresignedPUTUrl/' + projectCode + '/' + fileName);
