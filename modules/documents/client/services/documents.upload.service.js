@@ -128,7 +128,12 @@ angular.module('documents')
       }
     };
 
-
+    /**
+     * Uploads the selected documents to minio, one by one.
+     * If the upload to minio succeeeds, a second call will be made to create a matching document record in the database.
+     * If the call to minio fails, cease all operations and stop.
+     * If the call to minio succeeds, and the subsequent call to the database fails, delete the file from minio and then cease all operations and stop.
+     */
     this.startUploads = function (targetUrl, directoryID, reviewdocs, projectCode, dateUploaded) {
       var self = this;
       if (self.actions.busy) {
@@ -172,11 +177,13 @@ angular.module('documents')
 
           file.status = undefined;
 
+          // get minio pre-authorized put url
           MinioService.getPresignedPUTUrl(projectCode, file.name)
             .then(function (url) {
               $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
               inProgressFiles.push(file);
 
+              // upload file to minio
               return MinioService.putDocument(url, file, function (progress) {
                 file.progress = Math.min(100, parseInt(100.0 * progress.loaded / progress.total));
                 file.status = 'In Progress';
@@ -184,13 +191,11 @@ angular.module('documents')
               });
             })
             .then(function () {
-              return $http({
-                method: 'POST',
-                url: targetUrl,
-                data: fileData
-              })
+              // create matching document record in database
+              return $http({method: 'POST', url: targetUrl, data: fileData})
             })
             .then(function (response) {
+              // overall success
               $timeout(function () {
                 file.result = response.data;
                 file.progress = 100;
@@ -200,22 +205,23 @@ angular.module('documents')
                 checkInProgressStatus(self);
               });
             }, function (response) {
-              if (response.status > 0) {
-                $log.error('Upload file error. Name=' + file.name + ', Response Status=' + response.status + ', Response Data.Message=' + response.data.message);
-                file.status = 'Failed';
-                file.failed = true;
-                file.uploading = false;
-              } else {
-                $log.debug('Cancelled ' + file.$$hashKey.toString());
-                file.status = 'Cancelled';
-                file.cancelled = true;
-                file.uploading = false;
-              }
-              MinioService.deleteDocument(projectCode, file.name);
-              checkInProgressStatus(self);
+              // overall failure
+              $timeout(function () {
+                if (response.status > 0) {
+                  $log.error('Upload file error. Name=' + file.name + ', Response Status=' + response.status + ', Response Data.Message=' + response.data.message);
+                  file.status = 'Failed';
+                  file.failed = true;
+                  file.uploading = false;
+                } else {
+                  $log.debug('Cancelled ' + file.$$hashKey.toString());
+                  file.status = 'Cancelled';
+                  file.cancelled = true;
+                  file.uploading = false;
+                }
+                checkInProgressStatus(self);
+              });
             });
         });
-
       } else {
         checkInProgressStatus(self);
       }
