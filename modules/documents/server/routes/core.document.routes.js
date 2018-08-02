@@ -220,7 +220,7 @@ module.exports = function (app) {
               projectFolderType       : req.body.documenttype,
               projectFolderSubType    : req.body.documentsubtype,
               projectFolderName       : req.body.documentfoldername,
-              projectFolderURL        : req.body.filePath, // "p395/1360100548644_6ac5ad6acf7cc82071555a6fda5bf622a53fd80274cc8943878448dbba29ee1c.pdf"
+              projectFolderURL        : req.body.filePath,
               datePosted 			       	: datePosted,
               dateReceived 		       	: dateReceived,
               // Migrated from old EPIC
@@ -231,13 +231,13 @@ module.exports = function (app) {
               documentEPICProjectId 	: req.body.documentepicprojectid,
               documentAuthor          : req.body.documentauthor,
               documentFileName        : req.body.documentfilename,
-              documentFileURL         : req.body.documentfileurl, // "p395/1360100548644_6ac5ad6acf7cc82071555a6fda5bf622a53fd80274cc8943878448dbba29ee1c.pdf"
+              documentFileURL         : req.body.documentfileurl,
               documentFileSize        : req.body.documentfilesize,
               documentFileFormat      : req.body.documentfileformat,
               documentIsInReview      : req.body.documentisinreview,
               documentVersion         : 0,
               // These are automatic as it actually is when it comes into our system
-              internalURL             : req.body.filePath, // "/uploads/brucejack-gold-mine/1360100548644_6ac5ad6acf7cc82071555a6fda5bf622a53fd80274cc8943878448dbba29ee1c.pdf"
+              internalURL             : req.body.filePath,
               internalOriginalName    : file.originalname,
               internalName            : file.name,
               internalMime            : file.mimetype,
