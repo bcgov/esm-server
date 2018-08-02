@@ -126,7 +126,7 @@ module.exports = function (app) {
       if (req.Document.internalURL.match(/^(http|ftp)/)) {
         res.redirect(req.Document.internalURL);
       } else {
-        MinioController.getMinioPresignedGETUrl(req.Document.internalURL)
+        MinioController.getPresignedGETUrl(req.Document.internalURL)
           .then(function (docURL) {
             res.redirect(docURL);
           });
@@ -184,17 +184,20 @@ module.exports = function (app) {
         }
       });
     }));
-  //
-  // upload document
-  //
+
+  /**
+   * Adds a new document record for the given file.
+   * Expects `request.body.file` to be a file object with all associated file metadata.
+   * Expects `request.body` to contain all other related document information.
+   * Note: This function does not itself perform any file upload, and assumes the file has already been uploaded to minio.
+   * Note: If this fails to create the document record it will then attempt to delete the file from minio, so the two locations remain in sync.
+   */
   app.route ('/api/document/:project/upload')
     .all (policy ('guest'))
     .post (routes.setAndRun (DocumentClass, function (model, req) {
       return new Promise (function (resolve, reject) {
         var file = req.body.file;
         if (file) {
-          // var opts = { oldPath: file.path, projectCode: req.Project.code};
-          // routes.moveFile (opts)
           return new Promise(function (resolve, reject) {
             var readPermissions = null;
             if (req.headers.internaldocument) {
@@ -246,8 +249,14 @@ module.exports = function (app) {
               dateUploaded            : req.body.dateuploaded
             }
 
-            return model.create (modelData, req.headers.inheritmodelpermissionid, readPermissions)
-              .then(resolve, reject);
+            return model.create(modelData, req.headers.inheritmodelpermissionid, readPermissions)
+              .then(function (response) {
+                return response
+              }, function (error) {
+                // the model failed to be created - delete the document from minio so the database and minio remain in sync.
+                MinioController.deleteDocument(req.Project.code, file.name);
+                reject(error);
+              });
           })
             .then(function (data) {
               if (req.headers.publishafterupload === 'true') {
