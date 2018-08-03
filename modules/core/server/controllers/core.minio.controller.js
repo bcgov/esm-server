@@ -5,15 +5,13 @@ var minio = require('minio');
 /**
  * The minio client which facilitates the connection to minio, and through which all calls should be made.
  */
-var options = {
+var minioClient = new minio.Client({
   endPoint: process.env.MINIO_HOST,
   port: 443,
   secure: true,
   accessKey: process.env.MINIO_ACCESS_KEY,
   secretKey: process.env.MINIO_SECRET_KEY
-};
-console.log(options); //eslint-disable-line
-var minioClient = new minio.Client(options);
+});
 
 /**
  * Get a minio presigned url, for a specific file object, that permits PUT operations.
