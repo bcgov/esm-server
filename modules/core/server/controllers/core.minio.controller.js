@@ -6,10 +6,11 @@ var minio = require('minio');
  * The minio client which facilitates the connection to minio, and through which all calls should be made.
  */
 var minioClient = new minio.Client({
-  endPoint: process.env.MINIO_HOST || 'minio-esm-emiliano-esm-dev.pathfinder.gov.bc.ca',
+  endPoint: process.env.MINIO_HOST,
+  port: 9000,
   secure: false,
-  accessKey: process.env.MINIO_ACCESS_KEY || 'xET8WHv5Bemb',
-  secretKey: process.env.MINIO_SECRET_KEY || '1mgTwu4IkVwRL6T2'
+  accessKey: process.env.MINIO_ACCESS_KEY,
+  secretKey: process.env.MINIO_SECRET_KEY
 });
 
 /**
