@@ -7,7 +7,7 @@ var minio = require('minio');
  */
 var minioClient = new minio.Client({
   endPoint: process.env.MINIO_HOST || 'minio-esm-emiliano-esm-dev.pathfinder.gov.bc.ca',
-  secure: true,
+  secure: false,
   accessKey: process.env.MINIO_ACCESS_KEY || 'xET8WHv5Bemb',
   secretKey: process.env.MINIO_SECRET_KEY || '1mgTwu4IkVwRL6T2'
 });
