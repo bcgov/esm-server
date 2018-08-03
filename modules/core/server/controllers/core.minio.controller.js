@@ -6,7 +6,7 @@ var minio = require('minio');
  * The minio client which facilitates the connection to minio, and through which all calls should be made.
  */
 var options = {
-  endPoint: process.env.MINIO_HOST || 'localhost',
+  endPoint: process.env.MINIO_HOST,
   port: 443,
   secure: true,
   accessKey: process.env.MINIO_ACCESS_KEY,
