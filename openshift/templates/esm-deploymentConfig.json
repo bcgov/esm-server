@@ -69,7 +69,7 @@
                 "env": [
                   {
                     "name": "MINIO_HOST",
-                    "value": "${MINIO_DEPLOYMENT_NAME}"
+                    "value": "${MINIO_DEPLOYMENT_NAME}-${PROJECT_NAMESPACE}.pathfider.gov.bc.ca"
                   },
                   {
                     "name": "MINIO_ACCESS_KEY",
@@ -618,6 +618,13 @@
       "displayName": "Application image name.",
       "description": "Application image name.",
       "value": "esm-server",
+      "required": true
+    },
+    {
+      "name": "PROJECT_NAMESPACE",
+      "displayName": "The project namespace where the deployment is going to be provisioned.",
+      "description": "The project namespace where the deployment is going to be provisioned.",
+      "value": "esm-dev",
       "required": true
     },
     {
