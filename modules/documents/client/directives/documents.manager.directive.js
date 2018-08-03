@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('documents')
-  .directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'MinioService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, MinioService, CodeLists, TreeModel, ProjectModel, Document, FolderModel) {
+  .directive('documentMgr', ['_', 'AlertService', 'FolderModel', function (_, AlertService, FolderModel) {
     return {
       restrict: 'E',
       scope: {
@@ -10,7 +10,7 @@ angular.module('documents')
         folder: '='
       },
       templateUrl: 'modules/documents/client/views/document-manager.html',
-      controller: function ($scope, $filter, $log, $uibModal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document, CollectionModel) {
+      controller: function ($scope, $log, _, moment, Authentication, DocumentMgrService, MinioService, CodeLists, TreeModel, ProjectModel, Document, CollectionModel) {
         var tree = new TreeModel();
         var self = this;
         self.busy = true;
