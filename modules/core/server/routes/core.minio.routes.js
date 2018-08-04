@@ -10,7 +10,7 @@ module.exports = function (app) {
    * @return a promise that resolves with an http response containing the presigned url
    */
   app.route('/api/getMinioPresignedPUTUrl/:projectCode/:fileName')
-    .all(policy('user'))
+    .all(policy('guest'))
     .get(minioController.asHttpRequest.getPresignedPUTUrl);
   /**
    * Delete a file from minio.

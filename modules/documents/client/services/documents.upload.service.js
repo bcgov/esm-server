@@ -166,9 +166,9 @@ angular.module('documents')
               name: file.name,
               mimetype: file.type,
               extension: file.name.match(/\.([0-9a-z]+$)/i)[1],
-              size: file.size
-            },
-            filePath: projectCode + '/' + file.name
+              size: file.size,
+              path: projectCode + '/' + file.name
+            }
           };
 
           if (dateUploaded) {
