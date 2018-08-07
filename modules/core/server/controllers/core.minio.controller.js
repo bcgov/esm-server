@@ -11,7 +11,6 @@ var minioClient = new minio.Client({
   secure: true,
   accessKey: process.env.MINIO_ACCESS_KEY,
   secretKey: process.env.MINIO_SECRET_KEY
-};
 });
 
 /**
