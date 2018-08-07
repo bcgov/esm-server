@@ -209,11 +209,16 @@ module.exports = DBModel.extend({
         isPublished: true
       }).then(function (data) {
         return data.map(function (record) {
+          // filter out proponent responses that have not been made visible to the public
           if (record.showProponentResponse !== true) {
-            //TODO in mongo>3.6 removing fields can be done using a combination of $project, $cond and $$REMOVE
+            //TODO in mongo>3.6 removing fields can be done as part of the query condition (in the FindyMany call above) using a combination of $project, $cond, and $$REMOVE
             record.showProponentResponse = null;
             record.proponentResponse = null;
           }
+          // filter out rejected documents
+          record.documents = _.filter(record.documents, function(document) {
+            return document.eaoStatus.toLowerCase() === 'published';
+          });
           return record;
         });
       }).then(resolve, reject);
