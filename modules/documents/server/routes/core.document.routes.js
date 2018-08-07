@@ -118,15 +118,15 @@ module.exports = function (app) {
     }));
 
   /**
-    * Download a file from Minio, or from an alternate http/ftp source, if specified in the file properties.
-    */
+   * Download a file from Minio, or from an alternate http/ftp source, if specified in the file properties.
+   */
   app.route('/api/document/:document/fetch')
     .all(policy('guest'))
     .get(function (req, res) {
       if (req.Document.internalURL.match(/^(http|ftp)/)) {
-        res.redirect(req.Document.internalURL);
+        return res.redirect(req.Document.internalURL);
       } else {
-        MinioController.getPresignedGETUrl(req.Document.internalURL)
+        return MinioController.getPresignedGETUrl(req.Document.internalURL)
           .then(function (docURL) {
             res.redirect(docURL);
           });
