@@ -438,6 +438,18 @@ function controllerModalDayCalculator($scope, $uibModalInstance, moment) {
       return;
     }
 
+    if (suspended && dayCalculator.suspendDate && !dayCalculator.resumeDate){
+      //show error if resume date not filled while suspend date is
+      dayCalculator.errorAlert = "A resumption date is required.";
+      return;
+    }
+
+    if (suspended && !dayCalculator.suspendDate && dayCalculator.resumeDate){
+      //show error if suspend date is not filled while resume date is
+      dayCalculator.errorAlert = "A suspension date is required.";
+      return;
+    }
+
     // Given two of Start Date, End Date, and Number of Days, calculate the third field.
 
     if (dayCalculator.startDate && dayCalculator.endDate) {
@@ -495,6 +507,9 @@ function controllerModalDayCalculator($scope, $uibModalInstance, moment) {
         // If we've made it this far, count the day
         numDays++;
       }
+      //convert moment date back to Date() object so it displays in datepicker
+      dayCalculator.endDate = moment(dayCalculator.endDate).toDate();
+
     } else if (dayCalculator.endDate && dayCalculator.numDays) {
       // Find the start date from the end date and number of days
       dayCalculator.startDate = moment(dayCalculator.endDate);
@@ -521,6 +536,9 @@ function controllerModalDayCalculator($scope, $uibModalInstance, moment) {
         // If we've made it this far, count the day
         numDays++;
       }
+      //convert moment date back to Date() object so it displays in datepicker
+      dayCalculator.startDate = moment(dayCalculator.startDate).toDate();
+
     }
   };
 
