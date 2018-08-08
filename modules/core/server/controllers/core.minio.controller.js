@@ -2,6 +2,8 @@
 
 var minio = require('minio');
 
+var commentPeriodController = require('../../../project-comments/server/controllers/commentperiod.controller');
+var routes = require ('../../../core/server/controllers/core.routes.controller');
 /**
  * The minio client which facilitates the connection to minio, and through which all calls should be made.
  */
@@ -16,12 +18,13 @@ var minioClient = new minio.Client({
 /**
  * Get a minio presigned url, for a specific file object, that permits PUT operations.
  * The url can be used multiple times, but expires after 5 minutes.
+ * @param bucket the minio bucket
  * @param projectCode a project code
  * @param fileName the name of the file
  * @return a promise that resolves with the presigned url
  */
-var getPresignedPUTUrl = function (projectCode, fileName) {
-  return minioClient.presignedPutObject('uploads', projectCode + '/' + fileName, 5 * 60)
+var getPresignedPUTUrl = function (bucket, projectCode, fileName) {
+  return minioClient.presignedPutObject(bucket, projectCode + '/' + fileName, 5 * 60)
     .then(function (url, err) {
       if (err) {
         throw err
@@ -34,11 +37,12 @@ exports.getPresignedPUTUrl = getPresignedPUTUrl;
 
 /**
  * Delete a file from minio.
+ * @param bucket the minio bucket
  * @param projectCode a project code
  * @param fileName the name of the file
  */
-var deleteDocument = function (projectCode, fileName) {
-  return minioClient.removeObject('uploads', projectCode + '/' + fileName)
+var deleteDocument = function (bucket, projectCode, fileName) {
+  return minioClient.removeObject(bucket, projectCode + '/' + fileName)
     .then(function (result, err) {
       if (err) {
         throw err;
@@ -70,22 +74,43 @@ exports.getPresignedGETUrl = getPresignedGETUrl;
  */
 var asHttpRequest = {
   /**
-   * Wraps the existing function of the same name in a promise that supports http request/response.
+   * Wraps the getPresignedPUTUrl function in a promise that supports http request/response, and has additional validation for comment periods.
    * @see getPresignedPUTUrl
    */
-  getPresignedPUTUrl: function (req, res) {
+  getPresignedAttachmentUrl: function (req, res) {
     return new Promise(function (resolve, reject) {
-      getPresignedPUTUrl(req.params.projectCode, req.params.fileName)
+      return routes.setSessionContext(req)
+        .then(function(options) {
+          return new commentPeriodController(options).isCommentPeriodOpen(req.params.commentPeriodId)
+            .then(function() {
+              return getPresignedPUTUrl('uploads', req.params.projectCode, req.params.fileName);
+            });
+        })
+        .then(
+          function(result) {
+            res.json(result);
+          },
+          function(error) {
+            res.status(400).send({ message: error });
+          })
+        .then(resolve, reject);
+    });
+  },
+  /**
+   * Wraps the getPresignedPUTUrl function in a promise that supports http request/response.
+   * @see getPresignedPUTUrl
+   */
+  getPresignedDocumentUrl: function (req, res) {
+    return new Promise(function (resolve, reject) {
+      getPresignedPUTUrl('uploads', req.params.projectCode, req.params.fileName)
         .then(
           function (result) {
             res.json(result);
           },
           function (error) {
-            res.status(400).send({
-              message: error
-            });
-          }
-        ).then(resolve, reject);
+            res.status(400).send({ message: error });
+          })
+        .then(resolve, reject);
     });
   },
   /**
@@ -94,17 +119,14 @@ var asHttpRequest = {
    */
   deleteDocument: function (req, res) {
     return new Promise(function (resolve, reject) {
-      deleteDocument(req.params.projectCode, req.params.fileName)
+      deleteDocument('uploads', req.params.projectCode, req.params.fileName)
         .then(
           function (result) {
             res.json(result);
           },
           function (error) {
-            res.status(400).send({
-              message: error
-            });
-          }
-        )
+            res.status(400).send({ message: error });
+          })
         .then(resolve, reject);
     });
   }

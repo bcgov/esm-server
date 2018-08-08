@@ -10,7 +10,7 @@ angular.module('core').factory('MinioService', ['ModelBase', '$http', function (
      * @return a promise that resolves with the presigned url
      */
     getPresignedPUTUrl: function (projectCode, fileName) {
-      return this.get('/api/getMinioPresignedPUTUrl/' + projectCode + '/' + fileName);
+      return this.get('/api/getMinioDocumentUploadUrl/' + projectCode + '/' + fileName);
     },
     /**
      * Upload a file using a minio presigned PUT url.
