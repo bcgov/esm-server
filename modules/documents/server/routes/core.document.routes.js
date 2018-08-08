@@ -140,7 +140,6 @@ module.exports = function (app) {
     .all (policy ('guest'))
     .post (routes.setAndRun (DocumentClass, function (model, req) {
       return new Promise (function (resolve, reject) {
-        console.log(req.body); //eslint-disable-line
         var file = req.body.file;
         if (file) {
           var modelData = {
@@ -180,7 +179,7 @@ module.exports = function (app) {
               resolve(response);
             }, function (error) {
               // the model failed to be created - delete the document from minio so the database and minio remain in sync.
-              MinioController.deleteDocument(req.Project.code, file.name);
+              MinioController.deleteDocument('uploads', req.Project.code, file.name);
               reject(error);
             });
         }
@@ -263,7 +262,7 @@ module.exports = function (app) {
               }
             }, function (error) {
               // the model failed to be created - delete the document from minio so the database and minio remain in sync.
-              MinioController.deleteDocument(req.Project.code, file.name);
+              MinioController.deleteDocument('uploads', req.Project.code, file.name);
               reject(error);
             });
         }

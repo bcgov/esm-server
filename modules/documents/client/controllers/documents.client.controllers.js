@@ -203,7 +203,6 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
       docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload';
     }
     if (docUpload.type === 'project' && docUpload.project) {
-
       docUpload.targetUrl = '/api/document/' + docUpload.project._id + '/upload';
     }
   };

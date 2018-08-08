@@ -413,5 +413,35 @@ module.exports = DBModel.extend ({
       .then( function (/* res */) {
         return;
       });
+  },
+  /**
+   * Checks that comment period record exists, and that the dateStarted and dateCompleted fields are such that the comment period is open.
+   * @param periodID the comment period ID
+   * @return a promise that resolves `true` if the comment period exists and is open, or rejects `false` otherwise.
+   * @throws if the promise fails, reject with an Error.
+   */
+  isCommentPeriodOpen: function(periodId) {
+    var self = this;
+    var currentDate = new Date();
+    return new Promise(function (resolve, reject) {
+      self.findOne(
+        {
+          _id: periodId,
+          isPublished: true,
+          dateStarted: { '$lte': currentDate },
+          dateCompleted: { '$gte': currentDate }
+        })
+        .then(function (record, error) {
+          if (error) {
+            reject(new Error(error));
+          } else {
+            if (record) {
+              resolve(true);
+            } else {
+              reject('comment period is not open');
+            }
+          }
+        });
+    });
   }
 });
