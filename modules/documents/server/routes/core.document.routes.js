@@ -126,7 +126,7 @@ module.exports = function (app) {
       if (req.Document.internalURL.match(/^(http|ftp)/)) {
         return res.redirect(req.Document.internalURL);
       } else {
-        return MinioController.getPresignedGETUrl(req.Document.internalURL)
+        return MinioController.getPresignedGETUrl(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL)
           .then(function (docURL) {
             res.redirect(docURL);
           });
@@ -179,7 +179,7 @@ module.exports = function (app) {
               resolve(response);
             }, function (error) {
               // the model failed to be created - delete the document from minio so the database and minio remain in sync.
-              MinioController.deleteDocument('uploads', req.Project.code, file.name);
+              MinioController.deleteDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, file.name);
               reject(error);
             });
         }
@@ -262,7 +262,7 @@ module.exports = function (app) {
               }
             }, function (error) {
               // the model failed to be created - delete the document from minio so the database and minio remain in sync.
-              MinioController.deleteDocument('uploads', req.Project.code, file.name);
+              MinioController.deleteDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, file.name);
               reject(error);
             });
         }

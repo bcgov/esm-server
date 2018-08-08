@@ -178,13 +178,13 @@ angular.module('documents')
           file.status = undefined;
 
           // get minio pre-authorized put url
-          MinioService.getPresignedPUTUrl(projectCode, file.name)
+          MinioService.getMinioDocumentUploadUrl(projectCode, file.name)
             .then(function (url) {
               $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
               inProgressFiles.push(file);
 
               // upload file to minio
-              return MinioService.putDocument(url, file, function (progress) {
+              return MinioService.putMinioDocument(url, file, function (progress) {
                 file.progress = Math.min(100, parseInt(100.0 * progress.loaded / progress.total));
                 file.status = 'In Progress';
                 file.uploading = true;

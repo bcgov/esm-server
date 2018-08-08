@@ -9,7 +9,7 @@ angular.module('core').factory('MinioService', ['ModelBase', '$http', function (
      * @param fileName the name of the file
      * @return a promise that resolves with the presigned url
      */
-    getPresignedPUTUrl: function (projectCode, fileName) {
+    getMinioDocumentUploadUrl: function (projectCode, fileName) {
       return this.get('/api/getMinioDocumentUploadUrl/' + projectCode + '/' + fileName);
     },
     /**
@@ -18,7 +18,7 @@ angular.module('core').factory('MinioService', ['ModelBase', '$http', function (
      * @param file a file object
      * @param progressCallback a callback function that will be called periodically with an http progress event.
      */
-    putDocument: function (minioPresignedURL, file, progressCallback) {
+    putMinioDocument: function (minioPresignedURL, file, progressCallback) {
       return $http({
         method: 'PUT',
         url: minioPresignedURL,
@@ -36,7 +36,7 @@ angular.module('core').factory('MinioService', ['ModelBase', '$http', function (
      * @param projectCode a project code
      * @param fileName the name of the file
      */
-    deleteDocument: function (projectCode, fileName) {
+    deleteMinioDocument: function (projectCode, fileName) {
       return this.delete('/api/deleteMinioDocument/' + projectCode + '/' + fileName);
     }
   })

@@ -426,7 +426,7 @@ angular.module('documents')
             })
             .then(function () {
               // Delete the document from the storage
-              MinioService.deleteDocument($scope.project.code, docName);
+              MinioService.deleteMinioDocument($scope.project.code, docName);
             })
             .catch (function() {
               AlertService.error('The document could not be deleted.');
