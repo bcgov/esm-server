@@ -128,12 +128,13 @@ module.exports = DBModel.extend({
   },
 
   /**
-   * Returns all comment periods for the specified projectId.
+   * Returns all published comment periods for the specified projectId.
    * @param projectId the project._id.
    */
-  getCommentPeriodsForProject: function (projectId) {
+  getPublishedCommentPeriodsForProject: function (projectId) {
     return CommentPeriodModel.find({
-      project: projectId
+      project: projectId,
+      isPublished: true
     }).populate('project', 'code').exec();
   }
 });
