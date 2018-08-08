@@ -212,11 +212,11 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
         }
 
         /**
-         * Make the request to retrieve comment periods for the given project.
+         * Make the request to retrieve published comment periods for the given project.
          * @param project the project object to retrieve comment periods for.
          */
         $scope.getCommentPeriods = function (project) {
-          return RecentActivityModel.getCommentPeriodsForProject(project);
+          return RecentActivityModel.getPublishedCommentPeriodsForProject(project);
         }
 
         /**
@@ -306,11 +306,11 @@ angular.module('recent-activity').config(['$stateProvider', function ($stateProv
         }
 
         /**
-         * Make the request to retrieve comment periods for the given project.
+         * Make the request to retrieve published comment periods for the given project.
          * @param project the project object to retrieve comment periods for.
          */
         $scope.getCommentPeriods = function (project) {
-          return RecentActivityModel.getCommentPeriodsForProject(project);
+          return RecentActivityModel.getPublishedCommentPeriodsForProject(project);
         }
 
         /**
