@@ -213,7 +213,7 @@ module.exports.initErrorRoutes = function (app) {
     }
 
     // Log it
-    console.error(err.stack);
+    console.error(err.stack); //eslint-disable-line
 
     // Redirect to error page
     res.redirect('/server-error');
@@ -271,7 +271,6 @@ module.exports.init = function (db) {
 
   // Configure Socket.io
   app = this.configureSocketIO(app, db);
-
 
   return app;
 };
