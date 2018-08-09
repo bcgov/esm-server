@@ -15,12 +15,12 @@
     "yarn": ">=1.0.0"
   },
   "scripts": {
-    "start": "grunt build && node server.js",
+    "start": "grunt start",
     "test-client": "grunt test-client",
     "test-server": "grunt test-server",
     "e2e": "grunt e2e",
-    "build": "grunt buildprod",
-    "postinstall": "git config --global url.https://.insteadOf git:// && bower install --config.interactive=false --allow-root && grunt buildprod"
+    "build": "grunt build",
+    "postinstall": "git config --global url.https://.insteadOf git:// && bower install --config.interactive=false --allow-root && grunt build"
   },
   "dependencies": {
     "acl": "0.4.11",
@@ -87,6 +87,7 @@
     "grunt-mocha-test": "0.13.3",
     "grunt-ng-annotate": "1.0.1",
     "grunt-node-inspector": "1.0.0",
+    "grunt-run": "0.8.1",
     "grunt-sass": "2.1.0",
     "grunt": "1.0.2",
     "jasmine": "3.1.0",

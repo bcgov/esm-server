@@ -38,9 +38,9 @@ module.exports.start = function start(callback) {
       console.log(chalk.green('Environment:\t' + process.env.NODE_ENV));
       console.log(chalk.green('Port:\t\t' + config.port));
       console.log(chalk.green('Database:\t' + config.db.uri));
-      //if (process.env.NODE_ENV === 'secure') {
-      console.log(chalk.green('HTTPs:\t\ton'));
-      //}
+      if (process.env.NODE_ENV === 'secure') {
+        console.log(chalk.green('HTTPs:\t\ton'));
+      }
       console.log('-------------------------------------------');
       /* eslint-enable no-console */
       if (callback) {

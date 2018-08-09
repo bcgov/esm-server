@@ -52,7 +52,7 @@ Note: If you've previously done an installation, and are upgrading from npm to y
  `npm start`
 
 ## Production Mode
-`grunt buildprod && NODE_ENV=production node server.js`
+`grunt build && NODE_ENV=production node server.js`
 
 After this you may open up a browser of your choice and navigte to http://localhost:3000/
 
