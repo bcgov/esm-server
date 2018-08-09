@@ -93,12 +93,7 @@ function controllerModalProjectImport(Upload, $uibModalInstance, $timeout, $scop
   var projectImport = this;
   $scope.environment = ENV;
 
-  // Setup default endpoint for import option
-  if (ENV === 'MEM') {
-    $scope.defaultOption = '/api/projects/import/mem';
-  } else {
-    $scope.defaultOption = '/api/projects/import/eao';
-  }
+  $scope.defaultOption = '/api/projects/import/eao';
 
   projectImport.fileList = [];
 
