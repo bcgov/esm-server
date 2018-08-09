@@ -168,6 +168,10 @@ module.exports = function (app) {
                     reject(error);
                   });
               })
+            })
+            .catch(function(error) {
+              // general catch all
+              return Promise.reject(error);
             });
         }
         else {
@@ -252,6 +256,10 @@ module.exports = function (app) {
                     reject(error);
                   });
               })
+            })
+            .catch(function(error) {
+              // general catch all
+              return Promise.reject(error);
             });
         }
         else {

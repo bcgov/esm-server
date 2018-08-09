@@ -5,7 +5,7 @@ angular.module('core').factory('MinioService', ['ModelBase', '$http', function (
     /**
      * Get a minio presigned url, for a specific file object, that permits PUT operations.
      * The url can be used multiple times, but expires after 5 minutes.
-     * @param projectCode a project code
+     * @param projectCode the project code
      * @param fileName the name of the file
      * @return a promise that resolves with the presigned url
      */
@@ -17,6 +17,7 @@ angular.module('core').factory('MinioService', ['ModelBase', '$http', function (
      * @param minioPresignedURL a minio presigned put url
      * @param file a file object
      * @param progressCallback a callback function that will be called periodically with an http progress event.
+     * @return a promise that resolves with an http response
      */
     putMinioDocument: function (minioPresignedURL, file, progressCallback) {
       return $http({
@@ -35,6 +36,7 @@ angular.module('core').factory('MinioService', ['ModelBase', '$http', function (
      * Delete a file from minio.
      * @param projectCode a project code
      * @param fileName the name of the file
+     * @return a promise that resolves with an http response
      */
     deleteMinioDocument: function (projectCode, fileName) {
       return this.delete('/api/deleteMinioDocument/' + projectCode + '/' + fileName);
