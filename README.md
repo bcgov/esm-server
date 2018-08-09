@@ -38,9 +38,9 @@ EPIC has been built using MongoDB, Express, AngularJS and NodeJS.  See http://me
 * yarn >= 1.3.2
 
 The following environment variables must be set in order for a Minio object storage instance to be used for document uploads:
-* _MINIO_HOST_: the URL pointing to a Minio instance (can be play.minio.io)
-* _MINIO_ACCESS_KEY_: the minio access key to be used for authentication
-* _MINIO_SECRET_KEY_: the minio secret key to be used for authentication
+* `MINIO_HOST` - the URL pointing to a Minio instance (can be play.minio.io)
+* `MINIO_ACCESS_KEY` - the minio access key to be used for authentication
+* `MINIO_SECRET_KEY` - the minio secret key to be used for authentication
 
 
 ## Installation
