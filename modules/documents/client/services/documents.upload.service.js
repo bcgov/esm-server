@@ -1,17 +1,17 @@
 'use strict';
 
 angular.module('documents')
-  .service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'Authentication', '$http', 'MinioService', function ($rootScope, $timeout, $log, Upload, _, Authentication, $http, MinioService) {
+  .service('DocumentsUploadService', ['$rootScope', '$timeout', '$log', 'Upload', '_', 'Authentication', function ($rootScope, $timeout, $log, Upload, _, Authentication) {
 
     var inProgressFiles = [];
 
-    var setAllowedActions = function (service) {
+    var setAllowedActions = function(service) {
       service.actions.allowStart = (service.counts.total > 0 && !service.actions.busy && !service.actions.started) && (service.counts.uploading === 0, service.counts.failed === 0 && service.counts.cancelled === 0 && service.counts.uploaded === 0); // can't upload until last batch cleared...
       service.actions.allowStop = (service.counts.total > 0 && service.actions.busy && service.actions.started);
       service.actions.allowReset = (service.counts.total > 0 && !service.actions.busy && !service.actions.started); // clear ok when not uploading and we have files to remove
     };
 
-    var initialize = function (service) {
+    var initialize = function(service) {
       if (service.actions.busy) {
         return;
       }
@@ -44,11 +44,12 @@ angular.module('documents')
       }
     };
 
-    var addSingleFile = function (service, f) {
+
+    var addSingleFile = function(service, f) {
       if (service.actions.busy) {
         return false;
       }
-      var found = _.find(service.fileList, function (o) {
+      var found = _.find(service.fileList, function(o) {
         return o.name.toLowerCase() === f.name.toLowerCase() && o.lastModified === f.lastModified && o.size === f.size && o.type.toLowerCase() === f.type.toLowerCase();
       });
       if (!found) {
@@ -62,6 +63,7 @@ angular.module('documents')
         $log.debug('  and type = ', f.type);
         return false;
       }
+
     };
 
     this.fileList = [];
@@ -81,7 +83,7 @@ angular.module('documents')
       total: 0
     };
 
-    this.addFile = function (f) {
+    this.addFile = function(f) {
       if (this.actions.busy) {
         return;
       }
@@ -90,12 +92,12 @@ angular.module('documents')
       }
     };
 
-    this.addFiles = function (list) {
+    this.addFiles = function(list) {
       if (this.actions.busy) {
         return;
       }
       var fileAdded = false;
-      _.each(list, function (f) {
+      _.each(list, function(f) {
         if (addSingleFile(this, f)) {
           fileAdded = true;
         }
@@ -105,11 +107,11 @@ angular.module('documents')
       }
     };
 
-    this.removeFile = function (f) {
+    this.removeFile = function(f) {
       if (this.actions.busy) {
         return;
       }
-      var found = _.find(this.fileList, function (o) {
+      var found = _.find(this.fileList, function(o) {
         return o.name.toLowerCase() === f.name.toLowerCase() && o.lastModified === f.lastModified && o.size === f.size && o.type.toLowerCase() === f.type.toLowerCase();
       });
       if (found) {
@@ -118,23 +120,18 @@ angular.module('documents')
       }
     };
 
-    this.reset = function () {
+    this.reset = function() {
       if (this.actions.busy) {
         return;
       }
-      if (_.size(this.fileList) > 0) {
+      if ( _.size(this.fileList) > 0) {
         this.fileList = [];
         initialize(this);
       }
     };
 
-    /**
-     * Uploads the selected documents to minio, one by one.
-     * If the upload to minio succeeeds, a second call will be made to create a matching document record in the database.
-     * If the call to minio fails, cease all operations and stop.
-     * If the call to minio succeeds, and the subsequent call to the database fails, delete the file from minio and then cease all operations and stop.
-     */
-    this.startUploads = function (targetUrl, directoryID, reviewdocs, projectCode, dateUploaded) {
+
+    this.startUploads = function(targetUrl, directoryID, reviewdocs, dateUploaded, description) {
       var self = this;
       if (self.actions.busy) {
         return;
@@ -145,102 +142,106 @@ angular.module('documents')
         self.actions.started = true;
         self.actions.completed = false;
         setAllowedActions(self);
-        angular.forEach(self.fileList, function (file) {
+        angular.forEach(self.fileList, function(file) {
 
           file.uploading = true;
           file.uploaded = false;
           file.cancelled = false;
           file.failed = false;
 
-          var fileData = {
+          /*
+					 body...
+
+					 projectfolderauthor,
+					 documentauthor,
+					 documentfilename,
+					 documentfileurl,
+					 documentfilesize,
+					 documentfileformat,
+					 documentisinreview,
+					 directoryid
+
+					 */
+          var data = {
             documenttype: "Not Specified",
             documentsubtype: "Not Specified",
-            documentfoldername: "Not Specified",
+            documentfoldername:"Not Specified",
             documentisinreview: reviewdocs,
             documentauthor: Authentication.user.displayName,
             documentfilename: file.name,
             displayname: file.name,
-            directoryid: directoryID,
-            file: {
-              originalname: file.name,
-              name: file.name,
-              mimetype: file.type,
-              extension: file.name.match(/\.([0-9a-z]+$)/i)[1],
-              size: file.size,
-              path: projectCode + '/' + file.name
-            }
+            directoryid : directoryID
           };
 
+          if (description) {
+            data.description = description;
+          }
+
           if (dateUploaded) {
-            fileData.dateuploaded = dateUploaded;
+            data.dateuploaded = dateUploaded;
           }
 
           file.status = undefined;
+          file.upload = Upload.upload({
+            url: targetUrl,
+            file: file,
+            data: data
+          });
 
-          // get minio pre-authorized put url
-          MinioService.getMinioDocumentUploadUrl(projectCode, file.name)
-            .then(function (url) {
-              $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
-              inProgressFiles.push(file);
+          $log.debug('Add to inProgressFiles: ', file.$$hashKey.toString());
+          inProgressFiles.push(file);
 
-              // upload file to minio
-              return MinioService.putMinioDocument(url, file, function (progress) {
-                file.progress = Math.min(100, parseInt(100.0 * progress.loaded / progress.total));
-                file.status = 'In Progress';
-                file.uploading = true;
-              });
-            })
-            .then(function () {
-              // create matching document record in database
-              return $http({method: 'POST', url: targetUrl, data: fileData})
-            })
-            .then(function (response) {
-              // overall success
-              $timeout(function () {
-                file.result = response.data;
-                file.progress = 100;
-                file.status = 'Completed';
-                file.uploaded = true;
-                file.uploading = false;
-                checkInProgressStatus(self);
-              });
-            }, function (response) {
-              // overall failure
-              $timeout(function () {
-                if (response.status > 0) {
-                  $log.error('Upload file error. Name=' + file.name + ', Response Status=' + response.status + ', Response Data.Message=' + response.data.message);
-                  file.status = 'Failed';
-                  file.failed = true;
-                  file.uploading = false;
-                } else {
-                  $log.debug('Cancelled ' + file.$$hashKey.toString());
-                  file.status = 'Cancelled';
-                  file.cancelled = true;
-                  file.uploading = false;
-                }
-                checkInProgressStatus(self);
-              });
+          file.upload.then(function (response) {
+            $timeout(function () {
+              file.result = response.data;
+              file.progress = 100;
+              file.status = 'Completed';
+              file.uploaded = true;
+              file.uploading = false;
+              checkInProgressStatus(self);
             });
+          }, function (response) {
+            if (response.status > 0) {
+              $log.error('Upload file error. Name=' + file.name + ', Response Status=' + response.status + ', Response Data.Message=' + response.data.message);
+              file.status = 'Failed';
+              file.failed = true;
+              file.uploading = false;
+            } else {
+              // abort was called...
+              $log.debug('cancelled ' + file.$$hashKey.toString());
+              file.status = 'Cancelled';
+              file.cancelled = true;
+              file.uploading = false;
+            }
+            checkInProgressStatus(self);
+          }, function (evt) {
+            // if we get a cancel request, then call
+            file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            file.status = 'In Progress';
+            file.uploading = true;
+          });
         });
+
       } else {
         checkInProgressStatus(self);
       }
     };
 
-    this.cancelUpload = function (file) {
+    this.cancelUpload = function(file) {
       if (Upload.isUploadInProgress() && file && file.status === 'In Progress') {
         file.upload.abort();
       }
       setAllowedActions(this);
     };
 
-    this.stopUploads = function () {
+    this.stopUploads = function() {
       if (Upload.isUploadInProgress()) {
-        _.each(inProgressFiles, function (file) {
+        _.each(inProgressFiles, function(file) {
           this.cancelUpload(file);
         });
       } else {
         setAllowedActions(this);
       }
     };
+
   }]);

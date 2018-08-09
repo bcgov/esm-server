@@ -1,9 +1,11 @@
 'use strict';
 
+var crypto = require('crypto');
 var minio = require('minio');
+var path = require('path');
 
-var commentPeriodController = require('../../../project-comments/server/controllers/commentperiod.controller');
-var routes = require ('../../../core/server/controllers/core.routes.controller');
+// var commentPeriodController = require('../../../project-comments/server/controllers/commentperiod.controller');
+// var routes = require ('../../../core/server/controllers/core.routes.controller');
 /**
  * The minio client which facilitates the connection to minio, and through which all calls should be made.
  */
@@ -35,6 +37,23 @@ var isValidBucket = function(bucket){
     }
   }
   return false;
+}
+
+/**
+ * Returns a 16-bit pseudo-random string to be used as file name for the storage.
+ * @return the randomized file name
+ * @see https://github.com/expressjs/multer/blob/ee5188d7499dd19c8596fe011e6f6e53ea4778d6/storage/disk.js#L7-L11
+ */
+var getRandomizedFileName = function(){
+  return crypto.randomBytes(16).toString('hex');
+}
+
+/**
+ * Return the file extension, derived from the full file name
+ * @return the file extension (example: txt)
+ */
+var getFileExtension = function(fileName){
+  return fileName.match(/\.([0-9a-z]+$)/i)[1];
 }
 
 /**
@@ -77,14 +96,15 @@ var bucketExists = function (bucket) {
 }
 
 /**
- * Get a minio presigned url, for a specific file object, that permits PUT operations.
+ * Save an object to Minio.
  * The url can be used multiple times, but expires after 5 minutes.
  * @param bucket the minio bucket
  * @param projectCode a project code
  * @param fileName the name of the file
- * @return a promise that resolves with the presigned url
+ * @param buffer the buffer containing the streamed file contents
+ * @return a promise that resolves with an object containing the uploaded file information
  */
-var getPresignedPUTUrl = function (bucket, projectCode, fileName) {
+var putDocument = function (bucket, projectCode, fileName, buffer) {
   if(isValidBucket(bucket)){
     return bucketExists(bucket)
       .then(function(exists){
@@ -93,19 +113,22 @@ var getPresignedPUTUrl = function (bucket, projectCode, fileName) {
         }
       })
       .then(function(){
-        return minioClient.presignedPutObject(bucket, projectCode + '/' + fileName, 5 * 60)
-          .then(function (url, err) {
-            if (err) {
-              throw err
-            }
-            return url;
-          });
+        // generate randomized file name and append extension from original name
+        var ext = getFileExtension(fileName);
+        var newFileName = getRandomizedFileName() + (ext ? '.' + ext : '');
+        var filePath = path.posix.join(projectCode, newFileName);
+        minioClient.putObject(bucket, filePath, buffer);
+        return {
+          fullName: newFileName,
+          extension: ext,
+          path: filePath
+        };
       });
   } else {
     return Promise.reject('[' + bucket + '] is not a valid bucket');
   }
 };
-exports.getPresignedPUTUrl = getPresignedPUTUrl;
+exports.putDocument = putDocument;
 
 /**
  * Delete a file from minio.
@@ -146,46 +169,6 @@ exports.getPresignedGETUrl = getPresignedGETUrl;
  * Wrappers for the above functions to add support for http request/response.
  */
 var asHttpRequest = {
-  /**
-   * Wraps the getPresignedPUTUrl function in a promise that supports http request/response, and has additional validation for comment periods.
-   * @see getPresignedPUTUrl
-   */
-  getPresignedAttachmentUrl: function (req, res) {
-    return new Promise(function (resolve, reject) {
-      return routes.setSessionContext(req)
-        .then(function(options) {
-          return new commentPeriodController(options).isCommentPeriodOpen(req.params.commentPeriodId)
-            .then(function() {
-              return getPresignedPUTUrl(BUCKETS.DOCUMENTS_BUCKET, req.params.projectCode, req.params.fileName);
-            });
-        })
-        .then(
-          function(result) {
-            res.json(result);
-          },
-          function(error) {
-            res.status(400).send({ message: error });
-          })
-        .then(resolve, reject);
-    });
-  },
-  /**
-   * Wraps the getPresignedPUTUrl function in a promise that supports http request/response.
-   * @see getPresignedPUTUrl
-   */
-  getPresignedDocumentUrl: function (req, res) {
-    return new Promise(function (resolve, reject) {
-      return getPresignedPUTUrl(BUCKETS.DOCUMENTS_BUCKET, req.params.projectCode, req.params.fileName)
-        .then(
-          function (result) {
-            res.json(result);
-          },
-          function (error) {
-            res.status(400).send({ message: error });
-          })
-        .then(resolve, reject);
-    });
-  },
   /**
    * Wraps the existing function of the same name in a promise that supports http request/response.
    * @see getPresignedPUTUrl

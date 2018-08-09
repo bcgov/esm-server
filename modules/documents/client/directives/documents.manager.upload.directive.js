@@ -57,7 +57,7 @@ angular.module('documents')
                 };
 
                 self.startUploads = function () {
-                  DocumentsUploadService.startUploads(getTargetUrl(self.type), self.selectedNode.model.id, false, $scope.project.code, new Date());
+                  DocumentsUploadService.startUploads(getTargetUrl(self.type), self.selectedNode.model.id, false, new Date());
                 };
 
                 $scope.$watch(function ($scope) {
