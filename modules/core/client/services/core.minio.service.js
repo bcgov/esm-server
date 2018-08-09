@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('core').factory('MinioService', ['ModelBase', '$http', function (ModelBase, $http) {
+angular.module('core').factory('MinioService', ['ModelBase', function (ModelBase) {
   var MinioService = ModelBase.extend({
     /**
      * Delete a file from minio.
