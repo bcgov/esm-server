@@ -8,9 +8,8 @@ var chalk = require('chalk');
 // Initialize Models
 mongoose.loadModels();
 
-//SeedDB
+// Seed the database if enabled.  See config/env/development.js - seedDB
 if (config.seedDB) {
-  console.log('seeding');
   require('./seed');
 }
 
@@ -19,34 +18,34 @@ module.exports.loadModels = function loadModels() {
 };
 
 module.exports.init = function init(callback) {
-  mongoose.connect(function(db) {
-    // Initialize express
+  mongoose.connect(function (db) {
     var app = express.init(db);
-    if (callback) callback(app, db, config);
+    if (callback) {
+      callback(app, db, config);
+    }
   });
 };
 
 module.exports.start = function start(callback) {
-  var _this = this;
-
-  _this.init(function(app, db, config) {
+  var self = this;
+  self.init(function (app, db, config) {
     // Start the app by listening on <port>
-    app.listen(config.port, function() {
+    app.listen(config.port, function () {
       // Logging initialization
-      console.log('--');
+      /* eslint-disable no-console */
+      console.log('-------------------------------------------');
       console.log(chalk.green(config.app.title));
-      console.log(chalk.green('Environment:\t\t\t' + process.env.NODE_ENV));
-      console.log(chalk.green('Port:\t\t\t\t' + config.port));
-      console.log(chalk.green('Database:\t\t\t\t' + config.db.uri));
-      if (process.env.NODE_ENV === 'secure') {
-        console.log(chalk.green('HTTPs:\t\t\t\ton'));
+      console.log(chalk.green('Environment:\t' + process.env.NODE_ENV));
+      console.log(chalk.green('Port:\t\t' + config.port));
+      console.log(chalk.green('Database:\t' + config.db.uri));
+      //if (process.env.NODE_ENV === 'secure') {
+      console.log(chalk.green('HTTPs:\t\ton'));
+      //}
+      console.log('-------------------------------------------');
+      /* eslint-enable no-console */
+      if (callback) {
+        callback(app, db, config);
       }
-      if (process.env.MEM === 'true') {
-        console.log(chalk.green('MEM Environment:\t\ttrue'));
-      }
-      console.log('--');
-
-      if (callback) callback(app, db, config);
     });
   });
 };
