@@ -216,7 +216,7 @@ module.exports = function (grunt) {
   // Lint CSS and JavaScript files.
   grunt.registerTask('lint', ['sass', 'less', 'eslint', 'csslint']);
 
-  // Package application files for dev and start the server
+  // Package application files for dev and start the node server
   grunt.registerTask('start', [
     'clean:dist',
     'env:dev',
