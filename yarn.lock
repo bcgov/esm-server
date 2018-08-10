@@ -2621,12 +2621,6 @@ grunt-node-inspector@1.0.0:
   dependencies:
     node-inspector "^1.1.1"
 
-grunt-run@0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/grunt-run/-/grunt-run-0.8.1.tgz#502f988947a59f9ad567e2dcb5eeedec712980ec"
-  dependencies:
-    strip-ansi "^3.0.0"
-
 grunt-sass@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/grunt-sass/-/grunt-sass-2.1.0.tgz#b7ba1d85ef4c2d9b7d8195fe65f664ac7554efa1"
