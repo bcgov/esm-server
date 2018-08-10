@@ -69,7 +69,7 @@
                 "env": [
                   {
                     "name": "MINIO_HOST",
-                    "value": "${MINIO_DEPLOYMENT_NAME}-${PROJECT_NAMESPACE}.pathfider.gov.bc.ca"
+                    "value": "${MINIO_DEPLOYMENT_NAME}-${PROJECT_NAMESPACE}.pathfinder.gov.bc.ca"
                   },
                   {
                     "name": "MINIO_ACCESS_KEY",
