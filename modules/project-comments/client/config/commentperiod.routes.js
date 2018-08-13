@@ -160,6 +160,30 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       controller: function ($timeout, $scope, $state, mode, project, period, periodType, CommentPeriodModel, CodeLists) {
       // TODO: This whole method (and the ones below) should be refactored.
 
+        $scope.dateStartChange = function () {
+          if ($scope.period.dateStarted) {
+            var momentDate = moment($scope.period.dateStarted).set({
+              hour: 9,
+              minute: 0,
+              second: 0
+            });
+            $scope.period.dateStarted = moment(momentDate).toDate();
+            periodChange($scope);
+          }
+        }
+
+        $scope.dateCompletedChange = function () {
+          if ($scope.period.dateCompleted) {
+            var momentDate = moment($scope.period.dateCompleted).set({
+              hour: 23,
+              minute: 59,
+              second: 59
+            });
+            $scope.period.dateCompleted = moment(momentDate).toDate();
+            periodChange($scope);
+          }
+        }
+
         $scope.datePicker1 = {
           opened: false
         };
@@ -212,6 +236,31 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
 
         $scope.period.dateStarted = _.isEmpty(period.dateStarted) ? null : moment(period.dateStarted).toDate();
         $scope.period.dateCompleted = _.isEmpty(period.dateCompleted ) ? null : moment(period.dateCompleted ).toDate();
+
+        $scope.dateStartChange = function () {
+          if ($scope.period.dateStarted) {
+            var momentDate = moment($scope.period.dateStarted).set({
+              hour: 9,
+              minute: 0,
+              second: 0
+            });
+            $scope.period.dateStarted = moment(momentDate).toDate();
+            periodChange($scope);
+          }
+        }
+
+        $scope.dateCompletedChange = function () {
+          if ($scope.period.dateCompleted) {
+            var momentDate = moment($scope.period.dateCompleted).set({
+              hour: 23,
+              minute: 59,
+              second: 59
+            });
+            $scope.period.dateCompleted = moment(momentDate).toDate();
+            periodChange($scope);
+          }
+        }
+
 
         $scope.datePicker1 = {
           opened: false
@@ -656,11 +705,17 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
     switch (type) {
     case 'start':
       numberOfDaysToAdd = (rOption);
-      period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
+      if(period.dateStarted){
+        period.dateCompleted = computeDate(period.dateStarted, period.dateCompleted, numberOfDaysToAdd);
+        period.dateCompleted = moment(period.dateCompleted).set({hour: 23, minute: 59, second: 59}).toDate();
+      }
       break;
     case 'end':
       numberOfDaysToAdd = -1 * (rOption);
-      period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
+      if(period.dateCompleted){
+        period.dateStarted = computeDate(period.dateCompleted, period.dateStarted, numberOfDaysToAdd);
+        period.dateStarted = moment(period.dateStarted).set({hour:9, minute:0, second: 0}).toDate();
+      }
       break;
     case 'custom':
       // no op

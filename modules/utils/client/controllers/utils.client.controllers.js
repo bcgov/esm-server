@@ -755,7 +755,6 @@ controllerModalDatePicker.$inject = ['$uibModalInstance', 'rChosenDate', 'rHeade
 /* @ngInject */
 function controllerModalDatePicker($uibModalInstance, rChosenDate, rHeader, moment, mindate, maxdate, showTime) {
   var modalDatePick = this;
-
   modalDatePick.chosenDate = rChosenDate || moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0});
   modalDatePick.header = rHeader || '';
   modalDatePick.showSelector = true;
