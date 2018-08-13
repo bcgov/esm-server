@@ -74,41 +74,45 @@
         <div class="col-sm-6 col-lg-3">
           <div class="form-group" x-show-errors>
             <label class="control-label">Start Date<em class="control-label">(YYYY-MM-DD)</em></label>
-            <div class="datepicker__input">
-              <p class="input-group">
+              <div class="input-group br">
                 <input class="form-control" placeholder="YYYY-MM-DD"  id="dateStart" name="dateStart"
                     ng-model="period.dateStarted" type="text"
                     uib-datepicker-popup
                     is-open="datePicker1.opened"
                     datepicker-options="dateOptions"
                     close-text="Close"
-                    ng-change="validate()"
-                    ng-disabled="!startPickerEnabled"/>
-                <span class="input-group-btn">
-                  <span class="btn btn-default" ng-click="dateOpen1()" ng-disabled="!startPickerEnabled"><span class="glyphicon glyphicon-calendar"/></span>
-                </span>
-              </p>
-            </div>
+                    ng-change="dateStartChange()"/>
+                    <span class="input-group-btn">
+                      <div class="btn btn-default form-control" title="{{ period.dateStart | amDateFormat:'HH:mm:ss' }}"
+                        x-max="period.dateCompleted"
+                        x-modal-date-picker
+                        x-selected-date="period.dateStarted">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                      </div>
+                    </span>
+              </div>
           </div>
         </div>
         <div class="col-sm-6 col-lg-3">
           <div class="form-group" x-show-errors>
             <label class="control-label">End Date<em class="control-label">(YYYY-MM-DD)</em></label>
-            <div class="datepicker__input">
-              <p class="input-group">
+              <div class="input-group br">
                 <input class="form-control" placeholder="YYYY-MM-DD"  id="dateCompleted" name="dateCompleted"
                     ng-model="period.dateCompleted" type="text"
                     uib-datepicker-popup
                     is-open="datePicker2.opened"
                     datepicker-options="dateOptions"
                     close-text="Close"
-                    ng-change="validate()"
-                    ng-disabled="!endPickerEnabled"/>
+                    ng-change="dateCompletedChange()"/>
                 <span class="input-group-btn">
-                  <span class="btn btn-default" ng-click="dateOpen2()" ng-disabled="!endPickerEnabled"><span class="glyphicon glyphicon-calendar"/></span>
+                  <div class="btn btn-default form-control" title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}"
+                    x-min="period.dateStarted"
+                    x-modal-date-picker
+                    x-selected-date="period.dateCompleted">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                  </div>
                 </span>
-              </p>
-            </div>
+              </div>
           </div>
         </div>
       </div>
