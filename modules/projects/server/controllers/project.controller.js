@@ -1011,15 +1011,6 @@ module.exports = DBModel.extend({
   publish: function (project, value) {
     var self = this;
     if (value) {
-      //
-      // add a news item
-      //
-      self.postMessage({
-        headline: project.name,
-        content: project.description,
-        project: project._id,
-        type: 'News'
-      });
       project.publish();
     } else {
       project.unpublish();
