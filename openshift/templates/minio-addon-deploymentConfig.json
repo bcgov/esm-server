@@ -1,0 +1,248 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "esm-server",
+    "annotations": {
+      "description": "Deployment template for adding a Minio object storage server to an existing esm-server deployment.",
+      "tags": "minio",
+      "iconClass": "icon-other-unknown"
+    }
+  },
+  "labels": {
+    "app": "esm-server"
+  },
+  "objects": [
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the minio server"
+        }
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "app": "minio",
+          "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+        },
+        "strategy": {
+          "activeDeadlineSeconds": 21600,
+          "recreateParams": {
+            "timeoutSeconds": 600
+          },
+          "resources": {},
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "app": "minio",
+              "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [{
+              "env": [{
+                  "name": "MINIO_ACCESS_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "MINIO_ACCESS_KEY",
+                      "name": "${MINIO_DEPLOYMENT_NAME}"
+                    }
+                  }
+                },
+                {
+                  "name": "MINIO_SECRET_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "MINIO_SECRET_KEY",
+                      "name": "${MINIO_DEPLOYMENT_NAME}"
+                    }
+                  }
+                },
+                {
+                  "name": "MINIO_CONFIG_DIR",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "MINIO_DATA_DIR",
+                  "value": "/data"
+                }
+              ],
+              "image": "docker-registry.default.svc:5000/openshift/minio:stable",
+              "imagePullPolicy": "Always",
+              "name": "${MINIO_DEPLOYMENT_NAME}",
+              "ports": [{
+                "containerPort": 9000,
+                "protocol": "TCP"
+              }],
+              "resources": {},
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [{
+                "mountPath": "/data",
+                "name": "minio-vol"
+              }]
+            }],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [{
+              "name": "minio-vol",
+              "persistentVolumeClaim": {
+                "claimName": "${MINIO_VOLUME_NAME}"
+              }
+            }]
+          }
+        },
+        "test": false,
+        "triggers": [{
+            "type": "ConfigChange"
+          },
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "minio"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "minio:stable",
+                "namespace": "openshift"
+              }
+            },
+            "type": "ImageChange"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${API_NAME}"
+        }
+      },
+      "spec": {
+        "port": {
+          "targetPort": "8080-tcp"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "${MINIO_DEPLOYMENT_NAME}",
+          "weight": 100
+        },  
+        "tls": {
+          "termination": "edge"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${MINIO_DEPLOYMENT_NAME}"
+        },
+        "annotations": {
+          "description": "Exposes the minio server"
+        }
+      },
+      "spec": {
+        "ports": [{
+          "name": "9000-tcp",
+          "port": 9000,
+          "protocol": "TCP",
+          "targetPort": 9000
+        }],
+        "selector": {
+          "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Secret",
+      "type": "Opaque",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${MINIO_DEPLOYMENT_NAME}"
+        }
+      },
+      "stringData": {
+        "MINIO_ACCESS_KEY": "${MINIO_ACCESS_KEY}",
+        "MINIO_SECRET_KEY": "${MINIO_SECRET_KEY}"
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_VOLUME_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${MINIO_VOLUME_CAPACITY}"
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "MINIO_DEPLOYMENT_NAME",
+      "displayName": "Minio deployment name",
+      "description": "The name given to the minio instance deployment.",
+      "value": "minio-esm",
+      "required": true
+    },
+    {
+      "name": "MINIO_ACCESS_KEY",
+      "displayName": "The Minio access key",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{12}",
+      "required": true
+    },
+    {
+      "name": "MINIO_SECRET_KEY",
+      "displayName": "The Minio secret key",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
+    },
+    {
+      "name": "MINIO_VOLUME_NAME",
+      "displayName": "Name of the minio storage PV",
+      "required": true,
+      "value": "minio-esm-data"
+    },
+    {
+      "name": "MINIO_VOLUME_CAPACITY",
+      "displayName": "Size of minio storage PV in Gi. This is the volume used for storing uploaded documents.",
+      "from": "[0-9]{3}Gi",
+      "value": "3Gi",
+      "required": true
+    },
+    {
+      "name": "DOCUMENTS_BUCKET",
+      "displayName": "Documents Bucket",
+      "description": "Minio bucket where documents will be uploaded to.",
+      "value": "uploads",
+      "required": true
+    }
+  ]
+}

@@ -186,7 +186,7 @@
                   "name": "MINIO_ACCESS_KEY",
                   "valueFrom": {
                     "secretKeyRef": {
-                      "key": "accessKey",
+                      "key": "MINIO_ACCESS_KEY",
                       "name": "${MINIO_DEPLOYMENT_NAME}"
                     }
                   }
@@ -195,7 +195,7 @@
                   "name": "MINIO_SECRET_KEY",
                   "valueFrom": {
                     "secretKeyRef": {
-                      "key": "secretKey",
+                      "key": "MINIO_SECRET_KEY",
                       "name": "${MINIO_DEPLOYMENT_NAME}"
                     }
                   }
