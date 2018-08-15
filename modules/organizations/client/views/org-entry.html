@@ -3,7 +3,10 @@
 	<ul class="nav nav-tabs">
 		<li role="presentation" class="active">
 			<a href="#orgDetails" aria-controls="home" role="tab" data-toggle="tab">Organization Details</a>
-		</li>
+    </li>
+    <li role="presentation" class="form-group">
+      <a href="#contactNotes" aria-controls="home" role="tab" data-toggle="tab" name="notesForm">Notes</a>
+    </li>
 		<li ng-hide="mode === 'add'" role="presentation">
 			<a href="#orgUsers" aria-controls="profile" role="tab" data-toggle="tab">Contacts</a>
 		</li>
@@ -184,7 +187,20 @@
 					</tr>
 				</table>
 			</div>
-		</div><!-- / Project TAB CONTENT -->
+    </div><!-- / Project TAB CONTENT -->
+
+    <!-- notes TAB CONTENT-->
+    <div class="tab-pane" id="contactNotes" role="tabpanel" ng-form="notesForm">
+      <fieldset>
+        <div class="row">
+          <div class="col-sm-12 form-group">
+            <label for="notes" class="control-label">Additional Notes<em>(Optional)</em></label>
+            <textarea class="form-control" id="notes" rows="2" ng-model="org.notes" ng-disabled="readonly"></textarea>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <!-- notes TAB CONTENT-->
 	</div>
 
 </div>
