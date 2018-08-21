@@ -177,7 +177,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
             var momentDate = moment($scope.period.dateCompleted).set({
               hour: 23,
               minute: 59,
-              second: 59
+              second: 59,
             });
             $scope.period.dateCompleted = moment(momentDate).toDate();
             periodChange($scope);
@@ -254,7 +254,7 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
             var momentDate = moment($scope.period.dateCompleted).set({
               hour: 23,
               minute: 59,
-              second: 59
+              second: 59,
             });
             $scope.period.dateCompleted = moment(momentDate).toDate();
             periodChange($scope);
