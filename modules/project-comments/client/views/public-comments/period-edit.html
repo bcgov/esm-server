@@ -86,7 +86,8 @@
                       <div class="btn btn-default form-control" title="{{ period.dateStart | amDateFormat:'HH:mm:ss' }}"
                         x-max="period.dateCompleted"
                         x-modal-date-picker
-                        x-selected-date="period.dateStarted">
+                        x-selected-date="period.dateStarted"
+                        x-isEnd="false">
                         <span class="glyphicon glyphicon-calendar"></span>
                       </div>
                     </span>
@@ -108,7 +109,8 @@
                   <div class="btn btn-default form-control" title="{{ period.dateCompleted | amDateFormat:'HH:mm:ss' }}"
                     x-min="period.dateStarted"
                     x-modal-date-picker
-                    x-selected-date="period.dateCompleted">
+                    x-selected-date="period.dateCompleted"
+                    x-isEnd="true">
                     <span class="glyphicon glyphicon-calendar"></span>
                   </div>
                 </span>

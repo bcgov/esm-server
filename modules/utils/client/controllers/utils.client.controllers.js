@@ -751,11 +751,16 @@ function controllerModalSelectItems($uibModalInstance, rAllItems, rSelectedItems
 // CONTROLLER: Modal: Add Anon Comment
 //
 // -----------------------------------------------------------------------------------
-controllerModalDatePicker.$inject = ['$uibModalInstance', 'rChosenDate', 'rHeader', 'moment', 'mindate', 'maxdate', 'showTime'];
+controllerModalDatePicker.$inject = ['$uibModalInstance', 'rChosenDate', 'rHeader', 'moment', 'mindate', 'maxdate', 'showTime', 'isend'];
 /* @ngInject */
-function controllerModalDatePicker($uibModalInstance, rChosenDate, rHeader, moment, mindate, maxdate, showTime) {
+function controllerModalDatePicker($uibModalInstance, rChosenDate, rHeader, moment, mindate, maxdate, showTime, isend) {
   var modalDatePick = this;
-  modalDatePick.chosenDate = rChosenDate || moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0});
+  modalDatePick.isEnd = isend;
+  if(!modalDatePick.isEnd){
+    modalDatePick.chosenDate = rChosenDate || moment().set({'hour':9, 'minute':0, 'second': 0, 'millisecond': 0});
+  } else {
+    modalDatePick.chosenDate = rChosenDate || moment().set({'hour':23, 'minute':59, 'second':59, 'millisecond': 0});
+  }
   modalDatePick.header = rHeader || '';
   modalDatePick.showSelector = true;
   // directive: shows time section by default

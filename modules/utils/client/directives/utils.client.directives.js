@@ -820,7 +820,8 @@ function directiveModalDatePicker($uibModal, $rootScope, $timeout) {
       hideTime: '=',
       header: '=',
       min: '=',
-      max: '='
+      max: '=',
+      isend: '='
     },
     link : function(scope, element) {
       element.on('click', function() {
@@ -859,6 +860,10 @@ function directiveModalDatePicker($uibModal, $rootScope, $timeout) {
             maxdate: function () {
               //end date selected in editPCP page datepicker
               return scope.max;
+            },
+            isend: function (){
+              //modal is for start or completed date
+              return scope.isend;
             }
           }
         });
