@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('documents')
-  .directive('documentMgr', ['_', 'moment', 'Authentication', 'DocumentMgrService', 'AlertService', 'ConfirmService', 'CodeLists', 'TreeModel', 'ProjectModel', 'Document', 'FolderModel', function (_, moment, Authentication, DocumentMgrService, AlertService, ConfirmService, CodeLists, TreeModel, ProjectModel, Document, FolderModel) {
+  .directive('documentMgr', ['_', 'AlertService', 'FolderModel', function (_, AlertService, FolderModel) {
     return {
       restrict: 'E',
       scope: {
@@ -10,7 +10,7 @@ angular.module('documents')
         folder: '='
       },
       templateUrl: 'modules/documents/client/views/document-manager.html',
-      controller: function ($scope, $filter, $log, $uibModal, $timeout, _, moment, Authentication, DocumentMgrService, CodeLists, TreeModel, ProjectModel, Document, CollectionModel) {
+      controller: function ($scope, $log, _, moment, Authentication, DocumentMgrService, MinioService, CodeLists, TreeModel, ProjectModel, Document, CollectionModel) {
         var tree = new TreeModel();
         var self = this;
         self.busy = true;
@@ -389,10 +389,15 @@ angular.module('documents')
           self.batchMenuEnabled = ($scope.project.userCan.manageFolders && _.size(self.checkedDirs) > 0) || _.size(self.publishSelected.publishableFiles) > 0 || _.size(self.publishSelected.unpublishableFiles) > 0;
         };
 
+        // Removes the reference data required by the document manager to display the document in the file tree,
+        // and then removes the file from the storage.
         self.deleteDocument = function(documentID) {
           var collections = null;
+          var docName = null;
+
           return Document.lookup(documentID)
             .then(function(doc) {
+              docName = doc.internalName;
               collections = doc.collections;
               return Document.getProjectDocumentVersions(doc._id);
             })
@@ -416,8 +421,12 @@ angular.module('documents')
               return Promise.all(promises);
             })
             .then(function () {
-              // Delete the document from the system.
+              // Delete the document from the document manager database reference tables
               return Document.deleteDocument(documentID);
+            })
+            .then(function () {
+              // Delete the document from the storage
+              MinioService.deleteMinioDocument($scope.project.code, docName);
             })
             .catch (function() {
               AlertService.error('The document could not be deleted.');

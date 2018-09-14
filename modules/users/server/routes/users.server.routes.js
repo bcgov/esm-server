@@ -72,7 +72,7 @@ module.exports = function (app) {
             .then (function (newFilePath) {
               return model.create ({
                 // These are automatic as it actually is when it comes into our system
-                documentSource 			: "SIGNATURE",
+                documentSource 			    : "SIGNATURE",
                 internalURL             : newFilePath,
                 internalOriginalName    : file.originalname,
                 internalName            : file.name,

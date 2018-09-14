@@ -203,7 +203,6 @@ function controllerDocumentUploadGlobal($rootScope, $scope, Upload, $timeout, Do
       docUpload.targetUrl = '/api/commentdocument/publiccomment/' + parentId + '/upload';
     }
     if (docUpload.type === 'project' && docUpload.project) {
-
       docUpload.targetUrl = '/api/document/' + docUpload.project._id + '/upload';
     }
   };
@@ -540,6 +539,8 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
       // Update the table in the UI - call refresh
     });
   };
+
+  // Removes the document from the collection
   docBrowser.deleteDocument = function(documentID) {
     Document.lookup(documentID)
       .then( function (doc) {
@@ -555,7 +556,7 @@ function controllerDocumentBrowser($scope, Document, $rootScope, Authentication,
         }
       })
       .then( function () {
-        // Delete it from the system.
+        // Remove link to the CollectionDocument
         return Document.deleteDocument(documentID);
       })
       .then( function(/* res */) {

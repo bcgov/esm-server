@@ -16,10 +16,10 @@ module.exports = function (app) {
   //
   // all active activities
   //
-  app.route('/api/recentactivity/getCommentPeriodsForProject/:projectId')
+  app.route('/api/recentactivity/getPublishedCommentPeriodsForProject/:projectId')
     .all(policy('user'))
     .get(routes.setAndRun(RecentActivity, function (model, req) {
-      return model.getCommentPeriodsForProject(req.params.projectId);
+      return model.getPublishedCommentPeriodsForProject(req.params.projectId);
     }));
 
   app.route('/api/recentactivity/togglepin/:activityId')

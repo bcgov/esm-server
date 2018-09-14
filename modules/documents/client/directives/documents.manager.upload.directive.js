@@ -114,4 +114,3 @@ angular.module('documents')
       controllerAs: 'documentMgrUpload'
     };
   }]);
-

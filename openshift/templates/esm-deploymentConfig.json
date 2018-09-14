@@ -1,0 +1,695 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "esm-server",
+    "annotations": {
+      "description": "Deployment template for a nodejs server, a mongodb database and a Minio object storage server.",
+      "tags": "nodejs,mongodb,minio",
+      "iconClass": "icon-nodejs"
+    }
+  },
+  "labels": {
+    "app": "esm-server"
+  },
+  "objects": [
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APP_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Rolling"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${APP_NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "${APP_IMAGE_NAMESPACE}",
+                "name": "${APP_IMAGE_NAME}:${APP_DEPLOYMENT_TAG}"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${APP_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${APP_NAME}",
+            "labels": {
+              "name": "${APP_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "${APP_NAME}",
+                "image": " ",
+                "ports": [
+                  {
+                    "containerPort": 3000
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "MINIO_HOST",
+                    "value": "${MINIO_DEPLOYMENT_NAME}-${PROJECT_NAMESPACE}.pathfinder.gov.bc.ca"
+                  },
+                  {
+                    "name": "MINIO_ACCESS_KEY",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${MINIO_DEPLOYMENT_NAME}",
+                        "key": "accessKey"
+                      }
+                    }
+                  },
+                  {
+                    "name": "MINIO_SECRET_KEY",
+                    "valueFrom": {
+                      "secretKeyRef": {
+                        "name": "${MINIO_DEPLOYMENT_NAME}",
+                        "key": "secretKey"
+                      }
+                    }
+                  },
+                  {
+                    "name": "DOCUMENTS_BUCKET",
+                    "value": "${DOCUMENTS_BUCKET}"
+                  },
+                  {
+                    "name": "DATABASE_SERVICE_NAME",
+                    "value": "${DATABASE_SERVICE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_USER",
+                    "value": "${DATABASE_USER}"
+                  },
+                  {
+                    "name": "MONGODB_PASSWORD",
+                    "value": "${DATABASE_PASSWORD}"
+                  },
+                  {
+                    "name": "MONGODB_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "value": "${DATABASE_ADMIN_PASSWORD}"
+                  }
+                ],
+                "readinessProbe": {
+                  "failureThreshold": 3,
+                  "httpGet": {
+                    "path": "${READINESS_PROBE_URL}",
+                    "port": 3000,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 60,
+                  "periodSeconds": 3,                  
+                  "successThreshold": 1,
+                  "timeoutSeconds": 5
+                },
+                  "livenessProbe": {
+                    "failureThreshold": 3,
+                    "httpGet": {
+                      "path": "${LIVENESS_PROBE_URL}",
+                      "port": 3000,
+                      "scheme": "HTTP"
+                    },
+                    "initialDelaySeconds": 60,
+                    "periodSeconds": 3,                  
+                    "successThreshold": 1,
+                    "timeoutSeconds": 5
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_LIMIT}"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the minio server"
+        }
+      },
+      "spec": {
+        "replicas": 1,
+        "selector": {
+          "app": "minio",
+          "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+        },
+        "strategy": {
+          "activeDeadlineSeconds": 21600,
+          "recreateParams": {
+            "timeoutSeconds": 600
+          },
+          "resources": {},
+          "type": "Recreate"
+        },
+        "template": {
+          "metadata": {
+            "creationTimestamp": null,
+            "labels": {
+              "app": "minio",
+              "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [{
+              "env": [{
+                  "name": "MINIO_ACCESS_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "MINIO_ACCESS_KEY",
+                      "name": "${MINIO_DEPLOYMENT_NAME}"
+                    }
+                  }
+                },
+                {
+                  "name": "MINIO_SECRET_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "MINIO_SECRET_KEY",
+                      "name": "${MINIO_DEPLOYMENT_NAME}"
+                    }
+                  }
+                },
+                {
+                  "name": "MINIO_CONFIG_DIR",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "MINIO_DATA_DIR",
+                  "value": "/data"
+                }
+              ],
+              "image": "docker-registry.default.svc:5000/openshift/minio:stable",
+              "imagePullPolicy": "Always",
+              "name": "${MINIO_DEPLOYMENT_NAME}",
+              "ports": [{
+                "containerPort": 9000,
+                "protocol": "TCP"
+              }],
+              "resources": {
+                "limits" : {
+                  "cpu" : "150m",
+                  "memory" : "256Mi"
+                },
+                "requests" : {
+                  "cpu" : "50m",
+                  "memory" : "128Mi"
+                }
+              },
+              "terminationMessagePath": "/dev/termination-log",
+              "terminationMessagePolicy": "File",
+              "volumeMounts": [{
+                "mountPath": "/data",
+                "name": "minio-vol"
+              }]
+            }],
+            "dnsPolicy": "ClusterFirst",
+            "restartPolicy": "Always",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30,
+            "volumes": [{
+              "name": "minio-vol",
+              "persistentVolumeClaim": {
+                "claimName": "${MINIO_VOLUME_NAME}"
+              }
+            }]
+          }
+        },
+        "test": false,
+        "triggers": [{
+            "type": "ConfigChange"
+          },
+          {
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "minio"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "minio:stable",
+                "namespace": "openshift"
+              }
+            },
+            "type": "ImageChange"
+          }
+        ]
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APP_NAME}"
+      },
+      "spec": {
+        "host": "${APPLICATION_DOMAIN}",
+        "to": {
+          "kind": "Service",
+          "name": "${APP_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Route",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${API_NAME}"
+        }
+      },
+      "spec": {
+        "port": {
+          "targetPort": "8080-tcp"
+        },
+        "to": {
+          "kind": "Service",
+          "name": "${MINIO_DEPLOYMENT_NAME}",
+          "weight": 100
+        },  
+        "tls": {
+          "termination": "edge"
+        }
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the database"
+        }
+      },
+      "spec": {
+        "strategy": {
+          "type": "Recreate"
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "mongodb"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "openshift",
+                "name": "mongodb:3.4"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        },
+        "template": {
+          "metadata": {
+            "name": "${DATABASE_SERVICE_NAME}",
+            "labels": {
+              "name": "${DATABASE_SERVICE_NAME}"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "mongodb",
+                "image": "docker-registry.default.svc:5000/openshift/mongodb:3.4",
+                "imagePullPolicy": "Always",
+                "ports": [
+                  {
+                    "containerPort": 27017
+                  }
+                ],
+                "env": [
+                  {
+                    "name": "MONGODB_USER",
+                    "value": "${DATABASE_USER}"
+                  },
+                  {
+                    "name": "MONGODB_PASSWORD",
+                    "value": "${DATABASE_PASSWORD}"
+                  },
+                  {
+                    "name": "MONGODB_DATABASE",
+                    "value": "${DATABASE_NAME}"
+                  },
+                  {
+                    "name": "MONGODB_ADMIN_PASSWORD",
+                    "value": "${DATABASE_ADMIN_PASSWORD}"
+                  }
+                ],
+                "readinessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 3,
+                  "exec": {
+                    "command": ["/bin/sh", "-i", "-c", "mongo 127.0.0.1:27017/$MONGODB_DATABASE -u $MONGODB_USER -p $MONGODB_PASSWORD --eval='quit()'"]
+
+                  }
+                },
+                "livenessProbe": {
+                  "timeoutSeconds": 1,
+                  "initialDelaySeconds": 30,
+                  "tcpSocket": {
+                    "port": 27017
+                  }
+                },
+                "resources": {
+                  "limits": {
+                    "memory": "${MEMORY_MONGODB_LIMIT}"
+                  }
+                },
+                "volumeMounts": [
+                  {
+                    "name": "${DATABASE_SERVICE_NAME}-data",
+                    "mountPath": "/var/lib/mongodb/data"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "${DATABASE_SERVICE_NAME}-data",
+                "persistentVolumeClaim": {
+                  "claimName": "${DATABASE_SERVICE_NAME}-data"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${APP_NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the pods for esm-server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 3000,
+            "targetPort": 3000
+          }
+        ],
+        "selector": {
+          "name": "${APP_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}",
+        "annotations": {
+          "description": "Exposes the database server"
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "mongodb",
+            "port": 27017,
+            "targetPort": 27017
+          }
+        ],
+        "selector": {
+          "name": "${DATABASE_SERVICE_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${MINIO_DEPLOYMENT_NAME}"
+        },
+        "annotations": {
+          "description": "Exposes the minio server"
+        }
+      },
+      "spec": {
+        "ports": [{
+          "name": "9000-tcp",
+          "port": 9000,
+          "protocol": "TCP",
+          "targetPort": 9000
+        }],
+        "selector": {
+          "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
+        }
+      }
+    },
+    {
+      "kind": "Secret",
+      "type": "Opaque",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_DEPLOYMENT_NAME}",
+        "labels": {
+          "app": "${MINIO_DEPLOYMENT_NAME}"
+        }
+      },
+      "stringData": {
+        "accessKey": "${MINIO_ACCESS_KEY}",
+        "secretKey": "${MINIO_SECRET_KEY}"
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${MINIO_VOLUME_NAME}"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${MINIO_VOLUME_CAPACITY}"
+          }
+        }
+      }
+    },
+    {
+      "kind": "PersistentVolumeClaim",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${DATABASE_SERVICE_NAME}-data"
+      },
+      "spec": {
+        "accessModes": [
+          "ReadWriteOnce"
+        ],
+        "resources": {
+          "requests": {
+            "storage": "${DATABASE_VOLUME_CAPACITY}"
+          }
+        }
+      }
+    }
+  ],
+  "parameters": [
+    {
+      "name": "APP_NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "esm-server"
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the Node.js container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "MEMORY_MONGODB_LIMIT",
+      "displayName": "Memory Limit (MongoDB)",
+      "description": "Maximum amount of memory the MongoDB container can use.",
+      "value": "512Mi"
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "DATABASE_SERVICE_NAME",
+      "displayName": "Database Service Name",
+      "value": "mongodb"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "MongoDB Username",
+      "description": "Username for MongoDB user that will be used for accessing the database.",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}",
+      "required": true
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "MongoDB Password",
+      "description": "Password for the MongoDB user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "value": "esm"
+    },
+    {
+      "name": "DATABASE_ADMIN_PASSWORD",
+      "displayName": "Database Administrator Password",
+      "description": "Password for the database admin user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
+    },
+    {
+      "name": "PORT",
+      "displayName": "Application port",
+      "description": "Port that application is listening on for requests.",
+      "value": "3000",
+      "required": true
+    },
+    {
+      "name": "READINESS_PROBE_URL",
+      "displayName": "Readiness probe URL",
+      "description": "URL that can be used to determine if application is 'ready'.",
+      "value": "/",
+      "required": true
+    },
+    {
+      "name": "LIVENESS_PROBE_URL",
+      "displayName": "Liveness probe URL",
+      "description": "URL that can be used to determine if application is 'live'.",
+      "value": "/",
+      "required": true
+    },
+    {
+      "name": "DATABASE_VOLUME_CAPACITY",
+      "displayName": "Database Volume Capacity",
+      "description": "Volume space available for mongo database, e.g. 512Mi, 2Gi.",
+      "value": "1Gi",
+      "required": true
+    },
+    {
+      "name": "APP_IMAGE_NAME",
+      "displayName": "Application image name.",
+      "description": "Application image name.",
+      "value": "esm-server",
+      "required": true
+    },
+    {
+      "name": "PROJECT_NAMESPACE",
+      "displayName": "The project namespace where the deployment is going to be provisioned.",
+      "description": "The project namespace where the deployment is going to be provisioned.",
+      "value": "esm-dev",
+      "required": true
+    },
+    {
+      "name": "APP_IMAGE_NAMESPACE",
+      "displayName": "Namespace containing application images.",
+      "description": "Namespace containing application images.",
+      "value": "esm",
+      "required": true
+    },
+    {
+      "name": "APP_DEPLOYMENT_TAG",
+      "displayName": "Image tag to watch for changes and trigger deployment.",
+      "description": "Image tag to watch for changes and trigger deployment.",
+      "value": "dev",
+      "required": true
+    },
+    {
+      "name": "MINIO_DEPLOYMENT_NAME",
+      "displayName": "Minio deployment name",
+      "description": "The name given to the minio instance deployment.",
+      "value": "minio-esm",
+      "required": true
+    },
+    {
+      "name": "MINIO_ACCESS_KEY",
+      "displayName": "The Minio access key",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{12}",
+      "required": true
+    },
+    {
+      "name": "MINIO_SECRET_KEY",
+      "displayName": "The Minio secret key",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}",
+      "required": true
+    },
+    {
+      "name": "MINIO_VOLUME_NAME",
+      "displayName": "Name of the minio storage PV",
+      "required": true,
+      "value": "minio-esm-data"
+    },
+    {
+      "name": "MINIO_VOLUME_CAPACITY",
+      "displayName": "Size of minio storage PV in Gi. This is the volume used for storing uploaded documents.",
+      "from": "[0-9]{3}Gi",
+      "value": "3Gi",
+      "required": true
+    },
+    {
+      "name": "DOCUMENTS_BUCKET",
+      "displayName": "Documents Bucket",
+      "description": "Minio bucket where documents will be uploaded to.",
+      "value": "uploads",
+      "required": true
+    }
+  ]
+}

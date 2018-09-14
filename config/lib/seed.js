@@ -1,13 +1,11 @@
 'use strict';
 
 var mongoose = require('mongoose');
-var chalk         = require('chalk');
-var _             = require('lodash');
-var Integration  = mongoose.model ('Integration');
-var Template  = mongoose.model ('Template');
-var promise = require ('promise');
+var chalk = require('chalk');
+var Integration = mongoose.model('Integration');
+var promise = require('promise');
 
-console.log(chalk.bold.red('Warning:  Database seeding is turned on'));
+console.log(chalk.bold.red('Database seeding: Enabled')); //eslint-disable-line
 
 // =========================================================================
 //
@@ -34,12 +32,12 @@ var FORCE = false;
 //
 // -------------------------------------------------------------------------
 var writeFunction = function (iDocument) {
-	return function (data, stop) {
-		iDocument.output += ( data + "<br>\n" );
-		if (stop) {
-			return iDocument.save ();
-		}
-	};
+  return function (data, stop) {
+    iDocument.output += (data + "<br>\n");
+    if (stop) {
+      return iDocument.save();
+    }
+  };
 };
 // -------------------------------------------------------------------------
 //
@@ -47,160 +45,163 @@ var writeFunction = function (iDocument) {
 //
 // -------------------------------------------------------------------------
 var checkIntegration = function (name, override) {
-	return new promise (function (resolve, reject) {
-		if (!FORCE && override) return resolve (true);
-		Integration.findOne ({module:name}, function (err, row) {
-			if (err) {
-				console.error ('Error seeding '+name+' : ', err);
-				reject (err);
-			}
-			else if (!FORCE && row) {
-				console.log ('seeding :' + name + ' has already been performed');
-				reject ('seeding :' + name + ' has already been performed');
-			}
-			else {
-				console.log ('seeding :' + name);
-				var i = new Integration ({module:name});
-				i.save ();
-				//
-				// resolve with the function that can write to Integration
-				//
-				resolve (writeFunction (i, name));
-			}
-		});
-	});
+  return new promise(function (resolve, reject) {
+    if (!FORCE && override) {
+      return resolve(true);
+    }
+    Integration.findOne({
+      module: name
+    }, function (err, row) {
+      if (err) {
+        console.error('Error seeding ' + name + ' : ', err); //eslint-disable-line
+        reject(err);
+      } else if (!FORCE && row) {
+        console.log('seeding :' + name + ' has already been performed'); //eslint-disable-line
+        reject('seeding :' + name + ' has already been performed');
+      } else {
+        console.log('seeding :' + name); //eslint-disable-line
+        var i = new Integration({
+          module: name
+        });
+        i.save();
+        //
+        // resolve with the function that can write to Integration
+        //
+        resolve(writeFunction(i, name));
+      }
+    });
+  });
 };
 
-var seedingAsync = function() {
-	console.log('begin asynchronous seeding...');
+var seedingAsync = function () {
+  console.log('begin asynchronous seeding...'); //eslint-disable-line
 
-// -------------------------------------------------------------------------
-//
-// configurations
-//
-// -------------------------------------------------------------------------
-	checkIntegration('newconfigs3').then(function () {
-		require('../seed-data/newconfigs')(true);
-	});
-	checkIntegration('commentconfigs1').then(function () {
-		require('../seed-data/commenting-configs')(true);
-	});
+  // -------------------------------------------------------------------------
+  //
+  // configurations
+  //
+  // -------------------------------------------------------------------------
+  checkIntegration('newconfigs3').then(function () {
+    require('../seed-data/newconfigs')(true);
+  });
+  checkIntegration('commentconfigs1').then(function () {
+    require('../seed-data/commenting-configs')(true);
+  });
 
-// -------------------------------------------------------------------------
-//
-// configurations
-//
-// -------------------------------------------------------------------------
-	checkIntegration('sysroles').then(function () {
-		require('../seed-data/loadroles').sysroles();
-	});
-
-
-// -------------------------------------------------------------------------
-//
-// Topics
-//
-// -------------------------------------------------------------------------
-	checkIntegration('loadtopics5').then(function () {
-		require('../seed-data/loadtopics')();
-	});
-
-// -------------------------------------------------------------------------
-//
-// artifact types
-//
-// -------------------------------------------------------------------------
-	checkIntegration('loadartifacts81').then(function () {
-		require('../seed-data/loadartifacts')();
-	});
-// -------------------------------------------------------------------------
-//
-// artifacts etc for decision packages
-//
-// -------------------------------------------------------------------------
-	checkIntegration('decisions7').then(function () {
-		require('../seed-data/decisions')();
-	});
-
-// -------------------------------------------------------------------------
-//
-// default project roles
-//
-// -------------------------------------------------------------------------
-	checkIntegration('defaultprojectroles').then(function () {
-		require('../seed-data/loadprojectroles')();
-	});
-
-// -------------------------------------------------------------------------
-//
-// default project roles
-//
-// -------------------------------------------------------------------------
-	checkIntegration('emailtemplates3').then(function () {
-		require('../seed-data/loademailtemplates')();
-	});
-
-// =========================================================================
-//
-// THings in this section are split into production and non-production
-//
-// =========================================================================
-	if (process.env.NODE_ENV === 'production') {
-		// -------------------------------------------------------------------------
-		//
-		// add production admin user
-		//
-		// -------------------------------------------------------------------------
-		require('../seed-data/users-production')();
-	}
-	else {
-		// -------------------------------------------------------------------------
-		//
-		// add non-production test user accounts
-		//
-		// -------------------------------------------------------------------------
-		require('../seed-data/users-other')();
-		// -------------------------------------------------------------------------
-		//
-		// MEM
-		//
-		// -------------------------------------------------------------------------
-		checkIntegration('loadmem').then(function () {
-			require('../seed-data/loadmem')();
-		});
-		// -------------------------------------------------------------------------
-		//
-		// MEM
-		//
-		// -------------------------------------------------------------------------
-		checkIntegration('orgload').then(function () {
-			require('../seed-data/orgload')();
-		});
-
-	}
-	checkIntegration('sysroles2').then(function () {
-		require('../seed-data/loadroles').sysroles2();
-	});
-
-	checkIntegration('sysroles2x1').then(function () {
-		require('../seed-data/loadroles').sysroles2();
-	});
-
-	checkIntegration('sysroles3').then(function () {
-		require('../seed-data/loadroles').sysroles3();
-	});
+  // -------------------------------------------------------------------------
+  //
+  // configurations
+  //
+  // -------------------------------------------------------------------------
+  checkIntegration('sysroles').then(function () {
+    require('../seed-data/loadroles').sysroles();
+  });
 
 
-	checkIntegration('app-20160727.10').then(function () {
-		require('../seed-data/application')();
-	});
+  // -------------------------------------------------------------------------
+  //
+  // Topics
+  //
+  // -------------------------------------------------------------------------
+  checkIntegration('loadtopics5').then(function () {
+    require('../seed-data/loadtopics')();
+  });
 
-	checkIntegration('folders-20170216.21').then(function () {
-		require('../seed-data/folders')();
-	});
-	checkIntegration('codelists-20170506').then(function () {
-		require('../seed-data/codelist')();
-	});
+  // -------------------------------------------------------------------------
+  //
+  // artifact types
+  //
+  // -------------------------------------------------------------------------
+  checkIntegration('loadartifacts81').then(function () {
+    require('../seed-data/loadartifacts')();
+  });
+  // -------------------------------------------------------------------------
+  //
+  // artifacts etc for decision packages
+  //
+  // -------------------------------------------------------------------------
+  checkIntegration('decisions7').then(function () {
+    require('../seed-data/decisions')();
+  });
+
+  // -------------------------------------------------------------------------
+  //
+  // default project roles
+  //
+  // -------------------------------------------------------------------------
+  checkIntegration('defaultprojectroles').then(function () {
+    require('../seed-data/loadprojectroles')();
+  });
+
+  // -------------------------------------------------------------------------
+  //
+  // default project roles
+  //
+  // -------------------------------------------------------------------------
+  checkIntegration('emailtemplates3').then(function () {
+    require('../seed-data/loademailtemplates')();
+  });
+
+  // =========================================================================
+  //
+  // THings in this section are split into production and non-production
+  //
+  // =========================================================================
+  if (process.env.NODE_ENV === 'production') {
+    // -------------------------------------------------------------------------
+    //
+    // add production admin user
+    //
+    // -------------------------------------------------------------------------
+    require('../seed-data/users-production')();
+  } else {
+    // -------------------------------------------------------------------------
+    //
+    // add non-production test user accounts
+    //
+    // -------------------------------------------------------------------------
+    require('../seed-data/users-other')();
+    // -------------------------------------------------------------------------
+    //
+    // MEM
+    //
+    // -------------------------------------------------------------------------
+    checkIntegration('loadmem').then(function () {
+      require('../seed-data/loadmem')();
+    });
+    // -------------------------------------------------------------------------
+    //
+    // MEM
+    //
+    // -------------------------------------------------------------------------
+    checkIntegration('orgload').then(function () {
+      require('../seed-data/orgload')();
+    });
+
+  }
+  checkIntegration('sysroles2').then(function () {
+    require('../seed-data/loadroles').sysroles2();
+  });
+
+  checkIntegration('sysroles2x1').then(function () {
+    require('../seed-data/loadroles').sysroles2();
+  });
+
+  checkIntegration('sysroles3').then(function () {
+    require('../seed-data/loadroles').sysroles3();
+  });
+
+
+  checkIntegration('app-20160727.10').then(function () {
+    require('../seed-data/application')();
+  });
+
+  checkIntegration('folders-20170216.21').then(function () {
+    require('../seed-data/folders')();
+  });
+  checkIntegration('codelists-20170506').then(function () {
+    require('../seed-data/codelist')();
+  });
 
 };
 
@@ -210,13 +211,13 @@ var seedingAsync = function() {
 //
 // =========================================================================
 
-checkIntegration ('defaults14')
-	.then(function(){
-		require('../seed-data/defaults')()
-			.then(seedingAsync);
-		},
-		function() {
-			// defaults have been seeded, but we should check the other stuff...
-			seedingAsync();
-		}
-	);
+checkIntegration('defaults14')
+  .then(
+    function () {
+      require('../seed-data/defaults')()
+        .then(seedingAsync);
+    },
+    function () {
+      // defaults have been seeded, but we should check the other stuff...
+      seedingAsync();
+    });
