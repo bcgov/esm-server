@@ -216,7 +216,16 @@
                 "containerPort": 9000,
                 "protocol": "TCP"
               }],
-              "resources": {},
+              "resources": {
+                "limits" : {
+                  "cpu" : "150m",
+                  "memory" : "256Mi"
+                },
+                "requests" : {
+                  "cpu" : "50m",
+                  "memory" : "128Mi"
+                }
+              },
               "terminationMessagePath": "/dev/termination-log",
               "terminationMessagePolicy": "File",
               "volumeMounts": [{
