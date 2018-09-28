@@ -6,21 +6,19 @@
 </div>
 
 <div class="view-body-container">
-
   <!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
   <div class="pcp-banner" ng-if="activeperiod">
     <section class="pcp-info">
-      <h2>Public Comment Period <span class="break">is Now Open</span></h2>
+      <h2>Public Comment Period <span class="break">is Currently <strong>{{activeperiod.periodStatus}}</strong></span></h2>
       <span class="pcp-dates"><strong>{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
       <span class="pcp-desc">
         This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.ceaaInformationLabel"> and the <strong>{{activeperiod.ceaaInformationLabel}}</strong></span>.
       </span>
       <div class="pcp-banner-btns">
-        <a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
+        <a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})" ng-if="authentication.user">
           <span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
         </a>
-        <span class="spacer">OR</span>
-        <button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
+        <button class="btn btn-primary" ng-if="(allowCommentSubmit && authentication.user) || (activeperiod.periodStatus == 'Open')" x-add-public-comment x-project="project" x-period="activeperiod">
           <span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
         </button>
       </div>
@@ -59,12 +57,12 @@
           <span class="count">{{p.stats.totalPublic}}</span>
         </td>
         <td class="actions-col" header-class="'actions-col x1'" ng-if="project.userCan.createCommentPeriod">
-          
+
           <div class="btn-group">
-            <button class="btn icon-btn dropdown-toggle" 
+            <button class="btn icon-btn dropdown-toggle"
               popover-class="context-menu"
               popover-placement="bottom-right auto"
-              popover-trigger="'focus'" 
+              popover-trigger="'focus'"
               uib-popover-template="'pcp-list-menu.html'">
               <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
             </button>

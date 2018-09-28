@@ -266,6 +266,7 @@ $pcp-comment-icon-color: #ccc;
       @include flex(1 1 auto);
       padding: 1rem;
       border: $pcp-btn-border;
+      margin: 1rem;
       border-radius: 0.25rem;
       background-color: $pcp-btn-bg;
       color: $pcp-btn-color;
