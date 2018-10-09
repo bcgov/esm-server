@@ -127,7 +127,6 @@ module.exports = function (app) {
         if (req.file) {
           return MinioController.putDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, req.file.originalname, req.file.path)
             .then(function(minioFile){
-              console.log("AIO!", minioFile); //eslint-disable-line
               return new Promise (function (resolve, reject) {
                 var modelData = {
                   // Metadata related to this specific document that has been uploaded.
@@ -175,6 +174,9 @@ module.exports = function (app) {
               })
             })
             .catch(function(error) {
+              // remove file from temp folder
+              fs.unlink(req.file.path);
+
               // general catch all
               return Promise.reject(error);
             });
