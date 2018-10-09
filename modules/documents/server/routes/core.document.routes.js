@@ -10,6 +10,7 @@ var DocumentClass = require('../controllers/core.document.controller');
 var routes = require('../../../core/server/controllers/core.routes.controller');
 var policy = require('../../../core/server/controllers/core.policy.controller');
 var MinioController = require('../../../core/server/controllers/core.minio.controller');
+var fs = require('fs');
 var Multer = require('multer');
 
 module.exports = function (app) {
@@ -121,11 +122,12 @@ module.exports = function (app) {
    */
   app.route ('/api/commentdocument/:project/upload')
     .all (policy ('guest'))
-    .post (Multer({storage: Multer.memoryStorage()}).single('file'), //in-memory upload using multer
+    .post (Multer({storage: Multer.diskStorage({})}).single('file'), // upload using multer
       routes.setAndRun (DocumentClass, function (model, req) {
         if (req.file) {
-          return MinioController.putDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, req.file.originalname, req.file.buffer)
+          return MinioController.putDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, req.file.originalname, req.file.path)
             .then(function(minioFile){
+              console.log("AIO!", minioFile); //eslint-disable-line
               return new Promise (function (resolve, reject) {
                 var modelData = {
                   // Metadata related to this specific document that has been uploaded.
@@ -159,6 +161,9 @@ module.exports = function (app) {
                   directoryID             : req.body.directoryid || 0
                 };
 
+                // remove file from temp folder
+                fs.unlink(req.file.path);
+
                 return model.create(modelData)
                   .then(function (response) {
                     resolve(response);
@@ -186,10 +191,10 @@ module.exports = function (app) {
    */
   app.route ('/api/document/:project/upload')
     .all (policy ('guest'))
-    .post (Multer({storage: Multer.memoryStorage()}).single('file'), //in-memory upload using multer
+    .post (Multer({storage: Multer.diskStorage({})}).single('file'), // upload using multer
       routes.setAndRun (DocumentClass, function (model, req) {
         if (req.file) {
-          return MinioController.putDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, req.file.originalname, req.file.buffer)
+          return MinioController.putDocument(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Project.code, req.file.originalname, req.file.path)
             .then(function(minioFile){
               return new Promise (function (resolve, reject) {
                 var readPermissions = null;
@@ -240,7 +245,10 @@ module.exports = function (app) {
                   directoryID             : req.body.directoryid || 0,
                   displayName             : req.body.displayname || req.body.documentfilename || req.file.originalname,
                   dateUploaded            : req.body.dateuploaded
-                }
+                };
+
+                // remove file from temp folder
+                fs.unlink(req.file.path);
 
                 return model.create(modelData, req.headers.inheritmodelpermissionid, readPermissions)
                   .then(function (response) {

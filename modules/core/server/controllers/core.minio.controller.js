@@ -78,10 +78,10 @@ var bucketExists = function (bucket) {
  * @param bucket the Minio bucket
  * @param projectCode a project code
  * @param fileName the name of the file
- * @param buffer the buffer containing the streamed file contents
+ * @param pathOnDisk the path to the file being uploaded
  * @return a promise that resolves with an object containing the uploaded file information
  */
-var putDocument = function (bucket, projectCode, fileName, buffer) {
+var putDocument = function (bucket, projectCode, fileName, pathOnDisk) {
   if (isValidBucket(bucket)) {
     return bucketExists(bucket)
       .then(function (exists) {
@@ -95,12 +95,14 @@ var putDocument = function (bucket, projectCode, fileName, buffer) {
         var newFileName = getRandomizedFileName() + (fileExtension ? '.' + fileExtension : '');
         var filePath = path.posix.join(projectCode, newFileName);
         // upload the file to minio
-        minioClient.putObject(bucket, filePath, buffer);
-        return {
-          fullName: newFileName,
-          extension: fileExtension,
-          path: filePath
-        };
+        return minioClient.fPutObject(bucket, filePath, pathOnDisk)
+          .then(function(){
+            return {
+              fullName: newFileName,
+              extension: fileExtension,
+              path: filePath
+            };
+          });
       });
   } else {
     return Promise.reject('[' + bucket + '] is not a valid bucket');
