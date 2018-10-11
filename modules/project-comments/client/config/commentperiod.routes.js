@@ -45,9 +45,19 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
           return CommentPeriodModel.forProject (project._id)
             .then( function (periods) {
               var openPeriod = null;
+
               _.each(periods, function (period) {
                 if (period.openState.state === CommentPeriodModel.OpenStateEnum.open) {
                   openPeriod = period;
+                  openPeriod.periodStatus = "Open";
+                  return false;
+                }else if (beforePeriodCheck(period)){
+                  openPeriod = period;
+                  openPeriod.periodStatus = "Pending";
+                  return false;
+                }else if (afterPeriodCheck(period)){
+                  openPeriod = period;
+                  openPeriod.periodStatus = "Closed";
                   return false;
                 }
               });
@@ -62,10 +72,17 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, CommentPeriodModel, AlertService) {
         var s = this;
         $scope.activeperiod = null;
-        if (activeperiod) {
-        // Switch on the UI for comment period
-          $scope.activeperiod = activeperiod;
-          $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+        if (activeperiod){
+          // Switch on the UI for comment period depending on 'Open', 'Pending', 'Closed' status
+          if (activeperiod.periodStatus === "Open") {
+            $scope.activeperiod = activeperiod;
+            $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+          }else if(activeperiod.periodStatus === "Pending") {
+            $scope.activeperiod = activeperiod;
+          }else if(activeperiod.periodStatus === "Closed") {
+            $scope.activeperiod = activeperiod;
+            $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+          }
         }
         var ps = _.map(periods, function(p) {
           var openForComment = p.openState.state === CommentPeriodModel.OpenStateEnum.open;
@@ -668,6 +685,34 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       if(isChanged) {$scope.ui.rOption = customOption;}
     }
     periodChange($scope);
+  }
+
+  //Checks the current date to see if it falls into the '7' day window before opening
+  function beforePeriodCheck(period){
+    var startDate= new Date(period.dateStarted);
+    var beforeDate = new Date(period.dateStarted);
+    var currentDate = new Date();
+    currentDate.setDate(currentDate.getDate());
+    beforeDate.setDate(beforeDate.getDate() - 7);
+    if (beforeDate <= currentDate && currentDate <= startDate){
+      return true;
+    }else {
+      return false;
+    }
+  }
+
+  //Checks the current date to see if it falls into the '7' day window after closing
+  function afterPeriodCheck(period){
+    var endDate= new Date(period.dateCompleted);
+    var afterDate = new Date(period.dateCompleted);
+    var currentDate = new Date();
+    currentDate.setDate(currentDate.getDate());
+    afterDate.setDate(afterDate.getDate() + 7);
+    if (endDate <= currentDate && currentDate <= afterDate){
+      return true;
+    }else {
+      return false;
+    }
   }
 
   /**
