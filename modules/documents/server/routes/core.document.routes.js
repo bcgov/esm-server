@@ -117,12 +117,11 @@ module.exports = function (app) {
         // check if the file exists in Minio
         return MinioController.statObject(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL)
           .then(function(objectMeta){
-            if(!objectMeta){
-              renderNotFound(req.originalUrl, res);
-            }
             fileMeta = objectMeta;
             // get the download URL
             return MinioController.getPresignedGETUrl(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL);
+          }, function(){
+            renderNotFound(req.originalUrl, res);
           })
           .then(function (docURL) {
             // stream file from Minio to client
