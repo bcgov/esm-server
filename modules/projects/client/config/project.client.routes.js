@@ -65,6 +65,15 @@ angular.module('project').config (
                   _.each(periods, function (period) {
                     if (period.openState.state === CommentPeriodModel.OpenStateEnum.open) {
                       openPeriod = period;
+                      openPeriod.periodStatus = "is Open";
+                      return false;
+                    }else if (beforePeriodCheck(period)){
+                      openPeriod = period;
+                      openPeriod.periodStatus = "will Open";
+                      return false;
+                    }else if (afterPeriodCheck(period)){
+                      openPeriod = period;
+                      openPeriod.periodStatus = "is Closed";
                       return false;
                     }
                   });
@@ -78,11 +87,13 @@ angular.module('project').config (
           },controller: function ($scope, $state, project, ProjectModel, $window, activeperiod) {
             $scope.project = project;
             $scope.activeperiod = null;
-
-            if (activeperiod) {
-              // Switch on the UI for comment period
+            $scope.allowCommentSubmit = null;
+            if (activeperiod){
               $scope.activeperiod = activeperiod;
-              $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+              // Switch on the UI for comment period depending on 'Open', 'Pending', 'Closed' status
+              if (activeperiod.periodStatus === "is Open" || activeperiod.periodStatus === "is Closed") {
+                $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
+              }
             }
 
             // complete the current phase.
@@ -767,4 +778,32 @@ angular.module('project').config (
             }
           }
         });
+
+      //Checks the current date to see if it falls into the '7' day window before opening
+      function beforePeriodCheck(period){
+        var startDate= new Date(period.dateStarted);
+        var beforeDate = new Date(period.dateStarted);
+        var currentDate = new Date();
+        currentDate.setDate(currentDate.getDate());
+        beforeDate.setDate(beforeDate.getDate() - 7);
+        if (beforeDate <= currentDate && currentDate <= startDate){
+          return true;
+        }else {
+          return false;
+        }
+      }
+
+      //Checks the current date to see if it falls into the '7' day window after closing
+      function afterPeriodCheck(period){
+        var endDate= new Date(period.dateCompleted);
+        var afterDate = new Date(period.dateCompleted);
+        var currentDate = new Date();
+        currentDate.setDate(currentDate.getDate());
+        afterDate.setDate(afterDate.getDate() + 7);
+        if (endDate <= currentDate && currentDate <= afterDate){
+          return true;
+        }else {
+          return false;
+        }
+      }
     }]);
