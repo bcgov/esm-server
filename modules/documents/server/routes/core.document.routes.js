@@ -1,4 +1,5 @@
 'use strict';
+
 // =========================================================================
 //
 // Routes for Documents
@@ -6,12 +7,16 @@
 // Does not use the normal crud routes, mostly special sauce
 //
 // =========================================================================
+var fs = require('fs');
+var Multer = require('multer');
+var os = require('os');
+var path = require('path');
+var rp = require('request-promise-native');
+
 var DocumentClass = require('../controllers/core.document.controller');
 var routes = require('../../../core/server/controllers/core.routes.controller');
 var policy = require('../../../core/server/controllers/core.policy.controller');
 var MinioController = require('../../../core/server/controllers/core.minio.controller');
-var fs = require('fs');
-var Multer = require('multer');
 
 module.exports = function (app) {
   //
@@ -108,12 +113,65 @@ module.exports = function (app) {
       if (req.Document.internalURL.match(/^(http|ftp)/)) {
         return res.redirect(req.Document.internalURL);
       } else {
-        return MinioController.getPresignedGETUrl(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL)
+        var fileName = req.Document.displayName;
+        var tmpFile = path.join(os.tmpdir(), fileName);
+        var fileMeta;
+
+        // check if the file exists in Minio
+        return MinioController.statObject(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL)
+          .then(function(objectMeta){
+            if(!objectMeta){
+              renderNotFound(req.originalUrl, res);
+            }
+            fileMeta = objectMeta;
+            // get the download URL
+            return MinioController.getPresignedGETUrl(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL);
+          })
           .then(function (docURL) {
-            res.redirect(docURL);
+            // download file from Minio to local file system
+            return rp(docURL).pipe(fs.createWriteStream(tmpFile));
+          })
+          .then(function (wStream) {
+            // wait for the file to be available, and stream it back in the response
+            return new Promise(function(resolve){
+              wStream.on('close', function(){
+                var stream 	= fs.createReadStream(tmpFile);
+                res.setHeader('Content-Length', fileMeta.size);
+                res.setHeader('Content-Type', fileMeta.metaData['content-type']);
+                res.setHeader('Content-Disposition', 'attachment;filename="' + fileName + '"');
+                stream.pipe(res);
+                resolve();
+              })
+            });
+          })
+          .then(function(){
+            // remove tmpFile
+            fs.unlink(tmpFile);
+          })
+          .catch(function(){
+            // remove tmpFile
+            fs.unlink(tmpFile);
           });
       }
     });
+
+  function renderNotFound (url, res) {
+    res.status(404).format({
+      'text/html': function () {
+        res.render('modules/core/server/views/404', {
+          url: url
+        });
+      },
+      'application/json': function () {
+        res.json({
+          error: 'Path not found'
+        });
+      },
+      'default': function () {
+        res.send('Path not found');
+      }
+    });
+  }
 
   /**
    * Adds a new commentDocument to Minio and a new database record for the given file.
