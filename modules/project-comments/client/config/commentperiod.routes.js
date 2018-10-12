@@ -49,15 +49,15 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
               _.each(periods, function (period) {
                 if (period.openState.state === CommentPeriodModel.OpenStateEnum.open) {
                   openPeriod = period;
-                  openPeriod.periodStatus = "Open";
+                  openPeriod.periodStatus = "is Open";
                   return false;
                 }else if (beforePeriodCheck(period)){
                   openPeriod = period;
-                  openPeriod.periodStatus = "Pending";
+                  openPeriod.periodStatus = "will Open";
                   return false;
                 }else if (afterPeriodCheck(period)){
                   openPeriod = period;
-                  openPeriod.periodStatus = "Closed";
+                  openPeriod.periodStatus = "is Closed";
                   return false;
                 }
               });
@@ -72,15 +72,11 @@ angular.module('comment').config(['$stateProvider', 'moment', "_", function ($st
       controller: function ($scope, $state, NgTableParams, periods, activeperiod, project, CommentPeriodModel, AlertService) {
         var s = this;
         $scope.activeperiod = null;
+        $scope.allowCommentSubmit = null;
         if (activeperiod){
+          $scope.activeperiod = activeperiod;
           // Switch on the UI for comment period depending on 'Open', 'Pending', 'Closed' status
-          if (activeperiod.periodStatus === "Open") {
-            $scope.activeperiod = activeperiod;
-            $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
-          }else if(activeperiod.periodStatus === "Pending") {
-            $scope.activeperiod = activeperiod;
-          }else if(activeperiod.periodStatus === "Closed") {
-            $scope.activeperiod = activeperiod;
+          if (activeperiod.periodStatus === "is Open" || activeperiod.periodStatus === "is Closed") {
             $scope.allowCommentSubmit = (activeperiod.userCan.addComment) || activeperiod.userCan.vetComments;
           }
         }

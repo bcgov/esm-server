@@ -23,23 +23,22 @@
 <div class="view-body-container project-details">
 
 	<!-- PUBLIC COMMENT PERIOD IF ACTIVE -->
-	<div class="pcp-banner" ng-if="activeperiod">
-		<section class="pcp-info">
-			<h2>Public Comment Period <span class="break">is Now Open</span></h2>
-			<span class="pcp-dates"><strong>{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
-			<span class="pcp-desc">
-				This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.ceaaInformationLabel"> and the <strong>{{activeperiod.ceaaInformationLabel}}</strong></span> for the <strong>{{project.name}}</strong> project.
-			</span>
-			<div class="pcp-banner-btns">
-				<a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})">
-					<span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
-				</a>
-				<span class="spacer">OR</span>
-				<button class="btn btn-primary" ng-if="allowCommentSubmit" x-add-public-comment x-project="project" x-period="activeperiod">
-					<span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
-				</button>
-			</div>
-		</section>
+  <div class="pcp-banner" ng-if="activeperiod">
+    <section class="pcp-info">
+      <h2>Public Comment Period <span class="break"><strong>{{activeperiod.periodStatus}}</strong></span></h2>
+      <span class="pcp-dates"><strong>{{ activeperiod.dateStarted | amDateFormat:'MMMM Do, YYYY' }}</strong> &nbsp;-&nbsp; <strong>{{ activeperiod.dateCompleted | amDateFormat:'MMMM Do, YYYY' }}</strong></span>
+      <span class="pcp-desc">
+        This Public Comment Period is regarding the <strong>{{activeperiod.informationLabel}}</strong><span ng-if="activeperiod.ceaaInformationLabel"> and the <strong>{{activeperiod.ceaaInformationLabel}}</strong></span>.
+      </span>
+      <div class="pcp-banner-btns">
+        <a class="btn btn-primary" title="View Details" ui-sref="p.commentperiod.detail({periodId:activeperiod._id})" ng-if="(activeperiod.periodStatus == 'is Open') || (activeperiod.periodStatus == 'is Closed')">
+          <span class="glyphicon glyphicon-th-list"></span><span>View Comments</span>
+        </a>
+        <button class="btn btn-primary" ng-if="(allowCommentSubmit && authentication.user) || (activeperiod.periodStatus == 'is Open')" x-add-public-comment x-project="project" x-period="activeperiod">
+          <span class="glyphicon glyphicon-comment"></span><span>Submit a Comment</span>
+        </button>
+      </div>
+    </section>
   </div>
 
 	<!-- PROJECT TIMELINE -->
