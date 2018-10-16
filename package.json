@@ -58,6 +58,8 @@
     "passport-unique-token": "0.1.4",
     "path": "0.12.7",
     "promise": "8.0.1",
+    "request": "2.88.0",
+    "request-promise-native": "1.0.5",
     "rss": "1.2.2",
     "serve-favicon": "2.5.0",
     "socket.io": "2.0.4",

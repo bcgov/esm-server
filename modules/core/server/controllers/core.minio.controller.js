@@ -24,7 +24,7 @@ exports.BUCKETS = BUCKETS;
 /**
  * Checks wether the provided bucket name is a valid (known) bucket.
  * @param bucket the name of the bucket
- * @return true if the bucket is valid, false otherwise
+ * @returns true if the bucket is valid, false otherwise
  */
 var isValidBucket = function (bucket) {
   if (bucket) {
@@ -39,7 +39,7 @@ var isValidBucket = function (bucket) {
 
 /**
  * Returns a 16-bit pseudo-random string to be used as file name for the storage.
- * @return a 16-bit pseudo-random string
+ * @returns a 16-bit pseudo-random string
  * @see https://github.com/expressjs/multer/blob/ee5188d7499dd19c8596fe011e6f6e53ea4778d6/storage/disk.js#L7-L11
  */
 var getRandomizedFileName = function () {
@@ -48,7 +48,7 @@ var getRandomizedFileName = function () {
 
 /**
  * Return the file extension, derived from the full file name
- * @return the file extension (ex: soemfile.txt => txt), or null if not extension is found (ex: somefile => null).
+ * @returns the file extension (ex: soemfile.txt => txt), or null if not extension is found (ex: somefile => null).
  */
 var getFileExtension = function (fileName) {
   return fileName.match(/\.([0-9a-z]+$)/i)[1];
@@ -57,7 +57,7 @@ var getFileExtension = function (fileName) {
 /**
  * Creates a Minio bucket with the given name
  * @param bucket the name of the bucket
- * @return a promise that resolves if the bucket was created successfully
+ * @returns a promise that resolves if the bucket was created successfully
  */
 var makeBucket = function (bucket) {
   return minioClient.makeBucket(bucket);
@@ -66,7 +66,7 @@ var makeBucket = function (bucket) {
 /**
  * Checks if the provided bucket name exists on Minio
  * @param bucket the name of the bucket
- * @return a promise that resolves with true if the bucket exists, false otherwise
+ * @returns a promise that resolves with true if the bucket exists, false otherwise
  */
 var bucketExists = function (bucket) {
   return minioClient.bucketExists(bucket);
@@ -79,7 +79,7 @@ var bucketExists = function (bucket) {
  * @param projectCode a project code
  * @param fileName the name of the file
  * @param pathOnDisk the path to the file being uploaded
- * @return a promise that resolves with an object containing the uploaded file information
+ * @returns a promise that resolves with an object containing the uploaded file information
  */
 var putDocument = function (bucket, projectCode, fileName, pathOnDisk) {
   if (isValidBucket(bucket)) {
@@ -132,7 +132,7 @@ exports.deleteDocument = deleteDocument;
  * The url can be used multiple times, but expires after 5 minutes.
  * @param bucket the name of the bucket where the object is stored
  * @param filePath the file path for the file to retrieve.  Typically something like "some-gold-mine/thisisarandomizedbtyestring12345.pdf"
- * @return a promise that resolves with the presigned url
+ * @returns a promise that resolves with the presigned url
  */
 var getPresignedGETUrl = function (bucket, filePath) {
   return minioClient.presignedGetObject(bucket, filePath, 5 * 60)
@@ -144,6 +144,23 @@ var getPresignedGETUrl = function (bucket, filePath) {
     });
 };
 exports.getPresignedGETUrl = getPresignedGETUrl;
+
+/**
+ * Gets the metadata for the specified object
+ * @param bucketName the name of the bucket where the object is stored
+ * @param objectName the name of the object being checked
+ * @returns a promise that resolves with the object metadata, or undefined if the object does not exist
+ */
+var statObject = function (bucketName, objectName) {
+  return minioClient.statObject(bucketName, objectName)
+    .then(function(stat, err){
+      if (err) {
+        return undefined;
+      }
+      return stat;
+    });
+}
+exports.statObject = statObject;
 
 /**
  * Wrappers for the above functions to add support for http request/response.
