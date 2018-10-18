@@ -8,14 +8,16 @@
 			<button class="btn btn-primary btn-sm"
 				ng-click="saveProject(projectForm.$valid)"
 				ng-if="project.status !== 'Initiated'"
-				type="submit">Save</button>
+        type="submit">Save
+        <span ng-show="hasErrors" class="glyphicon glyphicon-exclamation-sign"></button></button>
 			<button class="btn btn-danger btn-sm"
               	ng-click="deleteProject()"
               	ng-if="!isNew && !project.isPublished && project.userCan.delete">
 				<span class="glyphicon glyphicon-trash"></span><span>Delete Project</span></button>
 			<button class="btn btn-success btn-sm"
 				ng-click="submitProject(projectForm.$valid)"
-				ng-if="project.status === 'Initiated'">Save Project</button>
+        ng-if="project.status === 'Initiated'">Save Project
+        <span ng-show="hasErrors" class="glyphicon glyphicon-exclamation-sign"></button>
 		</div>
 	</div>
 
@@ -480,10 +482,12 @@
 				<button class="btn btn-primary btn-sm"
 					ng-click="saveProject(projectForm.$valid)"
 					ng-if="project.status !== 'Initiated'"
-					type="submit">Save</button>
+          type="submit">Save
+          <span ng-show="hasErrors" class="glyphicon glyphicon-exclamation-sign"></button>
 				<button class="btn btn-success btn-sm"
 					ng-click="submitProject(projectForm.$valid)"
-					ng-if="project.status === 'Initiated'">Save Project</button>
+          ng-if="project.status === 'Initiated'">Save Project
+          <span ng-show="hasErrors" class="glyphicon glyphicon-exclamation-sign"></button>
 			</div>
 		</div>
 

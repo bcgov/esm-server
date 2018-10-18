@@ -170,6 +170,8 @@ function controllerProjectEntry ($scope, $state, $stateParams, $uibModal, projec
 
   ProjectModel.setModel ($scope.project);
 
+  $scope.hasErrors = false;
+
   if ($scope.project.proponent && !_.isObject ($scope.project.proponent)) {
     OrganizationModel.getModel ($scope.project.proponent).then (function (org) {
       $scope.project.proponent = org;
@@ -233,6 +235,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, $uibModal, projec
 
   $scope.saveProject = function(isValid) {
     if (!isValid) {
+      $scope.hasErrors = true;
       $scope.$broadcast('show-errors-check-validity', 'projectForm');
       $scope.$broadcast('show-errors-check-validity', 'detailsForm');
       $scope.$broadcast('show-errors-check-validity', 'contactsForm');
@@ -266,6 +269,7 @@ function controllerProjectEntry ($scope, $state, $stateParams, $uibModal, projec
   // Submit the project for stream assignment.
   $scope.submitProject = function(isValid) {
     if (!isValid) {
+      $scope.hasErrors = true;
       $scope.$broadcast('show-errors-check-validity', 'projectForm');
       $scope.$broadcast('show-errors-check-validity', 'proponentForm');
       $scope.$broadcast('show-errors-check-validity', 'detailsForm');
