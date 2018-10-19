@@ -1,13 +1,13 @@
 
 <div class="sign-in-view">
   <div class="panel panel-default">
-      
+
       <div class="panel-heading">
         <h2 class="panel-title">Login</h2>
       </div>
 
       <div class="panel-body">
-        
+
         <div class="alert alert-danger animated fadeIn text-center" ng-show="loginPanel.error">{{loginPanel.error}}</div>
 
         <form name="userForm" ng-submit="loginPanel.signin(userForm.$valid)" class="signin" novalidate autocomplete="off">
@@ -27,11 +27,11 @@
               <p class="help-block error-text" ng-message="required">Password is required.</p>
             </div>
           </div>
-          
+
           <div class="form-group">
             <button type="submit" class="btn btn-default">Login</button>
           </div>
-      
+
           <div class="form-group text-center">
             <a ui-sref="password.forgot" class="btn btn-default btn-xs">Forgot your password?</a>
           </div>

@@ -20,7 +20,7 @@
 				<a href ui-sref="authentication.local">Log In (Local)</a>
 			</li>
 			<li ng-show="footer.authentication.user">
-				<a href="/api/auth/signout" target="_self">Log Out</a>
+				<a href="/api/auth/signout" ng-click="footer.signout()" target="_self">Log Out</a>
 			</li>
 		</ul>
 	</nav>
