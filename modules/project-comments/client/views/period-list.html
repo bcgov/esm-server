@@ -100,7 +100,7 @@
                     <span class="glyphicon glyphicon-ban-circle"></span>Unpublish
                   </a>
                 </li>
-                <li ng-if="project.userCan.createCommentPeriod && p.openForComment">
+                <li ng-if="project.userCan.createCommentPeriod && p.openForComment && p.openState.state === 'Pending'">
                   <a title="Delete Comment Period"
                     ng-click="$event.stopPropagation();"
                     x-confirm-dialog
@@ -113,7 +113,7 @@
                     <span class="glyphicon glyphicon-trash"></span>Delete
                   </a>
                 </li>
-                <li ng-if="project.userCan.createCommentPeriod && !p.openForComment">
+                <li ng-if="project.userCan.createCommentPeriod && !p.openForComment && p.openState.state === 'Pending'">
                   <a title="Delete Comment Period"
                     ng-click="$event.stopPropagation();"
                     x-confirm-dialog
