@@ -854,12 +854,24 @@ function directiveModalDatePicker($uibModal, $rootScope, $timeout) {
               return !scope.hideTime;
             },
             mindate: function () {
-              //start date selected in editPCP page datepicker
-              return scope.min;
+              //start date selected in editPCP page datepicker. Follows day zero rules
+              if (scope.min!=null) {
+                var dayZero = new Date(scope.min);
+                dayZero.setDate(dayZero.getDate() + 1);
+                return dayZero;
+              } else {
+                return scope.min;
+              }
             },
             maxdate: function () {
-              //end date selected in editPCP page datepicker
-              return scope.max;
+              //end date selected in editPCP page datepicker. Follows day zero rules
+              if (scope.max!=null) {
+                var dayZero = new Date(scope.max);
+                dayZero.setDate(dayZero.getDate() - 1);
+                return dayZero;
+              } else {
+                return scope.max;
+              }
             },
             isend: function (){
               //modal is for start or completed date
