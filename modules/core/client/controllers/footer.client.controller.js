@@ -21,5 +21,8 @@ function controllerFooter(Authentication, $rootScope) {
       footer.side = (!!Authentication.user || toState.name.match(/^p\./i)) && toState.name !== 'not-found';
     });
 
+  footer.signout = function () {
+    Authentication.user = null;
+  };
 
 }

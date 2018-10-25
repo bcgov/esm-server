@@ -34,6 +34,10 @@ angular.module('core')
           side.toggleClass('col-sm-2 col-0');
         };
 
+        $scope.signout = function() {
+          Authentication.user = null;
+        };
+
         // -------------------------------------------------------------------------
         //
         // really do need to watch here as this directive sits above ui-router resolves
