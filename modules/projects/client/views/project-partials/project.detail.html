@@ -8,12 +8,25 @@
 				<span class="glyphicon glyphicon-pencil"></span><span>Edit Project</span>
 			</a>
 			<a class="btn btn-default btn-sm"
-				ng-click="publishProject()"
-				ng-if="project.userCan.publish && !project.isPublished"><span class="glyphicon glyphicon-ok-circle"></span><span>Publish Project</span>
+				ng-click="$event.stopPropagation();"
+        ng-if="project.userCan.publish && !project.isPublished"
+        x-confirm-dialog
+        x-title-text="'Publish Project'"
+        x-ok-text="'Yes'"
+        x-cancel-text="'No'"
+        x-confirm-text="'Are you sure you want to publish this project?'"
+        x-on-ok="publishProject">
+        <span class="glyphicon glyphicon-ok-circle"></span><span>Publish Project</span>
 			</a>
       <a class="btn btn-default btn-sm"
-				ng-click="unpublishProject()"
-				ng-if="project.userCan.unPublish && project.isPublished">
+        ng-click="$event.stopPropagation();"
+        ng-if="project.userCan.unPublish && project.isPublished"
+        x-confirm-dialog
+        x-title-text="'Unpublish Project'"
+        x-ok-text="'Yes'"
+        x-cancel-text="'No'"
+        x-confirm-text="'Are you sure you want to unpublish this project?'"
+        x-on-ok="unpublishProject">
 				<span class="glyphicon glyphicon-ban-circle"></span><span>Unpublish Project</span>
 			</a>
 		</span>

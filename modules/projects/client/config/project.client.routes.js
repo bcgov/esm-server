@@ -98,14 +98,14 @@ angular.module('project').config (
 
             // complete the current phase.
             $scope.publishProject = function() {
-              ProjectModel.publishProject( project ).then( function(res) {
+              return ProjectModel.publishProject( project ).then( function(res) {
                 $scope.project = res;
                 $state.go($state.current, {}, {reload: true});
               });
             };
 
             $scope.unpublishProject = function() {
-              ProjectModel.unpublishProject( project ).then( function(res) {
+              return ProjectModel.unpublishProject( project ).then( function(res) {
                 $scope.project = res;
                 $state.go($state.current, {}, {reload: true});
               });
