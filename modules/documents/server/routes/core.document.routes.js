@@ -111,7 +111,7 @@ module.exports = function (app) {
       if (req.Document.internalURL.match(/^(http|ftp)/)) {
         return res.redirect(req.Document.internalURL);
       } else {
-        var fileName = req.Document.displayName;
+        var fileName = req.Document.fileName;
         var fileMeta;
 
         // check if the file exists in Minio
