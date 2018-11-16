@@ -17,7 +17,7 @@ module.exports = function (app) {
   // all active activities
   //
   app.route('/api/recentactivity/getPublishedCommentPeriodsForProject/:projectId')
-    .all(policy('user'))
+    .all(policy('guest'))
     .get(routes.setAndRun(RecentActivity, function (model, req) {
       return model.getPublishedCommentPeriodsForProject(req.params.projectId);
     }));
