@@ -49,6 +49,18 @@ The following environment variables must be set in order for a Minio object stor
 Note: If you've previously done an installation, and are upgrading from npm to yarn and node 4 -> 6, make sure you delete the `node_modules/` folder and `public/lib/` folder.
 
 ## Development mode
+ Please set your PATH, MINIO_HOST, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, and MONGODB_DATABASE variables before running.
+
+ export MONGODB_DATABASE=“mean-dev”
+ 
+ export MINIO_HOST="minio-esm-dev-esm-dev.pathfinder.gov.bc.<i></i>ca"
+ 
+ export PATH="[you path here]"
+
+ export MINIO_ACCESS_KEY="[access key here]"
+
+ export MINIO_SECRET="[secret key here]"
+ 
  `npm start`
 
 ## Production Mode
