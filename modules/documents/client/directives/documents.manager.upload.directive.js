@@ -96,7 +96,6 @@ angular.module('documents')
 
         $scope.uploadService = DocumentsUploadService;
 
-        $scope.project = $scope.project;
         $scope.node = $scope.node || $scope.root;
 
         self.rootNode = $scope.root;
