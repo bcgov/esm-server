@@ -276,15 +276,17 @@
                 </span>
                 <div class="row-actions">
                   <div class="btn-group">
-                    <button class="btn icon-btn dropdown-toggle" type="button"
-                      ng-click="$event.originalEvent.dropdown = true"
-                      popover-trigger="'focus'"
-                      popover-class="context-menu"
-                      uib-popover-template="'document-context-menu.html'"
-                      popover-placement="auto bottom-right">
-                      <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
-                    </button>
-
+                    <span
+                      ng-click="popoverIsOpen = true"
+                      ng-mouseleave="popoverIsOpen = false">
+                      <a class="btn icon-btn dropdown-toggle" type="button"
+                        popover-is-open="popoverIsOpen"
+                        popover-class="context-menu"
+                        uib-popover-template="'document-context-menu.html'"
+                        popover-placement="auto bottom-right">
+                         <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
+                       </a>
+                    </span>
                     <!-- TODO: Move to template file and import in uib-popover-template -->
                     <script type="text/ng-template" id="document-context-menu.html">
                       <ul>

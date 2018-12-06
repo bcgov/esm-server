@@ -2,11 +2,11 @@
 
 angular.module('vcs')
 
-  // -------------------------------------------------------------------------
-  //
-  // controller for scrolling to the top on button click
-  //
-  // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+//
+// controller for scrolling to the top on button click
+//
+// -------------------------------------------------------------------------
 
   .controller('scrollTopCtrl',
     ['$rootScope', 'ngTableEventsChannel',
@@ -14,11 +14,11 @@ angular.module('vcs')
         ngTableEventsChannel.onPagesChanged($rootScope.scrollTop, $rootScope);
       }])
 
-  // -------------------------------------------------------------------------
-  //
-  // controller for listing vcs
-  //
-  // -------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+//
+// controller for listing vcs
+//
+// -------------------------------------------------------------------------
 
   .controller('controllerVcList',
     ['$scope', '$rootScope', '$stateParams', 'VcModel', 'NgTableParams', 'PILLARS',

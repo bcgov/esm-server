@@ -41,7 +41,7 @@ module.exports = function (config) {
       providerData: providerData
     };
 
-      // Save the user OAuth profile
+    // Save the user OAuth profile
     users.saveOAuthUserProfile(req, providerUserProfile, done);
   }
   ));
