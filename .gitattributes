@@ -13,3 +13,7 @@
 *.ico       binary
 *.tif       binary
 *.tiff      binary
+*.eot       binary
+*.ttf       binary
+*.woff      binary
+*.min.js.gzip      binary
