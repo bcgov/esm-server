@@ -24,11 +24,6 @@ angular.module('projects').config (
             $scope.authentication = Authentication;
             $scope.Application = Application;
             $scope.filterObj = {};
-            $scope.seenOnce = $cookies.get('seenOnce');
-            if (!$scope.seenOnce) {
-              var now = new Date();
-              $cookies.put('seenOnce', true, {expires: new Date(now.getFullYear()+1, now.getMonth(), now.getDate())});
-            }
           }
         })
       // -------------------------------------------------------------------------
