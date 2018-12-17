@@ -15,11 +15,11 @@ import org.openqa.selenium.safari.SafariDriver
 import org.openqa.selenium.remote.DesiredCapabilities
 
 waiting {
-  timeout = 20
-  retryInterval = 1
+  timeout = 40
+  retryInterval = 2
 }
 
-atCheckWaiting = [20, 1]
+atCheckWaiting = [40, 2]
 
 environments {
 
@@ -105,5 +105,7 @@ if (!baseUrl) {
 println "BaseURL: ${baseUrl}"
 println "--------------------------"
 
+autoClearCookies = true
+autoClearWebStorage = true
 cacheDriverPerThread = true
 quitCachedDriverOnShutdown = true
