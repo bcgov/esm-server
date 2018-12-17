@@ -166,59 +166,58 @@ node('master'){
   }
 }
 
-// TODO: enable tests when OpenShift BDDStack image is stable
-// podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
-//   containerTemplate(
-//     name: 'jnlp',
-//     image: '172.50.0.2:5000/openshift/jenkins-slave-bddstack',
-//     resourceRequestCpu: '500m',
-//     resourceLimitCpu: '1000m',
-//     resourceRequestMemory: '1Gi',
-//     resourceLimitMemory: '4Gi',
-//     workingDir: '/home/jenkins',
-//     command: '',
-//     args: '${computer.jnlpmac} ${computer.name}',
-//     envVars: [
-//       secretEnvVar(key: 'MONGODB_USER', secretName: 'bddstack-mongodb', secretKey: 'database-user'),
-//       secretEnvVar(key: 'MONGODB_PASSWORD', secretName: 'bddstack-mongodb', secretKey: 'database-password'),
-//       secretEnvVar(key: 'MONGODB_FUNC_DATABASE', secretName: 'bddstack-mongodb', secretKey: 'database-name')
-//     ]
-//   )
-// ])
-// {
-//   stage('FT on Dev') {
-//     node('bddstack') {
-//       //the checkout is mandatory, otherwise functional test would fail
-//       echo "checking out source"
-//       echo "Build: ${BUILD_ID}"
-//       checkout scm
-//       try {
-//         // enable node for the current shell, then build the code and run the flow tests
-//         sh ". /opt/rh/rh-nodejs6/enable; npm install yarn; ./node_modules/yarn/bin/yarn install; npm run e2e -- --MONGODB_FUNC_HOST=bddstack-mongodb --MONGODB_USER=${MONGODB_USER} --MONGODB_PASSWORD=${MONGODB_PASSWORD} --MONGODB_FUNC_DATABASE=${MONGODB_FUNC_DATABASE} --NO_DB_DROP=true"
-//       } finally {
-//         archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-tests/build/reports/geb/**/*'
-//         junit 'functional-tests/build/test-results/**/*.xml'
-//         publishHTML (target: [
-//                     allowMissing: false,
-//                     alwaysLinkToLastBuild: false,
-//                     keepAll: true,
-//                     reportDir: 'functional-tests/build/reports/spock',
-//                     reportFiles: 'index.html',
-//                     reportName: "BDD Spock Report"
-//                 ])
-//         publishHTML (target: [
-//                     allowMissing: false,
-//                     alwaysLinkToLastBuild: false,
-//                     keepAll: true,
-//                     reportDir: 'functional-tests/build/reports/test-results/chromeHeadlessTest',
-//                     reportFiles: 'index.html',
-//                     reportName: "Full Test Report"
-//                 ])
-//         perfReport compareBuildPrevious: true, excludeResponseTime: true, ignoreFailedBuilds: true, ignoreUnstableBuilds: true, modeEvaluation: true, modePerformancePerTestCase: true, percentiles: '0,50,90,100', relativeFailedThresholdNegative: 80.0, relativeFailedThresholdPositive: 20.0, relativeUnstableThresholdNegative: 50.0, relativeUnstableThresholdPositive: 50.0, sourceDataFiles: 'build/test-results/**/*.xml'
-//       }
-//     }
-//   }
-// }
+podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+  containerTemplate(
+    name: 'jnlp',
+    image: 'docker-registry.default.svc:5000/bcgov/jenkins-slave-bddstack:v1-stable',
+    resourceRequestCpu: '500m',
+    resourceLimitCpu: '1000m',
+    resourceRequestMemory: '1Gi',
+    resourceLimitMemory: '4Gi',
+    workingDir: '/home/jenkins',
+    command: '',
+    args: '${computer.jnlpmac} ${computer.name}',
+    envVars: [
+      secretEnvVar(key: 'MONGODB_USER', secretName: 'bddstack-mongodb', secretKey: 'database-user'),
+      secretEnvVar(key: 'MONGODB_PASSWORD', secretName: 'bddstack-mongodb', secretKey: 'database-password'),
+      secretEnvVar(key: 'MONGODB_FUNC_DATABASE', secretName: 'bddstack-mongodb', secretKey: 'database-name')
+    ]
+  )
+])
+{
+  stage('FT on Dev') {
+    node('bddstack') {
+      //the checkout is mandatory, otherwise functional test would fail
+      echo "checking out source"
+      echo "Build: ${BUILD_ID}"
+      checkout scm
+      try {
+        // enable node for the current shell, then build the code and run the flow tests
+        sh ". /opt/rh/rh-nodejs6/enable; npm install yarn; ./node_modules/yarn/bin/yarn install; npm run e2e -- --MONGODB_FUNC_HOST=bddstack-mongodb --MONGODB_USER=${MONGODB_USER} --MONGODB_PASSWORD=${MONGODB_PASSWORD} --MONGODB_FUNC_DATABASE=${MONGODB_FUNC_DATABASE} --NO_DB_DROP=true"
+      } finally {
+        archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-tests/build/reports/geb/**/*'
+        junit 'functional-tests/build/test-results/**/*.xml'
+        publishHTML (target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'functional-tests/build/reports/spock',
+                    reportFiles: 'index.html',
+                    reportName: "BDD Spock Report"
+                ])
+        publishHTML (target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'functional-tests/build/reports/test-results/chromeHeadlessTest',
+                    reportFiles: 'index.html',
+                    reportName: "Full Test Report"
+                ])
+        perfReport compareBuildPrevious: true, excludeResponseTime: true, ignoreFailedBuilds: true, ignoreUnstableBuilds: true, modeEvaluation: true, modePerformancePerTestCase: true, percentiles: '0,50,90,100', relativeFailedThresholdNegative: 80.0, relativeFailedThresholdPositive: 20.0, relativeUnstableThresholdNegative: 50.0, relativeUnstableThresholdPositive: 50.0, sourceDataFiles: 'build/test-results/**/*.xml'
+      }
+    }
+  }
+}
 
 podTemplate(label: 'owasp-zap', name: 'owasp-zap', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
