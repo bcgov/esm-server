@@ -36,7 +36,7 @@ repositories {
 dependencies {
   // If using Spock, need to depend on geb-spock
   testCompile "org.gebish:geb-spock:$gebVersion"
-  testCompile("org.spockframework:$spockCoreVersion") {
+  testCompile("org.spockframework:spock-core:$spockCoreVersion") {
       exclude group: "org.codehaus.groovy"
   }
   testCompile "org.codehaus.groovy:groovy-all:$groovyVersion"
@@ -55,12 +55,12 @@ dependencies {
   testCompile "org.seleniumhq.selenium:selenium-edge-driver:$seleniumVersion"
 
   // Spock reports
-  testCompile( "com.athaydes:$spockReportsVersion" ) {
+  testCompile( "com.athaydes:spock-reports:$spockReportsVersion" ) {
       transitive = false // this avoids affecting your version of Groovy/Spock
   }
   // if you don't already have slf4j-api and an implementation of it in the classpath, add this!
-  testCompile "org.slf4j:$slf4jApiVersion"
-  testCompile "org.slf4j:$slf4jApiVersion"
+  testCompile "org.slf4j:slf4j-api:$slf4jApiVersion"
+  testCompile "org.slf4j:slf4j-simple:$slf4jApiVersion"
 
   testCompile "org.mongodb:mongo-java-driver:$mongoJavaVersion"
 }
