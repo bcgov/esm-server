@@ -98,10 +98,10 @@ edgeTest {
 
 test {
   dependsOn drivers.collect { tasks["${it}Test"] }
-  enabled = false
-  // testLogging {
-  //   showStandardStreams = true
-  // }
+  // enabled = false
+  testLogging {
+    showStandardStreams = true
+  }
 }
 
 tasks.withType(Test) {
