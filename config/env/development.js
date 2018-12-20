@@ -4,7 +4,7 @@ var defaultEnvConfig = require('./default');
 
 module.exports = {
   db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DATABASE_SERVICE_NAME || 'localhost') + '/' + (process.env.MONGODB_DATABASE || 'esm-dev'),
+    uri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DATABASE_SERVICE_NAME || 'localhost') + '/' + (process.env.MONGODB_DATABASE || 'esm'),
     acluri: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://' + (process.env.DATABASE_SERVICE_NAME || 'localhost') + '/esm-acl-dev',
     options: {
       user: '',

@@ -1,0 +1,171 @@
+// Prototype New Visualization
+.chart-prototype-dialog {
+  position: fixed;
+  top: 5rem;
+  right: 30rem;
+  bottom: 6rem;
+  left: 30rem;
+  width: auto;
+
+  .modal-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    @include flexbox();
+    @include flexdirection(column);
+  }
+
+  .modal-header {
+    @include flex(0 0 auto);
+    @include flexbox();
+    align-items: center;
+
+    h3 {
+      text-transform: uppercase;
+      font-size: 1.6rem;
+    }
+  }
+
+  .modal-title {
+    @include flex(1 1 auto);
+  }
+
+  .modal-body {
+    padding: 0;
+    overflow-y: hidden;
+    @include flexbox();
+    @include flexdirection(column);
+    @include flex(1 1 auto);
+  }
+}
+
+.horiz-chart {
+  margin: 0;
+  padding: 1rem;
+  overflow-y: scroll;
+  color: #000;
+  list-style-type: none;
+  @include flex(1 1 auto);
+
+  li {
+    position: relative;
+
+    background: #fff;
+  }
+
+  li + li {
+    margin-top: 2px;
+  }
+}
+
+.chart-row__info {
+  @include flexbox();
+  align-items: center;
+  position: relative;
+  z-index: 1;
+
+  .col {
+    padding: 1.5rem 2rem;
+  }
+
+  .metric {
+    @include flex(0 0 auto);
+    width: 12rem;
+    font-size: 1.6rem;
+
+    span {
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .percent {
+      font-weight: bold;
+    }
+  }
+
+  .name {
+    @include flex(1 1 auto);
+    font-size: 1.6rem;
+  }
+}
+
+.chart-row__bar {
+  position: absolute;
+  top: 0rem;
+  bottom: 0rem;
+  left: 0;
+  z-index: 0;
+  width: 0;
+  background: orange;
+  animation: animate-width 1s ease;
+}
+
+// Randomize Colors for Chart Bars
+// See $colors to define which colors you want to include
+
+$colors: #007bff;   // Define colors
+$repeat: 20;          // How often you want the pattern to repeat.
+
+@for $i from 1 through $repeat {
+  .horiz-chart li:nth-child(#{length($colors)}n+#{$i}) {
+    .chart-row__bar {
+      background: lighten(nth($colors, random(length($colors))), 20%);
+    }
+  }
+}
+
+// Animate the Chart Bars
+@keyframes animate-width {
+  from{
+    width: 0;
+  }
+}
+
+.info-bar {
+  padding: 2rem;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  @include flexbox();
+  @include flexdirection(row);
+  @include flex(0 0 auto);
+  align-items: center;
+}
+
+.info-bar__count {
+  @include flex(1 1 auto);
+}
+
+.info-bar__actions {
+  @include flex(0 0 auto);
+
+  .btn {
+    min-width: 10rem;
+    height: 4rem;
+    font-weight: normal;
+    box-shadow: none;
+
+    i {
+      top: 3px;
+      margin-left: 0.5rem;
+      font-size: 1.6rem;
+    }
+  }
+}
+
+.btn.active {
+  color: #fff;
+  border-color: #007bff;
+  background: #007bff;
+
+  &:active,
+  &:focus,
+  &:hover {
+    color: #fff;
+    border-color: #007bff;
+    background: #007bff;
+    box-shadow: none;
+    outline: none;
+  }
+}

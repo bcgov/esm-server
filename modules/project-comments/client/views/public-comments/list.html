@@ -1,3 +1,63 @@
+<!-- BEGIN: Prototype Bar Chart -->
+<div class="modal fade" id="commentModal" role="modal">
+  <div class="chart-prototype-dialog modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Valued Components</h3>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-bar">
+          <div class="info-bar__count">
+            Total Published Comments: <strong>{{s.totalPublished}}</strong>
+          </div>  
+          <!--
+          <pre>Sort by = {{propertyName}}; reverse = {{reverse}}</pre>
+          -->
+
+          <div class="info-bar__actions">
+            <label>Sort by:</label> &nbsp;
+            <div class="btn-group">
+              <button class="btn btn-default" ng-class="{'active': propertyName === '_id', 'active reverse': propertyName === '_id' && reverse}" ng-click="sortBy('_id')">
+                Name 
+                <i class="glyphicon glyphicon-sort-by-alphabet" ng-if="propertyName === '_id' && !reverse"></i>
+                <i class="glyphicon glyphicon-sort-by-alphabet-alt" ng-if="propertyName === '_id' && reverse"></i>
+              </button>
+              <button class="btn btn-default" ng-class="{'active': propertyName === 'count', 'active reverse': propertyName === 'count' && reverse}" ng-click="sortBy('count')">
+                Percent
+                <i class="glyphicon glyphicon-sort-by-order" ng-if="propertyName === 'count' && !reverse"></i>
+                <i class="glyphicon glyphicon-sort-by-order-alt" ng-if="propertyName === 'count' && reverse"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- {{s.totalPublished}} -->
+        <ul class="horiz-chart">
+          <li ng-repeat="topic in topics | orderBy: propertyName:reverse">
+            <div class="chart-row__info">
+              <div class="metric col">
+                <span class="percent">{{(topic.count / s.totalPublished) * 100 + '%' | limitTo: 4}}%</span>
+              </div>
+              <div class="name col">
+                {{topic._id}}
+              </div>
+              <div class="total-count col">
+                {{topic.count}} / {{s.totalPublished}}
+              </div>
+            </div>
+            <div class="chart-row__bar" ng-style="{'width': (topic.count / s.totalPublished) * 100 + '%'}"></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END: Prototype Bar Chart -->
+
+<!-- BEGIN: Legacy Bubble Chart -->
+<!--
 <div class="img-view-modal modal fade" id="commentModal" role="modal">
   <div class="modal-header">
     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
@@ -5,10 +65,16 @@
     </button>
     <h3 class="modal-title">Public Comment Count by Valued Component</h3>
   </div>
+  <div ng-repeat="topic in s.period.topics">
+    {{topic._id}}
+    <strong>{{topic.count}}</strong>
+  </div>
   <tmpl-public-comment-chart class="topic-cloud-container" x-refresh="s.refreshVisualization" x-data="s.commentsByTopicVis"
     id="publicCommentsByTopic">
   </tmpl-public-comment-chart>
 </div>
+-->
+<!-- END: Legacy Bubble Chart -->
 
 <!-- Temporary fix until we move to angular modals -->
 <div class="temp-overlay"></div>

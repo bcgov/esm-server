@@ -65,6 +65,18 @@ angular.module('comment')
           $scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
         };
 
+        // Prototype Filtering
+        //var orderBy = $filter('orderBy');
+
+        $scope.propertyName = 'count';
+        $scope.reverse = true;
+        $scope.topics = s.period.topics;
+
+        $scope.sortBy = function(propertyName) {
+          $scope.reverse = (propertyName !== null && $scope.propertyName === propertyName) ? !$scope.reverse : false;
+          $scope.propertyName = propertyName;
+        };
+
         var refreshFilterArrays = function (p) {
           s.period = p;
 
