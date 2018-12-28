@@ -1,0 +1,52 @@
+@import "modules/project-comments/client/scss/prototype-theme.scss"; 
+
+.check-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+
+  li {
+    position: relative;
+  }
+
+  li + li {
+    border-top: 1px solid $gray3;
+  }
+
+  label {
+    margin: 0;
+    padding: 1.5rem 2rem;
+    padding-left: 4rem;
+    display: block;
+    color: $gray7;
+    line-height: 1.8rem;
+    @include flexbox();
+    align-items: center;
+
+    i {
+      @include flex(0 0 auto);
+    }
+
+    span {
+      margin-left: 1rem;
+      @include flex(1 1 auto);
+    }
+
+    .label {
+      @include flex(0 0 auto);
+      width: 6rem;
+    }
+  }
+
+  input {
+    position: absolute;
+    top: 1.75rem;
+    left: 2rem;
+    margin: 0;
+  }
+
+  input:checked + label {
+    color: $gray9;
+    font-weight: bold;
+  }
+}

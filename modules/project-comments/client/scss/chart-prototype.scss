@@ -1,3 +1,5 @@
+@import "modules/project-comments/client/scss/prototype-theme.scss"; 
+
 // Prototype New Visualization
 .chart-prototype-dialog {
   position: fixed;
@@ -17,13 +19,13 @@
   }
 
   .modal-header {
+    border-bottom: 1px solid $gray3;
     @include flex(0 0 auto);
     @include flexbox();
     align-items: center;
 
     h3 {
-      text-transform: uppercase;
-      font-size: 1.6rem;
+      font-size: 2rem;
     }
   }
 
@@ -37,6 +39,22 @@
     @include flexbox();
     @include flexdirection(column);
     @include flex(1 1 auto);
+  }
+
+  .btn.active {
+    color: #fff;
+    border-color: #007bff;
+    background: #007bff;
+  
+    &:active,
+    &:focus,
+    &:hover {
+      color: #fff;
+      border-color: #007bff;
+      background: #007bff;
+      box-shadow: none;
+      outline: none;
+    }
   }
 }
 
@@ -117,14 +135,13 @@ $repeat: 20;          // How often you want the pattern to repeat.
 
 // Animate the Chart Bars
 @keyframes animate-width {
-  from{
+  from {
     width: 0;
   }
 }
 
 .info-bar {
   padding: 2rem;
-  border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   background: #fff;
   @include flexbox();
@@ -151,21 +168,5 @@ $repeat: 20;          // How often you want the pattern to repeat.
       margin-left: 0.5rem;
       font-size: 1.6rem;
     }
-  }
-}
-
-.btn.active {
-  color: #fff;
-  border-color: #007bff;
-  background: #007bff;
-
-  &:active,
-  &:focus,
-  &:hover {
-    color: #fff;
-    border-color: #007bff;
-    background: #007bff;
-    box-shadow: none;
-    outline: none;
   }
 }

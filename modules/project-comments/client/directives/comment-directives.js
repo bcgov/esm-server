@@ -33,6 +33,7 @@ angular.module('comment')
         var userRoles = s.userRoles = $scope.userRoles || [];
 
         s.topicsArray = [];
+        s.suggestedTopics = [];
         s.pillarsArray = [];
         s.showTopicCloud = false;
 

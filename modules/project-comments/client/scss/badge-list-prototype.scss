@@ -1,0 +1,49 @@
+@import "modules/project-comments/client/scss/prototype-theme.scss"; 
+
+$badge-item-spacing: 2px;
+
+.badge-list {
+  margin: calc(#{$badge-item-spacing} * -1);
+  padding: 0;
+  overflow: hidden;
+  list-style-type: none;
+
+  li {
+    float: left;
+  }
+
+  .label {
+    position: relative;
+    margin: $badge-item-spacing;
+    padding: 0;
+    display: inline-block;
+    text-transform: none;
+    @include flexbox();
+    @include flexdirection(row);
+    align-items: center;
+  }
+  
+  .label__name {
+    @include flex(1 1 auto);
+    margin-right: 0.5rem;
+    margin-left: 1rem;
+  }
+  
+  .label__remove-btn {
+    @include flex(0 0 auto);
+    margin: 2px;
+    padding: 0.2rem;
+    width: 2.4rem;
+    background: transparent;
+  
+    &:hover {
+      color: #000;
+      background: #eee;
+    }
+  }
+  
+  .label__value {
+    margin-left: 1rem;
+    font-size: 1.6rem;
+  }
+}

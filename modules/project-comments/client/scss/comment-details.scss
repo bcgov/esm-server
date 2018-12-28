@@ -1,0 +1,280 @@
+@import "modules/project-comments/client/scss/prototype-theme.scss"; 
+
+.public-comment-modal .modal-dialog {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  bottom: 2rem;
+  left: 2rem;
+  margin: 0;
+  width: auto;
+
+  .modal-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    @include flexbox();
+    @include flexdirection(column);
+  }
+
+  .modal-header {
+    //border-bottom: 1px solid $gray4;
+    @include flex(0 0 auto);
+    @include flexbox();
+    align-items: center;
+
+    h3 {
+      font-size: 2rem;
+    }
+  }
+
+  .modal-title {
+    @include flex(1 1 auto);
+  }
+
+  .modal-body {
+    padding: 1rem;
+    overflow-y: hidden;
+    background: $gray2;
+    @include flexbox();
+    @include flexdirection(column);
+    @include flex(1 1 auto);
+  }
+
+  .modal-footer {
+    //border-top: 1px solid $gray4;
+    @include flex(0 0 auto);
+  }
+}
+
+@media (min-width: 1200px) and (min-height: 900px) {
+  .public-comment-modal .modal-dialog {
+    top: 6rem;
+    right: 30rem;
+    bottom: 6rem;
+    left: 30rem;
+  }
+}
+
+.comment-detail {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  @include flexbox();
+  @include flexdirection(column);
+
+  h4 {
+    margin-top: 0;
+    margin-bottom: 0.25rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  h5 {
+    margin: 0;
+    margin-bottom: 0.25rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+  }
+
+  label {
+    margin-bottom: 0.5rem;
+    font-weight: normal;
+  }
+
+  section {
+    padding: 0;
+    border: none;
+  }
+
+  section + section {
+    margin-top: 2rem;
+  }
+
+  .control-label {
+    font-weight: normal;
+  }
+}
+
+.comment-detail .top-container {
+  padding: 2rem;
+  border-bottom: 1px solid #eee;
+  @include flex(0 0 auto);
+}
+
+.comment-detail .bottom-container {
+  overflow: hidden;
+  @include flex(1 1 auto);
+  @include flexbox();
+}
+
+.comment-detail .left-container,
+.comment-detail .right-container {
+  overflow-y: hidden;
+}
+
+.comment-detail .left-container {
+  @include flex(1 1 auto);
+
+  section + section {
+    margin-top: 3rem;
+  }
+}
+
+.comment-detail .right-container {
+  margin-left: 1rem;
+  width: 400px;
+  @include flex(0 0 auto);
+}
+
+.comment-meta,
+.help-text {
+  color: $gray6;
+}
+
+.comment-body {
+  margin-top: 2rem;
+}
+
+.comment-vcs {
+  margin-top: 1rem;
+}
+
+.comment-vcs .badge-list {
+  margin-bottom: 1rem;
+}
+
+.pcp-review-btns {
+  margin-top: 1rem;
+}
+
+.proponent-help-text {
+  margin-bottom: 1rem !important;
+}
+
+// Comment Attachments
+.attachments {
+  margin-top: 1rem;
+  padding: 0;
+  list-style-type: none;
+  
+  li {
+    @include flexbox();
+    align-items: center;
+    background: #fff;
+    border: 1px solid $gray4;
+  }
+
+  li + li {
+    margin-top: 2px;
+    border-top: none;
+  }
+}
+
+.attachments .col {
+  padding: 0.5rem 1rem;
+}
+
+.attachments .icon {
+  @include flex(0 0 auto);
+  padding-left: 1.5rem;
+
+  .glyphicon {
+    top: 3px;
+    font-size: 1.6rem;
+  }
+}
+
+.attachments .file-name {
+  @include flex(1 1 auto);
+  padding-left: 0;
+  font-weight: bold;
+}
+
+.attachments .publish-options {
+  @include flex(0 0 auto);
+
+  .btn {
+    min-width: 8rem;
+  }
+}
+
+.attachments .actions {
+  @include flex(0 0 auto);
+  padding-left: 0;
+
+  .glyphicon {
+    top: 3px;
+    font-size: 1.6rem;
+  }
+
+  .btn {
+    color: #000;
+  }
+
+  .btn:active,
+  .btn:focus,
+  .btn:hover {
+    background: #eee;
+  }
+}
+
+// Prototype Panels
+.left-container, 
+.right-container {
+  position: relative;
+}
+
+.comment-detail {
+  .panel {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   border: 1px solid $gray4;
+   border-radius: 0;
+   @include flexbox();
+   @include flexdirection(column);
+  }
+  
+  .panel-header {
+    padding: 2rem;
+    background: #fff;
+    @include flex(0 0 auto);
+  
+    h5 {
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 1.6rem;
+    }
+  }
+
+  .panel-body {
+    padding: 3rem 2rem;
+    overflow-y: scroll;
+    background: $gray0;
+    @include flex(1 1 auto);
+  }
+}
+
+.vc-content.panel-body {
+  padding: 0;
+}
+
+
+// VC Prediction Badges
+.label {
+  background: #007bff;
+}
+
+.high {
+  opacity: 1;
+}
+
+.med {
+  opacity: 0.5;
+}
+
+.low {
+  opacity: 0.25;
+}
