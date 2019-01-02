@@ -51,17 +51,24 @@ Note: If you've previously done an installation, and are upgrading from npm to y
 ## Development mode
  Please set your PATH, MINIO_HOST, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, and MONGODB_DATABASE variables before running.
 
- export MONGODB_DATABASE=“mean-dev”
- 
- export MINIO_HOST="minio-esm-dev-esm-dev.pathfinder.gov.bc.<i></i>ca"
- 
- export PATH="[you path here]"
-
- export MINIO_ACCESS_KEY="[access key here]"
-
- export MINIO_SECRET="[secret key here]"
+	export MONGODB_DATABASE=“mean-dev”
+	export MINIO_HOST="minio-esm-dev-esm-dev.pathfinder.gov.bc.<i></i>ca"
+	export PATH="[your path here]"
+	export MINIO_ACCESS_KEY="[access key here]"
+	export MINIO_SECRET="[secret key here]"
  
  `npm start`
+
+## Windows Environment Variables
+  If you are using a Mingw64, Cygwin64 or git bash, then you can set the above variables in your .bashrc at your posix root directory (the directory you start in when you start your posix environment).  
+		
+Restart your terminal and type "env" to check if your settings are there.  If not, then you can try to create a .bash_profile file containing the following code:
+		
+		if [ -f ~/.bashrc ]
+		then
+			. ~/.bashrc
+		fi
+		
 
 ## Production Mode
 `grunt build && NODE_ENV=production node server.js`
