@@ -166,11 +166,11 @@ node('master'){
   }
 }
 
-// TODO: enable tests when OpenShift BDDStack image is stable
-// podTemplate(label: 'bddstack', name: 'bddstack', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+// def bddPodLabel = "esm-server-bdd-${UUID.randomUUID().toString()}"
+// podTemplate(label: bddPodLabel, name: bddPodLabel, serviceAccount: 'jenkins', cloud: 'openshift', containers: [
 //   containerTemplate(
 //     name: 'jnlp',
-//     image: '172.50.0.2:5000/openshift/jenkins-slave-bddstack',
+//     image: 'docker-registry.default.svc:5000/bcgov/jenkins-slave-bddstack:v1-stable',
 //     resourceRequestCpu: '500m',
 //     resourceLimitCpu: '1000m',
 //     resourceRequestMemory: '1Gi',
@@ -187,7 +187,7 @@ node('master'){
 // ])
 // {
 //   stage('FT on Dev') {
-//     node('bddstack') {
+//     node(bddPodLabel) {
 //       //the checkout is mandatory, otherwise functional test would fail
 //       echo "checking out source"
 //       echo "Build: ${BUILD_ID}"
@@ -220,7 +220,8 @@ node('master'){
 //   }
 // }
 
-podTemplate(label: 'owasp-zap', name: 'owasp-zap', serviceAccount: 'jenkins', cloud: 'openshift', containers: [
+def zapPodLabel = "esm-server-owasp-zap-${UUID.randomUUID().toString()}"
+podTemplate(label: zapPodLabel, name: zapPodLabel, serviceAccount: 'jenkins', cloud: 'openshift', containers: [
   containerTemplate(
     name: 'jnlp',
     image: '172.50.0.2:5000/openshift/jenkins-slave-zap',
@@ -235,7 +236,7 @@ podTemplate(label: 'owasp-zap', name: 'owasp-zap', serviceAccount: 'jenkins', cl
 ])
 {
   stage('ZAP Security Scan') {
-    node('owasp-zap') {
+    node(zapPodLabel) {
       //the checkout is mandatory
       echo "checking out source"
       echo "Build: ${BUILD_ID}"
