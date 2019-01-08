@@ -51,12 +51,16 @@ Note: If you've previously done an installation, and are upgrading from npm to y
 ## Development mode
  Please set your PATH, MINIO_HOST, MINIO_ACCESS_KEY, MINIO_SECRET_KEY, and MONGODB_DATABASE variables before running.
 
-	export MONGODB_DATABASE=“mean-dev”
-	export MINIO_HOST="minio-esm-dev-esm-dev.pathfinder.gov.bc.<i></i>ca"
-	export PATH="[your path here]"
-	export MINIO_ACCESS_KEY="[access key here]"
-	export MINIO_SECRET="[secret key here]"
- 
+ export MONGODB_DATABASE=“mean-dev”
+
+ export MINIO_HOST="minio-esm-dev-esm-dev.pathfinder.gov.bc.<i></i>ca"
+
+ export PATH="[you path here]"
+
+ export MINIO_ACCESS_KEY="[access key here]"
+
+ export MINIO_SECRET="[secret key here]"
+
  `npm start`
 
 ## Windows Environment Variables
@@ -119,6 +123,10 @@ MONGODB_FUNC_DATABASE | mem-dev-func          | name of the database used by the
 ## Project Status
 
 The project was released in February 2017 as a public beta, with continuing engagement, co-design and development proceeding to enhance the web application through future releases.  Feedback, involvement and contribution are greatly appreciated!  If you have any comments, please send us an email at epicsupport.eao@gov.bc.ca or click https://www.projects.eao.gov.bc.ca/contact to learn more.
+
+# Visual Studio Code
+
+To use our Visual Studio Code extensions copy the contents of vscodeextensions.txt in the root directory and paste it into bash. If it doesnt work, make sure you have the Code CLI installed `code --version` and if it's not installed open the command palette (shift + command + p) and run `Shell Command: install 'code' command in PATH`.
 
 ## How to Contribute
 
