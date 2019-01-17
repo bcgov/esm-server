@@ -1,4 +1,9 @@
 .modal {
+
+    &-upload-waiting{
+        cursor: progress;
+    }
+
     &-header {
         padding: 1.25rem 2rem;
         border: none;
@@ -9,7 +14,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        
+
         .close {
             margin-right: -1rem;
             font-size: 2.1rem;
@@ -34,11 +39,11 @@
         .modal-content {
             border: none;
         }
-    
+
         .alert {
             margin-bottom: 0;
         }
-        
+
         &-backdrop {
             background: transparent;
         }
