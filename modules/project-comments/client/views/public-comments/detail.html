@@ -143,9 +143,9 @@
                 <input type="checkbox" id="{{vc.name}}" ng-checked="s.isSelectedValuedComponent(vc._id)" ng-click="s.updateValuedComponentSelection(vc._id)"/>
                 <label for="{{vc.name}}">
                   <span>{{vc.name}}</span>
-                  <span class="label label-primary" ng-if="vc.matchPercentage && vc.matchPercentage >= 0.75">High</span>
-                  <span class="label label-primary med" ng-if="vc.matchPercentage && vc.matchPercentage >= 0.5 && vc.matchPercentage < 0.75">Med</span>
-                  <span class="label label-primary low" ng-if="vc.matchPercentage && vc.matchPercentage >= 0.25 && vc.matchPercentage < 0.5">Low</span>
+                  <span class="label label-primary" ng-if="vc.similarity && vc.similarity >= 0.75">High</span>
+                  <span class="label label-primary med" ng-if="vc.similarity && vc.similarity >= 0.5 && vc.similarity < 0.75">Med</span>
+                  <span class="label label-primary low" ng-if="vc.similarity && vc.similarity >= 0.25 && vc.similarity < 0.5">Low</span>
                 </label>
               </li>
             </ul>

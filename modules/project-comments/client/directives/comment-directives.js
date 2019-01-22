@@ -548,21 +548,18 @@ angular.module('comment')
 
               // parse the suggested valued components if the suggestedValuedComponents element exists
               if (self.comment.suggestedValuedComponents) {
-                _.forEach(self.comment.suggestedValuedComponents.predictions, function (element) {
-                  // find the element that contains VC suggestions for the entire comment.  Ignore other elements for now.
-                  if (element.start_char === 0 && element.end_char === -1) {
-                    // for each of the suggested value component key-value pairs
-                    _.keys(element.tags).forEach(function (suggestedVCKey) {
-                      // for each of the valued components that are enabled for the project
-                      _.forEach(self.allowedValuedComponents, function (allowedVC) {
-                        // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
-                        if (allowedVC.name.split(' ').join('_').toLowerCase() == suggestedVCKey || allowedVC.title.split(' ').join('_').toLowerCase() == suggestedVCKey) {
-                          // a match is found, add the suggested valued component match percentage to the allowed valued component
-                          allowedVC.matchPercentage = element.tags[suggestedVCKey];
-                        }
-                      })
-                    })
-                  }
+                // for each of the global suggestions (for the comment as a whole)
+                _.forEach(self.comment.suggestedValuedComponents.predictions.global, function (suggestedVCObj) {
+                  // for each of the valued components that are enabled for the project
+                  _.forEach(self.allowedValuedComponents, function (allowedVC) {
+                    // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
+                    if (allowedVC.name.split(' ').join('_').toLowerCase() == suggestedVCObj.name || allowedVC.title.split(' ').join('_').toLowerCase() == suggestedVCObj.name) {
+                      // a match is found, add the suggested valued component similarity and confidence to the allowed valued component
+                      allowedVC.similarity = suggestedVCObj.similarity;
+                      allowedVC.confidence = suggestedVCObj.confidence;
+                      return false;
+                    }
+                  });
                 });
               }
 
@@ -583,6 +580,9 @@ angular.module('comment')
 
               // update the topics and pillars based on the current valued components
               self.updateTopicsAndPillars = function () {
+                self.comment.topics = [];
+                self.comment.pillars = [];
+
                 _.forEach(self.comment.valuedComponents, function (vcID) {
                   var valuedComponentObj = self.getValuedComponentbyID(vcID);
                   if (valuedComponentObj) {
@@ -590,6 +590,7 @@ angular.module('comment')
                     self.comment.pillars.push(valuedComponentObj.pillar);
                   }
                 })
+
                 self.comment.topics = _.uniq(self.comment.topics);
                 self.comment.pillars = _.uniq(self.comment.pillars);
               }
