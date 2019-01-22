@@ -416,7 +416,6 @@ angular.module('comment')
                 return CommentModel.getDocuments(comment._id);
               },
               projectValuedComponents: function () {
-                /* eslint-disable */
                 return VcModel.forProject($scope.project._id)
               }
             },
@@ -584,18 +583,15 @@ angular.module('comment')
 
               // update the topics and pillars based on the current valued components
               self.updateTopicsAndPillars = function () {
-                var topics = new Set();
-                var pillars = new Set();
-
                 _.forEach(self.comment.valuedComponents, function (vcID) {
                   var valuedComponentObj = self.getValuedComponentbyID(vcID);
                   if (valuedComponentObj) {
-                    topics.add(valuedComponentObj.title);
-                    pillars.add(valuedComponentObj.pillar);
+                    self.comment.topics.push(valuedComponentObj.title);
+                    self.comment.pillars.push(valuedComponentObj.pillar);
                   }
                 })
-                self.comment.topics = Array.from(topics);
-                self.comment.pillars = Array.from(pillars);
+                self.comment.topics = _.uniq(self.comment.topics);
+                self.comment.pillars = _.uniq(self.comment.pillars);
               }
 
               // Returns true if the array contains the valued component _id, false otherwise
