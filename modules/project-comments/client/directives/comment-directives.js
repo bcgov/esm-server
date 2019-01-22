@@ -26,7 +26,7 @@ angular.module('comment')
       restrict: 'E',
       templateUrl: 'modules/project-comments/client/views/public-comments/list.html',
       controllerAs: 's',
-      controller: function ($scope, $rootScope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, _) {
+      controller: function ($scope, $rootScope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, VcModel, _) {
         var s = this;
         var project = s.project = $scope.project;
         var period = s.period = $scope.period;
@@ -266,6 +266,10 @@ angular.module('comment')
           CommentPeriodModel.getForPublic(s.period._id)
             .then(function (p) {
               refreshFilterArrays(p);
+              /*
+                Nick:
+                This is the call that eventually calls the backend to fetch the comments for the period.
+               */
               return CommentModel.getCommentsForPeriod(
                 filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
                 filterByFields.commentId, filterByFields.authorComment, filterByFields.location, filterByFields.pillar, filterByFields.topic, filterByFields.hasProponentResponse,
@@ -285,6 +289,12 @@ angular.module('comment')
                 item.authorAndComment = item.isAnonymous ? item.comment : item.author + ' ' + item.comment;
               });
 
+              /*
+                NICK:
+                result.data contains the 50 comment results from the comments table.
+                50 because that is the pagination limit.
+                This is called on the Public Comment Period admin list.
+              */
               s.displayed = result.data;
               tableState.pagination.start = start;
               tableState.pagination.totalItemCount = result.count;
@@ -385,7 +395,15 @@ angular.module('comment')
         // if the user clicks a row, open the detail modal
         //
         // -------------------------------------------------------------------------
+        /*
+          Nick:
+          when a user clicks on a comment row from the comment period list
+        */
         s.detail = function (comment, filterCommentPackage) {
+          /*
+            Nick:
+            This is an individual comment object from the array of 50 returned earlier.
+          */
           $uibModal.open({
             animation: true,
             templateUrl: 'modules/project-comments/client/views/public-comments/detail.html',
@@ -396,9 +414,13 @@ angular.module('comment')
               docs: function () {
                 // Documents related to the Provincial package within a joint PCP
                 return CommentModel.getDocuments(comment._id);
+              },
+              projectValuedComponents: function () {
+                /* eslint-disable */
+                return VcModel.forProject($scope.project._id)
               }
             },
-            controller: function ($scope, $uibModalInstance, docs) {
+            controller: function ($scope, $uibModalInstance, docs, projectValuedComponents) {
               var self = this;
               self.period = period;
               self.project = project;
@@ -447,9 +469,10 @@ angular.module('comment')
               self.pillars = self.comment.pillars.map(function (e) {
                 return e;
               });
-              self.vcs = self.comment.valuedComponents.map(function (e) {
-                return e.name;
-              });
+              // NICK: dont need or ever use this??
+              // self.vcs = self.comment.valuedComponents.map(function (e) {
+              //   return e.name;
+              // });
 
               self.statusChange = function (status) {
                 self.comment.eaoStatus = status;
@@ -512,6 +535,83 @@ angular.module('comment')
                   $uibModalInstance.close(self.comment);
                 }
               };
+
+              /******************* START **********************************
+              * NEW VC Logic utilizing the AI Suggested Valued Components *
+              *************************************************************/
+              // filter out unpublished allowed valued components from the list of all allowed valued components on the project
+              self.allowedValuedComponents = [];
+              _.forEach(projectValuedComponents, function (projectVC) {
+                if (projectVC.isPublished) {
+                  self.allowedValuedComponents.push(projectVC);
+                }
+              });
+
+              // parse the suggested valued components if the suggestedValuedComponents element exists
+              if (self.comment.suggestedValuedComponents) {
+                _.forEach(self.comment.suggestedValuedComponents.predictions, function (element) {
+                  // find the element that contains VC suggestions for the entire comment.  Ignore other elements for now.
+                  if (element.start_char === 0 && element.end_char === -1) {
+                    // for each of the suggested value component key-value pairs
+                    _.keys(element.tags).forEach(function (suggestedVCKey) {
+                      // for each of the valued components that are enabled for the project
+                      _.forEach(self.allowedValuedComponents, function (allowedVC) {
+                        // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
+                        if (allowedVC.name.split(' ').join('_').toLowerCase() == suggestedVCKey || allowedVC.title.split(' ').join('_').toLowerCase() == suggestedVCKey) {
+                          // a match is found, add the suggested valued component match percentage to the allowed valued component
+                          allowedVC.matchPercentage = element.tags[suggestedVCKey];
+                        }
+                      })
+                    })
+                  }
+                });
+              }
+
+              // update the valued components, topics, and pillars fields based on the current UI selections
+              self.updateValuedComponentSelection = function (vcID) {
+                var index = self.comment.valuedComponents.indexOf(vcID);
+                if (index !== -1) {
+                  // VC is in the array, remove it
+                  self.comment.valuedComponents.splice(index, 1);
+                } else {
+                  // VC is not in the array, add it
+                  self.comment.valuedComponents.push(vcID);
+                }
+
+                // finally, update topics and pillars
+                self.updateTopicsAndPillars();
+              }
+
+              // update the topics and pillars based on the current valued components
+              self.updateTopicsAndPillars = function () {
+                var topics = new Set();
+                var pillars = new Set();
+
+                _.forEach(self.comment.valuedComponents, function (vcID) {
+                  var valuedComponentObj = self.getValuedComponentbyID(vcID);
+                  if (valuedComponentObj) {
+                    topics.add(valuedComponentObj.title);
+                    pillars.add(valuedComponentObj.pillar);
+                  }
+                })
+                self.comment.topics = Array.from(topics);
+                self.comment.pillars = Array.from(pillars);
+              }
+
+              // Returns true if the array contains the valued component _id, false otherwise
+              self.isSelectedValuedComponent = function (vcID) {
+                return self.comment.valuedComponents.indexOf(vcID) !== -1;
+              }
+
+              // Given a valued component _id, return the full valued component object.
+              self.getValuedComponentbyID = function (vcID) {
+                return self.allowedValuedComponents.find(function (allowedVC) {
+                  return allowedVC._id === vcID
+                });
+              }
+              /************************************************************
+              * NEW VC Logic utilizing the AI Suggested Valued Components *
+              ********************* END ***********************************/
             },
           })
             .result.then(function (data) {

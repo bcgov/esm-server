@@ -44,6 +44,7 @@ module.exports = require ('../../../core/server/controllers/core.schema.controll
   // valuedComponents
   //
   valuedComponents : [{ type:'ObjectId', ref:'Vc' }],
+  suggestedValuedComponents : { type: Object, default: null },
   pillars          : [String],
   topics           : [String],
 

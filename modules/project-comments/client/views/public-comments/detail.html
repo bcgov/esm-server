@@ -1,6 +1,6 @@
 <form class="comment-detail" name="commentForm" ng-submit="s.submitForm(commentForm.$valid)" novalidate>
   <div ng-init="s.setForm(commentForm);"></div>
-  
+
   <div class="modal-header">
     <h3 class="modal-title" ng-if="!authentication.user">Public Comment: ID {{s.comment.commentId}}</span></h3>
     <h3 class="modal-title" ng-if="authentication.user">Public Comment ID: #{{s.comment.commentId}}</h3>
@@ -33,7 +33,7 @@
             <section class="comment-title-info">
               <h4>Posted by {{s.comment.isAnonymous ? 'Anonymous' : s.comment.author}}</h4>
               <div class="comment-meta">
-                {{s.comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}} 
+                {{s.comment.dateAdded | amDateFormat:'MMMM Do, YYYY'}}
                 <span ng-if="s.comment.location"> &nbsp;|&nbsp; {{ ::s.comment.location }}</span>
                 <!--
                 <span ng-if="s.alertType">&nbsp;|&nbsp; Updated by {{ s.comment.updatedBy.displayName }}</span>
@@ -46,7 +46,7 @@
               <h5>{{s.period.userCan.vetComments ? 'Attachments' : 'Attachments'}}</h5>
               <div class="help-text" ng-class="{'has-error' : s.totalStatus === false}">
                 All attachments must be rejected or published
-              </div> 
+              </div>
               <ul class="attachments" ng-if="s.comment.documents.length > 0">
                 <li ng-repeat="file in s.comment.documents"
                   ng-class="{'has-error' : file.vetted === false && s.attachmentStatus === false }">
@@ -131,64 +131,30 @@
         </div>
       </div>
       <div class="right-container" ng-if="s.period.userCan.classifyComments">
-        
+
         <div class="panel">
           <div class="panel-header">
             <h5>Assign Valued Components ({{s.comment.topics.length}})</h5>
           </div>
           <div class="vc-content panel-body">
 
-            <!--
-            <button class="add-vc-btn btn btn-default btn-sm" type="button" title="Assign Valued Components"
-              x-vc-chooser
-              x-project="s.project"
-              x-current="s.comment.valuedComponents"
-              x-topics="s.comment.topics"
-              x-pillars="s.comment.pillars">
-              Add Valued Components
-            </button>
-            -->
-
-            <!--
-
-            <ul style="display: none;" class="check-list">
-              <li ng-repeat="vc in s.comment.valuedComponents">
-                <input type="checkbox" id="{{vc}}" />
-                <label for="{{vc}}">
-                  <span>{{vc}}</span>
-                  <span class="label label-info">High</span>
-                </label>
-              </li>
-            </ul>
-            
-            <ul style="display: none;" class="check-list">
-              <li ng-repeat="topic in s.comment.topics | orderBy:'toString()'">
-                <input type="checkbox" id="{{topic.split(' ').join('')}}"/>
-                <label for="{{topic.split(' ').join('')}}">
-                  <span>{{topic}}</span>
-                  <span class="label label-info">High</span>
-                </label>
-              </li>
-            </ul>
-
-            -->
-
             <ul class="check-list">
-              <li ng-repeat="topic in s.comment.suggestedTopics">
-                <input type="checkbox" id="{{topic.name.split(' ').join('')}}"/>
-                <label for="{{topic.name.split(' ').join('')}}">
-                  <span>{{topic.name}}</span>
-                  <span class="label label-primary" ng-if="topic.value && topic.value >= 0.75">High</span>
-                  <span class="label label-primary med" ng-if="topic.value && topic.value >= 0.5 && topic.value < 0.75">Med</span>
-                  <span class="label label-primary low" ng-if="topic.value && topic.value >= 0.25 && topic.value < 0.5">Low</span>
+              <li ng-repeat="vc in s.allowedValuedComponents">
+                <input type="checkbox" id="{{vc.name}}" ng-checked="s.isSelectedValuedComponent(vc._id)" ng-click="s.updateValuedComponentSelection(vc._id)"/>
+                <label for="{{vc.name}}">
+                  <span>{{vc.name}}</span>
+                  <span class="label label-primary" ng-if="vc.matchPercentage && vc.matchPercentage >= 0.75">High</span>
+                  <span class="label label-primary med" ng-if="vc.matchPercentage && vc.matchPercentage >= 0.5 && vc.matchPercentage < 0.75">Med</span>
+                  <span class="label label-primary low" ng-if="vc.matchPercentage && vc.matchPercentage >= 0.25 && vc.matchPercentage < 0.5">Low</span>
                 </label>
               </li>
             </ul>
           </div>
         </div>
-          
+
         <!-- Badges -->
-        <div style="display: none;" class="comment-vcs">
+        <!-- NicK: Not used right? This is the topic icon list from the old view -->
+        <!-- <div style="display: none;" class="comment-vcs">
           <ul class="badge-list" ng-if="s.comment.topics.length > 0">
             <li ng-repeat="topic in s.comment.topics | orderBy:'toString()'">
               <div class="label label-success">
@@ -198,19 +164,7 @@
               </div>
             </li>
           </ul>
-
-          <!--
-          <button class="add-vc-btn btn btn-default btn-sm" type="button" title="Assign Valued Components"
-            x-vc-chooser
-            x-project="s.project"
-            x-current="s.comment.valuedComponents"
-            x-topics="s.comment.topics"
-            x-pillars="s.comment.pillars">
-            Add Valued Components
-          </button>
-          -->
-
-        </div>
+        </div> -->
 
       </div>
     </div>

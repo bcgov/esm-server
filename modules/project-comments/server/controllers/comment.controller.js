@@ -565,6 +565,10 @@ module.exports = DBModel.extend({
         .then(resolve, reject);
     });
   },
+  /*
+    Nick:
+    This is the server side api called to load the comments for the comment period.  This is where the individual comment objects come from when you click a row.
+  */
   getPeriodPaginate: function (body) {
     var self = this;
     // base query / filter

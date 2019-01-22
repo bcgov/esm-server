@@ -95,6 +95,10 @@ angular.module('comment').factory('CommentModel', ['$q', 'ModelBase', 'moment', 
     getProponentCommentsForPeriod: function (periodId) {
       return this.get('/api/proponentcomments/period/' + periodId);
     },
+    /*
+      Nick:
+      UI side call made to fetch comments from the backend for the comment period.
+    */
     getCommentsForPeriod: function (periodId, eaoStatus, proponentStatus, isPublished,
       commentId, authorComment, location, pillar, topic, hasProponentResponse,
       start, limit, orderBy, reverse, filterCommentPackage) {

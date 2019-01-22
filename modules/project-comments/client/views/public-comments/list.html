@@ -205,6 +205,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Nick: This is where the comment period table of comments is build.-->
         <tr ng-if="s.isPublic" ng-repeat="o in s.displayed" ng-click="s.detail(o, s.filterCommentPackage)">
           <td class="p-0" colspan="{{s.colspan}}">
             <table class="table">
