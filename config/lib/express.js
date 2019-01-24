@@ -128,7 +128,7 @@ module.exports.initSession = function (app, db) {
   // Express MongoDB session storage
   app.use(session({
     saveUninitialized: true,
-    resave: true,
+    resave: false,//this fixes #EM-185
     secret: config.sessionSecret,
     cookie: {
       maxAge: config.sessionCookie.maxAge,
