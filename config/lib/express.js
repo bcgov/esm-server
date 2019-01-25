@@ -128,7 +128,10 @@ module.exports.initSession = function (app, db) {
   // Express MongoDB session storage
   app.use(session({
     saveUninitialized: true,
-    resave: false,//this fixes #EM-185
+    //If resave is set to true it can cause race conditions. This caused EM-185.
+    //See official advice on this in the express-session readme
+    //https://github.com/expressjs/session/blob/master/README.md 
+    resave: false,
     secret: config.sessionSecret,
     cookie: {
       maxAge: config.sessionCookie.maxAge,
