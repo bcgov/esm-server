@@ -267,8 +267,7 @@ angular.module('comment')
             .then(function (p) {
               refreshFilterArrays(p);
               /*
-                Nick:
-                This is the call that eventually calls the backend to fetch the comments for the period.
+                Nick: This is the call that eventually calls the backend to fetch the comments for the period.
                */
               return CommentModel.getCommentsForPeriod(
                 filterBy.period, filterBy.eaoStatus, filterBy.proponentStatus, filterBy.isPublished,
@@ -290,8 +289,7 @@ angular.module('comment')
               });
 
               /*
-                NICK:
-                result.data contains the 50 comment results from the comments table.
+                NICK: result.data contains the 50 comment results from the comments table.
                 50 because that is the pagination limit.
                 This is called on the Public Comment Period admin list.
               */
@@ -396,13 +394,11 @@ angular.module('comment')
         //
         // -------------------------------------------------------------------------
         /*
-          Nick:
-          when a user clicks on a comment row from the comment period list
+          Nick: when a user clicks on a comment row from the comment period list
         */
         s.detail = function (comment, filterCommentPackage) {
           /*
-            Nick:
-            This is an individual comment object from the array of 50 returned earlier.
+            Nick: This is an individual comment object from the array of 50 returned earlier.
           */
           $uibModal.open({
             animation: true,
@@ -549,7 +545,7 @@ angular.module('comment')
               // parse the suggested valued components if the suggestedValuedComponents element exists
               if (self.comment.suggestedValuedComponents) {
                 // for each of the global suggestions (for the comment as a whole)
-                _.forEach(self.comment.suggestedValuedComponents.predictions.global, function (suggestedVCObj) {
+                _.forEach(self.comment.suggestedValuedComponents.predictions.data.global, function (suggestedVCObj) {
                   // for each of the valued components that are enabled for the project
                   _.forEach(self.allowedValuedComponents, function (allowedVC) {
                     // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
@@ -628,11 +624,22 @@ angular.module('comment')
                   return CommentModel.save(data);
                 })
                 .then(function () {
+                  if(data.suggestedValuedComponents) {
+                    // NEW VC Logic utilizing the AI Suggested Valued Components
+                    // Post chosen VC's back to AI bot.  No data is returned in response.
+                    return CommentModel.submitChosenVCsToAIBot(data._id)
+                      .catch(function() {
+                        // swallow error
+                        // failing to call the AI to submit VCs should not prevent the rest of the update from succeeding.
+                      });
+                  }
+                })
+                .then(function () {
                   // Reload UI data
                   $scope.smartTableCtrl.pipe($scope.smartTableCtrl.tableState());
                 });
             })
-            .catch(function ( /* err */ ) {
+            .catch(function () {
               // swallow error
             });
         };

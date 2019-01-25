@@ -96,8 +96,7 @@ angular.module('comment').factory('CommentModel', ['$q', 'ModelBase', 'moment', 
       return this.get('/api/proponentcomments/period/' + periodId);
     },
     /*
-      Nick:
-      UI side call made to fetch comments from the backend for the comment period.
+      Nick: UI side call made to fetch comments from the backend for the comment period.
     */
     getCommentsForPeriod: function (periodId, eaoStatus, proponentStatus, isPublished,
       commentId, authorComment, location, pillar, topic, hasProponentResponse,
@@ -307,6 +306,14 @@ angular.module('comment').factory('CommentModel', ['$q', 'ModelBase', 'moment', 
         });
         resolve(data);
       });
+    },
+    // -------------------------------------------------------------------------
+    //
+    // Submit chosen comment VC's back to AI Bot to continue its learning.
+    //
+    // -------------------------------------------------------------------------
+    submitChosenVCsToAIBot: function (commentId) {
+      return this.post('/api/comment/vc_annotations/' + commentId);
     }
   });
   return new Class();

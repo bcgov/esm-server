@@ -4,6 +4,7 @@
 // Controller for comments
 //
 // =========================================================================
+var axios = require('axios');
 var path = require('path');
 var Period = require('./commentperiod.controller');
 var DBModel = require(path.resolve('./modules/core/server/controllers/core.dbmodel.controller'));
@@ -37,6 +38,7 @@ module.exports = DBModel.extend({
     var self = this;
     var commentPeriod = new Period(this.opts);
     var documentClass = new DocumentClass(this.opts);
+    var projectController = new ProjectController(this.opts);
     return new Promise(function (resolve, reject) {
       //
       // get the period info
@@ -115,6 +117,29 @@ module.exports = DBModel.extend({
         .then(function (cId) {
           comment.commentId = _.isFinite(cId) ? cId : 1; // just check again... make sure this is a number.
           return comment;
+        })
+        .then(function (comment) {
+          return projectController.findOne({ _id: comment.project }, { code: 1, type: 1, sector: 1 })
+            .then(function (project) {
+              var postBody = {
+                "project_id": project.code,
+                "project_type": project.type,
+                "project_sub_type": project.sector,
+                "posted_timestamp": new Date().getTime(),
+                "location": comment.location,
+                "comment": comment.comment
+              }
+              // Nick: submit the comment to the AI to retrieve Suggested Valued Components.
+              return axios.post('https://nlu.kinsol.io/api/1.0/vc_predictions', postBody)
+                .then(function (response) {
+                  comment.suggestedValuedComponents = response.data;
+                  return comment;
+                });
+            })
+            .catch(function () {
+              // always return the original comment if any part of the AI Suggested Valued Components process fails.
+              return comment;
+            });
         })
         .then(resolve, reject);
     });
@@ -566,8 +591,7 @@ module.exports = DBModel.extend({
     });
   },
   /*
-    Nick:
-    This is the server side api called to load the comments for the comment period.  This is where the individual comment objects come from when you click a row.
+    Nick: This is the server side api called to load the comments for the comment period.  This is where the individual comment objects come from when you click a row.
   */
   getPeriodPaginate: function (body) {
     var self = this;
@@ -675,5 +699,33 @@ module.exports = DBModel.extend({
 
     }
     return self.updatePermissionBatch(projectId, periodId, skip, limit);
+  },
+  // =========================================================================
+  //
+  // AI Suggested Valued Components Handler
+  //  - Return the set of human chose VCs to the AI to continue learning.
+  //
+  // =========================================================================
+  submitChosenVCsToAIBot: function (commentId) {
+    var self = this;
+    return new Promise(function (resolve, reject) {
+      self.findOne({ _id: commentId })
+        .then(function (data) {
+          if (data && data.suggestedValuedComponents) {
+            var formattedTagsArray = data.topics.map(function (topic) {
+              return topic.split(' ').join('_').toLowerCase();
+            });
+            var postBody = { tags: formattedTagsArray };
+            // TODO: Nick: update the url to use data.suggestedValuedComponents.annotate_uri
+            return axios.post('https://nlu.kinsol.io/api/1.0/vc_annotations/' + data.suggestedValuedComponents.comment_id, postBody)
+              .then(function() {
+                return;
+              })
+          } else {
+            return;
+          }
+        })
+        .then(resolve, reject);
+    })
   }
 });

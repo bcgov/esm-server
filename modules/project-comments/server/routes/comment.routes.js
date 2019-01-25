@@ -115,5 +115,14 @@ module.exports = function (app) {
     .delete (routes.setAndRun (CommentPeriod, function (model, req) {
       return model.removePeriod (req.CommentPeriod);
     }));
-
+  // =========================================================================
+  //
+  // AI Suggested Valued Components Routes
+  //
+  // =========================================================================
+  app.route('/api/comment/vc_annotations/:commentId')
+    .all(policy('user'))
+    .post(routes.setAndRun(CommentModel, function (model, req) {
+      return model.submitChosenVCsToAIBot(req.params.commentId);
+    }));
 };
