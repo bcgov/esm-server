@@ -718,8 +718,8 @@ module.exports = DBModel.extend({
             var postBody = { tags: formattedTagsArray };
             // TODO: Nick: update the url to use data.suggestedValuedComponents.annotate_uri
             return axios.post('https://nlu.kinsol.io/api/1.0/vc_annotations/' + data.suggestedValuedComponents.comment_id, postBody)
-              .then(function() {
-                return;
+              .then(function(response) {
+                return response;
               })
           } else {
             return;

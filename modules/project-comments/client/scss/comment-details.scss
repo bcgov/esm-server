@@ -1,4 +1,4 @@
-@import "modules/project-comments/client/scss/prototype-theme.scss"; 
+@import "modules/project-comments/client/scss/prototype-theme.scss";
 
 .public-comment-modal .modal-dialog {
   position: fixed;
@@ -135,6 +135,10 @@
 
 .comment-body {
   margin-top: 2rem;
+
+  .highlight {
+    background-color: lighten(blue, 30%);
+  }
 }
 
 .comment-vcs {
@@ -158,7 +162,7 @@
   margin-top: 1rem;
   padding: 0;
   list-style-type: none;
-  
+
   li {
     @include flexbox();
     align-items: center;
@@ -221,7 +225,7 @@
 }
 
 // Prototype Panels
-.left-container, 
+.left-container,
 .right-container {
   position: relative;
 }
@@ -236,12 +240,12 @@
    @include flexbox();
    @include flexdirection(column);
   }
-  
+
   .panel-header {
     padding: 2rem;
     background: #fff;
     @include flex(0 0 auto);
-  
+
     h5 {
       margin: 0;
       text-transform: uppercase;

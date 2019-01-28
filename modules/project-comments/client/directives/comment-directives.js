@@ -420,6 +420,7 @@ angular.module('comment')
               self.period = period;
               self.project = project;
               self.comment = angular.copy(comment);
+              self.commentForDisplay = self.comment.comment;
               self.comment.documents = angular.copy(docs);
               self.isPublic = self.period.periodType === 'Public';
               self.canUpdate = (self.period.userCan.classifyComments || self.period.userCan.vetComments);
@@ -542,8 +543,8 @@ angular.module('comment')
                 }
               });
 
-              // parse the suggested valued components if the suggestedValuedComponents element exists
-              if (self.comment.suggestedValuedComponents) {
+              // parses the suggested valued components for the entire comment
+              self.parseGlobalSuggestedValuedComponents = function() {
                 // for each of the global suggestions (for the comment as a whole)
                 _.forEach(self.comment.suggestedValuedComponents.predictions.data.global, function (suggestedVCObj) {
                   // for each of the valued components that are enabled for the project
@@ -557,6 +558,70 @@ angular.module('comment')
                     }
                   });
                 });
+              }
+
+              // parses the suggested valued components for each sentence of the comment
+              self.parseLocalSuggestedValuedComponents = function() {
+                self.suggestedSentenceVCs = {};
+
+                // for each of the local suggestions (for the comment sentences)
+                _.forEach(self.comment.suggestedValuedComponents.predictions.data.local, function (suggestedVCObj) {
+                  // for each of the valued components that are enabled for the project
+                  _.forEach(self.allowedValuedComponents, function (allowedVC) {
+                    // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
+                    if (allowedVC.name.split(' ').join('_').toLowerCase() == suggestedVCObj.name || allowedVC.title.split(' ').join('_').toLowerCase() == suggestedVCObj.name) {
+                      /*
+                       * example of suggestedSentenceVCs data structure, which ensures each unique vc._id has a unique set of start and end objects:
+                       * {
+                       *    37129381628361923: {
+                       *       010: {
+                       *          start_char: 0
+                       *          end_char: 10
+                       *       },
+                       *      1535: {
+                       *         start_char: 15
+                       *         end_char: 35
+                       *      }
+                       *    },
+                       *    1209381902839012: {
+                       *       ...
+                       *    },
+                       *    ...
+                       * }
+                       */
+                      if (!self.suggestedSentenceVCs.hasOwnProperty(allowedVC._id)) {
+                        self.suggestedSentenceVCs[allowedVC._id] = {};
+                      }
+                      var key = "" + suggestedVCObj.start_char + suggestedVCObj.end_char; // concat the start and end index, as a string, to act as a unique key
+                      self.suggestedSentenceVCs[allowedVC._id][key] = { start_char: suggestedVCObj.start_char, end_char: suggestedVCObj.end_char }; // append an object containing the start and end index
+                    }
+                  });
+                });
+              }
+
+              self.toggleSentenceHighlight = function(vcID) {
+                // reset commentForDisplay to the raw comment
+                self.commentForDisplay = self.comment.comment;
+
+                var sentencesToHighlight = self.suggestedSentenceVCs[vcID];
+                if(sentencesToHighlight) {
+                  // get an array of keys in reverse order.
+                  // this is necessary because we must add the tags to the comment from bottom to top, so as not to offset the start and end indexs.
+                  var keysInDescOrder = _.sortBy(Object.keys(sentencesToHighlight), function(val){
+                    return parseInt(val);
+                  }).reverse();
+                  // add highlight tags based on current hovered VC
+                  _.forEach(keysInDescOrder, function(key){
+                    self.commentForDisplay = [self.commentForDisplay.slice(0, sentencesToHighlight[key].end_char), '</b>', self.commentForDisplay.slice(sentencesToHighlight[key].end_char)].join('');
+                    self.commentForDisplay = [self.commentForDisplay.slice(0, sentencesToHighlight[key].start_char), '<b class="highlight">', self.commentForDisplay.slice(sentencesToHighlight[key].start_char)].join('');
+                  });
+                }
+              }
+
+              // parse the suggested valued components if the suggestedValuedComponents element exists
+              if (self.comment.suggestedValuedComponents) {
+                self.parseGlobalSuggestedValuedComponents();
+                self.parseLocalSuggestedValuedComponents();
               }
 
               // update the valued components, topics, and pillars fields based on the current UI selections
@@ -580,7 +645,7 @@ angular.module('comment')
                 self.comment.pillars = [];
 
                 _.forEach(self.comment.valuedComponents, function (vcID) {
-                  var valuedComponentObj = self.getValuedComponentbyID(vcID);
+                  var valuedComponentObj = self.getValuedComponentByID(vcID);
                   if (valuedComponentObj) {
                     self.comment.topics.push(valuedComponentObj.title);
                     self.comment.pillars.push(valuedComponentObj.pillar);
@@ -597,7 +662,7 @@ angular.module('comment')
               }
 
               // Given a valued component _id, return the full valued component object.
-              self.getValuedComponentbyID = function (vcID) {
+              self.getValuedComponentByID = function (vcID) {
                 return self.allowedValuedComponents.find(function (allowedVC) {
                   return allowedVC._id === vcID
                 });

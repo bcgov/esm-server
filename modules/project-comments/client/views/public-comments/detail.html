@@ -39,7 +39,7 @@
                 <span ng-if="s.alertType">&nbsp;|&nbsp; Updated by {{ s.comment.updatedBy.displayName }}</span>
                 -->
               </div>
-              <pre class="comment-body" ng-if="s.comment.comment">{{ ::s.comment.comment }}</pre>
+              <pre class="comment-body" ng-if="s.commentForDisplay" ng-bind-html="s.commentForDisplay"></pre>
             </section>
             <!-- Attachments -->
             <section ng-if="s.comment.documents.length > 0">
@@ -141,7 +141,7 @@
             <ul class="check-list">
               <li ng-repeat="vc in s.allowedValuedComponents">
                 <input type="checkbox" id="{{vc.name}}" ng-checked="s.isSelectedValuedComponent(vc._id)" ng-click="s.updateValuedComponentSelection(vc._id)"/>
-                <label for="{{vc.name}}">
+                <label for="{{vc.name}}" ng-mouseover="s.toggleSentenceHighlight(vc._id)">
                   <span>{{vc.name}}</span>
                   <span class="label label-primary" ng-if="vc.confidence && vc.confidence === 'high'">High</span>
                   <span class="label label-primary med" ng-if="vc.confidence && vc.confidence === 'med'">Med</span>
