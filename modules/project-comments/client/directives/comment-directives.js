@@ -546,7 +546,7 @@ angular.module('comment')
               // parses the suggested valued components for the entire comment
               self.parseGlobalSuggestedValuedComponents = function() {
                 // for each of the global suggestions (for the comment as a whole)
-                _.forEach(self.comment.suggestedValuedComponents.predictions.data.global, function (suggestedVCObj) {
+                _.forEach(_.get(self.comment, 'suggestedValuedComponents.predictions.data.global'), function (suggestedVCObj) {
                   // for each of the valued components that are enabled for the project
                   _.forEach(self.allowedValuedComponents, function (allowedVC) {
                     // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
@@ -565,7 +565,7 @@ angular.module('comment')
                 self.suggestedSentenceVCs = {};
 
                 // for each of the local suggestions (for the comment sentences)
-                _.forEach(self.comment.suggestedValuedComponents.predictions.data.local, function (suggestedVCObj) {
+                _.forEach(_.get(self.comment, 'suggestedValuedComponents.predictions.data.local'), function (suggestedVCObj) {
                   // for each of the valued components that are enabled for the project
                   _.forEach(self.allowedValuedComponents, function (allowedVC) {
                     // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
