@@ -28,13 +28,17 @@
     }
 
     span {
-      margin-left: 1rem;
       @include flex(1 1 auto);
     }
 
     .label {
       @include flex(0 0 auto);
       width: 6rem;
+    }
+
+    &:hover {
+      color: #000;
+      background-color: lighten(#007bff, 40%);
     }
   }
 
@@ -48,5 +52,9 @@
   input:checked + label {
     color: $gray9;
     font-weight: bold;
+  }
+
+  .vc-pillar {
+    color: #666;
   }
 }

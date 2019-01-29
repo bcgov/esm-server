@@ -50,7 +50,7 @@ angular.module('core').config(['$stateProvider', '_', function ($stateProvider, 
       controller: function ($scope, NgTableParams, vcs, project, $uibModal, $state, Authentication) {
         // EPIC-745 Sort by Name [alpha], then by Title [alpha] inside the name
         var sortedVcs = _.sortByOrder(vcs, ['name', 'title']);
-        $scope.tableParams = new NgTableParams ({count:10}, {dataset: sortedVcs});
+        $scope.tableParams = new NgTableParams ({count:100}, {dataset: sortedVcs});
         $scope.project = project;
         $scope.authentication = Authentication;
         $scope.openAddTopic = function() {

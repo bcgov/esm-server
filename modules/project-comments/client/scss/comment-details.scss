@@ -2,9 +2,9 @@
 
 .public-comment-modal .modal-dialog {
   position: fixed;
-  top: 2rem;
+  top: 1rem;
   right: 2rem;
-  bottom: 2rem;
+  bottom: 1rem;
   left: 2rem;
   margin: 0;
   width: auto;
@@ -66,8 +66,8 @@
 
   h4 {
     margin-top: 0;
-    margin-bottom: 0.25rem;
-    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.6rem;
     font-weight: bold;
   }
 
@@ -119,12 +119,14 @@
 
   section + section {
     margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid #ccc;
   }
 }
 
 .comment-detail .right-container {
   margin-left: 1rem;
-  width: 400px;
+  width: 450px;
   @include flex(0 0 auto);
 }
 
@@ -135,9 +137,13 @@
 
 .comment-body {
   margin-top: 2rem;
+  line-height: 2.4rem;
+  font-size: 1.6rem;
 
   .highlight {
-    background-color: lighten(blue, 30%);
+    color: #000;
+    background-color: lighten(#007bff, 40%);
+    font-weight: normal;
   }
 }
 
@@ -249,7 +255,7 @@
     h5 {
       margin: 0;
       text-transform: uppercase;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
   }
 
