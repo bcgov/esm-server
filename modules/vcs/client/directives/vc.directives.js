@@ -109,80 +109,80 @@ angular.module ('vcs')
         });
       }
     };
+  })
+
+  .directive ('vcChooser', function ($uibModal, VcModel, _) {
+    return {
+      restrict: 'A',
+      scope: {
+        project: '=',
+        current: '=',
+        pillars: '=',
+        topics: '='
+      },
+      link : function(scope, element) {
+        element.on('click', function () {
+          $uibModal.open ({
+            animation: true,
+            templateUrl: 'modules/vcs/client/views/vc-chooser.html',
+            controllerAs: 's',
+            size: 'md',
+            windowClass: 'vc-chooser-view',
+            resolve: {
+              vcs: function (VcModel) {
+                return VcModel.forProject (scope.project._id)
+                  .then( function (list) {
+                    var rval = []; // ESM-733 display only published VCs
+                    _.each(list, function (item) {
+                      if(item.isPublished) {
+                        rval.push(item);
+                      }
+                    });
+                    return rval;
+                  });
+              }
+            },
+            controller: function ($scope, $uibModalInstance, vcs) {
+              var s = this;
+              s.selected = scope.current;
+              s.vcs = vcs;
+              var index = vcs.reduce (function (prev, next) {
+                prev[next._id] = next;
+                return prev;
+              }, {});
+              s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
+              s.ok = function () {
+                var pills = {};
+                var tops = [];
+                scope.pillars.splice (0);
+                scope.topics.splice (0);
+                tops = s.selected.map (function (e) {
+                  pills[index[e].pillar] = 1;
+                  // jsherman - 20160804: chooser displays the title, so let's return title to the caller, not name.
+                  return index[e].title;
+                });
+                scope.pillars = _.keys (pills);
+                scope.topics = tops;
+                $uibModalInstance.close (s.selected);
+              };
+              s.dealwith = function (id) {
+                var i = s.selected.indexOf (id);
+                if (i !== -1) {
+                  s.selected.splice (i, 1);
+                }
+                else {
+                  s.selected.push (id);
+                }
+              };
+            }
+          })
+            .result.then (function (/* data */) {
+            // fullfill promise by doing nothing?
+            })
+            .catch (function (/* err */) {
+            // swallow error
+            });
+        });
+      }
+    };
   });
-// NICK: Not used anymore, part of the old comment VC modal
-// .directive ('vcChooser', function ($uibModal, VcModel, _) {
-//   return {
-//     restrict: 'A',
-//     scope: {
-//       project: '=',
-//       current: '=',
-//       pillars: '=',
-//       topics: '='
-//     },
-//     link : function(scope, element) {
-//       element.on('click', function () {
-//         $uibModal.open ({
-//           animation: true,
-//           templateUrl: 'modules/vcs/client/views/vc-chooser.html',
-//           controllerAs: 's',
-//           size: 'md',
-//           windowClass: 'vc-chooser-view',
-//           resolve: {
-//             vcs: function (VcModel) {
-//               return VcModel.forProject (scope.project._id)
-//                 .then( function (list) {
-//                   var rval = []; // ESM-733 display only published VCs
-//                   _.each(list, function (item) {
-//                     if(item.isPublished) {
-//                       rval.push(item);
-//                     }
-//                   });
-//                   return rval;
-//                 });
-//             }
-//           },
-//           controller: function ($scope, $uibModalInstance, vcs) {
-//             var s = this;
-//             s.selected = scope.current;
-//             s.vcs = vcs;
-//             var index = vcs.reduce (function (prev, next) {
-//               prev[next._id] = next;
-//               return prev;
-//             }, {});
-//             s.cancel = function () { $uibModalInstance.dismiss ('cancel'); };
-//             s.ok = function () {
-//               var pills = {};
-//               var tops = [];
-//               scope.pillars.splice (0);
-//               scope.topics.splice (0);
-//               tops = s.selected.map (function (e) {
-//                 pills[index[e].pillar] = 1;
-//                 // jsherman - 20160804: chooser displays the title, so let's return title to the caller, not name.
-//                 return index[e].title;
-//               });
-//               scope.pillars = _.keys (pills);
-//               scope.topics = tops;
-//               $uibModalInstance.close (s.selected);
-//             };
-//             s.dealwith = function (id) {
-//               var i = s.selected.indexOf (id);
-//               if (i !== -1) {
-//                 s.selected.splice (i, 1);
-//               }
-//               else {
-//                 s.selected.push (id);
-//               }
-//             };
-//           }
-//         })
-//           .result.then (function (/* data */) {
-//             // fullfill promise by doing nothing?
-//           })
-//           .catch (function (/* err */) {
-//             // swallow error
-//           });
-//       });
-//     }
-//   };
-// });

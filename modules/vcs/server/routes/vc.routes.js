@@ -5,7 +5,6 @@
 //
 // =========================================================================
 var Vc = require ('../controllers/vc.controller');
-var _ = require('lodash');
 var routes = require ('../../../core/server/controllers/core.routes.controller');
 var policy = require ('../../../core/server/controllers/core.policy.controller');
 
@@ -13,17 +12,7 @@ module.exports = function (app) {
   routes.setCRUDRoutes (app, 'vc', Vc, policy, ['getall', 'get', 'post', 'put', 'new', 'query']);
   app.route ('/api/vc/for/project/:projectid').all (policy ('guest'))
     .get (routes.setAndRun (Vc, function (model, req) {
-      return model.getForProject (req.params.projectid)
-        .then(function (res) {
-          var publishedRes = [];
-          // Remove unpublished vcs
-          _.each(res, function (vc) {
-            if(vc.isPublished) {
-              publishedRes.push(vc);
-            }
-          });
-          return publishedRes;
-        });
+      return model.getForProject (req.params.projectid);
     }));
   app.route ('/api/vclist')
     .all (policy ('guest'))
