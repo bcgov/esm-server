@@ -2,10 +2,10 @@
 
 .public-comment-modal .modal-dialog {
   position: fixed;
-  top: 1rem;
-  right: 2rem;
-  bottom: 1rem;
-  left: 2rem;
+  top: 4rem;
+  right: 4rem;
+  bottom: 4rem;
+  left: 4rem;
   margin: 0;
   width: auto;
 
@@ -48,12 +48,12 @@
   }
 }
 
-@media (min-width: 1200px) and (min-height: 900px) {
+@media (min-width: 1600px) {
   .public-comment-modal .modal-dialog {
-    top: 6rem;
-    right: 30rem;
-    bottom: 6rem;
-    left: 30rem;
+    top: 4rem;
+    right: 20rem;
+    bottom: 4rem;
+    left: 20rem;
   }
 }
 
