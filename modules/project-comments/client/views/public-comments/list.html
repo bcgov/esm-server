@@ -39,16 +39,16 @@
           <li ng-repeat="topic in topics | orderBy: propertyName:reverse">
             <div class="chart-row__info">
               <div class="metric col">
-                <span class="percent">{{(topic.count / s.totalPublished) * 100 + '%' | limitTo: 4}}%</span>
+                <span class="percent">{{(topic.count / s.total) * 100 + '%' | limitTo: 4}}</span>
               </div>
               <div class="name col">
                 {{topic._id}}
               </div>
               <div class="total-count col">
-                {{topic.count}} / {{s.totalPublished}}
+                {{topic.count}} / {{s.total}}
               </div>
             </div>
-            <div class="chart-row__bar" ng-style="{'width': (topic.count / s.totalPublished) * 100 + '%'}"></div>
+            <div class="chart-row__bar" ng-style="{'width': (topic.count / s.total) * 100 + '%'}"></div>
           </li>
         </ul>
       </div>

@@ -267,8 +267,36 @@
   }
 }
 
+// Custom Content for VC
 .vc-content.panel-body {
+  @include flexbox();
+  @include flexdirection(column);
   padding: 0;
+  overflow: hidden;
+}
+
+.vc-content .filter-row {
+  @include flexbox();
+  @include flex(0 0 auto);
+  background: #eee;
+
+  div {
+    @include flex(1 1 auto);
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .confidence-col {
+    @include flex(0 0 auto);
+    padding-right: 3.7rem;
+  }
+}
+
+.vc-content .check-list {
+  @include flex(1 1 auto);
+  overflow-y: auto;
 }
 
 
