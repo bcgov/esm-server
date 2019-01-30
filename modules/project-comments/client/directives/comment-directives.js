@@ -568,32 +568,36 @@ angular.module('comment')
                 _.forEach(_.get(self.comment, 'suggestedValuedComponents.predictions.data.local'), function (suggestedVCObj) {
                   // for each of the valued components that are enabled for the project
                   _.forEach(self.allowedValuedComponents, function (allowedVC) {
-                    // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
-                    if (allowedVC.name.split(' ').join('_').toLowerCase() == suggestedVCObj.name || allowedVC.title.split(' ').join('_').toLowerCase() == suggestedVCObj.name) {
-                      /*
-                       * example of suggestedSentenceVCs data structure, which ensures each unique vc._id has a unique set of start and end objects:
-                       * {
-                       *    37129381628361923: {
-                       *       010: {
-                       *          start_char: 0
-                       *          end_char: 10
-                       *       },
-                       *      1535: {
-                       *         start_char: 15
-                       *         end_char: 35
-                       *      }
-                       *    },
-                       *    1209381902839012: {
-                       *       ...
-                       *    },
-                       *    ...
-                       * }
-                       */
-                      if (!self.suggestedSentenceVCs.hasOwnProperty(allowedVC._id)) {
-                        self.suggestedSentenceVCs[allowedVC._id] = {};
+                    // only check local predictions if they have a matching global prediction, indicated by the existence of a confidence or similarity property.
+                    if (_.get(allowedVC, 'confidence')) {
+                      // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
+                      if (allowedVC.name.split(' ').join('_').toLowerCase() == suggestedVCObj.name || allowedVC.title.split(' ').join('_').toLowerCase() == suggestedVCObj.name) {
+
+                        /*
+                        * example of suggestedSentenceVCs data structure, which ensures each unique vc._id has a unique set of start and end objects:
+                        * {
+                        *    37129381628361923: {
+                        *       010: {
+                        *          start_char: 0
+                        *          end_char: 10
+                        *       },
+                        *      1535: {
+                        *         start_char: 15
+                        *         end_char: 35
+                        *      }
+                        *    },
+                        *    1209381902839012: {
+                        *       ...
+                        *    },
+                        *    ...
+                        * }
+                        */
+                        if (!self.suggestedSentenceVCs.hasOwnProperty(allowedVC._id)) {
+                          self.suggestedSentenceVCs[allowedVC._id] = {};
+                        }
+                        var key = "" + suggestedVCObj.start_char + suggestedVCObj.end_char; // concat the start and end index, as a string, to act as a unique key
+                        self.suggestedSentenceVCs[allowedVC._id][key] = { start_char: suggestedVCObj.start_char, end_char: suggestedVCObj.end_char }; // append an object containing the start and end index
                       }
-                      var key = "" + suggestedVCObj.start_char + suggestedVCObj.end_char; // concat the start and end index, as a string, to act as a unique key
-                      self.suggestedSentenceVCs[allowedVC._id][key] = { start_char: suggestedVCObj.start_char, end_char: suggestedVCObj.end_char }; // append an object containing the start and end index
                     }
                   });
                 });
