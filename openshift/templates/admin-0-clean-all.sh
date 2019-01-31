@@ -55,7 +55,6 @@ _cli_output=$(oc delete pvc stir-admin-mongodb-data -n ${TARGET_PROJECT} 2>&1)
 outputRelevantOnly "${_cli_output}"
 
 
-oc project ${TARGET_PROJECT}
 _cli_output=$(oc delete imagestream stir-admin-minio -n ${TARGET_PROJECT} 2>&1) 
 outputRelevantOnly "${_cli_output}"
 _cli_output=$(oc delete service stir-admin-minio -n ${TARGET_PROJECT} 2>&1) 

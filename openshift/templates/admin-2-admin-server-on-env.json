@@ -161,7 +161,7 @@
       "spec": {
         "replicas": 1,
         "selector": {
-          "app": "minio",
+          "app": "${APP_NAME}",
           "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
         },
         "strategy": {
@@ -176,7 +176,7 @@
           "metadata": {
             "creationTimestamp": null,
             "labels": {
-              "app": "minio",
+              "app": "${APP_NAME}",
               "deploymentconfig": "${MINIO_DEPLOYMENT_NAME}"
             }
           },
@@ -186,7 +186,7 @@
                   "name": "MINIO_ACCESS_KEY",
                   "valueFrom": {
                     "secretKeyRef": {
-                      "key": "MINIO_ACCESS_KEY",
+                      "key": "accessKey",
                       "name": "${MINIO_DEPLOYMENT_NAME}"
                     }
                   }
@@ -195,7 +195,7 @@
                   "name": "MINIO_SECRET_KEY",
                   "valueFrom": {
                     "secretKeyRef": {
-                      "key": "MINIO_SECRET_KEY",
+                      "key": "secretKey",
                       "name": "${MINIO_DEPLOYMENT_NAME}"
                     }
                   }
@@ -209,7 +209,7 @@
                   "value": "/data"
                 }
               ],
-              "image": "docker-registry.default.svc:5000/openshift/minio:latest",
+              "image": "${OPENSHIFT_REGISTRY}/${MINIO_IMAGE_NAMESPACE}/${MINIO_IMAGE_NAME}:${MINIO_IMAGE_TAG}",
               "imagePullPolicy": "Always",
               "name": "${MINIO_DEPLOYMENT_NAME}",
               "ports": [{
@@ -248,9 +248,7 @@
         },
         "test": false,
         "triggers": [{
-            "type": "ConfigChange"
-          },
-          {
+            "type": "ImageChange",
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
@@ -258,11 +256,13 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "name": "minio:latest",
-                "namespace": "openshift"
+                "name": "${MINIO_IMAGE_NAME}:${MINIO_IMAGE_TAG}",
+                "namespace": "${MINIO_IMAGE_NAMESPACE}"
               }
-            },
-            "type": "ImageChange"
+            }
+          },
+          {
+            "type": "ConfigChange"
           }
         ]
       }
@@ -287,12 +287,12 @@
       "metadata": {
         "name": "${MINIO_DEPLOYMENT_NAME}",
         "labels": {
-          "app": "${API_NAME}"
+          "app": "${APP_NAME}"
         }
       },
       "spec": {
         "port": {
-          "targetPort": "8080-tcp"
+          "targetPort": "9000-tcp"
         },
         "to": {
           "kind": "Service",
@@ -327,8 +327,8 @@
               ],
               "from": {
                 "kind": "ImageStreamTag",
-                "namespace": "openshift",
-                "name": "${DATABASE_SERVICE_NAME}:3.4"
+                "namespace": "${MONGO_IMAGE_NAMESPACE}",
+                "name": "${MONGO_IMAGE_NAME}:${MONGO_IMAGE_TAG}"
               }
             }
           },
@@ -351,7 +351,7 @@
             "containers": [
               {
                 "name": "${DATABASE_SERVICE_NAME}",
-                "image": "docker-registry.default.svc:5000/openshift/mongodb:3.4",
+                "image": "${OPENSHIFT_REGISTRY}/${MONGO_IMAGE_NAMESPACE}/${MONGO_IMAGE_NAME}:${MONGO_IMAGE_TAG}",
                 "imagePullPolicy": "Always",
                 "ports": [
                   {
@@ -561,6 +561,33 @@
       "value": ""
     },
     {
+      "name": "OPENSHIFT_REGISTRY",
+      "displayName": "Openshift Registry",
+      "description": "The location:port where the Openshift serves images from (eg 'docker-registry.default.svc:5000').",
+      "value": "172.50.0.2:5000"
+    },
+    {
+      "name": "MONGO_IMAGE_NAME",
+      "displayName": "Mongo Image Name",
+      "description": "The source mongo image.",
+      "value": "mongodb",
+      "required": true
+    },
+    {
+      "name": "MONGO_IMAGE_NAMESPACE",
+      "displayName": "Mongo Image Namespace",
+      "description": "The source namespace of the mongo image.",
+      "value": "openshift",
+      "required": true
+    },
+    {
+      "name": "MONGO_IMAGE_TAG",
+      "displayName": "Mongo Image Tag",
+      "description": "The tag of the mongo image.",
+      "value": "3.4",
+      "required": true
+    },
+    {
       "name": "DATABASE_SERVICE_NAME",
       "displayName": "Database Service Name",
       "value": "admin-mongodb"
@@ -647,7 +674,28 @@
       "name": "APP_DEPLOYMENT_TAG",
       "displayName": "App Deployment Tag",
       "description": "Image tag to watch for changes and trigger deployment.",
-      "value": "EAO-STIR",
+      "value": "latest",
+      "required": true
+    },
+    {
+      "name": "MINIO_IMAGE_NAME",
+      "displayName": "Minio Image Name",
+      "description": "The source minio image.",
+      "value": "minio",
+      "required": true
+    },
+    {
+      "name": "MINIO_IMAGE_NAMESPACE",
+      "displayName": "Minio Image Namespace",
+      "description": "The source namespace of the minio image.",
+      "value": "openshift",
+      "required": true
+    },
+    {
+      "name": "MINIO_IMAGE_TAG",
+      "displayName": "Minio Image Tag",
+      "description": "The tag of the minio image.",
+      "value": "stable",
       "required": true
     },
     {
