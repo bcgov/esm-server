@@ -20,9 +20,11 @@
       <li ng-if="authentication.user">
         <a ui-sref="dashboard">My Projects </a>
       </li>
+      <!--
       <li ng-if="authentication.user">
         <a x-modal-day-calculator>Calculator</a>
       </li>
+      -->
       <li class="dropdown" ng-if="systemMenu.shouldRender(authentication.user)">
         <a class="dropdown-toggle" ng-click="$event.preventDefault();" id="dropdownSystemMenu" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="true">System
