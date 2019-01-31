@@ -1,0 +1,5 @@
+NAME=stir-admin-2-nginx
+BUILDER_IMAGESTREAM_NAMESPACE=openshift
+BUILDER_IMAGESTREAM_TAG=bcgov-s2i-nginx:latest
+SOURCE_REPOSITORY_URL=https://github.com/bcgov/eao-nginx
+NGINX_PROXY_URL=http://stir-admin-server:3000
