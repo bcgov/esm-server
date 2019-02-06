@@ -1,0 +1,6 @@
+NAME=stir-admin-nginx
+APP_IMAGE_NAME=stir-admin-2-nginx
+APP_IMAGE_NAMESPACE=l8g1vt-tools
+APP_DEPLOYMENT_TAG=latest
+NGINX_PROXY_HOST=stir-admin-server.pathfinder.gov.bc.ca
+
