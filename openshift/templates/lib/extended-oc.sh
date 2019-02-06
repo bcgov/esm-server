@@ -1,3 +1,5 @@
+#version 1.1
+
 checkJqPresent(){
     if jq --version | grep -q '^sh: jq: command not found'; then
         if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -53,6 +55,27 @@ checkDeploymentIsUp(){
     echo -e \\n"Tried to detect running pods for project \"${_project}\" deployment \"${_application}\" and failed."\\n
 }
 
+
+extractArgument(){
+    #check that an argument is present
+    #if not, notify the user which method is calling it, and what the expected argument is
+    local __resultvar=$1
+    local _caller=$2
+    local _arg_name=$3
+    local _arg_line=$4
+
+    if [ -z "${_arg_line}" ]; then
+        echo -e \\n"${_caller}: Missing parameter ${_arg_name}! Required parameters have to be present, even if empty."\\n
+        exit 1
+    fi
+    if ! echo "${_arg_line}" | grep -q "^$_arg_name"; then
+        echo -e \\n"${_caller}: Parameter ${_arg_name} was not in the expected order of parameters."\\n
+        exit 1
+    fi
+    local _cleaned=${_arg_line/${_arg_name}=/}
+    eval $__resultvar="'$_cleaned'"
+}
+
 checkNginxExists(){
     local _proxy=$1
 
@@ -88,12 +111,27 @@ outputRelevantOnly(){
     fi
 }
 
+sinkProjectOutput(){
+    local _cli_output=$1
+    if ! echo "${_cli_output}" | grep -q -e '^Now using project'; then
+        echo -e "${_cli_output}"
+    fi
+}
+
 cleanProject(){
     local _application_name=$1
     local _namespace=$2
 
+    local _original_namespace=$(oc project --short=true)
+
     local _cli_output
+
+    _cli_output=$(oc project ${_namespace} 2>&1)
+    sinkProjectOutput "${_cli_output}"
+
     _cli_output=$(oc delete all -l ${_application_name} -n ${_namespace} 2>&1)
+    outputRelevantOnly "${_cli_output}"
+    _cli_output=$(oc delete all --selector app=${_application_name} -n ${_namespace} 2>&1)
     outputRelevantOnly "${_cli_output}"
     _cli_output=$(oc delete build ${_application_name} -n ${_namespace} 2>&1)
     outputRelevantOnly "${_cli_output}"
@@ -109,6 +147,11 @@ cleanProject(){
     outputRelevantOnly "${_cli_output}"
     _cli_output=$(oc delete configmap ${_application_name} -n ${_namespace} 2>&1)
     outputRelevantOnly "${_cli_output}"
+    _cli_output=$(oc delete secret ${_application_name} -n ${_namespace} 2>&1)
+    outputRelevantOnly "${_cli_output}"
     _cli_output=$(oc delete all -l ${_application_name} -n ${_namespace} 2>&1)
     outputRelevantOnly "${_cli_output}"
+
+    _cli_output=$(oc project ${_original_namespace} 2>&1)
+    sinkProjectOutput "${_cli_output}"
 }
