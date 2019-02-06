@@ -1,4 +1,4 @@
-@import "modules/project-comments/client/scss/prototype-theme.scss"; 
+@import "modules/project-comments/client/scss/prototype-theme.scss";
 
 .check-list {
   margin: 0;
@@ -33,7 +33,7 @@
 
     .label {
       @include flex(0 0 auto);
-      width: 6rem;
+      width: 6.4rem;
     }
 
     &:hover {

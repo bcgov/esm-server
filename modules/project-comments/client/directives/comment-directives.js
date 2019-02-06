@@ -554,6 +554,7 @@ angular.module('comment')
                       // a match is found, add the suggested valued component similarity and confidence to the allowed valued component
                       allowedVC.similarity = suggestedVCObj.similarity;
                       allowedVC.confidence = suggestedVCObj.confidence;
+                      allowedVC.predictionType = 'global';
                       return false;
                     }
                   });
@@ -603,29 +604,85 @@ angular.module('comment')
                 });
               }
 
-              self.toggleSentenceHighlight = function(vcID) {
+
+              // parses the suggested valued components for each sentence of the comment
+              self.parseKeywordSuggestedValuedComponents = function() {
+                self.suggestedKeywordVCs = {};
+
+                // for each of the local suggestions (for the comment sentences)
+                _.forEach(_.get(self.comment, 'suggestedValuedComponents.predictions.data.keyword'), function (suggestedVCObj) {
+                  // for each of the valued components that are enabled for the project
+                  _.forEach(self.allowedValuedComponents, function (allowedVC) {
+                    // only check keyword predictions if they do not have a matching global prediction, indicated by the existence of a confidence or similarity property.
+                    if (!_.get(allowedVC, 'confidence')) {
+                      // convert the allowed valued component name and title to lowercase with underscores and compare to the suggested valued component name
+                      if (allowedVC.name.split(' ').join('_').toLowerCase() == suggestedVCObj.name || allowedVC.title.split(' ').join('_').toLowerCase() == suggestedVCObj.name) {
+                        /*
+                        * example of suggestedKeywordVCs data structure, which ensures each unique vc._id has a unique set of start and end objects:
+                        * {
+                        *    37129381628361923: {
+                        *       010: {
+                        *          start_char: 0
+                        *          end_char: 10
+                        *       },
+                        *      1535: {
+                        *         start_char: 15
+                        *         end_char: 35
+                        *      }
+                        *    },
+                        *    1209381902839012: {
+                        *       ...
+                        *    },
+                        *    ...
+                        * }
+                        */
+                        if (!self.suggestedKeywordVCs.hasOwnProperty(allowedVC._id)) {
+                          self.suggestedKeywordVCs[allowedVC._id] = {};
+                        }
+                        var key = "" + suggestedVCObj.start_char + suggestedVCObj.end_char; // concat the start and end index, as a string, to act as a unique key
+                        self.suggestedKeywordVCs[allowedVC._id][key] = { start_char: suggestedVCObj.start_char, end_char: suggestedVCObj.end_char }; // append an object containing the start and end index
+
+                        allowedVC.predictionType = 'keyword';
+                        return false;
+                      }
+                    }
+                  });
+                });
+              }
+
+              self.toggleSentenceHighlight = function(vcID, vcType) {
                 // reset commentForDisplay to the raw comment
                 self.commentForDisplay = self.comment.comment;
 
-                var sentencesToHighlight = self.suggestedSentenceVCs[vcID];
-                if(sentencesToHighlight) {
+                var stringsToHighlight = null;
+
+                // determine if this VC should toggle the sentence or keyword highlights (currently only one type of highlighting is supported per VC).
+                if (vcType === 'global') {
+                  stringsToHighlight = self.suggestedSentenceVCs[vcID];
+                } else if (vcType === 'keyword') {
+                  stringsToHighlight = self.suggestedKeywordVCs[vcID];
+                }
+
+                if(stringsToHighlight) {
                   // get an array of keys in reverse order.
                   // this is necessary because we must add the tags to the comment from bottom to top, so as not to offset the start and end indexs.
-                  var keysInDescOrder = _.sortBy(Object.keys(sentencesToHighlight), function(val){
+                  var keysInDescOrder = _.sortBy(Object.keys(stringsToHighlight), function(val){
                     return parseInt(val);
                   }).reverse();
                   // add highlight tags based on current hovered VC
                   _.forEach(keysInDescOrder, function(key){
-                    self.commentForDisplay = [self.commentForDisplay.slice(0, sentencesToHighlight[key].end_char), '</b>', self.commentForDisplay.slice(sentencesToHighlight[key].end_char)].join('');
-                    self.commentForDisplay = [self.commentForDisplay.slice(0, sentencesToHighlight[key].start_char), '<b class="highlight">', self.commentForDisplay.slice(sentencesToHighlight[key].start_char)].join('');
+                    self.commentForDisplay = [self.commentForDisplay.slice(0, stringsToHighlight[key].end_char), '</b>', self.commentForDisplay.slice(stringsToHighlight[key].end_char)].join('');
+                    self.commentForDisplay = [self.commentForDisplay.slice(0, stringsToHighlight[key].start_char), '<b class="highlight">', self.commentForDisplay.slice(stringsToHighlight[key].start_char)].join('');
                   });
                 }
               }
 
               // parse the suggested valued components if the suggestedValuedComponents element exists
               if (self.comment.suggestedValuedComponents) {
+                // currently the order of these calls matters, and should not be changed (global > local > keyword)
                 self.parseGlobalSuggestedValuedComponents();
                 self.parseLocalSuggestedValuedComponents();
+                self.parseKeywordSuggestedValuedComponents();
               }
 
               // update the valued components, topics, and pillars fields based on the current UI selections

@@ -303,6 +303,10 @@
 // VC Prediction Badges
 .label {
   background: #007bff;
+
+  &.keyword {
+    background: #cccccc;
+  }
 }
 
 .high {

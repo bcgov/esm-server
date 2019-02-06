@@ -147,11 +147,12 @@
             <ul class="check-list">
               <li ng-repeat="vc in s.allowedValuedComponents">
                 <input type="checkbox" id="{{vc.name}}" ng-checked="s.isSelectedValuedComponent(vc._id)" ng-click="s.updateValuedComponentSelection(vc._id)"/>
-                <label for="{{vc.name}}" ng-mouseover="s.toggleSentenceHighlight(vc._id)">
+                <label for="{{vc.name}}" ng-mouseover="s.toggleSentenceHighlight(vc._id, vc.predictionType)">
                   <span>{{vc.name}} <em class="vc-pillar">({{vc.pillar}})</em></span>
-                  <span class="label label-primary" ng-if="vc.confidence && vc.confidence === 'high'">High</span>
+                  <span class="label label-primary high" ng-if="vc.confidence && vc.confidence === 'high'">High</span>
                   <span class="label label-primary med" ng-if="vc.confidence && vc.confidence === 'med'">Med</span>
                   <span class="label label-primary low" ng-if="vc.confidence && vc.confidence === 'low'">Low</span>
+                  <span class="label label-primary keyword" ng-if="vc.predictionType && vc.predictionType === 'keyword'">Keyword</span>
                 </label>
               </li>
             </ul>
