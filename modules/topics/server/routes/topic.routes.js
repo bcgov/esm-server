@@ -18,5 +18,8 @@ module.exports = function (app) {
     .get (routes.setAndRun (Topic, function (model, req) {
       return model.list ({type:req.params.type});
     }));
+  app.route ('/api/topics/all').all (policy ('guest'))
+    .get (routes.setAndRun (Topic, function (model) {
+      return model.list ();
+    }));
 };
-

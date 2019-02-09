@@ -26,7 +26,7 @@ angular.module('comment')
       restrict: 'E',
       templateUrl: 'modules/project-comments/client/views/public-comments/list.html',
       controllerAs: 's',
-      controller: function ($scope, $rootScope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, VcModel, _) {
+      controller: function ($scope, $rootScope, $filter, NgTableParams, Authentication, CommentModel, UserModel, CommentPeriodModel, VcModel, TopicModel, _) {
         var s = this;
         var project = s.project = $scope.project;
         var period = s.period = $scope.period;
@@ -413,9 +413,12 @@ angular.module('comment')
               },
               projectValuedComponents: function () {
                 return VcModel.forProject($scope.project._id)
+              },
+              allSystemTopics: function() {
+                return TopicModel.getAllTopics();
               }
             },
-            controller: function ($scope, $uibModalInstance, docs, projectValuedComponents) {
+            controller: function ($scope, $uibModalInstance, docs, projectValuedComponents, allSystemTopics) {
               var self = this;
               self.period = period;
               self.project = project;
@@ -692,12 +695,45 @@ angular.module('comment')
                   // VC is in the array, remove it
                   self.comment.valuedComponents.splice(index, 1);
                 } else {
-                  // VC is not in the array, add it
+                  // VC is not in the array, add it and any parents
                   self.comment.valuedComponents.push(vcID);
+                  self.addParentValuedComponents(vcID);
                 }
 
                 // finally, update topics and pillars
                 self.updateTopicsAndPillars();
+              }
+
+              // recursively adds the parent valued components, if any, given an initial child valued component _id
+              self.addParentValuedComponents = function(childVCID) {
+                var childTopic = self.getTopicByValuedComponentID(childVCID);
+                // console.log('childTopic: ', childTopic); //eslint-disable-line
+                if (!childTopic) {
+                  return;
+                }
+
+                var parentTopicCode = childTopic.parent;
+                if (!parentTopicCode) {
+                  return;
+                }
+
+                var parentTopic = self.getTopicByCode(parentTopicCode);
+                if (!parentTopic) {
+                  return;
+                }
+
+                var parentVC = self.getValuedComponentByName(parentTopic.name);
+                if (!parentVC) {
+                  return;
+                }
+
+                // add parent if not already in the array
+                var index = self.comment.valuedComponents.indexOf(parentVC._id);
+                if (index === -1) {
+                  self.comment.valuedComponents.push(parentVC._id);
+                }
+                // recurse passing the current parent _id as the new child _id
+                self.addParentValuedComponents(parentVC._id);
               }
 
               // update the topics and pillars based on the current valued components
@@ -728,6 +764,31 @@ angular.module('comment')
                   return allowedVC._id === vcID
                 });
               }
+
+              // Given a valued component _id, return the full valued component object.
+              self.getValuedComponentByName = function (vcName) {
+                return self.allowedValuedComponents.find(function (allowedVC) {
+                  return allowedVC.name === vcName
+                });
+              }
+
+              // Get a topic for a given valued component _id, return the full topic object.
+              self.getTopicByValuedComponentID = function(vcID) {
+                var vc = self.getValuedComponentByID(vcID);
+                return allSystemTopics.find(function(topic) {
+                  return (
+                    topic.name === vc.name &&
+                    topic.pillar === vc.pillar
+                  );
+                });
+              };
+
+              // Get a topic by topic.code, return the full topic object.
+              self.getTopicByCode = function(topicCode) {
+                return allSystemTopics.find(function(topic) {
+                  return topic.code === topicCode
+                });
+              };
               /************************************************************
               * NEW VC Logic utilizing the AI Suggested Valued Components *
               ********************* END ***********************************/

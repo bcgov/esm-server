@@ -18,9 +18,10 @@ angular.module('topics').factory ('TopicModel', function (ModelBase) {
     },
     forType: function (type) {
       return this.get ('/api/topics/for/type/'+type);
+    },
+    getAllTopics: function() {
+      return this.get ('/api/topics/all/');
     }
   });
   return new Class ();
 });
-
-
