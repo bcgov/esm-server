@@ -89,3 +89,4 @@ runDeployAll() {
 }
 
 runDeployAll $(<${ARGS_FILE})
+

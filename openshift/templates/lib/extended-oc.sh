@@ -55,7 +55,6 @@ checkDeploymentIsUp(){
     echo -e \\n"Tried to detect running pods for project \"${_project}\" deployment \"${_application}\" and failed."\\n
 }
 
-
 extractArgument(){
     #check that an argument is present
     #if not, notify the user which method is calling it, and what the expected argument is
