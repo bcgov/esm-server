@@ -30,7 +30,7 @@ The features provided by the web-based EPIC application include:
 
 EPIC has been built using MongoDB, Express, AngularJS and NodeJS.  See http://mean.io/ for more information on the project's development stack. Basic globally install requirements for Win32, OSX, or Linux are as follows:
 
-* node@ >= 6.11.3
+* node@ = 6.11.3
 * npm@ >= 2.15.1
 * mongodb-server@ >= 2.6.x
 * grunt@ >= 0.4.5
@@ -64,15 +64,15 @@ Note: If you've previously done an installation, and are upgrading from npm to y
  `npm start`
 
 ## Windows Environment Variables
-  If you are using a Mingw64, Cygwin64 or git bash, then you can set the above variables in your .bashrc at your posix root directory (the directory you start in when you start your posix environment).  
-		
+  If you are using a Mingw64, Cygwin64 or git bash, then you can set the above variables in your .bashrc at your posix root directory (the directory you start in when you start your posix environment).
+
 Restart your terminal and type "env" to check if your settings are there.  If not, then you can try to create a .bash_profile file containing the following code:
-		
+
 		if [ -f ~/.bashrc ]
 		then
 			. ~/.bashrc
 		fi
-		
+
 
 ## Production Mode
 `grunt build && NODE_ENV=production node server.js`
