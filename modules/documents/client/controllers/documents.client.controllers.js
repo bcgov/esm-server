@@ -13,7 +13,6 @@ angular.module('documents')
   .controller('controllerModalDocumentInstructions', controllerModalDocumentInstructions)
   .controller('controllerSignatureUpload', controllerSignatureUpload)
   .filter('removeExtension', filterRemoveExtension)
-  .filter('spaceReplace',filterSpaceReplace)
   .filter('displayFriendlyCode', filterDisplayFriendlyLocationCode)
   .filter('bytes', filterBytes);
 
@@ -851,22 +850,6 @@ function filterRemoveExtension() {
         var filename = input.substring(0, index);
         return filename; // ESM-724 Preserve file name case
       }
-    }
-    return input;
-  };
-}
-
-// -----------------------------------------------------------------------------------
-//
-// FILTER: Replace Spaces with Underscores
-//
-// -----------------------------------------------------------------------------------
-filterSpaceReplace.$inject = [];
-/* @ngInject */
-function filterSpaceReplace() {
-  return function(input) {
-    if (input) {
-      input.split(' ').join('_')
     }
     return input;
   };
