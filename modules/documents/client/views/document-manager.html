@@ -390,7 +390,7 @@
               data-clipboard-text="{{ documentMgr.infoPanel.data.link }}" ngclipboard-success="copyClipboardSuccess(e);" ngclipboard-error="copyClipboardError(e);">
               <span class="glyphicon glyphicon-copy"></span>
             </button>
-            <a class="btn btn-sm btn-default" title="Download File" href="/api/document/{{documentMgr.infoPanel.data.documentFileName | spaceReplace}}" target="_blank"
+            <a class="btn btn-sm btn-default" title="Download File" href="/api/document/{{ documentMgr.infoPanel.data._id }}/fetch" target="_blank"
               ng-if="documentMgr.infoPanel.data.userCan.read">
               <span class="glyphicon glyphicon-download-alt"></span>
             </a>
