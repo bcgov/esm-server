@@ -137,7 +137,7 @@ module.exports = function (app) {
    * Download a file from Minio, or from an alternate http/ftp source, if specified in the file properties.
    * Alternate function to allow calls to provide document name that can be picked up by browser
    */
-  app.route('/api/document/:document')
+  app.route('/api/document/:document/fetch')
     .all(policy('guest'))
     .get(function (req, res) {
       if (req.Document.internalURL.match(/^(http|ftp)/)) {
