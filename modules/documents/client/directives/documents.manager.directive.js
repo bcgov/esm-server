@@ -205,7 +205,8 @@ angular.module('documents')
         };
 
         self.dblClick = function(doc){
-          var pdfURL = window.location.protocol + "//" + window.location.host + "/api/document/" + doc._id + "/fetch";
+          var safeName = doc.displayName.replace(/ /g,"_");
+          var pdfURL = window.location.protocol + "//" + window.location.host + "/api/document/" + safeName;
           window.open(pdfURL, "_blank");
         };
 

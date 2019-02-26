@@ -133,6 +133,38 @@ module.exports = function (app) {
       }
     });
 
+  /**
+   * Download a file from Minio, or from an alternate http/ftp source, if specified in the file properties.
+   * Alternate function to allow calls to provide document name that can be picked up by browser
+   */
+  app.route('/api/document/:document/fetch')
+    .all(policy('guest'))
+    .get(function (req, res) {
+      if (req.Document.internalURL.match(/^(http|ftp)/)) {
+        return res.redirect(req.Document.internalURL);
+      } else {
+        var fileName = req.Document.documentFileName;
+        var fileMeta;
+
+        // check if the file exists in Minio
+        return MinioController.statObject(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL)
+          .then(function(objectMeta){
+            fileMeta = objectMeta;
+            // get the download URL
+            return MinioController.getPresignedGETUrl(MinioController.BUCKETS.DOCUMENTS_BUCKET, req.Document.internalURL);
+          }, function(){
+            renderNotFound(req.originalUrl, res);
+          })
+          .then(function (docURL) {
+            // stream file from Minio to client
+            res.setHeader('Content-Length', fileMeta.size);
+            res.setHeader('Content-Type', fileMeta.metaData['content-type']);
+            res.setHeader('Content-Disposition', 'attachment;filename="' + fileName + '"');
+            return rp(docURL).pipe(res);
+          });
+      }
+    });
+
   function renderNotFound (url, res) {
     res.status(404).format({
       'text/html': function () {
