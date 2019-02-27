@@ -134,10 +134,9 @@ module.exports = function (app) {
     });
 
   /**
-   * Download a file from Minio, or from an alternate http/ftp source, if specified in the file properties.
-   * Alternate function to allow calls to provide document name that can be picked up by browser
+   * Display a file inline from Minio, or from an alternate http/ftp source, if specified in the file properties.
    */
-  app.route('/api/document/:document')
+  app.route('/api/document/:document/fetch/:name')
     .all(policy('guest'))
     .get(function (req, res) {
       if (req.Document.internalURL.match(/^(http|ftp)/)) {
@@ -159,7 +158,7 @@ module.exports = function (app) {
             // stream file from Minio to client
             res.setHeader('Content-Length', fileMeta.size);
             res.setHeader('Content-Type', fileMeta.metaData['content-type']);
-            res.setHeader('Content-Disposition', 'attachment;filename="' + fileName + '"');
+            res.setHeader('Content-Disposition', 'inline;filename="' + fileName + '"');
             return rp(docURL).pipe(res);
           });
       }
