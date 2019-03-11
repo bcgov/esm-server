@@ -5,6 +5,43 @@ angular.module('documents')
 
     var inProgressFiles = [];
 
+    var acceptedFileTypes = [
+      "pdf",
+      "xlsx",
+      "xls",
+      "jpg",
+      "png",
+      "shx",
+      "shp",
+      "sbx",
+      "sbn",
+      "cpg",
+      "dbf",
+      "prj"
+    ];
+
+    var checkAcceptedFileTypes = function(file) {
+      var fileTypeAccepted = false
+
+      var getExtension = /(?:\.([^.]+))?$/;
+      var ext = getExtension.exec(file.name)[1];
+
+      acceptedFileTypes.some(function(acceptedFileType) {
+        if (ext === acceptedFileType) {
+          fileTypeAccepted = true;
+          return true;
+        }
+        return false;
+      });
+
+      if (fileTypeAccepted){
+        return true;
+      }else{
+        return false;
+      }
+    };
+
+
     var setAllowedActions = function(service) {
       service.actions.allowStart = (service.counts.total > 0 && !service.actions.busy && !service.actions.started) && (service.counts.uploading === 0, service.counts.failed === 0 && service.counts.cancelled === 0 && service.counts.uploaded === 0); // can't upload until last batch cleared...
       service.actions.allowStop = (service.counts.total > 0 && service.actions.busy && service.actions.started);
@@ -49,21 +86,25 @@ angular.module('documents')
       if (service.actions.busy) {
         return false;
       }
-      var found = _.find(service.fileList, function(o) {
-        return o.name.toLowerCase() === f.name.toLowerCase() && o.lastModified === f.lastModified && o.size === f.size && o.type.toLowerCase() === f.type.toLowerCase();
-      });
-      if (!found) {
-        service.fileList.push(f);
-        return true;
-      } else {
-        $log.debug('File already exists in list with name = ', f.name);
-        $log.debug('  and lastModified = ', f.lastModified);
-        $log.debug('  and lastModifiedDate = ', f.lastModifiedDate);
-        $log.debug('  and size = ', f.size);
-        $log.debug('  and type = ', f.type);
+      if (checkAcceptedFileTypes(f)) {
+        var found = _.find(service.fileList, function(o) {
+          return o.name.toLowerCase() === f.name.toLowerCase() && o.lastModified === f.lastModified && o.size === f.size && o.type.toLowerCase() === f.type.toLowerCase();
+        });
+        if (!found) {
+          service.fileList.push(f);
+          return true;
+        } else {
+          $log.debug('File already exists in list with name = ', f.name);
+          $log.debug('  and lastModified = ', f.lastModified);
+          $log.debug('  and lastModifiedDate = ', f.lastModifiedDate);
+          $log.debug('  and size = ', f.size);
+          $log.debug('  and type = ', f.type);
+          return false;
+        }
+      }else{
+        alert("The file you are attempting to upload is not in the list of accepted file types. Accepted file types are: " + acceptedFileTypes.toString());
         return false;
       }
-
     };
 
     this.fileList = [];
