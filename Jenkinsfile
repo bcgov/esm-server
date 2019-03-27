@@ -15,7 +15,21 @@ def notifySlack(text, url, channel, attachments) {
     attachments: attachments
   ])
   def encodedReq = URLEncoder.encode(payload, "UTF-8")
-  sh("curl -s -S -X POST --data \'payload=${encodedReq}\' ${slackURL}")  
+  sh("curl -s -S -X POST --data \'payload=${encodedReq}\' ${slackURL}")
+}
+
+/*
+ * Sends a rocket chat notification
+ */
+def notifyRocketChat(text, url) {
+    def rocketChatURL = url
+    def payload = JsonOutput.toJson([
+      "username":"Jenkins",
+      "icon_url":"https://wiki.jenkins.io/download/attachments/2916393/headshot.png",
+      "text": text
+    ])
+
+    sh("curl -X POST -H 'Content-Type: application/json' --data \'${payload}\' ${rocketChatURL}")
 }
 
 /*
@@ -31,7 +45,7 @@ def buildsSinceLastSuccess(previousBuild, build) {
 }
 
 /*
- * Generates a string containing all the commit messages from 
+ * Generates a string containing all the commit messages from
  * the builds in pastBuilds.
  */
 @NonCPS
@@ -106,8 +120,11 @@ node('master') {
   SLACK_HOOK = sh(script: "cat webhook", returnStdout: true)
   DEPLOY_CHANNEL = sh(script: "cat deploy-channel", returnStdout: true)
   QA_CHANNEL = sh(script: "cat qa-channel", returnStdout: true)
+  sh("oc extract secret/rocket-chat-secrets --to=${env.WORKSPACE} --confirm")
+  ROCKET_QA_WEBHOOK = sh(script: "cat rocket-qa-webhook", returnStdout: true)
+  ROCKET_DEPLOY_WEBHOOK = sh(script: "cat rocket-deploy-webhook", returnStdout: true)
 
-  withEnv(["SLACK_HOOK=${SLACK_HOOK}", "DEPLOY_CHANNEL=${DEPLOY_CHANNEL}", "QA_CHANNEL=${QA_CHANNEL}"]){
+  withEnv(["SLACK_HOOK=${SLACK_HOOK}", "DEPLOY_CHANNEL=${DEPLOY_CHANNEL}", "QA_CHANNEL=${QA_CHANNEL}", "ROCKET_QA_WEBHOOK=${ROCKET_QA_WEBHOOK}", "ROCKET_DEPLOY_WEBHOOK=${ROCKET_DEPLOY_WEBHOOK}"]){
     stage('Deploy to Test'){
       try {
         echo "Deploying to test..."
@@ -116,11 +133,21 @@ node('master') {
         openshiftVerifyDeployment depCfg: 'esm-test', namespace: 'esm-test', replicaCount: 1, verbose: 'false', verifyReplicaCount: 'false', waitTime: 600000
         echo ">>>> Deployment Complete"
 
+        notifyRocketChat(
+          "A new version of esm-server is now in Test. \n Changes: \n ${CHANGELOG}",
+          ROCKET_DEPLOY_WEBHOOK
+        )
+
         notifySlack(
           "A new version of esm-server is now in Test. \n Changes: \n ${CHANGELOG}",
           SLACK_HOOK,
           DEPLOY_CHANNEL,
           []
+        )
+
+        notifyRocketChat(
+          "A new version of esm-server is now in Test and ready for QA. \n Changes to test: \n ${CHANGELOG}",
+          ROCKET_QA_WEBHOOK
         )
 
         notifySlack(
@@ -130,6 +157,11 @@ node('master') {
           []
         )
       } catch (error) {
+        notifyRocketChat(
+          "The latest deployment of esm-server to Test seems to have failed\n'${error.message}'",
+          ROCKET_DEPLOY_WEBHOOK
+        )
+
         notifySlack(
           "The latest deployment of esm-server to Test seems to have failed\n'${error.message}'",
           SLACK_HOOK,
