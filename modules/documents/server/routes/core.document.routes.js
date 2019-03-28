@@ -112,6 +112,10 @@ module.exports = function (app) {
         return res.redirect(req.Document.internalURL);
       } else {
         var fileName = req.Document.documentFileName;
+        var fileType = req.Document.internalExt;
+        if (fileName.slice(- fileType.length) !== fileType){
+          fileName = fileName + '.' + fileType;
+        }
         var fileMeta;
 
         // check if the file exists in Minio
