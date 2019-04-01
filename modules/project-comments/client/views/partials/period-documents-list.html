@@ -33,7 +33,7 @@
             <span class="fb-file glyphicon glyphicon-file" ng-if="!['png','jpg','jpeg'].includes(doc.internalExt)"></span>
             <span class="fb-img glyphicon glyphicon-picture" ng-if="['png','jpg','jpeg'].includes(doc.internalExt)"></span>
           </span>
-          <a class="name" href="/api/document/{{ doc._id }}/fetch" title="{{doc.displayName}}" target="_self">{{doc.displayName}}</a>
+          <a class="name" href="/api/document/{{ doc._id }}/fetch/{{doc.documentFileName.split(' ').join('_')}}" title="{{doc.displayName}}" target="_self">{{doc.displayName}}</a>
         </span>
         <span class="col type-col">{{ doc.internalExt}}</span>
         <span class="col size-col">{{ doc.internalSize | bytes:2 }}</span>
@@ -41,13 +41,13 @@
           <span class="label label-success" ng-if="doc.isPublished" title="Published">Published</span>
           <span class="label label-unpublished" ng-if="!doc.isPublished" title="Unpublished">Unpublished</span>
         </span>
-        
+
         <div class="row-actions">
           <div class="btn-group">
             <button class="btn icon-btn dropdown-toggle" type="button"
               popover-class="context-menu"
               popover-placement="bottom-right auto"
-              popover-trigger="'focus'" 
+              popover-trigger="'focus'"
               uib-popover-template="'pcp-document-menu.html'">
               <span class="glyphicon glyphicon glyphicon-option-vertical"></span>
             </button>
