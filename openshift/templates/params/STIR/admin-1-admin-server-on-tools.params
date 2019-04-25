@@ -1,4 +1,0 @@
-APP_NAME=stir-admin-1-nodejs-server
-S2I_NAMESPACE=openshift
-SOURCE_REPOSITORY_URL=https://github.com/bcgov/esm-server
-SOURCE_REPOSITORY_REF=EAO-STIR
