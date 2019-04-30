@@ -4,7 +4,7 @@ The OpenShift template that we are currently using to run our mongo database bac
 
 ## How to Create a Mongo Database Backup Cronjob
 
-Note that the template assumes there is a service called ```mongodb``` that is exposes the ```mongodb``` deployment's pod locally. The template also relies on some OpenShift secrets and config maps that will need to be created.
+Note that the template assumes there is a service called ```mongodb2``` that is exposes the ```mongodb2``` deployment's pod locally. The template also relies on some OpenShift secrets and config maps that will need to be created.
 
 ### Through the OpenShift UI or otherwise, you should to create:
 
