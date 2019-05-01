@@ -177,7 +177,7 @@ objects:
                           ls -rdt /var/lib/mongodb-backup/dump-* |
                           head -n -$MONGODB_BACKUP_KEEP |
                           xargs rm -rf;
-                          curl -X POST -H 'Content-Type: application/json' --data '{"username":"BakBot","icon_emoji":":robot:","text":"Backup for EPIC Mongo backup SUCCESS!"}' $ROCKETCHAT_BACKUP_DB_WEBHOOK;
+                          curl -X POST -H 'Content-Type: application/json' --data '{"username":"BakBot","icon_emoji":":robot:","text":"Backup for EPIC Mongo Database SUCCESS!"}' $ROCKETCHAT_BACKUP_DB_WEBHOOK;
                           echo;
                           echo "To restore, use:";
                           echo "~# mongorestore -u admin -p \$MONGODB_ADMIN_PASSWORD --authenticationDatabase admin --gzip $DIR/DB_TO_RESTORE -d DB_TO_RESTORE_INTO";
