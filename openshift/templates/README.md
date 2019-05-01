@@ -73,13 +73,13 @@ oc rsync <backup pod>:/<mount directory>/<healthy backup folder> .
 ```
 e.g.
 ```
-oc rsync pvc-migrator-2-b7tf5:/source/dump-2019-04-16-18:29:23-HEALTHY .
+oc rsync pvc-migrator-2-b7tf5:/source/dump--2019-04-30--18-02-09--UTC--HEALTHY .
 ```
 
-cd into your dump directory (note you cannot rsync the dump-2019-04-16-18:29:23-HEALTHY dump folder name as it is, because it has colons in it, and rsync will recognise it as a pod)
+cd into your dump directory
 
 ```
-cd /dump-2019-04-16-18:29:23-HEALTHY
+cd /dump--2019-04-30--18-02-09--UTC--HEALTHY
 ```
 
 copy your dump to your pod in the tmp directory

@@ -170,7 +170,7 @@ objects:
                       };
                       checkDumps;
                       if [ "$ALL_BACKUPS_HEALTHY" = true ]; then
-                        DIR=/var/lib/mongodb-backup/dump--`date +%F--%H-%M-%S--%Z`--HEALTHY;
+                        DIR=/var/lib/mongodb-backup/dump-`date +%Y%m%d%H%M%S%Z`-HEALTHY;
                         mongodump --numParallelCollections=1 --username=admin --password=$MONGODB_ADMIN_PASSWORD --host=$MONGODB2_SERVICE_HOST --port=$MONGODB2_SERVICE_PORT --authenticationDatabase=admin --gzip --out=$DIR;
                         checkDumps;
                         if [ "$ALL_BACKUPS_HEALTHY" = true ]; then
