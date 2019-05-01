@@ -1,0 +1,222 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: mongodb-backup-template
+  annotations:
+    description: 'Template for MongoDB container backup job'
+    tags: 'database,backup,mongo'
+parameters:
+  - name: MONGODB_BACKUP_SCHEDULE
+    description: 'Cron-like schedule expression. Default: Once every day at 1:00 AM'
+    value: '30 6 * * *'
+  - name: MONGODB_BACKUP_VOLUME_CLAIM
+    description: 'Name of the volume claim to be used as storage'
+    value: ''
+objects:
+  - apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: mongodb-backup
+    spec:
+      schedule: ${MONGODB_BACKUP_SCHEDULE}
+      concurrencyPolicy: Forbid
+      jobTemplate:
+        spec:
+          template:
+            spec:
+              volumes:
+                - name: mongodb-backup
+                  persistentVolumeClaim:
+                    claimName: ${MONGODB_BACKUP_VOLUME_CLAIM}
+              containers:
+                - name: mongodb-backup
+                  image: 'docker-registry.default.svc:5000/openshift/mongodb:latest'
+                  command:
+                    - 'bash'
+                    - '-c'
+                    - >-
+                      declare -a adminDirFiles=(
+                        "documents.bson.gz"
+                        "documents.metadata.json.gz"
+                        "system.indexes.bson.gz"
+                        "system.users.bson.gz"
+                        "system.users.metadata.json.gz"
+                        "system.version.bson.gz"
+                        "system.version.metadata.json.gz"
+                      );
+
+                      declare -a esmDirFiles=(
+                        "_defaults.bson.gz"
+                        "_defaults.metadata.json.gz"
+                        "_permissions.bson.gz"
+                        "_permissions.metadata.json.gz"
+                        "_roles.bson.gz"
+                        "_roles.metadata.json.gz"
+                        "activities.bson.gz"
+                        "activities.metadata.json.gz"
+                        "activitybases.bson.gz"
+                        "activitybases.metadata.json.gz"
+                        "applications.bson.gz"
+                        "applications.metadata.json.gz"
+                        "artifacts.bson.gz"
+                        "artifacts.metadata.json.gz"
+                        "artifacttypes.bson.gz"
+                        "artifacttypes.metadata.json.gz"
+                        "codelists.bson.gz"
+                        "codelists.metadata.json.gz"
+                        "collectiondocuments.bson.gz"
+                        "collectiondocuments.metadata.json.gz"
+                        "collections.bson.gz"
+                        "collections.metadata.json.gz"
+                        "commentperiods.bson.gz"
+                        "commentperiods.metadata.json.gz"
+                        "comments.bson.gz"
+                        "comments.metadata.json.gz"
+                        "communications.bson.gz"
+                        "communications.metadata.json.gz"
+                        "complaints.bson.gz"
+                        "complaints.metadata.json.gz"
+                        "conditions.bson.gz"
+                        "conditions.metadata.json.gz"
+                        "documents.bson.gz"
+                        "documents.metadata.json.gz"
+                        "emailtemplates.bson.gz"
+                        "emailtemplates.metadata.json.gz"
+                        "enforcements.bson.gz"
+                        "enforcements.metadata.json.gz"
+                        "folders.bson.gz"
+                        "folders.metadata.json.gz"
+                        "inspectionreportdetails.bson.gz"
+                        "inspectionreportdetails.metadata.json.gz"
+                        "inspectionreports.bson.gz"
+                        "inspectionreports.metadata.json.gz"
+                        "integrations.bson.gz"
+                        "integrations.metadata.json.gz"
+                        "invitations.bson.gz"
+                        "invitations.metadata.json.gz"
+                        "irs.bson.gz"
+                        "irs.metadata.json.gz"
+                        "milestonebases.bson.gz"
+                        "milestonebases.metadata.json.gz"
+                        "milestones.bson.gz"
+                        "milestones.metadata.json.gz"
+                        "organizations.bson.gz"
+                        "organizations.metadata.json.gz"
+                        "phasebases.bson.gz"
+                        "phasebases.metadata.json.gz"
+                        "phases.bson.gz"
+                        "phases.metadata.json.gz"
+                        "projectconditions.bson.gz"
+                        "projectconditions.metadata.json.gz"
+                        "projectgroups.bson.gz"
+                        "projectgroups.metadata.json.gz"
+                        "projects.bson.gz"
+                        "projects.metadata.json.gz"
+                        "recentactivities.bson.gz"
+                        "recentactivities.metadata.json.gz"
+                        "sessions.bson.gz"
+                        "sessions.metadata.json.gz"
+                        "streams.bson.gz"
+                        "streams.metadata.json.gz"
+                        "templates.bson.gz"
+                        "templates.metadata.json.gz"
+                        "things_keys.bson.gz"
+                        "things_keys.metadata.json.gz"
+                        "topics.bson.gz"
+                        "topics.metadata.json.gz"
+                        "users.bson.gz"
+                        "users.metadata.json.gz"
+                        "vcs.bson.gz"
+                        "vcs.metadata.json.gz"
+                      );
+
+                      ALL_BACKUPS_HEALTHY=true;
+
+                      alertBadDump () {
+                        HEALTHY_STR="$1";
+                        MESSAGE="$2";
+                        UNHEALTHY_STR="UNHEALTHY";
+                        UNHEALTHY_STR=${1/HEALTHY/$UNHEALTHY_STR};
+                        mv /var/lib/mongodb-backup/$HEALTHY_STR /var/lib/mongodb-backup/$UNHEALTHY_STR;
+                        ALL_BACKUPS_HEALTHY=false;
+                        curl -X POST -H "Content-Type: application/json" --data "{\"username\":\"BakBot\",\"icon_emoji\":\":robot:\",\"text\":\"@all EPIC Mongo backup FAILURE. Backups are currently paused until the issue is fixed. $MESSAGE Please see documentation https://github.com/bcgov/esm-server/tree/dev/openshift\"}" $ROCKETCHAT_BACKUP_DB_WEBHOOK;
+                      };
+                      alertWarning () {
+                        MESSAGE="$1";
+                        curl -X POST -H "Content-Type: application/json" --data "{\"username\":\"BakBot\",\"icon_emoji\":\":robot:\",\"text\":\"@all EPIC Mongo backup WARNING - $MESSAGE Please see documentation https://github.com/bcgov/esm-server/tree/dev/openshift\"}" $ROCKETCHAT_BACKUP_DB_WEBHOOK;
+                      };
+                      checkDumps () {
+                        DUMP_DIRS=$(ls /var/lib/mongodb-backup);
+                        for DUMP_DIR in $DUMP_DIRS; do
+                          for ADMIN_FILE in "${adminDirFiles[@]}"; do
+                            if [ ! -f /var/lib/mongodb-backup/$DUMP_DIR/admin/$ADMIN_FILE ]; then
+                              alertBadDump "$DUMP_DIR" "A previous backup did not complete successfully. One or more files in the admin directory are missing.";
+                              break;
+                            fi;
+                          done;
+                          for ESM_FILE in "${esmDirFiles[@]}"; do
+                            if [ ! -f /var/lib/mongodb-backup/$DUMP_DIR/esm/$ESM_FILE ]; then
+                              alertBadDump "$DUMP_DIR" "A previous backup did not complete successfully. One or more files in the esm directory  are missing.";
+                              break;
+                            fi;
+                          done;
+                          if [ "$(du -sb /var/lib/mongodb-backup/$DUMP_DIR | cut -f1)" -gt $MONGO_BACKUP_SIZE_UPPER_LIMIT ]; then
+                            alertWarning "Disk usage is approaching capacity. Please transfer backups to larger PVC or decrease the number of backups to keep.";
+                          fi;
+                          if [ "$(du -sb /var/lib/mongodb-backup/$DUMP_DIR | cut -f1)" -lt $MONGO_BACKUP_SIZE_LOWER_LIMIT ]; then
+                            alertBadDump "$DUMP_DIR" "A previous backup did not complete successfully. Backup size was lower than normal.";
+                          fi;
+                        done;
+                      };
+                      checkDumps;
+                      if [ "$ALL_BACKUPS_HEALTHY" = true ]; then
+                        DIR=/var/lib/mongodb-backup/dump-`date +%Y%m%d%H%M%S%Z`-HEALTHY;
+                        mongodump --numParallelCollections=1 --username=admin --password=$MONGODB_ADMIN_PASSWORD --host=$MONGODB2_SERVICE_HOST --port=$MONGODB2_SERVICE_PORT --authenticationDatabase=admin --gzip --out=$DIR;
+                        checkDumps;
+                        if [ "$ALL_BACKUPS_HEALTHY" = true ]; then
+                          ls -rdt /var/lib/mongodb-backup/dump-* |
+                          head -n -$MONGODB_BACKUP_KEEP |
+                          xargs rm -rf;
+                          curl -X POST -H 'Content-Type: application/json' --data '{"username":"BakBot","icon_emoji":":robot:","text":"Backup for EPIC Mongo Database SUCCESS!"}' $ROCKETCHAT_BACKUP_DB_WEBHOOK;
+                          echo;
+                          echo "To restore, use:";
+                          echo "~# mongorestore -u admin -p \$MONGODB_ADMIN_PASSWORD --authenticationDatabase admin --gzip $DIR/DB_TO_RESTORE -d DB_TO_RESTORE_INTO";
+                        fi;
+                      fi
+                  resources:
+                  limits:
+                    cpu: 250m
+                    memory: 1Gi
+                  requests:
+                    cpu: 100m
+                    memory: 512Mi
+                  env:
+                    - name: MONGODB_ADMIN_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                          name: mongo-secrets
+                          key: MONGO_ADMIN_PASSWORD
+                    - name: MONGODB_BACKUP_KEEP
+                      valueFrom:
+                        configMapKeyRef:
+                          name: mongo-config
+                          key: MONGO_BACKUP_COUNT
+                    - name: MONGO_BACKUP_SIZE_LOWER_LIMIT
+                      valueFrom:
+                        configMapKeyRef:
+                          name: mongo-config
+                          key: MONGO_BACKUP_SIZE_LOWER_LIMIT
+                    - name: MONGO_BACKUP_SIZE_UPPER_LIMIT
+                      valueFrom:
+                        configMapKeyRef:
+                          name: mongo-config
+                          key: MONGO_BACKUP_SIZE_UPPER_LIMIT
+                    - name: ROCKETCHAT_BACKUP_DB_WEBHOOK
+                      valueFrom:
+                        configMapKeyRef:
+                          name: mongo-config
+                          key: ROCKETCHAT_BACKUP_DB_WEBHOOK
+                  volumeMounts:
+                    - name: mongodb-backup
+                      mountPath: /var/lib/mongodb-backup
+              restartPolicy: Never
